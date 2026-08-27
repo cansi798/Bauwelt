@@ -107,10 +107,12 @@
     <section class="hero">
       <div class="hero__media">
         <!-- Platzhalter Hero-Bild. Mit KI erstellbar – Prompt siehe data-prompt.
-             Alternativ echtes Baustellen-/Projektfoto (CI 5: echte Fotos, keine Stockmodelle). -->
+             Sobald assets/img/hero.jpg existiert, wird es automatisch angezeigt
+             (sonst bleibt der Platzhalter sichtbar). Siehe BILDER.md. -->
         <div class="ph" role="img"
              data-prompt="Fotorealistisches, modernes helles Badezimmer: bodengleiche Regendusche mit Glaswand, Eichenholz-Waschtisch, anthrazitfarbene Großformatfliesen, warmes Tageslicht durch ein Fenster, aufgeräumt, Querformat 16:9"
              aria-label="Platzhalter für Hero-Bild – modernes Badezimmer, mit KI erstellbar"></div>
+        <img class="hero__img" src="assets/img/hero.jpg" alt="" onerror="this.remove()" />
       </div>
       <span class="hero__phnote"><span class="dot"></span> Platzhalter · KI-Bild einsetzbar</span>
       <div class="container">
@@ -145,8 +147,8 @@
           </div>
           <div class="card reveal">
             <div class="card__icon"><svg aria-hidden="true"><use href="#icon-calendar"/></svg></div>
-            <h3>Feste Termine</h3>
-            <p>Wir sagen einen Termin zu und halten ihn. Sie planen verlässlich mit uns.</p>
+            <h3>Feste Termine &amp; Prozesse</h3>
+            <p>Klare Abläufe, zugesagte Termine. Wir arbeiten nach festen Prozessen – Sie planen verlässlich mit uns.</p>
           </div>
           <div class="card reveal">
             <div class="card__icon"><svg aria-hidden="true"><use href="#icon-hand"/></svg></div>

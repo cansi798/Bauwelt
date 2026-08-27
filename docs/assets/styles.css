@@ -198,6 +198,7 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 @media (min-width: 768px) { .hero { min-height: 70vh; } }
 .hero__media { position: absolute; inset: 0; z-index: 0; }
 .hero__media > * { width: 100%; height: 100%; }
+.hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 .hero::after {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background: rgba(31, 30, 32, 0.55);
@@ -331,6 +332,8 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 @media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
 .tile { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 0; }
 .tile .ph { position: absolute; inset: 0; }
+/* Echtes Bild liegt über dem Platzhalter (z-index 1), unter dem Hover-Overlay (z-index 2) */
+.tile__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 .tile__overlay {
   position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end;
   padding: 16px; background: linear-gradient(transparent 40%, rgba(31,30,32,0.7));
@@ -349,10 +352,12 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
   font-family: var(--font-heading); font-weight: 800; font-size: 24px;
   display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; position: relative; z-index: 1;
 }
-.steps--line .step:not(:last-child)::after {
-  content: ""; position: absolute; top: 32px; left: 50%; width: 100%; height: 2px; background: var(--gold-500); z-index: 0;
+/* Verbindungslinie erst ab Tablet (mobile-first: mobil gestapelt, keine Linie) */
+@media (min-width: 768px) {
+  .steps--line .step:not(:last-child)::after {
+    content: ""; position: absolute; top: 32px; left: 50%; width: 100%; height: 2px; background: var(--gold-500); z-index: 0;
+  }
 }
-@media (max-width: 767px) { .steps--line .step::after { display: none; } }
 .step h3 { font-size: 18px; }
 .step p { font-size: 15px; color: var(--anthrazit-700); margin-inline: auto; max-width: 30ch; }
 
