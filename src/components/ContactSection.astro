@@ -8,6 +8,16 @@ import SectionHead from "./SectionHead.astro";
     <SectionHead eyebrow="Kontakt" pre="Lassen Sie uns " accent="sprechen" />
     <div class="contact-grid">
       <div class="contact-info">
+        <div class="advisor">
+          <span class="advisor__photo">
+            <span class="advisor__ph"><Icon name="user" size={30} /></span>
+            <img src={u("assets/img/jamil.webp")} alt={`${SITE.contactName}, ${SITE.contactRole}`} onerror="this.remove()" />
+          </span>
+          <div>
+            <div class="value" style="font-family:var(--font-heading);font-weight:700">{SITE.contactName}</div>
+            <div class="small" style="color:var(--anthrazit-400)">Ihr persönlicher Ansprechpartner</div>
+          </div>
+        </div>
         <p style="color:var(--anthrazit-400)">Erzählen Sie uns kurz von Ihrem Vorhaben. Wir melden uns in der Regel innerhalb von zwei Werktagen.</p>
         <ul>
           <li><Icon name="user" /><div><div class="label">Ansprechpartner</div><div class="value">{SITE.contactName} – {SITE.contactRole}</div></div></li>

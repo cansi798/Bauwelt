@@ -430,6 +430,12 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .contact-info .label { font-family: var(--font-heading); font-weight: 600; font-size: 13px; text-transform: uppercase; color: var(--anthrazit-400); letter-spacing: 0.04em; }
 .contact-info a { color: var(--weiss); }
 .contact-info .value { color: var(--weiss); font-size: 17px; }
+/* Berater-Foto (Ansprechpartner) */
+.advisor { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.advisor__photo { position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden; flex: none; background: var(--anthrazit-700); color: var(--gold-500); }
+.advisor__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.advisor__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+
 .form-card { background: var(--weiss); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow); }
 .form-card h3 { color: var(--anthrazit-800); }
 .req { color: var(--gold-700); }

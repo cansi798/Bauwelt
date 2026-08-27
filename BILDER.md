@@ -1,62 +1,48 @@
-# Bild-Briefing – was zu erstellen ist
+# Bild-Briefing
 
-So funktioniert es: Bild erzeugen (KI oder echtes Foto), **exakt so benennen** wie unten
-angegeben und in den Ordner **`public/assets/img/`** legen. Die Website zeigt das Bild dann
-**automatisch** an – kein Code nötig. Fehlt ein Bild, bleibt der markenkonforme Platzhalter stehen.
+So funktioniert es: Bild erzeugen (KI oder Foto), **exakt so benennen** wie unten und in
+**`public/assets/img/`** legen. Die Website zeigt es dann **automatisch** an. Fehlt ein Bild,
+bleibt ein dezenter Platzhalter stehen.
 
-## Wichtige Regeln (aus dem CI-Handbuch, Kap. 5)
+**Format:** möglichst **WebP**, **unter 200 KB** (Ladezeit). PNG/JPG gehen auch – dann kurz
+Bescheid geben, ich optimiere sie (`process_images.py`) und benenne sie um.
 
-- **Echte Wirkung, keine gestellten Stockfotos** mit lachenden Models im Helm.
-- Natürliches, warmes Licht; Farben nicht übersättigt; keine Instagram-Filter.
-- Bilder werden nie eingefärbt (höchstens leicht abgedunkelt, wenn Text darauf liegt).
-- **Dateiformat:** JPG (Fotos), Qualität ~80 %. **Ziel: unter 200 KB pro Bild** (Ladezeit).
-- Seitenverhältnis exakt einhalten, sonst wird beschnitten.
+## Wichtige Regeln (CI-Handbuch Kap. 5)
+- Echte Wirkung, **keine gestellten Stockfotos** mit lachenden Models.
+- Natürliches, warmes Licht; Farben nicht übersättigt; keine Filter.
+- Seitenverhältnis einhalten, sonst wird beschnitten.
 
 ---
 
-## 1) Hero-Bild (Kopfbereich der Startseite)
+## ✅ Bereits vorhanden (von dir geliefert)
+| Datei | Verwendung |
+|---|---|
+| `hero.webp` | Startseiten-Hero (16:9) |
+| `ref-01-wannenbad.webp` … `ref-06-dach.webp` | Referenz-Galerie (4:3) |
 
+## ⬜ Noch gebraucht
+
+### 1) Porträt von Jamil Iqbal (Ansprechpartner)
 | | |
 |---|---|
-| **Dateiname** | `hero.jpg` |
-| **Ablage** | `public/assets/img/hero.jpg` |
-| **Format / Größe** | Querformat 16:9, ca. **1920 × 1080 px** |
-| **Hinweis** | Über dem Bild liegt eine dunkle Ebene mit weißem Text – ruhiges, nicht zu unruhiges Motiv wählen. |
+| **Dateiname** | `jamil.webp` |
+| **Ablage** | `public/assets/img/jamil.webp` |
+| **Format** | Quadratisch 1:1, ca. **600 × 600 px** |
+| **Motiv** | Freundliches, echtes Porträt (Schulter aufwärts), neutraler/heller Hintergrund. Erscheint als runder Berater-Kreis im Kontaktbereich. |
 
-**KI-Prompt:**
-> Fotorealistisches, modernes und helles Badezimmer: bodengleiche Regendusche mit Glaswand,
-> Eichenholz-Waschtisch, anthrazitfarbene Großformatfliesen, warmes Tageslicht durch ein Fenster,
-> aufgeräumt und hochwertig, Querformat 16:9, keine Menschen.
+### 2) Team-/Über-uns-Bild *(optional, empfohlen)*
+| | |
+|---|---|
+| **Dateiname** | `team.webp` |
+| **Ablage** | `public/assets/img/team.webp` |
+| **Format** | Querformat 4:3, ca. **1200 × 900 px** |
+| **Motiv** | Team in Anthrazit-Arbeitskleidung vor Baustelle/Firmenfahrzeug – echt, kein Stockfoto. |
 
----
-
-## 2) Referenz-Galerie (6 Bilder, Seitenverhältnis 4:3, je ~1200 × 900 px)
-
-| Dateiname (`public/assets/img/…`) | Motiv | KI-Prompt |
-|---|---|---|
-| `ref-01-wannenbad.jpg` | Wannenbad in Eiche | Modernes Badezimmer mit freistehender Badewanne, Eichenholz-Möbeln und warmem Licht, fotorealistisch, 4:3 |
-| `ref-02-bodengleiche-dusche.jpg` | Bodengleiche Dusche | Bad mit großer bodengleicher Regendusche, Glaswand und anthrazitfarbenen Fliesen, hell, 4:3 |
-| `ref-03-gaeste-wc.jpg` | Gäste-WC kompakt | Kleines elegantes Gäste-WC mit Aufsatzwaschbecken und indirekter Beleuchtung, 4:3 |
-| `ref-04-altbau.jpg` | Altbau-Modernisierung | Sanierter Altbau-Wohnraum mit Fischgrätparkett, hohen Decken und viel Tageslicht, 4:3 |
-| `ref-05-wohnung.jpg` | Wohnung komplett saniert | Modern sanierte Wohnung, offener Grundriss, neutrale warme Farben, fotorealistisch, 4:3 |
-| `ref-06-dach.jpg` | Dachsanierung | Neu eingedecktes Steildach eines Einfamilienhauses, sauber, blauer Himmel, 4:3 |
-
-> Tipp: Die Prompts stehen auch direkt auf den Platzhaltern der Live-Vorschau.
+### 3) Vorschaubild beim Teilen *(optional)*
+Aktuell Logo auf Anthrazit (`og-image.png`) – funktioniert. Optional durch ein schönes
+Bad-Foto mit Logo ersetzen (1200 × 630).
 
 ---
 
-## Optional / später (nicht zwingend für den Start)
-
-| Zweck | Vorschlag Dateiname | Format | Idee |
-|---|---|---|---|
-| Vorschaubild für geteilte Links (WhatsApp, Google) | `og-image.png` | 1200 × 630 | Aktuell Logo auf Anthrazit vorhanden. Optional durch schönes Bad-Foto mit Logo ersetzen. |
-| Foto des Ansprechpartners | `team-jamil.jpg` | 1:1, 800 × 800 | Echtes, freundliches Porträt von Jamil Iqbal für den Kontaktbereich – schafft Vertrauen. |
-| Vorher/Nachher-Paar | `va-01-vorher.jpg` / `va-01-nachher.jpg` | 4:3 | Für einen späteren „Vorher/Nachher"-Schieberegler. |
-
----
-
-## Reihenfolge nach Wichtigkeit
-
-1. `hero.jpg` – wichtigstes Bild, prägt den ersten Eindruck.
-2. `ref-01` bis `ref-06` – füllen die Referenz-Galerie.
-3. Optional: `team-jamil.jpg`, danach Vorher/Nachher.
+Weitere Referenzbilder jederzeit ergänzbar: Datei in `public/assets/img/` legen und mir den
+gewünschten Titel/Ort nennen – ich lege die Referenz an.

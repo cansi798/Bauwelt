@@ -3,26 +3,19 @@ import { u } from "../consts";
 import Icon from "./Icon.astro";
 // Markenkonformer Bild-Platzhalter. Liegt eine echte Datei unter assets/img/<img>,
 // wird sie automatisch angezeigt (onerror entfernt sonst das <img>).
+// Der Prompt bleibt nur als unsichtbares data-Attribut zur Referenz erhalten
+// (Vorlagen siehe BILDER.md) – kein sichtbarer KI-Text mehr.
 interface Props {
-  prompt?: string;   // KI-Bildbeschreibung (wird als Label gezeigt)
-  img?: string;      // Dateiname in assets/img/, z. B. "hero.jpg"
+  prompt?: string;
+  img?: string;      // Dateiname in assets/img/, z. B. "hero.webp"
   alt?: string;
   imgClass?: string; // Klasse fürs <img> (z. B. "hero__img" / "tile__img")
-  showKi?: boolean;  // KI-Badge + Prompt anzeigen (Galerie) statt nur Icon
+  showKi?: boolean;  // (nicht mehr genutzt – bleibt für Kompatibilität)
 }
-const { prompt, img, alt = "", imgClass = "", showKi = true } = Astro.props;
+const { prompt, img, alt = "", imgClass = "" } = Astro.props;
 ---
-<div class="ph" role="img" data-prompt={prompt} aria-label={alt || prompt}>
-  <span class="ph__label">
-    {showKi ? (
-      <>
-        <span class="ph__ki"><Icon name="image" size={14} /> KI-Bild</span>
-        {prompt && <span class="ph__prompt">{prompt}</span>}
-      </>
-    ) : (
-      <Icon name="image" size={40} />
-    )}
-  </span>
+<div class="ph" role="img" data-prompt={prompt} aria-label={alt || "Bild folgt"}>
+  <span class="ph__label"><Icon name="image" size={40} /></span>
 </div>
 {img && (
   <img class={imgClass} src={u(`assets/img/${img}`)} alt={alt} loading="lazy" onerror="this.remove()" />
