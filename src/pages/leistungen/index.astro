@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { u } from "../../consts";
+import SectionHead from "../../components/SectionHead.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const leistungen = (await getCollection("leistungen")).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Leistungen – Bauwelt Handwerk" active="Leistungen"
+  description="Badsanierung zum Festpreis, Sanierung & Modernisierung, Dach & Fassade, Innenausbau, Haustechnik und Malerarbeiten – alles aus einer Hand in Hamburg und Umgebung.">
+  <PageHero
+    eyebrow="Leistungen"
+    title="Alles aus einer Hand"
+    lead="Unser Kern sind Badsanierungen zum Festpreis. Darüber hinaus sanieren und modernisieren wir Ihre Immobilie komplett – mit festen Prozessen und einem Ansprechpartner."
+    crumbs={[{ label: "Start", href: u("") }, { label: "Leistungen" }]}
+    prompt="Handwerker bei sauberer Arbeit auf einer modernen Baustelle, echtes Handwerk, warmes Licht"
+  />
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Übersicht" pre="Unsere " accent="Gewerke" />
+      <div class="grid cols-3">
+        {leistungen.map((l) => (
+          <ServiceCard icon={l.data.icon} title={l.data.title.replace(" zum Festpreis", "")}
+            text={l.data.teaser} href={u(`leistungen/${l.slug}/`)} badge={l.data.badge} />
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

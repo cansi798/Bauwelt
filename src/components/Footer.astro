@@ -1,0 +1,45 @@
+---
+import { SITE, u } from "../consts";
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <img class="footer__logo" src={u("assets/logo-inverse.png")} alt="Bauwelt Handwerk" />
+        <p class="footer__intro">Handwerkliche Qualität am Bau, die sichtbar ist. Verlässlich geplant, sauber ausgeführt, ehrlich beraten.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li>{SITE.street}<br />{SITE.zip} {SITE.city}</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul>
+          <li><a href={u("leistungen/badsanierung/")}>Badsanierung</a></li>
+          <li><a href={u("leistungen/sanierung-modernisierung/")}>Modernisierung</a></li>
+          <li><a href={u("leistungen/dach-fassade/")}>Dach &amp; Fassade</a></li>
+          <li><a href={u("leistungen/innenausbau/")}>Innenausbau</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Unternehmen</h4>
+        <ul>
+          <li><a href={u("referenzen/")}>Referenzen</a></li>
+          <li><a href={u("ueber-uns/")}>Über uns</a></li>
+          <li><a href={u("karriere/")}>Karriere</a></li>
+          <li><a href={u("impressum/")}>Impressum</a></li>
+          <li><a href={u("datenschutz/")}>Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© {year} {SITE.legal}</span>
+      <span><a href={u("impressum/")}>Impressum</a> · <a href={u("datenschutz/")}>Datenschutz</a></span>
+    </div>
+  </div>
+</footer>

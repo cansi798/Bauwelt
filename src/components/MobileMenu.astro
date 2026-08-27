@@ -1,0 +1,17 @@
+---
+import { SITE, NAV, u } from "../consts";
+import Icon from "./Icon.astro";
+---
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu__top">
+    <img src={u("assets/logo-inverse.png")} alt="Bauwelt Handwerk" />
+    <button class="mobile-menu__close" aria-label="Menü schließen">&times;</button>
+  </div>
+  <nav aria-label="Mobile Navigation">
+    {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+    <a href={u("#kalkulator")}>Badpreis berechnen</a>
+  </nav>
+  <a class="btn btn--primary btn--phone" href={`tel:${SITE.phoneTel}`}>
+    <Icon name="phone" size={18} /> Jetzt anrufen
+  </a>
+</div>

@@ -1,0 +1,13 @@
+---
+interface Stat { value: number; unit?: string; label: string; }
+interface Props { stats: Stat[]; }
+const { stats } = Astro.props;
+---
+<div class="stats">
+  {stats.map((s) => (
+    <div class="stat">
+      <div class="stat__num" data-count={s.value}>0{s.unit && <span class="unit">{s.unit}</span>}</div>
+      <div class="stat__label">{s.label}</div>
+    </div>
+  ))}
+</div>

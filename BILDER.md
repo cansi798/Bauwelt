@@ -1,7 +1,7 @@
 # Bild-Briefing – was zu erstellen ist
 
 So funktioniert es: Bild erzeugen (KI oder echtes Foto), **exakt so benennen** wie unten
-angegeben und in den Ordner **`docs/assets/img/`** legen. Die Website zeigt das Bild dann
+angegeben und in den Ordner **`public/assets/img/`** legen. Die Website zeigt das Bild dann
 **automatisch** an – kein Code nötig. Fehlt ein Bild, bleibt der markenkonforme Platzhalter stehen.
 
 ## Wichtige Regeln (aus dem CI-Handbuch, Kap. 5)
@@ -19,7 +19,7 @@ angegeben und in den Ordner **`docs/assets/img/`** legen. Die Website zeigt das 
 | | |
 |---|---|
 | **Dateiname** | `hero.jpg` |
-| **Ablage** | `docs/assets/img/hero.jpg` |
+| **Ablage** | `public/assets/img/hero.jpg` |
 | **Format / Größe** | Querformat 16:9, ca. **1920 × 1080 px** |
 | **Hinweis** | Über dem Bild liegt eine dunkle Ebene mit weißem Text – ruhiges, nicht zu unruhiges Motiv wählen. |
 
@@ -32,7 +32,7 @@ angegeben und in den Ordner **`docs/assets/img/`** legen. Die Website zeigt das 
 
 ## 2) Referenz-Galerie (6 Bilder, Seitenverhältnis 4:3, je ~1200 × 900 px)
 
-| Dateiname (`docs/assets/img/…`) | Motiv | KI-Prompt |
+| Dateiname (`public/assets/img/…`) | Motiv | KI-Prompt |
 |---|---|---|
 | `ref-01-wannenbad.jpg` | Wannenbad in Eiche | Modernes Badezimmer mit freistehender Badewanne, Eichenholz-Möbeln und warmem Licht, fotorealistisch, 4:3 |
 | `ref-02-bodengleiche-dusche.jpg` | Bodengleiche Dusche | Bad mit großer bodengleicher Regendusche, Glaswand und anthrazitfarbenen Fliesen, hell, 4:3 |

@@ -1,48 +1,64 @@
-# Bauwelt Handwerk – Website (Vorschau)
+# Bauwelt Handwerk – Website
 
-Moderne, markenkonforme Website für die **Bauwelt Handwerk GmbH** (Norderstedt).
+Mehrseitige Marken-Website der **Bauwelt Handwerk GmbH** (Norderstedt).
 Kernbotschaft: Badsanierung zum Festpreis, Sanierung & Modernisierung – alles aus einer Hand.
 
-Statische Website (HTML/CSS/JS, ohne Build-Schritt), ausgelegt für **GitHub Pages**.
+Gebaut mit **[Astro](https://astro.build)** (statische Ausgabe, 0 JS by default).
 Design und Inhalte folgen dem CI-Handbuch (`CI_Handbuch_Bauwelt_Handwerk.pdf`).
+Deployt über **GitHub Pages** (GitHub Action).
 
-## Struktur
+## Seitenstruktur (nach CI Kap. 6.8)
+
+- `/` Startseite (Hero, Leistungen, Badkalkulator, Referenzen, Ablauf, Zahlen, Stimmen, FAQ, Termin, Kontakt)
+- `/leistungen/` Übersicht + je Gewerk eine Unterseite (`/leistungen/badsanierung/` usw.)
+- `/referenzen/` Galerie + Projekt-Detailseiten (`/referenzen/<projekt>/`)
+- `/ueber-uns/`, `/karriere/`, `/kontakt/`
+- `/impressum/`, `/datenschutz/`, `404`
+
+## Projektstruktur
 
 ```
-docs/                     ← wird von GitHub Pages ausgeliefert
-  index.html              Startseite (alle Sektionen nach CI Kap. 6.8)
-  impressum.html          Pflichtseite
-  datenschutz.html        Pflichtseite (Entwurf – bitte prüfen lassen)
-  assets/
-    styles.css            Designsystem (Tokens 1:1 aus CI Kap. 6.10)
-    main.js               Kalkulator, Menü, Galerie, FAQ, Formular …
-    logo.png              Logo (Standard, transparent)
-    logo-inverse.png      Logo invers (Footer)
-    favicon-*.png         Favicons / Bildmarke
-    og-image.png          Vorschaubild für geteilte Links
-    fonts/                lokal gehostete Schriften (Montserrat, Open Sans)
-process_logo.py           erzeugt die Logo-Assets aus "Logo PDF.pdf"
+src/
+  pages/            Seiten & dynamische Routen ([slug].astro)
+  layouts/          BaseLayout (Head, Header, Footer, globales Verhalten)
+  components/       Header, Footer, Hero, Calculator, Gallery, Faq, … (wiederverwendbar)
+  content/          Inhalte als Markdown (leistungen/, referenzen/, stellen/)
+  styles/global.css Designsystem (Tokens 1:1 aus CI Kap. 6.10) + Schriften
+  consts.ts         Firmendaten (Telefon, E-Mail, Adresse) + base-URL-Helfer
+public/assets/      Logo, Favicons, OG-Bild, Bilder (img/)
+.github/workflows/  deploy.yml (Build + Deploy nach GitHub Pages)
 ```
 
-## Lokal ansehen
+## Lokal entwickeln
+
+> Hinweis: Auf dem VirtualBox-Shared-Folder ist `bin-links=false` gesetzt (`.npmrc`),
+> weil das Dateisystem keine Symlinks erlaubt. Astro daher direkt über Node aufrufen:
 
 ```bash
-cd docs && python3 -m http.server 8000
-# Browser: http://localhost:8000
+npm install
+node node_modules/astro/astro.js dev        # Dev-Server
+node node_modules/astro/astro.js build       # Build nach ./dist
+node node_modules/astro/astro.js preview     # Vorschau des Builds
 ```
 
-## Noch anzupassen (Platzhalter)
+(Auf normalen Systemen genügen `npm run dev` / `npm run build`.)
 
-- **Preise im Badkalkulator** – Konstanten `PRICING` oben in `docs/assets/main.js` durch echte Werte ersetzen.
-- **Bilder** – Hero und Galerie nutzen markenkonforme Platzhalter, jeweils mit
-  fertigem KI-Prompt beschriftet. Echte Fotos oder KI-Bilder einsetzen.
-- **Terminbuchung** – im Abschnitt „Termin" den Einbettungs-Code des
-  Buchungsanbieters (z. B. Calendly / Cal.com) einfügen (Kommentar im HTML).
-- **Kontaktformular** – aktuell nur Demo-Validierung; an ein Formular-Backend
-  bzw. den E-Mail-Versand anbinden (`TODO` in `main.js`).
-- **Zahlen & Kundenstimmen** – Beispielwerte durch echte Angaben ersetzen.
-- **Tonalität** – konsequent „Sie" (CI Kap. 9). Bei Bedarf global anpassbar.
+## Inhalte pflegen
+
+- **Neue Referenz / Stelle / Leistung:** eine Markdown-Datei in `src/content/…` anlegen –
+  erscheint automatisch in Übersicht und Detailseite.
+- **Bilder:** Dateien mit den Namen aus `BILDER.md` in `public/assets/img/` ablegen –
+  werden automatisch angezeigt (sonst bleibt der markenkonforme Platzhalter).
+- **Firmendaten** (Telefon, E-Mail, Adresse): zentral in `src/consts.ts`.
+- **Kalkulator-Preise:** `PRICING`-Objekt in `src/components/Calculator.astro`.
+
+## Noch offen
+
+Siehe **`OFFENE-INFOS.md`** (Formular-Backend, Buchungsanbieter, echte Preise/Zahlen,
+Handwerkskammer im Impressum, Datenschutz-Review, eigene Domain …) und **`BILDER.md`**.
 
 ## Deployment
 
-GitHub Pages → Branch `main`, Ordner `/docs`.
+Push auf `main` → GitHub Action (`.github/workflows/deploy.yml`) baut mit Astro und
+veröffentlicht auf GitHub Pages. Pages-Quelle = „GitHub Actions".
+Bei eigener Domain `base` in `astro.config.mjs` von `/Bauwelt` auf `/` ändern.

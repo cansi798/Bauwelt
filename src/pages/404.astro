@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, u } from "../consts";
+import Icon from "../components/Icon.astro";
+---
+<BaseLayout title="Seite nicht gefunden – Bauwelt Handwerk" description="Diese Seite gibt es nicht mehr.">
+  <section class="section" style="text-align:center">
+    <div class="container">
+      <div style="font-family:var(--font-heading);font-weight:800;font-size:clamp(64px,15vw,120px);color:var(--gold-500);line-height:1">404</div>
+      <h1 class="rule" style="display:inline-block">Diese Seite gibt es nicht mehr</h1>
+      <p style="margin:16px auto 32px">Vielleicht wurde sie verschoben. Kehren Sie zur Startseite zurück oder rufen Sie uns an.</p>
+      <div class="hero__actions" style="justify-content:center">
+        <a class="btn btn--primary" href={u("")}>Zur Startseite</a>
+        <a class="btn btn--secondary" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} /> {SITE.phoneDisplay}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

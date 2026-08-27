@@ -1,4 +1,18 @@
-@import url("./fonts/fonts.css");
+/* Lokal gehostete Marken-Schriften (CI Kap. 6.9). Vite bündelt & fingerprintet sie. */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/Montserrat.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./fonts/OpenSans.woff2") format("woff2");
+}
 
 /* ============================================================
    BAUWELT HANDWERK - Design System
@@ -102,7 +116,9 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .section--dark { background: var(--anthrazit-800); color: var(--weiss); }
 .section--dark h2, .section--dark h3 { color: var(--weiss); }
 .grid { display: grid; gap: 24px; }
-@media (min-width: 768px) { .cols-2 { grid-template-columns: 1fr 1fr; } .cols-3 { grid-template-columns: repeat(3, 1fr); } }
+/* 3 Stufen: Handy 1 Spalte · Tablet 2 · Desktop 3 */
+@media (min-width: 768px) { .cols-2 { grid-template-columns: 1fr 1fr; } .cols-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .cols-3 { grid-template-columns: repeat(3, 1fr); } }
 
 /* ---------- Buttons (CI 6.4) ---------- */
 .btn {
@@ -159,7 +175,8 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 }
 .header__actions { display: flex; align-items: center; gap: 16px; }
 .header .btn--phone { display: none; }
-@media (min-width: 1024px) { .header .btn--phone { display: inline-flex; } }
+/* Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
+@media (min-width: 768px) { .header .btn--phone { display: inline-flex; } }
 .burger {
   display: inline-flex; flex-direction: column; gap: 5px; justify-content: center;
   width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px;
@@ -196,6 +213,14 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 /* ---------- Hero (CI 6.3) ---------- */
 .hero { position: relative; min-height: 60vh; display: flex; align-items: center; color: var(--weiss); overflow: hidden; }
 @media (min-width: 768px) { .hero { min-height: 70vh; } }
+/* Kürzerer Hero für Unterseiten */
+.hero--page { min-height: 42vh; }
+@media (min-width: 768px) { .hero--page { min-height: 46vh; } }
+.hero--page h1 { max-width: 20ch; }
+.breadcrumb { font-size: 14px; color: var(--gold-300); margin-bottom: 16px; }
+.breadcrumb a { color: var(--gold-300); }
+.breadcrumb a:hover { color: var(--weiss); }
+.breadcrumb .sep { color: var(--gold-700); margin: 0 8px; }
 .hero__media { position: absolute; inset: 0; z-index: 0; }
 .hero__media > * { width: 100%; height: 100%; }
 .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
@@ -328,8 +353,10 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
   text-transform: uppercase; cursor: pointer; color: var(--anthrazit-700); transition: var(--transition);
 }
 .filter button.active { background: var(--anthrazit-800); color: var(--weiss); border-color: var(--anthrazit-800); }
-.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-@media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+/* 3 Stufen: Handy 1 · Tablet 2 · Desktop 3 */
+.gallery { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
 .tile { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 0; }
 .tile .ph { position: absolute; inset: 0; }
 /* Echtes Bild liegt über dem Platzhalter (z-index 1), unter dem Hover-Overlay (z-index 2) */
@@ -344,16 +371,18 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .tile__place { color: var(--gold-300); font-size: 14px; }
 
 /* ---------- Ablauf / Prozess (CI 6.3) ---------- */
+/* 3 Stufen: Handy gestapelt · Tablet 2×2 · Desktop 4 in einer Reihe */
 .steps { display: grid; gap: 32px; counter-reset: step; }
-@media (min-width: 768px) { .steps { grid-template-columns: repeat(4, 1fr); position: relative; } }
+@media (min-width: 768px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); position: relative; } }
 .step { text-align: center; position: relative; }
 .step__num {
   width: 64px; height: 64px; border-radius: 50%; background: var(--anthrazit-800); color: var(--gold-500);
   font-family: var(--font-heading); font-weight: 800; font-size: 24px;
   display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; position: relative; z-index: 1;
 }
-/* Verbindungslinie erst ab Tablet (mobile-first: mobil gestapelt, keine Linie) */
-@media (min-width: 768px) {
+/* Verbindungslinie nur in der Desktop-Reihe (4 nebeneinander) */
+@media (min-width: 1024px) {
   .steps--line .step:not(:last-child)::after {
     content: ""; position: absolute; top: 32px; left: 50%; width: 100%; height: 2px; background: var(--gold-500); z-index: 0;
   }
@@ -369,8 +398,10 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .stat__label { color: var(--anthrazit-600); font-size: 15px; margin-top: 8px; }
 
 /* ---------- Kundenstimmen (CI 6.3, auf Anthrazit) ---------- */
+/* 3 Stufen: Handy 1 · Tablet 2 · Desktop 3 */
 .quotes { display: grid; gap: 24px; }
-@media (min-width: 768px) { .quotes { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) { .quotes { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .quotes { grid-template-columns: repeat(3, 1fr); } }
 .quote { }
 .quote__mark { font-family: var(--font-heading); font-weight: 800; font-size: 64px; color: var(--gold-500); line-height: 0.6; }
 .quote__text { font-style: italic; font-size: 20px; color: var(--weiss); margin: 8px 0 20px; }
@@ -462,6 +493,19 @@ body { padding-bottom: 56px; }
 .faq__item.open .faq__a { max-height: 400px; }
 .faq__a p { padding: 0 0 20px; color: var(--anthrazit-700); font-size: 16px; }
 
+/* ---------- Checkliste (Leistungsumfang) ---------- */
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.checklist li { display: flex; gap: 12px; align-items: flex-start; font-size: 17px; color: var(--anthrazit-800); }
+.checklist svg { color: var(--gold-700); flex: none; margin-top: 3px; }
+.prose { max-width: var(--text-width); }
+.prose p { margin-bottom: 16px; }
+
+/* ---------- Stellen (Karriere) ---------- */
+.job { background: var(--weiss); border: 1px solid var(--linie); border-radius: var(--radius-md); padding: 24px; }
+.job__meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 16px; color: var(--anthrazit-600); font-size: 14px; }
+.job__meta span { display: inline-flex; align-items: center; gap: 6px; }
+.job h4 { font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 13px; color: var(--gold-700); letter-spacing: .04em; margin: 16px 0 8px; }
+
 /* ---------- Text-Seiten (Impressum / Datenschutz) ---------- */
 .legal { max-width: var(--text-width); margin-inline: auto; }
 .legal h1 { margin-bottom: 32px; }
@@ -469,7 +513,8 @@ body { padding-bottom: 56px; }
 .legal p, .legal address { font-style: normal; margin-bottom: 16px; color: var(--anthrazit-700); }
 
 /* ---------- Scroll-Einblendung (nur ohne reduzierte Bewegung) ---------- */
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity 400ms ease, transform 400ms ease; }
+/* Nur verstecken, wenn JS aktiv ist (.js). Ohne JS bleibt alles sichtbar. */
+.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 400ms ease, transform 400ms ease; }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

@@ -1,0 +1,28 @@
+---
+import { SITE, u } from "../consts";
+import Icon from "./Icon.astro";
+interface Props { title?: string; text?: string; }
+const {
+  title = "Bereit für Ihr Projekt?",
+  text = "Rufen Sie an oder fordern Sie ein unverbindliches Festpreis-Angebot an. Wir melden uns in der Regel innerhalb von zwei Werktagen.",
+} = Astro.props;
+---
+<section class="section section--dark">
+  <div class="container cta-band">
+    <div>
+      <h2 class="rule">{title}</h2>
+      <p style="color:var(--anthrazit-400)">{text}</p>
+    </div>
+    <div class="cta-band__actions">
+      <a class="btn btn--primary" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} /> {SITE.phoneDisplay}</a>
+      <a class="btn btn--on-dark" href={u("kontakt/")}>Anfrage senden</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band { display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 900px) { .cta-band { grid-template-columns: 1.5fr 1fr; } }
+  .cta-band__actions { display: flex; flex-wrap: wrap; gap: 16px; }
+  @media (min-width: 900px) { .cta-band__actions { justify-content: flex-end; } }
+</style>

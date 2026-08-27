@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, u } from "../consts";
+import Icon from "../components/Icon.astro";
+import SectionHead from "../components/SectionHead.astro";
+import PageHero from "../components/PageHero.astro";
+
+const raw = (await getCollection("stellen")).sort((a, b) => a.data.order - b.data.order);
+const stellen = await Promise.all(
+  raw.map(async (s) => ({ data: s.data, Content: (await s.render()).Content }))
+);
+---
+<BaseLayout title="Karriere – Bauwelt Handwerk" active="Karriere"
+  description="Offene Stellen bei Bauwelt Handwerk in Norderstedt und Umgebung. Werde Teil eines Teams, das sauber plant und pünktlich liefert.">
+  <PageHero
+    eyebrow="Karriere"
+    title="Arbeiten bei Bauwelt Handwerk"
+    lead="Du machst gute Arbeit und willst sie zeigen? Bei uns zählt Handwerk – mit festen Prozessen, fairem Umgang und Respekt."
+    crumbs={[{ label: "Start", href: u("") }, { label: "Karriere" }]}
+    prompt="Motiviertes Handwerker-Team bei der Arbeit, echte Baustelle, gute Stimmung"
+  />
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Offene Stellen" pre="Komm ins " accent="Team" />
+      <div class="grid cols-2">
+        {stellen.map(({ data, Content }) => (
+          <article class="job reveal">
+            <h3>{data.title}</h3>
+            <div class="job__meta">
+              <span><Icon name="clock" size={16} /> {data.art}</span>
+              <span><Icon name="pin" size={16} /> {data.ort}</span>
+            </div>
+            <div class="prose"><Content /></div>
+            {data.aufgaben.length > 0 && (<><h4>Deine Aufgaben</h4>
+              <ul class="checklist">{data.aufgaben.map((a) => <li><Icon name="check" size={20} />{a}</li>)}</ul></>)}
+            {data.profil.length > 0 && (<><h4>Dein Profil</h4>
+              <ul class="checklist">{data.profil.map((p) => <li><Icon name="check" size={20} />{p}</li>)}</ul></>)}
+            <a class="btn btn--primary" style="margin-top:20px" href={`mailto:${SITE.email}?subject=${encodeURIComponent("Bewerbung: " + data.title)}`}>Jetzt bewerben</a>
+          </article>
+        ))}
+      </div>
+      <p class="lead" style="margin-top:40px">Nichts Passendes dabei? Initiativbewerbungen sind willkommen – melde dich einfach unter <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> oder <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

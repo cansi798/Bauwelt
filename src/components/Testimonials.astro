@@ -1,0 +1,15 @@
+---
+interface Quote { text: string; name: string; place: string; }
+interface Props { quotes: Quote[]; }
+const { quotes } = Astro.props;
+---
+<div class="quotes">
+  {quotes.map((q) => (
+    <figure class="quote reveal">
+      <div class="quote__mark">&ldquo;</div>
+      <div class="quote__stars" aria-label="5 von 5 Sternen">★★★★★</div>
+      <blockquote class="quote__text">{q.text}</blockquote>
+      <figcaption><div class="quote__name">{q.name}</div><div class="quote__place">{q.place}</div></figcaption>
+    </figure>
+  ))}
+</div>

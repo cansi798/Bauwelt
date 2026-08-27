@@ -1,0 +1,163 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, u } from "../consts";
+import Icon from "../components/Icon.astro";
+import Placeholder from "../components/Placeholder.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import Calculator from "../components/Calculator.astro";
+import Gallery from "../components/Gallery.astro";
+import Steps from "../components/Steps.astro";
+import Stats from "../components/Stats.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Faq from "../components/Faq.astro";
+import BookingEmbed from "../components/BookingEmbed.astro";
+import ContactSection from "../components/ContactSection.astro";
+
+const leistungen = (await getCollection("leistungen")).sort((a, b) => a.data.order - b.data.order);
+const referenzen = (await getCollection("referenzen"))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((r) => ({ ...r.data, slug: r.slug }));
+
+const steps = [
+  { title: "Anruf", text: "Rufen Sie an oder schreiben Sie uns. Wir melden uns in der Regel innerhalb von zwei Werktagen." },
+  { title: "Termin vor Ort", text: "Wir kommen vorbei, schauen es uns an und besprechen Ihre Wünsche." },
+  { title: "Festpreis", text: "Sie erhalten ein klares Angebot zum Festpreis – ohne versteckte Kosten." },
+  { title: "Umsetzung", text: "Wir bauen. Jede Baustelle wird vom Meister abgenommen, bevor Sie sie sehen." },
+];
+const stats = [
+  { value: 300, label: "sanierte Bäder" },
+  { value: 15, label: "Jahre Erfahrung" },
+  { value: 2, label: "Werktage bis Rückmeldung" },
+  { value: 100, unit: "%", label: "Festpreis-Garantie" },
+];
+const quotes = [
+  { text: "Festpreis war Festpreis. Termine wurden gehalten, das Bad ist top geworden.", name: "Familie M.", place: "Norderstedt" },
+  { text: "Ein Ansprechpartner für alles. Man musste sich um nichts selbst kümmern.", name: "Herr K.", place: "Hamburg" },
+  { text: "Sauber gearbeitet, freundlich und pünktlich. Gern wieder.", name: "Frau S.", place: "Kaltenkirchen" },
+];
+const faq = [
+  { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir Ihnen einen festen Preis für Ihr Bad. Dieser Preis gilt. Kommt nichts Unvorhergesehenes von Ihrer Seite hinzu, zahlen Sie keinen Cent mehr." },
+  { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in zwei bis drei Wochen fertig. Den genauen Zeitplan legen wir vorher gemeinsam fest." },
+  { q: "Übernehmt ihr wirklich alle Gewerke?", a: "Ja. Von der Demontage über Sanitär, Elektro und Fliesen bis zu Malerarbeiten koordinieren wir alles. Sie haben einen Ansprechpartner und einen Vertrag." },
+  { q: "In welchem Umkreis arbeitet ihr?", a: "Wir sind in Hamburg und im Umland rund um Norderstedt für Sie da. Ob Ihr Ort dazugehört, sagen wir Ihnen am Telefon in einer Minute." },
+  { q: "Was kostet die Beratung?", a: "Der erste Termin vor Ort und Ihr Festpreis-Angebot sind für Sie kostenlos und unverbindlich." },
+];
+---
+<BaseLayout title="Bauwelt Handwerk – Badsanierung zum Festpreis in Hamburg">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__media">
+      <Placeholder
+        img="hero.jpg"
+        imgClass="hero__img"
+        showKi={false}
+        prompt="Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat 16:9"
+        alt="Platzhalter für Hero-Bild – modernes Badezimmer"
+      />
+    </div>
+    <span class="hero__phnote"><span class="dot"></span> Platzhalter · KI-Bild einsetzbar</span>
+    <div class="container">
+      <p class="eyebrow" style="color:var(--gold-300)">Ihr Zuhause. Unsere Mission.</p>
+      <h1>Ihr neues Bad zum <span class="accent">Festpreis</span></h1>
+      <p>Wir sanieren Bäder und modernisieren Immobilien in {SITE.region}. Fester Preis, feste Termine, ein Ansprechpartner – alles aus einer Hand.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={u("#kalkulator")}>Badpreis berechnen</a>
+        <a class="btn btn--on-dark" href={u("#termin")}>Termin vereinbaren</a>
+      </div>
+      <ul class="hero__trust">
+        <li><Icon name="shield" size={22} />Festpreis-Garantie</li>
+        <li><Icon name="hand" size={22} />Alles aus einer Hand</li>
+        <li><Icon name="user" size={22} />Ein fester Ansprechpartner</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Vertrauensmerkmale -->
+  <section class="section" aria-label="Warum Bauwelt Handwerk">
+    <div class="container">
+      <div class="grid cols-2" style="gap:24px">
+        <div class="card reveal"><div class="card__icon"><Icon name="euro" /></div><h3>Fester Preis</h3><p>Sie wissen vor dem ersten Handschlag, was Ihr Bad kostet. Kein Aufschlag hinterher.</p></div>
+        <div class="card reveal"><div class="card__icon"><Icon name="user" /></div><h3>Ein Ansprechpartner</h3><p>Deutschsprachig, erreichbar, zuständig von der Planung bis zur Abnahme.</p></div>
+        <div class="card reveal"><div class="card__icon"><Icon name="calendar" /></div><h3>Feste Termine &amp; Prozesse</h3><p>Klare Abläufe, zugesagte Termine. Wir arbeiten nach festen Prozessen – Sie planen verlässlich mit uns.</p></div>
+        <div class="card reveal"><div class="card__icon"><Icon name="hand" /></div><h3>Alles aus einer Hand</h3><p>Von Fliese bis Elektro koordinieren wir alle Gewerke. Sie haben nur einen Vertrag.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="section section--sand" id="leistungen">
+    <div class="container">
+      <SectionHead eyebrow="Leistungen" pre="Was wir für Sie " accent="bauen"
+        lead="Unser Kern sind individuelle Badsanierungen zum Festpreis. Darüber hinaus sanieren und modernisieren wir Ihre Immobilie komplett." />
+      <div class="grid cols-3">
+        {leistungen.map((l) => (
+          <ServiceCard icon={l.data.icon} title={l.data.title.replace(" zum Festpreis", "")} text={l.data.teaser}
+            href={u(`leistungen/${l.slug}/`)} badge={l.data.badge}
+            cta={l.data.badge ? "Badpreis berechnen" : "Mehr erfahren"} />
+        ))}
+      </div>
+      <p style="margin-top:32px"><a class="textlink" href={u("leistungen/")}>Alle Leistungen ansehen <Icon name="arrow" size={18} /></a></p>
+    </div>
+  </section>
+
+  <!-- Badkalkulator -->
+  <section class="section" id="kalkulator">
+    <div class="container">
+      <SectionHead eyebrow="Badkalkulator" pre="Was kostet Ihr " accent="Bad?"
+        lead="Sagen Sie uns, wie groß Ihr Bad ist und welche Ausstattung Sie sich wünschen. Sie bekommen sofort eine unverbindliche Preisspanne." />
+      <Calculator />
+    </div>
+  </section>
+
+  <!-- Referenzen -->
+  <section class="section section--sand" id="referenzen">
+    <div class="container">
+      <SectionHead eyebrow="Referenzen" pre="Ergebnisse, die man " accent="sieht"
+        lead="Eine Auswahl unserer Projekte in Hamburg und Umgebung. Weitere Bilder zeigen wir Ihnen gern im Gespräch." />
+      <Gallery projects={referenzen} />
+      <p class="small" style="margin-top:16px">Bildmaterial folgt – aktuell markenkonforme Platzhalter mit KI-Bildbeschreibung. Echte Projektfotos werden nach und nach ergänzt.</p>
+    </div>
+  </section>
+
+  <!-- Ablauf -->
+  <section class="section" id="ablauf">
+    <div class="container">
+      <SectionHead center eyebrow="Ablauf" pre="In vier Schritten zum " accent="Ziel" />
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <!-- Zahlen & Fakten (Platzhalter-Werte) -->
+  <section class="section section--sand" aria-label="Zahlen und Fakten">
+    <div class="container"><Stats stats={stats} /></div>
+  </section>
+
+  <!-- Kundenstimmen (Beispiel) -->
+  <section class="section section--dark" aria-label="Kundenstimmen">
+    <div class="container">
+      <SectionHead center eyebrow="Kundenstimmen" pre="Das sagen unsere " accent="Kunden" />
+      <Testimonials quotes={quotes} />
+    </div>
+  </section>
+
+  <!-- Terminbuchung -->
+  <section class="section" id="termin">
+    <div class="container">
+      <SectionHead center eyebrow="Terminbuchung" pre="Termin online " accent="vereinbaren"
+        lead="Wählen Sie einen passenden Termin für Ihr Beratungsgespräch – oder rufen Sie uns direkt an." />
+      <BookingEmbed />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--sand" id="faq">
+    <div class="container">
+      <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

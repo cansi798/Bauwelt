@@ -1,0 +1,64 @@
+---
+import { SITE, u } from "../consts";
+import Icon from "./Icon.astro";
+import SectionHead from "./SectionHead.astro";
+---
+<section class="section section--dark" id="kontakt">
+  <div class="container">
+    <SectionHead eyebrow="Kontakt" pre="Lassen Sie uns " accent="sprechen" />
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p style="color:var(--anthrazit-400)">Erzählen Sie uns kurz von Ihrem Vorhaben. Wir melden uns in der Regel innerhalb von zwei Werktagen.</p>
+        <ul>
+          <li><Icon name="user" /><div><div class="label">Ansprechpartner</div><div class="value">{SITE.contactName} – {SITE.contactRole}</div></div></li>
+          <li><Icon name="phone" /><div><div class="label">Telefon</div><a class="value" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></div></li>
+          <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.email}`}>{SITE.email}</a></div></li>
+          <li><Icon name="pin" /><div><div class="label">Adresse</div><div class="value">{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</div></div></li>
+          <li><Icon name="clock" /><div><div class="label">Erreichbarkeit</div><div class="value">{SITE.hours}</div></div></li>
+        </ul>
+      </div>
+      <div class="form-card">
+        <h3>Anfrage senden</h3>
+        <form id="contactForm" novalidate>
+          <div class="field"><label for="cname">Name <span class="req">*</span></label><input type="text" id="cname" name="name" required autocomplete="name" /></div>
+          <div class="field"><label for="cphone">Telefon <span class="req">*</span></label><input type="tel" id="cphone" name="phone" required autocomplete="tel" /></div>
+          <div class="field"><label for="cmail">E-Mail</label><input type="email" id="cmail" name="email" autocomplete="email" /></div>
+          <div class="field">
+            <label for="cservice">Leistung</label>
+            <select id="cservice" name="service">
+              <option>Badsanierung</option>
+              <option>Sanierung &amp; Modernisierung</option>
+              <option>Dach &amp; Fassade</option>
+              <option>Innenausbau &amp; Trockenbau</option>
+              <option>Sanitär, Heizung, Elektro</option>
+              <option>Maler &amp; Bodenbeläge</option>
+              <option>Etwas anderes</option>
+            </select>
+          </div>
+          <div class="field"><label for="cmsg">Nachricht</label><textarea id="cmsg" name="message" placeholder="Worum geht es? Je konkreter, desto besser."></textarea></div>
+          <label class="check">
+            <input type="checkbox" required />
+            <span>Ich habe die <a href={u("datenschutz/")}>Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu. <span class="req">*</span></span>
+          </label>
+          <button type="submit" class="btn btn--primary btn--block" style="margin-top:20px">Anfrage absenden</button>
+          <div class="form-success" id="formSuccess"><strong>Danke für Ihre Anfrage.</strong> Wir melden uns innerhalb von zwei Werktagen bei Ihnen.</div>
+          <p class="small" style="margin-top:12px">Pflichtfelder sind mit <span class="req">*</span> markiert.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const cf = document.getElementById("contactForm") as HTMLFormElement | null;
+  if (cf) {
+    cf.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!cf.checkValidity()) { cf.reportValidity(); return; }
+      // TODO: an Formular-Backend / E-Mail-Versand anbinden.
+      document.getElementById("formSuccess")!.classList.add("show");
+      (cf.querySelector("button[type=submit]") as HTMLButtonElement).disabled = true;
+      document.getElementById("formSuccess")!.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+</script>
