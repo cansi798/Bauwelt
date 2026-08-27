@@ -13,6 +13,7 @@ export const SITE = {
   region: "Hamburg und Umgebung",
   phoneDisplay: "0151 56156578",
   phoneTel: "+4915156156578",
+  whatsapp: "4915156156578", // wa.me-Format (ohne +)
   email: "j.iqbal@bauwelt-handwerk.de",
   contactName: "Jamil Iqbal",
   contactRole: "Vertrieb & Kundenservice",
@@ -28,7 +29,12 @@ export const SITE = {
 export const NAV: { label: string; href: string }[] = [
   { label: "Leistungen", href: u("leistungen/") },
   { label: "Referenzen", href: u("referenzen/") },
+  { label: "Für Partner", href: u("partner/") },
   { label: "Über uns", href: u("ueber-uns/") },
   { label: "Karriere", href: u("karriere/") },
   { label: "Kontakt", href: u("kontakt/") },
 ];
+
+/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. */
+export const waLink = (text = "Hallo, ich interessiere mich für eine Badsanierung."): string =>
+  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;

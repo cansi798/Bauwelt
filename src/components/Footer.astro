@@ -1,5 +1,5 @@
 ---
-import { SITE, u } from "../consts";
+import { SITE, u, waLink } from "../consts";
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
@@ -13,6 +13,7 @@ const year = new Date().getFullYear();
         <h4>Kontakt</h4>
         <ul>
           <li><a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></li>
+          <li><a href={waLink()} target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
           <li>{SITE.street}<br />{SITE.zip} {SITE.city}</li>
         </ul>
@@ -30,6 +31,7 @@ const year = new Date().getFullYear();
         <h4>Unternehmen</h4>
         <ul>
           <li><a href={u("referenzen/")}>Referenzen</a></li>
+          <li><a href={u("partner/")}>Für Partner</a></li>
           <li><a href={u("ueber-uns/")}>Über uns</a></li>
           <li><a href={u("karriere/")}>Karriere</a></li>
           <li><a href={u("impressum/")}>Impressum</a></li>

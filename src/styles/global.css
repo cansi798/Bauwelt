@@ -200,7 +200,8 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   color: var(--weiss); padding: 12px 0; border-bottom: 1px solid var(--anthrazit-700);
 }
 .mobile-menu nav a:hover { color: var(--gold-500); text-decoration: none; }
-.mobile-menu .btn--phone { margin-top: auto; }
+.mobile-menu__actions { margin-top: auto; display: grid; gap: 12px; }
+.mobile-menu__actions .btn { width: 100%; }
 
 /* ---------- Notfall-Hinweis (CI 6.7) ---------- */
 .notfall {
@@ -456,14 +457,16 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 }
 .footer__bottom a { color: var(--anthrazit-400); }
 
-/* ---------- Mobiler Telefon-Button (CI 6.4) ---------- */
-.phone-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
-  background: var(--gold-500); color: var(--anthrazit-800);
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 14px; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 16px;
+/* ---------- Mobile Aktionsleiste: Anrufen + WhatsApp (CI 6.4) ---------- */
+.phone-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 90; display: flex; }
+.phone-bar__btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 8px; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 15px;
 }
-.phone-bar:hover { background: var(--gold-600); text-decoration: none; color: var(--anthrazit-800); }
+.phone-bar__btn--call { background: var(--gold-500); color: var(--anthrazit-800); }
+.phone-bar__btn--call:hover { background: var(--gold-600); text-decoration: none; color: var(--anthrazit-800); }
+.phone-bar__btn--wa { background: var(--anthrazit-800); color: var(--weiss); }
+.phone-bar__btn--wa:hover { background: var(--anthrazit-900); text-decoration: none; color: var(--weiss); }
 @media (min-width: 1024px) { .phone-bar { display: none; } }
 body { padding-bottom: 56px; }
 @media (min-width: 1024px) { body { padding-bottom: 0; } }
@@ -530,3 +533,10 @@ body { padding-bottom: 56px; }
   padding: 12px 20px; border-radius: var(--radius-sm); transition: top var(--transition);
 }
 .skip-link:focus { top: 8px; text-decoration: none; }
+
+/* Dezente goldene Scroll-Fortschrittsleiste ganz oben */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: var(--gold-500); z-index: 200; transition: width 80ms linear;
+}
+@media (prefers-reduced-motion: reduce) { .scroll-progress { transition: none; } }

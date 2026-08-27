@@ -14,8 +14,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Claude Code lokale Konfiguration
-.claude/
+# Claude Code lokale Konfiguration (Skills aber mitversionieren)
+.claude/*
+!.claude/skills/
 
 # Astro / npm
 node_modules/

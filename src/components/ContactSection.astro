@@ -1,5 +1,5 @@
 ---
-import { SITE, u } from "../consts";
+import { SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 import SectionHead from "./SectionHead.astro";
 ---
@@ -12,6 +12,7 @@ import SectionHead from "./SectionHead.astro";
         <ul>
           <li><Icon name="user" /><div><div class="label">Ansprechpartner</div><div class="value">{SITE.contactName} – {SITE.contactRole}</div></div></li>
           <li><Icon name="phone" /><div><div class="label">Telefon</div><a class="value" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></div></li>
+          <li><Icon name="whatsapp" /><div><div class="label">WhatsApp</div><a class="value" href={waLink()} target="_blank" rel="noopener">Direkt schreiben</a></div></li>
           <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.email}`}>{SITE.email}</a></div></li>
           <li><Icon name="pin" /><div><div class="label">Adresse</div><div class="value">{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</div></div></li>
           <li><Icon name="clock" /><div><div class="label">Erreichbarkeit</div><div class="value">{SITE.hours}</div></div></li>

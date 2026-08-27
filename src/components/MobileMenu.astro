@@ -1,5 +1,5 @@
 ---
-import { SITE, NAV, u } from "../consts";
+import { SITE, NAV, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 ---
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
@@ -11,7 +11,12 @@ import Icon from "./Icon.astro";
     {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
     <a href={u("#kalkulator")}>Badpreis berechnen</a>
   </nav>
-  <a class="btn btn--primary btn--phone" href={`tel:${SITE.phoneTel}`}>
-    <Icon name="phone" size={18} /> Jetzt anrufen
-  </a>
+  <div class="mobile-menu__actions">
+    <a class="btn btn--primary" href={`tel:${SITE.phoneTel}`}>
+      <Icon name="phone" size={18} /> Anrufen
+    </a>
+    <a class="btn btn--on-dark" href={waLink()} target="_blank" rel="noopener">
+      <Icon name="whatsapp" size={18} /> WhatsApp
+    </a>
+  </div>
 </div>

@@ -3,7 +3,7 @@ title: "Wohnung komplett saniert"
 place: "Kaltenkirchen"
 cat: "sanierung"
 order: 50
-file: "ref-05-wohnung.jpg"
+file: "ref-05-wohnung.webp"
 prompt: "Modern sanierte Wohnung, offener Grundriss, neutrale warme Farben, fotorealistisch, 4:3"
 dauer: "6 Wochen"
 leistung: "Komplettsanierung"

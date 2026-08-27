@@ -1,7 +1,12 @@
 ---
-import { SITE } from "../consts";
+import { SITE, waLink } from "../consts";
 import Icon from "./Icon.astro";
 ---
-<a class="phone-bar" href={`tel:${SITE.phoneTel}`}>
-  <Icon name="phone" size={20} /> Jetzt anrufen
-</a>
+<div class="phone-bar">
+  <a class="phone-bar__btn phone-bar__btn--call" href={`tel:${SITE.phoneTel}`}>
+    <Icon name="phone" size={20} /> Anrufen
+  </a>
+  <a class="phone-bar__btn phone-bar__btn--wa" href={waLink()} target="_blank" rel="noopener">
+    <Icon name="whatsapp" size={20} /> WhatsApp
+  </a>
+</div>

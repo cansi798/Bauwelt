@@ -6,6 +6,7 @@ import Icon from "../components/Icon.astro";
 import Placeholder from "../components/Placeholder.astro";
 import SectionHead from "../components/SectionHead.astro";
 import ServiceCard from "../components/ServiceCard.astro";
+import FeatureRow from "../components/FeatureRow.astro";
 import Calculator from "../components/Calculator.astro";
 import Gallery from "../components/Gallery.astro";
 import Steps from "../components/Steps.astro";
@@ -50,14 +51,13 @@ const faq = [
   <section class="hero">
     <div class="hero__media">
       <Placeholder
-        img="hero.jpg"
+        img="hero.webp"
         imgClass="hero__img"
         showKi={false}
         prompt="Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat 16:9"
         alt="Platzhalter für Hero-Bild – modernes Badezimmer"
       />
     </div>
-    <span class="hero__phnote"><span class="dot"></span> Platzhalter · KI-Bild einsetzbar</span>
     <div class="container">
       <p class="eyebrow" style="color:var(--gold-300)">Ihr Zuhause. Unsere Mission.</p>
       <h1>Ihr neues Bad zum <span class="accent">Festpreis</span></h1>
@@ -99,6 +99,37 @@ const faq = [
         ))}
       </div>
       <p style="margin-top:32px"><a class="textlink" href={u("leistungen/")}>Alle Leistungen ansehen <Icon name="arrow" size={18} /></a></p>
+    </div>
+  </section>
+
+  <!-- Warum Bauwelt – abwechselnde Bild-Text-Reihen (mobile-first) -->
+  <section class="section">
+    <div class="container">
+      <SectionHead center eyebrow="Warum Bauwelt" pre="Handwerk ohne " accent="Überraschungen" />
+      <FeatureRow
+        reverse
+        img="ref-02-bodengleiche-dusche.webp"
+        prompt="Bad mit bodengleicher Regendusche, Glaswand, anthrazitfarbene Fliesen"
+        pre="Ihr Bad, ohne " accent="Überraschungen"
+        text="Sie wissen vor dem ersten Handschlag, was Ihr Bad kostet. Der Festpreis steht nach dem Vor-Ort-Termin – daran halten wir uns."
+        points={["Fester Preis, vorher vereinbart", "Keine versteckten Kosten", "Angebot nach kostenlosem Vor-Ort-Termin"]}
+        cta={{ label: "Badpreis berechnen", href: u("#kalkulator") }}
+      />
+      <FeatureRow
+        img="ref-01-wannenbad.webp"
+        prompt="Modernes Badezimmer mit Eichenholz-Möbeln, warmes Licht"
+        pre="Ein Team, ein " accent="Ansprechpartner"
+        text="Von der Fliese bis zur Elektrik koordinieren wir alle Gewerke. Sie haben einen deutschsprachigen Ansprechpartner – und einen Vertrag."
+        points={["Alle Gewerke aus einer Hand", "Deutschsprachiger Ansprechpartner", "Ein Vertrag, klare Verantwortung"]}
+      />
+      <FeatureRow
+        reverse
+        img="ref-04-altbau.webp"
+        prompt="Sanierter Altbau-Wohnraum, hell, hohe Decken"
+        pre="Sauber geplant, pünktlich " accent="fertig"
+        text="Wir arbeiten nach festen Prozessen und halten zugesagte Termine. Jede Baustelle wird vom Meister abgenommen, bevor Sie sie sehen."
+        points={["Fester Zeitplan", "Abnahme durch den Meister", "Ordentliche, saubere Baustelle"]}
+      />
     </div>
   </section>
 
