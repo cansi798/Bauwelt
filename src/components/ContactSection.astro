@@ -20,7 +20,7 @@ import SectionHead from "./SectionHead.astro";
       </div>
       <div class="form-card">
         <h3>Anfrage senden</h3>
-        <form id="contactForm" novalidate>
+        <form id="contactForm" novalidate data-to={SITE.email} data-subject="Anfrage über die Website">
           <div class="field"><label for="cname">Name <span class="req">*</span></label><input type="text" id="cname" name="name" required autocomplete="name" /></div>
           <div class="field"><label for="cphone">Telefon <span class="req">*</span></label><input type="tel" id="cphone" name="phone" required autocomplete="tel" /></div>
           <div class="field"><label for="cmail">E-Mail</label><input type="email" id="cmail" name="email" autocomplete="email" /></div>
@@ -42,7 +42,7 @@ import SectionHead from "./SectionHead.astro";
             <span>Ich habe die <a href={u("datenschutz/")}>Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu. <span class="req">*</span></span>
           </label>
           <button type="submit" class="btn btn--primary btn--block" style="margin-top:20px">Anfrage absenden</button>
-          <div class="form-success" id="formSuccess"><strong>Danke für Ihre Anfrage.</strong> Wir melden uns innerhalb von zwei Werktagen bei Ihnen.</div>
+          <div class="form-success" id="formSuccess"><strong>Fast geschafft:</strong> Ihr E-Mail-Programm öffnet sich mit Ihrer Anfrage. Bitte noch absenden – wir melden uns innerhalb von zwei Werktagen.</div>
           <p class="small" style="margin-top:12px">Pflichtfelder sind mit <span class="req">*</span> markiert.</p>
         </form>
       </div>
@@ -51,14 +51,29 @@ import SectionHead from "./SectionHead.astro";
 </section>
 
 <script>
+  // Übergangslösung ohne Backend: baut aus den Feldern eine E-Mail und öffnet
+  // das Mailprogramm mit vorausgefüllter Anfrage. Später durch ein Formular-
+  // Backend (z. B. Formspree/Web3Forms) ersetzen – dann diesen Handler tauschen.
+  const LABELS: Record<string, string> = {
+    firma: "Unternehmen", name: "Name", phone: "Telefon",
+    email: "E-Mail", service: "Leistung", message: "Nachricht",
+  };
   const cf = document.getElementById("contactForm") as HTMLFormElement | null;
   if (cf) {
     cf.addEventListener("submit", (e) => {
       e.preventDefault();
       if (!cf.checkValidity()) { cf.reportValidity(); return; }
-      // TODO: an Formular-Backend / E-Mail-Versand anbinden.
+      const data = new FormData(cf);
+      const lines: string[] = [];
+      data.forEach((value, key) => {
+        const v = String(value).trim();
+        if (v) lines.push(`${LABELS[key] ?? key}: ${v}`);
+      });
+      const to = cf.dataset.to || "";
+      const subject = cf.dataset.subject || "Anfrage über die Website";
+      window.location.href =
+        `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
       document.getElementById("formSuccess")!.classList.add("show");
-      (cf.querySelector("button[type=submit]") as HTMLButtonElement).disabled = true;
       document.getElementById("formSuccess")!.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   }

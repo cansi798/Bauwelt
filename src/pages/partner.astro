@@ -85,7 +85,7 @@ const ablauf = [
         </div>
         <div class="form-card">
           <h3>Kooperationsanfrage senden</h3>
-          <form id="contactForm" novalidate>
+          <form id="contactForm" novalidate data-to={SITE.email} data-subject="Kooperationsanfrage über die Website">
             <div class="field"><label for="cfirma">Unternehmen <span class="req">*</span></label><input type="text" id="cfirma" name="firma" required autocomplete="organization" /></div>
             <div class="field"><label for="cname">Ansprechpartner <span class="req">*</span></label><input type="text" id="cname" name="name" required autocomplete="name" /></div>
             <div class="field"><label for="cphone">Telefon <span class="req">*</span></label><input type="tel" id="cphone" name="phone" required autocomplete="tel" /></div>
@@ -93,7 +93,7 @@ const ablauf = [
             <div class="field"><label for="cmsg">Ihr Vorhaben</label><textarea id="cmsg" name="message" placeholder="Objekt, Umfang, Zeitrahmen, Anzahl Einheiten …"></textarea></div>
             <label class="check"><input type="checkbox" required /><span>Ich habe die <a href={u("datenschutz/")}>Datenschutzerklärung</a> gelesen und stimme der Verarbeitung zu. <span class="req">*</span></span></label>
             <button type="submit" class="btn btn--primary btn--block" style="margin-top:20px">Anfrage absenden</button>
-            <div class="form-success" id="formSuccess"><strong>Danke für Ihre Anfrage.</strong> Wir melden uns innerhalb von zwei Werktagen.</div>
+            <div class="form-success" id="formSuccess"><strong>Fast geschafft:</strong> Ihr E-Mail-Programm öffnet sich mit Ihrer Anfrage. Bitte noch absenden – wir melden uns innerhalb von zwei Werktagen.</div>
           </form>
         </div>
       </div>
@@ -102,13 +102,27 @@ const ablauf = [
 </BaseLayout>
 
 <script>
+  // Übergangslösung ohne Backend: E-Mail mit vorausgefüllter Anfrage öffnen.
+  const LABELS: Record<string, string> = {
+    firma: "Unternehmen", name: "Ansprechpartner", phone: "Telefon",
+    email: "E-Mail", message: "Vorhaben",
+  };
   const cf = document.getElementById("contactForm") as HTMLFormElement | null;
   if (cf) {
     cf.addEventListener("submit", (e) => {
       e.preventDefault();
       if (!cf.checkValidity()) { cf.reportValidity(); return; }
+      const data = new FormData(cf);
+      const lines: string[] = [];
+      data.forEach((value, key) => {
+        const v = String(value).trim();
+        if (v) lines.push(`${LABELS[key] ?? key}: ${v}`);
+      });
+      const to = cf.dataset.to || "";
+      const subject = cf.dataset.subject || "Kooperationsanfrage";
+      window.location.href =
+        `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
       document.getElementById("formSuccess")!.classList.add("show");
-      (cf.querySelector("button[type=submit]") as HTMLButtonElement).disabled = true;
       document.getElementById("formSuccess")!.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   }

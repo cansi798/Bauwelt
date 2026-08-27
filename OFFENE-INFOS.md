@@ -9,10 +9,12 @@ Legende: ⬜ offen · ✅ erledigt
 
 ## A. Damit Funktionen echt werden (wichtig)
 
-- ⬜ **Kontaktformular – wohin sollen Anfragen gehen?**
-  Aktuell zeigt das Formular nur eine Demo-Bestätigung, es wird noch **nichts versendet**.
-  Bitte festlegen: an welche E-Mail-Adresse sollen Anfragen gehen? (z. B. `info@bauwelt-handwerk.de`)
-  Und über welchen Weg? (einfacher Dienst wie Formspree/Web3Forms, oder eigenes Postfach/Backend)
+- 🟡 **Kontakt- & Partnerformular – Versandweg** *(Übergangslösung aktiv)*
+  Die Formulare öffnen jetzt das E-Mail-Programm mit vorausgefüllter Anfrage an
+  `j.iqbal@bauwelt-handwerk.de` (funktioniert ohne Backend, aber nur wenn ein Mailprogramm
+  eingerichtet ist). **Empfohlen für später:** echtes Formular-Backend (z. B. Formspree/
+  Web3Forms), damit Anfragen direkt ohne Mailprogramm ankommen. Zieladresse zentral in
+  `src/consts.ts` (`email`).
 - ⬜ **Zentrale E-Mail-Adresse**
   Soll auf der Seite `j.iqbal@bauwelt-handwerk.de` stehen oder eine allgemeine wie
   `info@bauwelt-handwerk.de` / `anfrage@bauwelt-handwerk.de`? (Aktuell: Jamils Adresse.)
