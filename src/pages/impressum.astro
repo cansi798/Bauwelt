@@ -29,6 +29,15 @@ import Icon from "../components/Icon.astro";
         <h2>Umsatzsteuer-Identifikationsnummer</h2>
         <p>USt-IdNr. gemäß § 27a Umsatzsteuergesetz: {SITE.vat}</p>
 
+        {/* HINWEIS (nicht öffentlich sichtbar): Für Handwerksbetriebe sind i. d. R. weitere
+            Angaben Pflicht – zuständige Handwerkskammer, Berufsbezeichnung, ggf.
+            Berufshaftpflichtversicherung (Name, Sitz, Geltungsraum). Angaben beim Kunden
+            abfragen (siehe Offene-Fragen-Kunde-Bauwelt.docx) und diesen Abschnitt ergänzen:
+        <h2>Berufsrechtliche Angaben</h2>
+        <p>Mitglied der Handwerkskammer …<br />Berufsbezeichnung: …<br />
+        Berufshaftpflichtversicherung: …, Geltungsraum: Deutschland</p>
+        */}
+
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
         <address>{SITE.managing}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</address>
 
