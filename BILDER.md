@@ -19,18 +19,11 @@ Bescheid geben, ich optimiere sie (`process_images.py`) und benenne sie um.
 |---|---|
 | `hero.webp` | Startseiten-Hero (16:9) |
 | `ref-01-wannenbad.webp` … `ref-06-dach.webp` | Referenz-Galerie (4:3) |
+| `jamil.webp` | Porträt Jamil Iqbal – Berater-Kreis im Kontaktbereich |
 
 ## ⬜ Noch gebraucht
 
-### 1) Porträt von Jamil Iqbal (Ansprechpartner)
-| | |
-|---|---|
-| **Dateiname** | `jamil.webp` |
-| **Ablage** | `public/assets/img/jamil.webp` |
-| **Format** | Quadratisch 1:1, ca. **600 × 600 px** |
-| **Motiv** | Freundliches, echtes Porträt (Schulter aufwärts), neutraler/heller Hintergrund. Erscheint als runder Berater-Kreis im Kontaktbereich. |
-
-### 2) Team-/Über-uns-Bild *(optional, empfohlen)*
+### 1) Team-/Über-uns-Bild *(optional, empfohlen)*
 | | |
 |---|---|
 | **Dateiname** | `team.webp` |
@@ -38,7 +31,7 @@ Bescheid geben, ich optimiere sie (`process_images.py`) und benenne sie um.
 | **Format** | Querformat 4:3, ca. **1200 × 900 px** |
 | **Motiv** | Team in Anthrazit-Arbeitskleidung vor Baustelle/Firmenfahrzeug – echt, kein Stockfoto. |
 
-### 3) Vorschaubild beim Teilen *(optional)*
+### 2) Vorschaubild beim Teilen *(optional)*
 Aktuell Logo auf Anthrazit (`og-image.png`) – funktioniert. Optional durch ein schönes
 Bad-Foto mit Logo ersetzen (1200 × 630).
 
