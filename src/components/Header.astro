@@ -1,5 +1,5 @@
 ---
-import { SITE, NAV, u } from "../consts";
+import { SITE, NAV, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 const { active } = Astro.props;
 ---
@@ -19,6 +19,12 @@ const { active } = Astro.props;
       </a>
       <a class="btn btn--secondary btn--phone" href={`tel:${SITE.phoneTel}`}>
         <Icon name="phone" size={18} />{SITE.phoneDisplay}
+      </a>
+      <a class="header__ic header__ic--call" href={`tel:${SITE.phoneTel}`} aria-label="Anrufen">
+        <Icon name="phone" size={20} />
+      </a>
+      <a class="header__ic header__ic--wa" href={waLink()} target="_blank" rel="noopener" aria-label="Uns per WhatsApp schreiben">
+        <Icon name="whatsapp" size={22} />
       </a>
       <button class="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>

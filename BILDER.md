@@ -46,25 +46,20 @@ warmes Licht; nicht übersättigt; keine Filter.
 | `hero-innenausbau.webp` | Innenausbau & Trockenbau | Heller Rohbau mit Rundbogenfenstern |
 | `hero-sanitaer-heizung-elektro.webp` | Sanitär, Heizung, Elektro | Trockenbau + Heizkreisverteiler |
 | `hero-maler-boeden.webp` | Maler & Bodenbeläge | Heller Raum, Malerleiter, neuer Boden |
+| `hero-partner.webp` | Für Partner (B2B) | Zwei Profis mit Tablet an Trockenbauwand |
+| `hero-ueber-uns.webp` | Über uns | Bau-Crew auf der Baustelle |
+| `hero-karriere.webp` | Karriere | Handwerker beim Trockenbau (s/w) |
+| `hero-kontakt.webp` | Kontakt | Handschlag an heller Wand |
+| `team.webp` | „Über uns"-Sektion (Team-Foto) | Team misst Wandöffnung im Rohbau |
 
-## ⬜ Noch offen – Seiten-Heros (Querformat 16:9, ca. 1600 × 900 px)
-
-| Dateiname | Seite | Motiv-Vorschlag |
-|---|---|---|
-| `hero-partner.webp` | Für Partner (B2B) | Zwei Handwerker besprechen einen Bauplan auf der Baustelle, professionell |
-| `hero-ueber-uns.webp` | Über uns | Team in Anthrazit-Arbeitskleidung vor Projekt/Firmenwagen, freundlich, echt |
-| `hero-karriere.webp` | Karriere | Motiviertes Handwerker-Team bei der Arbeit, gute Stimmung, echte Baustelle |
-| `hero-kontakt.webp` | Kontakt | Freundlicher Ansprechpartner am Telefon im Büro, einladend |
-
-> Diese vier zeigen **Personen/Team** – hier bewusst **keine** Stockmodelle eingesetzt
-> (CI: „keine gestellten Stockfotos mit Models"). Am besten echte Team-/Baustellenfotos liefern.
+> Personen-Motive zeigen **echte Arbeitssituationen** (keine gestellten Studio-Models).
+> Für maximale Glaubwürdigkeit später durch **eigene Team-/Baustellenfotos** ersetzen.
 
 ## ⬜ Noch offen – Sonstige
 
 | Dateiname | Verwendung | Format |
 |---|---|---|
-| `burim.webp` | Porträt Burim Ahmedi (GF) – zweiter Ansprechpartner im Kontaktbereich | quadratisch, ca. 400 × 400 |
-| `team.webp` | „Über uns"-Sektion (Team-Foto) | 4:3, ca. 1200 × 900 |
+| `burim.webp` | Porträt Burim Ahmedi (GF) – zweiter Ansprechpartner im Kontaktbereich (echtes Foto nötig, Platzhalter aktiv) | quadratisch, ca. 400 × 400 |
 | *(optional)* `og-image` -Ersatz | Vorschaubild beim Link-Teilen (aktuell Logo auf Anthrazit – funktioniert) | 1200 × 630 |
 
 ---

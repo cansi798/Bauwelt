@@ -175,6 +175,22 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 }
 .header__actions { display: flex; align-items: center; gap: 16px; }
 .header .btn--phone, .header .btn--book { display: none; }
+/* Mobiler Schnellzugriff oben: runde Icon-Buttons – Termin buchen, Anrufen, WhatsApp.
+   (Termin buchen zusätzlich unten in der Sticky-Leiste.) */
+.header__ic { display: none; align-items: center; justify-content: center; flex: none;
+  width: 42px; height: 42px; border-radius: 50%; }
+.header__ic svg { width: 20px; height: 20px; }
+.header__ic--wa { background: #25D366; color: #fff; }
+.header__ic--wa:hover { background: #1ebe5d; }
+.header__ic--wa svg { width: 22px; height: 22px; }
+.header__ic--call { background: var(--anthrazit-800); color: #fff; }
+.header__ic--call:hover { background: var(--anthrazit-900); }
+@media (max-width: 767px) {
+  .header__ic { display: inline-flex; }
+  .header__actions { gap: 8px; }
+  .header__ic { width: 40px; height: 40px; }
+  .header__logo img { height: 44px; }        /* Platz für drei Icons auf kleinen Handys */
+}
 /* Termin- und Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
 @media (min-width: 768px) { .header .btn--phone, .header .btn--book { display: inline-flex; } }
 .burger {
