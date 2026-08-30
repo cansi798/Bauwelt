@@ -193,6 +193,17 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 }
 /* Termin- und Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
 @media (min-width: 768px) { .header .btn--phone, .header .btn--book { display: inline-flex; } }
+/* Kompakte, aufgeräumte Header-Aktionen: ein Gold-CTA + dezenter Telefon-Link. */
+.header .btn--book {
+  min-height: 0; height: 42px; padding: 0 18px; font-size: 14px; align-self: center; flex: none;
+}
+.header .btn--book svg { width: 18px; height: 18px; }
+.header .btn--phone {
+  min-height: 0; height: 42px; padding: 0; border: 0; background: transparent; align-self: center;
+  font-size: 15px; text-transform: none; letter-spacing: normal; color: var(--anthrazit-700);
+}
+.header .btn--phone:hover { background: transparent; color: var(--gold-700); }
+.header .btn--phone svg { width: 18px; height: 18px; color: var(--gold-700); }
 .burger {
   display: inline-flex; flex-direction: column; gap: 5px; justify-content: center;
   width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px;
@@ -479,7 +490,8 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 
 /* ---------- Kontakt (CI 6.3) ---------- */
 .contact-grid { display: grid; gap: 40px; }
-@media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.2fr; } }
+/* Karte nicht auf die volle Spaltenhöhe strecken (sonst große Leerfläche). */
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.2fr; align-items: start; } }
 .contact-info { }
 .contact-info ul { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 20px; }
 .contact-info li { display: flex; gap: 14px; align-items: flex-start; }

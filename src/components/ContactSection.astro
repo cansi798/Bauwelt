@@ -39,10 +39,10 @@ import SectionHead from "./SectionHead.astro";
           <a class="btn btn--primary btn--block" href={`mailto:${SITE.emails.service}?subject=${encodeURIComponent("Anfrage über die Website")}`}>
             <Icon name="mail" size={18} /> E-Mail schreiben
           </a>
-          <a class="btn btn--on-dark btn--block" href={`tel:${SITE.phoneTel}`}>
+          <a class="btn btn--secondary btn--block" href={`tel:${SITE.phoneTel}`}>
             <Icon name="phone" size={18} /> {SITE.phoneDisplay}
           </a>
-          <a class="btn btn--on-dark btn--block" href={waLink()} target="_blank" rel="noopener">
+          <a class="btn btn--secondary btn--block" href={waLink()} target="_blank" rel="noopener">
             <Icon name="whatsapp" size={18} /> WhatsApp
           </a>
         </div>
