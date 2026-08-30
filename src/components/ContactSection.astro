@@ -22,7 +22,7 @@ import SectionHead from "./SectionHead.astro";
             </div>
           ))}
         </div>
-        <p style="color:var(--anthrazit-400)">Erzählen Sie uns kurz von Ihrem Vorhaben. Wir melden uns in der Regel innerhalb von zwei Werktagen.</p>
+        <p style="color:var(--anthrazit-400)">Erzählen Sie uns kurz von Ihrem Vorhaben. Wir melden uns in der Regel innerhalb von 24 Stunden.</p>
         <ul>
           <li><Icon name="user" /><div><div class="label">Ihre Ansprechpartner</div><div class="value">{SITE.contacts.map((c) => `${c.name} (${c.role})`).join(" · ")}</div></div></li>
           <li><Icon name="phone" /><div><div class="label">Telefon</div><a class="value" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></div></li>
@@ -34,7 +34,7 @@ import SectionHead from "./SectionHead.astro";
       </div>
       <div class="form-card">
         <h3>Schnell Kontakt aufnehmen</h3>
-        <p style="color:var(--anthrazit-400)">Schreiben Sie uns Ihr Anliegen – wir melden uns in der Regel innerhalb von zwei Werktagen.</p>
+        <p style="color:var(--anthrazit-400)">Schreiben Sie uns Ihr Anliegen – wir melden uns in der Regel innerhalb von 24 Stunden.</p>
         <div class="contact-actions">
           <a class="btn btn--primary btn--block" href={`mailto:${SITE.emails.service}?subject=${encodeURIComponent("Anfrage über die Website")}`}>
             <Icon name="mail" size={18} /> E-Mail schreiben

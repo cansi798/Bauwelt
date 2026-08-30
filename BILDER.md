@@ -31,26 +31,33 @@ warmes Licht; nicht übersättigt; keine Filter.
 > des Website-Baukastens** (CDN `site-media.eu`). Sie dürfen **nicht** auf die Bauwelt-Seite
 > kopiert werden (Lizenz-/Abmahnrisiko). Nur **eigene** Fotos verwenden.
 
+## 🟡 Belegt mit Übergangsbildern (Unsplash, frei lizenziert – jederzeit gegen eigene Fotos tauschbar)
+
+> Quelle: **Unsplash** (Lizenz: kostenlose kommerzielle Nutzung, keine Namensnennung nötig),
+> modellfreie/authentische Motive. Diese Bilder sind **Platzhalter mit echtem Motiv** – für
+> maximale Glaubwürdigkeit später durch **eigene Projektfotos** ersetzen (gleicher Dateiname → tauscht automatisch).
+
+| Dateiname | Seite | Motiv (aktuell) |
+|---|---|---|
+| `hero-referenzen.webp` | Referenzen-Übersicht | Modernes Bad, Glasdusche, Holz-Waschtisch |
+| `hero-leistungen.webp` | Leistungen-Übersicht | Helles Marmorbad, freistehende Wanne |
+| `hero-sanierung-modernisierung.webp` | Sanierung & Modernisierung | Heller Wohnraum, hohe Decken, Kamin |
+| `hero-dach-fassade.webp` | Dach & Fassade | Dachdecker auf Gerüst, Ziegeldach |
+| `hero-innenausbau.webp` | Innenausbau & Trockenbau | Heller Rohbau mit Rundbogenfenstern |
+| `hero-sanitaer-heizung-elektro.webp` | Sanitär, Heizung, Elektro | Trockenbau + Heizkreisverteiler |
+| `hero-maler-boeden.webp` | Maler & Bodenbeläge | Heller Raum, Malerleiter, neuer Boden |
+
 ## ⬜ Noch offen – Seiten-Heros (Querformat 16:9, ca. 1600 × 900 px)
 
-| Dateiname | Seite | Motiv-Vorschlag (KI-Prompt) |
+| Dateiname | Seite | Motiv-Vorschlag |
 |---|---|---|
-| `hero-leistungen.webp` | Leistungen-Übersicht | Handwerker bei sauberer Arbeit auf moderner Baustelle, echtes Handwerk, warmes Licht |
-| `hero-referenzen.webp` | Referenzen-Übersicht | Schöner sanierter Wohnraum oder Bad, warmes Licht, hochwertig |
 | `hero-partner.webp` | Für Partner (B2B) | Zwei Handwerker besprechen einen Bauplan auf der Baustelle, professionell |
 | `hero-ueber-uns.webp` | Über uns | Team in Anthrazit-Arbeitskleidung vor Projekt/Firmenwagen, freundlich, echt |
 | `hero-karriere.webp` | Karriere | Motiviertes Handwerker-Team bei der Arbeit, gute Stimmung, echte Baustelle |
 | `hero-kontakt.webp` | Kontakt | Freundlicher Ansprechpartner am Telefon im Büro, einladend |
 
-## ⬜ Noch offen – Gewerk-Seiten-Heros (16:9, je Detailseite)
-
-| Dateiname | Gewerk | Motiv-Vorschlag |
-|---|---|---|
-| `hero-sanierung-modernisierung.webp` | Sanierung & Modernisierung | Sanierter Altbau-Wohnraum, Fischgrätparkett, hohe Decken, Tageslicht |
-| `hero-dach-fassade.webp` | Dach & Fassade | Neu eingedecktes Steildach + saubere Fassade, blauer Himmel |
-| `hero-innenausbau.webp` | Innenausbau & Trockenbau | Moderner Innenraum im Ausbau, saubere Trockenbauwände, indirektes Licht |
-| `hero-sanitaer-heizung-elektro.webp` | Sanitär, Heizung, Elektro | Saubere moderne Haustechnik-Installation, professionell |
-| `hero-maler-boeden.webp` | Maler & Bodenbeläge | Frisch gestrichener heller Raum mit neuem Boden, warm |
+> Diese vier zeigen **Personen/Team** – hier bewusst **keine** Stockmodelle eingesetzt
+> (CI: „keine gestellten Stockfotos mit Models"). Am besten echte Team-/Baustellenfotos liefern.
 
 ## ⬜ Noch offen – Sonstige
 
