@@ -11,7 +11,7 @@ import Calculator from "../components/Calculator.astro";
 import Gallery from "../components/Gallery.astro";
 import Steps from "../components/Steps.astro";
 import Stats from "../components/Stats.astro";
-import Testimonials from "../components/Testimonials.astro";
+// import Testimonials from "../components/Testimonials.astro"; // wieder aktivieren, sobald echte Kundenstimmen vorliegen
 import Faq from "../components/Faq.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import ContactSection from "../components/ContactSection.astro";
@@ -28,16 +28,15 @@ const steps = [
   { title: "Umsetzung", text: "Wir bauen. Jede Baustelle wird vom Meister abgenommen, bevor Sie sie sehen." },
 ];
 const stats = [
-  { value: 300, label: "sanierte Bäder" },
-  { value: 15, label: "Jahre Erfahrung" },
-  { value: 2, label: "Werktage bis Rückmeldung" },
+  { value: 30, prefix: "+", label: "sanierte Bäder" },
+  { value: 15, prefix: "+", label: "Komplettsanierungen" },
+  { value: 10, prefix: "+", label: "Jahre Erfahrung" },
   { value: 100, unit: "%", label: "Festpreis-Garantie" },
 ];
-const quotes = [
-  { text: "Festpreis war Festpreis. Termine wurden gehalten, das Bad ist top geworden.", name: "Familie M.", place: "Norderstedt" },
-  { text: "Ein Ansprechpartner für alles. Man musste sich um nichts selbst kümmern.", name: "Herr K.", place: "Hamburg" },
-  { text: "Sauber gearbeitet, freundlich und pünktlich. Gern wieder.", name: "Frau S.", place: "Kaltenkirchen" },
-];
+// Kundenstimmen: aktuell keine belegten Zitate vorhanden – Sektion daher ausgeblendet.
+// Sobald echte Stimmen (Name/Ort/Einverständnis) vorliegen, hier eintragen und die
+// Sektion weiter unten wieder einkommentieren.
+// const quotes = [ ... ];
 const faq = [
   { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir Ihnen einen festen Preis für Ihr Bad. Dieser Preis gilt. Kommt nichts Unvorhergesehenes von Ihrer Seite hinzu, zahlen Sie keinen Cent mehr." },
   { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in zwei bis drei Wochen fertig. Den genauen Zeitplan legen wir vorher gemeinsam fest." },
@@ -90,7 +89,7 @@ const faq = [
   <section class="section section--sand" id="leistungen">
     <div class="container">
       <SectionHead eyebrow="Leistungen" pre="Was wir für Sie " accent="bauen"
-        lead="Unser Kern sind individuelle Badsanierungen zum Festpreis. Darüber hinaus sanieren und modernisieren wir Ihre Immobilie komplett." />
+        lead="Unsere Kernleistungen sind Badsanierung und Komplettsanierung zum Festpreis – alles aus einer Hand. Alle Gewerke steuern wir selbst, damit Sie einen Ansprechpartner und einen Vertrag haben." />
       <div class="grid cols-3">
         {leistungen.map((l) => (
           <ServiceCard icon={l.data.icon} title={l.data.title.replace(" zum Festpreis", "")} text={l.data.teaser}
@@ -164,13 +163,14 @@ const faq = [
     <div class="container"><Stats stats={stats} /></div>
   </section>
 
-  <!-- Kundenstimmen (Beispiel) -->
+  {/* Kundenstimmen ausgeblendet, bis echte, freigegebene Zitate vorliegen (siehe consts/quotes oben).
   <section class="section section--dark" aria-label="Kundenstimmen">
     <div class="container">
       <SectionHead center eyebrow="Kundenstimmen" pre="Das sagen unsere " accent="Kunden" />
       <Testimonials quotes={quotes} />
     </div>
   </section>
+  */}
 
   <!-- Terminbuchung -->
   <section class="section" id="termin">

@@ -26,3 +26,6 @@ dist/
 
 # Edit-/Rename-Reste (vboxsf)
 *.tmp.*
+
+# Interne Kundenunterlagen (nicht ins öffentliche Repo)
+*Offene-Fragen-Kunde-Bauwelt*.docx

@@ -8,29 +8,33 @@ import SectionHead from "./SectionHead.astro";
     <SectionHead eyebrow="Kontakt" pre="Lassen Sie uns " accent="sprechen" />
     <div class="contact-grid">
       <div class="contact-info">
-        <div class="advisor">
-          <span class="advisor__photo">
-            <span class="advisor__ph"><Icon name="user" size={30} /></span>
-            <img src={u("assets/img/jamil.webp")} alt={`${SITE.contactName}, ${SITE.contactRole}`} onerror="this.remove()" />
-          </span>
-          <div>
-            <div class="value" style="font-family:var(--font-heading);font-weight:700">{SITE.contactName}</div>
-            <div class="small" style="color:var(--anthrazit-400)">Ihr persönlicher Ansprechpartner</div>
-          </div>
+        <div class="advisor-group">
+          {SITE.contacts.map((c) => (
+            <div class="advisor">
+              <span class="advisor__photo">
+                <span class="advisor__ph"><Icon name="user" size={30} /></span>
+                <img src={u(`assets/img/${c.photo}`)} alt={`${c.name}, ${c.role}`} onerror="this.remove()" />
+              </span>
+              <div>
+                <div class="value" style="font-family:var(--font-heading);font-weight:700">{c.name}</div>
+                <div class="small" style="color:var(--anthrazit-400)">{c.role}</div>
+              </div>
+            </div>
+          ))}
         </div>
         <p style="color:var(--anthrazit-400)">Erzählen Sie uns kurz von Ihrem Vorhaben. Wir melden uns in der Regel innerhalb von zwei Werktagen.</p>
         <ul>
-          <li><Icon name="user" /><div><div class="label">Ansprechpartner</div><div class="value">{SITE.contactName} – {SITE.contactRole}</div></div></li>
+          <li><Icon name="user" /><div><div class="label">Ihre Ansprechpartner</div><div class="value">{SITE.contacts.map((c) => `${c.name} (${c.role})`).join(" · ")}</div></div></li>
           <li><Icon name="phone" /><div><div class="label">Telefon</div><a class="value" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></div></li>
           <li><Icon name="whatsapp" /><div><div class="label">WhatsApp</div><a class="value" href={waLink()} target="_blank" rel="noopener">Direkt schreiben</a></div></li>
-          <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.email}`}>{SITE.email}</a></div></li>
+          <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.emails.service}`}>{SITE.emails.service}</a></div></li>
           <li><Icon name="pin" /><div><div class="label">Adresse</div><div class="value">{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</div></div></li>
           <li><Icon name="clock" /><div><div class="label">Erreichbarkeit</div><div class="value">{SITE.hours}</div></div></li>
         </ul>
       </div>
       <div class="form-card">
         <h3>Anfrage senden</h3>
-        <form id="contactForm" novalidate data-to={SITE.email} data-subject="Anfrage über die Website">
+        <form id="contactForm" novalidate data-to={SITE.emails.service} data-subject="Anfrage über die Website">
           <div class="field"><label for="cname">Name <span class="req">*</span></label><input type="text" id="cname" name="name" required autocomplete="name" /></div>
           <div class="field"><label for="cphone">Telefon <span class="req">*</span></label><input type="tel" id="cphone" name="phone" required autocomplete="tel" /></div>
           <div class="field"><label for="cmail">E-Mail</label><input type="email" id="cmail" name="email" autocomplete="email" /></div>

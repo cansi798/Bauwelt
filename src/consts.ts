@@ -6,17 +6,32 @@ const RAW_BASE: string = import.meta.env.BASE_URL;
 export const BASE: string = RAW_BASE.endsWith("/") ? RAW_BASE : RAW_BASE + "/";
 export const u = (p = ""): string => BASE + String(p).replace(/^\//, "");
 
+/** Kontextabhängige E-Mail-Adressen – immer voll qualifiziert (@bauwelt-handwerk.de),
+ *  damit die Domain an genau einer Stelle steht. */
+export const EMAILS = {
+  service: "service@bauwelt-handwerk.de",     // Anfragen/Formular Privatkunden
+  impressum: "b.ahmedi@bauwelt-handwerk.de",  // Impressum + Datenschutz (DSGVO)
+  bewerbung: "bewerbung@bauwelt-handwerk.de", // Bewerbungen
+  partner: "partner@bauwelt-handwerk.de",     // Kooperationen / B2B
+} as const;
+
 export const SITE = {
   name: "Bauwelt Handwerk",
   legal: "Bauwelt Handwerk GmbH",
   tagline: "Badsanierung zum Festpreis – alles aus einer Hand",
   region: "Hamburg und Umgebung",
-  phoneDisplay: "0151 56156578",
-  phoneTel: "+4915156156578",
-  whatsapp: "4915156156578", // wa.me-Format (ohne +)
-  email: "j.iqbal@bauwelt-handwerk.de",
+  phoneDisplay: "0151 42888841",
+  phoneTel: "+4915142888841",
+  whatsapp: "4915142888841", // wa.me-Format (ohne +)
+  emails: EMAILS,
+  email: EMAILS.service, // Standard-/Fallback-Adresse (Service) – u. a. für JSON-LD
   contactName: "Jamil Iqbal",
   contactRole: "Vertrieb & Kundenservice",
+  /** Ansprechpartner im Kontaktbereich – Foto liegt unter assets/img/<photo> (Auto-Fallback). */
+  contacts: [
+    { name: "Jamil Iqbal", role: "Vertrieb & Kundenservice", photo: "jamil.webp" },
+    { name: "Burim Ahmedi", role: "Geschäftsführer", photo: "burim.webp" },
+  ],
   street: "Schweriner Straße 16",
   zip: "22844",
   city: "Norderstedt",

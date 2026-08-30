@@ -3,7 +3,9 @@ import Placeholder from "./Placeholder.astro";
 import { u } from "../consts";
 interface Project { title: string; place: string; cat: string; file?: string; prompt?: string; slug?: string; }
 interface Props { projects: Project[]; withFilter?: boolean; }
-const { projects, withFilter = true } = Astro.props;
+// Kategorie-Filter standardmäßig aus (auf Kundenwunsch). Bei Bedarf pro Seite
+// mit withFilter={true} wieder aktivierbar.
+const { projects, withFilter = false } = Astro.props;
 const cats = [
   { key: "all", label: "Alle" },
   { key: "bad", label: "Bad" },

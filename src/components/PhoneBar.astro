@@ -1,8 +1,11 @@
 ---
-import { SITE, waLink } from "../consts";
+import { SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 ---
 <div class="phone-bar">
+  <a class="phone-bar__btn phone-bar__btn--book" href={u("#termin")}>
+    <Icon name="calendar" size={20} /> Termin
+  </a>
   <a class="phone-bar__btn phone-bar__btn--call" href={`tel:${SITE.phoneTel}`}>
     <Icon name="phone" size={20} /> Anrufen
   </a>

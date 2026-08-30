@@ -19,7 +19,7 @@ import Icon from "../components/Icon.astro";
         <h2>Kontakt</h2>
         <p>
           Telefon: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a><br />
-          E-Mail: <a href={`mailto:${SITE.email}`}>{SITE.email}</a><br />
+          E-Mail: <a href={`mailto:${SITE.emails.impressum}`}>{SITE.emails.impressum}</a><br />
           Web: <a href="https://www.bauwelt-handwerk.de">www.bauwelt-handwerk.de</a>
         </p>
 
@@ -29,14 +29,17 @@ import Icon from "../components/Icon.astro";
         <h2>Umsatzsteuer-Identifikationsnummer</h2>
         <p>USt-IdNr. gemäß § 27a Umsatzsteuergesetz: {SITE.vat}</p>
 
-        {/* HINWEIS (nicht öffentlich sichtbar): Für Handwerksbetriebe sind i. d. R. weitere
-            Angaben Pflicht – zuständige Handwerkskammer, Berufsbezeichnung, ggf.
-            Berufshaftpflichtversicherung (Name, Sitz, Geltungsraum). Angaben beim Kunden
-            abfragen (siehe Offene-Fragen-Kunde-Bauwelt.docx) und diesen Abschnitt ergänzen:
         <h2>Berufsrechtliche Angaben</h2>
-        <p>Mitglied der Handwerkskammer …<br />Berufsbezeichnung: …<br />
-        Berufshaftpflichtversicherung: …, Geltungsraum: Deutschland</p>
-        */}
+        <p>
+          Zuständige Handwerkskammer: Handwerkskammer Lübeck<br />
+          Eingetragen mit der Erlaubnis für mehrere meisterpflichtige Gewerke:
+          Fliesen-, Platten- und Mosaiklegerhandwerk, Raumausstatterhandwerk,
+          Estrichlegerhandwerk sowie Parkettlegerhandwerk – ergänzt um weitere,
+          nicht meisterpflichtige Gewerke.<br />
+          Verliehen in: Deutschland
+        </p>
+        {/* Optional ergänzen, sobald vorliegend: Name/Sitz der Berufshaftpflichtversicherung
+            samt Geltungsraum. */}
 
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
         <address>{SITE.managing}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</address>

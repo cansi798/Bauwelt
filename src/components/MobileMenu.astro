@@ -12,7 +12,10 @@ import Icon from "./Icon.astro";
     <a href={u("#kalkulator")}>Badpreis berechnen</a>
   </nav>
   <div class="mobile-menu__actions">
-    <a class="btn btn--primary" href={`tel:${SITE.phoneTel}`}>
+    <a class="btn btn--primary" href={u("#termin")}>
+      <Icon name="calendar" size={18} /> Termin buchen
+    </a>
+    <a class="btn btn--on-dark" href={`tel:${SITE.phoneTel}`}>
       <Icon name="phone" size={18} /> Anrufen
     </a>
     <a class="btn btn--on-dark" href={waLink()} target="_blank" rel="noopener">

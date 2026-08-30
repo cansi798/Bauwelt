@@ -14,7 +14,10 @@ const { active } = Astro.props;
       ))}
     </nav>
     <div class="header__actions">
-      <a class="btn btn--primary btn--phone" href={`tel:${SITE.phoneTel}`}>
+      <a class="btn btn--primary btn--book" href={u("#termin")}>
+        <Icon name="calendar" size={18} />Termin buchen
+      </a>
+      <a class="btn btn--secondary btn--phone" href={`tel:${SITE.phoneTel}`}>
         <Icon name="phone" size={18} />{SITE.phoneDisplay}
       </a>
       <button class="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">

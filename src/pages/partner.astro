@@ -81,12 +81,12 @@ const ablauf = [
             <li><Icon name="user" /><div><div class="label">Ansprechpartner</div><div class="value">{SITE.contactName} – {SITE.contactRole}</div></div></li>
             <li><Icon name="phone" /><div><div class="label">Telefon</div><a class="value" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></div></li>
             <li><Icon name="whatsapp" /><div><div class="label">WhatsApp</div><a class="value" href={waLink("Hallo, wir möchten eine Kooperation anfragen.")} target="_blank" rel="noopener">Direkt schreiben</a></div></li>
-            <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.email}?subject=${encodeURIComponent("Kooperationsanfrage")}`}>{SITE.email}</a></div></li>
+            <li><Icon name="mail" /><div><div class="label">E-Mail</div><a class="value" href={`mailto:${SITE.emails.partner}?subject=${encodeURIComponent("Kooperationsanfrage")}`}>{SITE.emails.partner}</a></div></li>
           </ul>
         </div>
         <div class="form-card">
           <h3>Kooperationsanfrage senden</h3>
-          <form id="contactForm" novalidate data-to={SITE.email} data-subject="Kooperationsanfrage über die Website">
+          <form id="contactForm" novalidate data-to={SITE.emails.partner} data-subject="Kooperationsanfrage über die Website">
             <div class="field"><label for="cfirma">Unternehmen <span class="req">*</span></label><input type="text" id="cfirma" name="firma" required autocomplete="organization" /></div>
             <div class="field"><label for="cname">Ansprechpartner <span class="req">*</span></label><input type="text" id="cname" name="name" required autocomplete="name" /></div>
             <div class="field"><label for="cphone">Telefon <span class="req">*</span></label><input type="tel" id="cphone" name="phone" required autocomplete="tel" /></div>

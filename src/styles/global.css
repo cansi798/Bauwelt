@@ -174,9 +174,9 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   .nav a.active { border-color: var(--gold-500); }
 }
 .header__actions { display: flex; align-items: center; gap: 16px; }
-.header .btn--phone { display: none; }
-/* Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
-@media (min-width: 768px) { .header .btn--phone { display: inline-flex; } }
+.header .btn--phone, .header .btn--book { display: none; }
+/* Termin- und Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
+@media (min-width: 768px) { .header .btn--phone, .header .btn--book { display: inline-flex; } }
 .burger {
   display: inline-flex; flex-direction: column; gap: 5px; justify-content: center;
   width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px;
@@ -419,6 +419,10 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .booking-embed svg { width: 48px; height: 48px; color: var(--gold-700); margin-bottom: 16px; }
 .booking-embed h3 { font-size: 22px; }
 .booking-embed p { color: var(--anthrazit-700); margin-inline: auto; }
+/* Sobald der Kalender geladen ist: Rahmen/Zentrierung entfernen, iframe frei stellen. */
+.booking-embed.is-loaded {
+  display: block; padding: 0; min-height: 0; background: none; border: 0; text-align: left;
+}
 
 /* ---------- Kontakt (CI 6.3) ---------- */
 .contact-grid { display: grid; gap: 40px; }
@@ -431,6 +435,8 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .contact-info a { color: var(--weiss); }
 .contact-info .value { color: var(--weiss); font-size: 17px; }
 /* Berater-Foto (Ansprechpartner) */
+.advisor-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.advisor-group .advisor { margin-bottom: 0; }
 .advisor { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
 .advisor__photo { position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden; flex: none; background: var(--anthrazit-700); color: var(--gold-500); }
 .advisor__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -469,8 +475,10 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 14px 8px; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 15px;
 }
-.phone-bar__btn--call { background: var(--gold-500); color: var(--anthrazit-800); }
-.phone-bar__btn--call:hover { background: var(--gold-600); text-decoration: none; color: var(--anthrazit-800); }
+.phone-bar__btn--book { background: var(--gold-500); color: var(--anthrazit-800); }
+.phone-bar__btn--book:hover { background: var(--gold-600); text-decoration: none; color: var(--anthrazit-800); }
+.phone-bar__btn--call { background: var(--anthrazit-700); color: var(--weiss); }
+.phone-bar__btn--call:hover { background: var(--anthrazit-800); text-decoration: none; color: var(--weiss); }
 .phone-bar__btn--wa { background: var(--anthrazit-800); color: var(--weiss); }
 .phone-bar__btn--wa:hover { background: var(--anthrazit-900); text-decoration: none; color: var(--weiss); }
 @media (min-width: 1024px) { .phone-bar { display: none; } }

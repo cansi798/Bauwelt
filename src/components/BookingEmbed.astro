@@ -1,17 +1,61 @@
 ---
-import { SITE, u } from "../consts";
+import { SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
+
+// Online-Terminbuchung (Relexable) – DSGVO-konform als Klick-zum-Laden ("Zwei-Klick").
+// Der iframe zu portal.bauwelt-handwerk.de wird ERST nach aktivem Klick eingefügt,
+// damit vorher keine Verbindung (IP-Übertragung) ohne Einwilligung entsteht.
+// Das Höhen-Script akzeptiert nur postMessages vom erwarteten Anbieter-Origin.
+const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
+const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
 ---
-{/* Einbettung: hier den Kalender-Code des Buchungsanbieters (Calendly / Cal.com) einfügen.
-    Beispiel: <iframe src="https://calendly.com/bauwelt-handwerk/beratung" width="100%" height="700" frameborder="0"></iframe> */}
-<div class="booking-embed" id="bookingEmbed">
-  <div class="booking-embed__inner">
+<div class="booking-embed" id="bookingEmbed" data-src={BOOKING_SRC}>
+  <div class="booking-embed__inner" id="bookingConsent">
     <Icon name="calendar" size={48} />
-    <h3>Online-Terminbuchung folgt</h3>
-    <p>Hier wird der Buchungskalender eingebettet. Bis dahin erreichen Sie uns telefonisch – wir finden gemeinsam einen Termin.</p>
+    <h3>Termin online buchen</h3>
+    <p>
+      Beim Laden des Kalenders wird eine Verbindung zu <strong>portal.bauwelt-handwerk.de</strong>
+      hergestellt und dabei u. a. Ihre IP-Adresse übertragen. Mit dem Klick stimmen Sie dem zu.
+    </p>
     <div class="hero__actions" style="justify-content:center;margin-top:24px">
-      <a class="btn btn--primary" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} /> {SITE.phoneDisplay}</a>
-      <a class="btn btn--secondary" href={u("kontakt/")}>Rückruf anfragen</a>
+      <button type="button" class="btn btn--primary" id="bookingLoad">
+        <Icon name="calendar" size={18} /> Kalender laden &amp; Termin wählen
+      </button>
     </div>
+    <p class="small" style="margin-top:16px">
+      Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·
+      <a href={waLink()} target="_blank" rel="noopener">WhatsApp</a> ·
+      <a href={u("kontakt/")}>Kontaktformular</a>
+    </p>
   </div>
 </div>
+
+<script is:inline define:vars={{ BOOKING_ORIGIN }}>
+  (function () {
+    var wrap = document.getElementById("bookingEmbed");
+    var btn = document.getElementById("bookingLoad");
+    if (!wrap || !btn) return;
+
+    btn.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.src = wrap.dataset.src;
+      frame.id = "relexable-booking";
+      frame.title = "Termin online buchen";
+      frame.loading = "lazy";
+      frame.setAttribute("referrerpolicy", "no-referrer");
+      frame.style.cssText = "width:100%;min-height:720px;border:0;border-radius:8px;";
+      var consent = document.getElementById("bookingConsent");
+      if (consent) consent.remove();
+      wrap.classList.add("is-loaded");
+      wrap.appendChild(frame);
+    });
+
+    // Höhe des iframes an den Inhalt anpassen – nur für Nachrichten vom Anbieter-Origin.
+    window.addEventListener("message", function (event) {
+      if (event.origin !== BOOKING_ORIGIN) return;
+      if (!event.data || event.data.type !== "relexable-booking-height") return;
+      var frame = document.getElementById("relexable-booking");
+      if (frame && event.data.height) frame.style.height = event.data.height + "px";
+    });
+  })();
+</script>

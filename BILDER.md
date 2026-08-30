@@ -21,6 +21,16 @@ warmes Licht; nicht übersättigt; keine Filter.
 | `jamil.webp` | Porträt Jamil Iqbal – Berater-Kreis im Kontaktbereich |
 | `hero-badsanierung.webp` | Hero der Gewerk-Seite Badsanierung (Kopie des Start-Heros) |
 
+> **Wichtig – Ansprechpartner „beide":** Der Kontaktbereich zeigt jetzt **Jamil Iqbal**
+> *und* **Burim Ahmedi (GF)**. Für den GF fehlt noch das Porträt. Sobald vorhanden als
+> **`burim.webp`** in `public/assets/img/` ablegen (Porträt, quadratisch, WebP < 200 KB) –
+> erscheint automatisch; bis dahin dezenter Platzhalter-Kreis.
+
+> **Hinweis zu ahmedi.de:** Die „schönen" Motive dort (z. B. `luxury-modern-bathroom.jpg`,
+> `renovation-of-an-old-house.jpg`, `bauarbeiter-auf-einer-baustelle.jpg`) sind **Stockfotos
+> des Website-Baukastens** (CDN `site-media.eu`). Sie dürfen **nicht** auf die Bauwelt-Seite
+> kopiert werden (Lizenz-/Abmahnrisiko). Nur **eigene** Fotos verwenden.
+
 ## ⬜ Noch offen – Seiten-Heros (Querformat 16:9, ca. 1600 × 900 px)
 
 | Dateiname | Seite | Motiv-Vorschlag (KI-Prompt) |
@@ -46,6 +56,7 @@ warmes Licht; nicht übersättigt; keine Filter.
 
 | Dateiname | Verwendung | Format |
 |---|---|---|
+| `burim.webp` | Porträt Burim Ahmedi (GF) – zweiter Ansprechpartner im Kontaktbereich | quadratisch, ca. 400 × 400 |
 | `team.webp` | „Über uns"-Sektion (Team-Foto) | 4:3, ca. 1200 × 900 |
 | *(optional)* `og-image` -Ersatz | Vorschaubild beim Link-Teilen (aktuell Logo auf Anthrazit – funktioniert) | 1200 × 630 |
 

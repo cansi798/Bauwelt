@@ -38,11 +38,11 @@ const stellen = await Promise.all(
               <ul class="checklist">{data.aufgaben.map((a) => <li><Icon name="check" size={20} />{a}</li>)}</ul></>)}
             {data.profil.length > 0 && (<><h4>Dein Profil</h4>
               <ul class="checklist">{data.profil.map((p) => <li><Icon name="check" size={20} />{p}</li>)}</ul></>)}
-            <a class="btn btn--primary" style="margin-top:20px" href={`mailto:${SITE.email}?subject=${encodeURIComponent("Bewerbung: " + data.title)}`}>Jetzt bewerben</a>
+            <a class="btn btn--primary" style="margin-top:20px" href={`mailto:${SITE.emails.bewerbung}?subject=${encodeURIComponent("Bewerbung: " + data.title)}`}>Jetzt bewerben</a>
           </article>
         ))}
       </div>
-      <p class="lead" style="margin-top:40px">Nichts Passendes dabei? Initiativbewerbungen sind willkommen – melde dich einfach unter <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> oder <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+      <p class="lead" style="margin-top:40px">Nichts Passendes dabei? Initiativbewerbungen sind willkommen – melde dich einfach unter <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> oder <a href={`mailto:${SITE.emails.bewerbung}`}>{SITE.emails.bewerbung}</a>.</p>
     </div>
   </section>
 </BaseLayout>
