@@ -164,17 +164,21 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .header__logo img { height: 56px; width: auto; transition: height var(--transition); }
 .header.scrolled .header__logo img { height: 40px; }
 .nav { display: none; }
-@media (min-width: 1200px) {
-  /* Volle horizontale Navigation erst ab 1200px – darunter passt sie nicht ohne
-     Kollision, daher greift dort das Hamburger-Menü. Mittig & ausgewogen. */
-  .nav { display: flex; align-items: center; justify-content: center; gap: 26px; flex: 1; margin: 0 20px; min-width: 0; }
+@media (min-width: 1024px) {
+  /* Horizontale Navigation auf ALLEN Desktop-Breiten (ab 1024px) – kompakt, damit
+     sie ohne Kollision passt (kein Hamburger auf Desktop). Ab 1200px luftiger. */
+  .nav { display: flex; align-items: center; justify-content: center; gap: 16px; flex: 1; margin: 0 12px; min-width: 0; }
   .nav a {
-    font-family: var(--font-heading); font-weight: 600; font-size: 15px;
-    text-transform: uppercase; color: var(--anthrazit-800); letter-spacing: 0.02em;
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+    text-transform: uppercase; color: var(--anthrazit-800); letter-spacing: 0.01em;
     padding-bottom: 4px; border-bottom: 2px solid transparent; white-space: nowrap;
   }
   .nav a:hover { color: var(--gold-700); border-color: var(--gold-500); text-decoration: none; }
   .nav a.active { border-color: var(--gold-500); }
+}
+@media (min-width: 1200px) {
+  .nav { gap: 26px; margin: 0 24px; }
+  .nav a { font-size: 15px; letter-spacing: 0.02em; }
 }
 .header__actions { display: flex; align-items: center; gap: 16px; }
 .header .btn--phone, .header .btn--book { display: none; }
@@ -194,8 +198,9 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   .header__ic { width: 40px; height: 40px; }
   .header__logo img { height: 44px; }        /* Platz für drei Icons auf kleinen Handys */
 }
-/* Termin- und Telefon-Button ab Tablet sichtbar (eigene Tablet-Ansicht) */
-@media (min-width: 768px) { .header .btn--phone, .header .btn--book { display: inline-flex; } }
+/* Termin-Button ab Tablet; Telefonnummer erst ab 1200px (spart Platz auf schmalen Desktops). */
+@media (min-width: 768px) { .header .btn--book { display: inline-flex; } }
+@media (min-width: 1200px) { .header .btn--phone { display: inline-flex; } }
 /* Kompakte, aufgeräumte Header-Aktionen: ein Gold-CTA + dezenter Telefon-Link. */
 .header .btn--book {
   min-height: 0; height: 42px; padding: 0 18px; font-size: 14px; align-self: center; flex: none;
@@ -212,7 +217,7 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px;
 }
 .burger span { height: 2px; background: var(--anthrazit-800); border-radius: 2px; transition: var(--transition); }
-@media (min-width: 1200px) { .burger { display: none; } }
+@media (min-width: 1024px) { .burger { display: none; } }
 
 /* Mobiles Vollbildmenue (CI: Vollbildmenue auf Anthrazit 900) */
 .mobile-menu {
