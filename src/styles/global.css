@@ -429,6 +429,37 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 .booking-embed.is-loaded {
   display: block; padding: 0; min-height: 0; background: none; border: 0; text-align: left;
 }
+/* Vertrauens-Chips in der Intro-Karte */
+.booking-embed__chips {
+  list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 8px 18px;
+}
+.booking-embed__chips li {
+  display: inline-flex; align-items: center; gap: 6px; font-weight: 600;
+  color: var(--anthrazit-700); font-size: 14px;
+}
+.booking-embed__chips svg { width: 16px; height: 16px; color: var(--gold-700); margin: 0; }
+/* Ladeanzeige, bis der iframe bereit ist */
+.booking-spinner {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  min-height: 420px; color: var(--anthrazit-500); font-weight: 600;
+}
+.booking-spinner__ring {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 3px solid var(--anthrazit-200); border-top-color: var(--gold-500);
+  animation: booking-spin 800ms linear infinite;
+}
+@keyframes booking-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .booking-spinner__ring { animation: none; } }
+/* Hinweis-Fußzeile unter dem Kalender */
+.booking-embed__after { margin-top: 12px; text-align: center; color: var(--anthrazit-500); }
+/* Eigene Bestätigungs-Einblendung nach erfolgter Buchung */
+.booking-embed__done {
+  display: block; margin-bottom: 16px; padding: 18px 20px; border-radius: 10px;
+  background: var(--gold-100); border: 1px solid var(--gold-500); border-left-width: 4px;
+}
+.booking-embed__done strong { display: block; margin-bottom: 4px; color: var(--anthrazit-800); }
+.booking-embed__done span { color: var(--anthrazit-700); }
 
 /* ---------- Kontakt (CI 6.3) ---------- */
 .contact-grid { display: grid; gap: 40px; }

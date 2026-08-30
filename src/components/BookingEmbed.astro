@@ -3,80 +3,119 @@ import { SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
 // Online-Terminbuchung (Relexable). Der Kalender-iframe (portal.bauwelt-handwerk.de)
-// wird direkt beim ERSTEN Klick auf einen „Termin buchen"-Button geladen – egal ob
-// im Abschnitt, im Header, in der Sticky-Bar oder im Mobil-Menü. Das Laden ist die
-// aktive Nutzer-Handlung (Einwilligung); ein kurzer Herkunftshinweis bleibt am Kalender.
-// Das Höhen-Script akzeptiert nur postMessages vom erwarteten Anbieter-Origin.
+// lädt direkt beim ersten Klick auf einen „Termin"-Link. Rund um den iframe steuern wir
+// selbst: Ladeanzeige, Vertrauenshinweise, Fallback und – sobald das Fremdsystem ein
+// „gebucht"-Signal per postMessage sendet – eine eigene Bestätigungs-Einblendung.
+// Alle postMessages werden streng auf den Anbieter-Origin geprüft.
 const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
 const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
+const WA_HREF = waLink();
 ---
 <div class="booking-embed" id="bookingEmbed" data-src={BOOKING_SRC}>
   <div class="booking-embed__inner" id="bookingIntro">
     <Icon name="calendar" size={48} />
     <h3>Termin online buchen</h3>
-    <p>Wählen Sie direkt einen passenden Termin für Ihr kostenloses Beratungsgespräch.</p>
-    <div class="hero__actions" style="justify-content:center;margin-top:24px">
+    <p>Wählen Sie direkt einen passenden Termin für Ihr Beratungsgespräch.</p>
+    <ul class="booking-embed__chips" aria-hidden="true">
+      <li><Icon name="check" size={16} /> Kostenlos</li>
+      <li><Icon name="check" size={16} /> Unverbindlich</li>
+      <li><Icon name="clock" size={16} /> Antwort in 24 Std</li>
+    </ul>
+    <div class="hero__actions" style="justify-content:center;margin-top:20px">
       <button type="button" class="btn btn--primary" id="bookingLoad">
         <Icon name="calendar" size={18} /> Termin buchen
       </button>
     </div>
     <p class="small" style="margin-top:14px">
       Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·
-      <a href={waLink()} target="_blank" rel="noopener">WhatsApp</a>
+      <a href={WA_HREF} target="_blank" rel="noopener">WhatsApp</a>
     </p>
   </div>
 </div>
 
-<script is:inline define:vars={{ BOOKING_ORIGIN }}>
+<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay, WA_HREF }}>
   (function () {
     var wrap = document.getElementById("bookingEmbed");
     if (!wrap) return;
-    var loaded = false;
+    var loaded = false, done = false;
 
     function loadCalendar() {
       if (loaded) return;
       loaded = true;
+      var intro = document.getElementById("bookingIntro");
+      if (intro) intro.remove();
+      wrap.classList.add("is-loaded");
+
+      // Ladeanzeige, bis der Kalender bereit ist (statt leerer Fläche).
+      var spinner = document.createElement("div");
+      spinner.className = "booking-spinner";
+      spinner.id = "bookingSpinner";
+      spinner.innerHTML = '<span class="booking-spinner__ring"></span><span>Kalender wird geladen …</span>';
+      wrap.appendChild(spinner);
+
       var frame = document.createElement("iframe");
       frame.src = wrap.dataset.src;
       frame.id = "relexable-booking";
       frame.title = "Termin online buchen";
       frame.loading = "lazy";
       frame.setAttribute("referrerpolicy", "no-referrer");
-      frame.style.cssText = "width:100%;min-height:720px;border:0;border-radius:8px;";
-      var intro = document.getElementById("bookingIntro");
-      if (intro) intro.remove();
-      wrap.classList.add("is-loaded");
+      frame.style.cssText = "width:100%;min-height:720px;border:0;border-radius:10px;background:#fff";
+      frame.addEventListener("load", function () {
+        var s = document.getElementById("bookingSpinner");
+        if (s) s.remove();
+      });
       wrap.appendChild(frame);
-      var note = document.createElement("p");
-      note.className = "small";
-      note.style.cssText = "margin-top:10px;text-align:center;color:var(--anthrazit-400)";
-      note.textContent = "Kalender bereitgestellt über portal.bauwelt-handwerk.de";
-      wrap.appendChild(note);
+
+      // Hinweis unter dem Kalender: was nach der Buchung passiert + Direktkontakt.
+      var after = document.createElement("p");
+      after.className = "booking-embed__after small";
+      after.innerHTML =
+        'Nach der Buchung erhalten Sie eine Bestätigung. Fragen? ' +
+        '<a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a> · ' +
+        '<a href="' + WA_HREF + '" target="_blank" rel="noopener">WhatsApp</a> · ' +
+        'Bereitgestellt über portal.bauwelt-handwerk.de';
+      wrap.appendChild(after);
     }
 
-    // Button direkt im Abschnitt
+    // Eigene Danke-/Bestätigungs-Einblendung, sobald das Buchungssystem „gebucht" meldet.
+    function showConfirmation() {
+      if (done) return;
+      done = true;
+      var box = document.createElement("div");
+      box.className = "booking-embed__done";
+      box.setAttribute("role", "status");
+      box.innerHTML =
+        '<strong>Vielen Dank – Ihr Terminwunsch ist eingegangen.</strong>' +
+        '<span>Sie erhalten in Kürze eine Bestätigung. Bei Fragen erreichen Sie uns unter ' +
+        '<a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a>.</span>';
+      wrap.insertBefore(box, wrap.firstChild);
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    // Button + jeder „Termin"-Link (#termin) auf dieser Seite laden den Kalender sofort.
     var btn = document.getElementById("bookingLoad");
     if (btn) btn.addEventListener("click", loadCalendar);
-
-    // Jeder „Termin"-Link (#termin) auf dieser Seite lädt den Kalender sofort mit.
     document.addEventListener("click", function (e) {
       var t = e.target;
       var a = t && t.closest ? t.closest('a[href$="#termin"]') : null;
       if (a) loadCalendar();
     });
-
-    // Aufruf aus einer anderen Seite heraus (…/#termin) → sofort laden.
     if (location.hash === "#termin") loadCalendar();
     window.addEventListener("hashchange", function () {
       if (location.hash === "#termin") loadCalendar();
     });
 
-    // Höhe des iframes an den Inhalt anpassen – nur für Nachrichten vom Anbieter-Origin.
+    // postMessages vom Anbieter: Höhe anpassen; bei „gebucht/bestätigt" eigene Meldung zeigen.
     window.addEventListener("message", function (event) {
       if (event.origin !== BOOKING_ORIGIN) return;
-      if (!event.data || event.data.type !== "relexable-booking-height") return;
-      var frame = document.getElementById("relexable-booking");
-      if (frame && event.data.height) frame.style.height = event.data.height + "px";
+      var d = event.data || {};
+      if (d.type === "relexable-booking-height") {
+        var frame = document.getElementById("relexable-booking");
+        if (frame && d.height) frame.style.height = d.height + "px";
+        return;
+      }
+      var signal = ((d.type || d.event || d.status || "") + "").toLowerCase();
+      if (/confirm|success|booked|complete|gebucht|bestätig/.test(signal)) showConfirmation();
     });
   })();
 </script>
