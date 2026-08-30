@@ -48,20 +48,9 @@ const facts = [
 
       <div class="prose" style="margin-bottom:48px"><Content /></div>
 
-      <SectionHead pre="Vorher / " accent="Nachher" />
-      <div class="grid cols-2">
-        <figure>
-          <div class="tile" style="aspect-ratio:4/3">
-            <Placeholder prompt={`Vorher-Zustand: ${data.prompt}`} showKi={true} />
-          </div>
-          <figcaption class="small" style="margin-top:8px">Vorher</figcaption>
-        </figure>
-        <figure>
-          <div class="tile" style="aspect-ratio:4/3">
-            <Placeholder prompt={`Nachher-Ergebnis: ${data.prompt}`} img={data.file} imgClass="tile__img" showKi={true} />
-          </div>
-          <figcaption class="small" style="margin-top:8px">Nachher</figcaption>
-        </figure>
+      <SectionHead pre="Das " accent="Ergebnis" />
+      <div class="tile" style="aspect-ratio:16/9;border-radius:8px;overflow:hidden">
+        <Placeholder prompt={data.prompt} img={data.file} imgClass="tile__img" alt={`${data.title}, ${data.place}`} />
       </div>
 
       <p style="margin-top:32px"><a class="textlink" href={u("referenzen/")}>Alle Referenzen <Icon name="arrow" size={18} /></a></p>

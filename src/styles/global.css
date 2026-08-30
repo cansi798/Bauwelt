@@ -164,11 +164,12 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .header.scrolled .header__logo img { height: 40px; }
 .nav { display: none; }
 @media (min-width: 1024px) {
-  .nav { display: flex; align-items: center; gap: 28px; }
+  /* Navigation mittig & luftig zwischen Logo und Aktionen (nicht mehr gedrängt). */
+  .nav { display: flex; align-items: center; justify-content: center; gap: 34px; flex: 1; margin: 0 32px; }
   .nav a {
     font-family: var(--font-heading); font-weight: 600; font-size: 15px;
     text-transform: uppercase; color: var(--anthrazit-800); letter-spacing: 0.02em;
-    padding-bottom: 4px; border-bottom: 2px solid transparent;
+    padding-bottom: 4px; border-bottom: 2px solid transparent; white-space: nowrap;
   }
   .nav a:hover { color: var(--gold-700); border-color: var(--gold-500); text-decoration: none; }
   .nav a.active { border-color: var(--gold-500); }
