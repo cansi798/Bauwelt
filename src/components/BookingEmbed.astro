@@ -2,30 +2,27 @@
 import { SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
-// Online-Terminbuchung (Relexable) – DSGVO-konform als Klick-zum-Laden ("Zwei-Klick").
-// Der iframe zu portal.bauwelt-handwerk.de wird ERST nach aktivem Klick eingefügt,
-// damit vorher keine Verbindung (IP-Übertragung) ohne Einwilligung entsteht.
+// Online-Terminbuchung (Relexable). Der Kalender-iframe (portal.bauwelt-handwerk.de)
+// wird direkt beim ERSTEN Klick auf einen „Termin buchen"-Button geladen – egal ob
+// im Abschnitt, im Header, in der Sticky-Bar oder im Mobil-Menü. Das Laden ist die
+// aktive Nutzer-Handlung (Einwilligung); ein kurzer Herkunftshinweis bleibt am Kalender.
 // Das Höhen-Script akzeptiert nur postMessages vom erwarteten Anbieter-Origin.
 const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
 const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
 ---
 <div class="booking-embed" id="bookingEmbed" data-src={BOOKING_SRC}>
-  <div class="booking-embed__inner" id="bookingConsent">
+  <div class="booking-embed__inner" id="bookingIntro">
     <Icon name="calendar" size={48} />
     <h3>Termin online buchen</h3>
-    <p>
-      Beim Laden des Kalenders wird eine Verbindung zu <strong>portal.bauwelt-handwerk.de</strong>
-      hergestellt und dabei u. a. Ihre IP-Adresse übertragen. Mit dem Klick stimmen Sie dem zu.
-    </p>
+    <p>Wählen Sie direkt einen passenden Termin für Ihr kostenloses Beratungsgespräch.</p>
     <div class="hero__actions" style="justify-content:center;margin-top:24px">
       <button type="button" class="btn btn--primary" id="bookingLoad">
-        <Icon name="calendar" size={18} /> Kalender laden &amp; Termin wählen
+        <Icon name="calendar" size={18} /> Termin buchen
       </button>
     </div>
-    <p class="small" style="margin-top:16px">
+    <p class="small" style="margin-top:14px">
       Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·
-      <a href={waLink()} target="_blank" rel="noopener">WhatsApp</a> ·
-      <a href={u("kontakt/")}>Kontaktformular</a>
+      <a href={waLink()} target="_blank" rel="noopener">WhatsApp</a>
     </p>
   </div>
 </div>
@@ -33,10 +30,12 @@ const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
 <script is:inline define:vars={{ BOOKING_ORIGIN }}>
   (function () {
     var wrap = document.getElementById("bookingEmbed");
-    var btn = document.getElementById("bookingLoad");
-    if (!wrap || !btn) return;
+    if (!wrap) return;
+    var loaded = false;
 
-    btn.addEventListener("click", function () {
+    function loadCalendar() {
+      if (loaded) return;
+      loaded = true;
       var frame = document.createElement("iframe");
       frame.src = wrap.dataset.src;
       frame.id = "relexable-booking";
@@ -44,10 +43,32 @@ const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
       frame.loading = "lazy";
       frame.setAttribute("referrerpolicy", "no-referrer");
       frame.style.cssText = "width:100%;min-height:720px;border:0;border-radius:8px;";
-      var consent = document.getElementById("bookingConsent");
-      if (consent) consent.remove();
+      var intro = document.getElementById("bookingIntro");
+      if (intro) intro.remove();
       wrap.classList.add("is-loaded");
       wrap.appendChild(frame);
+      var note = document.createElement("p");
+      note.className = "small";
+      note.style.cssText = "margin-top:10px;text-align:center;color:var(--anthrazit-400)";
+      note.textContent = "Kalender bereitgestellt über portal.bauwelt-handwerk.de";
+      wrap.appendChild(note);
+    }
+
+    // Button direkt im Abschnitt
+    var btn = document.getElementById("bookingLoad");
+    if (btn) btn.addEventListener("click", loadCalendar);
+
+    // Jeder „Termin"-Link (#termin) auf dieser Seite lädt den Kalender sofort mit.
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      var a = t && t.closest ? t.closest('a[href$="#termin"]') : null;
+      if (a) loadCalendar();
+    });
+
+    // Aufruf aus einer anderen Seite heraus (…/#termin) → sofort laden.
+    if (location.hash === "#termin") loadCalendar();
+    window.addEventListener("hashchange", function () {
+      if (location.hash === "#termin") loadCalendar();
     });
 
     // Höhe des iframes an den Inhalt anpassen – nur für Nachrichten vom Anbieter-Origin.

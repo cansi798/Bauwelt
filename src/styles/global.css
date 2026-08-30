@@ -187,9 +187,15 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 /* Mobiles Vollbildmenue (CI: Vollbildmenue auf Anthrazit 900) */
 .mobile-menu {
   position: fixed; inset: 0; z-index: 200; background: var(--anthrazit-900);
-  display: flex; flex-direction: column; padding: 24px 20px;
+  display: flex; flex-direction: column;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  /* Scrollbar, falls Inhalt (Navigation + Aktionsbuttons) höher als der Bildschirm ist –
+     sonst rutscht der letzte Button unerreichbar unter den unteren Rand. */
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
   transform: translateX(100%); transition: transform 250ms ease; visibility: hidden;
 }
+/* Aktionsbereich nur nach unten schieben, wenn genug Platz ist; sonst normal fließen lassen. */
+@media (max-height: 700px) { .mobile-menu__actions { margin-top: 24px; } }
 .mobile-menu.open { transform: translateX(0); visibility: visible; }
 .mobile-menu__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
 .mobile-menu__top img { height: 40px; }
@@ -437,6 +443,8 @@ input[type="range"] { width: 100%; accent-color: var(--gold-500); }
 /* Berater-Foto (Ansprechpartner) */
 .advisor-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
 .advisor-group .advisor { margin-bottom: 0; }
+/* Direktkontakt-Buttons (Formular ersetzt) */
+.contact-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
 .advisor { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
 .advisor__photo { position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden; flex: none; background: var(--anthrazit-700); color: var(--gold-500); }
 .advisor__ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
