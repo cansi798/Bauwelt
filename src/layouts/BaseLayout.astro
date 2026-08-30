@@ -151,15 +151,35 @@ const jsonLd = {
         counters.forEach((c) => io.observe(c));
       }
 
-      // Sanfte Einblendung
+      // Sanfte Einblendung – scroll-sicher (IntersectionObserver verpasst bei
+      // schnellem Scrollen/Ankersprüngen Einblendungen; Inhalt bliebe sonst
+      // dauerhaft unsichtbar). Daher ein rAF-gedrosselter Sichtbarkeits-Check.
       const reveals = $$(".reveal");
-      if (reveals.length && "IntersectionObserver" in window && !reduceMotion) {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); } });
-        }, { threshold: 0.15 });
-        reveals.forEach((r) => io.observe(r));
-      } else {
-        reveals.forEach((r) => r.classList.add("in"));
+      if (reveals.length) {
+        if (reduceMotion) {
+          reveals.forEach((r) => r.classList.add("in"));
+        } else {
+          let pending = [...reveals];
+          let ticking = false;
+          const revealInView = () => {
+            ticking = false;
+            const margin = window.innerHeight * 0.92; // etwas vor dem Eintritt einblenden
+            pending = pending.filter((el) => {
+              if (el.getBoundingClientRect().top < margin) { el.classList.add("in"); return false; }
+              return true;
+            });
+            if (!pending.length) {
+              window.removeEventListener("scroll", onScrollReveal);
+              window.removeEventListener("resize", onScrollReveal);
+            }
+          };
+          const onScrollReveal = () => { if (!ticking) { ticking = true; requestAnimationFrame(revealInView); } };
+          window.addEventListener("scroll", onScrollReveal, { passive: true });
+          window.addEventListener("resize", onScrollReveal);
+          revealInView();
+          // Sicherheitsnetz: nach dem Laden nichts Verstecktes zurücklassen.
+          window.addEventListener("load", () => setTimeout(revealInView, 200));
+        }
       }
     </script>
   </body>
