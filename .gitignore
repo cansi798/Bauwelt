@@ -29,3 +29,8 @@ dist/
 
 # Interne Kundenunterlagen (nicht ins öffentliche Repo)
 *Offene-Fragen-Kunde-Bauwelt*.docx
+
+# Playwright-Diagnose-Screenshots
+desktop-*.png
+contact*.png
+hdr-*.png
