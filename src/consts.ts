@@ -41,12 +41,35 @@ export const SITE = {
   vat: "DE450901631",
 };
 
-export const NAV: { label: string; href: string }[] = [
-  { label: "Leistungen", href: u("leistungen/") },
+/** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
+export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
+
+export type NavChild = { label: string; href: string; icon?: string; desc?: string };
+export type NavItem = { label: string; href?: string; children?: NavChild[] };
+
+/** Navigation mit Dropdown-Gruppen (Desktop: Mega-Dropdown, Mobil: aufklappbare Gruppen). */
+export const NAV2: NavItem[] = [
+  {
+    label: "Leistungen",
+    children: [
+      { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 3 Wochen" },
+      { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von Renovierung bis Kernsanierung" },
+      { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Neue Räume, neue Aufteilung" },
+      { label: "Dach & Fassade", href: u("leistungen/dach-fassade/"), icon: "roof", desc: "Dicht, gedämmt, wertsteigernd" },
+      { label: "Maler & Bodenbeläge", href: u("leistungen/maler-boeden/"), icon: "paint", desc: "Frische Wände, neue Böden" },
+      { label: "Sanitär, Heizung, Elektro", href: u("leistungen/sanitaer-heizung-elektro/"), icon: "tools", desc: "Technik, die einfach läuft" },
+      { label: "Alle Leistungen im Überblick", href: u("leistungen/"), icon: "arrow" },
+    ],
+  },
   { label: "Referenzen", href: u("referenzen/") },
-  { label: "Für Partner", href: u("partner/") },
-  { label: "Über uns", href: u("ueber-uns/") },
-  { label: "Karriere", href: u("karriere/") },
+  {
+    label: "Unternehmen",
+    children: [
+      { label: "Über uns", href: u("ueber-uns/"), icon: "user", desc: "Team, Werte, Arbeitsweise" },
+      { label: "Karriere", href: u("karriere/"), icon: "hand", desc: "Offene Stellen bei Bauwelt" },
+      { label: "Für Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis" },
+    ],
+  },
   { label: "Kontakt", href: u("kontakt/") },
 ];
 
