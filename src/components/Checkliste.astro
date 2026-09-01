@@ -1,0 +1,22 @@
+---
+// Häkchen-Liste, z. B. Leistungsumfang auf Gewerk-Seiten.
+import Icon from "./Icon.astro";
+
+interface Props {
+  items: string[];
+  cols?: boolean; // zweispaltig auf Desktop
+}
+const { items, cols = true } = Astro.props;
+---
+
+<ul class:list={["check-list", { "check-list--cols": cols }]}>
+  {items.map((i) => (
+    <li><Icon name="check" size={20} class="icon" /> {i}</li>
+  ))}
+</ul>
+
+<style>
+  @media (min-width: 768px) {
+    .check-list--cols { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+  }
+</style>

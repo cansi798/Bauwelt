@@ -1,0 +1,53 @@
+---
+// Unterseiten-Hero: Headline + Lead links, Bild rechts (Mobil: Bild oben), optionaler CTA.
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+
+interface Props {
+  eyebrow?: string;
+  pre: string;
+  accent?: string;
+  lead?: string;
+  bild?: string;          // Datei in assets/img/
+  alt?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+  checks?: string[];
+}
+const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [] } = Astro.props;
+---
+
+<section class="phero">
+  <div class:list={["container", "phero__grid", { "phero__grid--single": !bild }]}>
+    <div class="phero__copy">
+      {eyebrow && <div class="eyebrow">{eyebrow}</div>}
+      <h1>{pre}{accent && <span class="accent">{accent}</span>}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      {checks.length > 0 && (
+        <ul class="check-row">
+          {checks.map((c) => (
+            <li><Icon name="check" size={18} class="icon" /> {c}</li>
+          ))}
+        </ul>
+      )}
+      {ctaHref && ctaLabel && <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>}
+    </div>
+    {bild && (
+      <div class="phero__media">
+        <Img src={bild} alt={alt} w={760} h={540} eager />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .phero { padding-block: 40px 48px; }
+  .phero__grid { display: grid; gap: 28px; align-items: center; }
+  .phero__copy { display: grid; gap: 16px; justify-items: start; }
+  .phero__copy h1, .phero__copy p { margin: 0; }
+  @media (max-width: 1023px) { .phero__media { order: -1; } }
+  @media (min-width: 1024px) {
+    .phero { padding-block: 56px 72px; }
+    .phero__grid:not(.phero__grid--single) { grid-template-columns: 1.1fr 1fr; gap: 56px; }
+  }
+</style>
