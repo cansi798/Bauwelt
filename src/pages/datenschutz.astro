@@ -1,0 +1,51 @@
+---
+// Datenschutz – Inhalte aus dem Vorgänger übernommen; angepasst: kein Formular mehr
+// (§4) und Hinweis auf den rein lokal rechnenden Projekt-Rechner (§5).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, u } from "../consts";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout title="Datenschutzerklärung – Bauwelt Handwerk" description="Datenschutzerklärung der Bauwelt Handwerk GmbH." noindex>
+  <section class="section">
+    <div class="container">
+      <article class="legal">
+        <p class="eyebrow">Rechtliches</p>
+        <h1 class="rule">Datenschutzerklärung</h1>
+
+        <p><em>Diese Datenschutzerklärung ist ein Entwurf für die Vorschau. Bitte vor dem Livegang durch die Geschäftsführung bzw. einen Datenschutzberater prüfen lassen – insbesondere, sobald ein Buchungskalender, ein Formular-Backend oder eine eigene Domain angebunden wird.</em></p>
+
+        <h2>1. Verantwortlicher</h2>
+        <address>{SITE.legal}<br />{SITE.managing} (Geschäftsführer)<br />{SITE.street}, {SITE.zip} {SITE.city}<br />Telefon: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${SITE.emails.impressum}`}>{SITE.emails.impressum}</a></address>
+
+        <h2>2. Hosting</h2>
+        <p>Diese Vorschau-Website wird über GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf verarbeitet der Hoster technisch notwendige Server-Logdaten (z. B. IP-Adresse, Zeitpunkt, abgerufene Datei). Rechtsgrundlage ist unser berechtigtes Interesse an sicherer Bereitstellung gemäß Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+        <h2>3. Schriften</h2>
+        <p>Die verwendeten Schriften (Montserrat, Open Sans) werden lokal ausgeliefert. Es besteht keine Verbindung zu Servern Dritter.</p>
+
+        <h2>4. Kontaktaufnahme</h2>
+        <p>Wenn Sie uns per E-Mail, telefonisch oder über WhatsApp kontaktieren, verarbeiten wir die angegebenen Daten (z. B. Name, Telefon, E-Mail, Nachricht), um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO. Die Daten werden gelöscht, sobald sie nicht mehr erforderlich sind. Bei Kontakt über WhatsApp gelten ergänzend die Datenschutzhinweise von WhatsApp Ireland Ltd.; nutzen Sie WhatsApp nur, wenn Sie damit einverstanden sind.</p>
+
+        <h2>5. Projekt-Rechner, Cookies und Tracking</h2>
+        <p>Der Online-Projekt-Rechner berechnet Ihre Preisspanne ausschließlich lokal in Ihrem Browser. Ihre Eingaben werden weder an uns noch an Dritte übertragen und nicht gespeichert – erst wenn Sie das Ergebnis aktiv per WhatsApp oder E-Mail an uns senden, erhalten wir diese Angaben. Diese Website setzt keine Cookies zu Analyse- oder Marketingzwecken und bindet keine Tracking-Dienste ein.</p>
+
+        <h2>6. Online-Terminbuchung</h2>
+        <p>Für die Online-Terminbuchung binden wir den Kalender unseres Buchungssystems (erreichbar über <strong>portal.bauwelt-handwerk.de</strong>) ein. Der Kalender wird aus Datenschutzgründen <strong>erst nach Ihrem aktiven Klick</strong> auf „Termin buchen" geladen. Vorher besteht keine Verbindung zum Buchungssystem. Erst mit dem Laden wird eine Verbindung hergestellt und dabei technisch notwendige Daten (u. a. Ihre IP-Adresse) an den Anbieter übertragen. Rechtsgrundlage ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO sowie unser berechtigtes Interesse an einer einfachen Terminvereinbarung gemäß Art. 6 Abs. 1 lit. f DSGVO. Die im Rahmen der Buchung angegebenen Daten verwenden wir zur Vereinbarung und Durchführung des Termins.</p>
+
+        <h2>7. Ihre Rechte</h2>
+        <p>Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Zudem können Sie sich bei einer Aufsichtsbehörde beschweren; zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD).</p>
+
+        <p class="legal__back"><a href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zurück zur Startseite</a></p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { max-width: var(--text-width); }
+  .legal h2 { font-size: 19px; margin-top: 1.6em; }
+  .legal address { font-style: normal; }
+  .legal__back a { display: inline-flex; align-items: center; gap: 8px; }
+  .legal__back { margin-top: 40px; }
+</style>

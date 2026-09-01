@@ -1,0 +1,64 @@
+---
+// Impressum – Inhalte 1:1 aus dem Vorgänger übernommen (nur neues Layout).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE, u } from "../consts";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout title="Impressum – Bauwelt Handwerk" description="Impressum der Bauwelt Handwerk GmbH, Norderstedt." noindex>
+  <section class="section">
+    <div class="container">
+      <article class="legal">
+        <p class="eyebrow">Rechtliches</p>
+        <h1 class="rule">Impressum</h1>
+
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <address>{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}<br />Deutschland</address>
+
+        <h2>Vertreten durch</h2>
+        <p>Geschäftsführer: {SITE.managing}</p>
+
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a><br />
+          E-Mail: <a href={`mailto:${SITE.emails.impressum}`}>{SITE.emails.impressum}</a><br />
+          Web: <a href="https://www.bauwelt-handwerk.de">www.bauwelt-handwerk.de</a>
+        </p>
+
+        <h2>Registereintrag</h2>
+        <p>Handelsregister: HRB 27109 KI<br />Registergericht: Amtsgericht Kiel</p>
+
+        <h2>Umsatzsteuer-Identifikationsnummer</h2>
+        <p>USt-IdNr. gemäß § 27a Umsatzsteuergesetz: {SITE.vat}</p>
+
+        <h2>Berufsrechtliche Angaben</h2>
+        <p>
+          Zuständige Handwerkskammer: Handwerkskammer Lübeck<br />
+          Eingetragen mit der Erlaubnis für mehrere meisterpflichtige Gewerke:
+          Fliesen-, Platten- und Mosaiklegerhandwerk, Raumausstatterhandwerk,
+          Estrichlegerhandwerk sowie Parkettlegerhandwerk – ergänzt um weitere,
+          nicht meisterpflichtige Gewerke.<br />
+          Verliehen in: Deutschland
+        </p>
+        {/* Optional ergänzen, sobald vorliegend: Name/Sitz der Berufshaftpflichtversicherung
+            samt Geltungsraum. */}
+
+        <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <address>{SITE.managing}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</address>
+
+        <h2>Verbraucherstreitbeilegung</h2>
+        <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+        <p class="legal__back"><a href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zurück zur Startseite</a></p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { max-width: var(--text-width); }
+  .legal h2 { font-size: 19px; margin-top: 1.6em; }
+  .legal address { font-style: normal; }
+  .legal__back a { display: inline-flex; align-items: center; gap: 8px; }
+  .legal__back { margin-top: 40px; }
+</style>
