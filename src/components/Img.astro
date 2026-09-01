@@ -1,0 +1,42 @@
+---
+// Bild mit BILDER.md-Mechanik: Datei in public/assets/img/<src> wird angezeigt;
+// fehlt sie, entfernt onerror das <img> und der Platzhalter dahinter wird sichtbar.
+// w/h reservieren Platz (kein Layout-Springen).
+import { u } from "../consts";
+import Icon from "./Icon.astro";
+
+interface Props {
+  src: string;       // Dateiname in assets/img/
+  alt: string;
+  w: number;
+  h: number;
+  eager?: boolean;   // above the fold: sofort laden
+  class?: string;
+  round?: boolean;   // runde Ecken (Standard: ja)
+}
+const { src, alt, w, h, eager = false, class: cls = "", round = true } = Astro.props;
+---
+
+<div class:list={["img-wrap", cls, { "img-wrap--round": round }]} style={`aspect-ratio: ${w} / ${h}`}>
+  <div class="ph" aria-hidden="true"><Icon name="image" size={40} /></div>
+  <img
+    src={u(`assets/img/${src}`)}
+    alt={alt}
+    width={w}
+    height={h}
+    loading={eager ? "eager" : "lazy"}
+    decoding={eager ? "sync" : "async"}
+    onerror="this.remove()"
+  />
+</div>
+
+<style>
+  .img-wrap { position: relative; overflow: hidden; width: 100%; }
+  .img-wrap--round { border-radius: var(--radius-lg); }
+  .img-wrap .ph { position: absolute; inset: 0; min-height: 0; }
+  .img-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+</style>

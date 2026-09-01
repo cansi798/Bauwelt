@@ -1,0 +1,40 @@
+---
+// USP-Sektion (Enpal: 3 Säulen mit Bild): warum Bauwelt.
+import { USP } from "../data/home";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+---
+
+<section class="section section--sand">
+  <div class="container">
+    <SectionHead center eyebrow="Warum Bauwelt" pre="Handwerk ohne " accent="Überraschungen" />
+    <div class="grid cols-3">
+      {USP.map((usp) => (
+        <article class="card usp reveal">
+          <Img src={usp.bild} alt={usp.alt} w={520} h={340} />
+          <div class="usp__head">
+            <span class="usp__icon"><Icon name={usp.icon} size={24} class="icon" /></span>
+            <h3>{usp.title}</h3>
+          </div>
+          <p>{usp.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .usp { display: grid; gap: 16px; align-content: start; padding: 16px 16px 28px; }
+  .usp__head { display: flex; align-items: center; gap: 12px; padding-inline: 8px; }
+  .usp__head h3 { margin: 0; }
+  .usp__icon {
+    flex: none;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .usp p { padding-inline: 8px; margin: 0; }
+</style>

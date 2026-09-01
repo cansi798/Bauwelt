@@ -1,0 +1,76 @@
+---
+// Video-Sektion (Enpal: "In 3 Minuten erklärt"). Solange VIDEO.url leer ist:
+// Poster-Platzhalter mit Hinweis; sobald eine URL eingetragen wird, lädt der
+// Player erst nach Klick (kein Third-Party-Request ohne Nutzeraktion – DSGVO).
+import { VIDEO } from "../data/home";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+
+const hasVideo = VIDEO.url.length > 0;
+---
+
+<section class="section video">
+  <div class="container">
+    <SectionHead center eyebrow={VIDEO.eyebrow} pre={VIDEO.pre} accent={VIDEO.accent} text={VIDEO.text} />
+    <div class="video__frame reveal" data-video-url={hasVideo ? VIDEO.url : null}>
+      <Img src={VIDEO.poster} alt="Einblick in die Arbeit der Bauwelt Handwerk GmbH" w={1120} h={630} />
+      <button class="video__play" type="button" aria-label={hasVideo ? "Video abspielen" : "Video folgt in Kürze"}>
+        <Icon name="play" size={32} class="icon" />
+      </button>
+      <p class="video__hint small" hidden>Unser Film ist gerade in Arbeit – schauen Sie bald wieder vorbei.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video__frame {
+    position: relative;
+    max-width: 960px;
+    margin-inline: auto;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .video__play {
+    position: absolute; inset: 0; margin: auto;
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition), background var(--transition);
+  }
+  .video__play:hover { transform: scale(1.06); background: var(--gold-600); }
+  .video__play .icon { margin-left: 4px; }
+  .video__hint {
+    position: absolute; left: 0; right: 0; bottom: 12px;
+    text-align: center; margin: 0;
+    color: var(--weiss);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+  .video__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>
+
+<script>
+  const frame = document.querySelector<HTMLElement>(".video__frame");
+  const play = frame?.querySelector<HTMLButtonElement>(".video__play");
+  play?.addEventListener("click", () => {
+    const url = frame!.dataset.videoUrl;
+    if (!url) {
+      // Platzhaltermodus: kurzer Hinweis statt Player
+      const hint = frame!.querySelector<HTMLElement>(".video__hint")!;
+      hint.hidden = false;
+      setTimeout(() => (hint.hidden = true), 4000);
+      return;
+    }
+    const iframe = document.createElement("iframe");
+    iframe.src = url;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.title = "Bauwelt Handwerk – Unternehmensvideo";
+    frame!.append(iframe);
+    play!.remove();
+  });
+</script>

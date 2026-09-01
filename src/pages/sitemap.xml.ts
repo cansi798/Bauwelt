@@ -8,6 +8,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   const staticPaths = [
     "",
+    "rechner/",
     "leistungen/",
     "referenzen/",
     "partner/",
@@ -20,8 +21,8 @@ export const GET: APIRoute = async ({ site }) => {
 
   const paths = [
     ...staticPaths,
-    ...leistungen.map((l) => `leistungen/${l.slug}/`),
-    ...referenzen.map((r) => `referenzen/${r.slug}/`),
+    ...leistungen.map((l) => `leistungen/${l.id}/`),
+    ...referenzen.map((r) => `referenzen/${r.id}/`),
   ];
 
   const urls = paths

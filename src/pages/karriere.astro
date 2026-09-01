@@ -1,48 +1,122 @@
 ---
+// Karriere: offene Stellen (Content Collection) + Benefits. Ansprache durchgehend "Sie".
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE, u } from "../consts";
-import Icon from "../components/Icon.astro";
-import SectionHead from "../components/SectionHead.astro";
 import PageHero from "../components/PageHero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Icon from "../components/Icon.astro";
+import { EMAILS, SITE } from "../consts";
 
-const raw = (await getCollection("stellen")).sort((a, b) => a.data.order - b.data.order);
-const stellen = await Promise.all(
-  raw.map(async (s) => ({ data: s.data, Content: (await s.render()).Content }))
-);
+const stellen = (await getCollection("stellen")).sort((a, b) => a.data.order - b.data.order);
+
+const BENEFITS = [
+  { icon: "euro", title: "Faire, pünktliche Bezahlung", text: "Leistung wird bei uns anständig und zuverlässig vergütet – jeden Monat pünktlich." },
+  { icon: "pin", title: "Baustellen in der Region", text: "Norderstedt, Hamburg und Umgebung – Sie sind abends zu Hause, nicht auf Montage." },
+  { icon: "tools", title: "Ordentliches Werkzeug", text: "Moderne Maschinen und Material, mit dem man sauber arbeiten kann." },
+  { icon: "user", title: "Kurze Wege", text: "Kleines Team, direkter Draht zur Führung, Entscheidungen ohne Umwege." },
+];
 ---
-<BaseLayout title="Karriere – Bauwelt Handwerk" active="Karriere"
-  description="Offene Stellen bei Bauwelt Handwerk in Norderstedt und Umgebung. Werde Teil eines Teams, das sauber plant und pünktlich liefert.">
+
+<BaseLayout
+  title="Karriere – Jobs im Handwerk in Norderstedt | Bauwelt Handwerk"
+  description="Offene Stellen bei der Bauwelt Handwerk GmbH in Norderstedt: Arbeiten Sie im Sanierungs- und Ausbau-Team – faire Bezahlung, regionale Baustellen, kurze Wege."
+>
   <PageHero
     eyebrow="Karriere"
-    title="Arbeiten bei Bauwelt Handwerk"
-    lead="Du machst gute Arbeit und willst sie zeigen? Bei uns zählt Handwerk – mit festen Prozessen, fairem Umgang und Respekt."
-    crumbs={[{ label: "Start", href: u("") }, { label: "Karriere" }]}
-    prompt="Motiviertes Handwerker-Team bei der Arbeit, echte Baustelle, gute Stimmung"
-    img="hero-karriere.webp"
+    pre="Arbeiten bei "
+    accent="Bauwelt"
+    lead="Wir suchen Menschen, die sauberes Handwerk schätzen – und dafür geschätzt werden wollen. Bewerben Sie sich unkompliziert per E-Mail."
+    bild="hero-karriere.webp"
+    alt="Handwerker beim Trockenbau"
   />
 
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="Offene Stellen" pre="Komm ins " accent="Team" />
-      <div class="grid cols-2">
-        {stellen.map(({ data, Content }) => (
-          <article class="job reveal">
-            <h3>{data.title}</h3>
-            <div class="job__meta">
-              <span><Icon name="clock" size={16} /> {data.art}</span>
-              <span><Icon name="pin" size={16} /> {data.ort}</span>
-            </div>
-            <div class="prose"><Content /></div>
-            {data.aufgaben.length > 0 && (<><h4>Deine Aufgaben</h4>
-              <ul class="checklist">{data.aufgaben.map((a) => <li><Icon name="check" size={20} />{a}</li>)}</ul></>)}
-            {data.profil.length > 0 && (<><h4>Dein Profil</h4>
-              <ul class="checklist">{data.profil.map((p) => <li><Icon name="check" size={20} />{p}</li>)}</ul></>)}
-            <a class="btn btn--primary" style="margin-top:20px" href={`mailto:${SITE.emails.bewerbung}?subject=${encodeURIComponent("Bewerbung: " + data.title)}`}>Jetzt bewerben</a>
+      <SectionHead eyebrow="Offene Stellen" pre="Wen wir gerade " accent="suchen" />
+      <div class="grid stellen__grid">
+        {stellen.map((s) => (
+          <article class="card stelle reveal">
+            <header class="stelle__head">
+              <h3>{s.data.title}</h3>
+              <p class="small">{s.data.art} · {s.data.ort}</p>
+            </header>
+            {s.data.aufgaben.length > 0 && (
+              <div>
+                <h4>Ihre Aufgaben</h4>
+                <ul>{s.data.aufgaben.map((a) => <li>{a}</li>)}</ul>
+              </div>
+            )}
+            {s.data.profil.length > 0 && (
+              <div>
+                <h4>Das bringen Sie mit</h4>
+                <ul>{s.data.profil.map((p) => <li>{p}</li>)}</ul>
+              </div>
+            )}
+            <a
+              class="btn"
+              href={`mailto:${EMAILS.bewerbung}?subject=${encodeURIComponent(`Bewerbung: ${s.data.title}`)}`}
+            >
+              <Icon name="mail" size={18} class="icon" /> Jetzt bewerben
+            </a>
           </article>
         ))}
       </div>
-      <p class="lead" style="margin-top:40px">Nichts Passendes dabei? Initiativbewerbungen sind willkommen – melde dich einfach unter <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> oder <a href={`mailto:${SITE.emails.bewerbung}`}>{SITE.emails.bewerbung}</a>.</p>
+      <p class="small text-center karriere__initiativ">
+        Nichts Passendes dabei? Wir freuen uns auch über Initiativbewerbungen an
+        {" "}<a href={`mailto:${EMAILS.bewerbung}`}>{EMAILS.bewerbung}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <SectionHead center eyebrow="Warum Bauwelt" pre="Was Sie bei uns " accent="erwartet" />
+      <div class="grid cols-4">
+        {BENEFITS.map((b) => (
+          <div class="card benefit reveal">
+            <span class="benefit__icon"><Icon name={b.icon} size={24} class="icon" /></span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container text-center karriere__cta">
+      <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden" text="Kein Portal, kein Anschreiben-Roman: E-Mail mit Lebenslauf genügt. Wir melden uns innerhalb von 24 Stunden." />
+      <a class="btn btn--lg" href={`mailto:${EMAILS.bewerbung}?subject=Bewerbung`}>
+        <Icon name="mail" size={20} class="icon" /> Bewerbung senden
+      </a>
+      <p class="small">Oder rufen Sie an: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .stellen__grid { grid-template-columns: 1fr; }
+  @media (min-width: 1024px) { .stellen__grid { grid-template-columns: repeat(3, 1fr); } }
+  .stelle { display: grid; gap: 16px; align-content: start; }
+  .stelle__head h3 { margin: 0 0 4px; font-size: 19px; }
+  .stelle__head p { margin: 0; }
+  .stelle h4 {
+    font-family: var(--font-heading); font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--gold-700); margin: 0 0 8px;
+  }
+  .stelle ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+  .stelle .btn { justify-self: start; }
+  .karriere__initiativ { margin-top: 28px; }
+
+  .benefit { display: grid; gap: 10px; align-content: start; }
+  .benefit h3 { margin: 0; font-size: 16px; }
+  .benefit p { margin: 0; font-size: 14px; color: var(--anthrazit-700); }
+  .benefit__icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .karriere__cta { display: grid; justify-items: center; gap: 8px; }
+</style>

@@ -13,4 +13,4 @@ profil:
   - "Führerschein von Vorteil"
 ---
 
-Du machst gute Arbeit und willst sie auch zeigen? Bei uns zählt Handwerk – mit festen Prozessen und fairem Umgang.
+Sie machen gute Arbeit und wollen sie auch zeigen? Bei uns zählt Handwerk – mit festen Prozessen und fairem Umgang.

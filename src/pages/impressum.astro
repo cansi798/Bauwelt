@@ -1,9 +1,11 @@
 ---
+// Impressum – Inhalte 1:1 aus dem Vorgänger übernommen (nur neues Layout).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SITE, u } from "../consts";
 import Icon from "../components/Icon.astro";
 ---
-<BaseLayout title="Impressum – Bauwelt Handwerk" description="Impressum der Bauwelt Handwerk GmbH, Norderstedt." noindex>
+
+<BaseLayout title="Impressum – Bauwelt Handwerk" description="Impressum der Bauwelt Handwerk GmbH, Schweriner Straße 16, 22844 Norderstedt: Geschäftsführung, Registereintrag, Handwerkskammer und Kontaktangaben." noindex>
   <section class="section">
     <div class="container">
       <article class="legal">
@@ -47,8 +49,16 @@ import Icon from "../components/Icon.astro";
         <h2>Verbraucherstreitbeilegung</h2>
         <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
 
-        <p style="margin-top:40px"><a class="textlink" href={u("")}><span style="display:inline-flex;transform:rotate(180deg)"><Icon name="arrow" size={18} /></span> Zurück zur Startseite</a></p>
+        <p class="legal__back"><a href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zurück zur Startseite</a></p>
       </article>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .legal { max-width: var(--text-width); }
+  .legal h2 { font-size: 19px; margin-top: 1.6em; }
+  .legal address { font-style: normal; }
+  .legal__back a { display: inline-flex; align-items: center; gap: 8px; }
+  .legal__back { margin-top: 40px; }
+</style>

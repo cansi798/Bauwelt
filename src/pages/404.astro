@@ -1,18 +1,27 @@
 ---
+// 404 – kurz, freundlich, zurück zum Wesentlichen.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE, u } from "../consts";
 import Icon from "../components/Icon.astro";
+import { CTA, u } from "../consts";
 ---
-<BaseLayout title="Seite nicht gefunden – Bauwelt Handwerk" description="Diese Seite gibt es nicht mehr.">
-  <section class="section" style="text-align:center">
-    <div class="container">
-      <div style="font-family:var(--font-heading);font-weight:800;font-size:clamp(64px,15vw,120px);color:var(--gold-500);line-height:1">404</div>
-      <h1 class="rule" style="display:inline-block">Diese Seite gibt es nicht mehr</h1>
-      <p style="margin:16px auto 32px">Vielleicht wurde sie verschoben. Kehren Sie zur Startseite zurück oder rufen Sie uns an.</p>
-      <div class="hero__actions" style="justify-content:center">
-        <a class="btn btn--primary" href={u("")}>Zur Startseite</a>
-        <a class="btn btn--secondary" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} /> {SITE.phoneDisplay}</a>
+
+<BaseLayout title="Seite nicht gefunden – Bauwelt Handwerk" description="Die aufgerufene Seite existiert nicht mehr. Zur Startseite der Bauwelt Handwerk GmbH oder direkt das eigene Projekt online berechnen." noindex>
+  <section class="section nf">
+    <div class="container nf__inner">
+      <div class="eyebrow">Fehler 404</div>
+      <h1>Diese Wand gibt es <span class="accent">nicht</span></h1>
+      <p class="lead">Die gesuchte Seite wurde verschoben oder existiert nicht mehr – vielleicht haben wir sie gerade herausgerissen.</p>
+      <div class="nf__actions">
+        <a class="btn" href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zur Startseite</a>
+        <a class="btn btn--ghost" href={CTA.href}>{CTA.label}</a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .nf { min-height: 50vh; display: grid; align-items: center; }
+  .nf__inner { display: grid; gap: 16px; justify-items: start; }
+  .nf__inner h1, .nf__inner p { margin: 0; }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>

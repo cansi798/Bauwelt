@@ -1,47 +1,94 @@
 ---
-import { SITE, u, waLink } from "../consts";
-const year = new Date().getFullYear();
+// Mehrspaltiger Footer (Enpal-Muster): CTA-Zeile + 4 Spalten + Copyright.
+import { NAV2, CTA, SITE, EMAILS, u, waLink } from "../consts";
+import Icon from "./Icon.astro";
+
+const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
+const jahr = new Date().getFullYear();
 ---
-<footer class="footer">
-  <div class="container">
-    <div class="footer__grid">
-      <div>
-        <img class="footer__logo" src={u("assets/logo-inverse.png")} alt="Bauwelt Handwerk" />
-        <p class="footer__intro">Handwerkliche Qualität am Bau, die sichtbar ist. Verlässlich geplant, sauber ausgeführt, ehrlich beraten.</p>
-      </div>
-      <div>
-        <h4>Kontakt</h4>
-        <ul>
-          <li><a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></li>
-          <li><a href={waLink()} target="_blank" rel="noopener">WhatsApp</a></li>
-          <li><a href={`mailto:${SITE.emails.service}`}>{SITE.emails.service}</a></li>
-          <li>{SITE.street}<br />{SITE.zip} {SITE.city}</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Leistungen</h4>
-        <ul>
-          <li><a href={u("leistungen/badsanierung/")}>Badsanierung</a></li>
-          <li><a href={u("leistungen/sanierung-modernisierung/")}>Modernisierung</a></li>
-          <li><a href={u("leistungen/dach-fassade/")}>Dach &amp; Fassade</a></li>
-          <li><a href={u("leistungen/innenausbau/")}>Innenausbau</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Unternehmen</h4>
-        <ul>
-          <li><a href={u("referenzen/")}>Referenzen</a></li>
-          <li><a href={u("partner/")}>Für Partner</a></li>
-          <li><a href={u("ueber-uns/")}>Über uns</a></li>
-          <li><a href={u("karriere/")}>Karriere</a></li>
-          <li><a href={u("impressum/")}>Impressum</a></li>
-          <li><a href={u("datenschutz/")}>Datenschutz</a></li>
-        </ul>
-      </div>
+
+<footer class="ftr">
+  <div class="container ftr__cta">
+    <p class="ftr__claim">Ihr Projekt, ein Ansprechpartner, ein Festpreis.</p>
+    <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+  </div>
+
+  <div class="container ftr__cols">
+    <div>
+      <h3 class="ftr__head">Leistungen</h3>
+      <ul>
+        {leistungen.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
     </div>
-    <div class="footer__bottom">
-      <span>© {year} {SITE.legal}</span>
-      <span><a href={u("impressum/")}>Impressum</a> · <a href={u("datenschutz/")}>Datenschutz</a></span>
+    <div>
+      <h3 class="ftr__head">Unternehmen</h3>
+      <ul>
+        <li><a href={u("ueber-uns/")}>Über uns</a></li>
+        <li><a href={u("referenzen/")}>Referenzen</a></li>
+        <li><a href={u("karriere/")}>Karriere</a></li>
+        <li><a href={u("partner/")}>Für Partner</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="ftr__head">Kontakt</h3>
+      <ul class="ftr__contact">
+        <li>{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</li>
+        <li><a href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={16} class="icon" /> {SITE.phoneDisplay}</a></li>
+        <li><a href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} class="icon" /> WhatsApp</a></li>
+        <li><a href={`mailto:${EMAILS.service}`}><Icon name="mail" size={16} class="icon" /> {EMAILS.service}</a></li>
+        <li>{SITE.hours} · Antwort in 24 h</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="ftr__head">Rechtliches</h3>
+      <ul>
+        <li><a href={u("impressum/")}>Impressum</a></li>
+        <li><a href={u("datenschutz/")}>Datenschutz</a></li>
+      </ul>
+      <img class="ftr__logo" src={u("assets/logo-inverse.png")} alt="" width="180" height="46" loading="lazy" />
     </div>
   </div>
+
+  <div class="container ftr__bottom">
+    <span>© {jahr} {SITE.legal}, {SITE.city}</span>
+  </div>
 </footer>
+
+<style>
+  .ftr { background: var(--anthrazit-800); color: var(--anthrazit-200); margin-top: 0; }
+  .ftr a { color: var(--anthrazit-200); }
+  .ftr a:hover { color: var(--weiss); }
+
+  .ftr__cta {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+    padding-block: 40px;
+    border-bottom: 1px solid var(--anthrazit-700);
+  }
+  .ftr__claim {
+    margin: 0;
+    font-family: var(--font-heading); font-weight: 700; font-size: clamp(20px, 3vw, 26px);
+    text-transform: uppercase; color: var(--weiss);
+  }
+
+  .ftr__cols {
+    display: grid; gap: 32px;
+    padding-block: 48px;
+  }
+  @media (min-width: 768px)  { .ftr__cols { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .ftr__cols { grid-template-columns: repeat(4, 1fr); } }
+
+  .ftr__head {
+    font-size: 15px; letter-spacing: 0.08em;
+    color: var(--gold-500);
+    margin-bottom: 16px;
+  }
+  .ftr__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 15px; }
+  .ftr__contact a { display: inline-flex; align-items: center; gap: 8px; }
+  .ftr__logo { margin-top: 24px; height: auto; opacity: 0.9; }
+
+  .ftr__bottom {
+    padding-block: 20px;
+    border-top: 1px solid var(--anthrazit-700);
+    font-size: 13px; color: var(--anthrazit-400);
+  }
+</style>

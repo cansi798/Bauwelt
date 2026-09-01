@@ -1,72 +1,95 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+// Gewerk-Detailseite (Enpal-Produktseiten-Muster): Hero mit CTA → Leistungsumfang
+// → Ablauf → passende Referenzen → Versprechen-Siegel → FAQ → CTA-Band.
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { u } from "../../consts";
-import Icon from "../../components/Icon.astro";
+import PageHero from "../../components/PageHero.astro";
 import SectionHead from "../../components/SectionHead.astro";
+import Checkliste from "../../components/Checkliste.astro";
 import Steps from "../../components/Steps.astro";
 import Faq from "../../components/Faq.astro";
-import Gallery from "../../components/Gallery.astro";
-import PageHero from "../../components/PageHero.astro";
 import CtaBand from "../../components/CtaBand.astro";
+import Icon from "../../components/Icon.astro";
+import Img from "../../components/Img.astro";
+import { u } from "../../consts";
+import { gewerkBySlug } from "../../data/rechner";
+import { siegelById, VERSPRECHEN } from "../../data/versprechen";
 
 export async function getStaticPaths() {
   const leistungen = await getCollection("leistungen");
-  return leistungen.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+  return leistungen.map((l) => ({ params: { slug: l.id }, props: { l } }));
 }
-interface Props { entry: CollectionEntry<"leistungen">; }
-const { entry } = Astro.props;
-const { data } = entry;
-const { Content } = await entry.render();
 
-// Passende Referenzen (nach Gewerk) für die Bilder-Sektion
-const slugToCat: Record<string, string> = {
-  "badsanierung": "bad",
+const { l } = Astro.props;
+const { Content } = await render(l);
+
+const kurzTitel = l.data.title.replace(" zum Festpreis", "");
+const rechnerSlug = l.data.rechnerSlug ?? l.id;
+const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
+const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
+
+// Passendes Versprechen-Siegel (Frontmatter oder Fallback je Gewerk)
+const siegelFallback: Record<string, string> = {
+  badsanierung: "festpreis",
+  "sanierung-modernisierung": "termin",
+  "dach-fassade": "gewaehrleistung",
+  innenausbau: "sauber",
+  "maler-boeden": "sauber",
+  "sanitaer-heizung-elektro": "meister",
+};
+const siegel = siegelById(l.data.siegel ?? siegelFallback[l.id] ?? "") ?? VERSPRECHEN[0];
+
+// 2 passende Referenzen (Kategorie-Zuordnung je Gewerk)
+const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
+  badsanierung: "bad",
   "sanierung-modernisierung": "sanierung",
+  innenausbau: "sanierung",
+  "maler-boeden": "sanierung",
+  "sanitaer-heizung-elektro": "sanierung",
   "dach-fassade": "aussen",
 };
-const cat = slugToCat[entry.slug];
-const refs = cat
-  ? (await getCollection("referenzen"))
-      .filter((r) => r.data.cat === cat)
-      .sort((a, b) => a.data.order - b.data.order)
-      .slice(0, 3)
-      .map((r) => ({ ...r.data, slug: r.slug }))
-  : [];
+const alleRefs = (await getCollection("referenzen")).sort((a, b) => a.data.order - b.data.order);
+const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
 ---
-<BaseLayout title={`${data.title} – Bauwelt Handwerk`} active="Leistungen" description={data.teaser}>
+
+<BaseLayout
+  title={`${l.data.title} in Norderstedt & Hamburg | Bauwelt Handwerk`}
+  description={
+    l.data.teaser.length < 100
+      ? `${l.data.teaser} Jetzt online berechnen – Festpreis nach kostenlosem Vor-Ort-Termin in Norderstedt & Hamburg.`
+      : l.data.teaser
+  }
+>
   <PageHero
-    eyebrow="Leistung"
-    title={data.title}
-    lead={data.lead}
-    crumbs={[{ label: "Start", href: u("") }, { label: "Leistungen", href: u("leistungen/") }, { label: data.title }]}
-    prompt={data.heroPrompt}
-    img={`hero-${entry.slug}.webp`}
+    eyebrow={l.data.badge ? `${kurzTitel} · ${l.data.badge}` : kurzTitel}
+    pre={`${kurzTitel} zum `}
+    accent="Festpreis"
+    lead={l.data.lead}
+    bild={`hero-${l.id}.webp`}
+    alt={kurzTitel}
+    ctaHref={ctaHref}
+    ctaLabel={`${kurzTitel} berechnen`}
+    checks={["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"]}
   />
 
-  <section class="section">
+  <section class="section section--sand">
     <div class="container">
-      <div class="grid cols-2" style="gap:48px;align-items:start">
-        <div>
-          <SectionHead pre="Leistungs" accent="umfang" />
-          <ul class="checklist">
-            {data.umfang.map((item) => (
-              <li><Icon name="check" size={22} />{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div class="prose">
-          <Content />
-        </div>
-      </div>
+      <SectionHead eyebrow="Leistungsumfang" pre="Was alles drin " accent="ist" />
+      <Checkliste items={l.data.umfang} />
     </div>
   </section>
 
-  {data.ablauf.length > 0 && (
+  <section class="section">
+    <div class="container ldetail__prose">
+      <Content />
+    </div>
+  </section>
+
+  {l.data.ablauf.length > 0 && (
     <section class="section section--sand">
       <div class="container">
-        <SectionHead center eyebrow="Ablauf" pre="So " accent="läuft es" />
-        <Steps steps={data.ablauf} />
+        <SectionHead center eyebrow="Ablauf" pre="So läuft Ihr Projekt " accent="ab" />
+        <Steps steps={l.data.ablauf} />
       </div>
     </section>
   )}
@@ -74,20 +97,66 @@ const refs = cat
   {refs.length > 0 && (
     <section class="section">
       <div class="container">
-        <SectionHead eyebrow="Referenzen" pre="Beispiele aus der " accent="Praxis" />
-        <Gallery projects={refs} withFilter={false} />
+        <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
+        <div class="grid cols-2">
+          {refs.map((r) => (
+            <a class="card refmini reveal" href={u(`referenzen/${r.id}/`)}>
+              <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={560} h={380} />
+              <div class="refmini__body">
+                <h3>{r.data.title}</h3>
+                <p class="small"><Icon name="pin" size={14} class="icon" /> {r.data.place}{r.data.dauer && ` · ${r.data.dauer}`}</p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   )}
 
-  {data.faq.length > 0 && (
-    <section class="section section--sand">
+  <section class="section section--sand">
+    <div class="container ldetail__siegel">
+      <span class="siegel__ring"><Icon name={siegel.icon} size={30} class="icon" /></span>
+      <div>
+        <div class="eyebrow">Unser Versprechen</div>
+        <h2>{siegel.title}</h2>
+        <p>{siegel.long}</p>
+      </div>
+    </div>
+  </section>
+
+  {l.data.faq.length > 0 && (
+    <section class="section">
       <div class="container">
-        <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
-        <Faq items={data.faq} />
+        <SectionHead center eyebrow="Häufige Fragen" pre={`${kurzTitel}: Gut zu `} accent="wissen" />
+        <Faq items={l.data.faq} />
       </div>
     </section>
   )}
 
-  <CtaBand title={`${data.title} anfragen`} />
+  <CtaBand pre={`${kurzTitel} jetzt `} accent="berechnen" ctaHref={ctaHref} ctaLabel={`${kurzTitel} berechnen`} />
 </BaseLayout>
+
+<style>
+  .ldetail__prose { max-width: var(--text-width); }
+  .ldetail__prose :global(p) { margin-bottom: 1em; }
+  .refmini { padding: 12px; display: grid; }
+  .refmini__body { padding: 14px 10px 6px; }
+  .refmini__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .refmini__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
+  .refmini__body .icon { color: var(--gold-700); }
+  .ldetail__siegel {
+    display: grid; gap: 20px; align-items: start;
+    max-width: 820px;
+  }
+  .ldetail__siegel .siegel__ring {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 3px solid var(--gold-500);
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .ldetail__siegel p { margin: 0; }
+  @media (min-width: 768px) { .ldetail__siegel { grid-template-columns: auto 1fr; gap: 28px; } }
+</style>

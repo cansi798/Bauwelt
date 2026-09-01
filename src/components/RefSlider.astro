@@ -1,0 +1,92 @@
+---
+// Referenz-Slider (statt Enpals Testimonial-Slider): echte Projekte mit Ort und
+// Eckdaten. Kundenzitate NUR wenn das Frontmatter-Feld `quote` gefüllt ist.
+import { getCollection } from "astro:content";
+import { u } from "../consts";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+
+const referenzen = (await getCollection("referenzen")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<section class="section" id="referenzen">
+  <div class="container">
+    <div class="refs__head">
+      <SectionHead eyebrow="Referenzen" pre="Ergebnisse, die man " accent="sieht" />
+      <div class="slider__nav">
+        <button class="slider__btn" type="button" data-dir="-1" aria-label="Zurück">
+          <Icon name="arrow-left" size={20} class="icon" />
+        </button>
+        <button class="slider__btn" type="button" data-dir="1" aria-label="Weiter">
+          <Icon name="arrow" size={20} class="icon" />
+        </button>
+      </div>
+    </div>
+
+    <div class="slider">
+      <div class="slider__track" data-slider>
+        {referenzen.map((r) => (
+          <a class="card refcard reveal" href={u(`referenzen/${r.id}/`)}>
+            <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={520} h={390} />
+            <div class="refcard__body">
+              <h3>{r.data.title}</h3>
+              <p class="refcard__meta">
+                <Icon name="pin" size={16} class="icon" /> {r.data.place}
+                {r.data.dauer && <span> · {r.data.dauer}</span>}
+              </p>
+              {r.data.quote && <blockquote class="refcard__quote">„{r.data.quote}"</blockquote>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a class="btn btn--ghost" href={u("referenzen/")}>Alle Referenzen ansehen</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .refs__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .refcard {
+    width: min(84vw, 380px);
+    padding: 12px;
+    display: grid; gap: 0;
+  }
+  .refcard__body { padding: 16px 12px 8px; display: grid; gap: 6px; }
+  .refcard__body h3 { margin: 0; font-size: 18px; text-transform: none; letter-spacing: 0; }
+  .refcard__meta {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0; font-size: 14px; color: var(--anthrazit-600);
+  }
+  .refcard__meta .icon { color: var(--gold-700); }
+  .refcard__quote { margin: 8px 0 0; font-style: italic; color: var(--anthrazit-700); }
+</style>
+
+<script>
+  // Pfeil-Navigation: scrollt um eine Kartenbreite; Buttons deaktivieren an den Enden.
+  for (const slider of document.querySelectorAll<HTMLElement>(".slider")) {
+    const track = slider.querySelector<HTMLElement>("[data-slider]");
+    const nav = slider.closest("section")?.querySelectorAll<HTMLButtonElement>(".slider__btn");
+    if (!track || !nav?.length) continue;
+    const step = () => (track.firstElementChild as HTMLElement)?.offsetWidth + 20 || 300;
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth - 4;
+      nav.forEach((b) => {
+        const dir = Number(b.dataset.dir);
+        b.disabled = dir < 0 ? track.scrollLeft <= 4 : track.scrollLeft >= max;
+      });
+    };
+    nav.forEach((b) =>
+      b.addEventListener("click", () =>
+        track.scrollBy({ left: Number(b.dataset.dir) * step(), behavior: "smooth" })
+      )
+    );
+    track.addEventListener("scroll", update, { passive: true });
+    update();
+  }
+</script>

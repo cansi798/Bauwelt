@@ -1,61 +1,100 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+// Referenz-Detailseite: großes Bild, Eckdaten, Beschreibung, weitere Projekte.
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { u } from "../../consts";
-import Icon from "../../components/Icon.astro";
 import SectionHead from "../../components/SectionHead.astro";
-import Placeholder from "../../components/Placeholder.astro";
 import CtaBand from "../../components/CtaBand.astro";
-import PageHero from "../../components/PageHero.astro";
+import Icon from "../../components/Icon.astro";
+import Img from "../../components/Img.astro";
+import { u } from "../../consts";
 
 export async function getStaticPaths() {
   const referenzen = await getCollection("referenzen");
-  return referenzen.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+  return referenzen.map((r) => ({ params: { slug: r.id }, props: { r } }));
 }
-interface Props { entry: CollectionEntry<"referenzen">; }
-const { entry } = Astro.props;
-const { data } = entry;
-const { Content } = await entry.render();
-const facts = [
-  data.leistung && { icon: "reno", label: "Leistung", value: data.leistung },
-  { icon: "pin", label: "Ort", value: data.place },
-  data.dauer && { icon: "clock", label: "Dauer", value: data.dauer },
-].filter(Boolean) as { icon: string; label: string; value: string }[];
+
+const { r } = Astro.props;
+const { Content } = await render(r);
+
+const weitere = (await getCollection("referenzen"))
+  .filter((x) => x.id !== r.id)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
 ---
-<BaseLayout title={`${data.title} – Referenz – Bauwelt Handwerk`} active="Referenzen"
-  description={`${data.leistung ?? "Projekt"} in ${data.place} – ${data.title}.`}>
-  <PageHero
-    eyebrow="Referenz"
-    title={data.title}
-    crumbs={[{ label: "Start", href: u("") }, { label: "Referenzen", href: u("referenzen/") }, { label: data.title }]}
-    prompt={data.prompt}
-    img={data.file}
-  />
 
-  <section class="section">
+<BaseLayout
+  title={`${r.data.title} – Referenz aus ${r.data.place} | Bauwelt Handwerk`}
+  description={`Referenzprojekt ${r.data.title} in ${r.data.place}${r.data.leistung ? ` – ${r.data.leistung}` : ""}${r.data.dauer ? `, umgesetzt in ${r.data.dauer}` : ""}.`}
+>
+  <section class="section rdetail">
     <div class="container">
-      <div class="grid cols-3" style="margin-bottom:48px">
-        {facts.map((f) => (
-          <div class="card" style="display:flex;gap:14px;align-items:flex-start">
-            <span style="color:var(--gold-700)"><Icon name={f.icon} /></span>
-            <div>
-              <div class="small" style="text-transform:uppercase;letter-spacing:.04em">{f.label}</div>
-              <div style="font-family:var(--font-heading);font-weight:700">{f.value}</div>
-            </div>
-          </div>
-        ))}
+      <div class="eyebrow">Referenz</div>
+      <h1>{r.data.title}</h1>
+
+      <div class="rdetail__grid">
+        <div class="rdetail__media reveal">
+          <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={960} h={720} eager />
+        </div>
+        <aside class="card rdetail__facts">
+          <h2>Eckdaten</h2>
+          <dl>
+            <dt><Icon name="pin" size={16} class="icon" /> Ort</dt>
+            <dd>{r.data.place}</dd>
+            {r.data.dauer && (<><dt><Icon name="clock" size={16} class="icon" /> Dauer</dt><dd>{r.data.dauer}</dd></>)}
+            {r.data.leistung && (<><dt><Icon name="tools" size={16} class="icon" /> Leistung</dt><dd>{r.data.leistung}</dd></>)}
+          </dl>
+          {r.data.quote && <blockquote class="rdetail__quote">„{r.data.quote}"</blockquote>}
+          <a class="btn" href={u("rechner/")}>Ähnliches Projekt berechnen</a>
+        </aside>
       </div>
 
-      <div class="prose" style="margin-bottom:48px"><Content /></div>
-
-      <SectionHead pre="Das " accent="Ergebnis" />
-      <div class="tile" style="aspect-ratio:16/9;border-radius:8px;overflow:hidden">
-        <Placeholder prompt={data.prompt} img={data.file} imgClass="tile__img" alt={`${data.title}, ${data.place}`} />
+      <div class="rdetail__prose">
+        <Content />
       </div>
-
-      <p style="margin-top:32px"><a class="textlink" href={u("referenzen/")}>Alle Referenzen <Icon name="arrow" size={18} /></a></p>
     </div>
   </section>
 
-  <CtaBand title="Ein ähnliches Projekt geplant?" />
+  <section class="section section--sand">
+    <div class="container">
+      <SectionHead eyebrow="Weitere Projekte" pre="Mehr davon " accent="sehen" />
+      <div class="grid cols-3">
+        {weitere.map((w) => (
+          <a class="card refcard reveal" href={u(`referenzen/${w.id}/`)}>
+            <Img src={w.data.file ?? `${w.id}.webp`} alt={w.data.title} w={520} h={390} />
+            <div class="refcard__body">
+              <h3>{w.data.title}</h3>
+              <p class="small"><Icon name="pin" size={14} class="icon" /> {w.data.place}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand pre="Ihr Projekt könnte das nächste " accent="sein" />
 </BaseLayout>
+
+<style>
+  .rdetail h1 { margin-bottom: 24px; }
+  .rdetail__grid { display: grid; gap: 24px; margin-bottom: 32px; }
+  @media (min-width: 1024px) { .rdetail__grid { grid-template-columns: 1.6fr 1fr; align-items: start; } }
+
+  .rdetail__facts { display: grid; gap: 16px; align-content: start; }
+  .rdetail__facts h2 { font-size: 18px; margin: 0; }
+  .rdetail__facts dl { margin: 0; display: grid; gap: 10px; }
+  .rdetail__facts dt {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--anthrazit-600);
+  }
+  .rdetail__facts dt .icon { color: var(--gold-700); }
+  .rdetail__facts dd { margin: 0 0 6px; font-weight: 600; }
+  .rdetail__quote { margin: 0; font-style: italic; color: var(--anthrazit-700); }
+  .rdetail__prose { max-width: var(--text-width); }
+
+  .refcard { padding: 12px; display: grid; }
+  .refcard__body { padding: 14px 10px 6px; }
+  .refcard__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .refcard__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
+  .refcard__body .icon { color: var(--gold-700); }
+</style>

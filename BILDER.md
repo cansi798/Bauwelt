@@ -60,6 +60,12 @@ warmes Licht; nicht übersättigt; keine Filter.
 | Dateiname | Verwendung | Format |
 |---|---|---|
 | `burim.webp` | Porträt Burim Ahmedi (GF) – zweiter Ansprechpartner im Kontaktbereich (echtes Foto nötig, Platzhalter aktiv) | quadratisch, ca. 400 × 400 |
+| `video-poster.webp` | Standbild der Video-Sektion auf der Startseite („In 3 Minuten erklärt") – bis das echte Firmenvideo da ist. Motiv: Team/Baustelle in Aktion, warmes Licht | 16:9, ca. 1600 × 900 |
+
+> **Relaunch-Hinweis (02.09.2026):** Die neue Startseite nutzt vorhandene Bilder weiter:
+> die 6 Gewerk-Sektionen zeigen `hero-<gewerk>.webp`, die „Warum Bauwelt"-Karten
+> `hero-ueber-uns.webp`, `team.webp` und `hero-kontakt.webp`. Eigene Projektfotos können
+> diese Unsplash-Übergangsbilder jederzeit per gleichem Dateinamen ersetzen.
 | *(optional)* `og-image` -Ersatz | Vorschaubild beim Link-Teilen (aktuell Logo auf Anthrazit – funktioniert) | 1200 × 630 |
 
 ---

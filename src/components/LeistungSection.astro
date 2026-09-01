@@ -1,0 +1,47 @@
+---
+// Eine Gewerk-Sektion (Enpals Produktsektions-Muster): Bild-Text alternierend,
+// eigener CTA in den Rechner mit vorgewähltem Gewerk.
+import { u } from "../consts";
+import type { LeistungSection } from "../data/home";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+
+interface Props {
+  data: LeistungSection;
+  reverse?: boolean;
+  sand?: boolean;
+}
+const { data, reverse = false, sand = false } = Astro.props;
+---
+
+<section class:list={["section", "lsec", { "section--sand": sand }]} id={data.slug}>
+  <div class:list={["container", "lsec__grid", { "lsec__grid--reverse": reverse }]}>
+    <div class="lsec__media reveal">
+      <Img src={data.bild} alt={data.alt} w={760} h={560} />
+    </div>
+    <div class="lsec__copy reveal">
+      <div class="eyebrow">{data.eyebrow}</div>
+      <h2>{data.pre}<span class="accent">{data.accent}</span></h2>
+      <p>{data.text}</p>
+      <div class="lsec__actions">
+        <a class="btn" href={u(`rechner/?gewerk=${data.slug}`)}>{data.cta}</a>
+        <a class="lsec__more" href={u(`leistungen/${data.slug}/`)}>
+          Mehr erfahren <Icon name="arrow" size={18} class="icon" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lsec__grid { display: grid; gap: 32px; align-items: center; }
+  .lsec__copy { display: grid; gap: 12px; justify-items: start; }
+  .lsec__copy h2, .lsec__copy p { margin: 0; }
+  .lsec__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 8px; }
+  .lsec__more { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+
+  @media (min-width: 1024px) {
+    .lsec__grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+    .lsec__grid--reverse .lsec__media { order: 2; }
+  }
+</style>

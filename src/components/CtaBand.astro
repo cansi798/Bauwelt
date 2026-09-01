@@ -1,28 +1,39 @@
 ---
-import { SITE, u } from "../consts";
+// Dunkles CTA-Band (Enpal-Muster): Wiederhol-CTA mit Trust-Punkten.
+import { CTA } from "../consts";
+import { CTA_BAND } from "../data/home";
 import Icon from "./Icon.astro";
-interface Props { title?: string; text?: string; }
+
+interface Props {
+  /** Überschreibt die Standard-Headline, z. B. auf Leistungsseiten. */
+  pre?: string;
+  accent?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
 const {
-  title = "Bereit für Ihr Projekt?",
-  text = "Rufen Sie an oder fordern Sie ein unverbindliches Festpreis-Angebot an. Wir melden uns in der Regel innerhalb von 24 Stunden.",
+  pre = CTA_BAND.pre,
+  accent = CTA_BAND.accent,
+  ctaHref = CTA.href,
+  ctaLabel = CTA.label,
 } = Astro.props;
 ---
-<section class="section section--dark">
-  <div class="container cta-band">
-    <div>
-      <h2 class="rule">{title}</h2>
-      <p style="color:var(--anthrazit-400)">{text}</p>
-    </div>
-    <div class="cta-band__actions">
-      <a class="btn btn--primary" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} /> {SITE.phoneDisplay}</a>
-      <a class="btn btn--on-dark" href={u("kontakt/")}>Anfrage senden</a>
-    </div>
+
+<section class="section section--dark ctaband">
+  <div class="container ctaband__inner">
+    <h2>{pre}<span class="accent">{accent}</span></h2>
+    <p>{CTA_BAND.text}</p>
+    <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
+    <ul class="check-row ctaband__checks">
+      {CTA_BAND.checks.map((c) => (
+        <li><Icon name="check" size={18} class="icon" /> {c}</li>
+      ))}
+    </ul>
   </div>
 </section>
 
 <style>
-  .cta-band { display: grid; gap: 24px; align-items: center; }
-  @media (min-width: 900px) { .cta-band { grid-template-columns: 1.5fr 1fr; } }
-  .cta-band__actions { display: flex; flex-wrap: wrap; gap: 16px; }
-  @media (min-width: 900px) { .cta-band__actions { justify-content: flex-end; } }
+  .ctaband__inner { display: grid; justify-items: center; text-align: center; gap: 16px; }
+  .ctaband__inner h2, .ctaband__inner p { margin: 0; }
+  .ctaband__checks { justify-content: center; margin-top: 8px; }
 </style>

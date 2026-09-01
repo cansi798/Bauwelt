@@ -1,34 +1,61 @@
 ---
+// Leistungen-Übersicht: Kachel-Grid als Verteiler auf die 6 Gewerk-Seiten.
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { u } from "../../consts";
-import SectionHead from "../../components/SectionHead.astro";
-import ServiceCard from "../../components/ServiceCard.astro";
-import CtaBand from "../../components/CtaBand.astro";
 import PageHero from "../../components/PageHero.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Icon from "../../components/Icon.astro";
+import { u } from "../../consts";
 
-const leistungen = (await getCollection("leistungen")).sort((a, b) => a.data.order - b.data.order);
+const leistungen = (await getCollection("leistungen")).sort(
+  (a, b) => a.data.order - b.data.order
+);
 ---
-<BaseLayout title="Leistungen – Bauwelt Handwerk" active="Leistungen"
-  description="Badsanierung zum Festpreis, Sanierung & Modernisierung, Dach & Fassade, Innenausbau, Haustechnik und Malerarbeiten – alles aus einer Hand in Hamburg und Umgebung.">
+
+<BaseLayout
+  title="Leistungen – alle Gewerke aus einer Hand | Bauwelt Handwerk"
+  description="Badsanierung, Komplettsanierung, Innenausbau, Dach & Fassade, Maler & Böden, Sanitär/Heizung/Elektro – alle Gewerke aus einer Hand, zum Festpreis."
+>
   <PageHero
     eyebrow="Leistungen"
-    title="Alles aus einer Hand"
-    lead="Unsere Kernleistungen sind Badsanierung und Komplettsanierung zum Festpreis. Alle dafür nötigen Gewerke steuern wir selbst – alles aus einer Hand, mit festen Prozessen und einem Ansprechpartner."
-    crumbs={[{ label: "Start", href: u("") }, { label: "Leistungen" }]}
-    prompt="Handwerker bei sauberer Arbeit auf einer modernen Baustelle, echtes Handwerk, warmes Licht"
-    img="hero-leistungen.webp"
+    pre="Alle Gewerke aus einer "
+    accent="Hand"
+    lead="Vom einzelnen Raum bis zur Kernsanierung: Wir übernehmen Planung, Ausführung und Koordination – Sie haben einen Ansprechpartner und einen Festpreis."
+    bild="hero-leistungen.webp"
+    alt="Hochwertig saniertes Bad mit freistehender Wanne"
   />
+
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="Übersicht" pre="Unsere " accent="Gewerke" />
       <div class="grid cols-3">
         {leistungen.map((l) => (
-          <ServiceCard icon={l.data.icon} title={l.data.title.replace(" zum Festpreis", "")}
-            text={l.data.teaser} href={u(`leistungen/${l.slug}/`)} badge={l.data.badge} />
+          <a class="card lcard reveal" href={u(`leistungen/${l.id}/`)}>
+            <span class="lcard__icon"><Icon name={l.data.icon} size={28} class="icon" /></span>
+            <h2>{l.data.title.replace(" zum Festpreis", "")}</h2>
+            <p>{l.data.teaser}</p>
+            <span class="lcard__more">Mehr erfahren <Icon name="arrow" size={18} class="icon" /></span>
+          </a>
         ))}
       </div>
     </div>
   </section>
+
   <CtaBand />
 </BaseLayout>
+
+<style>
+  .lcard { display: grid; gap: 12px; align-content: start; }
+  .lcard h2 { font-size: 19px; margin: 0; }
+  .lcard p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .lcard__icon {
+    width: 56px; height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .lcard__more {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--gold-700); font-weight: 600; margin-top: 4px;
+  }
+</style>

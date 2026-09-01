@@ -1,34 +1,220 @@
 ---
-import { SITE, NAV, u, waLink } from "../consts";
+// Site-Header: Desktop-Dropdown-Navigation (Enpal-Muster) + CTA, mobil Burger + Icons.
+// Dropdowns: CSS-Hover/-Focus + Klick-Toggle, Escape schließt, Pfeiltasten navigieren.
+import { NAV2, CTA, SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
-const { active } = Astro.props;
+import MobileMenu from "./MobileMenu.astro";
 ---
-<header class="header" id="top">
-  <div class="container header__inner">
-    <a class="header__logo" href={u("")} aria-label="Bauwelt Handwerk – Startseite">
+
+<header class="hdr" id="siteHeader">
+  <div class="container hdr__inner">
+    <a class="hdr__logo" href={u("")} aria-label="Bauwelt Handwerk – Startseite">
       <img src={u("assets/logo.png")} alt="Bauwelt Handwerk" width="220" height="56" />
     </a>
-    <nav class="nav" aria-label="Hauptnavigation">
-      {NAV.map((item) => (
-        <a href={item.href} class={active === item.label ? "active" : undefined}>{item.label}</a>
-      ))}
+
+    <nav class="hdr__nav" aria-label="Hauptnavigation">
+      <ul>
+        {NAV2.map((item) =>
+          item.children ? (
+            <li class="dd">
+              <button class="hdr__link dd__btn" type="button" aria-expanded="false">
+                {item.label}
+                <Icon name="chevron" size={16} class="icon dd__chev" />
+              </button>
+              <div class="dd__panel">
+                <ul class="dd__list">
+                  {item.children.map((c) => (
+                    <li>
+                      <a class="dd__item" href={c.href}>
+                        {c.icon && <Icon name={c.icon} size={22} class="icon dd__icon" />}
+                        <span class="dd__text">
+                          <strong>{c.label}</strong>
+                          {c.desc && <small>{c.desc}</small>}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ) : (
+            <li><a class="hdr__link" href={item.href}>{item.label}</a></li>
+          )
+        )}
+      </ul>
     </nav>
-    <div class="header__actions">
-      <a class="btn btn--primary btn--book" href={u("#termin")}>
-        <Icon name="calendar" size={18} />Termin buchen
+
+    <div class="hdr__actions">
+      <a class="hdr__iconbtn" href={`tel:${SITE.phoneTel}`} aria-label={`Anrufen: ${SITE.phoneDisplay}`}>
+        <Icon name="phone" size={22} />
       </a>
-      <a class="btn btn--secondary btn--phone" href={`tel:${SITE.phoneTel}`}>
-        <Icon name="phone" size={18} />{SITE.phoneDisplay}
-      </a>
-      <a class="header__ic header__ic--call" href={`tel:${SITE.phoneTel}`} aria-label="Anrufen">
-        <Icon name="phone" size={20} />
-      </a>
-      <a class="header__ic header__ic--wa" href={waLink()} target="_blank" rel="noopener" aria-label="Uns per WhatsApp schreiben">
+      <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={22} />
       </a>
-      <button class="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span><span></span><span></span>
+      <a class="btn btn--sm hdr__cta" href={CTA.href}>{CTA.label}</a>
+      <button class="hdr__iconbtn hdr__burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menü öffnen">
+        <Icon name="menu" size={26} class="icon hdr__burger-open" />
+        <Icon name="close" size={26} class="icon hdr__burger-close" />
       </button>
     </div>
   </div>
+  <MobileMenu />
 </header>
+<div class="hdr-spacer" aria-hidden="true"></div>
+
+<style>
+  .hdr {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    background: var(--weiss);
+    border-bottom: 1px solid var(--linie);
+    transition: box-shadow var(--transition);
+  }
+  .hdr.is-scrolled { box-shadow: var(--shadow); }
+  .hdr__inner {
+    display: flex; align-items: center; gap: 16px;
+    height: var(--header-h);
+    transition: height var(--transition);
+  }
+  .hdr.is-scrolled .hdr__inner { height: var(--header-h-scrolled); }
+  .hdr-spacer { height: var(--header-h); }
+
+  .hdr__logo { flex: none; display: flex; }
+  .hdr__logo img { height: 44px; width: auto; }
+  .hdr.is-scrolled .hdr__logo img { height: 38px; }
+
+  .hdr__nav { display: none; flex: 1; justify-content: center; }
+  .hdr__nav > ul { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .hdr__link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 14px;
+    border: 0; background: none;
+    font-family: var(--font-heading); font-weight: 600; font-size: 15px;
+    color: var(--anthrazit-800);
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: background var(--transition);
+  }
+  .hdr__link:hover { background: var(--gold-100); text-decoration: none; }
+  .dd { position: relative; }
+  .dd__chev { transition: transform var(--transition); }
+  .dd__panel {
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    min-width: 340px;
+    background: var(--weiss);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 12px;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  }
+  .dd:hover .dd__panel, .dd:focus-within .dd__panel, .dd.open .dd__panel {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .dd:hover .dd__chev, .dd.open .dd__chev { transform: rotate(180deg); }
+  .dd__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .dd__item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    color: var(--anthrazit-800);
+    text-decoration: none;
+    transition: background var(--transition);
+  }
+  .dd__item:hover { background: var(--gold-100); text-decoration: none; }
+  .dd__icon { color: var(--gold-700); flex: none; }
+  .dd__text { display: grid; line-height: 1.35; }
+  .dd__text small { color: var(--anthrazit-600); }
+  .dd__list li:last-child .dd__item { border-top: 1px solid var(--linie); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: 6px; padding-top: 12px; color: var(--gold-700); font-weight: 600; }
+
+  .hdr__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .hdr__iconbtn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 0; background: none;
+    color: var(--anthrazit-800);
+    transition: background var(--transition);
+  }
+  .hdr__iconbtn:hover { background: var(--gold-100); }
+  .hdr__cta { display: none; }
+  .hdr__burger-close { display: none; }
+  .hdr__burger[aria-expanded="true"] .hdr__burger-open { display: none; }
+  .hdr__burger[aria-expanded="true"] .hdr__burger-close { display: block; }
+
+  @media (min-width: 1024px) {
+    .hdr__nav { display: flex; }
+    .hdr__cta { display: inline-flex; }
+    .hdr__iconbtn:not(.hdr__burger) { display: none; }
+    .hdr__burger { display: none; }
+  }
+  @media (min-width: 1200px) {
+    .hdr__iconbtn:not(.hdr__burger) { display: inline-flex; }
+  }
+</style>
+
+<script>
+  const hdr = document.getElementById("siteHeader")!;
+
+  // Scroll-Shrink (throttled via rAF)
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      hdr.classList.toggle("is-scrolled", window.scrollY > 24);
+      ticking = false;
+    });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Dropdowns: Klick-Toggle + Escape + Pfeiltasten
+  const dds = Array.from(hdr.querySelectorAll<HTMLElement>(".dd"));
+  const closeAll = (except?: HTMLElement) => {
+    for (const d of dds) {
+      if (d !== except) {
+        d.classList.remove("open");
+        d.querySelector(".dd__btn")?.setAttribute("aria-expanded", "false");
+      }
+    }
+  };
+  for (const dd of dds) {
+    const btn = dd.querySelector<HTMLButtonElement>(".dd__btn")!;
+    btn.addEventListener("click", () => {
+      const open = dd.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+      closeAll(open ? dd : undefined);
+    });
+    dd.addEventListener("keydown", (e) => {
+      const items = Array.from(dd.querySelectorAll<HTMLAnchorElement>(".dd__item"));
+      const i = items.indexOf(document.activeElement as HTMLAnchorElement);
+      if (e.key === "ArrowDown") { e.preventDefault(); (items[i + 1] ?? items[0])?.focus(); }
+      if (e.key === "ArrowUp") { e.preventDefault(); (items[i - 1] ?? items[items.length - 1])?.focus(); }
+      if (e.key === "Escape") { closeAll(); btn.focus(); }
+    });
+  }
+  document.addEventListener("click", (e) => {
+    if (!hdr.contains(e.target as Node)) closeAll();
+  });
+
+  // Burger ↔ Mobilmenü
+  const burger = hdr.querySelector<HTMLButtonElement>(".hdr__burger")!;
+  const menu = document.getElementById("mobileMenu");
+  burger.addEventListener("click", () => {
+    const open = menu?.classList.toggle("open") ?? false;
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+    document.body.style.overflow = open ? "hidden" : "";
+  });
+  // Menü schließt bei Linkklick (z. B. Anker auf gleicher Seite)
+  menu?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) {
+      menu.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+  });
+</script>
