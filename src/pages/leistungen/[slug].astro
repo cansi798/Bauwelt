@@ -54,7 +54,11 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
 
 <BaseLayout
   title={`${l.data.title} in Norderstedt & Hamburg | Bauwelt Handwerk`}
-  description={l.data.teaser}
+  description={
+    l.data.teaser.length < 100
+      ? `${l.data.teaser} Jetzt online berechnen – Festpreis nach kostenlosem Vor-Ort-Termin in Norderstedt & Hamburg.`
+      : l.data.teaser
+  }
 >
   <PageHero
     eyebrow={l.data.badge ? `${kurzTitel} · ${l.data.badge}` : kurzTitel}
