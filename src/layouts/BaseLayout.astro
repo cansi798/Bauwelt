@@ -6,6 +6,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StickyBar from "../components/StickyBar.astro";
 import { SITE, u } from "../consts";
+import { REGION_CENTER, REGION_CITIES, SERVICE_TYPES } from "../data/region";
 
 interface Props {
   title: string;
@@ -33,7 +34,20 @@ const jsonLd = {
     addressLocality: SITE.city,
     addressCountry: "DE",
   },
-  areaServed: SITE.region,
+  // Einzugsgebiet: 100-km-Radius um Norderstedt + konkrete Orte (lokale Suche)
+  areaServed: [
+    {
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: REGION_CENTER.lat,
+        longitude: REGION_CENTER.lng,
+      },
+      geoRadius: REGION_CENTER.radiusMeter,
+    },
+    ...REGION_CITIES.map((c) => ({ "@type": "City", name: c })),
+  ],
+  serviceType: SERVICE_TYPES,
   priceRange: "€€",
   openingHours: "Mo-Fr 08:00-18:00",
 };

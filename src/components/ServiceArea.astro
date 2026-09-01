@@ -1,0 +1,49 @@
+---
+// Einzugsgebiets-Sektion (Analogon zu Enpals Community-/Karten-Sektion):
+// nennt die realen Orte im 100-km-Radius – sichtbar für Besucher und Suchmaschinen.
+import { REGION_CITIES } from "../data/region";
+import { SITE } from "../consts";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="section area">
+  <div class="container">
+    <SectionHead
+      center
+      eyebrow="Einzugsgebiet"
+      pre="Im Umkreis von 100 km für Sie "
+      accent="unterwegs"
+      text={`Von ${SITE.city} aus betreuen wir Projekte in ganz Hamburg, Schleswig-Holstein und dem nördlichen Niedersachsen – unter anderem in diesen Orten:`}
+    />
+    <ul class="area__cities">
+      {REGION_CITIES.map((c) => (
+        <li class="area__chip"><Icon name="pin" size={14} class="icon" /> {c}</li>
+      ))}
+    </ul>
+    <p class="small text-center area__note">
+      Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.
+    </p>
+  </div>
+</section>
+
+<style>
+  .area__cities {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center;
+    max-width: 860px;
+    margin-inline: auto;
+  }
+  .area__chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-pill);
+    background: var(--weiss);
+    font-size: 14px; font-weight: 600;
+    color: var(--anthrazit-700);
+  }
+  .area__chip .icon { color: var(--gold-700); }
+  .area__note { margin-top: 20px; }
+</style>

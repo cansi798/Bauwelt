@@ -1,66 +1,143 @@
 ---
-// Startseiten-Hero (Enpal-Muster): große Headline, Trust-Häkchen, ein CTA,
-// großes Bild rechts (Desktop) bzw. oben (Mobil), Versprechen-Badge.
-import { CTA } from "../consts";
+// Vollbild-Hero (Enpal-Muster): Bild füllt den Viewport auf Mobil UND Desktop,
+// dunkler Verlauf für Lesbarkeit, gestaffelte CSS-Entrance-Animationen + sanfter
+// Ken-Burns-Zoom. Reine CSS-Animationen: laufen auch ohne JS, Inhalte sind nie
+// dauerhaft versteckt; prefers-reduced-motion schaltet alles ab (global.css).
+import { CTA, u } from "../consts";
 import { HERO } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
 import Icon from "./Icon.astro";
-import Img from "./Img.astro";
 
 const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Position
 ---
 
-<section class="hero">
-  <div class="container hero__grid">
-    <div class="hero__copy">
-      <div class="eyebrow">{HERO.eyebrow}</div>
-      <h1>{HERO.pre}<span class="accent">{HERO.accent}</span></h1>
-      <p class="lead">{HERO.sub}</p>
-      <ul class="check-row">
-        {HERO.checks.map((c) => (
-          <li><Icon name="check" size={18} class="icon" /> {c}</li>
-        ))}
-      </ul>
-      <div class="hero__actions">
-        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
-        <span class="small">Unverbindlich · Ergebnis in 1 Minute</span>
-      </div>
-    </div>
-    <div class="hero__media">
-      <Img src={HERO.bild} alt="Referenzprojekt der Bauwelt Handwerk GmbH" w={880} h={660} eager />
-      <div class="hero__badge" title={badge.short}>
-        <Icon name={badge.icon} size={26} class="icon" />
-        <span>{badge.title}</span>
-      </div>
+<section class="fhero">
+  <div class="fhero__bg" aria-hidden="true">
+    <img
+      src={u(`assets/img/${HERO.bild}`)}
+      alt=""
+      width="1600"
+      height="900"
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+      onerror="this.remove()"
+    />
+    <div class="fhero__shade"></div>
+  </div>
+
+  <div class="container fhero__content">
+    <div class="eyebrow fhero__in" style="--d: 0ms">{HERO.eyebrow}</div>
+    <h1 class="fhero__in" style="--d: 120ms">{HERO.pre}<span class="accent">{HERO.accent}</span></h1>
+    <p class="lead fhero__in" style="--d: 240ms">{HERO.sub}</p>
+    <ul class="check-row fhero__checks fhero__in" style="--d: 360ms">
+      {HERO.checks.map((c) => (
+        <li><Icon name="check" size={18} class="icon" /> {c}</li>
+      ))}
+    </ul>
+    <div class="fhero__actions fhero__in" style="--d: 480ms">
+      <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+      <span class="fhero__note">Unverbindlich · Ergebnis in 1 Minute</span>
     </div>
   </div>
+
+  <div class="fhero__badge fhero__in" style="--d: 640ms" title={badge.short}>
+    <Icon name={badge.icon} size={26} class="icon" />
+    <span>{badge.title}</span>
+  </div>
+
+  <a class="fhero__scroll" href="#trust" aria-label="Nach unten scrollen">
+    <Icon name="chevron" size={26} class="icon" />
+  </a>
 </section>
 
 <style>
-  .hero { padding-block: 40px 56px; }
-  .hero__grid { display: grid; gap: 32px; align-items: center; }
-  .hero__copy { display: grid; gap: 20px; justify-items: start; }
-  .hero__copy h1, .hero__copy p { margin: 0; }
-  .hero__actions { display: grid; gap: 8px; justify-items: start; }
-  .hero__media { position: relative; }
-  .hero__badge {
-    position: absolute; right: 16px; bottom: 16px;
+  .fhero {
+    position: relative;
+    /* Voller Viewport minus Header – svh hält auf Mobil die Adressleiste raus */
+    min-height: calc(100svh - var(--header-h));
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--anthrazit-900); /* Fallback, falls das Bild fehlt */
+  }
+
+  .fhero__bg { position: absolute; inset: 0; }
+  .fhero__bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    animation: kenburns 22s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns {
+    from { transform: scale(1) translateX(0); }
+    to   { transform: scale(1.08) translateX(-1.5%); }
+  }
+  .fhero__shade {
+    position: absolute; inset: 0;
+    /* Doppelter Verlauf: links dunkel für Text, unten Ankerung */
+    background:
+      linear-gradient(90deg, rgba(31, 30, 32, 0.82) 0%, rgba(31, 30, 32, 0.55) 45%, rgba(31, 30, 32, 0.18) 100%),
+      linear-gradient(180deg, rgba(31, 30, 32, 0.25) 0%, rgba(31, 30, 32, 0) 30%, rgba(31, 30, 32, 0.45) 100%);
+  }
+
+  .fhero__content {
+    position: relative;
+    display: grid;
+    gap: 20px;
+    justify-items: start;
+    padding-block: 96px 120px;
+  }
+  .fhero__content h1 { color: var(--weiss); margin: 0; max-width: 15ch; text-wrap: balance; }
+  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 52ch; }
+  .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
+  .fhero__checks li { color: var(--weiss); }
+  .fhero__checks .icon { color: var(--gold-500); }
+  .fhero__actions { display: grid; gap: 10px; justify-items: start; }
+  .fhero__note { font-size: 14px; color: var(--anthrazit-200); }
+
+  .fhero__badge {
+    position: absolute; right: 24px; bottom: 88px;
     display: inline-flex; align-items: center; gap: 10px;
     background: var(--weiss);
     border-radius: var(--radius-pill);
     box-shadow: var(--shadow-lg);
-    padding: 10px 18px;
+    padding: 12px 20px;
     font-family: var(--font-heading); font-weight: 700; font-size: 14px;
     color: var(--anthrazit-800);
   }
-  .hero__badge .icon { color: var(--gold-700); }
-
-  @media (max-width: 1023px) {
-    .hero__grid { grid-template-columns: 1fr; }
-    .hero__media { order: -1; }
+  .fhero__badge .icon { color: var(--gold-700); animation: floaty 5s ease-in-out infinite; }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
   }
-  @media (min-width: 1024px) {
-    .hero { padding-block: 64px 88px; }
-    .hero__grid { grid-template-columns: 1.05fr 1fr; gap: 56px; }
+
+  .fhero__scroll {
+    position: absolute; left: 50%; bottom: 20px;
+    width: 48px; height: 48px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--weiss);
+    border-radius: 50%;
+    animation: nudge 2.2s ease-in-out infinite;
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
+    50% { transform: translateX(-50%) translateY(8px); opacity: 0.5; }
+  }
+
+  /* Gestaffelte Entrance – reines CSS, Endzustand garantiert sichtbar (fill both) */
+  .fhero__in {
+    animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 767px) {
+    .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
+    .fhero__content { padding-block: 64px 96px; }
+    /* Mobil: Badge oben rechts, damit es nicht mit CTA/Sticky-Leiste kollidiert */
+    .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }
   }
 </style>

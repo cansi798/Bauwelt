@@ -114,14 +114,15 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
 
 export const VIDEO = {
   eyebrow: "So arbeiten wir",
-  pre: "Wie arbeitet Bauwelt? In 3 Minuten ",
-  accent: "erklärt",
-  /** YouTube-/Video-URL eintragen, sobald vorhanden (OFFENE-INFOS.md). Leer = Platzhaltermodus. */
+  pre: "Aus Baustelle wird ",
+  accent: "Zuhause",
+  /** YouTube-/Video-URL eintragen, sobald vorhanden (OFFENE-INFOS.md).
+   *  Leer = animierte Zeichnungs-Szene statt Video. */
   url: "",
   poster: "video-poster.webp",
   text:
-    "Vom ersten Gespräch bis zur Schlüsselübergabe: Sehen Sie, wie wir Projekte " +
-    "planen, koordinieren und übergeben.",
+    "Erst der Riss in der Wand, dann der Plan, dann warmes Licht im neuen Zuhause – " +
+    "so fühlt es sich an, wenn wir fertig sind. Kommen Sie zu uns, wir zeigen es Ihnen.",
 };
 
 export const USP = [
