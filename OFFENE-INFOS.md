@@ -1,76 +1,47 @@
-# Offene Infos & Aufgaben – bevor die Website live geht
+# Offene Infos & Aufgaben (Stand: Relaunch 02.09.2026)
 
-Checkliste, was noch von euch gebraucht wird. Alles, was hier offen ist, steht auf der
-Seite aktuell als **Platzhalter** oder Beispiel. Bilder sind separat in **`BILDER.md`** beschrieben.
+Checkliste, was noch von euch gebraucht wird. Alles Offene zeigt auf der Website
+einen sauberen Platzhalter bzw. eine neutrale Formulierung. Bilder: siehe **`BILDER.md`**.
 
 Legende: ⬜ offen · ✅ erledigt
 
 ---
 
-## A. Damit Funktionen echt werden (wichtig)
+## A. Rechner „scharf" schalten (wichtigster Punkt)
 
-- 🟡 **Kontakt- & Partnerformular – Versandweg** *(Übergangslösung aktiv)*
-  Die Formulare öffnen jetzt das E-Mail-Programm mit vorausgefüllter Anfrage an
-  `j.iqbal@bauwelt-handwerk.de` (funktioniert ohne Backend, aber nur wenn ein Mailprogramm
-  eingerichtet ist). **Empfohlen für später:** echtes Formular-Backend (z. B. Formspree/
-  Web3Forms), damit Anfragen direkt ohne Mailprogramm ankommen. Zieladresse zentral in
-  `src/consts.ts` (`email`).
-- ⬜ **Zentrale E-Mail-Adresse**
-  Soll auf der Seite `j.iqbal@bauwelt-handwerk.de` stehen oder eine allgemeine wie
-  `info@bauwelt-handwerk.de` / `anfrage@bauwelt-handwerk.de`? (Aktuell: Jamils Adresse.)
-- ⬜ **Terminbuchung – welcher Anbieter?**
-  Der Bereich „Termin" ist als einbettbarer Platzhalter vorbereitet. Bitte Anbieter + Konto nennen
-  (z. B. **Calendly** oder **Cal.com**), dann binde ich den Kalender ein. Ohne Konto bleibt der
-  „Jetzt anrufen"-Platzhalter.
-- ⬜ **Preise für den Badkalkulator**
-  Die Preise sind aktuell **Schätz-Platzhalter**. Bitte echte Werte liefern:
-  - Grundpauschale (fixe Basis): ____ €
-  - Preis pro m² – Standard: ____ € · Komfort: ____ € · Premium: ____ €
-  - Aufpreise – Bodengleiche Dusche: ____ € · Fußbodenheizung: ____ € · Barrierefrei: ____ €
-  - gewünschte Preisspanne (z. B. ± 10 %): ____ %
-- ⬜ **Telefonnummer bestätigen**
-  Aktuell `0151 56156578`. Ist das die richtige Nummer für die Website (auch als Klick-zum-Anrufen)?
+- ⬜ **Echte Preise für den Projekt-Rechner** (`src/data/rechner.ts`).
+  Aktuell Schätz-Platzhalter mit bewusst breiten Spannen. Pro Gewerk bitte:
+  - Grundpauschale: ____ €
+  - Preis pro m² für die drei Niveaus (Basis / Komfort / Premium): ____ / ____ / ____ €
+  - gewünschte Spanne (aktuell ±15 % Bad, ±20–30 % übrige Gewerke): ____ %
+  Die Bad-Werte entsprechen dem bisherigen Badkalkulator (4.500 € + 2.200/3.000/4.200 €/m²).
 
-## B. Inhalte, die noch echt werden müssen
+## B. Inhalte
 
-- ⬜ **Bilder** – Hero + 6 Referenzbilder → siehe **`BILDER.md`**. (KI oder Fotograf/Bildberater.)
-- ⬜ **Zahlen & Fakten** (aktuell Beispiele): sanierte Bäder, Jahre Erfahrung, Gewährleistung, …
-  Bitte nur Zahlen nennen, die stimmen und belegbar sind (CI-Regel: kein Superlativ ohne Beleg).
-- ⬜ **Kundenstimmen** – 3 echte Zitate mit Name/Kürzel, Ort, Sternebewertung **und Einverständnis**
-  zur Veröffentlichung. (Aktuell Beispiel-Stimmen.)
-- ⬜ **Leistungen prüfen** – stimmen die 6 Bereiche (Bad, Modernisierung, Dach & Fassade,
-  Innenausbau, Sanitär/Heizung/Elektro, Maler & Böden)? Fehlt etwas, kommt etwas weg?
-- ⬜ **Einzugsgebiet** – „Hamburg und Umgebung / rund um Norderstedt": passt das so, oder konkrete
-  Orte/Umkreis (km) nennen?
-- ⬜ **Erreichbarkeit** – „Mo–Fr, 8–18 Uhr" korrekt?
-- ⬜ **Ansprechpartner** – Jamil Iqbal als Vertriebs-/Servicekontakt korrekt so darstellen?
+- ⬜ **Firmenvideo** – die Sektion „Wie arbeitet Bauwelt? In 3 Minuten erklärt" ist vorbereitet.
+  YouTube-Link oder Videodatei liefern → wird in `src/data/home.ts` (`VIDEO.url`) eingetragen.
+  Bis dahin: Standbild `video-poster.webp` (siehe BILDER.md).
+- ⬜ **Kundenstimmen** – Referenz-Slider und -Detailseiten haben ein `quote`-Feld.
+  NUR echte Zitate mit Einverständnis eintragen; aktuell bewusst leer.
+- ⬜ **Google-Unternehmensprofil** – sobald vorhanden und Bewertungen da sind, können
+  Sterne + Anzahl ins Zahlen-Band aufgenommen werden.
+- ⬜ **Porträt Burim Ahmedi** (`burim.webp`) und echte Team-/Baustellenfotos (BILDER.md).
 
-## C. Rechtliches (vor dem echten Livegang klären)
+## C. Rechtliches (vor Livegang unter eigener Domain)
 
-- ⬜ **Datenschutzerklärung prüfen lassen** – ist ein Entwurf. Muss ergänzt werden, sobald
-  Buchungskalender, Formular-Dienst oder eine Karte eingebunden sind (Auftragsverarbeitung/AVV).
-- ⬜ **Impressum – Handwerksrechtliches** – Falls Meisterbetrieb/Handwerkskammer-Pflicht:
-  zuständige **Handwerkskammer**, **Berufsbezeichnung** und ggf. **Berufshaftpflicht** ergänzen.
-  Bitte klären, was rein muss.
-- ⬜ **Trust-Aussagen belegen** – Begriffe wie „Meisterbetrieb", „Festpreis-Garantie",
-  „X Jahre Gewährleistung" nur verwenden, wenn sie stimmen und belegbar sind.
+- ⬜ **Datenschutzerklärung final prüfen lassen** (aktuell gekennzeichneter Entwurf;
+  Relexable-Buchung und lokal rechnender Projekt-Rechner sind bereits beschrieben).
+- ⬜ **Berufshaftpflicht** – Name/Sitz des Versicherers fürs Impressum nachreichen (optional).
+- ✅ HWK Lübeck + meisterpflichtige Gewerke im Impressum.
+- ✅ Versprechen-Siegel sind eigene Zusagen (kein fremdes Prüfzeichen-Wording).
 
 ## D. Domain & Betrieb
 
-- ⬜ **Eigene Domain** – Soll die Seite später unter `www.bauwelt-handwerk.de` laufen?
-  Dann brauche ich DNS-Zugriff bzw. eine Freigabe, um GitHub Pages mit der Domain zu verbinden.
-  (Für die Vorschau reicht die GitHub-Pages-Adresse.)
-- ⬜ **Google-Eintrag / Karte** – Soll eine Karte/Anfahrt eingebettet werden? (Google Maps braucht
-  einen Cookie-/Consent-Hinweis – dann ergänze ich einen Consent-Banner.)
-
-## E. Nice-to-have (optional)
-
-- ⬜ **Social Media** – Instagram/Facebook vorhanden? Dann verlinke ich es im Footer.
-- ⬜ **WhatsApp-Kontakt** – gewünscht? (In manchen Mockups war ein WhatsApp-Button.) Nummer + Freigabe nötig.
-- ⬜ **Foto von Jamil** – echtes Porträt für den Kontaktbereich (siehe `BILDER.md`), schafft Vertrauen.
-- ⬜ **Tonalität** – aktuell durchgängig „Sie" (laut CI). Falls „du" gewünscht ist, global umstellbar.
+- ⬜ **Eigene Domain `www.bauwelt-handwerk.de`** – DNS-Zugang zusagen, dann:
+  `base: '/'` in `astro.config.mjs`, Canonical/Sitemap prüfen, Search Console einrichten.
+- ⬜ **`portal.bauwelt-handwerk.de`** muss erreichbar sein, damit die Terminbuchung lädt
+  (Embed ist eingebaut und origin-geprüft).
 
 ---
 
-_Sag mir einfach, welche Punkte du hast – ich baue sie dann ein. Nichts davon blockiert die
-Design-Vorschau; es geht nur darum, die Seite Schritt für Schritt „scharf" zu schalten._
+_Nichts davon blockiert die Vorschau – die Seite läuft mit Platzhaltern sauber weiter._
