@@ -1,0 +1,318 @@
+---
+// Projekt-Rechner (Enpal-Funnel-Mechanik): 4 Schritte, Ergebnis VOR Kontaktfrage.
+// Ohne JavaScript: Hinweis + Direktkontaktwege (noscript-Prinzip via html.js-Gate).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Icon from "../components/Icon.astro";
+import BookingEmbed from "../components/BookingEmbed.astro";
+import { GEWERKE } from "../data/rechner";
+import { SITE, EMAILS } from "../consts";
+
+// Nur die Daten, die der Client braucht (keine Funktionen).
+const CLIENT_DATA = GEWERKE.map((g) => ({
+  slug: g.slug, label: g.label, frage: g.frage, unit: g.unit,
+  min: g.min, max: g.max, step: g.step, default: g.default,
+  grund: g.grund, proEinheit: g.proEinheit, tiers: g.tiers, spanne: g.spanne,
+}));
+---
+
+<BaseLayout
+  title="Projekt berechnen – in 1 Minute zur Preisspanne | Bauwelt Handwerk"
+  description="Berechnen Sie Ihr Sanierungs- oder Ausbauprojekt online: Gewerk wählen, Umfang angeben, sofort eine unverbindliche Preisspanne sehen – ohne Kontaktdaten."
+>
+  <section class="section rechner">
+    <div class="container rechner__wrap">
+      <SectionHead
+        center
+        eyebrow="Projekt-Rechner"
+        pre="Was kostet Ihr "
+        accent="Projekt?"
+        text="In einer Minute zur ersten Preisspanne – unverbindlich und ohne Angabe von Kontaktdaten."
+      />
+
+      <!-- Ohne JS: ehrlicher Hinweis + Kontaktwege -->
+      <div class="rechner__nojs">
+        <p>
+          Der Online-Rechner benötigt JavaScript. Sie erreichen uns aber jederzeit direkt –
+          wir nennen Ihnen gern am Telefon eine erste Einschätzung:
+        </p>
+        <div class="rechner__nojs-actions">
+          <a class="btn" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>
+          <a class="btn btn--dark" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn--ghost" href={`mailto:${EMAILS.service}?subject=Projektanfrage`}>E-Mail schreiben</a>
+        </div>
+      </div>
+
+      <div class="rechner__app card" data-gewerke={JSON.stringify(CLIENT_DATA)}>
+        <div class="rechner__progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Schritt 1 von 3">
+          <span class="rechner__bar" style="width: 33%"></span>
+        </div>
+
+        <!-- Schritt 1: Gewerk -->
+        <section class="rstep" data-step="1">
+          <h2 class="rstep__title">Worum geht es?</h2>
+          <div class="rechner__tiles">
+            {GEWERKE.map((g) => (
+              <button class="rtile" type="button" data-gewerk={g.slug}>
+                <Icon name={g.icon} size={30} class="icon" />
+                <span>{g.label}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <!-- Schritt 2: Umfang (wird per JS befüllt) -->
+        <section class="rstep" data-step="2" hidden>
+          <h2 class="rstep__title" id="rFrage">Wie groß ist Ihr Projekt?</h2>
+          <div class="rechner__range">
+            <input type="range" id="rMenge" min="3" max="30" step="1" value="8" aria-labelledby="rFrage" />
+            <output class="rechner__mengeout" id="rMengeOut" for="rMenge">8 m²</output>
+          </div>
+          <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau"></div>
+          <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
+        </section>
+
+        <!-- Schritt 3: Ergebnis + Kontaktwege -->
+        <section class="rstep" data-step="3" hidden>
+          <h2 class="rstep__title">Ihre erste Preisspanne</h2>
+          <p class="rechner__result" id="rErgebnis" role="status">–</p>
+          <p class="small rechner__disclaimer">
+            Unverbindliche Ersteinschätzung auf Basis von Erfahrungswerten, inkl. Material und Arbeit.
+            Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
+          </p>
+          <div class="rechner__contact">
+            <a class="btn btn--lg" href="#termin">
+              <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
+            </a>
+            <a class="btn btn--dark btn--lg" id="rWhatsapp" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener">
+              <Icon name="whatsapp" size={20} class="icon" /> Ergebnis per WhatsApp senden
+            </a>
+            <a class="btn btn--ghost btn--lg" id="rMail" href={`mailto:${EMAILS.service}`}>
+              <Icon name="mail" size={20} class="icon" /> Rückruf per E-Mail anfragen
+            </a>
+          </div>
+        </section>
+
+        <button class="rechner__back" type="button" id="rZurueck" hidden>
+          <Icon name="arrow-left" size={18} class="icon" /> Zurück
+        </button>
+      </div>
+
+      <div class="rechner__booking" id="termin">
+        <BookingEmbed />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .rechner__wrap { max-width: 860px; }
+  html:not(.js) .rechner__app { display: none; }
+  html.js .rechner__nojs { display: none; }
+  .rechner__nojs { text-align: center; display: grid; gap: 16px; justify-items: center; }
+  .rechner__nojs-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  .rechner__app { position: relative; padding: 28px; }
+  @media (min-width: 768px) { .rechner__app { padding: 40px; } }
+
+  .rechner__progress {
+    height: 6px; border-radius: var(--radius-pill);
+    background: var(--anthrazit-100);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .rechner__bar { display: block; height: 100%; background: var(--gold-500); transition: width 300ms ease; }
+
+  .rstep__title { font-size: clamp(20px, 3vw, 26px); }
+
+  .rechner__tiles { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  @media (min-width: 768px) { .rechner__tiles { grid-template-columns: repeat(3, 1fr); } }
+  .rtile {
+    display: grid; justify-items: center; gap: 10px;
+    padding: 22px 12px;
+    background: var(--weiss);
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+    color: var(--anthrazit-800);
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  }
+  .rtile .icon { color: var(--gold-700); width: 30px; height: 30px; }
+  .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
+  .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
+
+  .rechner__range { display: grid; gap: 8px; margin-block: 20px; }
+  .rechner__range input[type="range"] { width: 100%; accent-color: var(--gold-600); height: 32px; }
+  .rechner__mengeout {
+    font-family: var(--font-heading); font-weight: 800; font-size: 28px;
+    text-align: center;
+  }
+  .rechner__tiers { display: grid; gap: 10px; margin-bottom: 24px; }
+  @media (min-width: 768px) { .rechner__tiers { grid-template-columns: repeat(3, 1fr); } }
+  .rechner__tiers :global(.rtier) {
+    display: grid; gap: 4px;
+    padding: 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    background: var(--weiss);
+    text-align: left;
+    font-size: 14px;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .rechner__tiers :global(.rtier strong) { font-family: var(--font-heading); }
+  .rechner__tiers :global(.rtier small) { color: var(--anthrazit-600); }
+  .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
+  .rechner__next { width: 100%; }
+
+  .rechner__result {
+    font-family: var(--font-heading); font-weight: 800;
+    font-size: clamp(26px, 5vw, 40px);
+    color: var(--anthrazit-800);
+    margin-block: 8px 4px;
+  }
+  .rechner__disclaimer { max-width: 560px; }
+  .rechner__contact { display: grid; gap: 12px; margin-top: 24px; }
+  .rechner__contact .btn { width: 100%; }
+
+  .rechner__back {
+    position: absolute; top: 24px; left: 20px;
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 0; background: none;
+    color: var(--anthrazit-600); font-size: 14px;
+    padding: 6px 10px; border-radius: var(--radius-pill);
+  }
+  .rechner__back:hover { background: var(--anthrazit-100); }
+  html.js .rechner__app[data-started] .rechner__progress { margin-top: 24px; }
+
+  .rechner__booking { margin-top: 40px; }
+</style>
+
+<script>
+  type Tier = { id: string; label: string; hint: string };
+  type Gewerk = {
+    slug: string; label: string; frage: string; unit: string;
+    min: number; max: number; step: number; default: number;
+    grund: number; proEinheit: Record<string, number>; tiers: Tier[]; spanne: number;
+  };
+
+  const app = document.querySelector<HTMLElement>(".rechner__app");
+  if (app) {
+    const GEWERKE: Gewerk[] = JSON.parse(app.dataset.gewerke || "[]");
+    const steps = Array.from(app.querySelectorAll<HTMLElement>(".rstep"));
+    const bar = app.querySelector<HTMLElement>(".rechner__bar")!;
+    const progress = app.querySelector<HTMLElement>(".rechner__progress")!;
+    const back = document.getElementById("rZurueck")!;
+    const range = document.getElementById("rMenge") as HTMLInputElement;
+    const mengeOut = document.getElementById("rMengeOut")!;
+    const frageEl = document.getElementById("rFrage")!;
+    const tiersEl = document.getElementById("rTiers")!;
+    const ergebnisEl = document.getElementById("rErgebnis")!;
+    const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
+    const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
+
+    const state = { step: 1, gewerk: null as Gewerk | null, menge: 0, tier: "" };
+    const euro = (n: number) => n.toLocaleString("de-DE");
+
+    function show(step: number) {
+      state.step = step;
+      steps.forEach((s) => (s.hidden = Number(s.dataset.step) !== step));
+      bar.style.width = `${(step / 3) * 100}%`;
+      progress.setAttribute("aria-valuenow", String(step));
+      progress.setAttribute("aria-label", `Schritt ${step} von 3`);
+      back.hidden = step === 1;
+      app.toggleAttribute("data-started", step > 1);
+      app.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function selectGewerk(g: Gewerk) {
+      state.gewerk = g;
+      state.menge = state.menge && state.gewerk === g ? state.menge : g.default;
+      state.tier = state.tier || g.tiers[0].id;
+      app.querySelectorAll(".rtile").forEach((t) =>
+        t.classList.toggle("selected", (t as HTMLElement).dataset.gewerk === g.slug)
+      );
+      frageEl.textContent = g.frage;
+      range.min = String(g.min);
+      range.max = String(g.max);
+      range.step = String(g.step);
+      range.value = String(g.default);
+      state.menge = g.default;
+      renderTiers(g);
+      updateMenge();
+      show(2);
+    }
+
+    function renderTiers(g: Gewerk) {
+      tiersEl.innerHTML = "";
+      for (const t of g.tiers) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rtier" + (t.id === state.tier ? " selected" : "");
+        btn.setAttribute("role", "radio");
+        btn.setAttribute("aria-checked", String(t.id === state.tier));
+        btn.innerHTML = `<strong>${t.label}</strong><small>${t.hint}</small>`;
+        btn.addEventListener("click", () => {
+          state.tier = t.id;
+          tiersEl.querySelectorAll(".rtier").forEach((el) => {
+            el.classList.toggle("selected", el === btn);
+            el.setAttribute("aria-checked", String(el === btn));
+          });
+        });
+        tiersEl.append(btn);
+      }
+      if (!g.tiers.some((t) => t.id === state.tier)) state.tier = g.tiers[0].id;
+    }
+
+    function updateMenge() {
+      state.menge = Number(range.value);
+      mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
+    }
+
+    function spanne() {
+      const g = state.gewerk!;
+      const proE = g.proEinheit[state.tier] ?? Object.values(g.proEinheit)[0];
+      const basis = g.grund + state.menge * proE;
+      const r = (n: number) => Math.round(n / 500) * 500;
+      return { von: r(basis * (1 - g.spanne)), bis: r(basis * (1 + g.spanne)) };
+    }
+
+    function showResult() {
+      const g = state.gewerk!;
+      const { von, bis } = spanne();
+      const tierLabel = g.tiers.find((t) => t.id === state.tier)?.label ?? "";
+      ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
+
+      const beschreibung =
+        `${g.label}, ${state.menge} ${g.unit}, Niveau „${tierLabel}", ` +
+        `Ersteinschätzung ca. ${euro(von)}–${euro(bis)} €`;
+      const waText =
+        `Hallo Bauwelt Handwerk, ich habe gerade mein Projekt berechnet: ${beschreibung}. ` +
+        `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank!`;
+      waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
+
+      const subject = `Projektanfrage: ${g.label}`;
+      const body =
+        `Guten Tag,\n\nich habe im Online-Rechner folgendes Projekt berechnet:\n` +
+        `${beschreibung}.\n\nBitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
+        `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
+      mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      show(3);
+    }
+
+    // Events
+    app.querySelectorAll<HTMLButtonElement>(".rtile").forEach((tile) =>
+      tile.addEventListener("click", () => {
+        const g = GEWERKE.find((x) => x.slug === tile.dataset.gewerk);
+        if (g) selectGewerk(g);
+      })
+    );
+    range.addEventListener("input", updateMenge);
+    document.getElementById("rWeiter")!.addEventListener("click", showResult);
+    back.addEventListener("click", () => show((state.step - 1) as 1 | 2));
+
+    // Vorauswahl per ?gewerk=<slug> (aus den Gewerk-Sektionen der Startseite)
+    const pre = new URLSearchParams(location.search).get("gewerk");
+    const preG = pre ? GEWERKE.find((g) => g.slug === pre) : null;
+    if (preG) selectGewerk(preG);
+  }
+</script>
