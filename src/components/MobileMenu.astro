@@ -1,0 +1,97 @@
+---
+// Vollbild-Menü (<1024px): aufklappbare Gruppen via <details>, scrollbar,
+// iOS-Safe-Area (Lektion: Inhalt war auf kleinen Handys nicht erreichbar).
+import { NAV2, CTA, SITE, u, waLink } from "../consts";
+import Icon from "./Icon.astro";
+---
+
+<div class="mm" id="mobileMenu">
+  <nav aria-label="Mobile Navigation">
+    <ul class="mm__list">
+      {NAV2.map((item) =>
+        item.children ? (
+          <li>
+            <details class="mm__group">
+              <summary>
+                {item.label}
+                <Icon name="chevron" size={18} class="icon mm__chev" />
+              </summary>
+              <ul class="mm__sub">
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href}>
+                      {c.icon && <Icon name={c.icon} size={20} class="icon mm__icon" />}
+                      {c.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        ) : (
+          <li><a class="mm__top" href={item.href}>{item.label}</a></li>
+        )
+      )}
+    </ul>
+  </nav>
+
+  <div class="mm__footer">
+    <a class="btn btn--lg mm__cta" href={CTA.href}>{CTA.label}</a>
+    <div class="mm__contact">
+      <a class="btn btn--ghost" href={`tel:${SITE.phoneTel}`}>
+        <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
+      </a>
+      <a class="btn btn--ghost" href={waLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} class="icon" /> WhatsApp
+      </a>
+    </div>
+    <p class="small">{SITE.hours} · Antwort innerhalb von 24 Stunden</p>
+  </div>
+</div>
+
+<style>
+  .mm {
+    position: fixed;
+    inset: var(--header-h-scrolled) 0 0 0;
+    z-index: 99;
+    background: var(--weiss);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 24px 20px calc(32px + env(safe-area-inset-bottom));
+    display: none;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .mm.open { display: flex; }
+  @media (min-width: 1024px) { .mm.open { display: none; } }
+
+  .mm__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .mm__top, .mm__group summary {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 8px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 18px;
+    color: var(--anthrazit-800);
+    text-decoration: none;
+    border-bottom: 1px solid var(--linie);
+    cursor: pointer;
+    list-style: none;
+  }
+  .mm__group summary::-webkit-details-marker { display: none; }
+  .mm__chev { transition: transform var(--transition); }
+  .mm__group[open] summary .mm__chev { transform: rotate(180deg); }
+  .mm__sub { list-style: none; margin: 0; padding: 8px 0 8px 8px; display: grid; gap: 2px; }
+  .mm__sub a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 8px;
+    color: var(--anthrazit-700);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+  }
+  .mm__sub a:active { background: var(--gold-100); }
+  .mm__icon { color: var(--gold-700); flex: none; }
+
+  .mm__footer { display: grid; gap: 16px; margin-top: auto; }
+  .mm__cta { width: 100%; }
+  .mm__contact { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mm__footer .small { text-align: center; margin: 0; }
+</style>

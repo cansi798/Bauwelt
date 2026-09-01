@@ -2,6 +2,9 @@
 // Grundgerüst aller Seiten: <head>, Header/Footer folgen in späteren Tasks.
 import "../styles/global.css";
 import IconSprite from "../components/IconSprite.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import StickyBar from "../components/StickyBar.astro";
 import { SITE, u } from "../consts";
 
 interface Props {
@@ -30,7 +33,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <IconSprite />
-    <slot />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <StickyBar />
     <script>
       // Scroll-Reveal: nur Zusatz-Schicht. Ohne JS fehlt html.js → alles sichtbar (CSS-Gate).
       const els = document.querySelectorAll(".reveal");

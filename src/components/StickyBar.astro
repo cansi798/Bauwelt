@@ -1,0 +1,23 @@
+---
+// Mobile Sticky-Leiste unten: ein fokussierter CTA (Enpal-Muster) → Projekt-Rechner.
+import { CTA } from "../consts";
+---
+
+<div class="sticky-bar">
+  <a class="btn sticky-bar__cta" href={CTA.href}>{CTA.label}</a>
+</div>
+
+<style>
+  .sticky-bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 90;
+    background: var(--weiss);
+    border-top: 1px solid var(--linie);
+    padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+    display: flex;
+    height: calc(var(--stickybar-h) + env(safe-area-inset-bottom));
+  }
+  .sticky-bar__cta { flex: 1; }
+  @media (min-width: 1024px) { .sticky-bar { display: none; } }
+</style>
