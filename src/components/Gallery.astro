@@ -1,0 +1,80 @@
+---
+// Referenz-Galerie mit Gewerk-Filter. Ohne JS: Filterleiste ausgeblendet, alle sichtbar.
+import { u } from "../consts";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  projects: CollectionEntry<"referenzen">[];
+}
+const { projects } = Astro.props;
+
+const CATS = [
+  { id: "alle", label: "Alle Projekte" },
+  { id: "bad", label: "Bad" },
+  { id: "sanierung", label: "Sanierung & Ausbau" },
+  { id: "aussen", label: "Dach & Fassade" },
+];
+---
+
+<div class="gal">
+  <div class="gal__filter" role="group" aria-label="Referenzen filtern">
+    {CATS.map((c, i) => (
+      <button class:list={["gal__chip", { selected: i === 0 }]} type="button" data-cat={c.id} aria-pressed={i === 0 ? "true" : "false"}>
+        {c.label}
+      </button>
+    ))}
+  </div>
+
+  <div class="grid cols-3 gal__grid">
+    {projects.map((r) => (
+      <a class="card refcard reveal" href={u(`referenzen/${r.id}/`)} data-cat={r.data.cat}>
+        <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={520} h={390} />
+        <div class="refcard__body">
+          <h2>{r.data.title}</h2>
+          <p class="small"><Icon name="pin" size={14} class="icon" /> {r.data.place}{r.data.dauer && ` · ${r.data.dauer}`}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .gal__filter { display: none; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  html.js .gal__filter { display: flex; }
+  .gal__chip {
+    padding: 10px 18px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--linie);
+    background: var(--weiss);
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+    color: var(--anthrazit-700);
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .gal__chip:hover { border-color: var(--gold-500); }
+  .gal__chip.selected { border-color: var(--gold-500); background: var(--gold-100); color: var(--anthrazit-900); }
+
+  .refcard { padding: 12px; display: grid; }
+  .refcard__body { padding: 14px 10px 6px; }
+  .refcard__body h2 { margin: 0 0 4px; font-size: 18px; text-transform: none; letter-spacing: 0; }
+  .refcard__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
+  .refcard__body .icon { color: var(--gold-700); }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>(".gal__chip");
+  const cards = document.querySelectorAll<HTMLElement>(".gal__grid [data-cat]");
+  chips.forEach((chip) =>
+    chip.addEventListener("click", () => {
+      const cat = chip.dataset.cat;
+      chips.forEach((c) => {
+        c.classList.toggle("selected", c === chip);
+        c.setAttribute("aria-pressed", String(c === chip));
+      });
+      cards.forEach((card) => {
+        card.style.display = cat === "alle" || card.dataset.cat === cat ? "" : "none";
+      });
+    })
+  );
+</script>
