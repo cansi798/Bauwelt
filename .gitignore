@@ -39,3 +39,6 @@ hdr-*.png
 
 # Relaunch-QS-Screenshots
 shots/
+
+# vboxsf-Phantom (Verzeichnis-Alias von src/styles, nach VM-Neustart löschbar)
+src_old/
