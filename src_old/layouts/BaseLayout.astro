@@ -1,0 +1,186 @@
+---
+import "../styles/global.css";
+import { SITE, u } from "../consts";
+import IconSprite from "../components/IconSprite.astro";
+import Header from "../components/Header.astro";
+import MobileMenu from "../components/MobileMenu.astro";
+import Footer from "../components/Footer.astro";
+import PhoneBar from "../components/PhoneBar.astro";
+import BackToTop from "../components/BackToTop.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: string;
+  noindex?: boolean;
+}
+const {
+  title,
+  description = "Bauwelt Handwerk saniert Bäder zum Festpreis und modernisiert Immobilien in Hamburg und Umgebung. Fester Preis, feste Termine, ein Ansprechpartner – alles aus einer Hand.",
+  active,
+  noindex = false,
+} = Astro.props;
+
+const ogImage = new URL(u("assets/og-image.png"), Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Strukturierte Daten für lokale Suche (Schema.org)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  name: SITE.legal,
+  image: ogImage.href,
+  url: new URL(u(""), Astro.site).href,
+  telephone: SITE.phoneTel,
+  email: SITE.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE.street,
+    postalCode: SITE.zip,
+    addressLocality: SITE.city,
+    addressCountry: "DE",
+  },
+  areaServed: SITE.region,
+  priceRange: "€€",
+  openingHours: "Mo-Fr 08:00-18:00",
+};
+---
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex,follow" : "index,follow"} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href={u("sitemap.xml")} />
+    <link rel="icon" href={u("favicon.ico")} sizes="48x48" />
+    <link rel="icon" href={u("assets/favicon-32.png")} sizes="32x32" type="image/png" />
+    <link rel="icon" href={u("assets/favicon-512.png")} sizes="512x512" type="image/png" />
+    <link rel="apple-touch-icon" href={u("assets/favicon-180.png")} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="theme-color" content="#2D2C2E" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <IconSprite />
+    <Header active={active} />
+    <MobileMenu />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <PhoneBar />
+    <BackToTop />
+
+    <script>
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const $ = (s: string, c: ParentNode = document) => c.querySelector(s);
+      const $$ = (s: string, c: ParentNode = document) => Array.from(c.querySelectorAll(s));
+
+      // Header schrumpfen + Back-to-top einblenden
+      const header = $(".header");
+      const toTop = $(".to-top");
+      const progress = document.getElementById("scrollProgress");
+      const onScroll = () => {
+        const y = window.scrollY;
+        header?.classList.toggle("scrolled", y > 20);
+        toTop?.classList.toggle("show", y > 600);
+        if (progress) {
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          progress.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+      toTop?.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" })
+      );
+
+      // Mobiles Menü
+      const burger = $(".burger");
+      const menu = $("#mobileMenu");
+      if (burger && menu) {
+        const setOpen = (open: boolean) => {
+          menu.classList.toggle("open", open);
+          menu.setAttribute("aria-hidden", String(!open));
+          burger.setAttribute("aria-expanded", String(open));
+          document.body.style.overflow = open ? "hidden" : "";
+        };
+        burger.addEventListener("click", () => setOpen(true));
+        $(".mobile-menu__close", menu)?.addEventListener("click", () => setOpen(false));
+        $$("a", menu).forEach((a) => a.addEventListener("click", () => setOpen(false)));
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+      }
+
+      // FAQ-Akkordeon
+      $$(".faq__item").forEach((item) => {
+        const q = $(".faq__q", item);
+        q?.addEventListener("click", () => {
+          const open = item.classList.toggle("open");
+          q.setAttribute("aria-expanded", String(open));
+        });
+      });
+
+      // Zahlen hochzählen
+      const counters = $$("[data-count]");
+      if (counters.length && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target as HTMLElement;
+            const target = Number(el.dataset.count);
+            const unit = el.querySelector(".unit");
+            const unitHTML = unit ? unit.outerHTML : "";
+            if (reduceMotion) { el.innerHTML = target + unitHTML; }
+            else {
+              let n = 0; const step = Math.max(1, Math.round(target / 40));
+              const tick = () => { n = Math.min(target, n + step); el.innerHTML = n + unitHTML; if (n < target) requestAnimationFrame(tick); };
+              tick();
+            }
+            io.unobserve(el);
+          });
+        }, { threshold: 0.5 });
+        counters.forEach((c) => io.observe(c));
+      }
+
+      // Sanfte Einblendung – scroll-sicher (IntersectionObserver verpasst bei
+      // schnellem Scrollen/Ankersprüngen Einblendungen; Inhalt bliebe sonst
+      // dauerhaft unsichtbar). Daher ein rAF-gedrosselter Sichtbarkeits-Check.
+      const reveals = $$(".reveal");
+      if (reveals.length) {
+        if (reduceMotion) {
+          reveals.forEach((r) => r.classList.add("in"));
+        } else {
+          let pending = [...reveals];
+          let ticking = false;
+          const revealInView = () => {
+            ticking = false;
+            const margin = window.innerHeight * 0.92; // etwas vor dem Eintritt einblenden
+            pending = pending.filter((el) => {
+              if (el.getBoundingClientRect().top < margin) { el.classList.add("in"); return false; }
+              return true;
+            });
+            if (!pending.length) {
+              window.removeEventListener("scroll", onScrollReveal);
+              window.removeEventListener("resize", onScrollReveal);
+            }
+          };
+          const onScrollReveal = () => { if (!ticking) { ticking = true; requestAnimationFrame(revealInView); } };
+          window.addEventListener("scroll", onScrollReveal, { passive: true });
+          window.addEventListener("resize", onScrollReveal);
+          revealInView();
+          // Sicherheitsnetz: nach dem Laden nichts Verstecktes zurücklassen.
+          window.addEventListener("load", () => setTimeout(revealInView, 200));
+        }
+      }
+    </script>
+  </body>
+</html>
