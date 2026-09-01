@@ -1,0 +1,77 @@
+---
+// Für Partner (B2B): Kooperationen für Hausverwaltungen, Makler, Architekten,
+// Subunternehmer. Eigener Kontakt-CTA (partner@) – bewusst NICHT der Rechner.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Icon from "../components/Icon.astro";
+import { EMAILS, SITE } from "../consts";
+
+const ZIELGRUPPEN = [
+  { icon: "wall", title: "Hausverwaltungen", text: "Ein Rahmen, viele Objekte: feste Ansprechpartner, dokumentierte Ausführung, planbare Budgets für Instandhaltung und Sanierung." },
+  { icon: "pin", title: "Makler & Investoren", text: "Wir machen Objekte vermarktungs- oder vermietfertig – mit Festpreis und verbindlichem Endtermin für Ihre Kalkulation." },
+  { icon: "reno", title: "Architekten & Planer", text: "Zuverlässige Ausführung Ihrer Planung, sauber koordinierte Gewerke, kurze Kommunikationswege." },
+  { icon: "tools", title: "Fachbetriebe", text: "Sie sind stark in Ihrem Gewerk? Wir arbeiten mit festen Partnern aus der Region – fair, pünktlich bezahlt, langfristig." },
+];
+---
+
+<BaseLayout
+  title="Für Partner – Zusammenarbeit mit Bauwelt Handwerk"
+  description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe: Sanierung und Ausbau mit Festpreis, Dokumentation und festen Ansprechpartnern."
+>
+  <PageHero
+    eyebrow="Für Partner"
+    pre="Zusammenarbeit, auf die man "
+    accent="bauen kann"
+    lead="Sie betreuen Objekte, vermitteln Projekte oder planen Umbauten? Wir sind der ausführende Partner, der Zusagen hält – beim ersten Projekt und beim zwanzigsten."
+    bild="hero-partner.webp"
+    alt="Zwei Profis mit Tablet an der Trockenbauwand"
+    ctaHref={`mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`}
+    ctaLabel="Zusammenarbeit anfragen"
+  />
+
+  <section class="section section--sand">
+    <div class="container">
+      <SectionHead eyebrow="Für wen" pre="Mit wem wir " accent="arbeiten" />
+      <div class="grid cols-2">
+        {ZIELGRUPPEN.map((z) => (
+          <div class="card pcard reveal">
+            <span class="pcard__icon"><Icon name={z.icon} size={26} class="icon" /></span>
+            <h3>{z.title}</h3>
+            <p>{z.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container text-center partner__cta">
+      <SectionHead
+        center
+        eyebrow="Kontakt für Partner"
+        pre="Lassen Sie uns "
+        accent="sprechen"
+        text="Schreiben Sie uns kurz, worum es geht – wir melden uns innerhalb von 24 Stunden mit einem Terminvorschlag."
+      />
+      <a class="btn btn--lg" href={`mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`}>
+        <Icon name="mail" size={20} class="icon" /> {EMAILS.partner}
+      </a>
+      <p class="small">Oder direkt: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pcard { display: grid; gap: 10px; align-content: start; }
+  .pcard h3 { margin: 0; font-size: 18px; }
+  .pcard p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .pcard__icon {
+    width: 52px; height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .partner__cta { display: grid; justify-items: center; gap: 8px; }
+</style>

@@ -1,0 +1,63 @@
+---
+// Über uns: Story, Werte (USP ausführlich), Team, Ansprechpartner.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import UspSection from "../components/UspSection.astro";
+import SiegelSlider from "../components/SiegelSlider.astro";
+import ContactSection from "../components/ContactSection.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Img from "../components/Img.astro";
+import { SITE } from "../consts";
+---
+
+<BaseLayout
+  title="Über uns – der Meisterbetrieb hinter Bauwelt | Bauwelt Handwerk"
+  description="Die Bauwelt Handwerk GmbH aus Norderstedt saniert Bäder, Wohnungen und Häuser – mit eigenem Team, einem Ansprechpartner pro Projekt und Festpreis-Garantie."
+>
+  <PageHero
+    eyebrow="Über uns"
+    pre="Handwerk mit "
+    accent="Handschlag"
+    lead={`Die ${SITE.legal} aus ${SITE.city} steht für Sanierung und Ausbau mit klaren Zusagen: ein Ansprechpartner, ein Festpreis, ein verbindlicher Termin.`}
+    bild="hero-ueber-uns.webp"
+    alt="Das Bauwelt-Team auf der Baustelle"
+  />
+
+  <section class="section">
+    <div class="container ueber__grid">
+      <div>
+        <SectionHead eyebrow="Unsere Geschichte" pre="Vom Bad zum ganzen " accent="Haus" />
+        <p>
+          Unser Kerngeschäft ist die Badsanierung zum Festpreis – über 30 Bäder haben wir
+          bereits geplant, gebaut und übergeben. Dazu kommen mehr als 15 Komplettsanierungen
+          von Wohnungen und Häusern, bei denen wir alle Gewerke koordiniert haben.
+        </p>
+        <p>
+          Hinter Bauwelt stehen mehr als zehn Jahre Handwerkserfahrung und ein Team, das
+          Sanierung und Ausbau von der Planung bis zur Abnahme aus einer Hand liefert.
+          Geführt wird das Unternehmen von {SITE.managing} – und der steht mit seinem
+          Namen für jedes übergebene Projekt.
+        </p>
+        <p>
+          Drei Dinge ändern sich bei uns nie: Wir nennen Preise, bevor wir anfangen.
+          Wir halten Termine, weil wir sie selbst planen. Und wir übergeben erst,
+          wenn wir selbst zufrieden sind – solide, nahbar, verlässlich.
+        </p>
+      </div>
+      <div class="ueber__media reveal">
+        <Img src="team.webp" alt="Das Team bei der Arbeit im Rohbau" w={720} h={540} />
+      </div>
+    </div>
+  </section>
+
+  <UspSection />
+  <SiegelSlider />
+  <ContactSection />
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .ueber__grid { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 1024px) { .ueber__grid { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
+</style>
