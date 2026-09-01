@@ -1,0 +1,39 @@
+---
+// Dunkles CTA-Band (Enpal-Muster): Wiederhol-CTA mit Trust-Punkten.
+import { CTA } from "../consts";
+import { CTA_BAND } from "../data/home";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** Überschreibt die Standard-Headline, z. B. auf Leistungsseiten. */
+  pre?: string;
+  accent?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+const {
+  pre = CTA_BAND.pre,
+  accent = CTA_BAND.accent,
+  ctaHref = CTA.href,
+  ctaLabel = CTA.label,
+} = Astro.props;
+---
+
+<section class="section section--dark ctaband">
+  <div class="container ctaband__inner">
+    <h2>{pre}<span class="accent">{accent}</span></h2>
+    <p>{CTA_BAND.text}</p>
+    <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
+    <ul class="check-row ctaband__checks">
+      {CTA_BAND.checks.map((c) => (
+        <li><Icon name="check" size={18} class="icon" /> {c}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ctaband__inner { display: grid; justify-items: center; text-align: center; gap: 16px; }
+  .ctaband__inner h2, .ctaband__inner p { margin: 0; }
+  .ctaband__checks { justify-content: center; margin-top: 8px; }
+</style>

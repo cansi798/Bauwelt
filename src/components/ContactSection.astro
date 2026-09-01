@@ -1,0 +1,81 @@
+---
+// Kontakt-Sektion: Ansprechpartner-Karten + Direktkontakt-Buttons.
+// Bewusst KEIN Formular (Kundenentscheidung) – E-Mail per mailto, Anruf, WhatsApp.
+import { SITE, EMAILS, u, waLink } from "../consts";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="section" id="kontakt">
+  <div class="container contact__grid">
+    <div>
+      <SectionHead
+        eyebrow="Kontakt"
+        pre="Sprechen Sie mit "
+        accent="uns"
+        text="Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen – Sie erreichen uns direkt, ohne Warteschleife."
+      />
+      <div class="contact__persons">
+        {SITE.contacts.map((c) => (
+          <div class="contact__person">
+            <span class="contact__photo">
+              <img
+                src={u(`assets/img/${c.photo}`)}
+                alt={`Porträt ${c.name}`}
+                width="72" height="72"
+                loading="lazy"
+                onerror="this.remove()"
+              />
+              <Icon name="user" size={28} class="icon" />
+            </span>
+            <span>
+              <strong>{c.name}</strong>
+              <small>{c.role}</small>
+            </span>
+          </div>
+        ))}
+      </div>
+      <p class="small">{SITE.hours} · Antwort innerhalb von 24 Stunden</p>
+    </div>
+
+    <div class="contact__actions">
+      <a class="btn btn--lg" href={`tel:${SITE.phoneTel}`}>
+        <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
+      </a>
+      <a class="btn btn--dark btn--lg" href={waLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
+      </a>
+      <a class="btn btn--ghost btn--lg" href={`mailto:${EMAILS.service}`}>
+        <Icon name="mail" size={20} class="icon" /> E-Mail schreiben
+      </a>
+      <address class="contact__addr small">
+        {SITE.legal} · {SITE.street} · {SITE.zip} {SITE.city}
+      </address>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__grid { display: grid; gap: 40px; align-items: start; }
+  @media (min-width: 1024px) { .contact__grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
+
+  .contact__persons { display: grid; gap: 16px; margin-bottom: 20px; }
+  .contact__person { display: flex; align-items: center; gap: 16px; }
+  .contact__person span:last-child { display: grid; line-height: 1.4; }
+  .contact__person small { color: var(--anthrazit-600); }
+  .contact__photo {
+    position: relative; flex: none;
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--gold-100);
+    color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 2px solid var(--gold-300);
+  }
+  .contact__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+
+  .contact__actions { display: grid; gap: 14px; }
+  .contact__actions .btn { width: 100%; }
+  .contact__addr { font-style: normal; text-align: center; margin-top: 4px; }
+</style>

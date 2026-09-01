@@ -1,0 +1,147 @@
+---
+// Online-Terminbuchung (Relexable). Verhalten 1:1 aus dem Vorgänger übernommen:
+// Kalender-iframe lädt beim ersten Klick auf einen „#termin"-Link (Delegation,
+// hashchange, Hash-beim-Load). Alle postMessages streng origin-geprüft.
+import { SITE, waLink } from "../consts";
+import Icon from "./Icon.astro";
+
+const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
+const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
+const WA_HREF = waLink();
+---
+
+<div class="booking" id="bookingEmbed" data-src={BOOKING_SRC}>
+  <div class="booking__intro" id="bookingIntro">
+    <Icon name="calendar" size={48} class="icon booking__icon" />
+    <h3>Termin online buchen</h3>
+    <p>Wählen Sie direkt einen passenden Termin für Ihr kostenloses Beratungsgespräch.</p>
+    <ul class="check-row booking__chips">
+      <li><Icon name="check" size={16} class="icon" /> Kostenlos</li>
+      <li><Icon name="check" size={16} class="icon" /> Unverbindlich</li>
+      <li><Icon name="clock" size={16} class="icon" /> Antwort in 24 h</li>
+    </ul>
+    <button type="button" class="btn" id="bookingLoad">
+      <Icon name="calendar" size={18} class="icon" /> Termin buchen
+    </button>
+    <p class="small">
+      Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·
+      <a href={WA_HREF} target="_blank" rel="noopener">WhatsApp</a>
+    </p>
+  </div>
+</div>
+
+<style>
+  .booking {
+    background: var(--weiss);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+  }
+  .booking__intro { display: grid; justify-items: center; text-align: center; gap: 12px; padding: 28px 12px; }
+  .booking__intro h3, .booking__intro p { margin: 0; }
+  .booking__icon { color: var(--gold-700); width: 48px; height: 48px; }
+  .booking__chips { justify-content: center; }
+  .booking :global(.booking-spinner) {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 40px; color: var(--anthrazit-600);
+  }
+  .booking :global(.booking-spinner__ring) {
+    width: 22px; height: 22px;
+    border: 3px solid var(--gold-200);
+    border-top-color: var(--gold-600);
+    border-radius: 50%;
+    animation: bspin 0.9s linear infinite;
+  }
+  @keyframes bspin { to { transform: rotate(360deg); } }
+  .booking :global(.booking__after) { margin: 12px 4px 0; }
+  .booking :global(.booking__done) {
+    display: grid; gap: 4px;
+    background: var(--erfolg-hell);
+    color: var(--anthrazit-800);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+</style>
+
+<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay, WA_HREF }}>
+  (function () {
+    var wrap = document.getElementById("bookingEmbed");
+    if (!wrap) return;
+    var loaded = false, done = false;
+
+    function loadCalendar() {
+      if (loaded) return;
+      loaded = true;
+      var intro = document.getElementById("bookingIntro");
+      if (intro) intro.remove();
+
+      var spinner = document.createElement("div");
+      spinner.className = "booking-spinner";
+      spinner.id = "bookingSpinner";
+      spinner.innerHTML = '<span class="booking-spinner__ring"></span><span>Kalender wird geladen …</span>';
+      wrap.appendChild(spinner);
+
+      var frame = document.createElement("iframe");
+      frame.src = wrap.dataset.src;
+      frame.id = "relexable-booking";
+      frame.title = "Termin online buchen";
+      frame.loading = "lazy";
+      frame.setAttribute("referrerpolicy", "no-referrer");
+      frame.style.cssText = "width:100%;min-height:720px;border:0;border-radius:10px;background:#fff";
+      frame.addEventListener("load", function () {
+        var s = document.getElementById("bookingSpinner");
+        if (s) s.remove();
+      });
+      wrap.appendChild(frame);
+
+      var after = document.createElement("p");
+      after.className = "booking__after small";
+      after.innerHTML =
+        'Nach der Buchung erhalten Sie eine Bestätigung. Fragen? ' +
+        '<a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a> · ' +
+        '<a href="' + WA_HREF + '" target="_blank" rel="noopener">WhatsApp</a> · ' +
+        'Bereitgestellt über portal.bauwelt-handwerk.de';
+      wrap.appendChild(after);
+    }
+
+    function showConfirmation() {
+      if (done) return;
+      done = true;
+      var box = document.createElement("div");
+      box.className = "booking__done";
+      box.setAttribute("role", "status");
+      box.innerHTML =
+        '<strong>Vielen Dank – Ihr Terminwunsch ist eingegangen.</strong>' +
+        '<span>Sie erhalten in Kürze eine Bestätigung. Bei Fragen erreichen Sie uns unter ' +
+        '<a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a>.</span>';
+      wrap.insertBefore(box, wrap.firstChild);
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    var btn = document.getElementById("bookingLoad");
+    if (btn) btn.addEventListener("click", loadCalendar);
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      var a = t && t.closest ? t.closest('a[href$="#termin"]') : null;
+      if (a) loadCalendar();
+    });
+    if (location.hash === "#termin") loadCalendar();
+    window.addEventListener("hashchange", function () {
+      if (location.hash === "#termin") loadCalendar();
+    });
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== BOOKING_ORIGIN) return;
+      var d = event.data || {};
+      if (d.type === "relexable-booking-height") {
+        var frame = document.getElementById("relexable-booking");
+        if (frame && d.height) frame.style.height = d.height + "px";
+        return;
+      }
+      var signal = ((d.type || d.event || d.status || "") + "").toLowerCase();
+      if (/confirm|success|booked|complete|gebucht|bestätig/.test(signal)) showConfirmation();
+    });
+  })();
+</script>

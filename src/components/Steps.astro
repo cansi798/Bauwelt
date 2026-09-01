@@ -1,0 +1,50 @@
+---
+// Ablauf in 4 Schritten – nummerierte Karten mit Verbindungslinie (Desktop).
+import { STEPS } from "../data/home";
+
+interface Props {
+  /** Alternative Schritte, z. B. gewerkspezifisch auf Leistungsseiten. */
+  steps?: { title: string; text: string }[];
+}
+const { steps = STEPS } = Astro.props;
+---
+
+<ol class="steps">
+  {steps.map((s, i) => (
+    <li class="steps__item reveal">
+      <span class="steps__num">{i + 1}</span>
+      <h3>{s.title}</h3>
+      <p>{s.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 20px;
+    counter-reset: step;
+  }
+  @media (min-width: 768px)  { .steps { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+
+  .steps__item {
+    position: relative;
+    background: var(--weiss);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px 24px;
+    display: grid; gap: 8px; align-content: start;
+  }
+  .steps__item h3 { margin: 0; font-size: 17px; }
+  .steps__item p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .steps__num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    font-family: var(--font-heading); font-weight: 800; font-size: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+  }
+</style>
