@@ -1,11 +1,20 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE } from "../consts";
+import Hero from "../components/Hero.astro";
+import TrustBand from "../components/TrustBand.astro";
+import LeistungSection from "../components/LeistungSection.astro";
+import VideoSection from "../components/VideoSection.astro";
+import { LEISTUNG_SECTIONS } from "../data/home";
 ---
 
 <BaseLayout
-  title={`${SITE.name} – Sanierung & Ausbau zum Festpreis`}
-  description="Sanierung, Badsanierung und Ausbau zum Festpreis in Norderstedt, Hamburg und Umgebung – persönlich beraten, alles aus einer Hand, termintreu."
+  title="Sanierung & Ausbau zum Festpreis in Norderstedt & Hamburg | Bauwelt Handwerk"
+  description="Badsanierung, Komplettsanierung und Ausbau zum Festpreis – ein Ansprechpartner, alle Gewerke, verbindlicher Zeitplan. Jetzt Projekt online berechnen."
 >
-  <h1>Relaunch in Arbeit</h1>
+  <Hero />
+  <TrustBand />
+  {LEISTUNG_SECTIONS.map((l, i) => (
+    <LeistungSection data={l} reverse={i % 2 === 1} sand={i % 2 === 1} />
+  ))}
+  <VideoSection />
 </BaseLayout>

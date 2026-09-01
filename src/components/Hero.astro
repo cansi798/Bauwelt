@@ -1,0 +1,66 @@
+---
+// Startseiten-Hero (Enpal-Muster): große Headline, Trust-Häkchen, ein CTA,
+// großes Bild rechts (Desktop) bzw. oben (Mobil), Versprechen-Badge.
+import { CTA } from "../consts";
+import { HERO } from "../data/home";
+import { VERSPRECHEN } from "../data/versprechen";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+
+const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Position
+---
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <div class="eyebrow">{HERO.eyebrow}</div>
+      <h1>{HERO.pre}<span class="accent">{HERO.accent}</span></h1>
+      <p class="lead">{HERO.sub}</p>
+      <ul class="check-row">
+        {HERO.checks.map((c) => (
+          <li><Icon name="check" size={18} class="icon" /> {c}</li>
+        ))}
+      </ul>
+      <div class="hero__actions">
+        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+        <span class="small">Unverbindlich · Ergebnis in 1 Minute</span>
+      </div>
+    </div>
+    <div class="hero__media">
+      <Img src={HERO.bild} alt="Referenzprojekt der Bauwelt Handwerk GmbH" w={880} h={660} eager />
+      <div class="hero__badge" title={badge.short}>
+        <Icon name={badge.icon} size={26} class="icon" />
+        <span>{badge.title}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: 40px 56px; }
+  .hero__grid { display: grid; gap: 32px; align-items: center; }
+  .hero__copy { display: grid; gap: 20px; justify-items: start; }
+  .hero__copy h1, .hero__copy p { margin: 0; }
+  .hero__actions { display: grid; gap: 8px; justify-items: start; }
+  .hero__media { position: relative; }
+  .hero__badge {
+    position: absolute; right: 16px; bottom: 16px;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--weiss);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-lg);
+    padding: 10px 18px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    color: var(--anthrazit-800);
+  }
+  .hero__badge .icon { color: var(--gold-700); }
+
+  @media (max-width: 1023px) {
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__media { order: -1; }
+  }
+  @media (min-width: 1024px) {
+    .hero { padding-block: 64px 88px; }
+    .hero__grid { grid-template-columns: 1.05fr 1fr; gap: 56px; }
+  }
+</style>
