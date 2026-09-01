@@ -1,0 +1,18 @@
+---
+// Sektions-Überschrift: eyebrow + H2 mit goldenem Akzentwort + goldene Kurzlinie.
+interface Props {
+  eyebrow?: string;
+  pre: string;       // Text vor dem Akzentwort
+  accent?: string;   // goldenes Wort
+  text?: string;     // optionaler Beschreibungstext unter der Headline
+  center?: boolean;
+  as?: "h1" | "h2";
+}
+const { eyebrow, pre, accent = "", text, center = false, as: Tag = "h2" } = Astro.props;
+---
+
+<div class:list={["section-head", { center }]}>
+  {eyebrow && <div class="eyebrow">{eyebrow}</div>}
+  <Tag class="rule">{pre}{accent && <span class="accent">{accent}</span>}</Tag>
+  {text && <p class="lead">{text}</p>}
+</div>

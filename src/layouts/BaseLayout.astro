@@ -1,6 +1,7 @@
 ---
 // Grundgerüst aller Seiten: <head>, Header/Footer folgen in späteren Tasks.
 import "../styles/global.css";
+import IconSprite from "../components/IconSprite.astro";
 import { SITE, u } from "../consts";
 
 interface Props {
@@ -28,6 +29,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <IconSprite />
     <slot />
+    <script>
+      // Scroll-Reveal: nur Zusatz-Schicht. Ohne JS fehlt html.js → alles sichtbar (CSS-Gate).
+      const els = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-visible");
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -10% 0px" }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add("is-visible"));
+      }
+    </script>
   </body>
 </html>
