@@ -3,11 +3,12 @@
 
 export const HERO = {
   eyebrow: "Meisterbetrieb für Norderstedt, Hamburg & Umgebung",
-  pre: "Sanierung & Ausbau zum ",
-  accent: "Festpreis",
-  sub:
-    "Ein Ansprechpartner, alle Gewerke, ein verbindlicher Preis. " +
-    "Wir sanieren Bäder, Wohnungen und Häuser – persönlich beraten und termintreu.",
+  /** Headline: "Ihr <rotierender Begriff> zum Festpreis" – Begriffe rollen per CSS. */
+  vor: "Ihr",
+  nach: "zum Festpreis",
+  /** Rotierende Begriffe (erster = Fallback ohne Animation/reduced motion). */
+  begriffe: ["neues Bad", "Zuhause", "neues Dach", "Innenausbau", "Projekt"],
+  sub: "Ein Ansprechpartner. Alle Gewerke. Ein fester Preis.",
   checks: ["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"],
   bild: "hero.webp",
 };

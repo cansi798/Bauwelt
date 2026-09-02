@@ -1,14 +1,18 @@
 ---
-// Vollbild-Hero (Enpal-Muster): Bild füllt den Viewport auf Mobil UND Desktop,
-// dunkler Verlauf für Lesbarkeit, gestaffelte CSS-Entrance-Animationen + sanfter
-// Ken-Burns-Zoom. Reine CSS-Animationen: laufen auch ohne JS, Inhalte sind nie
-// dauerhaft versteckt; prefers-reduced-motion schaltet alles ab (global.css).
+// Vollbild-Hero (Enpal-Muster), bewusst textarm: Eyebrow, Headline mit
+// ROTIERENDEM Begriff (CSS-Wortwalze: „Ihr [neues Bad|Zuhause|…] zum Festpreis"),
+// eine Kurzzeile, drei Häkchen, ein CTA. Bild füllt Mobil + Desktop den Viewport,
+// Ken-Burns-Zoom + gestaffelte Entrance. Alles reines CSS: läuft ohne JS,
+// prefers-reduced-motion zeigt den ersten Begriff statisch (global.css stoppt Rest).
 import { CTA, u } from "../consts";
 import { HERO } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
 import Icon from "./Icon.astro";
 
 const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Position
+const WORTE = HERO.begriffe;
+// Für die nahtlose Schleife wird das erste Wort am Ende wiederholt.
+const WALZE = [...WORTE, WORTE[0]];
 ---
 
 <section class="fhero">
@@ -28,7 +32,20 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
 
   <div class="container fhero__content">
     <div class="eyebrow fhero__in" style="--d: 0ms">{HERO.eyebrow}</div>
-    <h1 class="fhero__in" style="--d: 120ms">{HERO.pre}<span class="accent">{HERO.accent}</span></h1>
+
+    <h1 class="fhero__in" style="--d: 120ms">
+      <span class="visually-hidden">{HERO.vor} {WORTE[0]} {HERO.nach}</span>
+      <span aria-hidden="true">
+        {HERO.vor}
+        <span class="fhero__walze">
+          <span class="fhero__band" style={`--n: ${WORTE.length}`}>
+            {WALZE.map((w) => <span class="fhero__wort accent">{w}</span>)}
+          </span>
+        </span>
+        {HERO.nach}
+      </span>
+    </h1>
+
     <p class="lead fhero__in" style="--d: 240ms">{HERO.sub}</p>
     <ul class="check-row fhero__checks fhero__in" style="--d: 360ms">
       {HERO.checks.map((c) => (
@@ -54,7 +71,6 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
 <style>
   .fhero {
     position: relative;
-    /* Voller Viewport minus Header – svh hält auf Mobil die Adressleiste raus */
     min-height: calc(100svh - var(--header-h));
     display: flex;
     align-items: center;
@@ -74,7 +90,6 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
   }
   .fhero__shade {
     position: absolute; inset: 0;
-    /* Doppelter Verlauf: links dunkel für Text, unten Ankerung */
     background:
       linear-gradient(90deg, rgba(31, 30, 32, 0.82) 0%, rgba(31, 30, 32, 0.55) 45%, rgba(31, 30, 32, 0.18) 100%),
       linear-gradient(180deg, rgba(31, 30, 32, 0.25) 0%, rgba(31, 30, 32, 0) 30%, rgba(31, 30, 32, 0.45) 100%);
@@ -87,13 +102,45 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
     justify-items: start;
     padding-block: 96px 120px;
   }
-  .fhero__content h1 { color: var(--weiss); margin: 0; max-width: 15ch; text-wrap: balance; }
-  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 52ch; }
+  .fhero__content h1 { color: var(--weiss); margin: 0; }
+  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
   .fhero__checks li { color: var(--weiss); }
   .fhero__checks .icon { color: var(--gold-500); }
   .fhero__actions { display: grid; gap: 10px; justify-items: start; }
   .fhero__note { font-size: 14px; color: var(--anthrazit-200); }
+
+  /* --- Wortwalze: Begriffe rollen vertikal durch die Headline --- */
+  .fhero__walze {
+    display: block;
+    height: 1.15em;
+    overflow: hidden;
+  }
+  .fhero__band {
+    display: flex;
+    flex-direction: column;
+    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – letzter Frame = erster (nahtlos) */
+    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s infinite;
+  }
+  .fhero__wort {
+    display: block;
+    height: 1.15em;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+  /* 5 Begriffe: Schritte bei 20/40/60/80%, jeweils 4% Roll-Zeit */
+  @keyframes walze {
+    0%, 16%   { transform: translateY(0); }
+    20%, 36%  { transform: translateY(-1.15em); }
+    40%, 56%  { transform: translateY(-2.3em); }
+    60%, 76%  { transform: translateY(-3.45em); }
+    80%, 96%  { transform: translateY(-4.6em); }
+    100%      { transform: translateY(-5.75em); }
+  }
+  /* Reduced motion (global.css stoppt Animationen): erster Begriff steht still */
+  @media (prefers-reduced-motion: reduce) {
+    .fhero__band { transform: none; }
+  }
 
   .fhero__badge {
     position: absolute; right: 24px; bottom: 88px;
@@ -124,7 +171,6 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
     50% { transform: translateX(-50%) translateY(8px); opacity: 0.5; }
   }
 
-  /* Gestaffelte Entrance – reines CSS, Endzustand garantiert sichtbar (fill both) */
   .fhero__in {
     animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: var(--d, 0ms);
@@ -137,7 +183,6 @@ const badge = VERSPRECHEN[0]; // Festpreis-Garantie an Enpals Testsiegel-Positio
   @media (max-width: 767px) {
     .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
     .fhero__content { padding-block: 64px 96px; }
-    /* Mobil: Badge oben rechts, damit es nicht mit CTA/Sticky-Leiste kollidiert */
     .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }
   }
 </style>
