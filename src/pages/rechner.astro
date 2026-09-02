@@ -18,7 +18,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
 
 <BaseLayout
   title="Projekt berechnen – in 1 Minute zur Preisspanne | Bauwelt Handwerk"
-  description="Berechnen Sie Ihr Sanierungs- oder Ausbauprojekt online: Gewerk wählen, Umfang angeben, sofort eine unverbindliche Preisspanne sehen – ohne Kontaktdaten."
+  description="Berechnen Sie Ihr Sanierungs- oder Ausbauprojekt online – Gewerk wählen, Umfang angeben, sofort eine unverbindliche Preisspanne sehen. Ohne Kontaktdaten."
 >
   <section class="section rechner">
     <div class="container rechner__wrap">
@@ -138,7 +138,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     color: var(--anthrazit-800);
     transition: border-color var(--transition), background var(--transition), transform var(--transition);
   }
-  .rtile .icon { color: var(--gold-700); width: 30px; height: 30px; }
+  .rtile :global(.icon) { color: var(--gold-700); width: 30px; height: 30px; }
   .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
   .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
 

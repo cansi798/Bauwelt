@@ -10,6 +10,11 @@ export const HERO = {
   begriffe: ["neues Bad", "Zuhause", "neues Dach", "Innenausbau", "Projekt"],
   sub: "Ein Ansprechpartner. Alle Gewerke. Ein fester Preis.",
   checks: ["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"],
+  /** Prominente Zusagen im Hero (ersetzen das frühere Zahlen-Band). */
+  pills: [
+    { icon: "clock", text: "Antwort innerhalb von 24 Stunden" },
+    { icon: "shield", text: "10+ Jahre Erfahrung" },
+  ],
   bild: "hero.webp",
 };
 
@@ -39,7 +44,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     pre: "Ihr neues Bad – fertig in ",
     accent: "3 Wochen",
     text:
-      "Vom Abriss bis zur letzten Silikonfuge: Wir bauen Ihr Bad komplett um – " +
+      "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
       "Fliesen, Sanitär, Elektrik, bodengleiche Dusche. Sie wählen die Ausstattung, " +
       "wir nennen Ihnen vorab einen festen Preis und einen festen Fertigstellungstermin.",
     bild: "hero-badsanierung.webp",
@@ -66,7 +71,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     accent: "Möglichkeiten",
     text:
       "Neue Raumaufteilung, ausgebautes Dachgeschoss, Schallschutz oder abgehängte " +
-      "Decken mit Beleuchtung: Unser Trockenbau schafft Räume, die zu Ihrem Leben " +
+      "Decken mit Beleuchtung. Unser Trockenbau schafft Räume, die zu Ihrem Leben " +
       "passen – sauber ausgeführt und streichfertig übergeben.",
     bild: "hero-innenausbau.webp",
     alt: "Heller Innenausbau mit Rundbogenfenstern im Rohbau",
@@ -91,7 +96,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     pre: "Frische Wände, neue ",
     accent: "Böden",
     text:
-      "Der schnellste Weg zu einem neuen Wohngefühl: professionell gestrichene Wände " +
+      "Der schnellste Weg zu einem neuen Wohngefühl sind professionell gestrichene Wände " +
       "und ein neuer Boden – Vinyl, Laminat oder Parkett. Wir arbeiten staubarm, " +
       "abgeklebt und besenrein, auch bewohnt kein Problem.",
     bild: "hero-maler-boeden.webp",
@@ -104,7 +109,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     pre: "Technik, die einfach ",
     accent: "läuft",
     text:
-      "Neue Leitungen, moderne Elektrik, effiziente Heizungsverteilung: Wir erneuern " +
+      "Neue Leitungen, moderne Elektrik, effiziente Heizungsverteilung – wir erneuern " +
       "die Technik hinter Ihren Wänden – fachgerecht installiert und dokumentiert. " +
       "Damit Sie sich die nächsten Jahrzehnte keine Gedanken machen müssen.",
     bild: "hero-sanitaer-heizung-elektro.webp",
@@ -140,7 +145,7 @@ export const USP = [
     icon: "hand",
     title: "Alles aus einer Hand",
     text:
-      "Fliesenleger, Sanitär, Elektrik, Maler: Bei uns koordinieren Sie keine fünf " +
+      "Fliesenleger, Sanitär, Elektrik, Maler – bei uns koordinieren Sie keine fünf " +
       "Firmen. Wir steuern alle Gewerke selbst – deshalb greifen die Termine ineinander.",
     bild: "team.webp",
     alt: "Team bespricht Wandöffnung im Rohbau",
@@ -171,7 +176,7 @@ export const STEPS = [
   },
   {
     title: "Umsetzung & Übergabe",
-    text: "Unser Team setzt um, Ihr Ansprechpartner hält Sie auf dem Laufenden. Am Ende: Abnahme, Übergabe, besenrein.",
+    text: "Unser Team setzt um, Ihr Ansprechpartner hält Sie auf dem Laufenden. Am Ende stehen Abnahme, Übergabe und besenreine Räume.",
   },
 ];
 

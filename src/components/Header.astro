@@ -113,7 +113,7 @@ import MobileMenu from "./MobileMenu.astro";
     opacity: 1; visibility: visible; pointer-events: auto;
     transform: translateX(-50%) translateY(0);
   }
-  .dd:hover .dd__chev, .dd.open .dd__chev { transform: rotate(180deg); }
+  .dd:hover :global(.dd__chev), .dd.open :global(.dd__chev) { transform: rotate(180deg); }
   .dd__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
   .dd__item {
     display: flex; align-items: center; gap: 12px;
@@ -124,7 +124,7 @@ import MobileMenu from "./MobileMenu.astro";
     transition: background var(--transition);
   }
   .dd__item:hover { background: var(--gold-100); text-decoration: none; }
-  .dd__icon { color: var(--gold-700); flex: none; }
+  .dd__item :global(.dd__icon) { color: var(--gold-700); flex: none; }
   .dd__text { display: grid; line-height: 1.35; }
   .dd__text small { color: var(--anthrazit-600); }
   .dd__list li:last-child .dd__item { border-top: 1px solid var(--linie); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: 6px; padding-top: 12px; color: var(--gold-700); font-weight: 600; }
@@ -140,9 +140,10 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__iconbtn:hover { background: var(--gold-100); }
   .hdr__cta { display: none; }
-  .hdr__burger-close { display: none; }
-  .hdr__burger[aria-expanded="true"] .hdr__burger-open { display: none; }
-  .hdr__burger[aria-expanded="true"] .hdr__burger-close { display: block; }
+  /* :global – die Icon-SVGs kommen aus der Icon-Komponente und tragen kein Scope-Attribut */
+  .hdr__burger :global(.hdr__burger-close) { display: none; }
+  .hdr__burger[aria-expanded="true"] :global(.hdr__burger-open) { display: none; }
+  .hdr__burger[aria-expanded="true"] :global(.hdr__burger-close) { display: block; }
 
   @media (min-width: 1024px) {
     .hdr__nav { display: flex; }

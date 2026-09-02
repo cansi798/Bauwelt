@@ -63,7 +63,7 @@ const referenzen = (await getCollection("referenzen")).sort(
     display: inline-flex; align-items: center; gap: 6px;
     margin: 0; font-size: 14px; color: var(--anthrazit-600);
   }
-  .refcard__meta .icon { color: var(--gold-700); }
+  .refcard__meta :global(.icon) { color: var(--gold-700); }
   .refcard__quote { margin: 8px 0 0; font-style: italic; color: var(--anthrazit-700); }
 </style>
 

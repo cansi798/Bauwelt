@@ -4,7 +4,6 @@
 // → Ablauf → FAQ → Termin → Kontakt.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import TrustBand from "../components/TrustBand.astro";
 import LeistungSection from "../components/LeistungSection.astro";
 import VideoSection from "../components/VideoSection.astro";
 import UspSection from "../components/UspSection.astro";
@@ -25,7 +24,7 @@ import { LEISTUNG_SECTIONS, FAQ_HOME } from "../data/home";
   description="Badsanierung, Komplettsanierung und Ausbau zum Festpreis – ein Ansprechpartner, alle Gewerke, verbindlicher Zeitplan. Jetzt Projekt online berechnen."
 >
   <Hero />
-  <TrustBand />
+  <div id="weiter"></div>
 
   {LEISTUNG_SECTIONS.map((l, i) => (
     <LeistungSection data={l} reverse={i % 2 === 1} sand={i % 2 === 1} />

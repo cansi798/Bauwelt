@@ -29,8 +29,10 @@ Legende: ⬜ offen · ✅ erledigt
 
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 
-- ⬜ **Datenschutzerklärung final prüfen lassen** (aktuell gekennzeichneter Entwurf;
-  Relexable-Buchung und lokal rechnender Projekt-Rechner sind bereits beschrieben).
+- 🟡 **Datenschutzerklärung** – auf Kundenwunsch ohne Entwurfs-Hinweis, vollständig für den
+  aktuellen Funktionsumfang (Hosting, Kontakt, Rechner, Relexable-Buchung, externe Links,
+  Speicherdauer, Rechte). Kein Cookie-Banner nötig (keine Cookies, kein Tracking – in §4
+  begründet). Externe juristische Prüfung vor Livegang unter eigener Domain bleibt empfohlen.
 - ⬜ **Berufshaftpflicht** – Name/Sitz des Versicherers fürs Impressum nachreichen (optional).
 - ✅ HWK Lübeck + meisterpflichtige Gewerke im Impressum.
 - ✅ Versprechen-Siegel sind eigene Zusagen (kein fremdes Prüfzeichen-Wording).

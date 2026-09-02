@@ -52,7 +52,15 @@ const WALZE = [...WORTE, WORTE[0]];
         <li><Icon name="check" size={18} class="icon" /> {c}</li>
       ))}
     </ul>
-    <div class="fhero__actions fhero__in" style="--d: 480ms">
+    <div class="fhero__pills fhero__in" style="--d: 440ms">
+      {HERO.pills.map((p) => (
+        <span class="fhero__reaktion">
+          <span class="fhero__pulse"><Icon name={p.icon} size={18} class="icon" /></span>
+          {p.text}
+        </span>
+      ))}
+    </div>
+    <div class="fhero__actions fhero__in" style="--d: 540ms">
       <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
       <span class="fhero__note">Unverbindlich · Ergebnis in 1 Minute</span>
     </div>
@@ -63,7 +71,7 @@ const WALZE = [...WORTE, WORTE[0]];
     <span>{badge.title}</span>
   </div>
 
-  <a class="fhero__scroll" href="#trust" aria-label="Nach unten scrollen">
+  <a class="fhero__scroll" href="#weiter" aria-label="Nach unten scrollen">
     <Icon name="chevron" size={26} class="icon" />
   </a>
 </section>
@@ -106,9 +114,31 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__content .lead { color: var(--anthrazit-100); margin: 0; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
   .fhero__checks li { color: var(--weiss); }
-  .fhero__checks .icon { color: var(--gold-500); }
+  .fhero__checks :global(.icon) { color: var(--gold-500); }
   .fhero__actions { display: grid; gap: 10px; justify-items: start; }
   .fhero__note { font-size: 14px; color: var(--anthrazit-200); }
+
+  /* Zusagen-Pillen: 24 h + Erfahrung (ersetzen das frühere Zahlen-Band) */
+  .fhero__pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .fhero__reaktion {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--radius-pill);
+    background: rgba(31, 30, 32, 0.35);
+    backdrop-filter: blur(4px);
+    color: var(--weiss);
+    font-weight: 600; font-size: 15px;
+  }
+  .fhero__pulse {
+    display: inline-flex;
+    color: var(--gold-500);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.18); opacity: 0.75; }
+  }
 
   /* --- Wortwalze: Begriffe rollen vertikal durch die Headline --- */
   .fhero__walze {
@@ -152,7 +182,7 @@ const WALZE = [...WORTE, WORTE[0]];
     font-family: var(--font-heading); font-weight: 700; font-size: 14px;
     color: var(--anthrazit-800);
   }
-  .fhero__badge .icon { color: var(--gold-700); animation: floaty 5s ease-in-out infinite; }
+  .fhero__badge :global(.icon) { color: var(--gold-700); animation: floaty 5s ease-in-out infinite; }
   @keyframes floaty {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
@@ -182,7 +212,8 @@ const WALZE = [...WORTE, WORTE[0]];
 
   @media (max-width: 767px) {
     .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
-    .fhero__content { padding-block: 64px 96px; }
+    .fhero__content { padding-block: 40px 88px; gap: 14px; }
+    .fhero__reaktion { padding: 7px 14px; font-size: 13px; }
     .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }
   }
 </style>

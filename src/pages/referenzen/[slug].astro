@@ -87,7 +87,7 @@ const weitere = (await getCollection("referenzen"))
     font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--anthrazit-600);
   }
-  .rdetail__facts dt .icon { color: var(--gold-700); }
+  .rdetail__facts dt :global(.icon) { color: var(--gold-700); }
   .rdetail__facts dd { margin: 0 0 6px; font-weight: 600; }
   .rdetail__quote { margin: 0; font-style: italic; color: var(--anthrazit-700); }
   .rdetail__prose { max-width: var(--text-width); }
@@ -96,5 +96,5 @@ const weitere = (await getCollection("referenzen"))
   .refcard__body { padding: 14px 10px 6px; }
   .refcard__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
   .refcard__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
-  .refcard__body .icon { color: var(--gold-700); }
+  .refcard__body :global(.icon) { color: var(--gold-700); }
 </style>

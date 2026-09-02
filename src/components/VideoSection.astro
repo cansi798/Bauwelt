@@ -185,7 +185,7 @@ const hasVideo = VIDEO.url.length > 0;
     transition: transform var(--transition), background var(--transition);
   }
   .story__play:hover { transform: scale(1.06); background: var(--gold-600); }
-  .story__play .icon { margin-left: 4px; }
+  .story__play :global(.icon) { margin-left: 4px; }
   .story__frame :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
   .story__cta { display: grid; justify-items: center; gap: 14px; margin-top: 28px; text-align: center; }

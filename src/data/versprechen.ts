@@ -41,8 +41,8 @@ export const VERSPRECHEN: Siegel[] = [
     long:
       "Jedes Projekt wird nach den anerkannten Regeln des Handwerks geplant, " +
       "ausgeführt und vor der Übergabe abgenommen. Unsere Gewerke sind bei der " +
-      "Handwerkskammer eingetragen. Qualität heißt für uns: Es sieht nicht nur am " +
-      "Übergabetag gut aus – sondern auch in zehn Jahren.",
+      "Handwerkskammer eingetragen. Qualität heißt für uns, dass es nicht nur am " +
+      "Übergabetag gut aussieht – sondern auch in zehn Jahren.",
   },
   {
     id: "termin",

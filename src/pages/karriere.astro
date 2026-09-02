@@ -19,7 +19,7 @@ const BENEFITS = [
 
 <BaseLayout
   title="Karriere – Jobs im Handwerk in Norderstedt | Bauwelt Handwerk"
-  description="Offene Stellen bei der Bauwelt Handwerk GmbH in Norderstedt: Arbeiten Sie im Sanierungs- und Ausbau-Team – faire Bezahlung, regionale Baustellen, kurze Wege."
+  description="Offene Stellen bei der Bauwelt Handwerk GmbH in Norderstedt – arbeiten Sie im Sanierungs- und Ausbau-Team. Faire Bezahlung, regionale Baustellen, kurze Wege."
 >
   <PageHero
     eyebrow="Karriere"
@@ -60,11 +60,24 @@ const BENEFITS = [
             </a>
           </article>
         ))}
+        <article class="card stelle stelle--initiativ reveal">
+          <header class="stelle__head">
+            <h3>Initiativbewerbung</h3>
+            <p class="small">Vollzeit oder Teilzeit · Norderstedt & Umgebung</p>
+          </header>
+          <p class="stelle__text">
+            Keine Ausschreibung passt? Bewerben Sie sich trotzdem – gute Handwerkerinnen
+            und Handwerker finden bei uns immer einen Platz. Erzählen Sie uns kurz,
+            was Sie können, den Rest besprechen wir persönlich.
+          </p>
+          <a
+            class="btn"
+            href={`mailto:${EMAILS.bewerbung}?subject=${encodeURIComponent("Initiativbewerbung")}`}
+          >
+            <Icon name="mail" size={18} class="icon" /> Jetzt bewerben
+          </a>
+        </article>
       </div>
-      <p class="small text-center karriere__initiativ">
-        Nichts Passendes dabei? Wir freuen uns auch über Initiativbewerbungen an
-        {" "}<a href={`mailto:${EMAILS.bewerbung}`}>{EMAILS.bewerbung}</a>.
-      </p>
     </div>
   </section>
 
@@ -85,7 +98,7 @@ const BENEFITS = [
 
   <section class="section">
     <div class="container text-center karriere__cta">
-      <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden" text="Kein Portal, kein Anschreiben-Roman: E-Mail mit Lebenslauf genügt. Wir melden uns innerhalb von 24 Stunden." />
+      <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden" text="Kein Portal, kein Anschreiben-Roman – eine E-Mail mit Lebenslauf genügt. Wir melden uns innerhalb von 24 Stunden." />
       <a class="btn btn--lg" href={`mailto:${EMAILS.bewerbung}?subject=Bewerbung`}>
         <Icon name="mail" size={20} class="icon" /> Bewerbung senden
       </a>
@@ -97,7 +110,11 @@ const BENEFITS = [
 <style>
   .stellen__grid { grid-template-columns: 1fr; }
   @media (min-width: 1024px) { .stellen__grid { grid-template-columns: repeat(3, 1fr); } }
-  .stelle { display: grid; gap: 16px; align-content: start; }
+  /* Flex-Spalte + margin-top:auto ⇒ „Jetzt bewerben" sitzt in allen Karten bündig unten */
+  .stelle { display: flex; flex-direction: column; gap: 16px; }
+  .stelle .btn { margin-top: auto; align-self: flex-start; }
+  .stelle--initiativ { border: 2px dashed var(--gold-500); background: var(--gold-100); }
+  .stelle__text { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
   .stelle__head h3 { margin: 0 0 4px; font-size: 19px; }
   .stelle__head p { margin: 0; }
   .stelle h4 {

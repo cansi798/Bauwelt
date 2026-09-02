@@ -54,9 +54,13 @@ import Icon from "./Icon.astro";
   @media (min-width: 768px)  { .siegel-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1024px) { .siegel-grid { grid-template-columns: repeat(6, 1fr); } }
 
+  /* li streckt sich im Grid – height:100% + feste Zeilen ⇒ alle Kacheln gleich hoch */
+  .siegel-grid li { display: flex; }
   .siegel {
     width: 100%;
-    display: grid; justify-items: center; gap: 10px;
+    height: 100%;
+    display: grid; justify-items: center; align-content: start; gap: 10px;
+    grid-template-rows: auto auto 1fr;
     background: var(--weiss);
     border: 1px solid var(--linie);
     border-radius: var(--radius-lg);
