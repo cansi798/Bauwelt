@@ -126,11 +126,11 @@ const jsonLd = {
         hoch.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
       }
 
-      // „Gezeichnetes Video" (AIDA): ▶ startet dezente Hintergrundmusik
-      // (Web Audio, synthetisiert – keine Dateien) und fährt die Karten kurz
-      // und knackig durch; die aktive Karte wird golden „nachgezeichnet".
-      // Am Ende pulsiert der nächste CTA-Button (Action). Wischen stoppt.
-      let aktiverPlayer: (() => void) | null = null;
+      // „Gezeichnetes Video" (AIDA, ohne Play-Button): Sobald ein markierter
+      // Karten-Slider ins Bild scrollt, läuft er mobil automatisch STUMM in
+      // Schleife durch – die aktive Karte wird golden nachgezeichnet (Browser
+      // verbieten Ton-Autostart; der 🔊-Chip schaltet die Musik dazu).
+      // Wischen übernimmt die Kontrolle und stoppt den Auto-Lauf.
 
       // Hintergrundmusik: weiches Pad + Pentatonik-Arpeggio, sehr leise
       let audio: { ctx: AudioContext; master: GainNode; arp: number } | null = null;
@@ -185,6 +185,18 @@ const jsonLd = {
         setTimeout(() => ctx.close().catch(() => {}), 700);
         audio = null;
       }
+      // 🔊-Chips: Musik an/aus (ein Gesture genügt den Browser-Regeln)
+      document.querySelectorAll<HTMLButtonElement>("[data-vton]").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          if (audio) {
+            musikStopp();
+            document.querySelectorAll("[data-vton]").forEach((c) => (c.textContent = "🔊 Ton einschalten"));
+          } else {
+            musikStart();
+            chip.textContent = "🔇 Ton aus";
+          }
+        });
+      });
 
       // Goldener Nachzeichnen-Rahmen für die aktive Karte
       function zeichneRahmen(karte: HTMLElement) {
@@ -201,64 +213,58 @@ const jsonLd = {
         karte.append(svg);
       }
 
-      document.querySelectorAll<HTMLButtonElement>("[data-vplay]").forEach((btn) => {
-        const slider = document.getElementById(btn.dataset.vplay || "");
-        if (!slider) return;
-        let laeuft = false;
-        let timer: number | undefined;
-        const label = btn.textContent || "";
-        const karten = () => Array.from(slider.children) as HTMLElement[];
-        // AIDA-Abschluss: nächster CTA-Button in der Sektion pulsiert (Action)
-        const cta = slider.closest("section")?.querySelector(".btn:not(.vplay)");
+      const mobil = matchMedia("(max-width: 767px)");
+      const ruhig = matchMedia("(prefers-reduced-motion: reduce)");
+      if (mobil.matches && !ruhig.matches && "IntersectionObserver" in window) {
+        document.querySelectorAll<HTMLElement>("[data-vauto]").forEach((slider) => {
+          let timer: number | undefined;
+          let idx = 0;
+          let vonHand = false; // Nutzer hat gewischt → Auto-Lauf aus
+          const karten = () => Array.from(slider.children) as HTMLElement[];
 
-        function aufraeumen() {
-          slider.querySelectorAll(".vzeichnet-rahmen").forEach((s) => s.remove());
-          slider.querySelectorAll(".vzeichnet").forEach((k) => k.classList.remove("vzeichnet"));
-          cta?.classList.remove("vpuls");
-        }
-
-        function stopp() {
-          laeuft = false;
-          btn.classList.remove("spielt");
-          btn.textContent = label;
-          clearTimeout(timer);
-          musikStopp();
-          aufraeumen();
-          if (aktiverPlayer === stopp) aktiverPlayer = null;
-        }
-
-        function schritt(i: number) {
-          if (!laeuft) return;
-          if (i >= karten().length) {
-            if (cta) {
-              cta.classList.add("vpuls");
-              cta.scrollIntoView({ behavior: "smooth", block: "center" });
-              timer = window.setTimeout(stopp, 2200);
-            } else {
-              stopp();
-            }
-            return;
+          function aufraeumen() {
+            slider.querySelectorAll(".vzeichnet-rahmen").forEach((s) => s.remove());
+            slider.querySelectorAll(".vzeichnet").forEach((k) => k.classList.remove("vzeichnet"));
           }
-          aufraeumen();
-          const k = karten()[i];
-          k.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-          zeichneRahmen(k);
-          timer = window.setTimeout(() => schritt(i + 1), 2200);
-        }
 
-        btn.addEventListener("click", () => {
-          if (laeuft) { stopp(); return; }
-          aktiverPlayer?.();
-          aktiverPlayer = stopp;
-          laeuft = true;
-          btn.classList.add("spielt");
-          btn.textContent = "⏸  Stopp";
-          musikStart();
-          schritt(0);
+          function pause() {
+            clearTimeout(timer);
+            timer = undefined;
+            aufraeumen();
+          }
+
+          function schritt() {
+            const alle = karten();
+            aufraeumen();
+            const k = alle[idx % alle.length];
+            k.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            zeichneRahmen(k);
+            idx++;
+            timer = window.setTimeout(schritt, 2400);
+          }
+
+          const io = new IntersectionObserver(
+            (eintraege) => {
+              for (const e of eintraege) {
+                if (e.isIntersecting && !vonHand && timer === undefined) {
+                  idx = 0;
+                  schritt();
+                } else if (!e.isIntersecting) {
+                  pause();
+                }
+              }
+            },
+            { threshold: 0.55 }
+          );
+          io.observe(slider);
+
+          // Wischen = Nutzer übernimmt; Auto-Lauf für diese Sektion beenden
+          slider.addEventListener("pointerdown", () => {
+            vonHand = true;
+            pause();
+          }, { passive: true });
         });
-        // Wischen durch den Nutzer beendet die Wiedergabe
-        slider.addEventListener("pointerdown", () => laeuft && stopp(), { passive: true });
-      });
+      }
     </script>
 
     <style>

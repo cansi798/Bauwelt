@@ -16,7 +16,7 @@ const { steps = STEPS, id } = Astro.props;
 const cols = steps.length % 3 === 0 ? 3 : 4;
 ---
 
-<ol class="steps" id={id} style={`--steps-cols: ${cols}`} data-cols={cols}>
+<ol class="steps" id={id} data-vauto={id ? "" : undefined} style={`--steps-cols: ${cols}`} data-cols={cols}>
   {steps.map((s, i) => (
     <li class="steps__item reveal">
       <span class="steps__num">{i + 1}</span>
