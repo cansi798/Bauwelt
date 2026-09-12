@@ -16,7 +16,8 @@ import Icon from "./Icon.astro";
       accent="können"
       text="Sechs Zusagen, die bei jedem Projekt gelten – klicken Sie ein Siegel an, um zu sehen, was genau dahintersteckt."
     />
-    <ul class="siegel-grid">
+    <button class="vplay" type="button" data-vplay="siegelGrid">▶&nbsp; Als Video mit Ton abspielen</button>
+    <ul class="siegel-grid" id="siegelGrid">
       {VERSPRECHEN.map((s) => (
         <li>
           <button class="siegel reveal" type="button" data-siegel={s.id} aria-haspopup="dialog">
@@ -50,6 +51,24 @@ import Icon from "./Icon.astro";
     list-style: none; margin: 0; padding: 0;
     display: grid; gap: 16px;
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* Mobil: Siegel horizontal wischbar (und als „Video mit Ton" abspielbar) */
+  @media (max-width: 559px) {
+    .siegel-grid {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 4px 14px;
+      margin-inline: -4px;
+      scrollbar-width: none;
+    }
+    .siegel-grid::-webkit-scrollbar { display: none; }
+    .siegel-grid > li {
+      flex: 0 0 min(70vw, 280px);
+      scroll-snap-align: center;
+    }
   }
   @media (min-width: 768px)  { .siegel-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1024px) { .siegel-grid { grid-template-columns: repeat(6, 1fr); } }

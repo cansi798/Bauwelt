@@ -176,6 +176,24 @@ a.card:hover { text-decoration: none; transform: translateY(-4px); box-shadow: v
 .check-list li { display: flex; align-items: flex-start; gap: 12px; }
 .check-list .icon { color: var(--erfolg); flex: none; margin-top: 3px; }
 
+/* „Video mit Ton"-Abspielknopf (nur mobil sichtbar; Web-Speech liest Karten vor) */
+.vplay {
+  display: none;
+  margin: 0 auto 18px;
+  padding: 10px 20px;
+  border: 1px solid var(--gold-500);
+  border-radius: var(--radius-pill);
+  background: var(--gold-100);
+  color: var(--anthrazit-800);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+}
+.vplay.spielt { background: var(--gold-500); }
+@media (max-width: 767px) {
+  html.js .vplay { display: block; }
+}
+
 /* Trust-Häkchen-Zeile (Hero, CTA-Band) */
 .check-row { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 0; margin: 0; list-style: none; }
 .check-row li { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; }

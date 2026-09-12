@@ -87,6 +87,14 @@ const jsonLd = {
     </main>
     <Footer />
     <StickyBar />
+
+    <!-- Goldene Scroll-Fortschrittsleiste (läuft unter dem Header mit) -->
+    <div class="scrollbalken" aria-hidden="true"><span id="scrollFill"></span></div>
+
+    <!-- Nach-oben-Button: erscheint nach einer Bildschirmhöhe Scrolltiefe -->
+    <button class="hoch" id="hochBtn" type="button" aria-label="Zurück zum Seitenanfang" hidden>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
     <script>
       // Scroll-Reveal: nur Zusatz-Schicht. Ohne JS fehlt html.js → alles sichtbar (CSS-Gate).
       const els = document.querySelectorAll(".reveal");
@@ -106,6 +114,114 @@ const jsonLd = {
       } else {
         els.forEach((el) => el.classList.add("is-visible"));
       }
+
+      // Scroll-Fortschritt + Nach-oben-Button (passiv, ein Listener für beides)
+      const fill = document.getElementById("scrollFill");
+      const hoch = document.getElementById("hochBtn");
+      if (fill && hoch) {
+        const tick = () => {
+          const max = document.documentElement.scrollHeight - innerHeight;
+          fill.style.width = max > 0 ? `${(scrollY / max) * 100}%` : "0%";
+          hoch.hidden = scrollY < innerHeight;
+        };
+        addEventListener("scroll", tick, { passive: true });
+        tick();
+        hoch.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+      }
+
+      // „Video mit Ton": Karten-Slider spielt sich ab, Web-Speech liest jede
+      // Karte vor (de-DE). Start nur per Tipp (Browser-Autoplay-Regel), Stopp
+      // per erneutem Tipp oder Wischen. Ohne Sprachausgabe: stiller Durchlauf.
+      let aktiverPlayer: (() => void) | null = null;
+      document.querySelectorAll<HTMLButtonElement>("[data-vplay]").forEach((btn) => {
+        const slider = document.getElementById(btn.dataset.vplay || "");
+        if (!slider) return;
+        let laeuft = false;
+        let stillTimer: number | undefined;
+        const label = btn.textContent || "";
+        const karten = () => Array.from(slider.children) as HTMLElement[];
+
+        function stopp() {
+          laeuft = false;
+          btn.classList.remove("spielt");
+          btn.textContent = label;
+          window.speechSynthesis?.cancel();
+          clearTimeout(stillTimer);
+          if (aktiverPlayer === stopp) aktiverPlayer = null;
+        }
+
+        function zeige(i: number) {
+          const k = karten()[i];
+          k?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+
+        let stumm = !("speechSynthesis" in window);
+        function sprich(i: number) {
+          if (!laeuft) return;
+          if (i >= karten().length) { stopp(); return; }
+          zeige(i);
+          if (stumm) {
+            stillTimer = window.setTimeout(() => sprich(i + 1), 3200);
+            return;
+          }
+          const text = karten()[i].innerText.replace(/\s+/g, " ").trim();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = "de-DE";
+          u.rate = 1.05;
+          u.onend = () => laeuft && sprich(i + 1);
+          // Keine Stimme verfügbar → ab jetzt stummer Durchlauf statt Fehler-Kaskade
+          u.onerror = () => {
+            stumm = true;
+            if (laeuft) stillTimer = window.setTimeout(() => sprich(i + 1), 3200);
+          };
+          speechSynthesis.speak(u);
+        }
+
+        btn.addEventListener("click", () => {
+          if (laeuft) { stopp(); return; }
+          aktiverPlayer?.();
+          aktiverPlayer = stopp;
+          laeuft = true;
+          btn.classList.add("spielt");
+          btn.textContent = "⏸  Stopp";
+          window.speechSynthesis?.cancel();
+          sprich(0);
+        });
+        // Wischen durch den Nutzer beendet die Wiedergabe
+        slider.addEventListener("pointerdown", () => laeuft && stopp(), { passive: true });
+      });
     </script>
+
+    <style>
+      .scrollbalken {
+        position: fixed;
+        top: var(--header-h);
+        left: 0; right: 0;
+        height: 3px;
+        z-index: 99;
+        pointer-events: none;
+      }
+      .scrollbalken span {
+        display: block; height: 100%; width: 0;
+        background: var(--gold-500);
+      }
+      .hoch[hidden] { display: none; }
+      .hoch {
+        position: fixed;
+        right: 16px;
+        bottom: calc(var(--stickybar-h, 0px) + env(safe-area-inset-bottom) + 16px);
+        z-index: 95;
+        width: 46px; height: 46px;
+        display: inline-flex; align-items: center; justify-content: center;
+        border: 1px solid var(--linie);
+        border-radius: 50%;
+        background: var(--weiss);
+        color: var(--gold-700);
+        box-shadow: var(--shadow-lg);
+        transition: transform var(--transition), background var(--transition);
+      }
+      .hoch:hover { background: var(--gold-100); transform: translateY(-2px); }
+      @media (min-width: 1024px) { .hoch { bottom: 24px; } }
+    </style>
   </body>
 </html>

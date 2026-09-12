@@ -58,6 +58,12 @@ const jahr = new Date().getFullYear();
   .ftr { background: var(--anthrazit-800); color: var(--anthrazit-200); margin-top: 0; }
   .ftr a { color: var(--anthrazit-200); }
   .ftr a:hover { color: var(--weiss); }
+  /* Mobil: Links auf mindestens ~40px Tipphöhe bringen (Touchziel-Audit) */
+  @media (max-width: 767px) {
+    .ftr a { display: inline-block; padding-block: 8px; }
+    .ftr__contact a { display: inline-flex; }
+    .ftr__contact li, .ftr__cols li { margin-block: 2px; }
+  }
 
   .ftr__cta {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;

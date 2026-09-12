@@ -120,10 +120,15 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__content {
     position: relative;
     display: grid;
+    /* minmax(0,1fr): Kinder mit intrinsischer Breite (Zusagen-Band) dürfen die
+       Spalte NICHT über die Containerbreite aufspannen (Mobil-Beschnitt-Bug) */
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
     justify-items: start;
     padding-block: 96px 120px;
   }
+  .fhero__content > * { max-width: 100%; min-width: 0; }
+  .fhero__zusagen { width: 100%; max-width: 340px; }
   .fhero__content h1 { color: var(--weiss); margin: 0; }
   .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 62ch; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
@@ -137,7 +142,7 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__statement + .lead { margin-top: -12px; }
 
   /* Zusagen: immer DREI sichtbar, die Dreiergruppe slidet von rechts nach links */
-  .fhero__zwalze { width: min(100%, 340px); overflow: hidden; }
+  .fhero__zwalze { width: 100%; overflow: hidden; }
   .fhero__zband {
     display: flex;
     animation: zslide 9s cubic-bezier(0.65, 0, 0.35, 1) 2s infinite;
@@ -222,7 +227,7 @@ const WALZE = [...WORTE, WORTE[0]];
   }
 
   .fhero__scroll {
-    position: absolute; left: 50%; bottom: 20px;
+    position: absolute; left: 50%; bottom: calc(20px + var(--stickybar-h, 0px));
     width: 48px; height: 48px;
     display: inline-flex; align-items: center; justify-content: center;
     color: var(--weiss);
@@ -257,8 +262,15 @@ const WALZE = [...WORTE, WORTE[0]];
     /* früher umbrechen, damit die Zeile nicht bis an die Kante läuft */
     .fhero__statement { max-width: 21ch; }
     .fhero__zitem { font-size: 13.5px; }
-    .fhero__actions { display: grid; justify-items: stretch; }
-    .fhero__actions .btn { width: 100%; }
+    .fhero__actions { display: grid; justify-items: stretch; width: 100%; }
+    .fhero__actions .btn {
+      width: 100%;
+      white-space: normal;
+      line-height: 1.3;
+      padding: 14px 18px;
+      text-align: center;
+    }
+    .fhero__cta { width: 100%; }
     /* Festpreis-Badge: lugt mobil periodisch sanft von rechts herein */
     .fhero__badge {
       right: 0; top: 16px; bottom: auto; padding: 10px 16px;

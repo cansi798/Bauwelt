@@ -133,6 +133,8 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             <div class="rs2 rs2--skizze" id="rSkizzeSlot2">
               <figure class="rskizze rskizze--grob" id="rSkizzeWrap">
                 <svg id="rSkizze" viewBox="0 0 340 270" role="img" aria-label="Bauzeichnung Ihres Projekts" data-skizze="raum">
+                  <!-- skForm skaliert mit dem Länge-Breite-Verhältnis (JS setzt transform) -->
+                  <g id="skForm" transform-origin="178 136">
                   <!-- Grundfläche: immer sichtbar, bewusst „wackelige" Handskizzen-Linie -->
                   <path class="sk sk-draw" style="--d: 0ms"
                     d="M50 44 C 130 40, 230 46, 306 44 C 310 100, 304 170, 306 226 C 216 230, 126 224, 50 228 C 46 168, 52 104, 50 44 Z" />
@@ -232,11 +234,13 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
                     <g class="sk-x" data-x="fassade"><path class="sk sk-draw sk-fein sk-raster" style="--d: 0ms" d="M56 244 h244" /></g>
                   </g>
 
-                  <!-- Bemaßung (nur im Genau-Modus sichtbar) -->
+                  </g><!-- /skForm -->
+
+                  <!-- Bemaßung (nur im Genau-Modus sichtbar; JS richtet sie an der Form aus) -->
                   <g class="sk-mass">
-                    <path class="sk sk-fein" d="M50 26 L306 26 M50 20 l0 12 M306 20 l0 12" />
+                    <path class="sk sk-fein" id="skMassL" d="M50 26 L306 26 M50 20 l0 12 M306 20 l0 12" />
                     <text id="skLaenge" x="178" y="18" text-anchor="middle">4,0 m</text>
-                    <path class="sk sk-fein" d="M28 44 L28 228 M22 44 l12 0 M22 228 l12 0" />
+                    <path class="sk sk-fein" id="skMassB" d="M28 44 L28 228 M22 44 l12 0 M22 228 l12 0" />
                     <text id="skBreite" x="14" y="140" text-anchor="middle" transform="rotate(-90 14 140)">2,0 m</text>
                   </g>
 
@@ -286,7 +290,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             <div class="rechner__ergebnisrechts">
               <div id="rSkizzeSlot3"></div>
               <button class="btn btn--dark rskizze__download" type="button" id="rSkizzeTeilen" hidden>
-                <Icon name="whatsapp" size={18} class="icon" /> Zeichnung per WhatsApp teilen
+                <Icon name="whatsapp" size={18} class="icon" /> WhatsApp kontaktieren (mit Zeichnung)
               </button>
               <button class="btn btn--ghost rskizze__download" type="button" id="rSkizzeDownload">
                 <Icon name="download" size={18} class="icon" /> Zeichnung herunterladen (PNG)
@@ -329,7 +333,12 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rechner__nojs { text-align: center; display: grid; gap: 16px; justify-items: center; }
   .rechner__nojs-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
-  .rechner__app { position: relative; padding: 28px 20px; }
+  .rechner__app {
+    position: relative;
+    padding: 28px 20px;
+    /* Schrittwechsel: Anfang landet UNTER dem fixierten Header – alle Kacheln sofort im Blick */
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
   @media (min-width: 768px) { .rechner__app { padding: 40px; } }
 
   .rechner__progress {
@@ -529,6 +538,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke; /* Strichstärke bleibt bei Form-Skalierung sauber */
   }
   .rskizze .sk-fein { stroke-width: 1.6; stroke: var(--anthrazit-600); }
   .rskizze .sk-leitung { stroke-dasharray: 6 5; }
@@ -601,6 +611,10 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   html.js .rechner__app[data-started] .rechner__progress { margin-top: 24px; }
 
   .rechner__booking { margin-top: 40px; }
+
+  /* Auf der Rechner-Seite ist die Sticky-CTA-Leiste sinnlos (führt hierher)
+     und kollidierte mit der Schritt-Navigation – ausblenden. */
+  :global(.sticky-bar) { display: none !important; }
 </style>
 
 <script>
@@ -813,6 +827,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           ? "Beschreiben Sie Ihr Projekt – die KI füllt die Zeichnung"
           : "Grobe Skizze – Maße und Auswahl im Genau-Modus";
       if (genau) updateMasse();
+      updateForm();
       updateEbenen();
       updateLive();
     }
@@ -822,6 +837,31 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
       if (state.modus !== "genau") skFlaeche.textContent = `${state.menge} m²`;
       updateLive();
+    }
+
+    /** Zeichnung passt ihre Form dem Länge-Breite-Verhältnis an; Maßlinien
+     *  wandern an die skalierten Kanten (Basisrechteck 256×184, Mitte 178/136). */
+    function updateForm() {
+      const form = document.getElementById("skForm")!;
+      if (state.modus !== "genau") {
+        form.removeAttribute("transform");
+        return;
+      }
+      const basis = 256 / 184;
+      const f = Math.sqrt((state.laenge / state.breite) / basis);
+      const sx = Math.min(1.22, Math.max(0.78, f));
+      const sy = Math.min(1.22, Math.max(0.78, 1 / f));
+      form.setAttribute("transform", `translate(178 136) scale(${sx} ${sy}) translate(-178 -136)`);
+      const x1 = 178 - 128 * sx, x2 = 178 + 128 * sx;
+      const y1 = 136 - 92 * sy, y2 = 136 + 92 * sy;
+      const yL = y1 - 18, xB = x1 - 22;
+      document.getElementById("skMassL")!.setAttribute("d",
+        `M${x1} ${yL} L${x2} ${yL} M${x1} ${yL - 6} l0 12 M${x2} ${yL - 6} l0 12`);
+      skLaenge.setAttribute("y", String(yL - 8));
+      document.getElementById("skMassB")!.setAttribute("d",
+        `M${xB} ${y1} L${xB} ${y2} M${xB - 6} ${y1} l12 0 M${xB - 6} ${y2} l12 0`);
+      skBreite.setAttribute("x", String(xB - 8));
+      skBreite.setAttribute("transform", `rotate(-90 ${xB - 8} 136)`);
     }
 
     function updateMasse() {
@@ -834,6 +874,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       skLaenge.textContent = `${m1(l)} m`;
       skBreite.textContent = `${m1(b)} m`;
       if (state.modus === "genau") skFlaeche.textContent = `${m1(f)} m²`;
+      updateForm();
       updateLive();
     }
 
@@ -1017,13 +1058,24 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         `Alternativ: Die Zeichnung liegt in Downloads/Galerie (Büroklammer im Chat).`;
     }
 
+    /** „WhatsApp kontaktieren": PNG + Anfragetext zusammen ins Teilen-Menü.
+     *  Das Betriebssystem erlaubt keiner Website, Empfänger vorzuwählen oder
+     *  automatisch zu senden – der Chat mit uns steht im Menü aber ganz oben. */
     async function zeichnungTeilen() {
       try {
         const blob = await erzeugePng();
         const datei = new File([blob], `Bauwelt-Zeichnung_${state.gewerk!.slug}.png`, { type: "image/png" });
-        await navigator.share({ files: [datei] });
+        await navigator.share({
+          files: [datei],
+          text: waBtn.dataset.text || "",
+          title: "Projektanfrage Bauwelt Handwerk",
+        });
       } catch (err) {
-        if ((err as Error).name !== "AbortError") skizzeHerunterladen().catch(() => {});
+        if ((err as Error).name !== "AbortError") {
+          // Teilen nicht möglich → Text-Chat + automatischer Download als Rettung
+          skizzeHerunterladen().catch(() => {});
+          window.open(waBtn.href, "_blank", "noopener");
+        }
       }
     }
 

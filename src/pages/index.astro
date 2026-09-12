@@ -42,7 +42,8 @@ import { FAQ_HOME, HERO } from "../data/home";
   <section class="section">
     <div class="container">
       <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
-      <Steps />
+      <button class="vplay" type="button" data-vplay="wegSlider">▶&nbsp; Als Video mit Ton abspielen</button>
+      <Steps id="wegSlider" />
       <div class="weg__actions">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
         <a class="btn btn--lg btn--ghost" href={HERO.cta2.href}>{HERO.cta2.label}</a>

@@ -9,12 +9,14 @@ import { STEPS } from "../data/home";
 interface Props {
   /** Alternative Schritte, z. B. gewerkspezifisch auf Leistungsseiten. */
   steps?: { title: string; text: string; kurz?: string }[];
+  /** Optionale ID, z. B. für den mobilen „Video mit Ton"-Player. */
+  id?: string;
 }
-const { steps = STEPS } = Astro.props;
+const { steps = STEPS, id } = Astro.props;
 const cols = steps.length % 3 === 0 ? 3 : 4;
 ---
 
-<ol class="steps" style={`--steps-cols: ${cols}`} data-cols={cols}>
+<ol class="steps" id={id} style={`--steps-cols: ${cols}`} data-cols={cols}>
   {steps.map((s, i) => (
     <li class="steps__item reveal">
       <span class="steps__num">{i + 1}</span>

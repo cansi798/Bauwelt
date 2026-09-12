@@ -19,8 +19,9 @@ import Icon from "./Icon.astro";
     />
     <p class="portal__intro">{PORTAL.intro}</p>
 
+    <button class="vplay" type="button" data-vplay="portalTiles">▶&nbsp; Als Video mit Ton abspielen</button>
     <div class="portal__grid">
-      <div class="portal__tiles">
+      <div class="portal__tiles" id="portalTiles">
         {PORTAL.kacheln.map((k) => (
           <div class="card portal__tile reveal">
             <span class="portal__tileicon"><Icon name={k.icon} size={24} class="icon" /></span>

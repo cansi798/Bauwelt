@@ -43,6 +43,12 @@ Legende: ⬜ offen · ✅ erledigt
   als optionales „Experiment"-Feature denkbar, eigenes Vorhaben mit eigener Runde.
   b) Server-Proxy (z. B. Cloudflare Worker) mit gehostetem Modell – nach Domain-Umzug.
   Bis dahin: deterministische Bauzeichnung im Rechner (Fragen → Zeichnung, ohne KI).
+- ⬜ **KI-Ausbau-Ideen (Can, 12.09.2026, eigene Runde):** a) Foto aufnehmen + Wunsch
+  beschreiben → Vorschlag (bräuchte Browser-Vision-Modell, experimentell);
+  b) DREI Vorschlags-Varianten statt einem (auch ohne KI machbar: Basis/Komfort/Premium-
+  Presets mit je eigener Zeichnung – guter nächster Schritt); c) Bild-GENERIERUNG:
+  kostenlos ohne Server praktisch nicht machbar (Browser-Diffusion = mehrere GB,
+  Minuten pro Bild; gratis gehostete APIs ohne Schlüssel existieren nicht).
 
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 
