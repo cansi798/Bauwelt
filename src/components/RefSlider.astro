@@ -7,6 +7,20 @@ import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
 
+interface Props {
+  /** Überschreibt die Standard-Überschrift (Startseite: „Aus Ideen werden Ergebnisse"). */
+  eyebrow?: string;
+  pre?: string;
+  accent?: string;
+  text?: string;
+}
+const {
+  eyebrow = "Referenzen",
+  pre = "Ergebnisse, die man ",
+  accent = "sieht",
+  text,
+} = Astro.props;
+
 const referenzen = (await getCollection("referenzen")).sort(
   (a, b) => a.data.order - b.data.order
 );
@@ -15,7 +29,7 @@ const referenzen = (await getCollection("referenzen")).sort(
 <section class="section" id="referenzen">
   <div class="container">
     <div class="refs__head">
-      <SectionHead eyebrow="Referenzen" pre="Ergebnisse, die man " accent="sieht" />
+      <SectionHead eyebrow={eyebrow} pre={pre} accent={accent} text={text} />
       <div class="slider__nav">
         <button class="slider__btn" type="button" data-dir="-1" aria-label="Zurück">
           <Icon name="arrow-left" size={20} class="icon" />

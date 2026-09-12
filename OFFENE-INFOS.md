@@ -26,6 +26,12 @@ Legende: ⬜ offen · ✅ erledigt
 - ⬜ **Google-Unternehmensprofil** – sobald vorhanden und Bewertungen da sind, können
   Sterne + Anzahl ins Zahlen-Band aufgenommen werden.
 - ⬜ **Porträt Burim Ahmedi** (`burim.webp`) und echte Team-/Baustellenfotos (BILDER.md).
+- ⬜ **Screenshot Kundenportal** – die neue Portal-Sektion der Startseite zeigt aktuell
+  ein stilisiertes CSS-Mockup. Echten Screenshot (ohne echte Kundendaten!) liefern →
+  ersetzt das Mockup in `src/components/PortalSection.astro`.
+- ⬜ **Screenshot Muster-Angebot** – gleiche Lage in `src/components/AngebotSection.astro`:
+  CSS-Mockup mit Markierungen (Festpreis, Leistungsumfang, digitale Freigabe …).
+  Echten anonymisierten Angebots-Screenshot liefern, Markierungen bleiben erhalten.
 
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 

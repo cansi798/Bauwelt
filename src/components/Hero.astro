@@ -1,9 +1,10 @@
 ---
-// Vollbild-Hero (Enpal-Muster), bewusst textarm: Eyebrow, Headline mit
-// ROTIERENDEM Begriff (CSS-Wortwalze: „Ihr [neues Bad|Zuhause|…] zum Festpreis"),
-// eine Kurzzeile, drei Häkchen, ein CTA. Bild füllt Mobil + Desktop den Viewport,
-// Ken-Burns-Zoom + gestaffelte Entrance. Alles reines CSS: läuft ohne JS,
-// prefers-reduced-motion zeigt den ersten Begriff statisch (global.css stoppt Rest).
+// Vollbild-Hero (Enpal-Muster): Eyebrow (Positionierung), Headline mit
+// ROTIERENDEM Begriff (CSS-Wortwalze: „Bereit für Ihr neues [Badezimmer?|…]"),
+// Kurzzeile, fünf Zusagen, zwei CTAs (Rechner + Besichtigungstermin).
+// Bild füllt Mobil + Desktop den Viewport, Ken-Burns-Zoom + gestaffelte Entrance.
+// Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
+// Begriff statisch (global.css stoppt Rest).
 import { CTA, u } from "../consts";
 import { HERO } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
@@ -47,22 +48,17 @@ const WALZE = [...WORTE, WORTE[0]];
     </h1>
 
     <p class="lead fhero__in" style="--d: 240ms">{HERO.sub}</p>
-    <ul class="check-row fhero__checks fhero__in" style="--d: 360ms">
+    <ul class="fhero__zusagen fhero__in" style="--d: 360ms">
       {HERO.checks.map((c) => (
         <li><Icon name="check" size={18} class="icon" /> {c}</li>
       ))}
     </ul>
-    <div class="fhero__pills fhero__in" style="--d: 440ms">
-      {HERO.pills.map((p) => (
-        <span class="fhero__reaktion">
-          <span class="fhero__pulse"><Icon name={p.icon} size={18} class="icon" /></span>
-          {p.text}
-        </span>
-      ))}
-    </div>
-    <div class="fhero__actions fhero__in" style="--d: 540ms">
-      <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
-      <span class="fhero__note">Unverbindlich · Ergebnis in 1 Minute</span>
+    <div class="fhero__actions fhero__in" style="--d: 480ms">
+      <div class="fhero__cta">
+        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+        <span class="fhero__note">{HERO.note}</span>
+      </div>
+      <a class="btn btn--lg fhero__ghost" href={HERO.cta2.href}>{HERO.cta2.label}</a>
     </div>
   </div>
 
@@ -111,34 +107,32 @@ const WALZE = [...WORTE, WORTE[0]];
     padding-block: 96px 120px;
   }
   .fhero__content h1 { color: var(--weiss); margin: 0; }
-  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; }
+  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 62ch; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
-  .fhero__checks li { color: var(--weiss); }
-  .fhero__checks :global(.icon) { color: var(--gold-500); }
-  .fhero__actions { display: grid; gap: 10px; justify-items: start; }
-  .fhero__note { font-size: 14px; color: var(--anthrazit-200); }
 
-  /* Zusagen-Pillen: 24 h + Erfahrung (ersetzen das frühere Zahlen-Band) */
-  .fhero__pills { display: flex; flex-wrap: wrap; gap: 10px; }
-  .fhero__reaktion {
+  /* Fünf Zusagen aus dem Kundenpapier – gestapelt, gut lesbar über dem Bild */
+  .fhero__zusagen {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 8px;
+  }
+  .fhero__zusagen li {
     display: inline-flex; align-items: center; gap: 10px;
-    padding: 10px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: var(--radius-pill);
-    background: rgba(31, 30, 32, 0.35);
-    backdrop-filter: blur(4px);
+    color: var(--weiss); font-weight: 600; font-size: 15px;
+  }
+  .fhero__zusagen :global(.icon) { color: var(--gold-500); flex: none; }
+
+  .fhero__actions {
+    display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: flex-start;
+  }
+  .fhero__cta { display: grid; gap: 8px; justify-items: center; }
+  .fhero__note { font-size: 14px; color: var(--anthrazit-200); }
+  .fhero__ghost {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.55);
     color: var(--weiss);
-    font-weight: 600; font-size: 15px;
+    box-shadow: none;
   }
-  .fhero__pulse {
-    display: inline-flex;
-    color: var(--gold-500);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.18); opacity: 0.75; }
-  }
+  .fhero__ghost:hover { background: rgba(255, 255, 255, 0.12); border-color: var(--weiss); }
 
   /* --- Wortwalze: Begriffe rollen vertikal durch die Headline --- */
   .fhero__walze {
@@ -158,14 +152,12 @@ const WALZE = [...WORTE, WORTE[0]];
     line-height: 1.15;
     white-space: nowrap;
   }
-  /* 5 Begriffe: Schritte bei 20/40/60/80%, jeweils 4% Roll-Zeit */
+  /* 3 Begriffe: Schritte bei 33/67%, jeweils 4% Roll-Zeit (letzter Frame = erster) */
   @keyframes walze {
-    0%, 16%   { transform: translateY(0); }
-    20%, 36%  { transform: translateY(-1.15em); }
-    40%, 56%  { transform: translateY(-2.3em); }
-    60%, 76%  { transform: translateY(-3.45em); }
-    80%, 96%  { transform: translateY(-4.6em); }
-    100%      { transform: translateY(-5.75em); }
+    0%, 29.33%     { transform: translateY(0); }
+    33.33%, 62.67% { transform: translateY(-1.15em); }
+    66.67%, 96%    { transform: translateY(-2.3em); }
+    100%           { transform: translateY(-3.45em); }
   }
   /* Reduced motion (global.css stoppt Animationen): erster Begriff steht still */
   @media (prefers-reduced-motion: reduce) {
@@ -213,7 +205,9 @@ const WALZE = [...WORTE, WORTE[0]];
   @media (max-width: 767px) {
     .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
     .fhero__content { padding-block: 40px 88px; gap: 14px; }
-    .fhero__reaktion { padding: 7px 14px; font-size: 13px; }
+    .fhero__zusagen li { font-size: 13.5px; align-items: flex-start; }
+    .fhero__actions { display: grid; justify-items: stretch; }
+    .fhero__actions .btn { width: 100%; }
     .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }
   }
 </style>

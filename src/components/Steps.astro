@@ -1,5 +1,6 @@
 ---
-// Ablauf in 4 Schritten – nummerierte Karten mit Verbindungslinie (Desktop).
+// Nummerierter Ablauf – Karten-Raster. Desktop: 4 Spalten, bei durch 3
+// teilbarer Schrittzahl (z. B. 6 Schritte der Startseite) 3 Spalten.
 import { STEPS } from "../data/home";
 
 interface Props {
@@ -7,9 +8,10 @@ interface Props {
   steps?: { title: string; text: string }[];
 }
 const { steps = STEPS } = Astro.props;
+const cols = steps.length % 3 === 0 ? 3 : 4;
 ---
 
-<ol class="steps">
+<ol class="steps" style={`--steps-cols: ${cols}`}>
   {steps.map((s, i) => (
     <li class="steps__item reveal">
       <span class="steps__num">{i + 1}</span>
@@ -26,7 +28,7 @@ const { steps = STEPS } = Astro.props;
     counter-reset: step;
   }
   @media (min-width: 768px)  { .steps { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 1024px) { .steps { grid-template-columns: repeat(var(--steps-cols, 4), 1fr); } }
 
   .steps__item {
     position: relative;

@@ -1,0 +1,62 @@
+---
+// Gewerke-Karten (Kundenfeedback 12.09.2026, Abschnitt 5):
+// „Zurücklehnen statt koordinieren" – fünf kompakte Karten, die auf die
+// bestehenden Leistungsseiten verlinken (ersetzen die großen Bild-Text-Blöcke).
+import { u } from "../consts";
+import { GEWERKE_KARTEN } from "../data/home";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+---
+
+<section class="section section--sand" id="gewerke">
+  <div class="container">
+    <SectionHead
+      center
+      eyebrow="Unsere Gewerke"
+      pre="Zurücklehnen statt "
+      accent="koordinieren"
+      text="Die Koordination mehrerer Handwerksbetriebe kostet Zeit, Nerven und führt häufig zu Missverständnissen. Deshalb übernehmen wir die komplette Organisation Ihres Projekts."
+    />
+    <div class="gewerke">
+      {GEWERKE_KARTEN.map((g) => (
+        <a class="card gewerke__card reveal" href={u(`leistungen/${g.slug}/`)}>
+          <span class="gewerke__icon"><Icon name={g.icon} size={26} class="icon" /></span>
+          <h3>{g.title}</h3>
+          <p>{g.text}</p>
+          <span class="gewerke__more">Mehr erfahren <Icon name="arrow" size={16} class="icon" /></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gewerke { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .gewerke { grid-template-columns: 1fr 1fr; } }
+  /* Desktop: 5 Karten als 3 + 2, letzte Reihe zentriert */
+  @media (min-width: 1024px) {
+    .gewerke { grid-template-columns: repeat(6, 1fr); }
+    .gewerke__card { grid-column: span 2; }
+    .gewerke__card:nth-child(4) { grid-column: 2 / 4; }
+    .gewerke__card:nth-child(5) { grid-column: 4 / 6; }
+  }
+  .gewerke__card {
+    padding: 28px 24px;
+    display: grid; gap: 10px; align-content: start;
+  }
+  .gewerke__card h3 { margin: 0; font-size: 17px; }
+  .gewerke__card p { margin: 0; font-size: 14.5px; color: var(--anthrazit-700); }
+  .gewerke__icon {
+    width: 52px; height: 52px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 14px;
+    background: var(--gold-100);
+    color: var(--gold-700);
+  }
+  .gewerke__more {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 4px;
+    font-weight: 700; font-size: 14px;
+    color: var(--gold-700);
+  }
+</style>

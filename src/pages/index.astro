@@ -1,55 +1,66 @@
 ---
-// Startseite – Dramaturgie nach Enpal-Vorbild (Spec §3):
-// Hero → Zahlen → 6 Gewerke → Video → USP → Referenzen → CTA → Versprechen
-// → Ablauf → FAQ → Termin → Kontakt.
+// Startseite – Dramaturgie nach Kundenfeedback 12.09.2026:
+// Hero → Weg zum Badezimmer (6 Schritte) → Kundenportal → Transparentes
+// Angebot → Referenzen → Gewerke-Karten → CTA-Band → FAQ
+// → Siegel → Einzugsgebiet → Termin → Kontakt.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import LeistungSection from "../components/LeistungSection.astro";
-import VideoSection from "../components/VideoSection.astro";
-import UspSection from "../components/UspSection.astro";
+import Steps from "../components/Steps.astro";
+import PortalSection from "../components/PortalSection.astro";
+import AngebotSection from "../components/AngebotSection.astro";
 import RefSlider from "../components/RefSlider.astro";
+import GewerkeKarten from "../components/GewerkeKarten.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
-import Steps from "../components/Steps.astro";
 import Faq from "../components/Faq.astro";
 import ContactSection from "../components/ContactSection.astro";
 import ServiceArea from "../components/ServiceArea.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import SectionHead from "../components/SectionHead.astro";
-import { LEISTUNG_SECTIONS, FAQ_HOME } from "../data/home";
+import { CTA } from "../consts";
+import { FAQ_HOME, HERO } from "../data/home";
 ---
 
 <BaseLayout
   title="Sanierung & Ausbau zum Festpreis – Bauwelt Handwerk Norderstedt"
-  description="Badsanierung, Komplettsanierung und Ausbau zum Festpreis – ein Ansprechpartner, alle Gewerke, verbindlicher Zeitplan. Jetzt Projekt online berechnen."
+  description="Badsanierung und Innenausbau in Hamburg & Umgebung – alles aus einer Hand. Angebot in 24 h, Kundenportal mit Live-Projektstatus. Jetzt Projekt berechnen."
 >
   <Hero />
   <div id="weiter"></div>
 
-  {LEISTUNG_SECTIONS.map((l, i) => (
-    <LeistungSection data={l} reverse={i % 2 === 1} sand={i % 2 === 1} />
-  ))}
-
-  <VideoSection />
-  <UspSection />
-  <RefSlider />
-  <CtaBand />
-  <SiegelSlider />
-
   <section class="section">
     <div class="container">
-      <SectionHead center eyebrow="Ablauf" pre="In vier Schritten zum " accent="Ziel" />
+      <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
       <Steps />
+      <div class="weg__actions">
+        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+        <a class="btn btn--lg btn--ghost" href={HERO.cta2.href}>{HERO.cta2.label}</a>
+      </div>
     </div>
   </section>
 
-  <section class="section section--sand">
+  <PortalSection />
+  <AngebotSection />
+
+  <RefSlider
+    eyebrow="Referenzen"
+    pre="Aus Ideen werden "
+    accent="Ergebnisse"
+    text="Jedes Projekt ist einzigartig. Unser Anspruch bleibt derselbe – hochwertige Handwerksarbeit, klare Kommunikation und ein Ergebnis, das begeistert."
+  />
+
+  <GewerkeKarten />
+
+  <CtaBand cta2Href="#termin" />
+
+  <section class="section">
     <div class="container">
       <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
       <Faq items={FAQ_HOME} withCta />
     </div>
   </section>
 
+  <SiegelSlider />
   <ServiceArea />
 
   <section class="section section--sand" id="termin">
@@ -63,3 +74,11 @@ import { LEISTUNG_SECTIONS, FAQ_HOME } from "../data/home";
 
   <ContactSection />
 </BaseLayout>
+
+<style>
+  .weg__actions {
+    display: flex; flex-wrap: wrap; gap: 12px 16px;
+    justify-content: center;
+    margin-top: 36px;
+  }
+</style>

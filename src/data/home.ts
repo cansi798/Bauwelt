@@ -2,19 +2,26 @@
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
 
 export const HERO = {
-  eyebrow: "Meisterbetrieb für Norderstedt, Hamburg & Umgebung",
-  /** Headline: "Ihr <rotierender Begriff> zum Festpreis" – Begriffe rollen per CSS. */
-  vor: "Ihr",
-  nach: "zum Festpreis",
+  /** Positionierung laut Kundenfeedback 12.09.2026. */
+  eyebrow: "Ihr Partner für Badsanierung und Innenausbau in Hamburg & Umgebung – alles aus einer Hand",
+  /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
+  vor: "Bereit für Ihr neues",
+  nach: "",
   /** Rotierende Begriffe (erster = Fallback ohne Animation/reduced motion). */
-  begriffe: ["neues Bad", "Zuhause", "neues Dach", "Innenausbau", "Projekt"],
-  sub: "Ein Ansprechpartner. Alle Gewerke. Ein fester Preis.",
-  checks: ["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"],
-  /** Prominente Zusagen im Hero (ersetzen das frühere Zahlen-Band). */
-  pills: [
-    { icon: "clock", text: "Antwort innerhalb von 24 Stunden" },
-    { icon: "shield", text: "10+ Jahre Erfahrung" },
+  begriffe: ["Badezimmer?", "Zuhause?", "Projekt?"],
+  sub:
+    "Handwerk, wie es heute sein sollte. Wir verbinden handwerkliche Qualität " +
+    "mit klaren Prozessen, digitalem Kundenservice und voller Transparenz.",
+  /** Die fünf Zusagen aus dem Kundenpapier (ersetzen Häkchen + Pillen). */
+  checks: [
+    "Antwort innerhalb von 12 Stunden",
+    "Angebot innerhalb von 24 Stunden",
+    "Ein persönlicher Ansprechpartner",
+    "Kundenportal mit Live-Projektstatus",
+    "Transparente Festpreise für alle vereinbarten Leistungen",
   ],
+  note: "Unverbindlich · Ergebnis in 60 Sekunden",
+  cta2: { label: "Kostenlosen Besichtigungstermin buchen", href: "#termin" },
   bild: "hero.webp",
 };
 
@@ -161,22 +168,120 @@ export const USP = [
   },
 ];
 
+/** „Ihr Weg zum neuen Badezimmer" – sechs Schritte laut Kundenfeedback 12.09.2026. */
 export const STEPS = [
   {
-    title: "Projekt berechnen",
-    text: "Beschreiben Sie Ihr Vorhaben im Online-Rechner – Sie sehen sofort eine erste Preisspanne, unverbindlich und ohne Angabe von Kontaktdaten.",
+    title: "Orientierung erhalten",
+    text: "Mit unserem Projektrechner erhalten Sie in wenigen Minuten eine erste transparente Preiseinschätzung und wissen schnell, in welchem Kostenrahmen sich Ihr Vorhaben bewegt.",
   },
   {
-    title: "Vor-Ort-Termin",
-    text: "Wir schauen uns Ihr Projekt persönlich an, beraten zu Ausstattung und Möglichkeiten und nehmen alle Maße auf.",
+    title: "Wünsche besprechen",
+    text: "Bei einem persönlichen Vor-Ort-Termin nehmen wir uns Zeit für Ihre Ideen, beantworten Ihre Fragen und entwickeln gemeinsam die passende Lösung.",
   },
   {
-    title: "Festpreis-Angebot",
-    text: "Sie erhalten ein schriftliches Angebot mit festem Preis und verbindlichem Zeitplan – transparent aufgeschlüsselt.",
+    title: "Transparentes Angebot erhalten",
+    text: "Innerhalb von 24 Stunden erhalten Sie ein detailliertes Angebot, damit Sie schnell Klarheit über Leistungen, Kosten und den weiteren Ablauf haben.",
   },
   {
-    title: "Umsetzung & Übergabe",
-    text: "Unser Team setzt um, Ihr Ansprechpartner hält Sie auf dem Laufenden. Am Ende stehen Abnahme, Übergabe und besenreine Räume.",
+    title: "Projekt beauftragen",
+    text: "Prüfen Sie Ihr Angebot bequem online, stellen Sie Rückfragen oder geben Sie Ihr Projekt mit wenigen Klicks frei.",
+  },
+  {
+    title: "Entspannt zurücklehnen",
+    text: "Wir koordinieren alle Gewerke, organisieren die Abläufe und halten Sie jederzeit über den aktuellen Projektstand informiert.",
+  },
+  {
+    title: "Das Ergebnis genießen",
+    text: "Nach der Fertigstellung und gemeinsamen Abnahme können Sie Ihr neues Badezimmer, Zuhause oder Projekt in vollen Zügen genießen.",
+  },
+];
+
+/** Kundenportal-Sektion („So behalten Sie Ihr Projekt jederzeit im Blick"). */
+export const PORTAL = {
+  intro:
+    "Während der gesamten Projektlaufzeit haben Sie Zugriff auf Ihre Angebote, " +
+    "Dokumente, Termine und Projektinformationen. Für die Kommunikation entscheiden " +
+    "Sie selbst, ob Sie lieber per WhatsApp oder E-Mail mit uns in Kontakt bleiben möchten.",
+  kacheln: [
+    {
+      icon: "doc",
+      title: "Alle Dokumente an einem Ort",
+      text: "Angebote, Rechnungen und wichtige Unterlagen jederzeit abrufbar.",
+    },
+    {
+      icon: "calendar",
+      title: "Termine im Überblick",
+      text: "Alle wichtigen Termine und Projektinformationen zentral verfügbar.",
+    },
+    {
+      icon: "chat",
+      title: "Kommunikation nach Wunsch",
+      text: "Sie entscheiden selbst, ob die Kommunikation per WhatsApp oder E-Mail erfolgt.",
+    },
+    {
+      icon: "shield",
+      title: "Volle Transparenz",
+      text: "Wichtige Informationen zu Ihrem Projekt stehen jederzeit zur Verfügung.",
+    },
+  ],
+  schluss:
+    "Schluss mit langen E-Mail-Verläufen, fehlenden Dokumenten und der Frage, " +
+    "was als Nächstes passiert. Bei uns behalten Sie jederzeit den Überblick.",
+};
+
+/** Angebots-Sektion („Transparente Angebote statt Positionsdschungel"). */
+export const ANGEBOT = {
+  sub:
+    "Wir glauben, dass Angebote verständlich sein sollten. Deshalb konzentrieren " +
+    "wir uns auf das Wesentliche – klare Leistungen, transparente Kosten und eine " +
+    "einfache Freigabe.",
+  punkte: [
+    "Verständlich aufgebaut",
+    "Digital abrufbar",
+    "Schnell prüfbar",
+    "Ohne unübersichtliche Kleinstpositionen",
+  ],
+  /** Markierungen am Angebots-Mockup. */
+  marker: [
+    "Festpreis",
+    "Leistungsumfang",
+    "Projektbeschreibung",
+    "Digitale Freigabe",
+    "Material- und Arbeitskosten getrennt für die Steuererklärung",
+  ],
+};
+
+/** Gewerke-Karten („Zurücklehnen statt koordinieren") – verlinken auf Leistungsseiten. */
+export const GEWERKE_KARTEN = [
+  {
+    icon: "bath",
+    title: "Bad & Sanitär",
+    text: "Sanitärinstallationen, Armaturen, Duschen, WCs, Rohrleitungen und Badmodernisierung.",
+    slug: "badsanierung",
+  },
+  {
+    icon: "wall",
+    title: "Wände & Raumgestaltung",
+    text: "Mauerarbeiten, Ytong-Arbeiten, Trockenbau, Spachtelarbeiten und Raumaufteilungen.",
+    slug: "innenausbau",
+  },
+  {
+    icon: "paint",
+    title: "Oberflächen & Gestaltung",
+    text: "Fliesenarbeiten, Malerarbeiten, Bodenbeläge und Oberflächenbearbeitung.",
+    slug: "maler-boeden",
+  },
+  {
+    icon: "tools",
+    title: "Technik & Anschlüsse",
+    text: "Elektroarbeiten, Beleuchtung, Steckdosen, Schalter und Anschlüsse.",
+    slug: "sanitaer-heizung-elektro",
+  },
+  {
+    icon: "reno",
+    title: "Innenausbau & Modernisierung",
+    text: "Umbauten, Renovierungen und die Koordination aller weiteren Arbeiten.",
+    slug: "sanierung-modernisierung",
   },
 ];
 
@@ -204,8 +309,11 @@ export const FAQ_HOME = [
 ];
 
 export const CTA_BAND = {
-  pre: "Ihr Zuhause, Ihr Projekt – jetzt ",
-  accent: "berechnen",
-  text: "In einer Minute zur ersten Preisspanne. Unverbindlich, ohne Kontaktdaten.",
-  checks: ["Festpreis nach Vor-Ort-Termin", "Alles aus einer Hand", "Antwort in 24 Stunden"],
+  pre: "So sollte Handwerk ",
+  accent: "sein",
+  sub: "Planbar. Transparent. Verlässlich.",
+  text: "Wenn Sie das genauso sehen, freuen wir uns darauf, Ihr Projekt kennenzulernen.",
+  checks: ["Antwort in 12 Stunden", "Angebot in 24 Stunden", "Festpreis für alle vereinbarten Leistungen"],
+  /** Zweit-CTA – Ziel setzt die Seite (Startseite: #termin, sonst kontakt/#termin). */
+  cta2Label: "Beratung vereinbaren",
 };
