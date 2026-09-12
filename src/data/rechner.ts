@@ -20,6 +20,8 @@ export type Gewerk = {
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
   tiers: Tier[];
   spanne: number;        // ± relativ
+  /** Leistungs-Bausteine fürs Ergebnis (animierter „Bausteine"-Turm, unten → oben). */
+  bausteine: string[];
 };
 
 export const GEWERKE: Gewerk[] = [
@@ -38,6 +40,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Premium", hint: "Hochwertige Materialien und Sonderlösungen" },
     ],
     spanne: 0.15,
+    bausteine: ["Demontage", "Rohinstallation", "Abdichtung", "Fliesen", "Ausstattung"],
   },
   {
     slug: "sanierung-modernisierung",
@@ -54,6 +57,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Kernsanierung", hint: "Bis auf den Rohbau, alle Leitungen neu" },
     ],
     spanne: 0.25,
+    bausteine: ["Planung", "Rückbau", "Technik & Leitungen", "Oberflächen", "Endmontage"],
   },
   {
     slug: "dach-fassade",
@@ -70,6 +74,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Dach + Fassade inkl. Dämmung und Rinnen" },
     ],
     spanne: 0.25,
+    bausteine: ["Gerüst", "Unterkonstruktion", "Dämmung", "Eindeckung", "Rinnen & Anschlüsse"],
   },
   {
     slug: "innenausbau",
@@ -86,6 +91,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Inkl. Elektro, Beleuchtung, Maßeinbauten" },
     ],
     spanne: 0.25,
+    bausteine: ["Unterkonstruktion", "Beplankung", "Schallschutz", "Spachteln", "Streichfertig"],
   },
   {
     slug: "maler-boeden",
@@ -102,6 +108,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Hochwertig", hint: "Parkett, Spachteltechniken, Tapeten" },
     ],
     spanne: 0.20,
+    bausteine: ["Abdecken & Abkleben", "Untergrund", "Streichen", "Bodenbelag", "Übergabe besenrein"],
   },
   {
     slug: "sanitaer-heizung-elektro",
@@ -118,6 +125,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Sanitär, Heizung und Elektro neu" },
     ],
     spanne: 0.30,
+    bausteine: ["Planung", "Leitungen", "Verteilung", "Montage", "Prüfung & Doku"],
   },
 ];
 

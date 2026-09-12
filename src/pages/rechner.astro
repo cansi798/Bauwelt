@@ -13,6 +13,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   slug: g.slug, label: g.label, frage: g.frage, unit: g.unit,
   min: g.min, max: g.max, step: g.step, default: g.default,
   grund: g.grund, proEinheit: g.proEinheit, tiers: g.tiers, spanne: g.spanne,
+  bausteine: g.bausteine,
 }));
 ---
 
@@ -73,14 +74,24 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
         </section>
 
-        <!-- Schritt 3: Ergebnis + Kontaktwege -->
+        <!-- Schritt 3: Ergebnis + Bausteine-Szene + Kontaktwege -->
         <section class="rstep" data-step="3" hidden>
-          <h2 class="rstep__title">Ihre erste Preisspanne</h2>
-          <p class="rechner__result" id="rErgebnis" role="status">–</p>
-          <p class="small rechner__disclaimer">
-            Unverbindliche Ersteinschätzung auf Basis von Erfahrungswerten, inkl. Material und Arbeit.
-            Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
-          </p>
+          <div class="rechner__ergebnisgrid">
+            <div class="rechner__ergebnistext">
+              <h2 class="rstep__title">Ihre erste Preisspanne</h2>
+              <p class="rechner__result" id="rErgebnis" role="status">–</p>
+              <ul class="rechner__chips" id="rChips" aria-label="Ihre Auswahl"></ul>
+              <p class="small rechner__disclaimer">
+                Unverbindliche Ersteinschätzung auf Basis von Erfahrungswerten, inkl. Material und Arbeit.
+                Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
+              </p>
+            </div>
+            <!-- Bausteine-Turm: enthaltene Leistungen, animiert von unten nach oben -->
+            <figure class="rturm">
+              <div class="rturm__stapel" id="rTurm"></div>
+              <figcaption class="small">Diese Bausteine stecken in Ihrem Projekt</figcaption>
+            </figure>
+          </div>
           <div class="rechner__contact">
             <a class="btn btn--lg" href="#termin">
               <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
@@ -172,6 +183,62 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     margin-block: 8px 4px;
   }
   .rechner__disclaimer { max-width: 560px; }
+
+  /* Ergebnis: Text links, Bausteine-Turm rechts (mobil: Turm nach dem Preis) */
+  .rechner__ergebnisgrid { display: grid; gap: 24px; }
+  @media (min-width: 768px) {
+    .rechner__ergebnisgrid { grid-template-columns: 1.2fr 1fr; align-items: center; }
+  }
+
+  /* „Ihre Auswahl" als Chips */
+  .rechner__chips {
+    list-style: none; margin: 10px 0 12px; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .rechner__chips :global(li) {
+    font-size: 13.5px; font-weight: 600;
+    color: var(--anthrazit-800);
+    background: var(--gold-100);
+    border: 1px solid var(--gold-500);
+    border-radius: var(--radius-pill);
+    padding: 5px 14px;
+  }
+
+  /* Bausteine-Turm im gezeichneten Strich-Stil (unregelmäßige Radien = Handskizze) */
+  .rturm { margin: 0; display: grid; gap: 10px; justify-items: center; }
+  .rturm__stapel {
+    display: flex; flex-direction: column-reverse; /* Baustein 1 liegt unten */
+    gap: 6px;
+    width: min(100%, 300px);
+  }
+  .rturm__stapel :global(.rblock) {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px;
+    padding: 8px 14px;
+    background: var(--weiss);
+    border: 2px solid var(--anthrazit-800);
+    /* Handgezeichnete Kante: bewusst unregelmäßige Radien */
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    text-align: center;
+    animation: rblock-setzen 460ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
+    animation-delay: calc(var(--i) * 220ms + 150ms);
+  }
+  /* Jeder zweite Block minimal verdreht – wie von Hand gestapelt */
+  .rturm__stapel :global(.rblock:nth-child(odd))  { transform: rotate(-0.7deg); }
+  .rturm__stapel :global(.rblock:nth-child(even)) { transform: rotate(0.6deg); }
+  /* Oberster Baustein in Gold */
+  .rturm__stapel :global(.rblock:last-child) {
+    background: var(--gold-500);
+    border-color: var(--gold-700);
+    color: var(--anthrazit-900);
+  }
+  @keyframes rblock-setzen {
+    from { opacity: 0; translate: 0 -26px; }
+    60%  { opacity: 1; translate: 0 3px; }
+    to   { opacity: 1; translate: 0 0; }
+  }
+  .rturm figcaption { color: var(--anthrazit-600); }
   .rechner__contact { display: grid; gap: 12px; margin-top: 24px; }
   .rechner__contact .btn { width: 100%; }
 
@@ -194,6 +261,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     slug: string; label: string; frage: string; unit: string;
     min: number; max: number; step: number; default: number;
     grund: number; proEinheit: Record<string, number>; tiers: Tier[]; spanne: number;
+    bausteine: string[];
   };
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
@@ -282,6 +350,25 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       const { von, bis } = spanne();
       const tierLabel = g.tiers.find((t) => t.id === state.tier)?.label ?? "";
       ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
+
+      // „Ihre Auswahl" als Chips + Bausteine-Turm neu aufbauen.
+      // Neu erzeugte Blöcke starten ihre Aufbau-Animation bei jedem Ergebnis erneut.
+      const chipsEl = document.getElementById("rChips")!;
+      chipsEl.innerHTML = "";
+      for (const text of [g.label, `${state.menge} ${g.unit}`, tierLabel]) {
+        const li = document.createElement("li");
+        li.textContent = text;
+        chipsEl.append(li);
+      }
+      const turmEl = document.getElementById("rTurm")!;
+      turmEl.innerHTML = "";
+      g.bausteine.forEach((b, i) => {
+        const block = document.createElement("div");
+        block.className = "rblock";
+        block.style.setProperty("--i", String(i));
+        block.textContent = b;
+        turmEl.append(block);
+      });
 
       const beschreibung =
         `${g.label}, ${state.menge} ${g.unit}, Niveau „${tierLabel}", ` +
