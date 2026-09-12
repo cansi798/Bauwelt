@@ -1,5 +1,8 @@
 ---
 // Unterseiten-Hero: Headline + Lead links, Bild rechts (Mobil: Bild oben), optionaler CTA.
+// Mit Haupt-CTA erscheint zusätzlich der Zweit-CTA zur Terminbuchung samt
+// Rechner-Hinweis (gleiches Muster wie der Startseiten-Hero).
+import { u } from "../consts";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
 
@@ -13,8 +16,10 @@ interface Props {
   ctaHref?: string;
   ctaLabel?: string;
   checks?: string[];
+  /** Zweit-CTA ausblenden, z. B. auf der Kontaktseite (Buchung ist dort direkt). */
+  ohneTermin?: boolean;
 }
-const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [] } = Astro.props;
+const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [], ohneTermin = false } = Astro.props;
 ---
 
 <section class="phero">
@@ -30,7 +35,19 @@ const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, chec
           ))}
         </ul>
       )}
-      {ctaHref && ctaLabel && <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>}
+      {ctaHref && ctaLabel && (
+        <div class="phero__actions">
+          <div class="phero__cta">
+            <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
+            <span class="phero__note">Unverbindlich · Ergebnis in 60 Sekunden</span>
+          </div>
+          {!ohneTermin && (
+            <a class="btn btn--lg btn--ghost" href={u("kontakt/#termin")}>
+              Kostenlosen Besichtigungstermin buchen
+            </a>
+          )}
+        </div>
+      )}
     </div>
     {bild && (
       <div class="phero__media">
@@ -45,6 +62,13 @@ const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, chec
   .phero__grid { display: grid; gap: 28px; align-items: center; }
   .phero__copy { display: grid; gap: 16px; justify-items: start; }
   .phero__copy h1, .phero__copy p { margin: 0; }
+  .phero__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-start; }
+  .phero__cta { display: grid; gap: 6px; justify-items: center; }
+  .phero__note { font-size: 13px; color: var(--anthrazit-600); }
+  @media (max-width: 767px) {
+    .phero__actions { display: grid; justify-items: stretch; width: 100%; }
+    .phero__actions .btn { width: 100%; }
+  }
   @media (max-width: 1023px) { .phero__media { order: -1; } }
   @media (min-width: 1024px) {
     .phero { padding-block: 56px 72px; }
