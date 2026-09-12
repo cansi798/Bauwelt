@@ -146,7 +146,7 @@ export const USP = [
     title: "Regional & persönlich",
     text:
       "Wir kommen aus Norderstedt – nicht aus einem Callcenter. Ihr Ansprechpartner " +
-      "kennt Ihre Baustelle persönlich und ist in 24 Stunden erreichbar, auch per WhatsApp.",
+      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 12 Stunden, auch per WhatsApp.",
     bild: "hero-ueber-uns.webp",
     alt: "Bauwelt-Team auf der Baustelle",
   },
@@ -170,30 +170,38 @@ export const USP = [
   },
 ];
 
-/** „Ihr Weg zum neuen Badezimmer" – sechs Schritte laut Kundenfeedback 12.09.2026. */
+/** „Ihr Weg zum neuen Badezimmer" – sechs Schritte laut Kundenfeedback 12.09.2026.
+ *  `kurz` = scannbare Zeile (sichtbar), `text` = voller Kundentext (aufklappbar,
+ *  bleibt im DOM und damit für Suchmaschinen indexierbar). */
 export const STEPS = [
   {
     title: "Orientierung erhalten",
+    kurz: "Erste Preisspanne in wenigen Minuten – mit dem Projektrechner.",
     text: "Mit unserem Projektrechner erhalten Sie in wenigen Minuten eine erste transparente Preiseinschätzung und wissen schnell, in welchem Kostenrahmen sich Ihr Vorhaben bewegt.",
   },
   {
     title: "Wünsche besprechen",
+    kurz: "Persönlicher Vor-Ort-Termin für Ihre Ideen und Fragen.",
     text: "Bei einem persönlichen Vor-Ort-Termin nehmen wir uns Zeit für Ihre Ideen, beantworten Ihre Fragen und entwickeln gemeinsam die passende Lösung.",
   },
   {
     title: "Transparentes Angebot erhalten",
+    kurz: "Detailliertes Angebot innerhalb von 24 Stunden.",
     text: "Innerhalb von 24 Stunden erhalten Sie ein detailliertes Angebot, damit Sie schnell Klarheit über Leistungen, Kosten und den weiteren Ablauf haben.",
   },
   {
     title: "Projekt beauftragen",
+    kurz: "Angebot online prüfen und mit wenigen Klicks freigeben.",
     text: "Prüfen Sie Ihr Angebot bequem online, stellen Sie Rückfragen oder geben Sie Ihr Projekt mit wenigen Klicks frei.",
   },
   {
     title: "Entspannt zurücklehnen",
+    kurz: "Wir koordinieren alle Gewerke und halten Sie auf dem Laufenden.",
     text: "Wir koordinieren alle Gewerke, organisieren die Abläufe und halten Sie jederzeit über den aktuellen Projektstand informiert.",
   },
   {
     title: "Das Ergebnis genießen",
+    kurz: "Gemeinsame Abnahme – dann ist Ihr neues Zuhause fertig.",
     text: "Nach der Fertigstellung und gemeinsamen Abnahme können Sie Ihr neues Badezimmer, Zuhause oder Projekt in vollen Zügen genießen.",
   },
 ];
@@ -201,9 +209,8 @@ export const STEPS = [
 /** Kundenportal-Sektion („So behalten Sie Ihr Projekt jederzeit im Blick"). */
 export const PORTAL = {
   intro:
-    "Während der gesamten Projektlaufzeit haben Sie Zugriff auf Ihre Angebote, " +
-    "Dokumente, Termine und Projektinformationen. Für die Kommunikation entscheiden " +
-    "Sie selbst, ob Sie lieber per WhatsApp oder E-Mail mit uns in Kontakt bleiben möchten.",
+    "Während der gesamten Projektlaufzeit haben Sie Zugriff auf Angebote, Dokumente, " +
+    "Termine und den aktuellen Projektstand – per WhatsApp oder E-Mail, wie Sie möchten.",
   kacheln: [
     {
       icon: "doc",
@@ -253,37 +260,48 @@ export const ANGEBOT = {
   ],
 };
 
-/** Gewerke-Karten („Zurücklehnen statt koordinieren") – verlinken auf Leistungsseiten. */
+/** Gewerke-Karten („Zurücklehnen statt koordinieren") – verlinken auf Leistungsseiten.
+ *  Fotos: vorhandene Gewerk-Bilder aus assets/img/ (BILDER.md). */
 export const GEWERKE_KARTEN = [
   {
     icon: "bath",
     title: "Bad & Sanitär",
     text: "Sanitärinstallationen, Armaturen, Duschen, WCs, Rohrleitungen und Badmodernisierung.",
     slug: "badsanierung",
+    bild: "hero-badsanierung.webp",
+    alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
   },
   {
     icon: "wall",
     title: "Wände & Raumgestaltung",
     text: "Mauerarbeiten, Ytong-Arbeiten, Trockenbau, Spachtelarbeiten und Raumaufteilungen.",
     slug: "innenausbau",
+    bild: "hero-innenausbau.webp",
+    alt: "Heller Innenausbau mit neuen Trockenbauwänden",
   },
   {
     icon: "paint",
     title: "Oberflächen & Gestaltung",
     text: "Fliesenarbeiten, Malerarbeiten, Bodenbeläge und Oberflächenbearbeitung.",
     slug: "maler-boeden",
+    bild: "hero-maler-boeden.webp",
+    alt: "Frisch gestrichener Raum mit neuem Bodenbelag",
   },
   {
     icon: "tools",
     title: "Technik & Anschlüsse",
     text: "Elektroarbeiten, Beleuchtung, Steckdosen, Schalter und Anschlüsse.",
     slug: "sanitaer-heizung-elektro",
+    bild: "hero-sanitaer-heizung-elektro.webp",
+    alt: "Neu installierte Haustechnik im Trockenbau",
   },
   {
     icon: "reno",
     title: "Innenausbau & Modernisierung",
     text: "Umbauten, Renovierungen und die Koordination aller weiteren Arbeiten.",
     slug: "sanierung-modernisierung",
+    bild: "hero-sanierung-modernisierung.webp",
+    alt: "Modernisierter Wohnraum nach Komplettsanierung",
   },
 ];
 

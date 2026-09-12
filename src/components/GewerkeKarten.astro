@@ -6,6 +6,7 @@ import { u } from "../consts";
 import { GEWERKE_KARTEN } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+import Img from "./Img.astro";
 ---
 
 <section class="section section--sand" id="gewerke">
@@ -20,10 +21,15 @@ import Icon from "./Icon.astro";
     <div class="gewerke">
       {GEWERKE_KARTEN.map((g) => (
         <a class="card gewerke__card reveal" href={u(`leistungen/${g.slug}/`)}>
-          <span class="gewerke__icon"><Icon name={g.icon} size={26} class="icon" /></span>
-          <h3>{g.title}</h3>
-          <p>{g.text}</p>
-          <span class="gewerke__more">Mehr erfahren <Icon name="arrow" size={16} class="icon" /></span>
+          <div class="gewerke__media">
+            <Img src={g.bild} alt={g.alt} w={520} h={300} round={false} />
+            <span class="gewerke__icon"><Icon name={g.icon} size={22} class="icon" /></span>
+          </div>
+          <div class="gewerke__body">
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
+            <span class="gewerke__more">Mehr erfahren <Icon name="arrow" size={16} class="icon" /></span>
+          </div>
         </a>
       ))}
     </div>
@@ -41,18 +47,26 @@ import Icon from "./Icon.astro";
     .gewerke__card:nth-child(5) { grid-column: 4 / 6; }
   }
   .gewerke__card {
-    padding: 28px 24px;
-    display: grid; gap: 10px; align-content: start;
+    padding: 0;
+    display: grid; align-content: start;
+    overflow: hidden;
+  }
+  .gewerke__media { position: relative; }
+  .gewerke__icon {
+    position: absolute; left: 16px; bottom: -22px;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    box-shadow: var(--shadow);
+  }
+  .gewerke__body {
+    padding: 34px 20px 20px;
+    display: grid; gap: 8px; align-content: start;
   }
   .gewerke__card h3 { margin: 0; font-size: 17px; }
   .gewerke__card p { margin: 0; font-size: 14.5px; color: var(--anthrazit-700); }
-  .gewerke__icon {
-    width: 52px; height: 52px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 14px;
-    background: var(--gold-100);
-    color: var(--gold-700);
-  }
   .gewerke__more {
     display: inline-flex; align-items: center; gap: 6px;
     margin-top: 4px;

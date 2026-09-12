@@ -1,22 +1,35 @@
 ---
 // Nummerierter Ablauf – Karten-Raster. Desktop: 4 Spalten, bei durch 3
 // teilbarer Schrittzahl (z. B. 6 Schritte der Startseite) 3 Spalten.
+// Hat ein Schritt eine Kurzzeile (`kurz`), wird sie sichtbar gezeigt und der
+// volle Text liegt in einem nativen <details> („Mehr dazu") – bleibt damit im
+// DOM und für Suchmaschinen indexierbar (gleiche Mechanik wie das FAQ).
 import { STEPS } from "../data/home";
 
 interface Props {
   /** Alternative Schritte, z. B. gewerkspezifisch auf Leistungsseiten. */
-  steps?: { title: string; text: string }[];
+  steps?: { title: string; text: string; kurz?: string }[];
 }
 const { steps = STEPS } = Astro.props;
 const cols = steps.length % 3 === 0 ? 3 : 4;
 ---
 
-<ol class="steps" style={`--steps-cols: ${cols}`}>
+<ol class="steps" style={`--steps-cols: ${cols}`} data-cols={cols}>
   {steps.map((s, i) => (
     <li class="steps__item reveal">
       <span class="steps__num">{i + 1}</span>
       <h3>{s.title}</h3>
-      <p>{s.text}</p>
+      {s.kurz ? (
+        <>
+          <p>{s.kurz}</p>
+          <details class="steps__mehr">
+            <summary>Mehr dazu</summary>
+            <p>{s.text}</p>
+          </details>
+        </>
+      ) : (
+        <p>{s.text}</p>
+      )}
     </li>
   ))}
 </ol>
@@ -49,4 +62,40 @@ const cols = steps.length % 3 === 0 ? 3 : 4;
     display: inline-flex; align-items: center; justify-content: center;
     margin-bottom: 8px;
   }
+
+  /* Verbindungslinie zwischen den Nummern (Desktop, nicht am Zeilenende) */
+  @media (min-width: 1024px) {
+    .steps__item::before {
+      content: "";
+      position: absolute;
+      top: 50px; /* Mitte der Nummern-Kreise */
+      left: calc(24px + 44px + 8px);
+      right: -20px; /* über den Grid-Gap zur nächsten Karte */
+      height: 2px;
+      background: var(--gold-300);
+    }
+    .steps__item:last-child::before { display: none; }
+    .steps[data-cols="3"] .steps__item:nth-child(3n)::before { display: none; }
+    .steps[data-cols="4"] .steps__item:nth-child(4n)::before { display: none; }
+  }
+
+  /* „Mehr dazu"-Aufklapper (FAQ-Mechanik) */
+  .steps__mehr summary {
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 700; font-size: 14px;
+    color: var(--gold-700);
+  }
+  .steps__mehr summary::-webkit-details-marker { display: none; }
+  .steps__mehr summary::after {
+    content: "";
+    width: 8px; height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 200ms ease;
+  }
+  .steps__mehr[open] summary::after { transform: rotate(225deg) translateY(-2px); }
+  .steps__mehr > p { margin-top: 8px; }
 </style>
