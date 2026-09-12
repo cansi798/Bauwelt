@@ -289,9 +289,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             </div>
             <div class="rechner__ergebnisrechts">
               <div id="rSkizzeSlot3"></div>
-              <button class="btn btn--dark rskizze__download" type="button" id="rSkizzeTeilen" hidden>
-                <Icon name="whatsapp" size={18} class="icon" /> WhatsApp kontaktieren (mit Zeichnung)
-              </button>
               <button class="btn btn--ghost rskizze__download" type="button" id="rSkizzeDownload">
                 <Icon name="download" size={18} class="icon" /> Zeichnung herunterladen (PNG)
               </button>
@@ -1044,49 +1041,20 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       setTimeout(() => URL.revokeObjectURL(a.href), 5000);
     }
 
-    /** WhatsApp in zwei Schritten – mehr erlaubt WhatsApp technisch nicht:
-     *  1) Link öffnet den Chat DIREKT bei unserer Nummer mit dem Anfrage-Text.
-     *  2) „Zeichnung teilen" schickt die PNG per Teilen-Menü hinterher (der
-     *     frische Chat steht dort ganz oben). Zusätzlich wird die Zeichnung
-     *     beim Klick automatisch gespeichert (Büroklammer-Fallback). */
+    /** WhatsApp: Chat öffnet direkt bei unserer Nummer mit dem Anfrage-Text.
+     *  Die Zeichnung wird parallel automatisch gespeichert – der Hinweis
+     *  erklärt das Anhängen per Büroklammer. */
     function whatsappMitZeichnung() {
       // Kein preventDefault: der Link öffnet den Chat mit Text an unsere Nummer.
       skizzeHerunterladen().catch(() => {});
       const tipp = document.querySelector(".rskizze__tipp");
       if (tipp) tipp.textContent =
-        `Text gesendet? Dann jetzt „Zeichnung per WhatsApp teilen" antippen – Ihr Chat mit uns steht im Teilen-Menü ganz oben. ` +
-        `Alternativ: Die Zeichnung liegt in Downloads/Galerie (Büroklammer im Chat).`;
-    }
-
-    /** „WhatsApp kontaktieren": PNG + Anfragetext zusammen ins Teilen-Menü.
-     *  Das Betriebssystem erlaubt keiner Website, Empfänger vorzuwählen oder
-     *  automatisch zu senden – der Chat mit uns steht im Menü aber ganz oben. */
-    async function zeichnungTeilen() {
-      try {
-        const blob = await erzeugePng();
-        const datei = new File([blob], `Bauwelt-Zeichnung_${state.gewerk!.slug}.png`, { type: "image/png" });
-        await navigator.share({
-          files: [datei],
-          text: waBtn.dataset.text || "",
-          title: "Projektanfrage Bauwelt Handwerk",
-        });
-      } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          // Teilen nicht möglich → Text-Chat + automatischer Download als Rettung
-          skizzeHerunterladen().catch(() => {});
-          window.open(waBtn.href, "_blank", "noopener");
-        }
-      }
+        "Die Zeichnung wurde gespeichert (Downloads/Galerie) – im Chat einfach über die Büroklammer anhängen.";
     }
 
     // Events
     document.getElementById("rSkizzeDownload")!.addEventListener("click", skizzeHerunterladen);
     waBtn.addEventListener("click", whatsappMitZeichnung);
-    const teilenBtn = document.getElementById("rSkizzeTeilen")!;
-    const teilbar = typeof navigator.canShare === "function" &&
-      navigator.canShare({ files: [new File([new Blob()], "p.png", { type: "image/png" })] });
-    teilenBtn.hidden = !teilbar;
-    teilenBtn.addEventListener("click", zeichnungTeilen);
     document.getElementById("rZurueck2")!.addEventListener("click", () => show((state.step - 1) as 1 | 2));
     // Vom Ergebnis mit einem Klick in den Genau-Modus (weniger „Weiter"-Schritte)
     document.getElementById("rVerfeinern")!.addEventListener("click", () => {

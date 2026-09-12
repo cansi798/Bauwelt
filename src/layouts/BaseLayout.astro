@@ -88,9 +88,6 @@ const jsonLd = {
     <Footer />
     <StickyBar />
 
-    <!-- Goldene Scroll-Fortschrittsleiste (läuft unter dem Header mit) -->
-    <div class="scrollbalken" aria-hidden="true"><span id="scrollFill"></span></div>
-
     <!-- Nach-oben-Button: erscheint nach einer Bildschirmhöhe Scrolltiefe -->
     <button class="hoch" id="hochBtn" type="button" aria-label="Zurück zum Seitenanfang" hidden>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
@@ -129,52 +126,124 @@ const jsonLd = {
         hoch.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
       }
 
-      // „Video mit Ton": Karten-Slider spielt sich ab, Web-Speech liest jede
-      // Karte vor (de-DE). Start nur per Tipp (Browser-Autoplay-Regel), Stopp
-      // per erneutem Tipp oder Wischen. Ohne Sprachausgabe: stiller Durchlauf.
+      // „Gezeichnetes Video" (AIDA): ▶ startet dezente Hintergrundmusik
+      // (Web Audio, synthetisiert – keine Dateien) und fährt die Karten kurz
+      // und knackig durch; die aktive Karte wird golden „nachgezeichnet".
+      // Am Ende pulsiert der nächste CTA-Button (Action). Wischen stoppt.
       let aktiverPlayer: (() => void) | null = null;
+
+      // Hintergrundmusik: weiches Pad + Pentatonik-Arpeggio, sehr leise
+      let audio: { ctx: AudioContext; master: GainNode; arp: number } | null = null;
+      function musikStart() {
+        try {
+          const ctx = new AudioContext();
+          const master = ctx.createGain();
+          master.gain.setValueAtTime(0, ctx.currentTime);
+          master.gain.linearRampToValueAtTime(0.11, ctx.currentTime + 1.0);
+          master.connect(ctx.destination);
+          const filter = ctx.createBiquadFilter();
+          filter.type = "lowpass";
+          filter.frequency.value = 850;
+          filter.connect(master);
+          for (const f of [110, 165, 221.5]) {
+            const o = ctx.createOscillator();
+            o.type = "triangle";
+            o.frequency.value = f;
+            const g = ctx.createGain();
+            g.gain.value = 0.06;
+            o.connect(g);
+            g.connect(filter);
+            o.start();
+          }
+          const toene = [440, 494, 554, 659, 740, 659, 554, 494];
+          let n = 0;
+          const arp = window.setInterval(() => {
+            const o = ctx.createOscillator();
+            o.type = "sine";
+            o.frequency.value = toene[n++ % toene.length];
+            const g = ctx.createGain();
+            g.gain.setValueAtTime(0, ctx.currentTime);
+            g.gain.linearRampToValueAtTime(0.09, ctx.currentTime + 0.05);
+            g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+            o.connect(g);
+            g.connect(master);
+            o.start();
+            o.stop(ctx.currentTime + 0.6);
+          }, 640);
+          audio = { ctx, master, arp };
+        } catch {
+          audio = null;
+        }
+      }
+      function musikStopp() {
+        if (!audio) return;
+        const { ctx, master, arp } = audio;
+        clearInterval(arp);
+        try {
+          master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+        } catch {}
+        setTimeout(() => ctx.close().catch(() => {}), 700);
+        audio = null;
+      }
+
+      // Goldener Nachzeichnen-Rahmen für die aktive Karte
+      function zeichneRahmen(karte: HTMLElement) {
+        karte.classList.add("vzeichnet");
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "vzeichnet-rahmen");
+        svg.setAttribute("viewBox", "0 0 100 100");
+        svg.setAttribute("preserveAspectRatio", "none");
+        const pf = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        pf.setAttribute("d", "M4 7 C 30 3, 70 9, 96 5 C 99 30, 95 68, 97 93 C 70 98, 28 94, 4 96 C 1 70, 5 32, 4 7 Z");
+        pf.setAttribute("pathLength", "1");
+        pf.setAttribute("vector-effect", "non-scaling-stroke");
+        svg.append(pf);
+        karte.append(svg);
+      }
+
       document.querySelectorAll<HTMLButtonElement>("[data-vplay]").forEach((btn) => {
         const slider = document.getElementById(btn.dataset.vplay || "");
         if (!slider) return;
         let laeuft = false;
-        let stillTimer: number | undefined;
+        let timer: number | undefined;
         const label = btn.textContent || "";
         const karten = () => Array.from(slider.children) as HTMLElement[];
+        // AIDA-Abschluss: nächster CTA-Button in der Sektion pulsiert (Action)
+        const cta = slider.closest("section")?.querySelector(".btn:not(.vplay)");
+
+        function aufraeumen() {
+          slider.querySelectorAll(".vzeichnet-rahmen").forEach((s) => s.remove());
+          slider.querySelectorAll(".vzeichnet").forEach((k) => k.classList.remove("vzeichnet"));
+          cta?.classList.remove("vpuls");
+        }
 
         function stopp() {
           laeuft = false;
           btn.classList.remove("spielt");
           btn.textContent = label;
-          window.speechSynthesis?.cancel();
-          clearTimeout(stillTimer);
+          clearTimeout(timer);
+          musikStopp();
+          aufraeumen();
           if (aktiverPlayer === stopp) aktiverPlayer = null;
         }
 
-        function zeige(i: number) {
-          const k = karten()[i];
-          k?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-        }
-
-        let stumm = !("speechSynthesis" in window);
-        function sprich(i: number) {
+        function schritt(i: number) {
           if (!laeuft) return;
-          if (i >= karten().length) { stopp(); return; }
-          zeige(i);
-          if (stumm) {
-            stillTimer = window.setTimeout(() => sprich(i + 1), 3200);
+          if (i >= karten().length) {
+            if (cta) {
+              cta.classList.add("vpuls");
+              cta.scrollIntoView({ behavior: "smooth", block: "center" });
+              timer = window.setTimeout(stopp, 2200);
+            } else {
+              stopp();
+            }
             return;
           }
-          const text = karten()[i].innerText.replace(/\s+/g, " ").trim();
-          const u = new SpeechSynthesisUtterance(text);
-          u.lang = "de-DE";
-          u.rate = 1.05;
-          u.onend = () => laeuft && sprich(i + 1);
-          // Keine Stimme verfügbar → ab jetzt stummer Durchlauf statt Fehler-Kaskade
-          u.onerror = () => {
-            stumm = true;
-            if (laeuft) stillTimer = window.setTimeout(() => sprich(i + 1), 3200);
-          };
-          speechSynthesis.speak(u);
+          aufraeumen();
+          const k = karten()[i];
+          k.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+          zeichneRahmen(k);
+          timer = window.setTimeout(() => schritt(i + 1), 2200);
         }
 
         btn.addEventListener("click", () => {
@@ -183,9 +252,9 @@ const jsonLd = {
           aktiverPlayer = stopp;
           laeuft = true;
           btn.classList.add("spielt");
-          btn.textContent = "⏸  Stopp";
-          window.speechSynthesis?.cancel();
-          sprich(0);
+          btn.textContent = "⏸  Stopp";
+          musikStart();
+          schritt(0);
         });
         // Wischen durch den Nutzer beendet die Wiedergabe
         slider.addEventListener("pointerdown", () => laeuft && stopp(), { passive: true });
@@ -193,18 +262,6 @@ const jsonLd = {
     </script>
 
     <style>
-      .scrollbalken {
-        position: fixed;
-        top: var(--header-h);
-        left: 0; right: 0;
-        height: 3px;
-        z-index: 99;
-        pointer-events: none;
-      }
-      .scrollbalken span {
-        display: block; height: 100%; width: 0;
-        background: var(--gold-500);
-      }
       .hoch[hidden] { display: none; }
       .hoch {
         position: fixed;

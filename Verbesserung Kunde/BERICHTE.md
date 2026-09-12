@@ -15,6 +15,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 08 | 12.09.2026 | Extras zeichnen Symbole in die Bauzeichnung, KI als dritter Modus (Ladebalken %, JSON-Härtung, Qwen-Fallback), WhatsApp-Zweischritt mit Teilen-Button, „Genauer machen"-Knopf, Hero-3er-Slide + Badge-Peek, Portal-Kacheln wischbar | Live-Tests Can (Abendrunde) | `Bericht-08_2026-09-12_Extras-zeichnen-KI-Modus-Feinschliff.pdf` |
 | 09 | 12.09.2026 | KI-Fix: nach dem Vorschlag direkt zum Ergebnis + Kontaktwahl, tolerantes Matching (Label/Fachbegriff/ID) | Live-Test Can („kein wirklicher Output") | `Bericht-09_2026-09-12_KI-liefert-Ergebnis.pdf` |
 | 10 | 12.09.2026 | Zeichnung folgt den Maßen, „Video mit Ton" (Web-Speech) für 3 Bereiche, WhatsApp-Teilen mit Bild+Text, Scroll-Fortschritt + Nach-oben-Button, Rechner-Sprungfix; Zwei-Agenten-Sweep aller Seiten mit Hero-Beschnitt-Fix, Touchziele, Doppel-Leisten | Live-Tests Can + Agenten-Sweep | `Bericht-10_2026-09-12_Formzeichnung-TonVideo-Agentensweep.pdf` |
+| 11 | 12.09.2026 | Mobil-Videos neu: gezeichnete Durchläufe mit synthetischer Hintergrundmusik + AIDA-CTA-Puls (statt Sprachausgabe), Fortschrittsbalken an Header-Unterkante, WhatsApp-Teilen-Button entfernt (wieder Direktkontakt mit Text) | Live-Tests Can | `Bericht-11_2026-09-12_Gezeichnete-Videos-Musik.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

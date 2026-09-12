@@ -61,6 +61,8 @@ import MobileMenu from "./MobileMenu.astro";
       </button>
     </div>
   </div>
+  <!-- Goldene Scroll-Fortschrittsleiste: sitzt exakt an der Header-Unterkante -->
+  <div class="hdr__balken" aria-hidden="true"><span id="scrollFill"></span></div>
   <MobileMenu />
 </header>
 <div class="hdr-spacer" aria-hidden="true"></div>
@@ -73,6 +75,16 @@ import MobileMenu from "./MobileMenu.astro";
     transition: box-shadow var(--transition);
   }
   .hdr.is-scrolled { box-shadow: var(--shadow); }
+  .hdr__balken {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px; /* über der Border-Unterkante */
+    height: 3px;
+    pointer-events: none;
+  }
+  .hdr__balken span {
+    display: block; height: 100%; width: 0;
+    background: var(--gold-500);
+  }
   .hdr__inner {
     display: flex; align-items: center; gap: 16px;
     height: var(--header-h);
