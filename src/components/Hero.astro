@@ -47,7 +47,8 @@ const WALZE = [...WORTE, WORTE[0]];
       </span>
     </h1>
 
-    <p class="lead fhero__in" style="--d: 240ms">{HERO.sub}</p>
+    <p class="fhero__statement fhero__in" style="--d: 220ms">{HERO.statement}</p>
+    <p class="lead fhero__in" style="--d: 280ms">{HERO.sub}</p>
     <ul class="fhero__zusagen fhero__in" style="--d: 360ms">
       {HERO.checks.map((c) => (
         <li><Icon name="check" size={18} class="icon" /> {c}</li>
@@ -109,6 +110,14 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__content h1 { color: var(--weiss); margin: 0; }
   .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 62ch; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
+  .fhero__statement {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--weiss);
+  }
+  .fhero__statement + .lead { margin-top: -12px; }
 
   /* Fünf Zusagen aus dem Kundenpapier – gestapelt, gut lesbar über dem Bild */
   .fhero__zusagen {

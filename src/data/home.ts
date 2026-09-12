@@ -2,16 +2,18 @@
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
 
 export const HERO = {
-  /** Positionierung laut Kundenfeedback 12.09.2026. */
-  eyebrow: "Ihr Partner für Badsanierung und Innenausbau in Hamburg & Umgebung – alles aus einer Hand",
+  /** Positionierung laut Kundenfeedback 12.09.2026 (wörtlich nach Vorlage). */
+  eyebrow: "Ihr Partner für Badsanierung und Innenausbau in Hamburg & Umgebung – Selbstverständlich alles aus einer Hand!",
   /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
   vor: "Bereit für Ihr neues",
   nach: "",
   /** Rotierende Begriffe (erster = Fallback ohne Animation/reduced motion). */
   begriffe: ["Badezimmer?", "Zuhause?", "Projekt?"],
+  /** Eigenes Statement über der Unterzeile (Vorlage: eigene Zeile). */
+  statement: "Handwerk, wie es heute sein sollte.",
   sub:
-    "Handwerk, wie es heute sein sollte. Wir verbinden handwerkliche Qualität " +
-    "mit klaren Prozessen, digitalem Kundenservice und voller Transparenz.",
+    "Wir verbinden handwerkliche Qualität mit klaren Prozessen, " +
+    "digitalem Kundenservice und voller Transparenz.",
   /** Die fünf Zusagen aus dem Kundenpapier (ersetzen Häkchen + Pillen). */
   checks: [
     "Antwort innerhalb von 12 Stunden",
