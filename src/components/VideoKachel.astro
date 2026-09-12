@@ -4,11 +4,13 @@
 import { u } from "../consts";
 
 interface Props {
-  /** Dateiname ohne Endung, z. B. "weg" → weg.webm + weg-poster.jpg */
+  /** Dateiname ohne Endung, z. B. "weg" → weg.<ext> + weg-poster.jpg */
   name: string;
   titel: string;
+  /** Dateiendung – generierte Videos sind webm, gelieferte z. B. mp4. */
+  ext?: string;
 }
-const { name, titel } = Astro.props;
+const { name, titel, ext = "webm" } = Astro.props;
 ---
 
 <div class="vkachel" data-vkachel>
@@ -16,7 +18,7 @@ const { name, titel } = Astro.props;
     preload="none"
     playsinline
     poster={u(`assets/video/${name}-poster.jpg`)}
-    src={u(`assets/video/${name}.webm`)}
+    src={u(`assets/video/${name}.${ext}`)}
     aria-label={titel}
   ></video>
   <button class="vkachel__play" type="button" aria-label={`Video abspielen: ${titel}`}>

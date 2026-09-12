@@ -18,6 +18,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 11 | 12.09.2026 | Mobil-Videos neu: gezeichnete Durchläufe mit synthetischer Hintergrundmusik + AIDA-CTA-Puls (statt Sprachausgabe), Fortschrittsbalken an Header-Unterkante, WhatsApp-Teilen-Button entfernt (wieder Direktkontakt mit Text) | Live-Tests Can | `Bericht-11_2026-09-12_Gezeichnete-Videos-Musik.pdf` |
 | 12 | 12.09.2026 | Mobil-Videos ohne Play-Button: Autostart beim Hereinscrollen (stumm, Dauerschleife, Wisch stoppt), 🔊-Chip für Musik | Wunsch Can („mach ein Video daraus") | `Bericht-12_2026-09-12_Videos-laufen-von-selbst.pdf` |
 | 13 | 12.09.2026 | Drei generierte Erklärvideos (WebM mit Musik) als Klick-Kacheln, Rechner ohne Skizze mit gruppiertem Ergebnis, WhatsApp-Anfrage formatiert (Emojis/Absätze/Fachbegriffe), Portal-Demo hinter Login-Button (/login/, noindex) | Wünsche Can (echtes Video, Auswahl-Fokus, schönere Nachricht, Portal zu Login) | `Bericht-13_2026-09-12_Echte-Videos-Login-Demo.pdf` |
+| 14 | 12.09.2026 | Kundenvideo (video/video 1.mp4) ersetzt Weg-Erklärvideo, Thementext mobil ausgeblendet; Angebots-Mockup → Login-Demo; /login/ als klickbarer Fiktiv-Durchlauf (Demo-Login, 4 Reiter, klickbare Angebots-Freigabe) | Wünsche Can | `Bericht-14_2026-09-12_Kundenvideo-Portal-Durchklick.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

@@ -1,15 +1,18 @@
 ---
-// Login-Seite: fiktive Portal-Demo (Beispieldaten), bis das echte Kundenportal
-// öffentlich läuft. noindex – reine Vorschau-Seite.
+// Login-Seite mit FIKTIVEM Demo-Durchklick: vorausgefüllter Beispiel-Login →
+// bestätigen → klickbares Beispiel-Portal (Übersicht, Angebot mit Freigabe,
+// Dokumente, Termine). Alles Beispieldaten; echter Login verlinkt extern.
+// noindex – reine Vorschau-Seite.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
 import PortalDemo from "../components/PortalDemo.astro";
+import AngebotDemo from "../components/AngebotDemo.astro";
 import Icon from "../components/Icon.astro";
 ---
 
 <BaseLayout
   title="Kundenportal-Login – Bauwelt Handwerk"
-  description="Ihr Zugang zum Bauwelt-Kundenportal: Projektstand, Dokumente und Termine jederzeit im Blick."
+  description="Ihr Zugang zum Bauwelt-Kundenportal: Projektstand, Angebote, Dokumente und Termine jederzeit im Blick."
   noindex
 >
   <section class="section">
@@ -20,20 +23,71 @@ import Icon from "../components/Icon.astro";
         eyebrow="Kundenportal"
         pre="Ihr Projekt. Jederzeit im "
         accent="Blick"
-        text="So sieht Ihr Kundenportal aus – hier eine Vorschau mit Beispieldaten."
+        text="Probieren Sie es aus – die Demo zeigt mit Beispieldaten, wie Ihr Portal aussieht."
       />
 
-      <PortalDemo />
-      <p class="small login__hinweis">Vorschau mit fiktiven Beispieldaten (Familie M.)</p>
-
-      <div class="login__actions">
-        <a class="btn btn--lg" href="https://portal.bauwelt-handwerk.de" target="_blank" rel="noopener">
-          <Icon name="user" size={20} class="icon" /> Zum Login
-        </a>
+      <!-- Fiktiver Login (vorausgefüllt, nur bestätigen) -->
+      <form class="login__karte card" id="demoLogin">
+        <span class="login__demoTag">Demo-Ansicht · Beispieldaten</span>
+        <h2>Anmelden</h2>
+        <label>E-Mail
+          <input type="email" value="familie.m@beispiel.de" readonly />
+        </label>
+        <label>Passwort
+          <input type="password" value="demo-1234" readonly />
+        </label>
+        <button class="btn btn--lg" type="submit">
+          <Icon name="user" size={20} class="icon" /> Anmelden &amp; Demo ansehen
+        </button>
         <p class="small">
-          Ihre Zugangsdaten erhalten Sie mit der Auftragsbestätigung.
-          Noch kein Kunde? <a href={`${import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/"}rechner/`}>Projekt berechnen</a> und kennenlernen.
+          Echte Zugangsdaten erhalten Sie mit der Auftragsbestätigung.
+          <a href="https://portal.bauwelt-handwerk.de" target="_blank" rel="noopener">Zum echten Login</a>
         </p>
+      </form>
+
+      <!-- Klickbares Demo-Portal (erscheint nach dem Demo-Login) -->
+      <div class="login__portal" id="demoPortal" hidden>
+        <div class="login__kopf">
+          <span class="login__hallo">👋 Willkommen zurück, Familie M.!</span>
+          <button class="login__aus" type="button" id="demoLogout">Abmelden</button>
+        </div>
+
+        <nav class="login__tabs" role="tablist" aria-label="Portal-Bereiche">
+          <button class="login__tab selected" type="button" data-tab="uebersicht" role="tab" aria-selected="true">Übersicht</button>
+          <button class="login__tab" type="button" data-tab="angebot" role="tab" aria-selected="false">Angebot</button>
+          <button class="login__tab" type="button" data-tab="dokumente" role="tab" aria-selected="false">Dokumente</button>
+          <button class="login__tab" type="button" data-tab="termine" role="tab" aria-selected="false">Termine</button>
+        </nav>
+
+        <div class="login__panel" data-panel="uebersicht">
+          <PortalDemo />
+        </div>
+
+        <div class="login__panel" data-panel="angebot" hidden>
+          <AngebotDemo />
+          <p class="small login__freigabeInfo" id="freigabeInfo" hidden>
+            ✓ Angebot freigegeben – vielen Dank! Wir melden uns mit dem Terminplan. (Demo)
+          </p>
+        </div>
+
+        <div class="login__panel" data-panel="dokumente" hidden>
+          <ul class="login__liste">
+            <li><Icon name="doc" size={18} class="icon" /> Angebot_2026-041.pdf <span>12.09.2026</span></li>
+            <li><Icon name="doc" size={18} class="icon" /> Terminplan_Badsanierung.pdf <span>12.09.2026</span></li>
+            <li><Icon name="doc" size={18} class="icon" /> Abschlagsrechnung_1.pdf <span>Beispiel</span></li>
+            <li><Icon name="doc" size={18} class="icon" /> Materialliste_Fliesen.pdf <span>Beispiel</span></li>
+          </ul>
+        </div>
+
+        <div class="login__panel" data-panel="termine" hidden>
+          <ul class="login__liste">
+            <li><Icon name="calendar" size={18} class="icon" /> Di, 16.09. – Fliesenarbeiten beginnen <span>08:00</span></li>
+            <li><Icon name="calendar" size={18} class="icon" /> Fr, 19.09. – Endmontage Sanitär <span>09:30</span></li>
+            <li><Icon name="calendar" size={18} class="icon" /> Mo, 22.09. – Gemeinsame Abnahme <span>16:00</span></li>
+          </ul>
+        </div>
+
+        <p class="small login__hinweis">Vorschau mit fiktiven Beispieldaten (Familie M.)</p>
       </div>
     </div>
   </section>
@@ -41,10 +95,113 @@ import Icon from "../components/Icon.astro";
 
 <style>
   .login__wrap { max-width: 640px; }
-  .login__hinweis { text-align: center; margin-top: 10px; }
-  .login__actions {
-    margin-top: 28px;
-    display: grid; gap: 10px; justify-items: center;
-    text-align: center;
+
+  .login__karte {
+    position: relative;
+    display: grid; gap: 14px;
+    max-width: 420px;
+    margin-inline: auto;
+    padding-top: 40px;
   }
+  .login__demoTag {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    font-family: var(--font-heading); font-weight: 700; font-size: 12px;
+    border-radius: var(--radius-pill);
+    padding: 5px 16px;
+    white-space: nowrap;
+  }
+  .login__karte h2 { margin: 0; font-size: 22px; }
+  .login__karte label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--anthrazit-700); }
+  .login__karte input {
+    padding: 12px 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    font: inherit;
+    background: var(--gold-100);
+  }
+  .login__karte .small { margin: 0; text-align: center; }
+
+  .login__kopf { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .login__hallo { font-family: var(--font-heading); font-weight: 700; }
+  .login__aus {
+    border: 1px solid var(--linie);
+    background: none;
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--anthrazit-600);
+  }
+  .login__aus:hover { background: var(--anthrazit-100); }
+
+  .login__tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .login__tab {
+    border: 2px solid var(--linie);
+    background: var(--weiss);
+    border-radius: var(--radius-pill);
+    padding: 8px 18px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    color: var(--anthrazit-700);
+  }
+  .login__tab.selected { border-color: var(--gold-500); background: var(--gold-100); color: var(--anthrazit-900); }
+
+  .login__liste {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 8px;
+  }
+  .login__liste li {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--weiss);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-weight: 600; font-size: 14.5px;
+  }
+  .login__liste :global(.icon) { color: var(--gold-700); flex: none; }
+  .login__liste span { margin-left: auto; font-weight: 400; font-size: 12.5px; color: var(--anthrazit-600); }
+
+  .login__freigabeInfo { color: var(--erfolg); font-weight: 700; margin-top: 10px; }
+  .login__hinweis { text-align: center; margin-top: 18px; }
 </style>
+
+<script>
+  // Demo-Durchklick: Login bestätigen → Portal zeigen; Tabs; Angebots-Freigabe.
+  const form = document.getElementById("demoLogin") as HTMLFormElement | null;
+  const portal = document.getElementById("demoPortal");
+  if (form && portal) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      form.hidden = true;
+      portal.hidden = false;
+      portal.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    document.getElementById("demoLogout")?.addEventListener("click", () => {
+      portal.hidden = true;
+      form.hidden = false;
+      form.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    const tabs = Array.from(document.querySelectorAll<HTMLElement>(".login__tab"));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>(".login__panel"));
+    tabs.forEach((tab) =>
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => {
+          t.classList.toggle("selected", t === tab);
+          t.setAttribute("aria-selected", String(t === tab));
+        });
+        panels.forEach((p) => (p.hidden = p.dataset.panel !== tab.dataset.tab));
+      })
+    );
+    // „Angebot online freigeben" (Demo): Klick bestätigt sichtbar
+    const freigabe = document.querySelector<HTMLElement>(".amock__btn");
+    freigabe?.addEventListener("click", () => {
+      freigabe.textContent = "✓ Freigegeben";
+      document.getElementById("freigabeInfo")!.hidden = false;
+    });
+    if (freigabe) {
+      freigabe.style.cursor = "pointer";
+      freigabe.setAttribute("role", "button");
+      freigabe.setAttribute("tabindex", "0");
+    }
+  }
+</script>

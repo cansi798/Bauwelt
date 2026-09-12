@@ -42,9 +42,13 @@ import { FAQ_HOME, HERO } from "../data/home";
 
   <section class="section">
     <div class="container">
-      <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
-      <VideoKachel name="weg" titel="Ihr Weg zum neuen Badezimmer – als Video erklärt" />
-      <Steps />
+      <!-- Mobil erzählt das gelieferte Video das Thema komplett –
+           Überschrift + Schritt-Karten erscheinen dort nicht (weg__text). -->
+      <VideoKachel name="weg" ext="mp4" titel="Ihr Weg zum neuen Badezimmer – als Video erklärt" />
+      <div class="weg__text">
+        <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
+        <Steps />
+      </div>
       <div class="weg__actions">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
         <a class="btn btn--lg btn--ghost" href={HERO.cta2.href}>{HERO.cta2.label}</a>
@@ -84,5 +88,10 @@ import { FAQ_HOME, HERO } from "../data/home";
     display: flex; flex-wrap: wrap; gap: 12px 16px;
     justify-content: center;
     margin-top: 36px;
+  }
+  /* Mobil übernimmt das Video die Erklärung – Text/Karten nur ab Tablet */
+  @media (max-width: 767px) {
+    html.js .weg__text { display: none; }
+    .weg__actions { margin-top: 8px; }
   }
 </style>

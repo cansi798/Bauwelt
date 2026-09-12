@@ -1,0 +1,119 @@
+---
+// Fiktives Muster-Angebot (Demo im Kundenportal-Durchklick): mit Markierungen
+// und klickbarer „Digitale Freigabe" – Beispieldaten, keine echten Werte.
+import Icon from "./Icon.astro";
+---
+
+    <div class="angebot__mock">
+      <div class="amock">
+        <div class="amock__head">
+          <span class="amock__logo">Bauwelt Handwerk</span>
+          <span class="amock__nr">Angebot Nr. 2026-041</span>
+        </div>
+
+        <div class="amock__block">
+          <span class="amock__mark">Projektbeschreibung</span>
+          <strong>Badsanierung, ca. 6 m²</strong>
+          <span class="amock__line"></span>
+          <span class="amock__line amock__line--short"></span>
+        </div>
+
+        <div class="amock__block">
+          <span class="amock__mark">Leistungsumfang</span>
+          <ul class="amock__list">
+            <li><Icon name="check" size={13} class="icon" /> Demontage &amp; Entsorgung</li>
+            <li><Icon name="check" size={13} class="icon" /> Sanitär- &amp; Elektroinstallation</li>
+            <li><Icon name="check" size={13} class="icon" /> Fliesen-, Maler- &amp; Silikonarbeiten</li>
+          </ul>
+        </div>
+
+        <div class="amock__block amock__split">
+          <span class="amock__mark">Material- und Arbeitskosten getrennt</span>
+          <div class="amock__cols">
+            <span>Material</span><span class="amock__num">•••• €</span>
+            <span>Arbeitsleistung</span><span class="amock__num">•••• €</span>
+          </div>
+          <span class="amock__hint">Getrennt ausgewiesen für Ihre Steuererklärung</span>
+        </div>
+
+        <div class="amock__total">
+          <span class="amock__mark amock__mark--gold">Festpreis</span>
+          <span>Gesamtpreis, fest vereinbart</span>
+          <strong>•••••&nbsp;€</strong>
+        </div>
+
+        <div class="amock__action">
+          <span class="amock__mark">Digitale Freigabe</span>
+          <span class="amock__btn"><Icon name="check" size={15} class="icon" /> Angebot online freigeben</span>
+        </div>
+      </div>
+    </div>
+
+
+<style>
+  .angebot__mock { display: grid; }
+  /* --- Mockup: Angebots-Dokument mit Markierungen --- */
+  .amock {
+    background: var(--weiss);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    display: grid; gap: 16px;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+  .amock__head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    border-bottom: 2px solid var(--gold-500);
+    padding-bottom: 10px;
+  }
+  .amock__logo { font-family: var(--font-heading); font-weight: 800; font-size: 15px; }
+  .amock__nr { font-size: 12px; color: var(--anthrazit-600); }
+
+  .amock__block { display: grid; gap: 6px; }
+  .amock__block strong { font-size: 13.5px; }
+  .amock__mark {
+    justify-self: start;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--gold-700);
+    background: var(--gold-100);
+    border-radius: var(--radius-pill);
+    padding: 2px 10px;
+  }
+  .amock__mark--gold { background: var(--gold-500); color: var(--anthrazit-900); }
+  .amock__line { height: 8px; border-radius: 4px; background: var(--anthrazit-100); }
+  .amock__line--short { width: 62%; }
+
+  .amock__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+  .amock__list li { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--anthrazit-700); }
+  .amock__list :global(.icon) { color: var(--gold-700); flex: none; }
+
+  .amock__cols {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 16px;
+    font-size: 12.5px; color: var(--anthrazit-700);
+  }
+  .amock__num { font-variant-numeric: tabular-nums; color: var(--anthrazit-400); }
+  .amock__hint { font-size: 11.5px; color: var(--anthrazit-600); font-style: italic; }
+
+  .amock__total {
+    display: grid; gap: 4px;
+    background: var(--anthrazit-800);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--anthrazit-200);
+    font-size: 13px;
+  }
+  .amock__total strong { color: var(--weiss); font-size: 18px; font-family: var(--font-heading); }
+  .amock__total .amock__mark--gold { margin-bottom: 2px; }
+
+  .amock__action { display: grid; gap: 8px; }
+  .amock__btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    font-weight: 700; font-size: 13.5px;
+    border-radius: var(--radius-pill);
+    padding: 10px 18px;
+  }
+</style>
