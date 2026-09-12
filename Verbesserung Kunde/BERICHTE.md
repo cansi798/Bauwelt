@@ -11,9 +11,9 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 04 | 12.09.2026 | Bausteine-Animation + „Ihre Auswahl"-Chips im Projektrechner | Wunsch Can (grafische Darstellung bei der Berechnung) | `Bericht-04_2026-09-12_Rechner-Bausteine-Animation.pdf` |
 | 05 | 12.09.2026 | Rechner 2.0: zwei Modi, bemaßte Projekt-Skizze, Modul-Wahl mit Live-Preis, PNG-Download; mobiler Hero entschlackt | Wunsch Can (Architekten-Zeichnung, Varianten, Download; „mobil zu viel Text") | `Bericht-05_2026-09-12_Rechner-2.0-Projektskizze.pdf` |
 | 06 | 12.09.2026 | Module zeichnen die Bauzeichnung (Turm entfernt), WhatsApp-Share mit Bild-Anhang, Startseite: Referenzen nach vorn + rotierende Zusagen, SEO-Fixes + Mehrfach-Audit | Wunsch Can (Zeichnung statt Turm, Anhang, „zu viel Text am Anfang", Audits) | `Bericht-06_2026-09-12_Bauzeichnung-Module-Audits.pdf` |
+| 07 | 12.09.2026 | Rechner in Kundensprache (Fachbegriffe im Anfragetext), Extras mit Aufpreis, Gemma-KI (WebLLM, Beta), Sticky-Navigation, WhatsApp-Direktfluss; Startseite: Fotokarten nach vorn, 3 rollierende Zusagen, Schritte-Wischen mobil, Login-Button | Wünsche Can (laienfreundlich, KI, mehr Auswahl, mobil) | `Bericht-07_2026-09-12_Rechner-KI-Extras-Startseite.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.
 
 Neue Anmerkungen des Kunden: bitte über `Vorlage_Verbesserungen.docx` einreichen.
-| 07 | 12.09.2026 | Rechner in Kundensprache (Fachbegriffe im Anfragetext), Extras mit Aufpreis, Gemma-KI (WebLLM, Beta), Sticky-Navigation, WhatsApp-Direktfluss; Startseite: Fotokarten nach vorn, 3 rollierende Zusagen, Schritte-Wischen mobil, Login-Button | Wünsche Can (Laienfreundlich, KI, mehr Auswahl, mobil) | `Bericht-07_2026-09-12_Rechner-KI-Extras-Startseite.pdf` |
