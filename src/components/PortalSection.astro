@@ -11,6 +11,9 @@ import VideoKachel from "./VideoKachel.astro";
 
 <section class="section section--sand" id="kundenportal">
   <div class="container">
+    <!-- Mobil erzählt das gelieferte Video das Thema – Textteile nur ab Tablet -->
+    <VideoKachel name="portal" ext="mp4" ueberschrift="Ihr Projekt – jederzeit im Blick" titel="Das Kundenportal – als Video erklärt" />
+    <div class="portal__text">
     <SectionHead
       center
       eyebrow="Kundenportal"
@@ -19,8 +22,6 @@ import VideoKachel from "./VideoKachel.astro";
       text="Alle wichtigen Informationen. Alle Dokumente. Ein zentraler Ort."
     />
     <p class="portal__intro">{PORTAL.intro}</p>
-
-    <VideoKachel name="portal" titel="Das Kundenportal – als Video erklärt" />
     <div class="portal__grid">
       <div class="portal__tiles" id="portalTiles">
         {PORTAL.kacheln.map((k) => (
@@ -35,6 +36,7 @@ import VideoKachel from "./VideoKachel.astro";
     </div>
 
     <p class="portal__schluss">{PORTAL.schluss}</p>
+    </div><!-- /portal__text -->
   </div>
 </section>
 
@@ -46,6 +48,10 @@ import VideoKachel from "./VideoKachel.astro";
     color: var(--anthrazit-700);
   }
   .portal__grid { display: grid; gap: 32px; }
+  /* Mobil übernimmt das Video die Erklärung – Text/Kacheln nur ab Tablet */
+  @media (max-width: 767px) {
+    html.js .portal__text { display: none; }
+  }
 
   .portal__tiles { display: grid; gap: 16px; }
   /* Mobil: Kacheln horizontal wischen (wie die Ablauf-Schritte) statt stapeln */

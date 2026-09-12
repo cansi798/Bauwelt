@@ -19,6 +19,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 12 | 12.09.2026 | Mobil-Videos ohne Play-Button: Autostart beim Hereinscrollen (stumm, Dauerschleife, Wisch stoppt), 🔊-Chip für Musik | Wunsch Can („mach ein Video daraus") | `Bericht-12_2026-09-12_Videos-laufen-von-selbst.pdf` |
 | 13 | 12.09.2026 | Drei generierte Erklärvideos (WebM mit Musik) als Klick-Kacheln, Rechner ohne Skizze mit gruppiertem Ergebnis, WhatsApp-Anfrage formatiert (Emojis/Absätze/Fachbegriffe), Portal-Demo hinter Login-Button (/login/, noindex) | Wünsche Can (echtes Video, Auswahl-Fokus, schönere Nachricht, Portal zu Login) | `Bericht-13_2026-09-12_Echte-Videos-Login-Demo.pdf` |
 | 14 | 12.09.2026 | Kundenvideo (video/video 1.mp4) ersetzt Weg-Erklärvideo, Thementext mobil ausgeblendet; Angebots-Mockup → Login-Demo; /login/ als klickbarer Fiktiv-Durchlauf (Demo-Login, 4 Reiter, klickbare Angebots-Freigabe) | Wünsche Can | `Bericht-14_2026-09-12_Kundenvideo-Portal-Durchklick.pdf` |
+| 15 | 12.09.2026 | Video 2 (Kundendatei) ersetzt Portal-Erklärvideo + Text mobil ausgeblendet, Überschriften über beiden Videos, Vollbild-Start mit Pause beim Verlassen, KI komplett entfernt (Rechner, Bundle, Datenschutz) | Wünsche Can | `Bericht-15_2026-09-12_Video2-Vollbild-KI-entfernt.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

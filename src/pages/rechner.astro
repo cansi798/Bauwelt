@@ -1,8 +1,8 @@
 ---
-// Projekt-Rechner 3.0 (Enpal-Funnel-Mechanik): 3 Schritte, Ergebnis VOR Kontaktfrage.
-// Drei Wege in Schritt 2: „Schnelle Schätzung" (Slider), „Genaue Angaben"
-// (Maße + Auswahl-Buttons für Arbeiten & Extras, Live-Preis) und „Mit KI"
-// (Gemma/WebLLM im Browser). Das Ergebnis zeigt die Auswahl sauber gruppiert;
+// Projekt-Rechner 3.1 (Enpal-Funnel-Mechanik): 3 Schritte, Ergebnis VOR Kontaktfrage.
+// Zwei Wege in Schritt 2: „Schnelle Schätzung" (Slider) und „Genaue Angaben"
+// (Maße + Auswahl-Buttons für Arbeiten & Extras, Live-Preis).
+// Das Ergebnis zeigt die Auswahl sauber gruppiert;
 // WhatsApp/E-Mail bekommen einen klar formatierten Anfragetext (Absätze/Emojis).
 // Ohne JavaScript: Hinweis + Direktkontaktwege (noscript-Prinzip via html.js-Gate).
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -67,7 +67,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           </div>
         </section>
 
-        <!-- Schritt 2: Umfang – schnell, genau (Auswahl-Buttons) oder KI -->
+        <!-- Schritt 2: Umfang – schnell oder genau (Auswahl-Buttons) -->
         <section class="rstep" data-step="2" hidden>
           <h2 class="rstep__title" id="rFrage">Wie groß ist Ihr Projekt?</h2>
 
@@ -80,30 +80,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
               <strong>Genaue Angaben</strong>
               <small>Maße eingeben, Auswahl treffen</small>
             </button>
-            <button type="button" class="rmodus__btn" data-modus="ki" role="radio" aria-checked="false">
-              <strong>✨ Mit KI</strong>
-              <small>Beschreiben statt klicken (Beta)</small>
-            </button>
-          </div>
-
-          <!-- KI-Modus: Gemma läuft per WebLLM komplett im Browser.
-               Modelldaten (~1,4 GB) werden erst nach Klick von externem Server geladen. -->
-          <div class="rki__panel" id="rKiPanel" hidden>
-            <p class="small">
-              Beschreiben Sie Ihr Projekt in einem Satz – die KI (Gemma&nbsp;2) rechnet
-              direkt in Ihrem Browser, Ihre Eingabe verlässt Ihr Gerät nicht. Beim ersten
-              Start werden einmalig ca. 1,4&nbsp;GB Modelldaten von einem externen Server
-              (mlc.ai/Hugging&nbsp;Face) geladen; dafür braucht es einen aktuellen Browser
-              mit WebGPU und stabiles WLAN.
-            </p>
-            <textarea id="rKiText" rows="2"
-              placeholder="z. B. Unser Bad ist 3 × 2 Meter, wir möchten neue Fliesen und eine bodengleiche Dusche."></textarea>
-            <button class="btn" type="button" id="rKiStart">KI-Vorschlag erstellen</button>
-            <div class="rki__lade" id="rKiLade" hidden>
-              <div class="rki__balken"><span id="rKiFill" style="width: 0%"></span></div>
-              <span class="rki__prozent" id="rKiProzent">0 %</span>
-            </div>
-            <p class="small rki__status" id="rKiStatus" role="status"></p>
           </div>
 
           <div class="rechner__range" id="rRangeWrap">
@@ -226,7 +202,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
 
   /* Modus-Umschalter: 3 Wege (mobil gestapelt, ab Tablet nebeneinander) */
   .rmodus { display: grid; gap: 10px; margin-block: 18px 22px; }
-  @media (min-width: 640px) { .rmodus { grid-template-columns: 1fr 1fr 1fr; } }
+  @media (min-width: 640px) { .rmodus { grid-template-columns: 1fr 1fr; } }
   .rmodus__btn {
     display: grid; gap: 2px; text-align: left;
     padding: 12px 16px;
@@ -334,33 +310,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   }
   @media (min-width: 768px) { .rnav__zurueck { display: none; } }
 
-  /* KI-Panel (Beta) */
-  .rki__panel { display: grid; gap: 10px; width: 100%; max-width: 560px; margin-bottom: 18px; }
-  .rki__panel textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 2px solid var(--linie);
-    border-radius: var(--radius-md);
-    font: inherit; font-size: 15px;
-    resize: vertical;
-  }
-  .rki__panel textarea:focus { outline: none; border-color: var(--gold-500); }
-  .rki__status { margin: 0; color: var(--anthrazit-600); min-height: 1.2em; }
-  .rki__lade { display: flex; align-items: center; gap: 12px; }
-  .rki__balken {
-    flex: 1; height: 10px;
-    background: var(--anthrazit-100);
-    border-radius: var(--radius-pill);
-    overflow: hidden;
-  }
-  .rki__balken span {
-    display: block; height: 100%;
-    background: var(--gold-500);
-    border-radius: var(--radius-pill);
-    transition: width 300ms ease;
-  }
-  .rki__prozent { font-family: var(--font-heading); font-weight: 700; font-size: 14px; min-width: 44px; text-align: right; }
-
   /* Ergebnis */
   .rechner__result {
     font-family: var(--font-heading); font-weight: 800;
@@ -459,7 +408,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       gewerk: null as Gewerk | null,
       menge: 0,
       tier: "",
-      modus: "schnell" as "schnell" | "genau" | "ki",
+      modus: "schnell" as "schnell" | "genau",
       laenge: 0,
       breite: 0,
       module: new Set<string>(),
@@ -578,7 +527,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       updateLive();
     }
 
-    function setModus(m: "schnell" | "genau" | "ki") {
+    function setModus(m: "schnell" | "genau") {
       state.modus = m;
       app.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) => {
         const an = b.dataset.modus === m;
@@ -586,9 +535,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         b.setAttribute("aria-checked", String(an));
       });
       const genau = m === "genau";
-      const ki = m === "ki";
-      document.getElementById("rKiPanel")!.hidden = !ki;
-      rangeWrap.hidden = genau || ki;
+      rangeWrap.hidden = genau;
       masseWrap.hidden = !genau;
       moduleWrap.hidden = !genau;
       document.getElementById("rExtrasWrap")!.hidden = !genau;
@@ -719,7 +666,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       })
     );
     app.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) =>
-      b.addEventListener("click", () => setModus(b.dataset.modus as "schnell" | "genau" | "ki"))
+      b.addEventListener("click", () => setModus(b.dataset.modus as "schnell" | "genau"))
     );
     range.addEventListener("input", updateMenge);
     laengeIn.addEventListener("input", updateMasse);
@@ -732,139 +679,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       show(2);
       setModus("genau");
     });
-
-    // --- KI-Modus (Beta): Gemma 2 über WebLLM, komplett im Browser.
-    // Engine selbst gehostet; Modelldaten cached der Browser nach dem ersten
-    // Download automatisch (Cache API) – ab dann startet die KI schnell. ---
-    const kiStatus = document.getElementById("rKiStatus")!;
-    const kiText = document.getElementById("rKiText") as HTMLTextAreaElement;
-    let kiEngine: any = null;
-    let kiModell = "";
-    /** Gemma zuerst (Kundenwunsch); liefert es kein brauchbares JSON, wechselt
-     *  der nächste Versuch automatisch auf Qwen 2.5 (kleiner + sehr JSON-fest). */
-    const KI_MODELLE = ["gemma-2-2b-it-q4f16_1-MLC", "Qwen2.5-1.5B-Instruct-q4f16_1-MLC"];
-    let kiModellIndex = 0;
-    async function kiVorschlag() {
-      const beschreibung = kiText.value.trim();
-      if (!beschreibung) { kiStatus.textContent = "Bitte beschreiben Sie kurz Ihr Projekt."; return; }
-      const gpu = (navigator as any).gpu;
-      const adapter = gpu ? await gpu.requestAdapter().catch(() => null) : null;
-      if (!adapter) {
-        kiStatus.textContent =
-          "Ihr Gerät/Browser unterstützt die KI-Funktion nicht (WebGPU fehlt) – z. B. aktuelles Chrome " +
-          "oder Edge am Computer nutzen. Oder einfach oben auswählen, das Ergebnis ist dasselbe.";
-        return;
-      }
-      try {
-        const zielModell = KI_MODELLE[Math.min(kiModellIndex, KI_MODELLE.length - 1)];
-        if (!kiEngine || kiModell !== zielModell) {
-          kiStatus.textContent = "KI-Modell wird geladen … (einmalig, je nach Verbindung einige Minuten)";
-          const lade = document.getElementById("rKiLade")!;
-          const fill = document.getElementById("rKiFill")!;
-          const prozent = document.getElementById("rKiProzent")!;
-          lade.hidden = false;
-          // BASE_URL kann ohne End-Slash kommen („/Bauwelt") – normalisieren
-          const basis = import.meta.env.BASE_URL.endsWith("/")
-            ? import.meta.env.BASE_URL
-            : import.meta.env.BASE_URL + "/";
-          const mod = await import(/* @vite-ignore */ `${basis}assets/js/web-llm.mjs`);
-          kiEngine = await mod.CreateMLCEngine(zielModell, {
-            initProgressCallback: (r: { text: string; progress?: number }) => {
-              const p = Math.round(Math.min(1, Math.max(0, r.progress ?? 0)) * 100);
-              fill.style.width = `${p}%`;
-              prozent.textContent = `${p} %`;
-              kiStatus.textContent = r.text;
-            },
-          });
-          kiModell = zielModell;
-          lade.hidden = true;
-        }
-        kiStatus.textContent = "KI denkt nach …";
-        const aktuell = state.gewerk?.slug ?? "badsanierung";
-        const anleitung =
-          `Du füllst ein Formular eines Handwerksbetriebs aus. Antworte AUSSCHLIESSLICH mit einem JSON-Objekt. ` +
-          `Schema: {"gewerk": string, "laenge": number|null, "breite": number|null, ` +
-          `"niveau": "basis"|"komfort"|"premium", "module": string[], "extras": string[]}. ` +
-          `gewerk ist eines von: ${GEWERKE.map((g) => g.slug).join(", ")} (wenn unklar: "${aktuell}"). ` +
-          `module: nimm ALLE IDs des Gewerks, außer der Kunde schließt etwas aus. ` +
-          `extras: nur IDs, die der Kunde erwähnt. Gültige IDs je Gewerk: ` +
-          GEWERKE.map((g) => `${g.slug}: module=[${g.bausteine.map((m) => m.id).join(",")}] extras=[${g.extras.map((x) => x.id).join(",")}]`).join("; ") +
-          ` Beispiel – Eingabe: "Bad 3 mal 2 Meter, neue Fliesen, bodengleiche Dusche" → ` +
-          `{"gewerk":"badsanierung","laenge":3,"breite":2,"niveau":"komfort",` +
-          `"module":["demontage","rohinstallation","abdichtung","fliesen","ausstattung"],"extras":["bodengleich"]}`;
-        const antwort = await kiEngine.chat.completions.create({
-          messages: [
-            { role: "system", content: anleitung },
-            { role: "user", content: beschreibung },
-          ],
-          temperature: 0,
-          max_tokens: 250,
-          response_format: { type: "json_object" },
-        });
-        const roh = antwort.choices?.[0]?.message?.content ?? "";
-        let json: any;
-        try {
-          json = JSON.parse((roh.match(/\{[\s\S]*\}/) || ["{}"])[0]);
-          if (!json || typeof json !== "object" || !("gewerk" in json)) throw new Error("leer");
-        } catch {
-          if (kiModellIndex < KI_MODELLE.length - 1) {
-            kiModellIndex++;
-            kiStatus.textContent = "Erste KI war unsicher – ich versuche es mit einem präziseren Modell …";
-            return kiVorschlag();
-          }
-          throw new Error("kein JSON");
-        }
-        const norm = (s: unknown) => String(s ?? "").toLowerCase().trim();
-        const g =
-          GEWERKE.find((x) => x.slug === norm(json.gewerk)) ??
-          GEWERKE.find((x) => norm(x.label).includes(norm(json.gewerk))) ??
-          state.gewerk ?? GEWERKE[0];
-        selectGewerk(g);
-        setModus("genau");
-        if (Number(json.laenge) > 0) { laengeIn.value = String(json.laenge); }
-        if (Number(json.breite) > 0) { breiteIn.value = String(json.breite); }
-        updateMasse();
-        if (g.tiers.some((t) => t.id === norm(json.niveau))) {
-          state.tier = norm(json.niveau);
-          renderTiers(g);
-        }
-        // Tolerant zuordnen: kleine Modelle liefern oft Labels statt IDs
-        const findeModul = (v: unknown) =>
-          g.bausteine.find((m) => [m.id, m.label, m.fach].some((k) => norm(k) === norm(v) || norm(v).includes(norm(m.id))))?.id;
-        const findeExtra = (v: unknown) =>
-          g.extras.find((x) => [x.id, x.label].some((k) => norm(k) === norm(v) || norm(v).includes(norm(x.id))))?.id;
-        if (Array.isArray(json.module) && json.module.length) {
-          const ids = json.module.map(findeModul).filter(Boolean) as string[];
-          state.module = ids.length ? new Set(ids) : new Set(g.bausteine.map((m) => m.id));
-          renderModule(g);
-          moduleEl.querySelectorAll<HTMLElement>(".rmodul").forEach((el) =>
-            el.setAttribute("aria-pressed", String(state.module.has(el.dataset.modul || "")))
-          );
-        }
-        if (Array.isArray(json.extras)) {
-          state.extras = new Set(json.extras.map(findeExtra).filter(Boolean) as string[]);
-          document.querySelectorAll<HTMLElement>("#rExtras .rmodul").forEach((el) =>
-            el.setAttribute("aria-pressed", String(state.extras.has(el.dataset.extra || "")))
-          );
-        }
-        updateLive();
-        // Der eigentliche Output: direkt zum Ergebnis – und dort ohne Umweg
-        // zur WhatsApp-/E-Mail-Auswahl scrollen.
-        kiStatus.textContent = "Fertig – Ihr Ergebnis:";
-        showResult();
-        setTimeout(() => {
-          document.querySelector(".rechner__contact")?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 350);
-      } catch (err) {
-        document.getElementById("rKiLade")!.hidden = true;
-        const msg = (err as Error).message || "";
-        kiStatus.textContent = /GPU|WebGPU/i.test(msg)
-          ? "Ihr Gerät unterstützt die KI-Funktion nicht (WebGPU fehlt). Nutzen Sie einfach die Auswahl oben – das Ergebnis ist dasselbe."
-          : "Die KI konnte gerade keinen Vorschlag erstellen. Nutzen Sie einfach die Auswahl oben.";
-        kiEngine = null;
-      }
-    }
-    document.getElementById("rKiStart")!.addEventListener("click", kiVorschlag);
 
     // Vorauswahl per ?gewerk=<slug> (aus den Gewerk-Karten der Startseite)
     const pre = new URLSearchParams(location.search).get("gewerk");

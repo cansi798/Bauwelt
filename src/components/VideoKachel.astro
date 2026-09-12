@@ -9,11 +9,15 @@ interface Props {
   titel: string;
   /** Dateiendung – generierte Videos sind webm, gelieferte z. B. mp4. */
   ext?: string;
+  /** Sichtbare Überschrift über dem Video (mobil), damit das Thema klar ist. */
+  ueberschrift?: string;
 }
-const { name, titel, ext = "webm" } = Astro.props;
+const { name, titel, ext = "webm", ueberschrift } = Astro.props;
 ---
 
-<div class="vkachel" data-vkachel>
+<div class="vwrap">
+  {ueberschrift && <h2 class="vkachel__titel">{ueberschrift}</h2>}
+  <div class="vkachel" data-vkachel>
   <video
     preload="none"
     playsinline
@@ -24,10 +28,26 @@ const { name, titel, ext = "webm" } = Astro.props;
   <button class="vkachel__play" type="button" aria-label={`Video abspielen: ${titel}`}>
     <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.52.86l10.2-6.5a1 1 0 0 0 0-1.7L9.52 4.64A1 1 0 0 0 8 5.5Z"/></svg>
   </button>
+  </div>
 </div>
 
 <style>
-  .vkachel { display: none; }
+  .vwrap { display: none; }
+  @media (max-width: 767px) {
+    html.js .vwrap { display: block; }
+  }
+  .vkachel__titel {
+    text-align: center;
+    font-size: 22px;
+    margin: 0 0 14px;
+  }
+  .vkachel__titel::after {
+    content: "";
+    display: block;
+    width: 56px; height: 3px;
+    background: var(--gold-500);
+    margin: 12px auto 0;
+  }
   @media (max-width: 767px) {
     html.js .vkachel {
       display: block;

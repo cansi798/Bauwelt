@@ -130,6 +130,9 @@ const jsonLd = {
       // (Nutzer-Geste). Es spielt immer nur ein Video; Ende/Pause zeigt wieder
       // den Play-Knopf. Tipp aufs laufende Video pausiert.
       let laufendesVideo: HTMLVideoElement | null = null;
+      document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement && laufendesVideo) laufendesVideo.pause();
+      });
       document.querySelectorAll<HTMLElement>("[data-vkachel]").forEach((kachel) => {
         const video = kachel.querySelector("video")!;
         const play = kachel.querySelector(".vkachel__play")!;
@@ -138,11 +141,20 @@ const jsonLd = {
           if (laufendesVideo && laufendesVideo !== video) laufendesVideo.pause();
           laufendesVideo = video;
           kachel.classList.add("spielt");
+          // Mobil: direkt in den Vollbildmodus (beste Sicht); Zurück/Schließen
+          // pausiert das Video, damit es nicht unbemerkt weiterläuft.
+          const v = video as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+          try {
+            if (v.requestFullscreen) v.requestFullscreen().catch(() => {});
+            else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); // iOS Safari
+          } catch {}
           video.play().catch(zeigeKnopf);
         });
         video.addEventListener("click", () => video.pause());
         video.addEventListener("pause", zeigeKnopf);
         video.addEventListener("ended", () => { video.currentTime = 0; zeigeKnopf(); });
+        // Vollbild verlassen (Zurück-Geste/×) → Video stoppt
+        (video as any).addEventListener("webkitendfullscreen", () => video.pause());
       });
     </script>
 

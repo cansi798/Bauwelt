@@ -36,19 +36,8 @@ Legende: ⬜ offen · ✅ erledigt
 - ⬜ **Modul-Anteile im Rechner** (`src/data/rechner.ts`, Feld `anteil` je Baustein):
   Platzhalter-Prozentanteile für den „Genaue Angaben"-Modus – bitte mit echter
   Kalkulation abgleichen (Summe je Gewerk = 1).
-- ⬜ **KI-Skizzen-Variante (Zukunftsidee, 12.09.2026):** Kunde beschreibt das Projekt in
-  Worten, eine KI füllt daraus Maße/Module und die Zeichnung entsteht. Zwei Wege:
-  a) **WebLLM + Gemma im Browser** (Cans Vorschlag): kostenlos, DSGVO-freundlich (rechnet
-  lokal), ABER einmaliger Modell-Download ~1,4 GB und WebGPU-Pflicht (kein iOS-Safari) –
-  als optionales „Experiment"-Feature denkbar, eigenes Vorhaben mit eigener Runde.
-  b) Server-Proxy (z. B. Cloudflare Worker) mit gehostetem Modell – nach Domain-Umzug.
-  Bis dahin: deterministische Bauzeichnung im Rechner (Fragen → Zeichnung, ohne KI).
-- ⬜ **KI-Ausbau-Ideen (Can, 12.09.2026, eigene Runde):** a) Foto aufnehmen + Wunsch
-  beschreiben → Vorschlag (bräuchte Browser-Vision-Modell, experimentell);
-  b) DREI Vorschlags-Varianten statt einem (auch ohne KI machbar: Basis/Komfort/Premium-
-  Presets mit je eigener Zeichnung – guter nächster Schritt); c) Bild-GENERIERUNG:
-  kostenlos ohne Server praktisch nicht machbar (Browser-Diffusion = mehrere GB,
-  Minuten pro Bild; gratis gehostete APIs ohne Schlüssel existieren nicht).
+- ✅ ~~KI-Funktionen im Rechner~~ – am 12.09.2026 eingebaut (WebLLM/Gemma) und
+  auf Kundenwunsch am selben Tag wieder entfernt („macht nicht viel Sinn").
 
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 
