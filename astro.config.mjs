@@ -9,4 +9,7 @@ export default defineConfig({
   base: '/Bauwelt',
   build: { format: 'directory' },
   trailingSlash: 'ignore',
+  // Astro 7: Standard wäre 'jsx' (JSX-Whitespace-Regeln). true = bisheriges
+  // v5-Verhalten, damit Leerzeichen zwischen Text und <span>/Icons erhalten bleiben.
+  compressHTML: true,
 });
