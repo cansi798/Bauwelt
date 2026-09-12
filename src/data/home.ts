@@ -4,6 +4,8 @@
 export const HERO = {
   /** Positionierung laut Kundenfeedback 12.09.2026 (wörtlich nach Vorlage). */
   eyebrow: "Ihr Partner für Badsanierung und Innenausbau in Hamburg & Umgebung – Selbstverständlich alles aus einer Hand!",
+  /** Mobile Kurzfassung – der volle Satz sprengt den kleinen Viewport. */
+  eyebrowKurz: "Badsanierung & Innenausbau – alles aus einer Hand",
   /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
   vor: "Bereit für Ihr neues",
   nach: "",

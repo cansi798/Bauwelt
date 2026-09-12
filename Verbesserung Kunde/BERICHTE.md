@@ -9,6 +9,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 02 | 12.09.2026 | Customer-Journey-Optimierung (weniger Text, Foto-Karten, „Mehr dazu", 12-h-Konsistenz, Leistungsseiten-CTA) | interne Analyse | `Bericht-02_2026-09-12_Customer-Journey-Optimierung.pdf` |
 | 03 | 12.09.2026 | Technik- und Sicherheitsupdate (Astro 5 → 7, Funktions-Audit mobil + Desktop) | npm-audit-Meldungen | `Bericht-03_2026-09-12_Technik-Sicherheitsupdate.pdf` |
 | 04 | 12.09.2026 | Bausteine-Animation + „Ihre Auswahl"-Chips im Projektrechner | Wunsch Can (grafische Darstellung bei der Berechnung) | `Bericht-04_2026-09-12_Rechner-Bausteine-Animation.pdf` |
+| 05 | 12.09.2026 | Rechner 2.0: zwei Modi, bemaßte Projekt-Skizze, Modul-Wahl mit Live-Preis, PNG-Download; mobiler Hero entschlackt | Wunsch Can (Architekten-Zeichnung, Varianten, Download; „mobil zu viel Text") | `Bericht-05_2026-09-12_Rechner-2.0-Projektskizze.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

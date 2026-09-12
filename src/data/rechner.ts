@@ -20,8 +20,11 @@ export type Gewerk = {
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
   tiers: Tier[];
   spanne: number;        // ± relativ
-  /** Leistungs-Bausteine fürs Ergebnis (animierter „Bausteine"-Turm, unten → oben). */
-  bausteine: string[];
+  /** Skizzen-Typ für die Zeichnung im Rechner (Bad-Grundriss, Raum, Dachfläche). */
+  skizze: "bad" | "raum" | "dach";
+  /** Leistungs-Module (Turm unten → oben). `anteil` = PLATZHALTER-Anteil an der
+   *  Kalkulation für den Genau-Modus, Summe je Gewerk = 1 (siehe OFFENE-INFOS.md). */
+  bausteine: { id: string; label: string; anteil: number }[];
 };
 
 export const GEWERKE: Gewerk[] = [
@@ -40,7 +43,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Premium", hint: "Hochwertige Materialien und Sonderlösungen" },
     ],
     spanne: 0.15,
-    bausteine: ["Demontage", "Rohinstallation", "Abdichtung", "Fliesen", "Ausstattung"],
+    skizze: "bad",
+    bausteine: [
+      { id: "demontage", label: "Demontage", anteil: 0.10 },
+      { id: "rohinstallation", label: "Rohinstallation", anteil: 0.25 },
+      { id: "abdichtung", label: "Abdichtung", anteil: 0.10 },
+      { id: "fliesen", label: "Fliesen", anteil: 0.30 },
+      { id: "ausstattung", label: "Ausstattung", anteil: 0.25 },
+    ],
   },
   {
     slug: "sanierung-modernisierung",
@@ -57,7 +67,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Kernsanierung", hint: "Bis auf den Rohbau, alle Leitungen neu" },
     ],
     spanne: 0.25,
-    bausteine: ["Planung", "Rückbau", "Technik & Leitungen", "Oberflächen", "Endmontage"],
+    skizze: "raum",
+    bausteine: [
+      { id: "planung", label: "Planung", anteil: 0.05 },
+      { id: "rueckbau", label: "Rückbau", anteil: 0.10 },
+      { id: "technik", label: "Technik & Leitungen", anteil: 0.35 },
+      { id: "oberflaechen", label: "Oberflächen", anteil: 0.35 },
+      { id: "endmontage", label: "Endmontage", anteil: 0.15 },
+    ],
   },
   {
     slug: "dach-fassade",
@@ -74,7 +91,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Dach + Fassade inkl. Dämmung und Rinnen" },
     ],
     spanne: 0.25,
-    bausteine: ["Gerüst", "Unterkonstruktion", "Dämmung", "Eindeckung", "Rinnen & Anschlüsse"],
+    skizze: "dach",
+    bausteine: [
+      { id: "geruest", label: "Gerüst", anteil: 0.10 },
+      { id: "unterkonstruktion", label: "Unterkonstruktion", anteil: 0.15 },
+      { id: "daemmung", label: "Dämmung", anteil: 0.30 },
+      { id: "eindeckung", label: "Eindeckung", anteil: 0.35 },
+      { id: "rinnen", label: "Rinnen & Anschlüsse", anteil: 0.10 },
+    ],
   },
   {
     slug: "innenausbau",
@@ -91,7 +115,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Inkl. Elektro, Beleuchtung, Maßeinbauten" },
     ],
     spanne: 0.25,
-    bausteine: ["Unterkonstruktion", "Beplankung", "Schallschutz", "Spachteln", "Streichfertig"],
+    skizze: "raum",
+    bausteine: [
+      { id: "unterkonstruktion", label: "Unterkonstruktion", anteil: 0.20 },
+      { id: "beplankung", label: "Beplankung", anteil: 0.25 },
+      { id: "schallschutz", label: "Schallschutz", anteil: 0.15 },
+      { id: "spachteln", label: "Spachteln", anteil: 0.20 },
+      { id: "streichfertig", label: "Streichfertig", anteil: 0.20 },
+    ],
   },
   {
     slug: "maler-boeden",
@@ -108,7 +139,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Hochwertig", hint: "Parkett, Spachteltechniken, Tapeten" },
     ],
     spanne: 0.20,
-    bausteine: ["Abdecken & Abkleben", "Untergrund", "Streichen", "Bodenbelag", "Übergabe besenrein"],
+    skizze: "raum",
+    bausteine: [
+      { id: "abdecken", label: "Abdecken & Abkleben", anteil: 0.10 },
+      { id: "untergrund", label: "Untergrund", anteil: 0.20 },
+      { id: "streichen", label: "Streichen", anteil: 0.30 },
+      { id: "bodenbelag", label: "Bodenbelag", anteil: 0.35 },
+      { id: "uebergabe", label: "Übergabe besenrein", anteil: 0.05 },
+    ],
   },
   {
     slug: "sanitaer-heizung-elektro",
@@ -125,7 +163,14 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Komplett", hint: "Sanitär, Heizung und Elektro neu" },
     ],
     spanne: 0.30,
-    bausteine: ["Planung", "Leitungen", "Verteilung", "Montage", "Prüfung & Doku"],
+    skizze: "raum",
+    bausteine: [
+      { id: "planung", label: "Planung", anteil: 0.10 },
+      { id: "leitungen", label: "Leitungen", anteil: 0.35 },
+      { id: "verteilung", label: "Verteilung", anteil: 0.20 },
+      { id: "montage", label: "Montage", anteil: 0.25 },
+      { id: "pruefung", label: "Prüfung & Doku", anteil: 0.10 },
+    ],
   },
 ];
 

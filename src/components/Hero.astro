@@ -32,7 +32,10 @@ const WALZE = [...WORTE, WORTE[0]];
   </div>
 
   <div class="container fhero__content">
-    <div class="eyebrow fhero__in" style="--d: 0ms">{HERO.eyebrow}</div>
+    <div class="eyebrow fhero__in" style="--d: 0ms">
+      <span class="fhero__eb-lang">{HERO.eyebrow}</span>
+      <span class="fhero__eb-kurz">{HERO.eyebrowKurz}</span>
+    </div>
 
     <h1 class="fhero__in" style="--d: 120ms">
       <span class="visually-hidden">{HERO.vor} {WORTE[0]} {HERO.nach}</span>
@@ -211,9 +214,18 @@ const WALZE = [...WORTE, WORTE[0]];
     to   { opacity: 1; transform: none; }
   }
 
+  /* Eyebrow: Desktop voller Kundensatz, mobil Kurzfassung */
+  .fhero__eb-kurz { display: none; }
+
   @media (max-width: 767px) {
     .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
     .fhero__content { padding-block: 40px 88px; gap: 14px; }
+    /* Mobil entschlackt: kurze Positionierung, keine Unterzeile,
+       Buttons direkt nach dem Statement, Zusagen darunter */
+    .fhero__eb-lang { display: none; }
+    .fhero__eb-kurz { display: inline; }
+    .fhero__content .lead { display: none; }
+    .fhero__zusagen { order: 10; }
     .fhero__zusagen li { font-size: 13.5px; align-items: flex-start; }
     .fhero__actions { display: grid; justify-items: stretch; }
     .fhero__actions .btn { width: 100%; }

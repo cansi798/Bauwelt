@@ -33,6 +33,14 @@ Legende: ⬜ offen · ✅ erledigt
   CSS-Mockup mit Markierungen (Festpreis, Leistungsumfang, digitale Freigabe …).
   Echten anonymisierten Angebots-Screenshot liefern, Markierungen bleiben erhalten.
 
+- ⬜ **Modul-Anteile im Rechner** (`src/data/rechner.ts`, Feld `anteil` je Baustein):
+  Platzhalter-Prozentanteile für den „Genaue Angaben"-Modus – bitte mit echter
+  Kalkulation abgleichen (Summe je Gewerk = 1).
+- ⬜ **KI-Skizzen-Variante (Zukunftsidee, 12.09.2026):** Kunde beschreibt das Projekt in
+  Worten, eine KI generiert die Zeichnung. Geht NICHT rein statisch (API-Schlüssel wäre
+  öffentlich, DSGVO-Einwilligung nötig) → braucht kleinen Server-Proxy (z. B. Cloudflare
+  Worker), sinnvoll nach dem Domain-Umzug. Bis dahin: deterministische SVG-Skizze im Rechner.
+
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 
 - 🟡 **Datenschutzerklärung** – auf Kundenwunsch ohne Entwurfs-Hinweis, vollständig für den
