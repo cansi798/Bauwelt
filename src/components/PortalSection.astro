@@ -87,6 +87,24 @@ import Icon from "./Icon.astro";
   }
 
   .portal__tiles { display: grid; gap: 16px; }
+  /* Mobil: Kacheln horizontal wischen (wie die Ablauf-Schritte) statt stapeln */
+  @media (max-width: 559px) {
+    .portal__tiles {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 4px 14px;
+      margin-inline: -4px;
+      scrollbar-width: none;
+    }
+    .portal__tiles::-webkit-scrollbar { display: none; }
+    .portal__tile {
+      flex: 0 0 min(74vw, 300px);
+      scroll-snap-align: center;
+    }
+  }
   @media (min-width: 560px) { .portal__tiles { grid-template-columns: 1fr 1fr; } }
   .portal__tile { padding: 24px; display: grid; gap: 8px; align-content: start; }
   .portal__tile h3 { margin: 0; font-size: 16px; }

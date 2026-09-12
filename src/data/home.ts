@@ -24,13 +24,14 @@ export const HERO = {
     "Kundenportal mit Live-Projektstatus",
     "Transparente Festpreise für alle vereinbarten Leistungen",
   ],
-  /** Kurzformen für die rotierende Zusagen-Zeile (eine Zeile statt Textblock). */
+  /** Kurzformen für den Zusagen-Wechsler: 2 Gruppen à 3, sliden horizontal durch. */
   checksKurz: [
     "Antwort in 12 Stunden",
     "Angebot in 24 Stunden",
     "Ein persönlicher Ansprechpartner",
     "Kundenportal mit Live-Status",
     "Transparente Festpreise",
+    "Alles aus einer Hand",
   ],
   note: "Unverbindlich · Ergebnis in 60 Sekunden",
   cta2: { label: "Kostenlosen Besichtigungstermin buchen", href: "#termin" },

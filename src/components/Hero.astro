@@ -59,9 +59,14 @@ const WALZE = [...WORTE, WORTE[0]];
         {HERO.checks.map((c) => <li>{c}</li>)}
       </ul>
       <div class="fhero__zwalze" aria-hidden="true">
-        <div class="fhero__zband" style={`--n: ${HERO.checksKurz.length}`}>
-          {[...HERO.checksKurz, ...HERO.checksKurz.slice(0, 3)].map((c) => (
-            <span class="fhero__zitem"><Icon name="check" size={18} class="icon" /> {c}</span>
+        <div class="fhero__zband">
+          {/* 2 Gruppen à 3 Zusagen + Klon der ersten für die nahtlose Schleife */}
+          {[HERO.checksKurz.slice(0, 3), HERO.checksKurz.slice(3, 6), HERO.checksKurz.slice(0, 3)].map((gruppe) => (
+            <div class="fhero__zgruppe">
+              {gruppe.map((c) => (
+                <span class="fhero__zitem"><Icon name="check" size={18} class="icon" /> {c}</span>
+              ))}
+            </div>
           ))}
         </div>
       </div>
@@ -131,26 +136,27 @@ const WALZE = [...WORTE, WORTE[0]];
   }
   .fhero__statement + .lead { margin-top: -12px; }
 
-  /* Zusagen: DREI sichtbare Zeilen, die durchrollen (Fenster à 3, Schritt = 1 Zeile) */
-  .fhero__zwalze { height: 4.5em; overflow: hidden; }
+  /* Zusagen: immer DREI sichtbar, die Dreiergruppe slidet von rechts nach links */
+  .fhero__zwalze { width: min(100%, 340px); overflow: hidden; }
   .fhero__zband {
-    display: flex; flex-direction: column;
-    animation: zwalze calc(var(--n) * 2.6s) cubic-bezier(0.65, 0, 0.35, 1) 1.6s infinite;
+    display: flex;
+    animation: zslide 9s cubic-bezier(0.65, 0, 0.35, 1) 2s infinite;
+  }
+  .fhero__zgruppe {
+    flex: none; width: 100%;
+    display: grid; gap: 6px;
   }
   .fhero__zitem {
     display: inline-flex; align-items: center; gap: 10px;
-    height: 1.5em; line-height: 1.5; white-space: nowrap;
+    line-height: 1.5; white-space: nowrap;
     color: var(--weiss); font-weight: 600; font-size: 15px;
   }
   .fhero__zitem :global(.icon) { color: var(--gold-500); flex: none; }
-  /* 5 Zusagen: Schritte bei 20/40/60/80 %, jeweils 4 % Roll-Zeit (letzter = erster) */
-  @keyframes zwalze {
-    0%, 16%   { transform: translateY(0); }
-    20%, 36%  { transform: translateY(-1.5em); }
-    40%, 56%  { transform: translateY(-3em); }
-    60%, 76%  { transform: translateY(-4.5em); }
-    80%, 96%  { transform: translateY(-6em); }
-    100%      { transform: translateY(-7.5em); }
+  /* 2 Gruppen + Klon: halten, nach links rausschieben, halten, weiter (nahtlos) */
+  @keyframes zslide {
+    0%, 44%   { transform: translateX(0); }
+    50%, 94%  { transform: translateX(-100%); }
+    100%      { transform: translateX(-200%); }
   }
   @media (prefers-reduced-motion: reduce) {
     .fhero__zband { transform: none; }
@@ -253,6 +259,22 @@ const WALZE = [...WORTE, WORTE[0]];
     .fhero__zitem { font-size: 13.5px; }
     .fhero__actions { display: grid; justify-items: stretch; }
     .fhero__actions .btn { width: 100%; }
-    .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }
+    /* Festpreis-Badge: lugt mobil periodisch sanft von rechts herein */
+    .fhero__badge {
+      right: 0; top: 16px; bottom: auto; padding: 10px 16px;
+      border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+      animation: badge-peek 11s ease-in-out 2.5s infinite;
+      transform: translateX(105%);
+    }
+  }
+  @keyframes badge-peek {
+    0%, 4%    { transform: translateX(105%); }
+    10%, 55%  { transform: translateX(0); }
+    62%, 100% { transform: translateX(105%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fhero__badge { transform: none; }
+  }
+  @media (max-width: 767px) {
   }
 </style>
