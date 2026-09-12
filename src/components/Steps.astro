@@ -40,6 +40,25 @@ const cols = steps.length % 3 === 0 ? 3 : 4;
     display: grid; gap: 20px;
     counter-reset: step;
   }
+  /* Mobil: horizontaler Swipe (Scroll-Snap) statt langem Untereinander –
+     die nächste Karte lugt rechts herein und lädt zum Wischen ein. */
+  @media (max-width: 767px) {
+    .steps {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 4px 14px;
+      margin-inline: -4px;
+      scrollbar-width: none;
+    }
+    .steps::-webkit-scrollbar { display: none; }
+    .steps__item {
+      flex: 0 0 min(78vw, 320px);
+      scroll-snap-align: center;
+    }
+  }
   @media (min-width: 768px)  { .steps { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .steps { grid-template-columns: repeat(var(--steps-cols, 4), 1fr); } }
 

@@ -18,7 +18,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   slug: g.slug, label: g.label, frage: g.frage, unit: g.unit,
   min: g.min, max: g.max, step: g.step, default: g.default,
   grund: g.grund, proEinheit: g.proEinheit, tiers: g.tiers, spanne: g.spanne,
-  skizze: g.skizze, bausteine: g.bausteine, icon: g.icon,
+  skizze: g.skizze, bausteine: g.bausteine, extras: g.extras, icon: g.icon,
 }));
 ---
 
@@ -65,6 +65,27 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
                 <span>{g.label}</span>
               </button>
             ))}
+          </div>
+
+          <!-- KI-Variante (Beta): Gemma läuft per WebLLM komplett im Browser.
+               Modelldaten (~1,4 GB) werden erst nach Klick von externem Server geladen. -->
+          <div class="rki">
+            <button class="btn btn--ghost" type="button" id="rKiToggle">
+              ✨ Oder mit KI beschreiben (Beta)
+            </button>
+            <div class="rki__panel" id="rKiPanel" hidden>
+              <p class="small">
+                Beschreiben Sie Ihr Projekt in einem Satz – die KI (Gemma&nbsp;2) rechnet
+                direkt in Ihrem Browser, Ihre Eingabe verlässt Ihr Gerät nicht. Beim ersten
+                Start werden einmalig ca. 1,4&nbsp;GB Modelldaten von einem externen Server
+                (mlc.ai/Hugging&nbsp;Face) geladen; dafür braucht es einen aktuellen Browser
+                mit WebGPU und stabiles WLAN.
+              </p>
+              <textarea id="rKiText" rows="2"
+                placeholder="z. B. Unser Bad ist 3 × 2 Meter, wir möchten neue Fliesen und eine bodengleiche Dusche."></textarea>
+              <button class="btn" type="button" id="rKiStart">KI-Vorschlag erstellen</button>
+              <p class="small rki__status" id="rKiStatus" role="status"></p>
+            </div>
           </div>
         </section>
 
@@ -202,11 +223,18 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             <div class="rs2 rs2--details">
               <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau"></div>
               <div class="rmodule" id="rModuleWrap" hidden>
-                <h3 class="rmodule__title">Welche Module sollen in die Zeichnung?</h3>
+                <h3 class="rmodule__title">Was soll gemacht werden?</h3>
                 <div class="rmodule__grid" id="rModule"></div>
               </div>
+              <div class="rmodule" id="rExtrasWrap" hidden>
+                <h3 class="rmodule__title">Extras <span class="rmodule__opt">(optional)</span></h3>
+                <div class="rextras__grid" id="rExtras"></div>
+              </div>
               <p class="rlivepreis" id="rLivePreis" hidden role="status"></p>
-              <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
+              <div class="rnav">
+                <button class="btn btn--ghost rnav__zurueck" type="button" id="rZurueck2">Zurück</button>
+                <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
+              </div>
             </div>
           </div>
         </section>
@@ -367,33 +395,65 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rechner__tiers :global(.rtier small) { color: var(--anthrazit-600); }
   .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
 
-  /* Modul-Wahl (Genau-Modus) */
+  /* Modul-/Extras-Wahl (Genau-Modus) – laienfreundlich: Titel + Erklärzeile */
   .rmodule__title { font-size: 16px; margin: 0 0 10px; }
-  .rmodule__grid { display: grid; gap: 8px; margin-bottom: 18px; }
-  @media (min-width: 560px) { .rmodule__grid { grid-template-columns: 1fr 1fr; } }
-  .rmodule__grid :global(.rmodul) {
-    display: flex; align-items: center; gap: 10px;
+  .rmodule__opt { font-weight: 400; color: var(--anthrazit-600); font-size: 13px; }
+  .rmodule__grid, .rextras__grid { display: grid; gap: 8px; margin-bottom: 18px; }
+  @media (min-width: 560px) { .rmodule__grid, .rextras__grid { grid-template-columns: 1fr 1fr; } }
+  .rmodule :global(.rmodul) {
+    display: flex; align-items: flex-start; gap: 10px;
     padding: 10px 14px;
     border: 2px solid var(--linie);
     border-radius: var(--radius-md);
     background: var(--weiss);
-    font-weight: 600; font-size: 14px;
     text-align: left;
     transition: border-color var(--transition), background var(--transition), opacity var(--transition);
   }
-  .rmodule__grid :global(.rmodul .rmodul__check) {
-    width: 22px; height: 22px; flex: none;
+  .rmodule :global(.rmodul .rmodul__text) { display: grid; gap: 1px; }
+  .rmodule :global(.rmodul strong) { font-size: 14px; }
+  .rmodule :global(.rmodul small) { font-size: 12px; color: var(--anthrazit-600); font-weight: 400; }
+  .rmodule :global(.rmodul .rmodul__check) {
+    width: 22px; height: 22px; flex: none; margin-top: 2px;
     display: inline-flex; align-items: center; justify-content: center;
     border: 2px solid var(--anthrazit-400);
     border-radius: 6px;
     color: transparent;
     transition: all var(--transition);
   }
-  .rmodule__grid :global(.rmodul[aria-pressed="true"]) { border-color: var(--gold-500); background: var(--gold-100); }
-  .rmodule__grid :global(.rmodul[aria-pressed="true"] .rmodul__check) {
+  .rmodule :global(.rmodul[aria-pressed="true"]) { border-color: var(--gold-500); background: var(--gold-100); }
+  .rmodule :global(.rmodul[aria-pressed="true"] .rmodul__check) {
     background: var(--gold-500); border-color: var(--gold-600); color: var(--anthrazit-900);
   }
-  .rmodule__grid :global(.rmodul[aria-pressed="false"]) { opacity: 0.7; }
+  .rmodule :global(.rmodul[aria-pressed="false"]) { opacity: 0.7; }
+  .rmodule :global(.rmodul .rmodul__preis) { margin-left: auto; font-weight: 700; font-size: 13px; color: var(--gold-700); white-space: nowrap; padding-top: 2px; }
+
+  /* Mobile Navigation: Zurück + Weiter zusammen, unten angepinnt */
+  .rnav { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
+  @media (max-width: 767px) {
+    .rnav {
+      position: sticky; bottom: 10px; z-index: 5;
+      background: var(--weiss);
+      padding: 10px;
+      margin-inline: -10px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+  @media (min-width: 768px) { .rnav__zurueck { display: none; } }
+
+  /* KI-Panel (Beta) */
+  .rki { margin-top: 22px; display: grid; gap: 12px; justify-items: center; }
+  .rki__panel { display: grid; gap: 10px; width: 100%; max-width: 560px; }
+  .rki__panel textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    font: inherit; font-size: 15px;
+    resize: vertical;
+  }
+  .rki__panel textarea:focus { outline: none; border-color: var(--gold-500); }
+  .rki__status { margin: 0; color: var(--anthrazit-600); min-height: 1.2em; }
 
   .rlivepreis {
     margin: 0 0 16px;
@@ -496,12 +556,13 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
 
 <script>
   type Tier = { id: string; label: string; hint: string };
-  type Modul = { id: string; label: string; anteil: number };
+  type Modul = { id: string; label: string; fach: string; hint: string; anteil: number };
+  type Extra = { id: string; label: string; preis: number };
   type Gewerk = {
     slug: string; label: string; frage: string; unit: string; icon: string;
     min: number; max: number; step: number; default: number;
     grund: number; proEinheit: Record<string, number>; tiers: Tier[]; spanne: number;
-    skizze: "bad" | "raum" | "dach"; bausteine: Modul[];
+    skizze: "bad" | "raum" | "dach"; bausteine: Modul[]; extras: Extra[];
   };
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
@@ -548,6 +609,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       laenge: 0,
       breite: 0,
       module: new Set<string>(),
+      extras: new Set<string>(),
     };
     const euro = (n: number) => n.toLocaleString("de-DE");
     const m1 = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
@@ -633,9 +695,33 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         btn.className = "rmodul";
         btn.dataset.modul = m.id;
         btn.setAttribute("aria-pressed", "true");
-        btn.innerHTML = `<span class="rmodul__check">✓</span>${m.label}`;
+        btn.innerHTML =
+          `<span class="rmodul__check">✓</span>` +
+          `<span class="rmodul__text"><strong>${m.label}</strong><small>${m.hint}</small></span>`;
         btn.addEventListener("click", () => toggleModul(m.id, btn));
         moduleEl.append(btn);
+      }
+      // Extras (optional, mit Aufpreis)
+      const extrasEl = document.getElementById("rExtras")!;
+      extrasEl.innerHTML = "";
+      state.extras = new Set();
+      for (const x of g.extras) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rmodul";
+        btn.dataset.extra = x.id;
+        btn.setAttribute("aria-pressed", "false");
+        btn.innerHTML =
+          `<span class="rmodul__check">✓</span>` +
+          `<span class="rmodul__text"><strong>${x.label}</strong></span>` +
+          `<span class="rmodul__preis">+ ${euro(x.preis)} €</span>`;
+        btn.addEventListener("click", () => {
+          const an = !state.extras.has(x.id);
+          state.extras[an ? "add" : "delete"](x.id);
+          btn.setAttribute("aria-pressed", String(an));
+          updateLive();
+        });
+        extrasEl.append(btn);
       }
     }
 
@@ -662,6 +748,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       rangeWrap.hidden = genau;
       masseWrap.hidden = !genau;
       moduleWrap.hidden = !genau;
+      document.getElementById("rExtrasWrap")!.hidden = !genau;
       livePreis.hidden = !genau;
       skizzeWrap.classList.toggle("rskizze--grob", !genau);
       skizzeText.textContent = genau
@@ -705,10 +792,17 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         .reduce((sum, m) => sum + m.anteil, 0);
     }
 
+    function extraSumme(): number {
+      if (state.modus !== "genau") return 0;
+      return state.gewerk!.extras
+        .filter((x) => state.extras.has(x.id))
+        .reduce((sum, x) => sum + x.preis, 0);
+    }
+
     function spanne() {
       const g = state.gewerk!;
       const proE = g.proEinheit[state.tier] ?? Object.values(g.proEinheit)[0];
-      const basis = (g.grund + flaeche() * proE) * modulFaktor();
+      const basis = (g.grund + flaeche() * proE) * modulFaktor() + extraSumme();
       const r = (n: number) => Math.round(n / 500) * 500;
       return { von: r(basis * (1 - g.spanne)), bis: r(basis * (1 + g.spanne)) };
     }
@@ -716,9 +810,10 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     function updateLive() {
       if (!state.gewerk || state.modus !== "genau") return;
       const { von, bis } = spanne();
+      const extraTxt = state.extras.size ? ` · ${state.extras.size} Extra${state.extras.size > 1 ? "s" : ""}` : "";
       livePreis.innerHTML =
         `Aktuell ca. ${euro(von)} € – ${euro(bis)} €` +
-        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Modulen in der Zeichnung</small>`;
+        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Arbeitsschritten${extraTxt}</small>`;
     }
 
     function showResult() {
@@ -730,6 +825,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
 
       const gewaehlt = g.bausteine.filter((m) => !genau || state.module.has(m.id));
+      const extrasGewaehlt = genau ? g.extras.filter((x) => state.extras.has(x.id)) : [];
       const chipsEl = document.getElementById("rChips")!;
       chipsEl.innerHTML = "";
       const chips = [
@@ -737,6 +833,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         genau ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(f)} m²)` : `${state.menge} ${g.unit}`,
         tierLabel,
         ...(genau ? gewaehlt.map((m) => m.label) : []),
+        ...extrasGewaehlt.map((x) => `+ ${x.label}`),
       ];
       for (const text of chips) {
         const li = document.createElement("li");
@@ -749,10 +846,12 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         ? "Ihre Bauzeichnung mit den gewählten Modulen und Maßen"
         : "Grobe Skizze Ihres Projekts";
 
+      // Anfrage-Text in FACHSPRACHE – damit das Team sofort fachlich lesen kann.
       const masse = genau ? `${m1(state.laenge)} × ${m1(state.breite)} m` : `${state.menge} ${g.unit}`;
-      const module = genau ? `, Module: ${gewaehlt.map((m) => m.label).join(", ")}` : "";
+      const module = genau ? `, Leistungen: ${gewaehlt.map((m) => m.fach).join(", ")}` : "";
+      const extras = extrasGewaehlt.length ? `, Extras: ${extrasGewaehlt.map((x) => x.label).join(", ")}` : "";
       const beschreibung =
-        `${g.label}, ${masse}, Niveau „${tierLabel}"${module}, ` +
+        `${g.label}, ${masse}, Niveau „${tierLabel}"${module}${extras}, ` +
         `Ersteinschätzung ca. ${euro(von)}–${euro(bis)} €`;
       const waText =
         `Hallo Bauwelt Handwerk, ich habe gerade mein Projekt berechnet: ${beschreibung}. ` +
@@ -846,25 +945,110 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       setTimeout(() => URL.revokeObjectURL(a.href), 5000);
     }
 
-    /** WhatsApp: wo möglich, Zeichnung DIREKT als Anhang teilen (Web-Share-API,
-     *  mobil öffnet sich das Teilen-Menü mit Bild + Text). Sonst Fallback wa.me. */
-    async function whatsappMitZeichnung(e: Event) {
-      const probe = new File([new Blob()], "probe.png", { type: "image/png" });
-      if (!navigator.canShare || !navigator.canShare({ files: [probe] })) return; // Fallback: Link öffnet normal
-      e.preventDefault();
-      try {
-        const blob = await erzeugePng();
-        const datei = new File([blob], `Bauwelt-Zeichnung_${state.gewerk!.slug}.png`, { type: "image/png" });
-        await navigator.share({ files: [datei], text: waBtn.dataset.text || "" });
-      } catch (err) {
-        // Abbruch durch Nutzer oder Share-Fehler → normaler Chat-Link als Rettung
-        if ((err as Error).name !== "AbortError") window.open(waBtn.href, "_blank", "noopener");
-      }
+    /** WhatsApp: Chat öffnet IMMER direkt bei unserer Nummer mit dem Anfrage-Text.
+     *  Die Zeichnung wird gleichzeitig automatisch gespeichert – mehr erlaubt
+     *  WhatsApp technisch nicht (wa.me kann keine Datei anhängen). Ein Hinweis
+     *  erklärt das Anhängen per Büroklammer. */
+    function whatsappMitZeichnung() {
+      // Kein preventDefault: der Link öffnet den Chat mit Text an unsere Nummer.
+      skizzeHerunterladen().catch(() => {});
+      const tipp = document.querySelector(".rskizze__tipp");
+      if (tipp) tipp.textContent =
+        "Die Zeichnung wurde gerade gespeichert (Downloads/Galerie) – hängen Sie sie im Chat über die Büroklammer an.";
     }
 
     // Events
     document.getElementById("rSkizzeDownload")!.addEventListener("click", skizzeHerunterladen);
     waBtn.addEventListener("click", whatsappMitZeichnung);
+    document.getElementById("rZurueck2")!.addEventListener("click", () => show((state.step - 1) as 1 | 2));
+
+    // --- KI-Variante (Beta): Gemma 2 über WebLLM, komplett im Browser ---
+    const kiPanel = document.getElementById("rKiPanel")!;
+    const kiStatus = document.getElementById("rKiStatus")!;
+    const kiText = document.getElementById("rKiText") as HTMLTextAreaElement;
+    document.getElementById("rKiToggle")!.addEventListener("click", () => {
+      kiPanel.hidden = !kiPanel.hidden;
+    });
+
+    let kiEngine: any = null;
+    async function kiVorschlag() {
+      const beschreibung = kiText.value.trim();
+      if (!beschreibung) { kiStatus.textContent = "Bitte beschreiben Sie kurz Ihr Projekt."; return; }
+      const gpu = (navigator as any).gpu;
+      const adapter = gpu ? await gpu.requestAdapter().catch(() => null) : null;
+      if (!adapter) {
+        kiStatus.textContent =
+          "Ihr Gerät/Browser unterstützt die KI-Funktion nicht (WebGPU fehlt) – z. B. aktuelles Chrome " +
+          "oder Edge am Computer nutzen. Oder einfach oben auswählen, das Ergebnis ist dasselbe.";
+        return;
+      }
+      try {
+        if (!kiEngine) {
+          kiStatus.textContent = "KI-Modell wird geladen … (einmalig, je nach Verbindung einige Minuten)";
+          // BASE_URL kann ohne End-Slash kommen („/Bauwelt") – normalisieren
+          const basis = import.meta.env.BASE_URL.endsWith("/")
+            ? import.meta.env.BASE_URL
+            : import.meta.env.BASE_URL + "/";
+          const mod = await import(/* @vite-ignore */ `${basis}assets/js/web-llm.mjs`);
+          kiEngine = await mod.CreateMLCEngine("gemma-2-2b-it-q4f16_1-MLC", {
+            initProgressCallback: (r: { text: string }) => { kiStatus.textContent = r.text; },
+          });
+        }
+        kiStatus.textContent = "KI denkt nach …";
+        const anleitung =
+          `Du hilfst einem Handwerksbetrieb. Antworte NUR mit einem JSON-Objekt, kein anderer Text. ` +
+          `Felder: gewerk (eines von: ${GEWERKE.map((g) => g.slug).join(", ")}), ` +
+          `laenge (Zahl in Metern oder null), breite (Zahl oder null), ` +
+          `niveau (basis|komfort|premium), module (Liste passender IDs), extras (Liste passender IDs). ` +
+          `Verfügbare Module/Extras je Gewerk: ` +
+          GEWERKE.map((g) => `${g.slug}: Module[${g.bausteine.map((m) => m.id).join(",")}] Extras[${g.extras.map((x) => x.id).join(",")}]`).join("; ");
+        const antwort = await kiEngine.chat.completions.create({
+          messages: [
+            { role: "system", content: anleitung },
+            { role: "user", content: beschreibung },
+          ],
+          temperature: 0.2,
+          max_tokens: 220,
+        });
+        const roh = antwort.choices?.[0]?.message?.content ?? "";
+        const json = JSON.parse((roh.match(/\{[\s\S]*\}/) || ["{}"])[0]);
+        const g = GEWERKE.find((x) => x.slug === json.gewerk);
+        if (!g) throw new Error("Gewerk nicht erkannt");
+        selectGewerk(g);
+        setModus("genau");
+        if (json.laenge > 0) { laengeIn.value = String(json.laenge); }
+        if (json.breite > 0) { breiteIn.value = String(json.breite); }
+        updateMasse();
+        if (g.tiers.some((t) => t.id === json.niveau)) {
+          state.tier = json.niveau;
+          renderTiers(g);
+        }
+        if (Array.isArray(json.module) && json.module.length) {
+          state.module = new Set(json.module.filter((id: string) => g.bausteine.some((m) => m.id === id)));
+          if (state.module.size === 0) state.module = new Set(g.bausteine.map((m) => m.id));
+          renderModule(g);
+          moduleEl.querySelectorAll<HTMLElement>(".rmodul").forEach((el) =>
+            el.setAttribute("aria-pressed", String(state.module.has(el.dataset.modul || "")))
+          );
+        }
+        if (Array.isArray(json.extras)) {
+          state.extras = new Set(json.extras.filter((id: string) => g.extras.some((x) => x.id === id)));
+          document.querySelectorAll<HTMLElement>("#rExtras .rmodul").forEach((el) =>
+            el.setAttribute("aria-pressed", String(state.extras.has(el.dataset.extra || "")))
+          );
+        }
+        updateEbenen();
+        updateLive();
+        kiStatus.textContent = "Vorschlag übernommen – bitte prüfen und anpassen.";
+      } catch (err) {
+        const msg = (err as Error).message || "";
+        kiStatus.textContent = /GPU|WebGPU/i.test(msg)
+          ? "Ihr Gerät unterstützt die KI-Funktion nicht (WebGPU fehlt). Nutzen Sie einfach die Auswahl oben – das Ergebnis ist dasselbe."
+          : "Die KI konnte gerade keinen Vorschlag erstellen. Nutzen Sie einfach die Auswahl oben.";
+        kiEngine = null;
+      }
+    }
+    document.getElementById("rKiStart")!.addEventListener("click", kiVorschlag);
     app.querySelectorAll<HTMLButtonElement>(".rtile").forEach((tile) =>
       tile.addEventListener("click", () => {
         const g = GEWERKE.find((x) => x.slug === tile.dataset.gewerk);

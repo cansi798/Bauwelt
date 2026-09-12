@@ -16,3 +16,4 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.
 
 Neue Anmerkungen des Kunden: bitte über `Vorlage_Verbesserungen.docx` einreichen.
+| 07 | 12.09.2026 | Rechner in Kundensprache (Fachbegriffe im Anfragetext), Extras mit Aufpreis, Gemma-KI (WebLLM, Beta), Sticky-Navigation, WhatsApp-Direktfluss; Startseite: Fotokarten nach vorn, 3 rollierende Zusagen, Schritte-Wischen mobil, Login-Button | Wünsche Can (Laienfreundlich, KI, mehr Auswahl, mobil) | `Bericht-07_2026-09-12_Rechner-KI-Extras-Startseite.pdf` |

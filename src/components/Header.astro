@@ -51,6 +51,9 @@ import MobileMenu from "./MobileMenu.astro";
       <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={22} />
       </a>
+      <a class="hdr__login" href="https://portal.bauwelt-handwerk.de" target="_blank" rel="noopener" aria-label="Kundenportal-Login">
+        <Icon name="user" size={18} class="icon" /> Login
+      </a>
       <a class="btn btn--sm hdr__cta" href={CTA.href}>{CTA.label}</a>
       <button class="hdr__iconbtn hdr__burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menü öffnen">
         <Icon name="menu" size={26} class="icon hdr__burger-open" />
@@ -140,6 +143,17 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__iconbtn:hover { background: var(--gold-100); }
   .hdr__cta { display: none; }
+  /* Login zum Kundenportal: mobil kompakt, ab Desktop mit Text */
+  .hdr__login {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--linie);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-heading); font-weight: 700; font-size: 13px;
+    color: var(--anthrazit-800);
+  }
+  .hdr__login:hover { background: var(--gold-100); border-color: var(--gold-500); text-decoration: none; }
+  .hdr__login :global(.icon) { color: var(--gold-700); }
   /* :global – die Icon-SVGs kommen aus der Icon-Komponente und tragen kein Scope-Attribut */
   .hdr__burger :global(.hdr__burger-close) { display: none; }
   .hdr__burger[aria-expanded="true"] :global(.hdr__burger-open) { display: none; }
