@@ -1,0 +1,57 @@
+---
+// Erklärvideo-Kachel (nur mobil): generiertes WebM mit Musik. Klick auf die
+// Kachel startet das Video MIT Ton (Nutzer-Geste). Dateien: assets/video/.
+import { u } from "../consts";
+
+interface Props {
+  /** Dateiname ohne Endung, z. B. "weg" → weg.webm + weg-poster.jpg */
+  name: string;
+  titel: string;
+}
+const { name, titel } = Astro.props;
+---
+
+<div class="vkachel" data-vkachel>
+  <video
+    preload="none"
+    playsinline
+    poster={u(`assets/video/${name}-poster.jpg`)}
+    src={u(`assets/video/${name}.webm`)}
+    aria-label={titel}
+  ></video>
+  <button class="vkachel__play" type="button" aria-label={`Video abspielen: ${titel}`}>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.52.86l10.2-6.5a1 1 0 0 0 0-1.7L9.52 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+  </button>
+</div>
+
+<style>
+  .vkachel { display: none; }
+  @media (max-width: 767px) {
+    html.js .vkachel {
+      display: block;
+      position: relative;
+      margin: 0 auto 22px;
+      max-width: 420px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: var(--anthrazit-900);
+    }
+  }
+  .vkachel video { display: block; width: 100%; height: auto; }
+  .vkachel__play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 0;
+    background: rgba(31, 30, 32, 0.25);
+    color: var(--anthrazit-900);
+  }
+  .vkachel__play svg {
+    box-sizing: content-box;
+    padding: 22px;
+    background: var(--gold-500);
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+  }
+  .vkachel.spielt .vkachel__play { display: none; }
+</style>

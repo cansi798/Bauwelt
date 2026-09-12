@@ -6,6 +6,7 @@
 import { PORTAL } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+import VideoKachel from "./VideoKachel.astro";
 ---
 
 <section class="section section--sand" id="kundenportal">
@@ -19,9 +20,9 @@ import Icon from "./Icon.astro";
     />
     <p class="portal__intro">{PORTAL.intro}</p>
 
-    <button class="vton" type="button" data-vton="portalTiles">🔊 Ton einschalten</button>
+    <VideoKachel name="portal" titel="Das Kundenportal – als Video erklärt" />
     <div class="portal__grid">
-      <div class="portal__tiles" id="portalTiles" data-vauto>
+      <div class="portal__tiles" id="portalTiles">
         {PORTAL.kacheln.map((k) => (
           <div class="card portal__tile reveal">
             <span class="portal__tileicon"><Icon name={k.icon} size={24} class="icon" /></span>
@@ -31,42 +32,6 @@ import Icon from "./Icon.astro";
         ))}
       </div>
 
-      <!-- Stilisiertes Portal-Mockup (dekorativ) -->
-      <div class="portal__mock reveal" aria-hidden="true">
-        <div class="pmock">
-          <div class="pmock__bar">
-            <span class="pmock__dot"></span><span class="pmock__dot"></span><span class="pmock__dot"></span>
-            <span class="pmock__url">portal.bauwelt-handwerk.de</span>
-          </div>
-          <div class="pmock__body">
-            <div class="pmock__head">
-              <div>
-                <strong>Badsanierung · Familie M.</strong>
-                <span class="pmock__sub">Projekt-Nr. 2026-041</span>
-              </div>
-              <span class="pmock__chip">In Arbeit</span>
-            </div>
-            <div class="pmock__progress">
-              <span class="pmock__plabel">Projektstand</span>
-              <div class="pmock__ptrack"><div class="pmock__pfill"></div></div>
-              <span class="pmock__pval">64&nbsp;%</span>
-            </div>
-            <ul class="pmock__steps">
-              <li class="done"><Icon name="check" size={14} class="icon" /> Demontage &amp; Vorbereitung</li>
-              <li class="done"><Icon name="check" size={14} class="icon" /> Sanitär-Rohinstallation</li>
-              <li class="now"><Icon name="tools" size={14} class="icon" /> Fliesenarbeiten – diese Woche</li>
-            </ul>
-            <div class="pmock__docs">
-              <span class="pmock__doc"><Icon name="doc" size={16} class="icon" /> Angebot_2026-041.pdf</span>
-              <span class="pmock__doc"><Icon name="doc" size={16} class="icon" /> Terminplan.pdf</span>
-            </div>
-            <div class="pmock__contact">
-              <span class="pmock__way pmock__way--on"><Icon name="whatsapp" size={16} class="icon" /> WhatsApp</span>
-              <span class="pmock__way"><Icon name="mail" size={16} class="icon" /> E-Mail</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <p class="portal__schluss">{PORTAL.schluss}</p>
@@ -80,12 +45,7 @@ import Icon from "./Icon.astro";
     text-align: center;
     color: var(--anthrazit-700);
   }
-  .portal__grid {
-    display: grid; gap: 32px; align-items: center;
-  }
-  @media (min-width: 1024px) {
-    .portal__grid { grid-template-columns: 1.1fr 1fr; gap: 48px; }
-  }
+  .portal__grid { display: grid; gap: 32px; }
 
   .portal__tiles { display: grid; gap: 16px; }
   /* Mobil: Kacheln horizontal wischen (wie die Ablauf-Schritte) statt stapeln */
@@ -125,72 +85,4 @@ import Icon from "./Icon.astro";
     font-weight: 600;
   }
 
-  /* --- Mockup: Browserfenster mit Projektstatus --- */
-  .pmock {
-    background: var(--weiss);
-    border: 1px solid var(--linie);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    max-width: 460px;
-    margin-inline: auto;
-  }
-  .pmock__bar {
-    display: flex; align-items: center; gap: 6px;
-    padding: 10px 14px;
-    background: var(--anthrazit-800);
-  }
-  .pmock__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--anthrazit-400); }
-  .pmock__url {
-    margin-left: 10px;
-    font-size: 12px; color: var(--anthrazit-200);
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-pill);
-    padding: 3px 12px;
-  }
-  .pmock__body { padding: 18px; display: grid; gap: 14px; }
-  .pmock__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .pmock__head strong { display: block; font-size: 14.5px; }
-  .pmock__sub { font-size: 12px; color: var(--anthrazit-600); }
-  .pmock__chip {
-    flex: none;
-    font-size: 12px; font-weight: 700;
-    color: var(--anthrazit-900);
-    background: var(--gold-500);
-    border-radius: var(--radius-pill);
-    padding: 4px 12px;
-  }
-  .pmock__progress { display: flex; align-items: center; gap: 10px; }
-  .pmock__plabel, .pmock__pval { font-size: 12px; color: var(--anthrazit-600); flex: none; }
-  .pmock__ptrack { flex: 1; height: 8px; border-radius: 4px; background: var(--anthrazit-100); overflow: hidden; }
-  .pmock__pfill { width: 64%; height: 100%; border-radius: 4px; background: var(--gold-500); }
-  .pmock__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-  .pmock__steps li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--anthrazit-700); }
-  .pmock__steps li.done :global(.icon) { color: var(--gold-700); }
-  .pmock__steps li.now { font-weight: 700; color: var(--anthrazit-900); }
-  .pmock__steps li.now :global(.icon) { color: var(--gold-600); }
-  .pmock__docs { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pmock__doc {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12.5px;
-    border: 1px solid var(--linie);
-    border-radius: 8px;
-    padding: 6px 10px;
-    color: var(--anthrazit-700);
-  }
-  .pmock__doc :global(.icon) { color: var(--gold-700); }
-  .pmock__contact { display: flex; gap: 8px; border-top: 1px solid var(--linie); padding-top: 12px; }
-  .pmock__way {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12.5px; font-weight: 600;
-    border: 1px solid var(--linie);
-    border-radius: var(--radius-pill);
-    padding: 6px 12px;
-    color: var(--anthrazit-600);
-  }
-  .pmock__way--on {
-    background: var(--gold-100);
-    border-color: var(--gold-500);
-    color: var(--anthrazit-900);
-  }
 </style>

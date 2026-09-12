@@ -1,0 +1,50 @@
+---
+// Login-Seite: fiktive Portal-Demo (Beispieldaten), bis das echte Kundenportal
+// öffentlich läuft. noindex – reine Vorschau-Seite.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import PortalDemo from "../components/PortalDemo.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout
+  title="Kundenportal-Login – Bauwelt Handwerk"
+  description="Ihr Zugang zum Bauwelt-Kundenportal: Projektstand, Dokumente und Termine jederzeit im Blick."
+  noindex
+>
+  <section class="section">
+    <div class="container login__wrap">
+      <SectionHead
+        center
+        as="h1"
+        eyebrow="Kundenportal"
+        pre="Ihr Projekt. Jederzeit im "
+        accent="Blick"
+        text="So sieht Ihr Kundenportal aus – hier eine Vorschau mit Beispieldaten."
+      />
+
+      <PortalDemo />
+      <p class="small login__hinweis">Vorschau mit fiktiven Beispieldaten (Familie M.)</p>
+
+      <div class="login__actions">
+        <a class="btn btn--lg" href="https://portal.bauwelt-handwerk.de" target="_blank" rel="noopener">
+          <Icon name="user" size={20} class="icon" /> Zum Login
+        </a>
+        <p class="small">
+          Ihre Zugangsdaten erhalten Sie mit der Auftragsbestätigung.
+          Noch kein Kunde? <a href={`${import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/"}rechner/`}>Projekt berechnen</a> und kennenlernen.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .login__wrap { max-width: 640px; }
+  .login__hinweis { text-align: center; margin-top: 10px; }
+  .login__actions {
+    margin-top: 28px;
+    display: grid; gap: 10px; justify-items: center;
+    text-align: center;
+  }
+</style>

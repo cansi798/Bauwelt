@@ -51,7 +51,7 @@ import MobileMenu from "./MobileMenu.astro";
       <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={22} />
       </a>
-      <a class="hdr__login" href="https://portal.bauwelt-handwerk.de" target="_blank" rel="noopener" aria-label="Kundenportal-Login">
+      <a class="hdr__login" href={u("login/")} aria-label="Kundenportal-Login">
         <Icon name="user" size={18} class="icon" /> Login
       </a>
       <a class="btn btn--sm hdr__cta" href={CTA.href}>{CTA.label}</a>

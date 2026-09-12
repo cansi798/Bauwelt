@@ -5,6 +5,7 @@ import { VERSPRECHEN } from "../data/versprechen";
 import { CTA } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+import VideoKachel from "./VideoKachel.astro";
 ---
 
 <section class="section section--sand" id="versprechen">
@@ -16,8 +17,8 @@ import Icon from "./Icon.astro";
       accent="können"
       text="Sechs Zusagen, die bei jedem Projekt gelten – klicken Sie ein Siegel an, um zu sehen, was genau dahintersteckt."
     />
-    <button class="vton" type="button" data-vton="siegelGrid">🔊 Ton einschalten</button>
-    <ul class="siegel-grid" id="siegelGrid" data-vauto>
+    <VideoKachel name="siegel" titel="Unsere sechs Versprechen – als Video erklärt" />
+    <ul class="siegel-grid" id="siegelGrid">
       {VERSPRECHEN.map((s) => (
         <li>
           <button class="siegel reveal" type="button" data-siegel={s.id} aria-haspopup="dialog">

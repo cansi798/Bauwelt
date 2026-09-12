@@ -17,6 +17,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 10 | 12.09.2026 | Zeichnung folgt den Maßen, „Video mit Ton" (Web-Speech) für 3 Bereiche, WhatsApp-Teilen mit Bild+Text, Scroll-Fortschritt + Nach-oben-Button, Rechner-Sprungfix; Zwei-Agenten-Sweep aller Seiten mit Hero-Beschnitt-Fix, Touchziele, Doppel-Leisten | Live-Tests Can + Agenten-Sweep | `Bericht-10_2026-09-12_Formzeichnung-TonVideo-Agentensweep.pdf` |
 | 11 | 12.09.2026 | Mobil-Videos neu: gezeichnete Durchläufe mit synthetischer Hintergrundmusik + AIDA-CTA-Puls (statt Sprachausgabe), Fortschrittsbalken an Header-Unterkante, WhatsApp-Teilen-Button entfernt (wieder Direktkontakt mit Text) | Live-Tests Can | `Bericht-11_2026-09-12_Gezeichnete-Videos-Musik.pdf` |
 | 12 | 12.09.2026 | Mobil-Videos ohne Play-Button: Autostart beim Hereinscrollen (stumm, Dauerschleife, Wisch stoppt), 🔊-Chip für Musik | Wunsch Can („mach ein Video daraus") | `Bericht-12_2026-09-12_Videos-laufen-von-selbst.pdf` |
+| 13 | 12.09.2026 | Drei generierte Erklärvideos (WebM mit Musik) als Klick-Kacheln, Rechner ohne Skizze mit gruppiertem Ergebnis, WhatsApp-Anfrage formatiert (Emojis/Absätze/Fachbegriffe), Portal-Demo hinter Login-Button (/login/, noindex) | Wünsche Can (echtes Video, Auswahl-Fokus, schönere Nachricht, Portal zu Login) | `Bericht-13_2026-09-12_Echte-Videos-Login-Demo.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

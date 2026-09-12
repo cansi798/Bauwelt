@@ -68,6 +68,8 @@ const sitemap = readFileSync(join(DIST, "sitemap.xml"), "utf8");
 for (const file of pages) {
   const page = file.replace(DIST, "").replace(/index\.html$/, "");
   if (/impressum|datenschutz|404/.test(page)) continue;
+  // noindex-Seiten (z. B. /login/-Demo) gehören bewusst nicht in die Sitemap
+  if (readFileSync(file, "utf8").includes('name="robots" content="noindex')) continue;
   if (!sitemap.includes(`${BASE.slice(0, -1)}${page}`)) err(page, "fehlt in sitemap.xml");
 }
 
