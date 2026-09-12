@@ -25,6 +25,9 @@ jobs:
         uses: withastro/action@v3
         # withastro/action installiert Abhängigkeiten, baut nach ./dist
         # und lädt das Ergebnis als Pages-Artefakt hoch.
+        with:
+          # Astro 7 benötigt Node >= 22.12 (Action-Default ist 20).
+          node-version: 22
 
   deploy:
     needs: build
