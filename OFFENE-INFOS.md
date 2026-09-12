@@ -37,9 +37,12 @@ Legende: ⬜ offen · ✅ erledigt
   Platzhalter-Prozentanteile für den „Genaue Angaben"-Modus – bitte mit echter
   Kalkulation abgleichen (Summe je Gewerk = 1).
 - ⬜ **KI-Skizzen-Variante (Zukunftsidee, 12.09.2026):** Kunde beschreibt das Projekt in
-  Worten, eine KI generiert die Zeichnung. Geht NICHT rein statisch (API-Schlüssel wäre
-  öffentlich, DSGVO-Einwilligung nötig) → braucht kleinen Server-Proxy (z. B. Cloudflare
-  Worker), sinnvoll nach dem Domain-Umzug. Bis dahin: deterministische SVG-Skizze im Rechner.
+  Worten, eine KI füllt daraus Maße/Module und die Zeichnung entsteht. Zwei Wege:
+  a) **WebLLM + Gemma im Browser** (Cans Vorschlag): kostenlos, DSGVO-freundlich (rechnet
+  lokal), ABER einmaliger Modell-Download ~1,4 GB und WebGPU-Pflicht (kein iOS-Safari) –
+  als optionales „Experiment"-Feature denkbar, eigenes Vorhaben mit eigener Runde.
+  b) Server-Proxy (z. B. Cloudflare Worker) mit gehostetem Modell – nach Domain-Umzug.
+  Bis dahin: deterministische Bauzeichnung im Rechner (Fragen → Zeichnung, ohne KI).
 
 ## C. Rechtliches (vor Livegang unter eigener Domain)
 

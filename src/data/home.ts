@@ -24,6 +24,14 @@ export const HERO = {
     "Kundenportal mit Live-Projektstatus",
     "Transparente Festpreise für alle vereinbarten Leistungen",
   ],
+  /** Kurzformen für die rotierende Zusagen-Zeile (eine Zeile statt Textblock). */
+  checksKurz: [
+    "Antwort in 12 Stunden",
+    "Angebot in 24 Stunden",
+    "Ein persönlicher Ansprechpartner",
+    "Kundenportal mit Live-Status",
+    "Transparente Festpreise",
+  ],
   note: "Unverbindlich · Ergebnis in 60 Sekunden",
   cta2: { label: "Kostenlosen Besichtigungstermin buchen", href: "#termin" },
   bild: "hero.webp",

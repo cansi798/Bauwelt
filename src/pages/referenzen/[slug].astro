@@ -23,7 +23,7 @@ const weitere = (await getCollection("referenzen"))
 ---
 
 <BaseLayout
-  title={`${r.data.title} – Referenz aus ${r.data.place} | Bauwelt Handwerk`}
+  title={`${r.data.title} – Referenz aus ${r.data.place}`}
   description={`Referenzprojekt ${r.data.title} in ${r.data.place}${r.data.leistung ? ` – ${r.data.leistung}` : ""}${r.data.dauer ? `, umgesetzt in ${r.data.dauer}` : ""}.`}
 >
   <section class="section rdetail">

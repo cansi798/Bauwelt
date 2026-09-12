@@ -52,11 +52,20 @@ const WALZE = [...WORTE, WORTE[0]];
 
     <p class="fhero__statement fhero__in" style="--d: 220ms">{HERO.statement}</p>
     <p class="lead fhero__in" style="--d: 280ms">{HERO.sub}</p>
-    <ul class="fhero__zusagen fhero__in" style="--d: 360ms">
-      {HERO.checks.map((c) => (
-        <li><Icon name="check" size={18} class="icon" /> {c}</li>
-      ))}
-    </ul>
+    <!-- Zusagen als rotierende Zeile (nicht alles auf einmal); volle Liste bleibt
+         unsichtbar im DOM – für Screenreader und Suchmaschinen. -->
+    <div class="fhero__zusagen fhero__in" style="--d: 360ms">
+      <ul class="visually-hidden">
+        {HERO.checks.map((c) => <li>{c}</li>)}
+      </ul>
+      <div class="fhero__zwalze" aria-hidden="true">
+        <div class="fhero__zband" style={`--n: ${HERO.checksKurz.length}`}>
+          {[...HERO.checksKurz, HERO.checksKurz[0]].map((c) => (
+            <span class="fhero__zitem"><Icon name="check" size={18} class="icon" /> {c}</span>
+          ))}
+        </div>
+      </div>
+    </div>
     <div class="fhero__actions fhero__in" style="--d: 480ms">
       <div class="fhero__cta">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
@@ -122,16 +131,30 @@ const WALZE = [...WORTE, WORTE[0]];
   }
   .fhero__statement + .lead { margin-top: -12px; }
 
-  /* Fünf Zusagen aus dem Kundenpapier – gestapelt, gut lesbar über dem Bild */
-  .fhero__zusagen {
-    list-style: none; margin: 0; padding: 0;
-    display: grid; gap: 8px;
+  /* Zusagen: eine rotierende Zeile statt Fünf-Punkte-Block (weniger Text auf einmal) */
+  .fhero__zwalze { height: 1.5em; overflow: hidden; }
+  .fhero__zband {
+    display: flex; flex-direction: column;
+    animation: zwalze calc(var(--n) * 2.6s) cubic-bezier(0.65, 0, 0.35, 1) 1.6s infinite;
   }
-  .fhero__zusagen li {
+  .fhero__zitem {
     display: inline-flex; align-items: center; gap: 10px;
+    height: 1.5em; line-height: 1.5; white-space: nowrap;
     color: var(--weiss); font-weight: 600; font-size: 15px;
   }
-  .fhero__zusagen :global(.icon) { color: var(--gold-500); flex: none; }
+  .fhero__zitem :global(.icon) { color: var(--gold-500); flex: none; }
+  /* 5 Zusagen: Schritte bei 20/40/60/80 %, jeweils 4 % Roll-Zeit (letzter = erster) */
+  @keyframes zwalze {
+    0%, 16%   { transform: translateY(0); }
+    20%, 36%  { transform: translateY(-1.5em); }
+    40%, 56%  { transform: translateY(-3em); }
+    60%, 76%  { transform: translateY(-4.5em); }
+    80%, 96%  { transform: translateY(-6em); }
+    100%      { transform: translateY(-7.5em); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fhero__zband { transform: none; }
+  }
 
   .fhero__actions {
     display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: flex-start;
@@ -225,8 +248,7 @@ const WALZE = [...WORTE, WORTE[0]];
     .fhero__eb-lang { display: none; }
     .fhero__eb-kurz { display: inline; }
     .fhero__content .lead { display: none; }
-    .fhero__zusagen { order: 10; }
-    .fhero__zusagen li { font-size: 13.5px; align-items: flex-start; }
+    .fhero__zitem { font-size: 13.5px; }
     .fhero__actions { display: grid; justify-items: stretch; }
     .fhero__actions .btn { width: 100%; }
     .fhero__badge { right: 16px; top: 16px; bottom: auto; padding: 10px 16px; }

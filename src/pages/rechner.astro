@@ -1,8 +1,10 @@
 ---
-// Projekt-Rechner 2.0 (Enpal-Funnel-Mechanik): 3 Schritte, Ergebnis VOR Kontaktfrage.
-// Schritt 2 hat zwei Modi: „Schnelle Schätzung" (Slider, grobe Skizze) und
-// „Genaue Angaben" (Länge × Breite mit Live-Bemaßung auf der Skizze + Modul-Wahl,
-// jeder gewählte Baustein zeichnet sich sofort, Preis passt sich live an).
+// Projekt-Rechner 2.1 (Enpal-Funnel-Mechanik): 3 Schritte, Ergebnis VOR Kontaktfrage.
+// Schritt 2 hat zwei Modi: „Schnelle Schätzung" (Slider, fertige Skizze) und
+// „Genaue Angaben" (Länge × Breite mit Live-Bemaßung + Modul-Wahl). Jedes Modul
+// ist eine EBENE der Bauzeichnung – zusammen ergeben sie die fertige Skizze,
+// abgewählte Ebenen fehlen in der Zeichnung. Mobil: Eingabe → Skizze direkt
+// darunter als Live-Feedback → Details; Desktop: Eingaben links, Skizze rechts.
 // Ohne JavaScript: Hinweis + Direktkontaktwege (noscript-Prinzip via html.js-Gate).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
@@ -82,12 +84,12 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           </div>
 
           <div class="rstep2grid">
-            <div class="rstep2eingaben">
+            <!-- A: Größe zuerst … -->
+            <div class="rs2 rs2--groesse">
               <div class="rechner__range" id="rRangeWrap">
                 <input type="range" id="rMenge" min="3" max="30" step="1" value="8" aria-labelledby="rFrage" />
                 <output class="rechner__mengeout" id="rMengeOut" for="rMenge">8 m²</output>
               </div>
-
               <div class="rmasse" id="rMasse" hidden>
                 <label class="rmasse__feld">
                   <span>Länge</span>
@@ -100,53 +102,84 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
                 </label>
                 <output class="rmasse__flaeche" id="rFlaeche">= 8 m²</output>
               </div>
-
-              <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau"></div>
-
-              <div class="rmodule" id="rModuleWrap" hidden>
-                <h3 class="rmodule__title">Welche Module sollen enthalten sein?</h3>
-                <div class="rmodule__grid" id="rModule"></div>
-              </div>
-
-              <p class="rlivepreis" id="rLivePreis" hidden role="status"></p>
-              <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
             </div>
 
-            <div class="rskizzeslot" id="rSkizzeSlot2">
-              <!-- Skizze des Bereichs: grob (schnell) bzw. bemaßt (genau). Wandert im Ergebnis mit. -->
+            <!-- S: … Skizze als direktes Feedback (mobil direkt unter der Größe) -->
+            <div class="rs2 rs2--skizze" id="rSkizzeSlot2">
               <figure class="rskizze rskizze--grob" id="rSkizzeWrap">
-                <svg id="rSkizze" viewBox="0 0 340 270" role="img" aria-label="Skizze Ihres Projekts" data-skizze="raum">
-                  <!-- Grundfläche: bewusst „wackelige" Handskizzen-Linien -->
+                <svg id="rSkizze" viewBox="0 0 340 270" role="img" aria-label="Bauzeichnung Ihres Projekts" data-skizze="raum">
+                  <!-- Grundfläche: immer sichtbar, bewusst „wackelige" Handskizzen-Linie -->
                   <path class="sk sk-draw" style="--d: 0ms"
                     d="M50 44 C 130 40, 230 46, 306 44 C 310 100, 304 170, 306 226 C 216 230, 126 224, 50 228 C 46 168, 52 104, 50 44 Z" />
 
-                  <!-- BAD: Wanne, Dusche, WC, Waschtisch, Tür -->
+                  <!-- BAD: 5 Ebenen = 5 Module -->
                   <g class="sk-g" data-g="bad">
-                    <rect class="sk sk-draw" style="--d: 250ms" x="62" y="56" width="92" height="44" rx="16" />
-                    <rect class="sk sk-draw" style="--d: 400ms" x="226" y="56" width="66" height="62" rx="4" />
-                    <path class="sk sk-draw sk-fein" style="--d: 520ms" d="M236 66 l46 42 M282 66 l-46 42" />
-                    <ellipse class="sk sk-draw" style="--d: 640ms" cx="86" cy="192" rx="20" ry="15" />
-                    <rect class="sk sk-draw sk-fein" style="--d: 640ms" x="66" y="204" width="40" height="12" rx="4" />
-                    <rect class="sk sk-draw" style="--d: 760ms" x="222" y="184" width="70" height="30" rx="6" />
-                    <ellipse class="sk sk-draw sk-fein" style="--d: 860ms" cx="257" cy="199" rx="16" ry="8" />
-                    <path class="sk sk-draw sk-fein" style="--d: 950ms" d="M150 228 A 42 42 0 0 1 192 186" />
-                  </g>
-
-                  <!-- RAUM: Tür, Fenster, Gewerk-Symbol -->
-                  <g class="sk-g" data-g="raum">
-                    <path class="sk sk-draw sk-fein" style="--d: 300ms" d="M140 228 A 46 46 0 0 1 186 182" />
-                    <path class="sk sk-draw" style="--d: 420ms" d="M118 44 l54 0 M126 40 l0 8 M164 40 l0 8" />
-                    <path class="sk sk-draw" style="--d: 500ms" d="M306 120 l0 44 M302 128 l8 0 M302 156 l8 0" />
-                    <g class="sk-symbol">
-                      <use id="rSkizzeIcon" href="#icon-reno" width="40" height="40" x="158" y="88" />
+                    <g class="sk-l" data-l="0"><!-- Demontage: freigeräumte Innenkontur -->
+                      <path class="sk sk-draw sk-fein" style="--d: 100ms" d="M60 54 C 132 51, 228 56, 296 54 C 299 102, 295 166, 296 218 C 214 221, 130 216, 60 218 C 57 164, 61 104, 60 54 Z" />
+                    </g>
+                    <g class="sk-l" data-l="1"><!-- Rohinstallation: Leitungswege + Anschlüsse -->
+                      <path class="sk sk-draw sk-fein sk-leitung" style="--d: 150ms" d="M66 60 L 290 60 M66 60 L 66 212 M180 60 L 180 96" />
+                      <circle class="sk sk-fein" cx="100" cy="60" r="4" /><circle class="sk sk-fein" cx="252" cy="60" r="4" /><circle class="sk sk-fein" cx="66" cy="186" r="4" />
+                    </g>
+                    <g class="sk-l" data-l="2"><!-- Abdichtung: Randstriche Nasszone -->
+                      <path class="sk sk-draw sk-fein" style="--d: 200ms" d="M222 52 l6 10 M238 52 l6 10 M254 52 l6 10 M270 52 l6 10 M286 52 l6 10 M298 70 l-10 6 M298 88 l-10 6 M298 106 l-10 6" />
+                    </g>
+                    <g class="sk-l" data-l="3"><!-- Fliesen: Bodenraster -->
+                      <path class="sk sk-draw sk-fein sk-raster" style="--d: 250ms" d="M110 130 L 290 130 M110 160 L 290 160 M140 118 L 140 172 M180 118 L 180 172 M220 118 L 220 172 M260 118 L 260 172" />
+                    </g>
+                    <g class="sk-l" data-l="4"><!-- Ausstattung: Wanne, Dusche, WC, Waschtisch, Tür -->
+                      <rect class="sk sk-draw" style="--d: 150ms" x="62" y="66" width="92" height="42" rx="16" />
+                      <rect class="sk sk-draw" style="--d: 280ms" x="228" y="120" width="64" height="58" rx="4" />
+                      <path class="sk sk-draw sk-fein" style="--d: 400ms" d="M238 130 l44 38 M282 130 l-44 38" />
+                      <ellipse class="sk sk-draw" style="--d: 520ms" cx="86" cy="190" rx="19" ry="14" />
+                      <rect class="sk sk-draw sk-fein" style="--d: 520ms" x="67" y="201" width="38" height="11" rx="4" />
+                      <rect class="sk sk-draw" style="--d: 640ms" x="224" y="188" width="68" height="28" rx="6" />
+                      <ellipse class="sk sk-draw sk-fein" style="--d: 720ms" cx="258" cy="202" rx="15" ry="7" />
+                      <path class="sk sk-draw sk-fein" style="--d: 800ms" d="M150 228 A 42 42 0 0 1 192 186" />
                     </g>
                   </g>
 
-                  <!-- DACH: First + Ziegel-Schraffur -->
+                  <!-- RAUM: 5 Ebenen -->
+                  <g class="sk-g" data-g="raum">
+                    <g class="sk-l" data-l="0">
+                      <path class="sk sk-draw sk-fein" style="--d: 100ms" d="M60 54 C 132 51, 228 56, 296 54 C 299 102, 295 166, 296 218 C 214 221, 130 216, 60 218 C 57 164, 61 104, 60 54 Z" />
+                    </g>
+                    <g class="sk-l" data-l="1">
+                      <path class="sk sk-draw sk-fein sk-leitung" style="--d: 150ms" d="M66 60 L 290 60 M66 60 L 66 212 M290 60 L 290 130" />
+                      <circle class="sk sk-fein" cx="140" cy="60" r="4" /><circle class="sk sk-fein" cx="290" cy="104" r="4" /><circle class="sk sk-fein" cx="66" cy="160" r="4" />
+                    </g>
+                    <g class="sk-l" data-l="2">
+                      <path class="sk sk-draw sk-fein" style="--d: 200ms" d="M56 70 l10 -6 M56 92 l10 -6 M56 114 l10 -6 M56 136 l10 -6 M56 158 l10 -6 M56 180 l10 -6 M70 224 l6 -10 M96 224 l6 -10 M122 224 l6 -10" />
+                    </g>
+                    <g class="sk-l" data-l="3">
+                      <path class="sk sk-draw sk-fein sk-raster" style="--d: 250ms" d="M84 214 L 130 170 M116 216 L 176 160 M152 218 L 224 152 M192 218 L 262 154 M234 218 L 292 164" />
+                    </g>
+                    <g class="sk-l" data-l="4">
+                      <path class="sk sk-draw sk-fein" style="--d: 300ms" d="M140 228 A 46 46 0 0 1 186 182" />
+                      <path class="sk sk-draw" style="--d: 380ms" d="M118 44 l54 0 M126 40 l0 8 M164 40 l0 8" />
+                      <g class="sk-symbol"><use id="rSkizzeIcon" href="#icon-reno" width="36" height="36" x="160" y="78" /></g>
+                    </g>
+                  </g>
+
+                  <!-- DACH: 5 Ebenen -->
                   <g class="sk-g" data-g="dach">
-                    <path class="sk sk-draw" style="--d: 300ms" d="M50 136 C 140 132, 230 138, 306 135" />
-                    <path class="sk sk-draw sk-fein" style="--d: 480ms" d="M92 50 l-20 80 M148 48 l-22 84 M204 50 l-20 82 M262 47 l-22 84" />
-                    <path class="sk sk-draw sk-fein" style="--d: 620ms" d="M96 142 l-24 82 M154 140 l-24 84 M212 142 l-24 82 M268 139 l-22 84" />
+                    <g class="sk-l" data-l="0">
+                      <path class="sk sk-draw sk-fein" style="--d: 100ms" d="M60 54 C 132 51, 228 56, 296 54 C 299 102, 295 166, 296 218 C 214 221, 130 216, 60 218 C 57 164, 61 104, 60 54 Z" />
+                    </g>
+                    <g class="sk-l" data-l="1">
+                      <path class="sk sk-draw sk-fein" style="--d: 150ms" d="M92 50 L 92 222 M148 48 L 148 224 M204 50 L 204 222 M260 48 L 260 224" />
+                    </g>
+                    <g class="sk-l" data-l="2">
+                      <path class="sk sk-draw sk-fein sk-raster" style="--d: 200ms" d="M64 90 L 110 50 M64 140 L 160 52 M66 192 L 216 54 M96 218 L 268 56 M150 220 L 294 84 M206 222 L 294 138 M258 224 L 296 190" />
+                    </g>
+                    <g class="sk-l" data-l="3">
+                      <path class="sk sk-draw" style="--d: 250ms" d="M50 136 C 140 132, 230 138, 306 135" />
+                      <path class="sk sk-draw sk-fein" style="--d: 350ms" d="M74 96 q8 -6 16 0 q8 6 16 0 q8 -6 16 0 M188 96 q8 -6 16 0 q8 6 16 0 q8 -6 16 0 M74 180 q8 -6 16 0 q8 6 16 0 q8 -6 16 0 M188 180 q8 -6 16 0 q8 6 16 0 q8 -6 16 0" />
+                    </g>
+                    <g class="sk-l" data-l="4">
+                      <path class="sk sk-draw" style="--d: 300ms" d="M46 40 L 310 40 M46 232 L 310 232" />
+                      <path class="sk sk-draw sk-fein" style="--d: 400ms" d="M310 40 l0 16 q0 8 -8 8 M46 232 l0 -16" />
+                    </g>
                   </g>
 
                   <!-- Bemaßung (nur im Genau-Modus sichtbar) -->
@@ -158,17 +191,27 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
                   </g>
 
                   <!-- Fläche (immer sichtbar) -->
-                  <text id="skFlaeche" class="sk-f" x="178" y="152" text-anchor="middle">8 m²</text>
-                  <text class="sk-flabel" x="178" y="168" text-anchor="middle">Fläche</text>
+                  <text id="skFlaeche" class="sk-f" x="178" y="250" text-anchor="middle">8 m²</text>
+                  <text class="sk-flabel" x="178" y="263" text-anchor="middle">Fläche</text>
                 </svg>
-                <figcaption class="small" id="rSkizzeText">Grobe Skizze – Maße folgen im Genau-Modus</figcaption>
-                <div class="rturm__stapel rturm__stapel--live" id="rTurmLive" hidden></div>
+                <figcaption class="small" id="rSkizzeText">Ihre Bauzeichnung entsteht aus den gewählten Modulen</figcaption>
               </figure>
+            </div>
+
+            <!-- B: … dann Niveau, Module, Live-Preis, Weiter -->
+            <div class="rs2 rs2--details">
+              <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau"></div>
+              <div class="rmodule" id="rModuleWrap" hidden>
+                <h3 class="rmodule__title">Welche Module sollen in die Zeichnung?</h3>
+                <div class="rmodule__grid" id="rModule"></div>
+              </div>
+              <p class="rlivepreis" id="rLivePreis" hidden role="status"></p>
+              <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
             </div>
           </div>
         </section>
 
-        <!-- Schritt 3: Ergebnis + Skizze + Bausteine + Kontaktwege -->
+        <!-- Schritt 3: Ergebnis + Bauzeichnung + Kontaktwege -->
         <section class="rstep" data-step="3" hidden>
           <div class="rechner__ergebnisgrid">
             <div class="rechner__ergebnistext">
@@ -183,16 +226,12 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             <div class="rechner__ergebnisrechts">
               <div id="rSkizzeSlot3"></div>
               <button class="btn btn--ghost rskizze__download" type="button" id="rSkizzeDownload">
-                <Icon name="download" size={18} class="icon" /> Skizze herunterladen (PNG)
+                <Icon name="download" size={18} class="icon" /> Zeichnung herunterladen (PNG)
               </button>
               <p class="small rskizze__tipp">
-                Tipp: Skizze herunterladen und einfach an Ihre WhatsApp- oder
+                Tipp: Zeichnung herunterladen und einfach an Ihre WhatsApp- oder
                 E-Mail-Anfrage anhängen – dann sehen wir sofort, worum es geht.
               </p>
-              <figure class="rturm">
-                <div class="rturm__stapel" id="rTurm"></div>
-                <figcaption class="small">Diese Bausteine stecken in Ihrem Projekt</figcaption>
-              </figure>
             </div>
           </div>
           <div class="rechner__contact">
@@ -270,14 +309,24 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rmodus__btn small { color: var(--anthrazit-600); font-size: 12.5px; }
   .rmodus__btn.selected { border-color: var(--gold-500); background: var(--gold-100); }
 
-  /* Eingaben links, Skizze rechts (mobil: Skizze zuerst) */
-  .rstep2grid { display: grid; gap: 24px; }
-  @media (max-width: 767px) { .rskizzeslot { order: -1; } }
+  /* Mobil: Größe → Skizze → Details (logische Lesefolge).
+     Desktop: Eingaben links (Größe oben, Details darunter), Skizze rechts daneben. */
+  .rstep2grid { display: grid; gap: 22px; }
+  /* hidden-Attribut muss auch gegen display:grid/flex der Klassen gewinnen */
+  .rechner__app [hidden] { display: none !important; }
   @media (min-width: 768px) {
-    .rstep2grid { grid-template-columns: 1.15fr 1fr; gap: 32px; align-items: start; }
+    .rstep2grid {
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-areas: "groesse skizze" "details skizze";
+      gap: 18px 32px;
+      align-items: start;
+    }
+    .rs2--groesse { grid-area: groesse; }
+    .rs2--skizze  { grid-area: skizze; }
+    .rs2--details { grid-area: details; }
   }
 
-  .rechner__range { display: grid; gap: 8px; margin-block: 4px 20px; }
+  .rechner__range { display: grid; gap: 8px; }
   .rechner__range input[type="range"] { width: 100%; accent-color: var(--gold-600); height: 32px; }
   .rechner__mengeout {
     font-family: var(--font-heading); font-weight: 800; font-size: 28px;
@@ -285,10 +334,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   }
 
   /* Länge × Breite (Genau-Modus) */
-  .rmasse {
-    display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px;
-    margin-block: 4px 20px;
-  }
+  .rmasse { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px; }
   .rmasse__feld { display: grid; gap: 4px; font-size: 13px; font-weight: 600; color: var(--anthrazit-700); }
   .rmasse__feld input {
     width: 96px;
@@ -347,18 +393,18 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rmodule__grid :global(.rmodul[aria-pressed="true"] .rmodul__check) {
     background: var(--gold-500); border-color: var(--gold-600); color: var(--anthrazit-900);
   }
-  .rmodule__grid :global(.rmodul[aria-pressed="false"]) { opacity: 0.75; }
+  .rmodule__grid :global(.rmodul[aria-pressed="false"]) { opacity: 0.7; }
 
   .rlivepreis {
     margin: 0 0 16px;
     font-family: var(--font-heading); font-weight: 800; font-size: 19px;
     color: var(--anthrazit-800);
   }
-  .rlivepreis :global(small) { display: block; font-family: var(--font-body, inherit); font-weight: 400; font-size: 12.5px; color: var(--anthrazit-600); }
+  .rlivepreis :global(small) { display: block; font-weight: 400; font-size: 12.5px; color: var(--anthrazit-600); }
 
   .rechner__next { width: 100%; }
 
-  /* --- Skizze --- */
+  /* --- Bauzeichnung --- */
   .rskizze {
     margin: 0;
     display: grid; gap: 10px; justify-items: center;
@@ -376,68 +422,31 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     stroke-linejoin: round;
   }
   .rskizze .sk-fein { stroke-width: 1.6; stroke: var(--anthrazit-600); }
+  .rskizze .sk-leitung { stroke-dasharray: 6 5; }
+  .rskizze .sk-raster { stroke: var(--gold-700); opacity: 0.75; }
   .rskizze .sk-draw {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: sk-zeichnen 900ms ease forwards;
+    animation: sk-zeichnen 800ms ease forwards;
     animation-delay: var(--d, 0ms);
   }
-  /* pathLength normalisiert alle Pfade auf 1 – im Markup nicht nötig dank dasharray 1 + pathLength via CSS nicht setzbar,
-     deshalb hier per Attribut-Selektor: alle sk-draw bekommen pathLength im JS gesetzt. */
+  .rskizze .sk-leitung.sk-draw { animation-name: sk-zeichnen-dash; }
   @keyframes sk-zeichnen { to { stroke-dashoffset: 0; } }
+  /* Leitungen behalten nach dem Zeichnen ihre Strichelung */
+  @keyframes sk-zeichnen-dash { 0% { stroke-dasharray: 1; stroke-dashoffset: 1; } 99% { stroke-dasharray: 1; stroke-dashoffset: 0; } 100% { stroke-dasharray: 0.02 0.016; stroke-dashoffset: 0; } }
   .rskizze .sk-g { display: none; }
   .rskizze svg[data-skizze="bad"]  .sk-g[data-g="bad"]  { display: block; }
   .rskizze svg[data-skizze="raum"] .sk-g[data-g="raum"] { display: block; }
   .rskizze svg[data-skizze="dach"] .sk-g[data-g="dach"] { display: block; }
+  /* Modul-Ebenen: nur gewählte werden gezeichnet */
+  .rskizze .sk-l { display: none; }
+  .rskizze .sk-l.an { display: block; }
   .rskizze .sk-symbol { color: var(--gold-700); }
   .rskizze text { font-family: var(--font-heading); font-weight: 700; font-size: 13px; fill: var(--anthrazit-800); }
-  .rskizze .sk-f { font-size: 22px; }
+  .rskizze .sk-f { font-size: 20px; }
   .rskizze .sk-flabel { font-size: 10px; font-weight: 400; fill: var(--anthrazit-600); letter-spacing: 0.08em; text-transform: uppercase; }
-  /* Grob-Modus: Maßlinien ausblenden */
   .rskizze--grob .sk-mass { display: none; }
   .rskizze figcaption { color: var(--anthrazit-600); text-align: center; }
-
-  /* --- Bausteine-Turm (Ergebnis + live in Schritt 2) --- */
-  .rturm { margin: 0; display: grid; gap: 10px; justify-items: center; }
-  .rturm__stapel {
-    display: flex; flex-direction: column-reverse;
-    gap: 6px;
-    width: min(100%, 300px);
-  }
-  .rturm__stapel :global(.rblock) {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    min-height: 42px;
-    padding: 8px 14px;
-    background: var(--weiss);
-    border: 2px solid var(--anthrazit-800);
-    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
-    text-align: center;
-    animation: rblock-setzen 460ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
-    animation-delay: calc(var(--i) * 200ms + 120ms);
-    transition: background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
-  }
-  .rturm__stapel :global(.rblock:nth-child(odd))  { transform: rotate(-0.7deg); }
-  .rturm__stapel :global(.rblock:nth-child(even)) { transform: rotate(0.6deg); }
-  .rturm__stapel :global(.rblock:last-child) {
-    background: var(--gold-500);
-    border-color: var(--gold-700);
-    color: var(--anthrazit-900);
-  }
-  /* Abgewählte Module: gestrichelte „geplante" Kontur */
-  .rturm__stapel :global(.rblock.rblock--plan) {
-    background: transparent !important;
-    border-style: dashed;
-    border-color: var(--anthrazit-400) !important;
-    color: var(--anthrazit-400);
-    opacity: 0.8;
-  }
-  @keyframes rblock-setzen {
-    from { opacity: 0; translate: 0 -26px; }
-    60%  { opacity: 1; translate: 0 3px; }
-    to   { opacity: 1; translate: 0 0; }
-  }
-  .rturm__stapel--live { margin-top: 4px; }
 
   .rechner__result {
     font-family: var(--font-heading); font-weight: 800;
@@ -448,6 +457,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rechner__disclaimer { max-width: 560px; }
 
   .rechner__ergebnisgrid { display: grid; gap: 24px; }
+  @media (max-width: 767px) { .rechner__ergebnisrechts { order: -1; } }
   @media (min-width: 768px) {
     .rechner__ergebnisgrid { grid-template-columns: 1.15fr 1fr; align-items: start; }
   }
@@ -523,7 +533,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     const skLaenge = document.getElementById("skLaenge")!;
     const skBreite = document.getElementById("skBreite")!;
     const skFlaeche = document.getElementById("skFlaeche")!;
-    const turmLive = document.getElementById("rTurmLive")!;
     const slot2 = document.getElementById("rSkizzeSlot2")!;
     const slot3 = document.getElementById("rSkizzeSlot3")!;
 
@@ -551,9 +560,19 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       progress.setAttribute("aria-label", `Schritt ${step} von 3`);
       back.hidden = step === 1;
       app.toggleAttribute("data-started", step > 1);
-      // Skizze wandert zwischen Schritt 2 und Ergebnis mit
       if (step === 2 && skizzeWrap.parentElement !== slot2) slot2.append(skizzeWrap);
       app.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    /** Zeichnungs-Ebenen an die Modul-Auswahl koppeln (schnell = alles gezeichnet). */
+    function updateEbenen() {
+      const g = state.gewerk;
+      if (!g) return;
+      const layers = skizzeSvg.querySelectorAll<SVGGElement>(`.sk-g[data-g="${g.skizze}"] .sk-l`);
+      layers.forEach((l, i) => {
+        const an = state.modus !== "genau" || state.module.has(g.bausteine[i]?.id);
+        l.classList.toggle("an", an);
+      });
     }
 
     function selectGewerk(g: Gewerk) {
@@ -569,7 +588,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       range.step = String(g.step);
       range.value = String(g.default);
       state.menge = g.default;
-      // Plausible Startmaße aus der Standardfläche ableiten (Seitenverhältnis ~1,6:1)
       const b = Math.round(Math.sqrt(g.default / 1.6) * 10) / 10;
       state.breite = b;
       state.laenge = Math.round((g.default / b) * 10) / 10;
@@ -579,7 +597,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       skizzeIcon.setAttribute("href", `#icon-${g.icon}`);
       renderTiers(g);
       renderModule(g);
-      renderTurmLive(g);
+      updateEbenen();
       updateMenge();
       updateMasse();
       updateLive();
@@ -621,18 +639,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       }
     }
 
-    function renderTurmLive(g: Gewerk) {
-      turmLive.innerHTML = "";
-      g.bausteine.forEach((m, i) => {
-        const block = document.createElement("div");
-        block.className = "rblock";
-        block.dataset.modul = m.id;
-        block.style.setProperty("--i", String(i));
-        block.textContent = m.label;
-        turmLive.append(block);
-      });
-    }
-
     function toggleModul(id: string, btn: HTMLElement) {
       if (state.module.has(id)) {
         if (state.module.size === 1) return; // mindestens ein Modul bleibt
@@ -640,9 +646,8 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       } else {
         state.module.add(id);
       }
-      const an = state.module.has(id);
-      btn.setAttribute("aria-pressed", String(an));
-      turmLive.querySelector(`[data-modul="${id}"]`)?.classList.toggle("rblock--plan", !an);
+      btn.setAttribute("aria-pressed", String(state.module.has(id)));
+      updateEbenen();
       updateLive();
     }
 
@@ -658,19 +663,19 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       masseWrap.hidden = !genau;
       moduleWrap.hidden = !genau;
       livePreis.hidden = !genau;
-      turmLive.hidden = !genau;
       skizzeWrap.classList.toggle("rskizze--grob", !genau);
       skizzeText.textContent = genau
-        ? "Ihre Maße erscheinen direkt auf der Skizze"
-        : "Grobe Skizze – Maße folgen im Genau-Modus";
+        ? "Ihre Module und Maße zeichnen die Bauzeichnung"
+        : "Grobe Skizze – Maße und Module im Genau-Modus";
       if (genau) updateMasse();
+      updateEbenen();
       updateLive();
     }
 
     function updateMenge() {
       state.menge = Number(range.value);
       mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
-      skFlaeche.textContent = `${state.menge} m²`;
+      if (state.modus !== "genau") skFlaeche.textContent = `${state.menge} m²`;
       updateLive();
     }
 
@@ -687,14 +692,12 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       updateLive();
     }
 
-    /** Fläche je nach Modus (genau = Länge × Breite). */
     function flaeche(): number {
       return state.modus === "genau"
         ? Math.round(state.laenge * state.breite * 10) / 10
         : state.menge;
     }
 
-    /** Gewählter Modul-Anteil (schnell = alles). */
     function modulFaktor(): number {
       if (state.modus !== "genau") return 1;
       return state.gewerk!.bausteine
@@ -715,7 +718,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       const { von, bis } = spanne();
       livePreis.innerHTML =
         `Aktuell ca. ${euro(von)} € – ${euro(bis)} €` +
-        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Modulen gewählt</small>`;
+        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Modulen in der Zeichnung</small>`;
     }
 
     function showResult() {
@@ -726,37 +729,24 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       const f = flaeche();
       ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
 
-      // Chips: Gewerk · Maße/Fläche · Niveau · ggf. Module
+      const gewaehlt = g.bausteine.filter((m) => !genau || state.module.has(m.id));
       const chipsEl = document.getElementById("rChips")!;
       chipsEl.innerHTML = "";
       const chips = [
         g.label,
         genau ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(f)} m²)` : `${state.menge} ${g.unit}`,
         tierLabel,
+        ...(genau ? gewaehlt.map((m) => m.label) : []),
       ];
-      if (genau) chips.push(`${state.module.size} von ${g.bausteine.length} Modulen`);
       for (const text of chips) {
         const li = document.createElement("li");
         li.textContent = text;
         chipsEl.append(li);
       }
 
-      // Ergebnis-Turm: nur gewählte Module (schnell = alle)
-      const turmEl = document.getElementById("rTurm")!;
-      turmEl.innerHTML = "";
-      const gewaehlt = g.bausteine.filter((m) => !genau || state.module.has(m.id));
-      gewaehlt.forEach((m, i) => {
-        const block = document.createElement("div");
-        block.className = "rblock";
-        block.style.setProperty("--i", String(i));
-        block.textContent = m.label;
-        turmEl.append(block);
-      });
-
-      // Skizze wandert ins Ergebnis
       slot3.append(skizzeWrap);
       skizzeText.textContent = genau
-        ? "Ihre Skizze mit den angegebenen Maßen"
+        ? "Ihre Bauzeichnung mit den gewählten Modulen und Maßen"
         : "Grobe Skizze Ihres Projekts";
 
       const masse = genau ? `${m1(state.laenge)} × ${m1(state.breite)} m` : `${state.menge} ${g.unit}`;
@@ -768,6 +758,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         `Hallo Bauwelt Handwerk, ich habe gerade mein Projekt berechnet: ${beschreibung}. ` +
         `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank!`;
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
+      waBtn.dataset.text = waText; // für die Teilen-Variante mit Bild-Anhang
 
       const subject = `Projektanfrage: ${g.label}`;
       const body =
@@ -778,24 +769,21 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       show(3);
     }
 
-    /** Skizze als PNG herunterladen: SVG klonen, Zustand einfrieren (nur sichtbare
-     *  Gruppen, Icon aus dem Sprite einbetten, Styles inline) → Canvas → Download. */
-    function skizzeAlsPng() {
+    /** Bauzeichnung als PNG-Blob: SVG klonen, Zustand einfrieren, über Canvas rendern. */
+    function erzeugePng(): Promise<Blob> {
       const svg = skizzeSvg.cloneNode(true) as SVGSVGElement;
       const art = skizzeSvg.dataset.skizze;
-      // Nur die aktive Gewerk-Gruppe behalten, Maße je nach Modus
       svg.querySelectorAll(".sk-g").forEach((gr) => {
         if ((gr as SVGElement).dataset.g !== art) gr.remove();
       });
+      svg.querySelectorAll(".sk-l:not(.an)").forEach((l) => l.remove());
       if (state.modus !== "genau") svg.querySelector(".sk-mass")?.remove();
-      // <use> auf das Sprite funktioniert außerhalb des Dokuments nicht → Symbol einbetten
       const use = svg.querySelector("use");
       if (use) {
         const symbol = document.querySelector(use.getAttribute("href") || "");
         if (symbol) {
           const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-          // Symbol (24er-Raster) auf die use-Position/Größe (40px) umrechnen
-          g.setAttribute("transform", "translate(158 88) scale(1.667)");
+          g.setAttribute("transform", "translate(160 78) scale(1.5)");
           g.setAttribute("fill", "none");
           g.setAttribute("stroke", "#8C7345");
           g.setAttribute("stroke-width", "2");
@@ -807,15 +795,16 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           use.remove();
         }
       }
-      // Seitenstyles gelten im serialisierten SVG nicht → das Nötigste einbetten
       const css = getComputedStyle(document.documentElement);
       const farbe = (v: string, fb: string) => (css.getPropertyValue(v) || fb).trim() || fb;
       const stil = document.createElementNS("http://www.w3.org/2000/svg", "style");
       stil.textContent = `
         .sk { fill: none; stroke: ${farbe("--anthrazit-800", "#2D2C2E")}; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
         .sk-fein { stroke-width: 1.6; stroke: ${farbe("--anthrazit-600", "#5A585C")}; }
+        .sk-leitung { stroke-dasharray: 6 5; }
+        .sk-raster { stroke: ${farbe("--gold-700", "#8C7345")}; opacity: 0.75; }
         text { font-family: Verdana, sans-serif; font-weight: 700; font-size: 13px; fill: ${farbe("--anthrazit-800", "#2D2C2E")}; }
-        .sk-f { font-size: 22px; }
+        .sk-f { font-size: 20px; }
         .sk-flabel { font-size: 10px; font-weight: 400; fill: ${farbe("--anthrazit-600", "#5A585C")}; letter-spacing: 0.08em; }
       `;
       svg.prepend(stil);
@@ -823,38 +812,59 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
 
       const daten = new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" });
       const url = URL.createObjectURL(daten);
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement("canvas");
-        c.width = 1020; c.height = 810;
-        const ctx = c.getContext("2d")!;
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, c.width, c.height);
-        ctx.drawImage(img, 0, 0, c.width, c.height);
-        // Absender-Zeile für die Anfrage
-        ctx.fillStyle = farbe("--anthrazit-600", "#5A585C");
-        ctx.font = "24px Verdana, sans-serif";
-        ctx.textAlign = "center";
-        const g = state.gewerk!;
-        const masse = state.modus === "genau"
-          ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(flaeche())} m²)`
-          : `${state.menge} ${g.unit}`;
-        ctx.fillText(`Projekt-Skizze: ${g.label}, ${masse} – bauwelt-handwerk.de`, c.width / 2, c.height - 24);
-        URL.revokeObjectURL(url);
-        c.toBlob((blob) => {
-          if (!blob) return;
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = `Bauwelt-Skizze_${g.slug}.png`;
-          a.click();
-          setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-        }, "image/png");
-      };
-      img.src = url;
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("SVG-Render fehlgeschlagen")); };
+        img.onload = () => {
+          const c = document.createElement("canvas");
+          c.width = 1020; c.height = 810;
+          const ctx = c.getContext("2d")!;
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          ctx.fillStyle = farbe("--anthrazit-600", "#5A585C");
+          ctx.font = "24px Verdana, sans-serif";
+          ctx.textAlign = "center";
+          const g = state.gewerk!;
+          const masse = state.modus === "genau"
+            ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(flaeche())} m²)`
+            : `${state.menge} ${g.unit}`;
+          ctx.fillText(`Projekt-Zeichnung: ${g.label}, ${masse} – bauwelt-handwerk.de`, c.width / 2, c.height - 20);
+          URL.revokeObjectURL(url);
+          c.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("PNG fehlgeschlagen"))), "image/png");
+        };
+        img.src = url;
+      });
+    }
+
+    async function skizzeHerunterladen() {
+      const blob = await erzeugePng();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Bauwelt-Zeichnung_${state.gewerk!.slug}.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }
+
+    /** WhatsApp: wo möglich, Zeichnung DIREKT als Anhang teilen (Web-Share-API,
+     *  mobil öffnet sich das Teilen-Menü mit Bild + Text). Sonst Fallback wa.me. */
+    async function whatsappMitZeichnung(e: Event) {
+      const probe = new File([new Blob()], "probe.png", { type: "image/png" });
+      if (!navigator.canShare || !navigator.canShare({ files: [probe] })) return; // Fallback: Link öffnet normal
+      e.preventDefault();
+      try {
+        const blob = await erzeugePng();
+        const datei = new File([blob], `Bauwelt-Zeichnung_${state.gewerk!.slug}.png`, { type: "image/png" });
+        await navigator.share({ files: [datei], text: waBtn.dataset.text || "" });
+      } catch (err) {
+        // Abbruch durch Nutzer oder Share-Fehler → normaler Chat-Link als Rettung
+        if ((err as Error).name !== "AbortError") window.open(waBtn.href, "_blank", "noopener");
+      }
     }
 
     // Events
-    document.getElementById("rSkizzeDownload")!.addEventListener("click", skizzeAlsPng);
+    document.getElementById("rSkizzeDownload")!.addEventListener("click", skizzeHerunterladen);
+    waBtn.addEventListener("click", whatsappMitZeichnung);
     app.querySelectorAll<HTMLButtonElement>(".rtile").forEach((tile) =>
       tile.addEventListener("click", () => {
         const g = GEWERKE.find((x) => x.slug === tile.dataset.gewerk);
