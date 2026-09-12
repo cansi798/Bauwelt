@@ -1130,33 +1130,48 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           throw new Error("kein JSON");
         }
         // Robust: unbekanntes Gewerk → beim aktuellen bleiben statt abbrechen
-        const g = GEWERKE.find((x) => x.slug === json.gewerk) ?? state.gewerk ?? GEWERKE[0];
+        const norm = (s: unknown) => String(s ?? "").toLowerCase().trim();
+        const g =
+          GEWERKE.find((x) => x.slug === norm(json.gewerk)) ??
+          GEWERKE.find((x) => norm(x.label).includes(norm(json.gewerk))) ??
+          state.gewerk ?? GEWERKE[0];
         selectGewerk(g);
         setModus("genau");
-        if (json.laenge > 0) { laengeIn.value = String(json.laenge); }
-        if (json.breite > 0) { breiteIn.value = String(json.breite); }
+        if (Number(json.laenge) > 0) { laengeIn.value = String(json.laenge); }
+        if (Number(json.breite) > 0) { breiteIn.value = String(json.breite); }
         updateMasse();
-        if (g.tiers.some((t) => t.id === json.niveau)) {
-          state.tier = json.niveau;
+        if (g.tiers.some((t) => t.id === norm(json.niveau))) {
+          state.tier = norm(json.niveau);
           renderTiers(g);
         }
+        // Tolerant zuordnen: kleine Modelle liefern oft Labels statt IDs
+        const findeModul = (v: unknown) =>
+          g.bausteine.find((m) => [m.id, m.label, m.fach].some((k) => norm(k) === norm(v) || norm(v).includes(norm(m.id))))?.id;
+        const findeExtra = (v: unknown) =>
+          g.extras.find((x) => [x.id, x.label].some((k) => norm(k) === norm(v) || norm(v).includes(norm(x.id))))?.id;
         if (Array.isArray(json.module) && json.module.length) {
-          state.module = new Set(json.module.filter((id: string) => g.bausteine.some((m) => m.id === id)));
-          if (state.module.size === 0) state.module = new Set(g.bausteine.map((m) => m.id));
+          const ids = json.module.map(findeModul).filter(Boolean) as string[];
+          state.module = ids.length ? new Set(ids) : new Set(g.bausteine.map((m) => m.id));
           renderModule(g);
           moduleEl.querySelectorAll<HTMLElement>(".rmodul").forEach((el) =>
             el.setAttribute("aria-pressed", String(state.module.has(el.dataset.modul || "")))
           );
         }
         if (Array.isArray(json.extras)) {
-          state.extras = new Set(json.extras.filter((id: string) => g.extras.some((x) => x.id === id)));
+          state.extras = new Set(json.extras.map(findeExtra).filter(Boolean) as string[]);
           document.querySelectorAll<HTMLElement>("#rExtras .rmodul").forEach((el) =>
             el.setAttribute("aria-pressed", String(state.extras.has(el.dataset.extra || "")))
           );
         }
         updateEbenen();
         updateLive();
-        kiStatus.textContent = "Vorschlag übernommen – bitte prüfen und anpassen.";
+        // Der eigentliche Output: direkt zum Ergebnis – und dort ohne Umweg
+        // zur WhatsApp-/E-Mail-Auswahl scrollen (Zeichnung steht darüber bereit).
+        kiStatus.textContent = "Fertig – Ihr Ergebnis:";
+        showResult();
+        setTimeout(() => {
+          document.querySelector(".rechner__contact")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 350);
       } catch (err) {
         document.getElementById("rKiLade")!.hidden = true;
         const msg = (err as Error).message || "";

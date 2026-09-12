@@ -13,6 +13,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 06 | 12.09.2026 | Module zeichnen die Bauzeichnung (Turm entfernt), WhatsApp-Share mit Bild-Anhang, Startseite: Referenzen nach vorn + rotierende Zusagen, SEO-Fixes + Mehrfach-Audit | Wunsch Can (Zeichnung statt Turm, Anhang, „zu viel Text am Anfang", Audits) | `Bericht-06_2026-09-12_Bauzeichnung-Module-Audits.pdf` |
 | 07 | 12.09.2026 | Rechner in Kundensprache (Fachbegriffe im Anfragetext), Extras mit Aufpreis, Gemma-KI (WebLLM, Beta), Sticky-Navigation, WhatsApp-Direktfluss; Startseite: Fotokarten nach vorn, 3 rollierende Zusagen, Schritte-Wischen mobil, Login-Button | Wünsche Can (laienfreundlich, KI, mehr Auswahl, mobil) | `Bericht-07_2026-09-12_Rechner-KI-Extras-Startseite.pdf` |
 | 08 | 12.09.2026 | Extras zeichnen Symbole in die Bauzeichnung, KI als dritter Modus (Ladebalken %, JSON-Härtung, Qwen-Fallback), WhatsApp-Zweischritt mit Teilen-Button, „Genauer machen"-Knopf, Hero-3er-Slide + Badge-Peek, Portal-Kacheln wischbar | Live-Tests Can (Abendrunde) | `Bericht-08_2026-09-12_Extras-zeichnen-KI-Modus-Feinschliff.pdf` |
+| 09 | 12.09.2026 | KI-Fix: nach dem Vorschlag direkt zum Ergebnis + Kontaktwahl, tolerantes Matching (Label/Fachbegriff/ID) | Live-Test Can („kein wirklicher Output") | `Bericht-09_2026-09-12_KI-liefert-Ergebnis.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.
