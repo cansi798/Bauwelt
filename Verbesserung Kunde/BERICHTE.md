@@ -21,6 +21,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 14 | 12.09.2026 | Kundenvideo (video/video 1.mp4) ersetzt Weg-Erklärvideo, Thementext mobil ausgeblendet; Angebots-Mockup → Login-Demo; /login/ als klickbarer Fiktiv-Durchlauf (Demo-Login, 4 Reiter, klickbare Angebots-Freigabe) | Wünsche Can | `Bericht-14_2026-09-12_Kundenvideo-Portal-Durchklick.pdf` |
 | 15 | 12.09.2026 | Video 2 (Kundendatei) ersetzt Portal-Erklärvideo + Text mobil ausgeblendet, Überschriften über beiden Videos, Vollbild-Start mit Pause beim Verlassen, KI komplett entfernt (Rechner, Bundle, Datenschutz) | Wünsche Can | `Bericht-15_2026-09-12_Video2-Vollbild-KI-entfernt.pdf` |
 | 16 | 28.09.2026 | Neue Kundentexte: Hero (kurze Positionierung, 3 feste Zusagen), Ablauf auf 4 Schritte, Kundenportal mit Unterzeile + 4 Kacheln links / Portal-Ansicht rechts; mobile Buttons unter dem Weg-Video vereinheitlicht | Kundenvorlagen (3 Screenshots, `28.09.2026/`) | `Bericht-16_2026-09-28_Hero-Ablauf-Portal-Texte.pdf` |
+| 16 K | 28.09.2026 | Kurzfassung von Bericht 16 (1 Seite, zum Weiterleiten an den Kunden) | Wunsch Can („kompakt und präzise“) | `Bericht-16_2026-09-28_Kurzfassung.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.
