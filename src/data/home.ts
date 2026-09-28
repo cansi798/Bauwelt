@@ -142,7 +142,7 @@ export const USP = [
     title: "Regional & persönlich",
     text:
       "Wir kommen aus Norderstedt – nicht aus einem Callcenter. Ihr Ansprechpartner " +
-      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 12 Stunden, auch per WhatsApp.",
+      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 24 Stunden, auch per WhatsApp.",
     bild: "hero-ueber-uns.webp",
     alt: "Bauwelt-Team auf der Baustelle",
   },
@@ -313,7 +313,7 @@ export const CTA_BAND = {
   accent: "sein",
   sub: "Planbar. Transparent. Verlässlich.",
   text: "Wenn Sie das genauso sehen, freuen wir uns darauf, Ihr Projekt kennenzulernen.",
-  checks: ["Antwort in 12 Stunden", "Angebot in 24 Stunden", "Festpreis für alle vereinbarten Leistungen"],
+  checks: ["Angebot in 24 Stunden", "Ein Ansprechpartner für alles", "Festpreis für alle vereinbarten Leistungen"],
   /** Zweit-CTA – Ziel setzt die Seite (Startseite: #termin, sonst kontakt/#termin). */
   cta2Label: "Beratung vereinbaren",
 };

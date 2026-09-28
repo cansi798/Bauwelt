@@ -15,6 +15,12 @@ import { CTA, u } from "../consts";
         <a class="btn" href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zur Startseite</a>
         <a class="btn btn--ghost" href={CTA.href}>{CTA.label}</a>
       </div>
+      <h2 class="nf__weiter">Direkt weiter</h2>
+      <ul class="nf__links">
+        <li><a href={u("leistungen/")}>Leistungen</a></li>
+        <li><a href={u("referenzen/")}>Referenzen</a></li>
+        <li><a href={u("kontakt/")}>Kontakt</a></li>
+      </ul>
     </div>
   </section>
 </BaseLayout>
@@ -24,4 +30,8 @@ import { CTA, u } from "../consts";
   .nf__inner { display: grid; gap: 16px; justify-items: start; }
   .nf__inner h1, .nf__inner p { margin: 0; }
   .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  /* h2 schließt die Überschriften-Lücke (h1 → Footer-h3) und hilft beim Weiterklicken */
+  .nf__weiter { margin: 16px 0 0; font-size: 16px; }
+  .nf__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .nf__links a { display: inline-block; padding: 8px 0; font-weight: 700; color: var(--gold-700); }
 </style>

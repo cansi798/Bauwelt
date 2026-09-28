@@ -4,6 +4,12 @@
 import { SITE, EMAILS, u, waLink } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+// Fehlt ein Porträt (z. B. burim.webp) noch, gar nicht erst anfragen –
+// sonst 404 in der Konsole. Das Personen-Symbol bleibt als Platzhalter.
+const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets/img", datei));
 ---
 
 <section class="section" id="kontakt">
@@ -19,13 +25,15 @@ import Icon from "./Icon.astro";
         {SITE.contacts.map((c) => (
           <div class="contact__person">
             <span class="contact__photo">
-              <img
-                src={u(`assets/img/${c.photo}`)}
-                alt={`Porträt ${c.name}`}
-                width="72" height="72"
-                loading="lazy"
-                onerror="this.remove()"
-              />
+              {hatFoto(c.photo) && (
+                <img
+                  src={u(`assets/img/${c.photo}`)}
+                  alt={`Porträt ${c.name}`}
+                  width="72" height="72"
+                  loading="lazy"
+                  onerror="this.remove()"
+                />
+              )}
               <Icon name="user" size={28} class="icon" />
             </span>
             <span>

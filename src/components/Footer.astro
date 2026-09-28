@@ -36,7 +36,7 @@ const jahr = new Date().getFullYear();
         <li><a href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={16} class="icon" /> {SITE.phoneDisplay}</a></li>
         <li><a href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} class="icon" /> WhatsApp</a></li>
         <li><a href={`mailto:${EMAILS.service}`}><Icon name="mail" size={16} class="icon" /> {EMAILS.service}</a></li>
-        <li>{SITE.hours} · Antwort in 12 h</li>
+        <li>{SITE.hours} · Antwort in 24 h</li>
       </ul>
     </div>
     <div>
@@ -56,8 +56,9 @@ const jahr = new Date().getFullYear();
 
 <style>
   .ftr { background: var(--anthrazit-800); color: var(--anthrazit-200); margin-top: 0; }
-  .ftr a { color: var(--anthrazit-200); }
-  .ftr a:hover { color: var(--weiss); }
+  /* :not(.btn) – sonst überschreibt die Linkfarbe den dunklen Button-Text (hell auf Gold) */
+  .ftr a:not(.btn) { color: var(--anthrazit-200); }
+  .ftr a:not(.btn):hover { color: var(--weiss); }
   /* Mobil: Links auf mindestens ~40px Tipphöhe bringen (Touchziel-Audit) */
   @media (max-width: 767px) {
     .ftr a { display: inline-block; padding-block: 8px; }

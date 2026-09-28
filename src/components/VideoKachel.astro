@@ -11,13 +11,15 @@ interface Props {
   ext?: string;
   /** Sichtbare Überschrift über dem Video (mobil), damit das Thema klar ist. */
   ueberschrift?: string;
+  /** Play-Knopf ins untere Drittel – wenn das Standbild in der Mitte Text zeigt. */
+  playUnten?: boolean;
 }
-const { name, titel, ext = "webm", ueberschrift } = Astro.props;
+const { name, titel, ext = "webm", ueberschrift, playUnten = false } = Astro.props;
 ---
 
 <div class="vwrap">
   {ueberschrift && <h2 class="vkachel__titel">{ueberschrift}</h2>}
-  <div class="vkachel" data-vkachel>
+  <div class:list={["vkachel", { "vkachel--play-unten": playUnten }]} data-vkachel>
   <video
     preload="none"
     playsinline
@@ -75,5 +77,7 @@ const { name, titel, ext = "webm", ueberschrift } = Astro.props;
     border-radius: 50%;
     box-shadow: var(--shadow-lg);
   }
+  /* Ganze Kachel bleibt klickbar, nur der Knopf sitzt unten */
+  .vkachel--play-unten .vkachel__play { align-items: flex-end; padding-bottom: 16%; }
   .vkachel.spielt .vkachel__play { display: none; }
 </style>
