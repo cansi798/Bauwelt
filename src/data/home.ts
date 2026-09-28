@@ -2,10 +2,9 @@
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
 
 export const HERO = {
-  /** Positionierung laut Kundenfeedback 12.09.2026 (wörtlich nach Vorlage). */
-  eyebrow: "Ihr Partner für Badsanierung und Innenausbau in Hamburg & Umgebung – Selbstverständlich alles aus einer Hand!",
-  /** Mobile Kurzfassung – der volle Satz sprengt den kleinen Viewport. */
-  eyebrowKurz: "Badsanierung & Innenausbau – alles aus einer Hand",
+  /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
+   *  kurz genug für Mobil und Desktop, daher keine eigene Kurzfassung mehr. */
+  eyebrow: "Badsanierung & Innenausbau für Hamburg & Umgebung",
   /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
   vor: "Bereit für Ihr neues",
   nach: "",
@@ -13,25 +12,11 @@ export const HERO = {
   begriffe: ["Badezimmer?", "Zuhause?", "Projekt?"],
   /** Eigenes Statement über der Unterzeile (Vorlage: eigene Zeile). */
   statement: "Handwerk, wie es heute sein sollte.",
-  sub:
-    "Wir verbinden handwerkliche Qualität mit klaren Prozessen, " +
-    "digitalem Kundenservice und voller Transparenz.",
-  /** Die fünf Zusagen aus dem Kundenpapier (ersetzen Häkchen + Pillen). */
+  /** Drei feste Zusagen (Kundenfeedback 28.09.2026) – stehen statt zu rotieren. */
   checks: [
-    "Antwort innerhalb von 12 Stunden",
+    "Jederzeit den Überblick behalten",
     "Angebot innerhalb von 24 Stunden",
-    "Ein persönlicher Ansprechpartner",
-    "Kundenportal mit Live-Projektstatus",
-    "Transparente Festpreise für alle vereinbarten Leistungen",
-  ],
-  /** Kurzformen für den Zusagen-Wechsler: 2 Gruppen à 3, sliden horizontal durch. */
-  checksKurz: [
-    "Antwort in 12 Stunden",
-    "Angebot in 24 Stunden",
-    "Ein persönlicher Ansprechpartner",
-    "Kundenportal mit Live-Status",
-    "Transparente Festpreise",
-    "Alles aus einer Hand",
+    "Ein Ansprechpartner für alles",
   ],
   note: "Unverbindlich · Ergebnis in 60 Sekunden",
   cta2: { label: "Kostenlosen Besichtigungstermin buchen", href: "#termin" },
@@ -181,47 +166,34 @@ export const USP = [
   },
 ];
 
-/** „Ihr Weg zum neuen Badezimmer" – sechs Schritte laut Kundenfeedback 12.09.2026.
- *  `kurz` = scannbare Zeile (sichtbar), `text` = voller Kundentext (aufklappbar,
- *  bleibt im DOM und damit für Suchmaschinen indexierbar). */
+/** „Ihr Weg zum neuen Badezimmer" – vier Schritte laut Kundenfeedback 28.09.2026.
+ *  Die Kundentexte sind bereits kurz – daher kein `kurz`/„Mehr dazu“ nötig. */
 export const STEPS = [
+  // 4 Schritte wörtlich nach Kundenfeedback 28.09.2026 (Abschnitt 1)
   {
     title: "Orientierung erhalten",
-    kurz: "Erste Preisspanne in wenigen Minuten – mit dem Projektrechner.",
-    text: "Mit unserem Projektrechner erhalten Sie in wenigen Minuten eine erste transparente Preiseinschätzung und wissen schnell, in welchem Kostenrahmen sich Ihr Vorhaben bewegt.",
+    text: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung für Ihr Projekt.",
   },
   {
     title: "Wünsche besprechen",
-    kurz: "Persönlicher Vor-Ort-Termin für Ihre Ideen und Fragen.",
-    text: "Bei einem persönlichen Vor-Ort-Termin nehmen wir uns Zeit für Ihre Ideen, beantworten Ihre Fragen und entwickeln gemeinsam die passende Lösung.",
+    text: "Besprechen Sie Ihre Ideen und Anforderungen bei einem persönlichen Termin.",
   },
   {
-    title: "Transparentes Angebot erhalten",
-    kurz: "Detailliertes Angebot innerhalb von 24 Stunden.",
-    text: "Innerhalb von 24 Stunden erhalten Sie ein detailliertes Angebot, damit Sie schnell Klarheit über Leistungen, Kosten und den weiteren Ablauf haben.",
+    title: "Klarheit erhalten",
+    text: "Erhalten Sie innerhalb von 24 Stunden ein transparentes Angebot und geben Sie Ihr Projekt digital frei.",
   },
   {
-    title: "Projekt beauftragen",
-    kurz: "Angebot online prüfen und mit wenigen Klicks freigeben.",
-    text: "Prüfen Sie Ihr Angebot bequem online, stellen Sie Rückfragen oder geben Sie Ihr Projekt mit wenigen Klicks frei.",
-  },
-  {
-    title: "Entspannt zurücklehnen",
-    kurz: "Wir koordinieren alle Gewerke und halten Sie auf dem Laufenden.",
-    text: "Wir koordinieren alle Gewerke, organisieren die Abläufe und halten Sie jederzeit über den aktuellen Projektstand informiert.",
-  },
-  {
-    title: "Das Ergebnis genießen",
-    kurz: "Gemeinsame Abnahme – dann ist Ihr neues Zuhause fertig.",
-    text: "Nach der Fertigstellung und gemeinsamen Abnahme können Sie Ihr neues Badezimmer, Zuhause oder Projekt in vollen Zügen genießen.",
+    title: "Zurücklehnen & genießen",
+    text: "Wir koordinieren die Umsetzung und halten Sie jederzeit auf dem Laufenden.",
   },
 ];
 
 /** Kundenportal-Sektion („So behalten Sie Ihr Projekt jederzeit im Blick"). */
 export const PORTAL = {
-  intro:
-    "Während der gesamten Projektlaufzeit haben Sie Zugriff auf Angebote, Dokumente, " +
-    "Termine und den aktuellen Projektstand – per WhatsApp oder E-Mail, wie Sie möchten.",
+  // Wörtlich nach Kundenfeedback 28.09.2026 (Abschnitt 2)
+  sub:
+    "Schluss mit langen E-Mail-Verläufen, fehlenden Dokumenten und der Frage, " +
+    "was als Nächstes passiert. Bei uns behalten Sie jederzeit den Überblick.",
   kacheln: [
     {
       icon: "doc",
@@ -230,23 +202,20 @@ export const PORTAL = {
     },
     {
       icon: "calendar",
-      title: "Termine im Überblick",
-      text: "Alle wichtigen Termine und Projektinformationen zentral verfügbar.",
+      title: "Alle Termine im Blick",
+      text: "Nächste Schritte, Termine und wichtige Projektinformationen zentral verfügbar.",
     },
     {
       icon: "chat",
       title: "Kommunikation nach Wunsch",
-      text: "Sie entscheiden selbst, ob die Kommunikation per WhatsApp oder E-Mail erfolgt.",
+      text: "Sie entscheiden selbst, ob wir per WhatsApp oder E-Mail kommunizieren.",
     },
     {
-      icon: "shield",
-      title: "Volle Transparenz",
-      text: "Wichtige Informationen zu Ihrem Projekt stehen jederzeit zur Verfügung.",
+      icon: "arrow",
+      title: "Jederzeit wissen, was als Nächstes passiert",
+      text: "Vom Angebot bis zur Fertigstellung behalten Sie den Überblick.",
     },
   ],
-  schluss:
-    "Schluss mit langen E-Mail-Verläufen, fehlenden Dokumenten und der Frage, " +
-    "was als Nächstes passiert. Bei uns behalten Sie jederzeit den Überblick.",
 };
 
 /** Angebots-Sektion („Transparente Angebote statt Positionsdschungel"). */

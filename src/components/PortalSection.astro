@@ -1,80 +1,75 @@
 ---
-// Kundenportal-Sektion (Kundenfeedback 12.09.2026, Abschnitt 2):
-// links vier Kacheln, rechts ein stilisiertes Portal-Mockup in CI-Farben.
-// Das Mockup ist reines HTML/CSS (wie die Zeichnungs-Szene) – ein echter
-// Screenshot kann es später ersetzen (siehe OFFENE-INFOS.md).
+// Kundenportal-Sektion (Kundenfeedback 28.09.2026, Abschnitt 2):
+// Überschrift + Unterzeile, links vier Kacheln, rechts die Portal-Ansicht
+// (Beispieldaten aus der Login-Demo) – ein echter Screenshot kann sie später
+// ersetzen (siehe OFFENE-INFOS.md).
 import { PORTAL } from "../data/home";
+import { u } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import VideoKachel from "./VideoKachel.astro";
+import PortalDemo from "./PortalDemo.astro";
 ---
 
 <section class="section section--sand" id="kundenportal">
   <div class="container">
     <!-- Mobil erzählt das gelieferte Video das Thema – Textteile nur ab Tablet -->
-    <VideoKachel name="portal" ext="mp4" ueberschrift="Ihr Projekt – jederzeit im Blick" titel="Das Kundenportal – als Video erklärt" />
+    <VideoKachel name="portal" ext="mp4" ueberschrift="So behalten Sie Ihr Projekt jederzeit im Blick" titel="Das Kundenportal – als Video erklärt" />
     <div class="portal__text">
     <SectionHead
       center
       eyebrow="Kundenportal"
       pre="So behalten Sie Ihr Projekt jederzeit im "
       accent="Blick"
-      text="Alle wichtigen Informationen. Alle Dokumente. Ein zentraler Ort."
+      text={PORTAL.sub}
     />
-    <p class="portal__intro">{PORTAL.intro}</p>
     <div class="portal__grid">
-      <div class="portal__tiles" id="portalTiles">
+      <ul class="portal__tiles">
         {PORTAL.kacheln.map((k) => (
-          <div class="card portal__tile reveal">
+          <li class="card portal__tile reveal">
             <span class="portal__tileicon"><Icon name={k.icon} size={24} class="icon" /></span>
-            <h3>{k.title}</h3>
-            <p>{k.text}</p>
-          </div>
+            <div>
+              <h3>{k.title}</h3>
+              <p>{k.text}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
+      <figure class="portal__shot reveal">
+        <PortalDemo />
+        <figcaption>
+          Beispielansicht mit Demodaten ·
+          <a href={u("login/")}>Portal-Demo ausprobieren <Icon name="arrow" size={16} class="icon" /></a>
+        </figcaption>
+      </figure>
     </div>
-
-    <p class="portal__schluss">{PORTAL.schluss}</p>
     </div><!-- /portal__text -->
   </div>
 </section>
 
 <style>
-  .portal__intro {
-    max-width: 760px;
-    margin: 0 auto 40px;
-    text-align: center;
-    color: var(--anthrazit-700);
+  .portal__grid {
+    display: grid; gap: 32px;
+    align-items: center;
   }
-  .portal__grid { display: grid; gap: 32px; }
+  @media (min-width: 1024px) {
+    /* Links Kacheln, rechts die Portal-Ansicht (Vorlage Kunde) */
+    .portal__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
+  }
   /* Mobil übernimmt das Video die Erklärung – Text/Kacheln nur ab Tablet */
   @media (max-width: 767px) {
     html.js .portal__text { display: none; }
   }
 
-  .portal__tiles { display: grid; gap: 16px; }
-  /* Mobil: Kacheln horizontal wischen (wie die Ablauf-Schritte) statt stapeln */
-  @media (max-width: 559px) {
-    .portal__tiles {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding: 4px 4px 14px;
-      margin-inline: -4px;
-      scrollbar-width: none;
-    }
-    .portal__tiles::-webkit-scrollbar { display: none; }
-    .portal__tile {
-      flex: 0 0 min(74vw, 300px);
-      scroll-snap-align: center;
-    }
+  .portal__tiles { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  @media (min-width: 560px) and (max-width: 1023px) { .portal__tiles { grid-template-columns: 1fr 1fr; } }
+  .portal__tile {
+    padding: 20px 22px;
+    display: grid; grid-template-columns: auto 1fr; gap: 16px;
+    align-items: start;
   }
-  @media (min-width: 560px) { .portal__tiles { grid-template-columns: 1fr 1fr; } }
-  .portal__tile { padding: 24px; display: grid; gap: 8px; align-content: start; }
-  .portal__tile h3 { margin: 0; font-size: 16px; }
+  .portal__tile h3 { margin: 0 0 4px; font-size: 16.5px; }
   .portal__tile p { margin: 0; font-size: 14.5px; color: var(--anthrazit-700); }
   .portal__tileicon {
     width: 44px; height: 44px;
@@ -84,11 +79,19 @@ import VideoKachel from "./VideoKachel.astro";
     color: var(--gold-700);
   }
 
-  .portal__schluss {
-    max-width: 720px;
-    margin: 40px auto 0;
-    text-align: center;
-    font-weight: 600;
+  .portal__shot { margin: 0; display: grid; gap: 14px; }
+  /* Desktop: Portal-Ansicht so hoch wie die Kachel-Spalte wirken lassen */
+  @media (min-width: 1024px) {
+    /* width:100% nötig – im Grid schrumpft das auto-zentrierte Mockup sonst auf Inhaltsbreite */
+    .portal__shot :global(.pmock) { max-width: 540px; width: 100%; }
   }
-
+  .portal__shot figcaption {
+    text-align: center;
+    font-size: 14px;
+    color: var(--anthrazit-600);
+  }
+  .portal__shot figcaption a {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-weight: 700; color: var(--gold-700);
+  }
 </style>

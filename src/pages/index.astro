@@ -1,7 +1,7 @@
 ---
-// Startseite – Dramaturgie nach Kundenfeedback 12.09.2026:
-// Hero → Weg zum Badezimmer (6 Schritte) → Kundenportal → Transparentes
-// Angebot → Referenzen → Gewerke-Karten → CTA-Band → FAQ
+// Startseite – Texte nach Kundenfeedback 28.09.2026, Reihenfolge bildlastig:
+// Hero → Referenzen → Gewerke-Karten → Weg zum Badezimmer (4 Schritte)
+// → Kundenportal → Transparentes Angebot → CTA-Band → FAQ
 // → Siegel → Einzugsgebiet → Termin → Kontakt.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
@@ -92,6 +92,8 @@ import { FAQ_HOME, HERO } from "../data/home";
   /* Mobil übernimmt das Video die Erklärung – Text/Karten nur ab Tablet */
   @media (max-width: 767px) {
     html.js .weg__text { display: none; }
-    .weg__actions { margin-top: 8px; }
+    /* Buttons untereinander, gleich breit, Text mittig (wie im Hero) */
+    .weg__actions { margin-top: 8px; display: grid; justify-items: stretch; }
+    .weg__actions .btn { width: 100%; justify-content: center; text-align: center; }
   }
 </style>

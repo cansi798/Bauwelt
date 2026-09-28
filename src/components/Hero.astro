@@ -1,7 +1,8 @@
 ---
-// Vollbild-Hero (Enpal-Muster): Eyebrow (Positionierung), Headline mit
-// ROTIERENDEM Begriff (CSS-Wortwalze: „Bereit für Ihr neues [Badezimmer?|…]"),
-// Kurzzeile, fünf Zusagen, zwei CTAs (Rechner + Besichtigungstermin).
+// Vollbild-Hero (Enpal-Muster, Texte nach Kundenfeedback 28.09.2026): Eyebrow
+// (Positionierung), Headline mit ROTIERENDEM Begriff (CSS-Wortwalze:
+// „Bereit für Ihr neues [Badezimmer?|…]"), Statement, drei feste Zusagen,
+// zwei CTAs (Rechner + Besichtigungstermin).
 // Bild füllt Mobil + Desktop den Viewport, Ken-Burns-Zoom + gestaffelte Entrance.
 // Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
 // Begriff statisch (global.css stoppt Rest).
@@ -33,8 +34,7 @@ const WALZE = [...WORTE, WORTE[0]];
 
   <div class="container fhero__content">
     <div class="eyebrow fhero__in" style="--d: 0ms">
-      <span class="fhero__eb-lang">{HERO.eyebrow}</span>
-      <span class="fhero__eb-kurz">{HERO.eyebrowKurz}</span>
+      {HERO.eyebrow}
     </div>
 
     <h1 class="fhero__in" style="--d: 120ms">
@@ -51,26 +51,11 @@ const WALZE = [...WORTE, WORTE[0]];
     </h1>
 
     <p class="fhero__statement fhero__in" style="--d: 220ms">{HERO.statement}</p>
-    <p class="lead fhero__in" style="--d: 280ms">{HERO.sub}</p>
-    <!-- Zusagen als rotierende Zeile (nicht alles auf einmal); volle Liste bleibt
-         unsichtbar im DOM – für Screenreader und Suchmaschinen. -->
-    <div class="fhero__zusagen fhero__in" style="--d: 360ms">
-      <ul class="visually-hidden">
-        {HERO.checks.map((c) => <li>{c}</li>)}
-      </ul>
-      <div class="fhero__zwalze" aria-hidden="true">
-        <div class="fhero__zband">
-          {/* 2 Gruppen à 3 Zusagen + Klon der ersten für die nahtlose Schleife */}
-          {[HERO.checksKurz.slice(0, 3), HERO.checksKurz.slice(3, 6), HERO.checksKurz.slice(0, 3)].map((gruppe) => (
-            <div class="fhero__zgruppe">
-              {gruppe.map((c) => (
-                <span class="fhero__zitem"><Icon name="check" size={18} class="icon" /> {c}</span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ul class="fhero__zusagen fhero__in" style="--d: 300ms">
+      {HERO.checks.map((c) => (
+        <li><Icon name="check" size={18} class="icon" /> {c}</li>
+      ))}
+    </ul>
     <div class="fhero__actions fhero__in" style="--d: 480ms">
       <div class="fhero__cta">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
@@ -128,9 +113,7 @@ const WALZE = [...WORTE, WORTE[0]];
     padding-block: 96px 120px;
   }
   .fhero__content > * { max-width: 100%; min-width: 0; }
-  .fhero__zusagen { width: 100%; max-width: 340px; }
   .fhero__content h1 { color: var(--weiss); margin: 0; }
-  .fhero__content .lead { color: var(--anthrazit-100); margin: 0; max-width: 62ch; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
   .fhero__statement {
     margin: 0;
@@ -139,32 +122,20 @@ const WALZE = [...WORTE, WORTE[0]];
     font-size: 20px;
     color: var(--weiss);
   }
-  .fhero__statement + .lead { margin-top: -12px; }
 
-  /* Zusagen: immer DREI sichtbar, die Dreiergruppe slidet von rechts nach links */
-  .fhero__zwalze { width: 100%; overflow: hidden; }
-  .fhero__zband {
-    display: flex;
-    animation: zslide 9s cubic-bezier(0.65, 0, 0.35, 1) 2s infinite;
+  /* Drei feste Zusagen mit goldenem Häkchen – ruhig, ohne Bewegung */
+  .fhero__zusagen {
+    list-style: none; margin: 4px 0 0; padding: 0;
+    display: grid; gap: 8px;
   }
-  .fhero__zgruppe {
-    flex: none; width: 100%;
-    display: grid; gap: 6px;
+  .fhero__zusagen li {
+    display: flex; align-items: center; gap: 10px;
+    line-height: 1.4;
+    color: var(--weiss); font-weight: 600; font-size: 16px;
   }
-  .fhero__zitem {
-    display: inline-flex; align-items: center; gap: 10px;
-    line-height: 1.5; white-space: nowrap;
-    color: var(--weiss); font-weight: 600; font-size: 15px;
-  }
-  .fhero__zitem :global(.icon) { color: var(--gold-500); flex: none; }
-  /* 2 Gruppen + Klon: halten, nach links rausschieben, halten, weiter (nahtlos) */
-  @keyframes zslide {
-    0%, 44%   { transform: translateX(0); }
-    50%, 94%  { transform: translateX(-100%); }
-    100%      { transform: translateX(-200%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .fhero__zband { transform: none; }
+  .fhero__zusagen :global(.icon) {
+    flex: none;
+    color: var(--gold-500);
   }
 
   .fhero__actions {
@@ -248,20 +219,13 @@ const WALZE = [...WORTE, WORTE[0]];
     to   { opacity: 1; transform: none; }
   }
 
-  /* Eyebrow: Desktop voller Kundensatz, mobil Kurzfassung */
-  .fhero__eb-kurz { display: none; }
-
   @media (max-width: 767px) {
     .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
     .fhero__content { padding-block: 40px 88px; gap: 14px; }
-    /* Mobil entschlackt: kurze Positionierung, keine Unterzeile,
-       Buttons direkt nach dem Statement, Zusagen darunter */
-    .fhero__eb-lang { display: none; }
-    .fhero__eb-kurz { display: inline; }
-    .fhero__content .lead { display: none; }
     /* früher umbrechen, damit die Zeile nicht bis an die Kante läuft */
     .fhero__statement { max-width: 21ch; }
-    .fhero__zitem { font-size: 13.5px; }
+    .fhero__zusagen { gap: 6px; }
+    .fhero__zusagen li { font-size: 15px; }
     .fhero__actions { display: grid; justify-items: stretch; width: 100%; }
     .fhero__actions .btn {
       width: 100%;
@@ -286,7 +250,5 @@ const WALZE = [...WORTE, WORTE[0]];
   }
   @media (prefers-reduced-motion: reduce) {
     .fhero__badge { transform: none; }
-  }
-  @media (max-width: 767px) {
   }
 </style>
