@@ -23,6 +23,7 @@ Jede Verbesserungs-Runde bekommt einen eigenen, nummerierten PDF-Bericht:
 | 16 | 28.09.2026 | Neue Kundentexte: Hero (kurze Positionierung, 3 feste Zusagen), Ablauf auf 4 Schritte, Kundenportal mit Unterzeile + 4 Kacheln links / Portal-Ansicht rechts; mobile Buttons unter dem Weg-Video vereinheitlicht | Kundenvorlagen (3 Screenshots, `28.09.2026/`) | `Bericht-16_2026-09-28_Hero-Ablauf-Portal-Texte.pdf` |
 | 16 K | 28.09.2026 | Kurzfassung von Bericht 16 (1 Seite, zum Weiterleiten an den Kunden) | Wunsch Can („kompakt und präzise“) | `Bericht-16_2026-09-28_Kurzfassung.pdf` |
 | 17 | 28.09.2026 | Gesamtprüfung aller 24 Seiten + Abgleich Kundenwünsche 28.09. (30/30 Texte live); Antwortzeit einheitlich 24 h, Footer-Button lesbar, Play-Knopf Versprechen-Video frei, 404-Direktlinks, fehlendes Porträt nicht mehr angefragt, Titel gekürzt | Wunsch Can („alles prüfen“, 24 h) | `Bericht-17_2026-09-28_Gesamtpruefung-Feinschliff.pdf` |
+| 18 | 29.09.2026 | Die drei Erklärvideos (Weg, Kundenportal, Versprechen) sind durch handgezeichnete, animierte rough.js-Szenen ersetzt: je eine Fassung für Handy (hochkant) und Desktop (quer), zeichnet sich einmal beim Reinscrollen, „Nochmal ansehen“, reduced-motion/ohne JS als Standbild; 10,6 MB Videos entfernt | Wunsch Can | `Bericht-18_2026-09-29_Gezeichnete-Grafiken-statt-Videos.pdf` |
 
 **Struktur jedes Berichts:** Anlass → Maßnahmen Punkt für Punkt (✓) → Screenshots →
 Wirkung/Prüfergebnisse → offene Punkte bzw. Entscheidungen für den Kunden.

@@ -7,21 +7,24 @@ import { PORTAL } from "../data/home";
 import { u } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
-import VideoKachel from "./VideoKachel.astro";
+import RoughSzene from "./RoughSzene.astro";
 import PortalDemo from "./PortalDemo.astro";
 ---
 
 <section class="section section--sand" id="kundenportal">
   <div class="container">
-    <!-- Mobil erzählt das gelieferte Video das Thema – Textteile nur ab Tablet -->
-    <VideoKachel name="portal" ext="mp4" ueberschrift="So behalten Sie Ihr Projekt jederzeit im Blick" titel="Das Kundenportal – als Video erklärt" />
-    <div class="portal__text">
     <SectionHead
       center
       eyebrow="Kundenportal"
       pre="So behalten Sie Ihr Projekt jederzeit im "
       accent="Blick"
       text={PORTAL.sub}
+    />
+    <!-- Handgezeichnete Szene (statt Video). Mobil erklärt sie das Portal
+         allein – Kacheln + Demo-Ansicht erst ab Tablet (portal__grid). -->
+    <RoughSzene
+      szene="portal"
+      label="Gezeichnetes Handy mit dem Kundenportal: Projektfortschritt und Freigabe-Knopf, dazu vier Vorteile – alle Dokumente an einem Ort, alle Termine im Blick, Kommunikation per WhatsApp oder E-Mail und jederzeit wissen, was als Nächstes passiert."
     />
     <div class="portal__grid">
       <ul class="portal__tiles">
@@ -44,7 +47,6 @@ import PortalDemo from "./PortalDemo.astro";
         </figcaption>
       </figure>
     </div>
-    </div><!-- /portal__text -->
   </div>
 </section>
 
@@ -57,9 +59,9 @@ import PortalDemo from "./PortalDemo.astro";
     /* Links Kacheln, rechts die Portal-Ansicht (Vorlage Kunde) */
     .portal__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
   }
-  /* Mobil übernimmt das Video die Erklärung – Text/Kacheln nur ab Tablet */
+  /* Mobil übernimmt die Zeichnung die Erklärung – Kacheln/Demo nur ab Tablet */
   @media (max-width: 767px) {
-    html.js .portal__text { display: none; }
+    html.js .portal__grid { display: none; }
   }
 
   .portal__tiles { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }

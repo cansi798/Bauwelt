@@ -9,7 +9,7 @@ import { STEPS } from "../data/home";
 interface Props {
   /** Alternative Schritte, z. B. gewerkspezifisch auf Leistungsseiten. */
   steps?: { title: string; text: string; kurz?: string }[];
-  /** Optionale ID, z. B. für den mobilen „Video mit Ton"-Player. */
+  /** Optionale ID (Sprungziel). */
   id?: string;
 }
 const { steps = STEPS, id } = Astro.props;

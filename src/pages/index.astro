@@ -6,7 +6,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import Steps from "../components/Steps.astro";
-import VideoKachel from "../components/VideoKachel.astro";
+import RoughSzene from "../components/RoughSzene.astro";
 import PortalSection from "../components/PortalSection.astro";
 import AngebotSection from "../components/AngebotSection.astro";
 import RefSlider from "../components/RefSlider.astro";
@@ -42,11 +42,14 @@ import { FAQ_HOME, HERO } from "../data/home";
 
   <section class="section">
     <div class="container">
-      <!-- Mobil erzählt das gelieferte Video das Thema komplett –
-           Überschrift + Schritt-Karten erscheinen dort nicht (weg__text). -->
-      <VideoKachel name="weg" ext="mp4" ueberschrift="Ihr Weg zum neuen Badezimmer" titel="Ihr Weg zum neuen Badezimmer – als Video erklärt" />
+      <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
+      <!-- Handgezeichnete Szene (statt Video). Mobil erzählt sie den Ablauf
+           allein – die Schritt-Karten erscheinen dort nicht (weg__text). -->
+      <RoughSzene
+        szene="weg"
+        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – das fertige Badezimmer."
+      />
       <div class="weg__text">
-        <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
         <Steps />
       </div>
       <div class="weg__actions">
@@ -89,7 +92,7 @@ import { FAQ_HOME, HERO } from "../data/home";
     justify-content: center;
     margin-top: 36px;
   }
-  /* Mobil übernimmt das Video die Erklärung – Text/Karten nur ab Tablet */
+  /* Mobil übernimmt die Zeichnung die Erklärung – Karten nur ab Tablet */
   @media (max-width: 767px) {
     html.js .weg__text { display: none; }
     /* Buttons untereinander, gleich breit, Text mittig (wie im Hero) */

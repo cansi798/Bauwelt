@@ -5,7 +5,7 @@ import { VERSPRECHEN } from "../data/versprechen";
 import { CTA } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
-import VideoKachel from "./VideoKachel.astro";
+import RoughSzene from "./RoughSzene.astro";
 ---
 
 <section class="section section--sand" id="versprechen">
@@ -17,7 +17,12 @@ import VideoKachel from "./VideoKachel.astro";
       accent="können"
       text="Sechs Zusagen, die bei jedem Projekt gelten – klicken Sie ein Siegel an, um zu sehen, was genau dahintersteckt."
     />
-    <VideoKachel name="siegel" titel="Unsere sechs Versprechen – als Video erklärt" playUnten />
+    <!-- Handgezeichnete Szene (statt Video); die anklickbaren Siegel bleiben
+         darunter auf allen Geräten – sie öffnen die ausführliche Erklärung. -->
+    <RoughSzene
+      szene="siegel"
+      label="Sechs gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, 5 Jahre Gewährleistung, Meisterqualität, Termintreue, saubere Baustelle und ein Ansprechpartner."
+    />
     <ul class="siegel-grid" id="siegelGrid">
       {VERSPRECHEN.map((s) => (
         <li>
@@ -53,7 +58,7 @@ import VideoKachel from "./VideoKachel.astro";
     display: grid; gap: 16px;
     grid-template-columns: repeat(2, 1fr);
   }
-  /* Mobil: Siegel horizontal wischbar (und als „Video mit Ton" abspielbar) */
+  /* Mobil: Siegel horizontal wischbar */
   @media (max-width: 559px) {
     .siegel-grid {
       display: flex;

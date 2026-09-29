@@ -1,0 +1,144 @@
+---
+// Handgezeichnete Erklär-Szene (ersetzt die Erklärvideos, 29.09.2026).
+// Die Formen berechnet rough.js beim BUILD (src/data/szenen.ts) – im Browser
+// liegt nur fertiges SVG. Zwei Fassungen: hochkant (Handy) und quer (ab Tablet).
+// Ablauf: Sobald die Szene ins Bild scrollt, zeichnet sie sich einmal Strich für
+// Strich (CSS, pathLength=1 + stroke-dashoffset) und bleibt dann stehen; kleine
+// Details pulsieren leise weiter. „Nochmal ansehen" startet sie neu.
+// Ohne JS oder bei „Bewegung reduzieren" steht sofort das fertige Bild.
+import { SZENEN, type Ansicht, type SzenenName } from "../data/szenen";
+import type { Element, Szene } from "../lib/rough-szene";
+
+interface Props {
+  szene: SzenenName;
+  /** Beschreibt die Szene für Screenreader (role="img"). */
+  label: string;
+}
+const { szene, label } = Astro.props;
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const n = (x: number) => Math.round(x * 100) / 100;
+
+function el(e: Element): string {
+  switch (e.art) {
+    case "strich":
+      return `<path class="rs-s" pathLength="1" d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}" style="--t:${n(e.t)}s;--d:${n(e.dauer)}s"/>`;
+    case "flaeche":
+      return e.breite > 0
+        ? `<path class="rs-f" d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}" style="--t:${n(e.t)}s"/>`
+        : `<path class="rs-f" d="${e.d}" fill="${e.farbe}" stroke="none" style="--t:${n(e.t)}s"/>`;
+    case "text":
+      return `<text class="rs-x" x="${n(e.x)}" y="${n(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}" style="--t:${n(e.t)}s">${esc(e.text)}</text>`;
+    case "gruppe":
+      return `<g class="rs-g rs-g--${e.effekt}" style="--t:${n(e.t)}s">${e.kinder.map(el).join("")}</g>`;
+  }
+}
+
+function svg(a: Ansicht, sz: Szene): string {
+  return `<svg class="rszene__svg rszene__svg--${a}" viewBox="0 0 ${sz.breite} ${sz.hoehe}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="--ende:${n(sz.ende)}s">${sz.elemente.map(el).join("")}</svg>`;
+}
+
+const mobil = SZENEN[szene]("mobil");
+const desktop = SZENEN[szene]("desktop");
+---
+
+<div class={`rszene rszene--${szene}`} data-rszene>
+  <div class="rszene__bild" role="img" aria-label={label}>
+    <Fragment set:html={svg("mobil", mobil) + svg("desktop", desktop)} />
+  </div>
+  <button class="rszene__nochmal" type="button" aria-label="Zeichnung noch einmal abspielen">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+    Nochmal ansehen
+  </button>
+</div>
+
+<script>
+  // Startet die Zeichnung, sobald die Szene ins Bild kommt (einmalig).
+  // „Nochmal ansehen": Klasse weg → Reflow → Klasse wieder dran = Neustart.
+  const szenen = document.querySelectorAll<HTMLElement>("[data-rszene]");
+  const start = (el: HTMLElement) => el.classList.add("laeuft");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { start(e.target as HTMLElement); io.unobserve(e.target); }
+        }
+      },
+      { threshold: 0.35 }
+    );
+    szenen.forEach((el) => io.observe(el));
+  } else {
+    szenen.forEach(start);
+  }
+  szenen.forEach((el) =>
+    el.querySelector(".rszene__nochmal")?.addEventListener("click", () => {
+      el.classList.remove("laeuft");
+      void el.offsetWidth;
+      start(el);
+    })
+  );
+</script>
+
+<style is:global>
+  .rszene {
+    position: relative;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  .rszene__bild { max-width: 420px; margin-inline: auto; }
+  .rszene__svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .rszene__svg text { font-family: var(--font-heading); stroke: none; }
+  .rszene__svg--desktop { display: none; }
+  @media (min-width: 768px) {
+    .rszene__bild { max-width: 1000px; }
+    .rszene__svg--mobil { display: none; }
+    .rszene__svg--desktop { display: block; }
+    .rszene { margin-bottom: 44px; }
+  }
+
+  .rszene__nochmal {
+    display: none;
+    align-items: center; gap: 6px;
+    margin-top: 10px;
+    padding: 8px 14px;
+    min-height: 40px;
+    border: 1px solid var(--linie, var(--anthrazit-200));
+    border-radius: 999px;
+    background: transparent;
+    color: var(--gold-700);
+    font: 600 14px/1 var(--font-heading);
+    cursor: pointer;
+  }
+  .rszene__nochmal:hover { background: var(--gold-100); }
+
+  .rs-s { stroke-dasharray: 1 1; }
+  .rs-g--stempel { transform-box: fill-box; transform-origin: center; }
+
+  /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .rszene__nochmal { display: inline-flex; }
+    html.js .rszene .rs-s,
+    html.js .rszene .rs-f,
+    html.js .rszene .rs-x { opacity: 0; }
+
+    html.js .rszene.laeuft .rs-s { animation: rs-zeichnen var(--d) ease-out var(--t) both; }
+    html.js .rszene.laeuft .rs-f { animation: rs-ein 0.5s ease-out var(--t) both; }
+    html.js .rszene.laeuft .rs-x { animation: rs-text 0.5s ease-out var(--t) both; }
+    html.js .rszene.laeuft .rs-g--stempel { animation: rs-stempel 0.5s ease-out var(--t) both; }
+    html.js .rszene.laeuft .rs-g--puls { animation: rs-puls 2.4s ease-in-out calc(var(--ende) + 0.4s) infinite; }
+  }
+
+  @keyframes rs-zeichnen {
+    0% { stroke-dashoffset: 1; opacity: 0; }
+    1% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+  @keyframes rs-ein { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes rs-text { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes rs-stempel {
+    0% { transform: scale(0.6); }
+    60% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  @keyframes rs-puls { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+</style>
