@@ -17,8 +17,8 @@ import RoughSzene from "./RoughSzene.astro";
       accent="können"
       text="Sechs Zusagen, die bei jedem Projekt gelten – klicken Sie ein Siegel an, um zu sehen, was genau dahintersteckt."
     />
-    <!-- Handgezeichnete Szene (statt Video); die anklickbaren Siegel bleiben
-         darunter auf allen Geräten – sie öffnen die ausführliche Erklärung. -->
+    <!-- Handgezeichnete Szene (statt Video). Mobil steht sie allein, die
+         anklickbaren Siegel (öffnen die Erklärung) erst ab Tablet. -->
     <RoughSzene
       szene="siegel"
       label="Sechs gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, 5 Jahre Gewährleistung, Meisterqualität, Termintreue, saubere Baustelle und ein Ansprechpartner."
@@ -58,23 +58,11 @@ import RoughSzene from "./RoughSzene.astro";
     display: grid; gap: 16px;
     grid-template-columns: repeat(2, 1fr);
   }
-  /* Mobil: Siegel horizontal wischbar */
-  @media (max-width: 559px) {
-    .siegel-grid {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding: 4px 4px 14px;
-      margin-inline: -4px;
-      scrollbar-width: none;
-    }
-    .siegel-grid::-webkit-scrollbar { display: none; }
-    .siegel-grid > li {
-      flex: 0 0 min(70vw, 280px);
-      scroll-snap-align: center;
-    }
+  /* Mobil erzählt die Zeichnung die Versprechen – Siegel-Raster (und der
+     Hinweis „klicken Sie ein Siegel an") erst ab Tablet */
+  @media (max-width: 767px) {
+    .siegel-grid,
+    #versprechen :global(.section-head .lead) { display: none; }
   }
   @media (min-width: 768px)  { .siegel-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1024px) { .siegel-grid { grid-template-columns: repeat(6, 1fr); } }
