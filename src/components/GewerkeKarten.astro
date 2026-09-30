@@ -1,7 +1,7 @@
 ---
 // Gewerke-Karten (Kundenfeedback 12.09.2026, Abschnitt 5):
-// „Zurücklehnen statt koordinieren" – fünf kompakte Karten, die auf die
-// bestehenden Leistungsseiten verlinken (ersetzen die großen Bild-Text-Blöcke).
+// „Zurücklehnen statt koordinieren" – sechs kompakte Gewerke-Karten (Stand
+// 30.09.2026), die auf die passenden Leistungsseiten verlinken.
 import { u } from "../consts";
 import { GEWERKE_KARTEN } from "../data/home";
 import SectionHead from "./SectionHead.astro";
@@ -39,13 +39,8 @@ import Img from "./Img.astro";
 <style>
   .gewerke { display: grid; gap: 16px; }
   @media (min-width: 640px) { .gewerke { grid-template-columns: 1fr 1fr; } }
-  /* Desktop: 5 Karten als 3 + 2, letzte Reihe zentriert */
-  @media (min-width: 1024px) {
-    .gewerke { grid-template-columns: repeat(6, 1fr); }
-    .gewerke__card { grid-column: span 2; }
-    .gewerke__card:nth-child(4) { grid-column: 2 / 4; }
-    .gewerke__card:nth-child(5) { grid-column: 4 / 6; }
-  }
+  /* Desktop: 6 Karten als 3 × 2 */
+  @media (min-width: 1024px) { .gewerke { grid-template-columns: repeat(3, 1fr); } }
   .gewerke__card {
     padding: 0;
     display: grid; align-content: start;

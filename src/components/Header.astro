@@ -1,7 +1,7 @@
 ---
 // Site-Header: Desktop-Dropdown-Navigation (Enpal-Muster) + CTA, mobil Burger + Icons.
 // Dropdowns: CSS-Hover/-Focus + Klick-Toggle, Escape schließt, Pfeiltasten navigieren.
-import { NAV2, CTA, SITE, u, waLink } from "../consts";
+import { NAV2, CTA, SITE, TERMIN, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 import MobileMenu from "./MobileMenu.astro";
 ---
@@ -51,8 +51,9 @@ import MobileMenu from "./MobileMenu.astro";
       <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={22} />
       </a>
-      <a class="hdr__login" href={u("login/")} aria-label="Kundenportal-Login">
-        <Icon name="user" size={18} class="icon" /> Login
+      <!-- Login entfernt (Kundenfeedback 30.09.2026) – stattdessen Besichtigungstermin -->
+      <a class="hdr__termin" href={TERMIN.href} target="_blank" rel="noopener" data-termin aria-label={TERMIN.label}>
+        <Icon name="calendar" size={18} class="icon" /> <span>{TERMIN.kurz}</span>
       </a>
       <a class="btn btn--sm hdr__cta" href={CTA.href}>{CTA.label}</a>
       <button class="hdr__iconbtn hdr__burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menü öffnen">
@@ -155,8 +156,8 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__iconbtn:hover { background: var(--gold-100); }
   .hdr__cta { display: none; }
-  /* Login zum Kundenportal: mobil kompakt, ab Desktop mit Text */
-  .hdr__login {
+  /* Besichtigungstermin: mobil nur Kalender-Symbol, ab Desktop mit Text */
+  .hdr__termin {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 14px;
     border: 1px solid var(--linie);
@@ -164,8 +165,12 @@ import MobileMenu from "./MobileMenu.astro";
     font-family: var(--font-heading); font-weight: 700; font-size: 13px;
     color: var(--anthrazit-800);
   }
-  .hdr__login:hover { background: var(--gold-100); border-color: var(--gold-500); text-decoration: none; }
-  .hdr__login :global(.icon) { color: var(--gold-700); }
+  .hdr__termin:hover { background: var(--gold-100); border-color: var(--gold-500); text-decoration: none; }
+  .hdr__termin :global(.icon) { color: var(--gold-700); flex: none; }
+  @media (max-width: 1023px) {
+    .hdr__termin { width: 44px; height: 44px; padding: 0; justify-content: center; }
+    .hdr__termin span { display: none; }
+  }
   /* :global – die Icon-SVGs kommen aus der Icon-Komponente und tragen kein Scope-Attribut */
   .hdr__burger :global(.hdr__burger-close) { display: none; }
   .hdr__burger[aria-expanded="true"] :global(.hdr__burger-open) { display: none; }
@@ -177,7 +182,9 @@ import MobileMenu from "./MobileMenu.astro";
     .hdr__iconbtn:not(.hdr__burger) { display: none; }
     .hdr__burger { display: none; }
   }
-  @media (min-width: 1200px) {
+  /* Termin + Rechner immer einzeilig; Telefon/WhatsApp erst, wenn genug Platz ist */
+  .hdr__termin, .hdr__cta { white-space: nowrap; }
+  @media (min-width: 1360px) {
     .hdr__iconbtn:not(.hdr__burger) { display: inline-flex; }
   }
 </style>

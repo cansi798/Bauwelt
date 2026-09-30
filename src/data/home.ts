@@ -10,16 +10,10 @@ export const HERO = {
   nach: "",
   /** Rotierende Begriffe (erster = Fallback ohne Animation/reduced motion). */
   begriffe: ["Badezimmer?", "Zuhause?", "Projekt?"],
-  /** Eigenes Statement über der Unterzeile (Vorlage: eigene Zeile). */
+  /** Statement groß, darunter klein und nicht fett die Unterzeile
+   *  (Kundenfeedback 30.09.2026 – Stichsätze + „60 Sekunden" entfallen). */
   statement: "Handwerk, wie es heute sein sollte.",
-  /** Drei feste Zusagen (Kundenfeedback 28.09.2026) – stehen statt zu rotieren. */
-  checks: [
-    "Jederzeit den Überblick behalten",
-    "Angebot innerhalb von 24 Stunden",
-    "Ein Ansprechpartner für alles",
-  ],
-  note: "Unverbindlich · Ergebnis in 60 Sekunden",
-  cta2: { label: "Kostenlosen Besichtigungstermin buchen", href: "#termin" },
+  unterzeile: "Klare Prozesse. Transparente Kommunikation. Ein Ansprechpartner, der Verantwortung übernimmt.",
   bild: "hero.webp",
 };
 
@@ -47,7 +41,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     slug: "badsanierung",
     eyebrow: "Badsanierung",
     pre: "Ihr neues Bad – fertig in ",
-    accent: "3 Wochen",
+    accent: "2 Wochen",
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
       "Fliesen, Sanitär, Elektrik, bodengleiche Dusche. Sie wählen die Ausstattung, " +
@@ -142,7 +136,7 @@ export const USP = [
     title: "Regional & persönlich",
     text:
       "Wir kommen aus Norderstedt – nicht aus einem Callcenter. Ihr Ansprechpartner " +
-      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 24 Stunden, auch per WhatsApp.",
+      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 12 Stunden, auch per WhatsApp.",
     bild: "hero-ueber-uns.webp",
     alt: "Bauwelt-Team auf der Baustelle",
   },
@@ -241,47 +235,56 @@ export const ANGEBOT = {
 };
 
 /** Gewerke-Karten („Zurücklehnen statt koordinieren") – verlinken auf Leistungsseiten.
- *  Fotos: vorhandene Gewerk-Bilder aus assets/img/ (BILDER.md). */
+ *  Sechs Gewerke laut Kundenfeedback 30.09.2026. Fotos: vorhandene Bilder aus
+ *  assets/img/ (BILDER.md); Elektro = CC0-Foto von Wikimedia Commons. */
 export const GEWERKE_KARTEN = [
   {
-    icon: "bath",
-    title: "Bad & Sanitär",
-    text: "Sanitärinstallationen, Armaturen, Duschen, WCs, Rohrleitungen und Badmodernisierung.",
-    slug: "badsanierung",
-    bild: "hero-badsanierung.webp",
-    alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
+    icon: "hammer",
+    title: "Abbrucharbeiten",
+    text: "Rückbau von Fliesen, Böden, Einbauten und nichttragenden Wänden – inklusive fachgerechter Entsorgung.",
+    slug: "sanierung-modernisierung",
+    bild: "hero-innenausbau.webp",
+    alt: "Entkernter Rohbau mit Werkzeug und Material nach dem Rückbau",
   },
   {
     icon: "wall",
-    title: "Wände & Raumgestaltung",
-    text: "Mauerarbeiten, Ytong-Arbeiten, Trockenbau, Spachtelarbeiten und Raumaufteilungen.",
+    title: "Mauerarbeiten & Trockenbau",
+    text: "Neue Wände, Vorwandinstallationen, abgehängte Decken und Raumaufteilungen – sauber und streichfertig.",
     slug: "innenausbau",
-    bild: "hero-innenausbau.webp",
-    alt: "Heller Innenausbau mit neuen Trockenbauwänden",
+    bild: "hero-sanitaer-heizung-elektro.webp",
+    alt: "Trockenbauwände mit Vorwandinstallation im Innenausbau",
+  },
+  {
+    icon: "tap",
+    title: "Sanitär",
+    text: "Wasser- und Abwasserleitungen, Duschen, WCs, Waschtische und Armaturen – vom Anschluss bis zur Montage.",
+    slug: "badsanierung",
+    bild: "ref-01-wannenbad.webp",
+    alt: "Neues Badezimmer mit freistehender Wanne und Waschtisch",
+  },
+  {
+    icon: "bolt",
+    title: "Elektro",
+    text: "Leitungen, Steckdosen, Schalter, Beleuchtung und Unterverteilungen – sicher nach aktuellen Normen.",
+    slug: "sanierung-modernisierung",
+    bild: "gewerk-elektro.webp",
+    alt: "Sicherungskasten mit neuen Leitungsschutzschaltern",
+  },
+  {
+    icon: "tiles",
+    title: "Fliesen- und Bodenlegearbeiten",
+    text: "Wand- und Bodenfliesen, Großformate, Abdichtung sowie Vinyl-, Laminat- und Parkettböden.",
+    slug: "fliesen-boden",
+    bild: "ref-02-bodengleiche-dusche.webp",
+    alt: "Großformatig geflieste bodengleiche Dusche",
   },
   {
     icon: "paint",
-    title: "Oberflächen & Gestaltung",
-    text: "Fliesenarbeiten, Malerarbeiten, Bodenbeläge und Oberflächenbearbeitung.",
-    slug: "maler-boeden",
-    bild: "hero-maler-boeden.webp",
-    alt: "Frisch gestrichener Raum mit neuem Bodenbelag",
-  },
-  {
-    icon: "tools",
-    title: "Technik & Anschlüsse",
-    text: "Elektroarbeiten, Beleuchtung, Steckdosen, Schalter und Anschlüsse.",
-    slug: "sanitaer-heizung-elektro",
-    bild: "hero-sanitaer-heizung-elektro.webp",
-    alt: "Neu installierte Haustechnik im Trockenbau",
-  },
-  {
-    icon: "reno",
-    title: "Innenausbau & Modernisierung",
-    text: "Umbauten, Renovierungen und die Koordination aller weiteren Arbeiten.",
+    title: "Malerarbeiten",
+    text: "Spachteln, Streichen, Tapezieren und Lackieren – für Wände und Decken wie neu.",
     slug: "sanierung-modernisierung",
-    bild: "hero-sanierung-modernisierung.webp",
-    alt: "Modernisierter Wohnraum nach Komplettsanierung",
+    bild: "hero-maler-boeden.webp",
+    alt: "Frisch gestrichener heller Raum mit Malerleiter",
   },
 ];
 
@@ -296,7 +299,7 @@ export const FAQ_HOME = [
   },
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Eine Badsanierung dauert bei uns in der Regel rund 3 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan mit Start- und Endtermin.",
+    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan mit Start- und Endtermin.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",

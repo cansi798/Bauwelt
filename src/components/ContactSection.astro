@@ -1,7 +1,7 @@
 ---
 // Kontakt-Sektion: Ansprechpartner-Karten + Direktkontakt-Buttons.
 // Bewusst KEIN Formular (Kundenentscheidung) – E-Mail per mailto, Anruf, WhatsApp.
-import { SITE, EMAILS, u, waLink } from "../consts";
+import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import { existsSync } from "node:fs";
@@ -43,7 +43,7 @@ const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets
           </div>
         ))}
       </div>
-      <p class="small">{SITE.hours} · Antwort innerhalb von 24 Stunden</p>
+      <p class="small">{SITE.hours} · Antwort innerhalb von 12 Stunden</p>
     </div>
 
     <div class="contact__actions">
@@ -52,6 +52,9 @@ const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets
       </a>
       <a class="btn btn--dark btn--lg" href={waLink()} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
+      </a>
+      <a class="btn btn--ghost btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+        <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
       </a>
       <a class="btn btn--ghost btn--lg" href={`mailto:${EMAILS.service}`}>
         <Icon name="mail" size={20} class="icon" /> E-Mail schreiben

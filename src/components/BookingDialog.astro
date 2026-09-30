@@ -1,0 +1,152 @@
+---
+// Buchungsfenster (Kundenfeedback 30.09.2026): Jeder Link mit `data-termin`
+// (oder altem „#termin"-Ziel) öffnet den Relexable-Kalender in einem <dialog>
+// über der Seite – einmal pro Seite im BaseLayout eingebunden.
+// DSGVO: Der iframe (Drittanbieter) lädt erst beim ERSTEN Klick. Ohne JS führt
+// der Link (href = TERMIN.href) direkt zum Buchungsportal im neuen Tab.
+// postMessages (Höhe, Bestätigung) werden streng origin-geprüft.
+import { SITE, waLink } from "../consts";
+import Icon from "./Icon.astro";
+
+const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
+const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
+const WA_HREF = waLink();
+---
+
+<dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}>
+  <div class="bdlg__kopf">
+    <h2 id="bookingDialogTitle">Kostenlosen Besichtigungstermin buchen</h2>
+    <button class="bdlg__close" type="button" data-close aria-label="Buchungsfenster schließen">
+      <Icon name="close" size={24} class="icon" />
+    </button>
+  </div>
+  <div class="bdlg__body" id="bookingBody"></div>
+  <p class="bdlg__fuss small">
+    Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·
+    <a href={WA_HREF} target="_blank" rel="noopener">WhatsApp</a> ·
+    Bereitgestellt über portal.bauwelt-handwerk.de
+  </p>
+</dialog>
+
+<style is:global>
+  .bdlg {
+    width: min(760px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    background: var(--weiss);
+    color: var(--anthrazit-800);
+    overflow: hidden;
+  }
+  .bdlg[open] { display: flex; flex-direction: column; }
+  .bdlg::backdrop { background: rgba(31, 30, 32, 0.6); }
+  .bdlg__kopf {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 14px 14px 20px;
+    border-bottom: 1px solid var(--linie);
+  }
+  .bdlg__kopf h2 { margin: 0; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .bdlg__close {
+    flex: none;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 0; border-radius: 50%;
+    background: var(--gold-100); color: var(--anthrazit-800);
+    cursor: pointer;
+  }
+  .bdlg__close:hover { background: var(--gold-200); }
+  /* overscroll-behavior statt Scroll-Sperre auf <html> (die verschiebt auf
+     Handys, v. a. iOS Safari, den sichtbaren Bereich) */
+  .bdlg__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; min-height: 320px; }
+  .bdlg__body iframe { display: block; width: 100%; min-height: 640px; border: 0; background: #fff; }
+  .bdlg__fuss { margin: 0; padding: 10px 20px 14px; border-top: 1px solid var(--linie); }
+  .bdlg-spinner {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 48px 20px; color: var(--anthrazit-600);
+  }
+  .bdlg-spinner__ring {
+    width: 22px; height: 22px;
+    border: 3px solid var(--gold-200);
+    border-top-color: var(--gold-600);
+    border-radius: 50%;
+    animation: bdlg-spin 0.9s linear infinite;
+  }
+  @keyframes bdlg-spin { to { transform: rotate(360deg); } }
+  .bdlg__done {
+    display: grid; gap: 4px;
+    margin: 16px;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: var(--erfolg-hell);
+  }
+  /* Handy: fast bildschirmfüllend */
+  @media (max-width: 767px) {
+    .bdlg { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+    .bdlg__kopf h2 { font-size: 15px; }
+  }
+</style>
+
+<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay }}>
+  (function () {
+    var dlg = document.getElementById("bookingDialog");
+    var body = document.getElementById("bookingBody");
+    if (!dlg || !body || typeof dlg.showModal !== "function") return; // Fallback: Link öffnet Portal
+    var loaded = false, done = false;
+
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      body.innerHTML = '<div class="bdlg-spinner" id="bookingSpinner"><span class="bdlg-spinner__ring"></span><span>Kalender wird geladen …</span></div>';
+      var frame = document.createElement("iframe");
+      frame.src = dlg.dataset.src;
+      frame.id = "relexable-booking";
+      frame.title = "Termin online buchen";
+      frame.setAttribute("referrerpolicy", "no-referrer");
+      frame.addEventListener("load", function () {
+        var s = document.getElementById("bookingSpinner");
+        if (s) s.remove();
+      });
+      body.appendChild(frame);
+    }
+
+    function open() {
+      load();
+      if (!dlg.open) dlg.showModal();
+    }
+    dlg.querySelector("[data-close]").addEventListener("click", function () { dlg.close(); });
+    // Klick auf den abgedunkelten Hintergrund schließt ebenfalls
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      var a = t && t.closest ? t.closest('[data-termin], a[href$="#termin"]') : null;
+      if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      e.preventDefault();
+      open();
+    });
+    // Direktaufruf mit #termin (alte Links, Lesezeichen) öffnet das Fenster
+    if (location.hash === "#termin") open();
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== BOOKING_ORIGIN) return;
+      var d = event.data || {};
+      if (d.type === "relexable-booking-height") {
+        var frame = document.getElementById("relexable-booking");
+        if (frame && d.height) frame.style.height = d.height + "px";
+        return;
+      }
+      var signal = ((d.type || d.event || d.status || "") + "").toLowerCase();
+      if (!done && /confirm|success|booked|complete|gebucht|bestätig/.test(signal)) {
+        done = true;
+        var box = document.createElement("div");
+        box.className = "bdlg__done";
+        box.setAttribute("role", "status");
+        box.innerHTML = '<strong>Vielen Dank – Ihr Terminwunsch ist eingegangen.</strong>' +
+          '<span>Sie erhalten in Kürze eine Bestätigung. Bei Fragen: <a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a>.</span>';
+        body.insertBefore(box, body.firstChild);
+      }
+    });
+  })();
+</script>

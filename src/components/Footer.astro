@@ -1,6 +1,7 @@
 ---
-// Mehrspaltiger Footer (Enpal-Muster): CTA-Zeile + 4 Spalten + Copyright.
-import { NAV2, CTA, SITE, EMAILS, u, waLink } from "../consts";
+// Mehrspaltiger Footer (Enpal-Muster): 4 Spalten + Copyright.
+// CTA-Zeile „Ihr Projekt, ein Ansprechpartner, ein Festpreis." entfernt (Kundenfeedback 30.09.2026).
+import { NAV2, SITE, EMAILS, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
 const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
@@ -8,11 +9,6 @@ const jahr = new Date().getFullYear();
 ---
 
 <footer class="ftr">
-  <div class="container ftr__cta">
-    <p class="ftr__claim">Ihr Projekt, ein Ansprechpartner, ein Festpreis.</p>
-    <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
-  </div>
-
   <div class="container ftr__cols">
     <div>
       <h3 class="ftr__head">Leistungen</h3>
@@ -36,7 +32,7 @@ const jahr = new Date().getFullYear();
         <li><a href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={16} class="icon" /> {SITE.phoneDisplay}</a></li>
         <li><a href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} class="icon" /> WhatsApp</a></li>
         <li><a href={`mailto:${EMAILS.service}`}><Icon name="mail" size={16} class="icon" /> {EMAILS.service}</a></li>
-        <li>{SITE.hours} · Antwort in 24 h</li>
+        <li>{SITE.hours} · Antwort in 12 h</li>
       </ul>
     </div>
     <div>
@@ -64,17 +60,6 @@ const jahr = new Date().getFullYear();
     .ftr a { display: inline-block; padding-block: 8px; }
     .ftr__contact a { display: inline-flex; }
     .ftr__contact li, .ftr__cols li { margin-block: 2px; }
-  }
-
-  .ftr__cta {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
-    padding-block: 40px;
-    border-bottom: 1px solid var(--anthrazit-700);
-  }
-  .ftr__claim {
-    margin: 0;
-    font-family: var(--font-heading); font-weight: 700; font-size: clamp(20px, 3vw, 26px);
-    text-transform: uppercase; color: var(--weiss);
   }
 
   .ftr__cols {

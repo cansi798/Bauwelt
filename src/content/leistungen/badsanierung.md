@@ -19,7 +19,7 @@ ablauf:
   - { title: "Abnahme", text: "Der Meister prüft jedes Detail, bevor Sie das Bad sehen." }
 faq:
   - { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir einen festen Preis. Der gilt – ohne Aufschlag hinterher." }
-  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in zwei bis drei Wochen fertig. Den Zeitplan legen wir vorher gemeinsam fest." }
+  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Den Zeitplan legen wir vorher gemeinsam fest." }
 ---
 
 Ein neues Bad ist Vertrauenssache. Deshalb bekommen Sie bei uns einen festen Ansprechpartner, einen festen Preis und einen festen Termin – und ein Ergebnis, das der Meister persönlich abnimmt.

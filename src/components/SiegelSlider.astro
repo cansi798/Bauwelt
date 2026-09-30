@@ -1,10 +1,8 @@
 ---
-// "Unsere Versprechen" – eigene anklickbare Siegel (statt Enpals Auszeichnungs-Slider).
+// "Unsere Versprechen" – sieben eigene Siegel als handgezeichnete Szene
+// (Kundenfeedback 30.09.2026: Siegel-Karten + Erklär-Dialoge entfallen).
 // Rechtlich: eigene Zusagen, klar als solche gekennzeichnet – keine fremden Prüfzeichen.
-import { VERSPRECHEN } from "../data/versprechen";
-import { CTA } from "../consts";
 import SectionHead from "./SectionHead.astro";
-import Icon from "./Icon.astro";
 import RoughSzene from "./RoughSzene.astro";
 ---
 
@@ -15,116 +13,11 @@ import RoughSzene from "./RoughSzene.astro";
       eyebrow="Unsere Versprechen"
       pre="Worauf Sie sich verlassen "
       accent="können"
-      text="Sechs Zusagen, die bei jedem Projekt gelten – klicken Sie ein Siegel an, um zu sehen, was genau dahintersteckt."
+      text="Sieben Zusagen, die bei jedem Projekt gelten."
     />
-    <!-- Handgezeichnete Szene (statt Video). Mobil steht sie allein, die
-         anklickbaren Siegel (öffnen die Erklärung) erst ab Tablet. -->
     <RoughSzene
       szene="siegel"
-      label="Sechs gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, 5 Jahre Gewährleistung, Meisterqualität, Termintreue, saubere Baustelle und ein Ansprechpartner."
+      label="Sieben gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, Termintreue, ein Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."
     />
-    <ul class="siegel-grid" id="siegelGrid">
-      {VERSPRECHEN.map((s) => (
-        <li>
-          <button class="siegel reveal" type="button" data-siegel={s.id} aria-haspopup="dialog">
-            <span class="siegel__ring">
-              <Icon name={s.icon} size={30} class="icon" />
-            </span>
-            <span class="siegel__title">{s.title}</span>
-            <span class="siegel__short small">{s.short}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
   </div>
 </section>
-
-{VERSPRECHEN.map((s) => (
-  <dialog class="siegel-dlg" id={`dlg-${s.id}`} aria-labelledby={`dlg-${s.id}-title`}>
-    <button class="siegel-dlg__close" type="button" data-close aria-label="Schließen">
-      <Icon name="close" size={22} class="icon" />
-    </button>
-    <span class="siegel__ring siegel-dlg__ring"><Icon name={s.icon} size={30} class="icon" /></span>
-    <h3 id={`dlg-${s.id}-title`}>{s.title}</h3>
-    <p class="small siegel-dlg__label">Unser Versprechen an Sie</p>
-    <p>{s.long}</p>
-    <a class="btn" href={CTA.href}>{CTA.label}</a>
-  </dialog>
-))}
-
-<style>
-  .siegel-grid {
-    list-style: none; margin: 0; padding: 0;
-    display: grid; gap: 16px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  /* Mobil erzählt die Zeichnung die Versprechen – Siegel-Raster (und der
-     Hinweis „klicken Sie ein Siegel an") erst ab Tablet */
-  @media (max-width: 767px) {
-    .siegel-grid,
-    #versprechen :global(.section-head .lead) { display: none; }
-  }
-  @media (min-width: 768px)  { .siegel-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (min-width: 1024px) { .siegel-grid { grid-template-columns: repeat(6, 1fr); } }
-
-  /* li streckt sich im Grid – height:100% + feste Zeilen ⇒ alle Kacheln gleich hoch */
-  .siegel-grid li { display: flex; }
-  .siegel {
-    width: 100%;
-    height: 100%;
-    display: grid; justify-items: center; align-content: start; gap: 10px;
-    grid-template-rows: auto auto 1fr;
-    background: var(--weiss);
-    border: 1px solid var(--linie);
-    border-radius: var(--radius-lg);
-    padding: 24px 12px;
-    text-align: center;
-    transition: transform var(--transition), box-shadow var(--transition);
-  }
-  .siegel:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-  .siegel__ring {
-    width: 68px; height: 68px;
-    border-radius: 50%;
-    border: 3px solid var(--gold-500);
-    background: var(--gold-100);
-    color: var(--gold-700);
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .siegel__title { font-family: var(--font-heading); font-weight: 700; font-size: 14px; text-transform: uppercase; }
-  .siegel__short { line-height: 1.4; }
-
-  .siegel-dlg {
-    border: 0;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    padding: 36px 28px 28px;
-    max-width: 440px;
-    width: calc(100vw - 40px);
-    text-align: center;
-  }
-  .siegel-dlg::backdrop { background: rgba(31, 30, 32, 0.55); }
-  .siegel-dlg__ring { margin-inline: auto; margin-bottom: 12px; }
-  .siegel-dlg h3 { margin-bottom: 4px; }
-  .siegel-dlg__label { color: var(--gold-700); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-  .siegel-dlg p:not(.siegel-dlg__label) { text-align: left; }
-  .siegel-dlg__close {
-    position: absolute; top: 12px; right: 12px;
-    border: 0; background: none;
-    width: 40px; height: 40px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .siegel-dlg__close:hover { background: var(--anthrazit-100); }
-</style>
-
-<script>
-  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-siegel]")) {
-    const dlg = document.getElementById(`dlg-${btn.dataset.siegel}`) as HTMLDialogElement | null;
-    if (!dlg) continue;
-    btn.addEventListener("click", () => dlg.showModal());
-    dlg.querySelector("[data-close]")?.addEventListener("click", () => dlg.close());
-    dlg.addEventListener("click", (e) => {
-      // Klick auf den Backdrop schließt
-      if (e.target === dlg) dlg.close();
-    });
-  }
-</script>

@@ -24,6 +24,9 @@ const { l } = Astro.props;
 const { Content } = await render(l);
 
 const kurzTitel = l.data.title.replace(" zum Festpreis", "");
+// Überlange Wörter in der H1 (z. B. „Bodenlegerarbeiten") mit weichen Trennstellen,
+// sonst läuft die Überschrift auf dem Handy über den Rand.
+const h1Titel = kurzTitel.replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten");
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
@@ -32,16 +35,18 @@ const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/")
 const siegelFallback: Record<string, string> = {
   badsanierung: "festpreis",
   "sanierung-modernisierung": "termin",
-  "dach-fassade": "gewaehrleistung",
-  innenausbau: "sauber",
-  "maler-boeden": "sauber",
-  "sanitaer-heizung-elektro": "meister",
+  "fliesen-boden": "festpreis",
+  "dach-fassade": "gewerke",
+  innenausbau: "gewerke",
+  "maler-boeden": "transparenz",
+  "sanitaer-heizung-elektro": "gewerke",
 };
 const siegel = siegelById(l.data.siegel ?? siegelFallback[l.id] ?? "") ?? VERSPRECHEN[0];
 
 // 2 passende Referenzen (Kategorie-Zuordnung je Gewerk)
 const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
   badsanierung: "bad",
+  "fliesen-boden": "bad",
   "sanierung-modernisierung": "sanierung",
   innenausbau: "sanierung",
   "maler-boeden": "sanierung",
@@ -65,7 +70,7 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
 >
   <PageHero
     eyebrow={l.data.badge ? `${kurzTitel} · ${l.data.badge}` : kurzTitel}
-    pre={`${kurzTitel} zum `}
+    pre={`${h1Titel} zum `}
     accent="Festpreis"
     lead={l.data.lead}
     bild={`hero-${l.id}.webp`}

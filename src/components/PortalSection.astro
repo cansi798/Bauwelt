@@ -1,14 +1,10 @@
 ---
-// Kundenportal-Sektion (Kundenfeedback 28.09.2026, Abschnitt 2):
-// Überschrift + Unterzeile, links vier Kacheln, rechts die Portal-Ansicht
-// (Beispieldaten aus der Login-Demo) – ein echter Screenshot kann sie später
-// ersetzen (siehe OFFENE-INFOS.md).
+// Kundenportal-Sektion (Kundenfeedback 30.09.2026): Überschrift + Unterzeile
+// und die handgezeichnete Portal-Szene in Endlosschleife – Kacheln und
+// Portal-Demo-Ansicht entfallen auf allen Geräten.
 import { PORTAL } from "../data/home";
-import { u } from "../consts";
 import SectionHead from "./SectionHead.astro";
-import Icon from "./Icon.astro";
 import RoughSzene from "./RoughSzene.astro";
-import PortalDemo from "./PortalDemo.astro";
 ---
 
 <section class="section section--sand" id="kundenportal">
@@ -20,80 +16,9 @@ import PortalDemo from "./PortalDemo.astro";
       accent="Blick"
       text={PORTAL.sub}
     />
-    <!-- Handgezeichnete Szene (statt Video). Mobil erklärt sie das Portal
-         allein – Kacheln + Demo-Ansicht erst ab Tablet (portal__grid). -->
     <RoughSzene
       szene="portal"
-      label="Gezeichnetes Handy mit dem Kundenportal: Projektfortschritt und Freigabe-Knopf, dazu vier Vorteile – alle Dokumente an einem Ort, alle Termine im Blick, Kommunikation per WhatsApp oder E-Mail und jederzeit wissen, was als Nächstes passiert."
+      label="Gezeichnetes Handy mit dem Kundenportal: Projektfortschritt und Freigabe-Knopf, dazu vier Vorteile – alle Dokumente an einem Ort, alle Termine im Blick, Kommunikation per WhatsApp oder E-Mail und der aktuelle Projektstatus: immer wissen, was als Nächstes passiert."
     />
-    <div class="portal__grid">
-      <ul class="portal__tiles">
-        {PORTAL.kacheln.map((k) => (
-          <li class="card portal__tile reveal">
-            <span class="portal__tileicon"><Icon name={k.icon} size={24} class="icon" /></span>
-            <div>
-              <h3>{k.title}</h3>
-              <p>{k.text}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <figure class="portal__shot reveal">
-        <PortalDemo />
-        <figcaption>
-          Beispielansicht mit Demodaten ·
-          <a href={u("login/")}>Portal-Demo ausprobieren <Icon name="arrow" size={16} class="icon" /></a>
-        </figcaption>
-      </figure>
-    </div>
   </div>
 </section>
-
-<style>
-  .portal__grid {
-    display: grid; gap: 32px;
-    align-items: center;
-  }
-  @media (min-width: 1024px) {
-    /* Links Kacheln, rechts die Portal-Ansicht (Vorlage Kunde) */
-    .portal__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
-  }
-  /* Mobil übernimmt die Zeichnung die Erklärung – Kacheln/Demo nur ab Tablet */
-  @media (max-width: 767px) {
-    html.js .portal__grid { display: none; }
-  }
-
-  .portal__tiles { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-  @media (min-width: 560px) and (max-width: 1023px) { .portal__tiles { grid-template-columns: 1fr 1fr; } }
-  .portal__tile {
-    padding: 20px 22px;
-    display: grid; grid-template-columns: auto 1fr; gap: 16px;
-    align-items: start;
-  }
-  .portal__tile h3 { margin: 0 0 4px; font-size: 16.5px; }
-  .portal__tile p { margin: 0; font-size: 14.5px; color: var(--anthrazit-700); }
-  .portal__tileicon {
-    width: 44px; height: 44px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 12px;
-    background: var(--gold-100);
-    color: var(--gold-700);
-  }
-
-  .portal__shot { margin: 0; display: grid; gap: 14px; }
-  /* Desktop: Portal-Ansicht so hoch wie die Kachel-Spalte wirken lassen */
-  @media (min-width: 1024px) {
-    /* width:100% nötig – im Grid schrumpft das auto-zentrierte Mockup sonst auf Inhaltsbreite */
-    .portal__shot :global(.pmock) { max-width: 540px; width: 100%; }
-  }
-  .portal__shot figcaption {
-    text-align: center;
-    font-size: 14px;
-    color: var(--anthrazit-600);
-  }
-  .portal__shot figcaption a {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-weight: 700; color: var(--gold-700);
-  }
-</style>

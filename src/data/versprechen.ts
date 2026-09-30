@@ -11,6 +11,8 @@ export type Siegel = {
 };
 
 export const VERSPRECHEN: Siegel[] = [
+  // Sieben Zusagen laut Kundenfeedback 30.09.2026 (Meisterqualität, Saubere
+  // Baustelle und 5 Jahre Gewährleistung entfallen; vier neue kommen hinzu).
   {
     id: "festpreis",
     icon: "euro",
@@ -21,28 +23,6 @@ export const VERSPRECHEN: Siegel[] = [
       "und der gilt. Keine Nachträge für Dinge, die wir hätten sehen müssen, keine " +
       "versteckten Positionen. Nur wenn Sie selbst zusätzliche Wünsche beauftragen, " +
       "ändert sich der Preis – vorher schriftlich, nie einfach auf der Rechnung.",
-  },
-  {
-    id: "gewaehrleistung",
-    icon: "shield",
-    title: "5 Jahre Gewährleistung",
-    short: "Wir stehen zu unserer Arbeit – lange nach der Abnahme.",
-    long:
-      "Auf unsere Handwerksleistungen geben wir 5 Jahre Gewährleistung nach BGB. " +
-      "Sollte innerhalb dieser Zeit ein Mangel an unserer Arbeit auftreten, beheben " +
-      "wir ihn kostenlos. Ein Anruf genügt – Sie erreichen keinen Callcenter, sondern " +
-      "Ihren Ansprechpartner.",
-  },
-  {
-    id: "meister",
-    icon: "tools",
-    title: "Meisterqualität",
-    short: "Ausführung und Abnahme nach Meister-Standard.",
-    long:
-      "Jedes Projekt wird nach den anerkannten Regeln des Handwerks geplant, " +
-      "ausgeführt und vor der Übergabe abgenommen. Unsere Gewerke sind bei der " +
-      "Handwerkskammer eingetragen. Qualität heißt für uns, dass es nicht nur am " +
-      "Übergabetag gut aussieht – sondern auch in zehn Jahren.",
   },
   {
     id: "termin",
@@ -56,16 +36,6 @@ export const VERSPRECHEN: Siegel[] = [
       "erfahren Sie es sofort von uns – nicht von der leeren Baustelle.",
   },
   {
-    id: "sauber",
-    icon: "hand",
-    title: "Saubere Baustelle",
-    short: "Wir arbeiten in Ihrem Zuhause – und behandeln es so.",
-    long:
-      "Staubschutzwände, abgedeckte Böden und Wege, tägliches Besenrein – das ist bei " +
-      "uns Standard, nicht Extra. Nach Abschluss übergeben wir das Ergebnis gereinigt. " +
-      "Sie wohnen während der Sanierung weiter – wir sorgen dafür, dass das gut geht.",
-  },
-  {
     id: "ansprechpartner",
     icon: "user",
     title: "Ein Ansprechpartner",
@@ -73,8 +43,44 @@ export const VERSPRECHEN: Siegel[] = [
     long:
       "Bei uns koordinieren Sie keine fünf Firmen. Sie haben einen persönlichen " +
       "Ansprechpartner, der Ihr Projekt vom ersten Gespräch bis zur Übergabe begleitet " +
-      "und alle Gewerke steuert. Innerhalb von 24 Stunden erhalten Sie eine Antwort – " +
+      "und alle Gewerke steuert. Innerhalb von 12 Stunden erhalten Sie eine Antwort – " +
       "auch per WhatsApp.",
+  },
+  {
+    id: "antwort",
+    icon: "clock",
+    title: "Antwort innerhalb von 12 Stunden",
+    short: "Sie warten nicht tagelang auf einen Rückruf.",
+    long:
+      "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie innerhalb von " +
+      "12 Stunden eine persönliche Antwort von Ihrem Ansprechpartner.",
+  },
+  {
+    id: "angebot",
+    icon: "doc",
+    title: "Angebot innerhalb von 24 Stunden",
+    short: "Nach der Besichtigung schnell Klarheit.",
+    long:
+      "Nach dem Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches " +
+      "Angebot mit klaren Leistungen und festen Preisen – digital abrufbar und freigebbar.",
+  },
+  {
+    id: "transparenz",
+    icon: "eye",
+    title: "Volle Transparenz",
+    short: "Sie wissen jederzeit, was passiert – und was es kostet.",
+    long:
+      "Verständliche Angebote ohne Positionsdschungel, ein Kundenportal mit aktuellem " +
+      "Projektstatus und alle Dokumente an einem Ort – Sie behalten jederzeit den Überblick.",
+  },
+  {
+    id: "gewerke",
+    icon: "tools",
+    title: "Alle Gewerke aus einer Hand",
+    short: "Wir koordinieren alle Arbeiten – Sie lehnen sich zurück.",
+    long:
+      "Abbruch, Mauerarbeiten, Trockenbau, Sanitär, Elektro, Fliesen, Böden und Maler: " +
+      "Wir planen und steuern alle Gewerke selbst, damit Termine und Übergänge passen.",
   },
 ];
 

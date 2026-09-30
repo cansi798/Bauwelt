@@ -46,6 +46,9 @@ warmes Licht; nicht übersättigt; keine Filter.
 | `hero-innenausbau.webp` | Innenausbau & Trockenbau | Heller Rohbau mit Rundbogenfenstern |
 | `hero-sanitaer-heizung-elektro.webp` | Sanitär, Heizung, Elektro | Trockenbau + Heizkreisverteiler |
 | `hero-maler-boeden.webp` | Maler & Bodenbeläge | Heller Raum, Malerleiter, neuer Boden |
+| `hero-fliesen-boden.webp` | Fliesen- & Bodenlegerarbeiten | Ausschnitt aus eigener Referenz ref-02 (bodengleiche Dusche) |
+| `gewerk-elektro.webp` | Gewerke-Karte „Elektro“ | Sicherungskasten – **CC0** (gemeinfrei), Wikimedia Commons: „One row of ABB 230V 16A fuses in fuse box in German shop, 2024.jpg“ – Übergangsbild, eigenes Foto erwünscht |
+| `angebot-beispiel-1/-2.webp` | Angebots-Sektion (Blättern) | Echtes Angebot AG-2026-0052, **Kundendaten durch Musterdaten ersetzt, Bankzeile entfernt** – Original NIE ins Repo (öffentlich!) |
 | `hero-partner.webp` | Für Partner (B2B) | Zwei Profis mit Tablet an Trockenbauwand |
 | `hero-ueber-uns.webp` | Über uns | Bau-Crew auf der Baustelle |
 | `hero-karriere.webp` | Karriere | Handwerker beim Trockenbau (s/w) |

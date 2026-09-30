@@ -1,11 +1,16 @@
 ---
-// Angebots-Sektion (Kundenfeedback 12.09.2026, Abschnitt 3):
-// links ein stilisiertes Angebots-Mockup mit goldenen Markierungen
-// (Festpreis, Leistungsumfang, …), rechts Text + vier Punkte.
-// Mockup ist reines HTML/CSS – echter Screenshot kann später ersetzen.
+// Angebots-Sektion (Kundenfeedback 30.09.2026): links Text + Punkte + Button
+// „Ich möchte auch so ein Angebot erhalten" (öffnet das Buchungsfenster),
+// rechts ein echtes Bauwelt-Angebot zum Umblättern (2 Seiten).
+// Datenschutz: Kundendaten sind durch Musterdaten ersetzt, die Bankzeile ist
+// ausgeblendet (Bilder: assets/img/angebot-beispiel-1/-2.webp).
+// Blättern: horizontales Scroll-Snap (Wischen nativ), Pfeile scrollen per JS.
 import { ANGEBOT } from "../data/home";
+import { TERMIN, u } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+
+const SEITEN = [1, 2];
 ---
 
 <section class="section" id="angebot">
@@ -22,26 +27,118 @@ import Icon from "./Icon.astro";
           <li><Icon name="check" size={18} class="icon" /> {p}</li>
         ))}
       </ul>
-      <a class="btn btn--ghost angebot__demo" href={`${import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/"}login/`}>
-        <Icon name="user" size={18} class="icon" /> So sieht Ihr Angebot im Portal aus – Demo ansehen
+      <a class="btn btn--lg angebot__cta" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+        Ich möchte auch so ein Angebot erhalten
       </a>
     </div>
+
+    <figure class="angebot__viewer reveal" data-blaettern>
+      <div class="angebot__seiten" tabindex="0" aria-label="Beispielangebot, 2 Seiten – zum Blättern wischen oder Pfeile nutzen">
+        {SEITEN.map((n) => (
+          <a class="angebot__seite" href={u(`assets/img/angebot-beispiel-${n}.webp`)} target="_blank" rel="noopener">
+            <img
+              src={u(`assets/img/angebot-beispiel-${n}.webp`)}
+              alt={`Beispielangebot der Bauwelt Handwerk GmbH, Seite ${n} von 2`}
+              width="1242" height="1754"
+              loading="lazy" decoding="async"
+            />
+          </a>
+        ))}
+      </div>
+      <div class="angebot__nav">
+        <button type="button" class="angebot__pfeil" data-richtung="-1" aria-label="Vorherige Seite">
+          <Icon name="arrow-left" size={20} class="icon" />
+        </button>
+        <span class="angebot__zaehler" aria-live="polite">Seite <b>1</b> von {SEITEN.length}</span>
+        <button type="button" class="angebot__pfeil" data-richtung="1" aria-label="Nächste Seite">
+          <Icon name="arrow" size={20} class="icon" />
+        </button>
+      </div>
+      <figcaption class="small">Echtes Angebot als Beispiel · Kundendaten geändert</figcaption>
+    </figure>
   </div>
 </section>
 
+<script>
+  document.querySelectorAll<HTMLElement>("[data-blaettern]").forEach((v) => {
+    const seiten = v.querySelector<HTMLElement>(".angebot__seiten")!;
+    const zahl = v.querySelector(".angebot__zaehler b")!;
+    const pfeile = v.querySelectorAll<HTMLButtonElement>(".angebot__pfeil");
+    const anzahl = seiten.children.length;
+    const aktuell = () => Math.round(seiten.scrollLeft / seiten.clientWidth);
+    const update = () => {
+      const i = aktuell();
+      zahl.textContent = String(i + 1);
+      pfeile[0].disabled = i === 0;
+      pfeile[1].disabled = i === anzahl - 1;
+    };
+    const gehe = (i: number) =>
+      seiten.scrollTo({ left: Math.max(0, Math.min(anzahl - 1, i)) * seiten.clientWidth, behavior: "smooth" });
+    pfeile.forEach((b) => b.addEventListener("click", () => gehe(aktuell() + Number(b.dataset.richtung))));
+    seiten.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); gehe(aktuell() + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); gehe(aktuell() - 1); }
+    });
+    seiten.addEventListener("scroll", update, { passive: true });
+    update();
+  });
+</script>
+
 <style>
-  .angebot__grid { display: grid; justify-items: center; text-align: left; }
-  .angebot__text { max-width: 640px; }
+  .angebot__grid { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 1024px) {
+    .angebot__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; }
+  }
+  .angebot__text { max-width: 560px; }
 
   .angebot__punkte {
     list-style: none; margin: 24px 0 0; padding: 0;
     display: grid; gap: 12px;
   }
   .angebot__punkte li {
-    display: inline-flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     font-weight: 600;
   }
   .angebot__punkte :global(.icon) { color: var(--gold-700); flex: none; }
-  .angebot__demo { margin-top: 24px; }
+  .angebot__cta { margin-top: 28px; }
 
+  .angebot__viewer { margin: 0; width: 100%; max-width: 520px; justify-self: center; }
+  .angebot__seiten {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--linie);
+    box-shadow: var(--shadow-lg);
+    background: var(--weiss);
+  }
+  .angebot__seiten::-webkit-scrollbar { display: none; }
+  .angebot__seiten:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 3px; }
+  .angebot__seite { flex: 0 0 100%; scroll-snap-align: start; display: block; }
+  .angebot__seite img { display: block; width: 100%; height: auto; }
+
+  .angebot__nav {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    margin-top: 14px;
+  }
+  .angebot__pfeil {
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--linie);
+    border-radius: 50%;
+    background: var(--weiss);
+    color: var(--anthrazit-800);
+    cursor: pointer;
+    transition: background var(--transition), opacity var(--transition);
+  }
+  .angebot__pfeil:hover:not(:disabled) { background: var(--gold-100); border-color: var(--gold-500); }
+  .angebot__pfeil:disabled { opacity: 0.35; cursor: default; }
+  .angebot__zaehler { font-family: var(--font-heading); font-weight: 600; font-size: 14px; min-width: 110px; text-align: center; }
+  .angebot__viewer figcaption { text-align: center; margin-top: 6px; }
+
+  @media (max-width: 767px) {
+    .angebot__cta { width: 100%; justify-content: center; text-align: center; white-space: normal; }
+  }
 </style>

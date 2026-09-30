@@ -1,35 +1,48 @@
 ---
-// Startseite – Texte nach Kundenfeedback 28.09.2026, Reihenfolge bildlastig:
-// Hero → Referenzen → Gewerke-Karten → Weg zum Badezimmer (4 Schritte)
-// → Kundenportal → Transparentes Angebot → CTA-Band → FAQ
-// → Siegel → Einzugsgebiet → Termin → Kontakt.
+// Startseite – Reihenfolge laut Kundenfeedback 30.09.2026:
+// 1 Hero → 2 Gewerke → 3 Ablauf → 4 Referenzen → 5 Kundenportal → 6 Angebot
+// → 7 Versprechen → 8 Einzugsgebiet → 9 FAQ → 10 Kontakt.
+// Entfallen: CTA-Band „So sollte Handwerk sein", Terminbuchungs-Sektion
+// (Termin jetzt überall per Buchungsfenster), Schritt-Karten beim Ablauf.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import Steps from "../components/Steps.astro";
 import RoughSzene from "../components/RoughSzene.astro";
 import PortalSection from "../components/PortalSection.astro";
 import AngebotSection from "../components/AngebotSection.astro";
 import RefSlider from "../components/RefSlider.astro";
 import GewerkeKarten from "../components/GewerkeKarten.astro";
-import CtaBand from "../components/CtaBand.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import Faq from "../components/Faq.astro";
 import ContactSection from "../components/ContactSection.astro";
 import ServiceArea from "../components/ServiceArea.astro";
-import BookingEmbed from "../components/BookingEmbed.astro";
 import SectionHead from "../components/SectionHead.astro";
-import { CTA } from "../consts";
-import { FAQ_HOME, HERO } from "../data/home";
+import { CTA, TERMIN } from "../consts";
+import { FAQ_HOME } from "../data/home";
 ---
 
 <BaseLayout
   title="Sanierung & Ausbau zum Festpreis – Bauwelt Handwerk Norderstedt"
-  description="Badsanierung und Innenausbau in Hamburg & Umgebung – alles aus einer Hand. Angebot in 24 h, Kundenportal mit Live-Projektstatus. Jetzt Projekt berechnen."
+  description="Badsanierung und Innenausbau in Hamburg & Umgebung – alle Gewerke aus einer Hand. Antwort in 12 h, Angebot in 24 h, Kundenportal mit Live-Projektstatus."
 >
   <Hero />
   <div id="weiter"></div>
 
-  <!-- Bilder zuerst: Referenzen direkt nach dem Hero (visueller Einstieg statt Text) -->
+  <GewerkeKarten />
+
+  <section class="section" id="ablauf">
+    <div class="container">
+      <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Von der ersten Idee bis zum fertigen " accent="Ergebnis" />
+      <RoughSzene
+        szene="weg"
+        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+      />
+      <div class="weg__actions">
+        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+        <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+      </div>
+    </div>
+  </section>
+
   <RefSlider
     eyebrow="Referenzen"
     pre="Aus Ideen werden "
@@ -37,49 +50,15 @@ import { FAQ_HOME, HERO } from "../data/home";
     text="Jedes Projekt ist einzigartig. Unser Anspruch bleibt derselbe – hochwertige Handwerksarbeit, klare Kommunikation und ein Ergebnis, das begeistert."
   />
 
-  <!-- Foto-Karten früh: erst überzeugen (Bilder), dann erklären (Text) -->
-  <GewerkeKarten />
-
-  <section class="section">
-    <div class="container">
-      <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Ihr Weg zum neuen " accent="Badezimmer" />
-      <!-- Handgezeichnete Szene (statt Video). Mobil erzählt sie den Ablauf
-           allein – die Schritt-Karten erscheinen dort nicht (weg__text). -->
-      <RoughSzene
-        szene="weg"
-        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – das fertige Badezimmer."
-      />
-      <div class="weg__text">
-        <Steps />
-      </div>
-      <div class="weg__actions">
-        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
-        <a class="btn btn--lg btn--ghost" href={HERO.cta2.href}>{HERO.cta2.label}</a>
-      </div>
-    </div>
-  </section>
-
   <PortalSection />
   <AngebotSection />
-
-  <CtaBand cta2Href="#termin" />
+  <SiegelSlider />
+  <ServiceArea />
 
   <section class="section">
     <div class="container">
       <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
       <Faq items={FAQ_HOME} withCta />
-    </div>
-  </section>
-
-  <SiegelSlider />
-  <ServiceArea />
-
-  <section class="section section--sand" id="termin">
-    <div class="container">
-      <SectionHead center eyebrow="Terminbuchung" pre="Termin online " accent="vereinbaren" />
-      <div style="max-width: 820px; margin-inline: auto;">
-        <BookingEmbed />
-      </div>
     </div>
   </section>
 
@@ -90,13 +69,11 @@ import { FAQ_HOME, HERO } from "../data/home";
   .weg__actions {
     display: flex; flex-wrap: wrap; gap: 12px 16px;
     justify-content: center;
-    margin-top: 36px;
+    margin-top: 12px;
   }
-  /* Mobil übernimmt die Zeichnung die Erklärung – Karten nur ab Tablet */
   @media (max-width: 767px) {
-    html.js .weg__text { display: none; }
     /* Buttons untereinander, gleich breit, Text mittig (wie im Hero) */
-    .weg__actions { margin-top: 8px; display: grid; justify-items: stretch; }
-    .weg__actions .btn { width: 100%; justify-content: center; text-align: center; }
+    .weg__actions { display: grid; justify-items: stretch; }
+    .weg__actions .btn { width: 100%; justify-content: center; text-align: center; white-space: normal; }
   }
 </style>

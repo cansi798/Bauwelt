@@ -5,6 +5,7 @@ import IconSprite from "../components/IconSprite.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StickyBar from "../components/StickyBar.astro";
+import BookingDialog from "../components/BookingDialog.astro";
 import { SITE, u } from "../consts";
 import { REGION_CENTER, REGION_CITIES, SERVICE_TYPES } from "../data/region";
 
@@ -87,6 +88,7 @@ const jsonLd = {
     </main>
     <Footer />
     <StickyBar />
+    <BookingDialog />
 
     <!-- Nach-oben-Button: erscheint nach einer Bildschirmhöhe Scrolltiefe -->
     <button class="hoch" id="hochBtn" type="button" aria-label="Zurück zum Seitenanfang" hidden>

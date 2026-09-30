@@ -108,51 +108,58 @@ function handy(z: Zeichner, x: number, y: number, b: number, h: number) {
 
 const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: number) => void> = {
   festpreis: (z, cx, cy, s) => z.text(cx, cy + 11 * s, "€", { groesse: 32 * s, farbe: F.goldDunkel }),
-  gewaehrleistung: (z, cx, cy, s) => {
-    z.pfad(`M${cx} ${cy - 17 * s}L${cx + 15 * s} ${cy - 11 * s}V${cy + 1 * s}Q${cx + 15 * s} ${cy + 13 * s} ${cx} ${cy + 19 * s}` +
-      `Q${cx - 15 * s} ${cy + 13 * s} ${cx - 15 * s} ${cy + 1 * s}V${cy - 11 * s}Z`, { strokeWidth: 2.2 }, 0.4);
-    z.pfad(`M${cx - 6 * s} ${cy + 1 * s}l${5 * s} ${5 * s}l${8 * s} -${9 * s}`, { stroke: F.goldDunkel, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
-  },
-  meister: (z, cx, cy, s) => {
-    z.linie(cx - 10 * s, cy + 16 * s, cx + 6 * s, cy - 6 * s, { strokeWidth: 3 }, 0.3);
-    z.rechteck(cx - 2 * s, cy - 18 * s, 22 * s, 11 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 2 }, 0.3);
-  },
   termin: (z, cx, cy, s) => {
-    z.kreis(cx, cy, 36 * s, { strokeWidth: 2.2 }, 0.4);
-    z.linie(cx, cy, cx, cy - 11 * s, { stroke: F.goldDunkel, strokeWidth: 2.6 }, 0.2);
-    z.linie(cx, cy, cx + 8 * s, cy + 4 * s, { stroke: F.goldDunkel, strokeWidth: 2.6 }, 0.2);
-  },
-  sauber: (z, cx, cy, s) => {
-    z.linie(cx + 12 * s, cy - 18 * s, cx - 2 * s, cy + 4 * s, { strokeWidth: 2.6 }, 0.3);
-    z.pfad(`M${cx - 8 * s} ${cy + 1 * s}L${cx + 4 * s} ${cy + 8 * s}L${cx - 4 * s} ${cy + 19 * s}L${cx - 18 * s} ${cy + 11 * s}Z`,
-      { fill: F.gold, fillStyle: "hachure", hachureGap: 3.5, fillWeight: 1.2, strokeWidth: 2 }, 0.3);
+    // Kalenderblatt mit Haken = verbindlicher Termin
+    z.rundRechteck(cx - 15 * s, cy - 13 * s, 30 * s, 28 * s, 4 * s, { strokeWidth: 2.2 }, 0.4);
+    z.linie(cx - 15 * s, cy - 5 * s, cx + 15 * s, cy - 5 * s, { strokeWidth: 2 }, 0.2);
+    z.pfad(`M${cx - 6 * s} ${cy + 5 * s}l${4 * s} ${4 * s}l${8 * s} -${8 * s}`, { stroke: F.goldDunkel, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
   },
   ansprechpartner: (z, cx, cy, s) => {
     z.kreis(cx, cy - 7 * s, 15 * s, { strokeWidth: 2.2 }, 0.3);
     z.pfad(`M${cx - 14 * s} ${cy + 18 * s}Q${cx - 14 * s} ${cy + 3 * s} ${cx} ${cy + 3 * s}Q${cx + 14 * s} ${cy + 3 * s} ${cx + 14 * s} ${cy + 18 * s}`,
       { stroke: F.goldDunkel, strokeWidth: 2.4 }, 0.3);
   },
+  antwort: (z, cx, cy, s) => z.text(cx, cy + 7 * s, "12h", { groesse: 19 * s, farbe: F.goldDunkel }),
+  angebot: (z, cx, cy, s) => z.text(cx, cy + 7 * s, "24h", { groesse: 19 * s, farbe: F.goldDunkel }),
+  transparenz: (z, cx, cy, s) => {
+    z.pfad(`M${cx - 17 * s} ${cy}Q${cx} ${cy - 16 * s} ${cx + 17 * s} ${cy}Q${cx} ${cy + 16 * s} ${cx - 17 * s} ${cy}Z`, { strokeWidth: 2.2 }, 0.4);
+    z.kreis(cx, cy, 11 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+  },
+  gewerke: (z, cx, cy, s) => {
+    // Hammer + Kelle gekreuzt = alle Gewerke
+    z.linie(cx - 12 * s, cy + 14 * s, cx + 8 * s, cy - 8 * s, { strokeWidth: 2.8 }, 0.3);
+    z.rechteck(cx + 2 * s, cy - 17 * s, 16 * s, 8 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+    z.linie(cx + 12 * s, cy + 14 * s, cx - 4 * s, cy - 2 * s, { stroke: F.goldDunkel, strokeWidth: 2.6 }, 0.3);
+    z.pfad(`M${cx - 4 * s} ${cy - 2 * s}L${cx - 16 * s} ${cy - 6 * s}L${cx - 8 * s} ${cy - 14 * s}Z`, { strokeWidth: 2 }, 0.3);
+  },
 };
 
 /** Siegel-Titel zweizeilig umbrochen (schmale Handy-Spalten). */
 const SIEGEL_ZEILEN: Record<string, [string, string]> = {
   festpreis: ["Festpreis-", "Garantie"],
-  gewaehrleistung: ["5 Jahre", "Gewährleistung"],
-  meister: ["Meister-", "qualität"],
   termin: ["Termin-", "treue"],
-  sauber: ["Saubere", "Baustelle"],
   ansprechpartner: ["Ein An-", "sprechpartner"],
+  antwort: ["Antwort in", "12 Stunden"],
+  angebot: ["Angebot in", "24 Stunden"],
+  transparenz: ["Volle", "Transparenz"],
+  gewerke: ["Alle Gewerke", "aus einer Hand"],
 };
 
 /* ─────────────── Szenen ─────────────── */
 
 const WEG_MOTIVE = [rechner, sprechblasen, dokument, badewanne];
-const WEG_UNTER = ["Preis in wenigen Minuten", "Persönlicher Termin", "Angebot in 24 Stunden", "Wir koordinieren alles"];
+// Unterzeilen je Station (mehrzeilig möglich – Schritt 4 laut Kundenfeedback 30.09.2026)
+const WEG_UNTER: string[][] = [
+  ["Preis in wenigen Minuten"],
+  ["Persönlicher Termin"],
+  ["Angebot in 24 Stunden"],
+  ["Wir koordinieren alles", "und setzen es für Sie um"],
+];
 
 function weg(a: Ansicht): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 540 : 290;
+  const B = mobil ? 360 : 1000, H = mobil ? 540 : 300;
   // Stationen: mobil im Zickzack untereinander, Desktop nebeneinander
   const pos: [number, number][] = mobil
     ? [[80, 76], [280, 206], [80, 336], [280, 466]]
@@ -174,10 +181,14 @@ function weg(a: Ansicht): Szene {
       const tx = links ? 150 : 210;
       const anker = links ? "start" : "end";
       z.text(tx, cy - 2, STEPS[i].title, { groesse: 15.5, anker });
-      z.text(tx, cy + 18, WEG_UNTER[i], { groesse: 13, gewicht: 400, farbe: F.text2, anker });
+      WEG_UNTER[i].forEach((zeile, k) =>
+        z.text(tx, cy + 18 + k * 17, zeile, { groesse: 13, gewicht: 400, farbe: F.text2, anker })
+      );
     } else {
       z.text(cx, 206, STEPS[i].title, { groesse: 18 });
-      z.text(cx, 232, WEG_UNTER[i], { groesse: 14.5, gewicht: 400, farbe: F.text2 });
+      WEG_UNTER[i].forEach((zeile, k) =>
+        z.text(cx, 232 + k * 20, zeile, { groesse: 14.5, gewicht: 400, farbe: F.text2 })
+      );
     }
     // Weg zur nächsten Station
     if (i < 3) {
@@ -197,14 +208,15 @@ function weg(a: Ansicht): Szene {
 const PORTAL_TEILE = [
   { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "an einem Ort"] },
   { motiv: kalender, zeilen: ["Alle Termine", "im Blick"] },
-  { motiv: chat, zeilen: ["WhatsApp oder", "E-Mail – wie Sie wollen"] },
-  { motiv: pfeilKreis, zeilen: ["Immer wissen, was", "als Nächstes passiert"] },
+  // Erste Zeile fett, folgende normal (Kundenfeedback 30.09.2026)
+  { motiv: chat, zeilen: ["WhatsApp oder E-Mail", "wie Sie wollen"] },
+  { motiv: pfeilKreis, zeilen: ["Aktueller Projektstatus", "Immer wissen, was als", "Nächstes passiert"] },
 ];
 
 function portal(a: Ansicht): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 520 : 300;
+  const B = mobil ? 360 : 1000, H = mobil ? 536 : 316;
   const ph = { x: mobil ? 115 : 435, y: 12, b: 130, h: 236 };
   z.bei(0.1);
   handy(z, ph.x, ph.y, ph.b, ph.h);
@@ -228,8 +240,11 @@ function portal(a: Ansicht): Szene {
     z.gruppe("stempel", () => PORTAL_TEILE[i].motiv(z, cx, mobil ? cy - 22 : cy - 14, 1));
     z.bei(t + 0.35);
     const ty = mobil ? cy + 32 : cy + 42;
-    z.text(cx, ty, PORTAL_TEILE[i].zeilen[0], { groesse: mobil ? 14 : 16 });
-    z.text(cx, ty + (mobil ? 18 : 21), PORTAL_TEILE[i].zeilen[1], { groesse: mobil ? 12.5 : 14, gewicht: 400, farbe: F.text2 });
+    const [kopf, ...rest] = PORTAL_TEILE[i].zeilen;
+    z.text(cx, ty, kopf, { groesse: mobil ? 13.5 : 16 });
+    rest.forEach((zeile, k) =>
+      z.text(cx, ty + (mobil ? 18 : 21) * (k + 1), zeile, { groesse: mobil ? 12.5 : 14, gewicht: 400, farbe: F.text2 })
+    );
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 2.0 + 3 * 0.75 + 1 };
 }
@@ -237,13 +252,23 @@ function portal(a: Ansicht): Szene {
 function siegel(a: Ansicht): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 320 : 240;
-  const d = mobil ? 78 : 104; // Ring-Durchmesser
-  const s = mobil ? 0.9 : 1.2; // Motiv-Maßstab
+  const n = VERSPRECHEN.length;
+  // Mobil im Muster 2-3-2 (Reihen versetzt), Desktop alle in einer Reihe
+  const reihen = mobil ? [2, 3, 2] : [n];
+  const B = mobil ? 360 : 1000;
+  const rh = 150; // Reihenhöhe mobil
+  const H = mobil ? reihen.length * rh + 10 : 230;
+  const d = mobil ? 78 : 100; // Ring-Durchmesser
+  const s = mobil ? 0.9 : 1.15; // Motiv-Maßstab
+  const pos: [number, number][] = [];
+  reihen.forEach((anz, r) => {
+    const sp = mobil ? 120 : B / anz;
+    const start = (B - sp * anz) / 2 + sp / 2;
+    for (let k = 0; k < anz; k++) pos.push([start + k * sp, (mobil ? 56 + r * rh : 70)]);
+  });
   VERSPRECHEN.forEach((v, i) => {
-    const cx = mobil ? 60 + (i % 3) * 120 : 83 + i * 166.8;
-    const cy = mobil ? 58 + Math.floor(i / 3) * 152 : 74;
-    const t = 0.2 + i * 0.6;
+    const [cx, cy] = pos[i];
+    const t = 0.2 + i * 0.55;
     z.bei(t);
     z.gruppe("stempel", () => {
       z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
@@ -254,11 +279,11 @@ function siegel(a: Ansicht): Szene {
     z.bei(t + 0.45);
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const [z1, z2] = !mobil && v.id === "ansprechpartner" ? ["Ein", "Ansprechpartner"] : SIEGEL_ZEILEN[v.id] ?? [v.title, ""];
-    const ty = cy + d / 2 + (mobil ? 22 : 30);
-    z.text(cx, ty, z1, { groesse: mobil ? 13 : 16, gewicht: 600 });
-    z.text(cx, ty + (mobil ? 17 : 21), z2, { groesse: mobil ? 13 : 16, gewicht: 600 });
+    const ty = cy + d / 2 + (mobil ? 22 : 28);
+    z.text(cx, ty, z1, { groesse: mobil ? 13 : 15, gewicht: 600 });
+    z.text(cx, ty + (mobil ? 17 : 20), z2, { groesse: mobil ? 13 : 15, gewicht: 600 });
   });
-  return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + 5 * 0.6 + 1 };
+  return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + (n - 1) * 0.55 + 1 };
 }
 
 export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel };

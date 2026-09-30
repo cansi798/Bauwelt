@@ -6,7 +6,7 @@
 
 ## Leistungen
 
-- Badsanierung zum Festpreis (Kerngeschäft, typisch ~3 Wochen): /Bauwelt/leistungen/badsanierung/
+- Badsanierung zum Festpreis (Kerngeschäft, typisch ~2 Wochen): /Bauwelt/leistungen/badsanierung/
 - Sanierung & Modernisierung (Renovierung bis Kernsanierung): /Bauwelt/leistungen/sanierung-modernisierung/
 - Innenausbau & Trockenbau: /Bauwelt/leistungen/innenausbau/
 - Dach & Fassade: /Bauwelt/leistungen/dach-fassade/
@@ -16,7 +16,7 @@
 ## Fakten
 
 - Über 30 sanierte Bäder, über 15 Komplettsanierungen, über 10 Jahre Erfahrung
-- Festpreis nach kostenlosem Vor-Ort-Termin; 5 Jahre Gewährleistung; Antwort in 24 h
+- Festpreis nach kostenlosem Vor-Ort-Termin; 5 Jahre Gewährleistung; Antwort in 12 h, Angebot in 24 h
 - Online-Projekt-Rechner (unverbindliche Preisspanne ohne Kontaktdaten): /Bauwelt/rechner/
 - Referenzprojekte mit Ort und Dauer: /Bauwelt/referenzen/
 

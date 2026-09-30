@@ -44,6 +44,15 @@ export const SITE = {
 /** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
 export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
 
+/** Besichtigungstermin (Kundenfeedback 30.09.2026): Alle Termin-Buttons öffnen
+ *  per JS das Buchungsfenster (BookingDialog, `data-termin`). Ohne JS führt der
+ *  Link direkt zum Relexable-Buchungsportal (neuer Tab). */
+export const TERMIN = {
+  label: "Kostenlosen Besichtigungstermin buchen",
+  kurz: "Besichtigungstermin buchen",
+  href: "https://portal.bauwelt-handwerk.de/buchen",
+};
+
 export type NavChild = { label: string; href: string; icon?: string; desc?: string };
 export type NavItem = { label: string; href?: string; children?: NavChild[] };
 
@@ -52,12 +61,12 @@ export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
     children: [
-      { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 3 Wochen" },
-      { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von Renovierung bis Kernsanierung" },
-      { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Neue Räume, neue Aufteilung" },
-      { label: "Dach & Fassade", href: u("leistungen/dach-fassade/"), icon: "roof", desc: "Dicht, gedämmt, wertsteigernd" },
-      { label: "Maler & Bodenbeläge", href: u("leistungen/maler-boeden/"), icon: "paint", desc: "Frische Wände, neue Böden" },
-      { label: "Sanitär, Heizung, Elektro", href: u("leistungen/sanitaer-heizung-elektro/"), icon: "tools", desc: "Technik, die einfach läuft" },
+      // Nur noch 4 Leistungen im Menü (Kundenfeedback 30.09.2026) – Dach & Fassade,
+      // Maler & Böden, Sanitär/Heizung/Elektro bleiben online, aber ohne Menüeintrag.
+      { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 2 Wochen" },
+      { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von der Einzelmaßnahme bis zur Kernsanierung" },
+      { label: "Fliesen- & Bodenlegerarbeiten", href: u("leistungen/fliesen-boden/"), icon: "tiles", desc: "Perfekte Oberflächen für Wand und Boden" },
+      { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Räume neu gestalten und optimal nutzen" },
       { label: "Alle Leistungen im Überblick", href: u("leistungen/"), icon: "arrow" },
     ],
   },

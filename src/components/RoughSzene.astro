@@ -2,9 +2,11 @@
 // Handgezeichnete Erklär-Szene (ersetzt die Erklärvideos, 29.09.2026).
 // Die Formen berechnet rough.js beim BUILD (src/data/szenen.ts) – im Browser
 // liegt nur fertiges SVG. Zwei Fassungen: hochkant (Handy) und quer (ab Tablet).
-// Ablauf: Sobald die Szene ins Bild scrollt, zeichnet sie sich einmal Strich für
-// Strich (CSS, pathLength=1 + stroke-dashoffset) und bleibt dann stehen; kleine
-// Details pulsieren leise weiter. „Nochmal ansehen" startet sie neu.
+// Ablauf (Kundenfeedback 30.09.2026): Endlosschleife. Sobald die Szene im Bild
+// ist, zeichnet sie sich Strich für Strich (CSS, pathLength=1 + stroke-dashoffset),
+// bleibt kurz stehen, blendet weich auf leer aus und beginnt von vorn – weil
+// jede Runde leer startet, gibt es keinen Sprung. Außerhalb des Bildes pausiert
+// die Schleife (spart Akku).
 // Ohne JS oder bei „Bewegung reduzieren" steht sofort das fertige Bild.
 import { SZENEN, type Ansicht, type SzenenName } from "../data/szenen";
 import type { Element, Szene } from "../lib/rough-szene";
@@ -42,41 +44,50 @@ const mobil = SZENEN[szene]("mobil");
 const desktop = SZENEN[szene]("desktop");
 ---
 
-<div class={`rszene rszene--${szene}`} data-rszene>
+<div class={`rszene rszene--${szene}`} data-rszene data-ende={mobil.ende} data-ende-desktop={desktop.ende}>
   <div class="rszene__bild" role="img" aria-label={label}>
     <Fragment set:html={svg("mobil", mobil) + svg("desktop", desktop)} />
   </div>
-  <button class="rszene__nochmal" type="button" aria-label="Zeichnung noch einmal abspielen">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
-    Nochmal ansehen
-  </button>
 </div>
 
 <script>
-  // Startet die Zeichnung, sobald die Szene ins Bild kommt (einmalig).
-  // „Nochmal ansehen": Klasse weg → Reflow → Klasse wieder dran = Neustart.
+  // Schleife: zeichnen (ende s) → stehen (HALTEN) → ausblenden (BLENDE) → neu.
+  // Neustart = Klasse weg → Reflow → Klasse wieder dran (startet alle CSS-Animationen).
+  const HALTEN = 3000, BLENDE = 700;
+  const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const desktop = matchMedia("(min-width: 768px)");
   const szenen = document.querySelectorAll<HTMLElement>("[data-rszene]");
-  const start = (el: HTMLElement) => el.classList.add("laeuft");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) { start(e.target as HTMLElement); io.unobserve(e.target); }
-        }
-      },
-      { threshold: 0.35 }
-    );
-    szenen.forEach((el) => io.observe(el));
-  } else {
-    szenen.forEach(start);
-  }
-  szenen.forEach((el) =>
-    el.querySelector(".rszene__nochmal")?.addEventListener("click", () => {
-      el.classList.remove("laeuft");
+
+  szenen.forEach((el) => {
+    if (ruhig) return; // Standbild – CSS blendet nichts aus
+    let sichtbar = false, laeuft = false, timer = 0;
+    const dauer = () => Number(desktop.matches ? el.dataset.endeDesktop : el.dataset.ende) * 1000;
+
+    const runde = () => {
+      el.classList.remove("laeuft", "blende");
       void el.offsetWidth;
-      start(el);
-    })
-  );
+      el.classList.add("laeuft");
+      laeuft = true;
+      timer = window.setTimeout(() => {
+        el.classList.add("blende");
+        timer = window.setTimeout(() => {
+          laeuft = false;
+          if (sichtbar) runde(); // sonst wartet sie, bis sie wieder im Bild ist
+        }, BLENDE);
+      }, dauer() + HALTEN);
+    };
+
+    if (!("IntersectionObserver" in window)) { sichtbar = true; runde(); return; }
+    new IntersectionObserver(
+      ([e]) => {
+        sichtbar = e.isIntersecting;
+        if (sichtbar && !laeuft) runde();
+      },
+      { threshold: 0.3 }
+    ).observe(el);
+    // Wechsel Hochkant ↔ Quer (Drehen, Fenstergröße): frisch beginnen
+    desktop.addEventListener("change", () => { clearTimeout(timer); laeuft = false; if (sichtbar) runde(); });
+  });
 </script>
 
 <style is:global>
@@ -96,27 +107,15 @@ const desktop = SZENEN[szene]("desktop");
     .rszene { margin-bottom: 44px; }
   }
 
-  .rszene__nochmal {
-    display: none;
-    align-items: center; gap: 6px;
-    margin-top: 10px;
-    padding: 8px 14px;
-    min-height: 40px;
-    border: 1px solid var(--linie, var(--anthrazit-200));
-    border-radius: 999px;
-    background: transparent;
-    color: var(--gold-700);
-    font: 600 14px/1 var(--font-heading);
-    cursor: pointer;
-  }
-  .rszene__nochmal:hover { background: var(--gold-100); }
+  /* Weiches Ausblenden am Ende jeder Runde */
+  .rszene__bild { transition: opacity 0.7s ease; }
+  .rszene.blende .rszene__bild { opacity: 0; }
 
   .rs-s { stroke-dasharray: 1 1; }
   .rs-g--stempel { transform-box: fill-box; transform-origin: center; }
 
   /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
   @media (prefers-reduced-motion: no-preference) {
-    html.js .rszene__nochmal { display: inline-flex; }
     html.js .rszene .rs-s,
     html.js .rszene .rs-f,
     html.js .rszene .rs-x { opacity: 0; }
