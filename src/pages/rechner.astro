@@ -145,9 +145,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           </div>
         </section>
 
-        <button class="rechner__back" type="button" id="rZurueck" hidden>
-          <Icon name="arrow-left" size={18} class="icon" /> Zurück
-        </button>
       </div>
 
       <div class="rechner__booking" id="termin">
@@ -353,20 +350,9 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rechner__contact { display: grid; gap: 12px; margin-top: 28px; }
   .rechner__contact .btn { width: 100%; }
 
-  .rechner__back {
-    position: absolute; top: 24px; left: 20px;
-    display: inline-flex; align-items: center; gap: 6px;
-    border: 0; background: none;
-    color: var(--anthrazit-600); font-size: 14px;
-    padding: 6px 10px; border-radius: var(--radius-pill);
-  }
-  .rechner__back:hover { background: var(--anthrazit-100); }
-  html.js .rechner__app[data-started] .rechner__progress { margin-top: 24px; }
 
   .rechner__booking { margin-top: 40px; }
 
-  /* Auf der Rechner-Seite ist die Sticky-CTA-Leiste sinnlos (führt hierher). */
-  :global(.sticky-bar) { display: none !important; }
 </style>
 
 <script>
@@ -386,7 +372,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     const steps = Array.from(app.querySelectorAll<HTMLElement>(".rstep"));
     const bar = app.querySelector<HTMLElement>(".rechner__bar")!;
     const progress = app.querySelector<HTMLElement>(".rechner__progress")!;
-    const back = document.getElementById("rZurueck")!;
     const range = document.getElementById("rMenge") as HTMLInputElement;
     const mengeOut = document.getElementById("rMengeOut")!;
     const frageEl = document.getElementById("rFrage")!;
@@ -427,7 +412,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       bar.style.width = `${(step / 3) * 100}%`;
       progress.setAttribute("aria-valuenow", String(step));
       progress.setAttribute("aria-label", `Schritt ${step} von 3`);
-      back.hidden = step === 1;
       app.toggleAttribute("data-started", step > 1);
       app.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -672,7 +656,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     laengeIn.addEventListener("input", updateMasse);
     breiteIn.addEventListener("input", updateMasse);
     document.getElementById("rWeiter")!.addEventListener("click", showResult);
-    back.addEventListener("click", () => show((state.step - 1) as 1 | 2));
     document.getElementById("rZurueck2")!.addEventListener("click", () => show((state.step - 1) as 1 | 2));
     // Vom Ergebnis mit einem Klick in den Genau-Modus (weniger „Weiter"-Schritte)
     document.getElementById("rVerfeinern")!.addEventListener("click", () => {

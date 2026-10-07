@@ -58,13 +58,12 @@
   --text-width: 720px;
   --transition: 200ms ease;
   --header-h: 80px;
-  --header-h-scrolled: 64px;
   --stickybar-h: 64px;
 }
 
 /* ---------- Reset & Grundlagen ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h-scrolled) + 16px); }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -109,6 +108,10 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .section-head { max-width: var(--text-width); margin-bottom: 40px; }
 .section-head.center { margin-inline: auto; text-align: center; }
 .section-head.center .rule::after { margin-inline: auto; }
+@media (max-width: 767px) {
+  .section-head.center-mobile { margin-inline: auto; text-align: center; }
+  .section-head.center-mobile .rule::after { margin-inline: auto; }
+}
 .eyebrow {
   font-family: var(--font-heading);
   text-transform: uppercase;
@@ -234,6 +237,11 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .text-center { text-align: center; }
+
+/* Mobil/Tablet stehen Rechner + Besichtigungstermin dauerhaft in der festen
+   Leiste unten – doppelte Buttons im Seiteninhalt entfallen dort
+   (Kundenfeedback 07.10.2026). */
+@media (max-width: 1023px) { .nur-desktop { display: none !important; } }
 
 /* Platz für die mobile Sticky-Leiste */
 @media (max-width: 1023px) { body { padding-bottom: calc(var(--stickybar-h) + env(safe-area-inset-bottom)); } }

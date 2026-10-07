@@ -1,13 +1,11 @@
 ---
-// Karriere: offene Stellen (Content Collection) + Benefits. Ansprache durchgehend "Sie".
-import { getCollection } from "astro:content";
+// Karriere: derzeit keine offenen Stellen, nur Initiativbewerbung (Kundenfeedback
+// 07.10.2026) + Benefits. Ansprache durchgehend "Sie".
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
 import { EMAILS, SITE } from "../consts";
-
-const stellen = (await getCollection("stellen")).sort((a, b) => a.data.order - b.data.order);
 
 const BENEFITS = [
   { icon: "euro", title: "Faire, pünktliche Bezahlung", text: "Leistung wird bei uns anständig und zuverlässig vergütet – jeden Monat pünktlich." },
@@ -19,54 +17,30 @@ const BENEFITS = [
 
 <BaseLayout
   title="Karriere – Jobs im Handwerk in Norderstedt | Bauwelt Handwerk"
-  description="Offene Stellen bei der Bauwelt Handwerk GmbH in Norderstedt – arbeiten Sie im Sanierungs- und Ausbau-Team. Faire Bezahlung, regionale Baustellen, kurze Wege."
+  description="Arbeiten bei der Bauwelt Handwerk GmbH in Norderstedt – Initiativbewerbung per E-Mail. Faire Bezahlung, regionale Baustellen, kurze Wege."
 >
   <PageHero
     eyebrow="Karriere"
     pre="Arbeiten bei "
-    accent="Bauwelt"
-    lead="Wir suchen Menschen, die sauberes Handwerk schätzen – und dafür geschätzt werden wollen. Bewerben Sie sich unkompliziert per E-Mail."
+    accent="Bauwelt Handwerk"
+    lead="Wir suchen Menschen, die sauberes Handwerk, Prozesse und Struktur lieben und schätzen – und dafür geschätzt werden wollen. Bewerben Sie sich einfach per E-Mail."
     bild="hero-karriere.webp"
     alt="Handwerker beim Trockenbau"
   />
 
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="Offene Stellen" pre="Wen wir gerade " accent="suchen" />
-      <div class="grid stellen__grid">
-        {stellen.map((s) => (
-          <article class="card stelle reveal">
-            <header class="stelle__head">
-              <h3>{s.data.title}</h3>
-              <p class="small">{s.data.art} · {s.data.ort}</p>
-            </header>
-            {s.data.aufgaben.length > 0 && (
-              <div>
-                <h4>Ihre Aufgaben</h4>
-                <ul>{s.data.aufgaben.map((a) => <li>{a}</li>)}</ul>
-              </div>
-            )}
-            {s.data.profil.length > 0 && (
-              <div>
-                <h4>Das bringen Sie mit</h4>
-                <ul>{s.data.profil.map((p) => <li>{p}</li>)}</ul>
-              </div>
-            )}
-            <a
-              class="btn"
-              href={`mailto:${EMAILS.bewerbung}?subject=${encodeURIComponent(`Bewerbung: ${s.data.title}`)}`}
-            >
-              <Icon name="mail" size={18} class="icon" /> Jetzt bewerben
-            </a>
-          </article>
-        ))}
+      <!-- Keine offenen Stellen (Kundenfeedback 07.10.2026). Die Stellen-Inhalte in
+           src/content/stellen bleiben erhalten und lassen sich später wieder einblenden. -->
+      <SectionHead eyebrow="Offene Stellen" pre="Derzeit suchen wir keine " accent="Verstärkung" />
+      <div class="grid stellen__grid stellen__grid--leer">
         <article class="card stelle stelle--initiativ reveal">
           <header class="stelle__head">
             <h3>Initiativbewerbung</h3>
             <p class="small">Vollzeit oder Teilzeit · Norderstedt & Umgebung</p>
           </header>
           <p class="stelle__text">
-            Keine Ausschreibung passt? Bewerben Sie sich trotzdem – gute Handwerkerinnen
+            Sie möchten trotzdem zu uns? Bewerben Sie sich initiativ – gute Handwerkerinnen
             und Handwerker finden bei uns immer einen Platz. Erzählen Sie uns kurz,
             was Sie können, den Rest besprechen wir persönlich.
           </p>
@@ -110,6 +84,8 @@ const BENEFITS = [
 <style>
   .stellen__grid { grid-template-columns: 1fr; }
   @media (min-width: 1024px) { .stellen__grid { grid-template-columns: repeat(3, 1fr); } }
+  .stellen__grid--leer { max-width: 560px; }
+  @media (min-width: 1024px) { .stellen__grid--leer { grid-template-columns: 1fr; } }
   /* Flex-Spalte + margin-top:auto ⇒ „Jetzt bewerben" sitzt in allen Karten bündig unten */
   .stelle { display: flex; flex-direction: column; gap: 16px; }
   .stelle .btn { margin-top: auto; align-self: flex-start; }

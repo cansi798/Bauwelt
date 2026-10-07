@@ -1,80 +1,72 @@
 ---
-// Referenz-Galerie mit Gewerk-Filter. Ohne JS: Filterleiste ausgeblendet, alle sichtbar.
+// Referenz-Galerie nach Leistungen (Kundenfeedback 07.10.2026): Sprungleiste
+// oben, darunter je Leistung eine Bildgruppe mit Link zur Leistungsseite.
+// Reines HTML/CSS – kein JS nötig. Klick auf ein Bild öffnet es in voller Größe.
 import { u } from "../consts";
+import { GALERIE } from "../data/galerie";
+import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
-import type { CollectionEntry } from "astro:content";
-
-interface Props {
-  projects: CollectionEntry<"referenzen">[];
-}
-const { projects } = Astro.props;
-
-const CATS = [
-  { id: "alle", label: "Alle Projekte" },
-  { id: "bad", label: "Bad" },
-  { id: "sanierung", label: "Sanierung & Ausbau" },
-  { id: "aussen", label: "Dach & Fassade" },
-];
 ---
 
-<div class="gal">
-  <div class="gal__filter" role="group" aria-label="Referenzen filtern">
-    {CATS.map((c, i) => (
-      <button class:list={["gal__chip", { selected: i === 0 }]} type="button" data-cat={c.id} aria-pressed={i === 0 ? "true" : "false"}>
-        {c.label}
-      </button>
-    ))}
-  </div>
+<nav class="gal__nav" aria-label="Referenzen nach Leistung">
+  {GALERIE.map((g) => (
+    <a class="gal__chip" href={`#${g.id}`}>{g.title} <span>{g.bilder.length}</span></a>
+  ))}
+</nav>
 
-  <div class="grid cols-3 gal__grid">
-    {projects.map((r) => (
-      <a class="card refcard reveal" href={u(`referenzen/${r.id}/`)} data-cat={r.data.cat}>
-        <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={520} h={390} />
-        <div class="refcard__body">
-          <h2>{r.data.title}</h2>
-          <p class="small"><Icon name="pin" size={14} class="icon" /> {r.data.place}{r.data.dauer && ` · ${r.data.dauer}`}</p>
-        </div>
-      </a>
-    ))}
-  </div>
-</div>
+{GALERIE.map((g) => (
+  <section class="gal__gruppe" id={g.id}>
+    <SectionHead center eyebrow="Referenzen" pre={g.title} />
+    <div class="gal__grid">
+      {g.bilder.map((b) => (
+        <a class="gal__bild reveal" href={u(`assets/img/${b.file}`)} target="_blank" rel="noopener" aria-label={`${b.alt} – Bild vergrößern`}>
+          <Img src={b.file} alt={b.alt} w={4} h={5} />
+        </a>
+      ))}
+    </div>
+    <p class="gal__mehr">
+      <a href={g.href}>Mehr zur Leistung {g.title} <Icon name="arrow" size={16} class="icon" /></a>
+    </p>
+  </section>
+))}
 
 <style>
-  .gal__filter { display: none; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-  html.js .gal__filter { display: flex; }
+  .gal__nav {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    margin-bottom: 48px;
+  }
   .gal__chip {
+    display: inline-flex; align-items: center; gap: 8px;
     padding: 10px 18px;
     border-radius: var(--radius-pill);
     border: 2px solid var(--linie);
     background: var(--weiss);
     font-family: var(--font-heading); font-weight: 600; font-size: 14px;
-    color: var(--anthrazit-700);
+    color: var(--anthrazit-800);
     transition: border-color var(--transition), background var(--transition);
   }
-  .gal__chip:hover { border-color: var(--gold-500); }
-  .gal__chip.selected { border-color: var(--gold-500); background: var(--gold-100); color: var(--anthrazit-900); }
+  .gal__chip:hover { border-color: var(--gold-500); background: var(--gold-100); text-decoration: none; }
+  .gal__chip span {
+    min-width: 24px; padding: 1px 7px;
+    border-radius: var(--radius-pill);
+    background: var(--gold-100); color: var(--gold-700);
+    font-size: 12px; text-align: center;
+  }
 
-  .refcard { padding: 12px; display: grid; }
-  .refcard__body { padding: 14px 10px 6px; }
-  .refcard__body h2 { margin: 0 0 4px; font-size: 18px; text-transform: none; letter-spacing: 0; }
-  .refcard__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
-  .refcard__body :global(.icon) { color: var(--gold-700); }
+  .gal__gruppe + .gal__gruppe { margin-top: 64px; }
+  .gal__gruppe :global(.section-head) { margin-bottom: 28px; }
+  /* Mobil 2 Spalten, Tablet 3, Desktop 4 – einheitliches Hochformat 4:5 */
+  .gal__grid { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 768px) { .gal__grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+  @media (min-width: 1024px) { .gal__grid { grid-template-columns: repeat(4, 1fr); } }
+  .gal__bild { display: block; border-radius: var(--radius-lg); overflow: hidden; }
+  .gal__bild :global(img) { transition: transform 400ms ease; }
+  .gal__bild:hover :global(img) { transform: scale(1.04); }
+
+  .gal__mehr { margin: 20px 0 0; text-align: center; }
+  .gal__mehr a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 700; color: var(--gold-700);
+  }
 </style>
-
-<script>
-  const chips = document.querySelectorAll<HTMLButtonElement>(".gal__chip");
-  const cards = document.querySelectorAll<HTMLElement>(".gal__grid [data-cat]");
-  chips.forEach((chip) =>
-    chip.addEventListener("click", () => {
-      const cat = chip.dataset.cat;
-      chips.forEach((c) => {
-        c.classList.toggle("selected", c === chip);
-        c.setAttribute("aria-pressed", String(c === chip));
-      });
-      cards.forEach((card) => {
-        card.style.display = cat === "alle" || card.dataset.cat === cat ? "" : "none";
-      });
-    })
-  );
-</script>

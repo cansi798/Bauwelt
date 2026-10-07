@@ -20,6 +20,8 @@ interface Props {
   ohneTermin?: boolean;
 }
 const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [], ohneTermin = false } = Astro.props;
+// Rechner-CTA steht mobil schon in der festen Leiste unten → dort ausblenden.
+const istRechner = Boolean(ctaHref?.includes("rechner/"));
 ---
 
 <section class="phero">
@@ -28,6 +30,7 @@ const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, chec
       {eyebrow && <div class="eyebrow">{eyebrow}</div>}
       <h1>{pre}{accent && <span class="accent">{accent}</span>}</h1>
       {lead && <p class="lead">{lead}</p>}
+      <slot />
       {checks.length > 0 && (
         <ul class="check-row">
           {checks.map((c) => (
@@ -37,12 +40,12 @@ const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, chec
       )}
       {ctaHref && ctaLabel && (
         <div class="phero__actions">
-          <div class="phero__cta">
+          <div class:list={["phero__cta", { "nur-desktop": istRechner }]}>
             <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
             <span class="phero__note">Unverbindlich · Ergebnis in 60 Sekunden</span>
           </div>
           {!ohneTermin && (
-            <a class="btn btn--lg btn--ghost" href={u("kontakt/#termin")}>
+            <a class="btn btn--lg btn--ghost nur-desktop" href={u("kontakt/#termin")}>
               Kostenlosen Besichtigungstermin buchen
             </a>
           )}

@@ -91,12 +91,11 @@ import MobileMenu from "./MobileMenu.astro";
     height: var(--header-h);
     transition: height var(--transition);
   }
-  .hdr.is-scrolled .hdr__inner { height: var(--header-h-scrolled); }
+  /* Höhe bleibt beim Scrollen gleich (Kundenfeedback 07.10.2026) */
   .hdr-spacer { height: var(--header-h); }
 
   .hdr__logo { flex: none; display: flex; }
   .hdr__logo img { height: 44px; width: auto; }
-  .hdr.is-scrolled .hdr__logo img { height: 38px; }
 
   .hdr__nav { display: none; flex: 1; justify-content: center; }
   .hdr__nav > ul { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
@@ -167,16 +166,18 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__termin:hover { background: var(--gold-100); border-color: var(--gold-500); text-decoration: none; }
   .hdr__termin :global(.icon) { color: var(--gold-700); flex: none; }
-  @media (max-width: 1023px) {
-    .hdr__termin { width: 44px; height: 44px; padding: 0; justify-content: center; }
-    .hdr__termin span { display: none; }
-  }
+  /* Mobil kein Termin-Button im Header – der sitzt jetzt in der festen
+     Leiste unten (Kundenfeedback 07.10.2026) */
+  @media (max-width: 1023px) { .hdr__termin { display: none; } }
   /* :global – die Icon-SVGs kommen aus der Icon-Komponente und tragen kein Scope-Attribut */
   .hdr__burger :global(.hdr__burger-close) { display: none; }
   .hdr__burger[aria-expanded="true"] :global(.hdr__burger-open) { display: none; }
   .hdr__burger[aria-expanded="true"] :global(.hdr__burger-close) { display: block; }
 
   @media (min-width: 1024px) {
+    /* Desktop: Header breiter als der Inhaltsbereich – Logo weiter links,
+       Buttons weiter rechts (Kundenfeedback 07.10.2026) */
+    .hdr__inner { max-width: 1520px; padding-inline: 32px; }
     .hdr__nav { display: flex; }
     .hdr__cta { display: inline-flex; }
     .hdr__iconbtn:not(.hdr__burger) { display: none; }

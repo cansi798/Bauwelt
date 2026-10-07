@@ -1,0 +1,72 @@
+---
+// Startseite „Unsere Leistungen – Wobei wir Sie unterstützen" (Kundenfeedback
+// 07.10.2026, ersetzt „Unsere Gewerke – Zurücklehnen statt koordinieren"):
+// die vier Leistungen aus dem Header-Menü + Immobilien-Sanierungscheck.
+// Fünf Karten: Flex-Umbruch, damit die letzte Reihe mittig steht.
+import { TERMIN } from "../consts";
+import { LEISTUNG_KARTEN } from "../data/home";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import Img from "./Img.astro";
+---
+
+<section class="section section--sand" id="leistungen">
+  <div class="container">
+    <SectionHead center eyebrow="Unsere Leistungen" pre="Wobei wir Sie " accent="unterstützen" />
+    <div class="lk">
+      {LEISTUNG_KARTEN.map((k) => (
+        <a
+          class="card lk__card reveal"
+          href={k.termin ? TERMIN.href : k.href}
+          {...(k.termin ? { target: "_blank", rel: "noopener", "data-termin": "" } : {})}
+        >
+          <div class="lk__media">
+            <Img src={k.bild} alt={k.alt} w={520} h={300} round={false} />
+            <span class="lk__icon"><Icon name={k.icon} size={22} class="icon" /></span>
+          </div>
+          <div class="lk__body">
+            <h3>{k.title}</h3>
+            <p>{k.text}</p>
+            <span class="lk__more">
+              {k.termin ? "Termin vereinbaren" : "Mehr erfahren"} <Icon name="arrow" size={16} class="icon" />
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .lk { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .lk__card { flex: 1 1 100%; }
+  @media (min-width: 640px) { .lk__card { flex: 0 1 calc((100% - 16px) / 2); } }
+  @media (min-width: 1024px) { .lk__card { flex: 0 1 calc((100% - 32px) / 3); } }
+  .lk__card {
+    padding: 0;
+    display: grid; align-content: start;
+    overflow: hidden;
+  }
+  .lk__media { position: relative; }
+  .lk__icon {
+    position: absolute; left: 16px; bottom: -22px;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    box-shadow: var(--shadow);
+  }
+  .lk__body {
+    padding: 34px 20px 20px;
+    display: grid; gap: 8px; align-content: start;
+  }
+  .lk__card h3 { margin: 0; font-size: 17px; }
+  .lk__card p { margin: 0; font-size: 14.5px; color: var(--anthrazit-700); }
+  .lk__more {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 4px;
+    font-weight: 700; font-size: 14px;
+    color: var(--gold-700);
+  }
+</style>

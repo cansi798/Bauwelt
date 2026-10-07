@@ -1,19 +1,15 @@
 ---
-// Referenzen-Übersicht: Galerie mit Gewerk-Filter.
-import { getCollection } from "astro:content";
+// Referenzen-Übersicht: Galerie nach Leistungen (Daten: src/data/galerie.ts).
+// Die Projekt-Detailseiten unter /referenzen/<slug>/ bleiben erreichbar.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Gallery from "../../components/Gallery.astro";
 import CtaBand from "../../components/CtaBand.astro";
-
-const referenzen = (await getCollection("referenzen")).sort(
-  (a, b) => a.data.order - b.data.order
-);
 ---
 
 <BaseLayout
   title="Referenzen aus Norderstedt & Hamburg | Bauwelt Handwerk"
-  description="Sanierte Bäder, modernisierte Wohnungen, neue Dächer: echte Bauwelt-Projekte aus Norderstedt, Hamburg und Umgebung – mit Ort, Dauer und Leistungsumfang."
+  description="Sanierte Bäder, modernisierte Küchen und Wohnungen, Fliesenarbeiten und Innenausbau: echte Bauwelt-Projekte aus Norderstedt, Hamburg und Umgebung – sortiert nach Leistung."
 >
   <PageHero
     eyebrow="Referenzen"
@@ -26,7 +22,7 @@ const referenzen = (await getCollection("referenzen")).sort(
 
   <section class="section">
     <div class="container">
-      <Gallery projects={referenzen} />
+      <Gallery />
     </div>
   </section>
 

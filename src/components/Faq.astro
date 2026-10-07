@@ -22,7 +22,7 @@ const { items, withCta = false } = Astro.props;
       <div class="faq__body">
         <p>{f.a}</p>
         {withCta && i === items.length - 1 && (
-          <a class="btn btn--sm" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+          <a class="btn btn--sm nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
         )}
       </div>
     </details>

@@ -17,6 +17,7 @@ const SEITEN = [1, 2];
   <div class="container angebot__grid">
     <div class="angebot__text">
       <SectionHead
+        centerMobile
         eyebrow="Ihr Angebot"
         pre="Transparente Angebote statt "
         accent="Positionsdschungel"
@@ -27,7 +28,7 @@ const SEITEN = [1, 2];
           <li><Icon name="check" size={18} class="icon" /> {p}</li>
         ))}
       </ul>
-      <a class="btn btn--lg angebot__cta" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+      <a class="btn btn--lg angebot__cta nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
         Ich möchte auch so ein Angebot erhalten
       </a>
     </div>

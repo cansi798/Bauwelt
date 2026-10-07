@@ -52,7 +52,7 @@ const WALZE = [...WORTE, WORTE[0]];
       <p class="fhero__statement">{HERO.statement}</p>
       <p class="fhero__unterzeile">{HERO.unterzeile}</p>
     </div>
-    <div class="fhero__actions fhero__in" style="--d: 360ms">
+    <div class="fhero__actions fhero__in nur-desktop" style="--d: 360ms">
       <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
       <a class="btn btn--lg fhero__ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
     </div>
@@ -186,7 +186,7 @@ const WALZE = [...WORTE, WORTE[0]];
   }
 
   @media (max-width: 767px) {
-    .fhero { min-height: calc(100svh - var(--header-h-scrolled)); }
+    .fhero { min-height: calc(100svh - var(--header-h)); }
     .fhero__content { padding-block: 40px 88px; gap: 14px; }
     /* früher umbrechen, damit die Zeile nicht bis an die Kante läuft */
     .fhero__statement { max-width: 18ch; }

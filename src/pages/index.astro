@@ -1,6 +1,6 @@
 ---
 // Startseite – Reihenfolge laut Kundenfeedback 30.09.2026:
-// 1 Hero → 2 Gewerke → 3 Ablauf → 4 Referenzen → 5 Kundenportal → 6 Angebot
+// 1 Hero → 2 Leistungen (07.10.2026) → 3 Ablauf → 4 Referenzen → 5 Kundenportal → 6 Angebot
 // → 7 Versprechen → 8 Einzugsgebiet → 9 FAQ → 10 Kontakt.
 // Entfallen: CTA-Band „So sollte Handwerk sein", Terminbuchungs-Sektion
 // (Termin jetzt überall per Buchungsfenster), Schritt-Karten beim Ablauf.
@@ -10,7 +10,7 @@ import RoughSzene from "../components/RoughSzene.astro";
 import PortalSection from "../components/PortalSection.astro";
 import AngebotSection from "../components/AngebotSection.astro";
 import RefSlider from "../components/RefSlider.astro";
-import GewerkeKarten from "../components/GewerkeKarten.astro";
+import LeistungKarten from "../components/LeistungKarten.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import Faq from "../components/Faq.astro";
 import ContactSection from "../components/ContactSection.astro";
@@ -27,7 +27,7 @@ import { FAQ_HOME } from "../data/home";
   <Hero />
   <div id="weiter"></div>
 
-  <GewerkeKarten />
+  <LeistungKarten />
 
   <section class="section" id="ablauf">
     <div class="container">
@@ -36,7 +36,7 @@ import { FAQ_HOME } from "../data/home";
         szene="weg"
         label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
       />
-      <div class="weg__actions">
+      <div class="weg__actions nur-desktop">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
         <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
       </div>
@@ -55,7 +55,8 @@ import { FAQ_HOME } from "../data/home";
   <SiegelSlider />
   <ServiceArea />
 
-  <section class="section">
+  <!-- Weniger Abstand zum Einzugsgebiet darüber (Kundenfeedback 07.10.2026) -->
+  <section class="section faq-home">
     <div class="container">
       <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
       <Faq items={FAQ_HOME} withCta />
@@ -66,6 +67,7 @@ import { FAQ_HOME } from "../data/home";
 </BaseLayout>
 
 <style>
+  .faq-home { padding-top: 0; }
   .weg__actions {
     display: flex; flex-wrap: wrap; gap: 12px 16px;
     justify-content: center;

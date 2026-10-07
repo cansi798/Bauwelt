@@ -2,8 +2,17 @@
 // "Unsere Versprechen" – sieben eigene Siegel als handgezeichnete Szene
 // (Kundenfeedback 30.09.2026: Siegel-Karten + Erklär-Dialoge entfallen).
 // Rechtlich: eigene Zusagen, klar als solche gekennzeichnet – keine fremden Prüfzeichen.
+// Über uns (Kundenfeedback 07.10.2026): ohne Satz „Sieben Zusagen …", dafür
+// drei Fakten (`fakten`). Startseite bleibt unverändert.
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** Fakten-Zeile über der Zeichnung; ersetzt den Satz „Sieben Zusagen …". */
+  fakten?: string[];
+}
+const { fakten = [] } = Astro.props;
 ---
 
 <section class="section section--sand" id="versprechen">
@@ -13,11 +22,22 @@ import RoughSzene from "./RoughSzene.astro";
       eyebrow="Unsere Versprechen"
       pre="Worauf Sie sich verlassen "
       accent="können"
-      text="Sieben Zusagen, die bei jedem Projekt gelten."
+      text={fakten.length ? undefined : "Sieben Zusagen, die bei jedem Projekt gelten."}
     />
+    {fakten.length > 0 && (
+      <ul class="check-row siegel__fakten">
+        {fakten.map((f) => (
+          <li><Icon name="check" size={18} class="icon" /> {f}</li>
+        ))}
+      </ul>
+    )}
     <RoughSzene
       szene="siegel"
       label="Sieben gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, Termintreue, ein Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."
     />
   </div>
 </section>
+
+<style>
+  .siegel__fakten { justify-content: center; margin: -16px 0 24px; }
+</style>

@@ -44,7 +44,7 @@ const weitere = (await getCollection("referenzen"))
             {r.data.leistung && (<><dt><Icon name="tools" size={16} class="icon" /> Leistung</dt><dd>{r.data.leistung}</dd></>)}
           </dl>
           {r.data.quote && <blockquote class="rdetail__quote">„{r.data.quote}"</blockquote>}
-          <a class="btn" href={u("rechner/")}>Ähnliches Projekt berechnen</a>
+          <a class="btn nur-desktop" href={u("rechner/")}>Ähnliches Projekt berechnen</a>
         </aside>
       </div>
 

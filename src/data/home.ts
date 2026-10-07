@@ -1,5 +1,6 @@
 /** Startseiten-Inhalte (Dramaturgie nach Spec §3).
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
+import { u } from "../consts";
 
 export const HERO = {
   /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
@@ -234,57 +235,50 @@ export const ANGEBOT = {
   ],
 };
 
-/** Gewerke-Karten („Zurücklehnen statt koordinieren") – verlinken auf Leistungsseiten.
- *  Sechs Gewerke laut Kundenfeedback 30.09.2026. Fotos: vorhandene Bilder aus
- *  assets/img/ (BILDER.md); Elektro = CC0-Foto von Wikimedia Commons. */
-export const GEWERKE_KARTEN = [
+/** Leistungs-Karten der Startseite – Fotos aus der Referenz-Galerie. */
+export const LEISTUNG_KARTEN = [
+  // Startseite „Unsere Leistungen – Wobei wir Sie unterstützen" (Kundenfeedback
+  // 07.10.2026): die vier Leistungen aus dem Header-Menü + Immobilien-Sanierungscheck.
   {
-    icon: "hammer",
-    title: "Abbrucharbeiten",
-    text: "Rückbau von Fliesen, Böden, Einbauten und nichttragenden Wänden – inklusive fachgerechter Entsorgung.",
-    slug: "sanierung-modernisierung",
-    bild: "hero-innenausbau.webp",
-    alt: "Entkernter Rohbau mit Werkzeug und Material nach dem Rückbau",
+    icon: "bath",
+    title: "Badsanierung",
+    text: "Ihr neues Bad in 2 Wochen – geplant, gebaut und übergeben aus einer Hand.",
+    href: u("leistungen/badsanierung/"),
+    bild: "galerie-bad-02.webp",
+    alt: "Saniertes Bad mit Natursteinoptik und beleuchtetem Spiegel",
   },
   {
-    icon: "wall",
-    title: "Mauerarbeiten & Trockenbau",
-    text: "Neue Wände, Vorwandinstallationen, abgehängte Decken und Raumaufteilungen – sauber und streichfertig.",
-    slug: "innenausbau",
-    bild: "hero-sanitaer-heizung-elektro.webp",
-    alt: "Trockenbauwände mit Vorwandinstallation im Innenausbau",
-  },
-  {
-    icon: "tap",
-    title: "Sanitär",
-    text: "Wasser- und Abwasserleitungen, Duschen, WCs, Waschtische und Armaturen – vom Anschluss bis zur Montage.",
-    slug: "badsanierung",
-    bild: "ref-01-wannenbad.webp",
-    alt: "Neues Badezimmer mit freistehender Wanne und Waschtisch",
-  },
-  {
-    icon: "bolt",
-    title: "Elektro",
-    text: "Leitungen, Steckdosen, Schalter, Beleuchtung und Unterverteilungen – sicher nach aktuellen Normen.",
-    slug: "sanierung-modernisierung",
-    bild: "gewerk-elektro.webp",
-    alt: "Sicherungskasten mit neuen Leitungsschutzschaltern",
+    icon: "reno",
+    title: "Sanierung & Modernisierung",
+    text: "Von der Einzelmaßnahme bis zur Kernsanierung – alle Gewerke koordiniert.",
+    href: u("leistungen/sanierung-modernisierung/"),
+    bild: "galerie-sanierung-02.webp",
+    alt: "Modernisierte Küche mit beleuchteter Kochinsel",
   },
   {
     icon: "tiles",
-    title: "Fliesen- und Bodenlegearbeiten",
-    text: "Wand- und Bodenfliesen, Großformate, Abdichtung sowie Vinyl-, Laminat- und Parkettböden.",
-    slug: "fliesen-boden",
-    bild: "ref-02-bodengleiche-dusche.webp",
-    alt: "Großformatig geflieste bodengleiche Dusche",
+    title: "Fliesen- & Bodenlegerarbeiten",
+    text: "Perfekte Oberflächen für Wand und Boden – vom Großformat bis zum Parkett.",
+    href: u("leistungen/fliesen-boden/"),
+    bild: "galerie-fliesen-03.webp",
+    alt: "Raumhohe Fliesen in Marmoroptik",
   },
   {
-    icon: "paint",
-    title: "Malerarbeiten",
-    text: "Spachteln, Streichen, Tapezieren und Lackieren – für Wände und Decken wie neu.",
-    slug: "sanierung-modernisierung",
-    bild: "hero-maler-boeden.webp",
-    alt: "Frisch gestrichener heller Raum mit Malerleiter",
+    icon: "wall",
+    title: "Innenausbau & Trockenbau",
+    text: "Räume neu gestalten und optimal nutzen – Wände, Decken, Licht und Akustik.",
+    href: u("leistungen/innenausbau/"),
+    bild: "galerie-innenausbau-04.webp",
+    alt: "Büro mit Holzlamellen-Wand und indirekter Beleuchtung",
+  },
+  {
+    icon: "eye",
+    title: "Immobilien-Sanierungscheck",
+    text: "Chancen, Risiken und Kosten frühzeitig erkennen.",
+    // Noch keine eigene Seite → öffnet das Buchungsfenster (Besichtigungstermin)
+    termin: true,
+    bild: "ref-04-altbau.webp",
+    alt: "Altbau-Wohnraum mit Fischgrätparkett und hohen Decken",
   },
 ];
 

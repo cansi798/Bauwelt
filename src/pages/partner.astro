@@ -1,11 +1,15 @@
 ---
-// Für Partner (B2B): Kooperationen für Hausverwaltungen, Makler, Architekten,
+// Partner (B2B): Kooperationen für Hausverwaltungen, Makler, Architekten,
 // Subunternehmer. Eigener Kontakt-CTA (partner@) – bewusst NICHT der Rechner.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
-import { EMAILS, SITE } from "../consts";
+import { EMAILS, SITE, waLink } from "../consts";
+
+/** Derzeitige Kooperationen (Kundenfeedback 07.10.2026). Bewusst nur als Text –
+ *  fremde Logos erst mit schriftlicher Freigabe der Unternehmen verwenden. */
+const KOOPERATIONEN = ["Hornbach", "OBI", "Senovio"];
 
 const ZIELGRUPPEN = [
   { icon: "wall", title: "Hausverwaltungen", text: "Ein Rahmen, viele Objekte – feste Ansprechpartner, dokumentierte Ausführung, planbare Budgets für Instandhaltung und Sanierung." },
@@ -16,11 +20,11 @@ const ZIELGRUPPEN = [
 ---
 
 <BaseLayout
-  title="Für Partner – Zusammenarbeit mit Bauwelt Handwerk"
+  title="Partner – Zusammenarbeit mit Bauwelt Handwerk"
   description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe – Sanierung und Ausbau mit Festpreis, Dokumentation und festen Ansprechpartnern."
 >
   <PageHero
-    eyebrow="Für Partner"
+    eyebrow="Partner"
     pre="Zusammenarbeit, auf die man "
     accent="bauen kann"
     lead="Sie betreuen Objekte, vermitteln Projekte oder planen Umbauten? Wir sind der ausführende Partner, der Zusagen hält – beim ersten Projekt und beim zwanzigsten."
@@ -46,6 +50,21 @@ const ZIELGRUPPEN = [
   </section>
 
   <section class="section">
+    <div class="container koop">
+      <SectionHead
+        center
+        eyebrow="Kooperationen"
+        pre="Unsere derzeitigen "
+        accent="Kooperationen"
+        text="Unsere Erfahrung stellen wir nicht nur Privatkunden direkt zur Verfügung. Auch Kunden und Projekte renommierter Anbieter wie Hornbach, OBI und Senovio zählen auf unsere Leistungen."
+      />
+      <ul class="koop__liste">
+        {KOOPERATIONEN.map((k) => <li class="koop__name reveal">{k}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--sand">
     <div class="container text-center partner__cta">
       <SectionHead
         center
@@ -54,10 +73,18 @@ const ZIELGRUPPEN = [
         accent="sprechen"
         text="Schreiben Sie uns kurz, worum es geht – wir melden uns innerhalb von 12 Stunden mit einem Terminvorschlag."
       />
-      <a class="btn btn--lg" href={`mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`}>
-        <Icon name="mail" size={20} class="icon" /> {EMAILS.partner}
-      </a>
-      <p class="small">Oder direkt: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></p>
+      <div class="partner__buttons">
+        <a class="btn btn--lg" href={`mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`}>
+          <Icon name="mail" size={20} class="icon" /> E-Mail schreiben
+        </a>
+        <a class="btn btn--dark btn--lg" href={waLink("Hallo Bauwelt Handwerk, ich interessiere mich für eine Zusammenarbeit. Bitte melden Sie sich bei mir.")} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
+        </a>
+        <a class="btn btn--ghost btn--lg" href={`tel:${SITE.phoneTel}`}>
+          <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
+        </a>
+      </div>
+      <p class="small">{EMAILS.partner}</p>
     </div>
   </section>
 </BaseLayout>
@@ -74,4 +101,24 @@ const ZIELGRUPPEN = [
     display: inline-flex; align-items: center; justify-content: center;
   }
   .partner__cta { display: grid; justify-items: center; gap: 8px; }
+  .partner__buttons { display: grid; gap: 12px; width: min(100%, 440px); }
+  .partner__buttons .btn { width: 100%; }
+
+  .koop__liste {
+    list-style: none; margin: 0 auto; padding: 0;
+    display: grid; gap: 12px; max-width: 900px;
+  }
+  @media (min-width: 640px) {
+    .koop__liste { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .koop__name { min-height: 110px; }
+  }
+  .koop__name {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 64px; padding: 14px;
+    border: 1px solid var(--linie); border-radius: var(--radius-lg);
+    background: var(--weiss);
+    font-family: var(--font-heading); font-weight: 700; font-size: 22px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--anthrazit-800);
+  }
 </style>

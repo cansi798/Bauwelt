@@ -75,8 +75,8 @@ export const NAV2: NavItem[] = [
     label: "Unternehmen",
     children: [
       { label: "Über uns", href: u("ueber-uns/"), icon: "user", desc: "Team, Werte, Arbeitsweise" },
-      { label: "Karriere", href: u("karriere/"), icon: "hand", desc: "Offene Stellen bei Bauwelt" },
-      { label: "Für Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis" },
+      { label: "Karriere", href: u("karriere/"), icon: "hand", desc: "Arbeiten bei Bauwelt Handwerk" },
+      { label: "Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis" },
     ],
   },
   { label: "Kontakt", href: u("kontakt/") },

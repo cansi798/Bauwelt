@@ -53,7 +53,7 @@ const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets
       <a class="btn btn--dark btn--lg" href={waLink()} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
       </a>
-      <a class="btn btn--ghost btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+      <a class="btn btn--ghost btn--lg nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
         <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
       </a>
       <a class="btn btn--ghost btn--lg" href={`mailto:${EMAILS.service}`}>

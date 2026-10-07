@@ -1,8 +1,9 @@
 ---
-// Referenz-Slider (statt Enpals Testimonial-Slider): echte Projekte mit Ort und
-// Eckdaten. Kundenzitate NUR wenn das Frontmatter-Feld `quote` gefüllt ist.
-import { getCollection } from "astro:content";
+// Referenz-Slider: echte Bauwelt-Fotos (Auswahl aus der Leistungs-Galerie,
+// Kundenfeedback 07.10.2026). Jede Karte führt zur passenden Gruppe auf /referenzen/.
+// Kopf (Text + Strich) steht auf allen Geräten mittig, Pfeile darunter.
 import { u } from "../consts";
+import { GALERIE_HIGHLIGHTS } from "../data/galerie";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
@@ -20,16 +21,12 @@ const {
   accent = "sieht",
   text,
 } = Astro.props;
-
-const referenzen = (await getCollection("referenzen")).sort(
-  (a, b) => a.data.order - b.data.order
-);
 ---
 
 <section class="section" id="referenzen">
   <div class="container">
     <div class="refs__head">
-      <SectionHead eyebrow={eyebrow} pre={pre} accent={accent} text={text} />
+      <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} text={text} />
       <div class="slider__nav">
         <button class="slider__btn" type="button" data-dir="-1" aria-label="Zurück">
           <Icon name="arrow-left" size={20} class="icon" />
@@ -42,16 +39,11 @@ const referenzen = (await getCollection("referenzen")).sort(
 
     <div class="slider">
       <div class="slider__track" data-slider>
-        {referenzen.map((r) => (
-          <a class="card refcard reveal" href={u(`referenzen/${r.id}/`)}>
-            <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={520} h={390} />
+        {GALERIE_HIGHLIGHTS.map((b) => (
+          <a class="card refcard reveal" href={b.anker}>
+            <Img src={b.file} alt={b.alt} w={4} h={5} />
             <div class="refcard__body">
-              <h3>{r.data.title}</h3>
-              <p class="refcard__meta">
-                <Icon name="pin" size={16} class="icon" /> {r.data.place}
-                {r.data.dauer && <span> · {r.data.dauer}</span>}
-              </p>
-              {r.data.quote && <blockquote class="refcard__quote">„{r.data.quote}"</blockquote>}
+              <h3>{b.gruppe}</h3>
             </div>
           </a>
         ))}
@@ -65,29 +57,18 @@ const referenzen = (await getCollection("referenzen")).sort(
 </section>
 
 <style>
-  .refs__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-  /* Mobil: Überschrift zentriert statt linksbündig gequetscht, Pfeile darunter */
-  @media (max-width: 767px) {
-    .refs__head {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
-    }
+  .refs__head {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px; margin-bottom: 24px;
   }
+  .refs__head :global(.section-head) { margin-bottom: 0; }
   .refcard {
-    width: min(84vw, 380px);
+    width: min(72vw, 320px);
     padding: 12px;
     display: grid; gap: 0;
   }
-  .refcard__body { padding: 16px 12px 8px; display: grid; gap: 6px; }
-  .refcard__body h3 { margin: 0; font-size: 18px; text-transform: none; letter-spacing: 0; }
-  .refcard__meta {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin: 0; font-size: 14px; color: var(--anthrazit-600);
-  }
-  .refcard__meta :global(.icon) { color: var(--gold-700); }
-  .refcard__quote { margin: 8px 0 0; font-style: italic; color: var(--anthrazit-700); }
+  .refcard__body { padding: 14px 10px 6px; }
+  .refcard__body h3 { margin: 0; font-size: 16px; text-transform: none; letter-spacing: 0; text-align: center; }
 </style>
 
 <script>
