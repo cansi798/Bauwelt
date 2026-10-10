@@ -305,12 +305,16 @@ export const FAQ_HOME = [
   },
 ];
 
-export const CTA_BAND = {
+/** Dunkler Footer-Kopf auf jeder Seite (Kundenwunsch 10.10.2026: ersetzt das
+ *  frühere CTA-Band und die Kontakt-Buttons – „nur noch den Text verwenden“). */
+export const FOOTER_KONTAKT = {
   pre: "So sollte Handwerk ",
-  accent: "sein",
+  accent: "sein.",
   sub: "Planbar. Transparent. Verlässlich.",
-  text: "Wenn Sie das genauso sehen, freuen wir uns darauf, Ihr Projekt kennenzulernen.",
-  checks: ["Angebot in 24 Stunden", "Ein Ansprechpartner für alles", "Festpreis für alle vereinbarten Leistungen"],
-  /** Zweit-CTA – Ziel setzt die Seite (Startseite: #termin, sonst kontakt/#termin). */
-  cta2Label: "Beratung vereinbaren",
+  text:
+    "Wir verbinden hochwertige Handwerksarbeit mit klaren Prozessen, persönlicher " +
+    "Betreuung und den Service-Standards moderner Dienstleistungsunternehmen.",
+  kontaktHead: "Sprechen Sie mit uns",
+  kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
+  zeiten: "Montag - Freitag, 8:00 - 18:00 Uhr",
 };

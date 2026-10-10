@@ -1,20 +1,23 @@
 ---
-// Leistungen-Übersicht: Kachel-Grid als Verteiler auf die 6 Gewerk-Seiten.
+// Leistungen-Übersicht: Kachel-Grid mit genau den Leistungen aus dem Menü
+// (Kundenwunsch 10.10.2026: Übersicht an die bestehenden Leistungen anpassen).
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import CtaBand from "../../components/CtaBand.astro";
 import Icon from "../../components/Icon.astro";
-import { u } from "../../consts";
+import { u, NAV2 } from "../../consts";
 
-const leistungen = (await getCollection("leistungen")).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const imMenue = (NAV2.find((n) => n.label === "Leistungen")?.children ?? [])
+  .filter((c) => c.desc)
+  .map((c) => c.href.replace(/\/$/, "").split("/").pop());
+const leistungen = (await getCollection("leistungen"))
+  .filter((l) => imMenue.includes(l.id))
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
   title="Leistungen – alle Gewerke aus einer Hand | Bauwelt Handwerk"
-  description="Badsanierung, Komplettsanierung, Innenausbau, Dach & Fassade, Maler & Böden, Sanitär/Heizung/Elektro – alle Gewerke aus einer Hand, zum Festpreis."
+  description="Badsanierung, Sanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, Innenausbau & Trockenbau – alle Gewerke aus einer Hand, zum Festpreis."
 >
   <PageHero
     eyebrow="Leistungen"
@@ -27,7 +30,7 @@ const leistungen = (await getCollection("leistungen")).sort(
 
   <section class="section">
     <div class="container">
-      <div class="grid cols-3">
+      <div class="grid cols-2">
         {leistungen.map((l) => (
           <a class="card lcard reveal" href={u(`leistungen/${l.id}/`)}>
             <span class="lcard__icon"><Icon name={l.data.icon} size={28} class="icon" /></span>
@@ -40,7 +43,6 @@ const leistungen = (await getCollection("leistungen")).sort(
     </div>
   </section>
 
-  <CtaBand />
 </BaseLayout>
 
 <style>

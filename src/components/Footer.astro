@@ -1,14 +1,17 @@
 ---
 // Mehrspaltiger Footer (Enpal-Muster): 4 Spalten + Copyright.
 // CTA-Zeile „Ihr Projekt, ein Ansprechpartner, ein Festpreis." entfernt (Kundenfeedback 30.09.2026).
+// Oben der dunkle Kontakt-Kopf „So sollte Handwerk sein." (Kundenwunsch 10.10.2026).
 import { NAV2, SITE, EMAILS, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
+import FooterKontakt from "./FooterKontakt.astro";
 
 const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
 const jahr = new Date().getFullYear();
 ---
 
 <footer class="ftr">
+  <FooterKontakt />
   <div class="container ftr__cols">
     <div>
       <h3 class="ftr__head">Leistungen</h3>

@@ -1,7 +1,8 @@
 ---
-// Kontakt-Sektion: Ansprechpartner-Karten + Direktkontakt-Buttons.
-// Bewusst KEIN Formular (Kundenentscheidung) – E-Mail per mailto, Anruf, WhatsApp.
-import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
+// Kontakt-Sektion: Ansprechpartner-Karten + Erreichbarkeit.
+// Die Direktkontakt-Buttons stehen seit 10.10.2026 im Footer-Kopf auf jeder Seite (Kundenwunsch).
+// Bewusst KEIN Formular (Kundenentscheidung).
+import { SITE, u } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import { existsSync } from "node:fs";
@@ -45,32 +46,14 @@ const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets
       </div>
       <p class="small">{SITE.hours} · Antwort innerhalb von 12 Stunden</p>
     </div>
-
-    <div class="contact__actions">
-      <a class="btn btn--lg" href={`tel:${SITE.phoneTel}`}>
-        <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
-      </a>
-      <a class="btn btn--dark btn--lg" href={waLink()} target="_blank" rel="noopener">
-        <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
-      </a>
-      <a class="btn btn--ghost btn--lg nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
-        <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
-      </a>
-      <a class="btn btn--ghost btn--lg" href={`mailto:${EMAILS.service}`}>
-        <Icon name="mail" size={20} class="icon" /> E-Mail schreiben
-      </a>
-      <address class="contact__addr small">
-        {SITE.legal} · {SITE.street} · {SITE.zip} {SITE.city}
-      </address>
-    </div>
   </div>
 </section>
 
 <style>
   .contact__grid { display: grid; gap: 40px; align-items: start; }
-  @media (min-width: 1024px) { .contact__grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
 
   .contact__persons { display: grid; gap: 16px; margin-bottom: 20px; }
+  @media (min-width: 768px) { .contact__persons { grid-template-columns: repeat(2, max-content); gap: 16px 56px; } }
   .contact__person { display: flex; align-items: center; gap: 16px; }
   .contact__person span:last-child { display: grid; line-height: 1.4; }
   .contact__person small { color: var(--anthrazit-600); }
@@ -86,7 +69,4 @@ const hatFoto = (datei: string) => existsSync(join(process.cwd(), "public/assets
   }
   .contact__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 
-  .contact__actions { display: grid; gap: 14px; }
-  .contact__actions .btn { width: 100%; }
-  .contact__addr { font-style: normal; text-align: center; margin-top: 4px; }
 </style>
