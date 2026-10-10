@@ -2,8 +2,9 @@
 // Mehrspaltiger Footer (Enpal-Muster): 4 Spalten + Copyright.
 // CTA-Zeile „Ihr Projekt, ein Ansprechpartner, ein Festpreis." entfernt (Kundenfeedback 30.09.2026).
 // Oben der dunkle Kontakt-Kopf „So sollte Handwerk sein." (Kundenwunsch 10.10.2026).
-import { NAV2, SITE, EMAILS, u, waLink } from "../consts";
-import Icon from "./Icon.astro";
+// Kundenwunsch 10.10.2026 (Screenshot): Footer kompakter – Kontaktwege unten raus
+// (stehen im Kopf darüber), Logo kleiner nach oben rechts, weniger Abstände.
+import { NAV2, SITE, u } from "../consts";
 import FooterKontakt from "./FooterKontakt.astro";
 
 const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
@@ -32,19 +33,17 @@ const jahr = new Date().getFullYear();
       <h3 class="ftr__head">Kontakt</h3>
       <ul class="ftr__contact">
         <li>{SITE.legal}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</li>
-        <li><a href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={16} class="icon" /> {SITE.phoneDisplay}</a></li>
-        <li><a href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} class="icon" /> WhatsApp</a></li>
-        <li><a href={`mailto:${EMAILS.service}`}><Icon name="mail" size={16} class="icon" /> {EMAILS.service}</a></li>
-        <li>{SITE.hours} · Antwort in 12 h</li>
       </ul>
     </div>
-    <div>
-      <h3 class="ftr__head">Rechtliches</h3>
-      <ul>
-        <li><a href={u("impressum/")}>Impressum</a></li>
-        <li><a href={u("datenschutz/")}>Datenschutz</a></li>
-      </ul>
-      <img class="ftr__logo" src={u("assets/logo-inverse.png")} alt="" width="180" height="46" loading="lazy" />
+    <div class="ftr__legal">
+      <div>
+        <h3 class="ftr__head">Rechtliches</h3>
+        <ul>
+          <li><a href={u("impressum/")}>Impressum</a></li>
+          <li><a href={u("datenschutz/")}>Datenschutz</a></li>
+        </ul>
+      </div>
+      <img class="ftr__logo" src={u("assets/logo-inverse.png")} alt="" width="120" height="31" loading="lazy" />
     </div>
   </div>
 
@@ -60,14 +59,16 @@ const jahr = new Date().getFullYear();
   .ftr a:not(.btn):hover { color: var(--weiss); }
   /* Mobil: Links auf mindestens ~40px Tipphöhe bringen (Touchziel-Audit) */
   @media (max-width: 767px) {
-    .ftr a { display: inline-block; padding-block: 8px; }
+    .ftr a { display: inline-block; padding-block: 6px; }
     .ftr__contact a { display: inline-flex; }
-    .ftr__contact li, .ftr__cols li { margin-block: 2px; }
+    /* Kundenwunsch 10.10.2026: Stapel am Handy enger */
+    .ftr__cols { gap: 20px; }
+    .ftr__cols ul { gap: 4px; }
   }
 
   .ftr__cols {
-    display: grid; gap: 32px;
-    padding-block: 48px;
+    display: grid; gap: 24px;
+    padding-block: 32px 28px;
   }
   @media (min-width: 768px)  { .ftr__cols { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .ftr__cols { grid-template-columns: repeat(4, 1fr); } }
@@ -75,14 +76,15 @@ const jahr = new Date().getFullYear();
   .ftr__head {
     font-size: 15px; letter-spacing: 0.08em;
     color: var(--gold-500);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
-  .ftr__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 15px; }
-  .ftr__contact a { display: inline-flex; align-items: center; gap: 8px; }
-  .ftr__logo { margin-top: 24px; height: auto; opacity: 0.9; }
+  .ftr__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 15px; }
+  /* Logo oben rechts neben „Rechtliches", auf Höhe der Überschriften */
+  .ftr__legal { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .ftr__logo { flex: none; height: auto; opacity: 0.9; }
 
   .ftr__bottom {
-    padding-block: 20px;
+    padding-block: 14px;
     border-top: 1px solid var(--anthrazit-700);
     font-size: 13px; color: var(--anthrazit-400);
   }
