@@ -28,8 +28,9 @@ import Icon from "./Icon.astro";
       <a class="btn fkontakt__ghost nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
         <Icon name="calendar" size={18} class="icon" /> {TERMIN.label}
       </a>
-      <a class="btn fkontakt__ghost" href={`mailto:${EMAILS.service}`}>
-        <Icon name="mail" size={18} class="icon" /> E-Mail schreiben
+      <!-- Kundenwunsch 10.10.2026: statt „E-Mail schreiben" die Adresse selbst anzeigen -->
+      <a class="btn fkontakt__ghost fkontakt__mail" href={`mailto:${EMAILS.service}`}>
+        <Icon name="mail" size={18} class="icon" /> {EMAILS.service}
       </a>
     </div>
     <p class="fkontakt__zeiten">{F.zeiten}</p>
@@ -73,6 +74,9 @@ import Icon from "./Icon.astro";
     font-size: 15px;
     gap: 8px;
   }
+  /* Adresse darf nicht mitten im Wort umbrechen – am Handy minimal kleiner */
+  .fkontakt__mail { white-space: nowrap; font-size: 14px; letter-spacing: -0.01em; }
+  @media (min-width: 1024px) { .fkontakt__mail { font-size: 15px; } }
   .fkontakt__ghost {
     background: transparent;
     border-color: rgba(255, 255, 255, 0.55);
