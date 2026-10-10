@@ -69,6 +69,8 @@ const jahr = new Date().getFullYear();
   .ftr__cols {
     display: grid; gap: 24px;
     padding-block: 32px 28px;
+    /* Kundenwunsch 11.10.2026: Kopf und Spalten gleich anthrazit – feine Trennlinie wie unten */
+    border-top: 1px solid var(--anthrazit-700);
   }
   @media (min-width: 768px)  { .ftr__cols { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .ftr__cols { grid-template-columns: repeat(4, 1fr); } }
