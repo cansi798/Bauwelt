@@ -15,19 +15,21 @@ import Icon from "./Icon.astro";
 
     <h3 class="fkontakt__head">{F.kontaktHead}</h3>
     <p class="fkontakt__text">{F.kontaktText}</p>
+    <!-- Kundenwunsch 10.10.2026 (Sprachnachricht): Buttons etwas kleiner – normale
+         Button-Größe statt btn--lg, kompakteres Polster, Icons 18 px, Reihe schmaler -->
     <div class="fkontakt__actions">
-      <a class="btn btn--lg" href={`tel:${SITE.phoneTel}`}>
-        <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay} anrufen
+      <a class="btn" href={`tel:${SITE.phoneTel}`}>
+        <Icon name="phone" size={18} class="icon" /> {SITE.phoneDisplay} anrufen
       </a>
-      <a class="btn btn--lg fkontakt__ghost" href={waLink()} target="_blank" rel="noopener">
-        <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
+      <a class="btn fkontakt__ghost" href={waLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={18} class="icon" /> Per WhatsApp schreiben
       </a>
       <!-- mobil steckt der Termin-Button in der festen Leiste unten -->
-      <a class="btn btn--lg fkontakt__ghost nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
-        <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
+      <a class="btn fkontakt__ghost nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+        <Icon name="calendar" size={18} class="icon" /> {TERMIN.label}
       </a>
-      <a class="btn btn--lg fkontakt__ghost" href={`mailto:${EMAILS.service}`}>
-        <Icon name="mail" size={20} class="icon" /> E-Mail schreiben
+      <a class="btn fkontakt__ghost" href={`mailto:${EMAILS.service}`}>
+        <Icon name="mail" size={18} class="icon" /> E-Mail schreiben
       </a>
     </div>
     <p class="fkontakt__zeiten">{F.zeiten}</p>
@@ -57,14 +59,20 @@ import Icon from "./Icon.astro";
   }
   .fkontakt__actions {
     display: grid; gap: 12px;
-    width: 100%; max-width: 30rem;
+    width: 100%; max-width: 20rem;
     margin-top: 8px;
   }
   @media (min-width: 1024px) {
-    .fkontakt__actions { grid-template-columns: 1fr 1fr; max-width: 60rem; }
+    .fkontakt__actions { grid-template-columns: auto auto; justify-content: center; max-width: 46rem; }
     .fkontakt__actions .btn { white-space: nowrap; }
   }
-  .fkontakt__actions .btn { justify-content: center; }
+  .fkontakt__actions .btn {
+    justify-content: center;
+    /* Kundenwunsch 10.10.2026: etwas kleiner, am Handy trotzdem ≥ 44 px hoch */
+    padding: 11px 22px;
+    font-size: 15px;
+    gap: 8px;
+  }
   .fkontakt__ghost {
     background: transparent;
     border-color: rgba(255, 255, 255, 0.55);
