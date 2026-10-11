@@ -18,8 +18,10 @@ interface Props {
   checks?: string[];
   /** Zweit-CTA ausblenden, z. B. auf der Kontaktseite (Buchung ist dort direkt). */
   ohneTermin?: boolean;
+  /** Hinweis unter dem Haupt-CTA (Standard: Rechner-Hinweis). */
+  ctaNote?: string;
 }
-const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [], ohneTermin = false } = Astro.props;
+const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [], ohneTermin = false, ctaNote = "Unverbindlich · Ergebnis in 60 Sekunden" } = Astro.props;
 // Rechner-CTA steht mobil schon in der festen Leiste unten → dort ausblenden.
 const istRechner = Boolean(ctaHref?.includes("rechner/"));
 ---
@@ -42,7 +44,7 @@ const istRechner = Boolean(ctaHref?.includes("rechner/"));
         <div class="phero__actions">
           <div class:list={["phero__cta", { "nur-desktop": istRechner }]}>
             <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
-            <span class="phero__note">Unverbindlich · Ergebnis in 60 Sekunden</span>
+            <span class="phero__note">{ctaNote}</span>
           </div>
           {!ohneTermin && (
             <a class="btn btn--lg btn--ghost nur-desktop" href={u("kontakt/#termin")}>

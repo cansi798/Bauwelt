@@ -147,6 +147,20 @@ export const GEWERKE: Gewerk[] = [
   },
 ];
 
+/** Leistungen mit festem Pauschalpreis – ohne Rechenschritte (Kundenwunsch 11.10.2026).
+ *  Preis und Leistungsinhalt stehen NUR in der Content-Datei (pauschalpreis/umfang),
+ *  hier nur die Daten für die Leistungskarte. */
+export type Pauschal = { slug: string; label: string; icon: string; nutzen: string };
+
+export const PAUSCHAL: Pauschal[] = [
+  {
+    slug: "sanierungscheck",
+    label: "Immobilien-Sanierungscheck",
+    icon: "eye",
+    nutzen: "Chancen, Risiken und Kosten frühzeitig erkennen – vor dem Kauf.",
+  },
+];
+
 export const gewerkBySlug = (slug: string): Gewerk | undefined =>
   GEWERKE.find((g) => g.slug === slug);
 

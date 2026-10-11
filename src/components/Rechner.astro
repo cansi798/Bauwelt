@@ -9,11 +9,15 @@
 // variant="start" (Kundenwunsch 11.10.2026): Leistungskarten (Icon, Titel, Nutzen,
 //   „Mehr erfahren") SIND die Leistungsauswahl, daneben/darunter direkt der Rechner.
 //   Badsanierung ist vorausgewählt und serverseitig vorgerendert (kein Layout-Sprung).
+// Pauschal-Leistungen (Immobilien-Sanierungscheck, 499 €): keine Rechenschritte, sondern
+//   ein Festpreis-Panel mit Leistungsinhalt und Buchen/Anfragen. Preis + Inhalt kommen
+//   aus der Content-Datei (pauschalpreis/umfang) – eine einzige Quelle.
 // Ohne JavaScript: Hinweis + Direktkontaktwege (html.js-Gate); auf der Startseite
 // bleiben die Karten mit ihren „Mehr erfahren"-Links sichtbar.
+import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
-import { GEWERKE } from "../data/rechner";
-import { SITE, EMAILS, TERMIN, u } from "../consts";
+import { GEWERKE, PAUSCHAL } from "../data/rechner";
+import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
 
 interface Props {
   variant?: "seite" | "start";
@@ -21,7 +25,23 @@ interface Props {
 const { variant = "seite" } = Astro.props;
 const start = variant === "start";
 const H = start ? "h3" : "h2";     // Schritt-Überschriften
+const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
 const erstes = GEWERKE[0];
+const euro = (n: number) => n.toLocaleString("de-DE");
+
+// Pauschal-Leistungen mit Preis + Inhalt aus der jeweiligen Leistungs-Content-Datei
+const PAUSCHAL_DATA = await Promise.all(
+  PAUSCHAL.map(async (p) => {
+    const e = await getEntry("leistungen", p.slug);
+    if (!e?.data.pauschalpreis) throw new Error(`Pauschalpreis fehlt in content/leistungen/${p.slug}.md`);
+    return { ...p, preis: e.data.pauschalpreis, enthalten: e.data.umfang };
+  })
+);
+/** Alle Leistungskarten in Menü-Reihenfolge: erst die Rechner-Gewerke, dann Pauschal. */
+const KARTEN: { slug: string; label: string; icon: string; nutzen: string; preis?: number }[] = [
+  ...GEWERKE,
+  ...PAUSCHAL_DATA,
+];
 // Weiche Trennstellen für lange Wörter in den schmalen Handy-Karten
 // (Chrome trennt Deutsch sonst nicht zuverlässig → „Modernisierun|g").
 const weich = (t: string) =>
@@ -57,7 +77,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   {start ? (
     /* Leistungskarten = Leistungsauswahl (Toggle-Buttons) + Link zur Leistungsseite */
     <div class="rkarten" role="group" aria-label="Leistung für die Kalkulation wählen">
-      {GEWERKE.map((g, i) => (
+      {KARTEN.map((g, i) => (
         <div class:list={["rkarte", { selected: i === 0 }]}>
           <button
             type="button"
@@ -69,10 +89,13 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
           >
             <span class="rkarte__icon"><Icon name={g.icon} size={22} class="icon" /></span>
             <span class="rkarte__titel">{weich(g.label)}</span>
-            <span class="rkarte__nutzen">{g.nutzen}</span>
+            <span class="rkarte__nutzen">
+              {g.nutzen}
+              {g.preis && <strong class="rkarte__preis">Pauschal {euro(g.preis)} €</strong>}
+            </span>
             <span class="rkarte__status" aria-hidden="true">
               <span class="rkarte__status-an"><Icon name="check" size={14} class="icon" /> Ausgewählt</span>
-              <span class="rkarte__status-aus"><Icon name="calc" size={14} class="icon" /> Preis berechnen</span>
+              <span class="rkarte__status-aus"><Icon name={g.preis ? "euro" : "calc"} size={14} class="icon" /> {g.preis ? "Festpreis ansehen" : "Preis berechnen"}</span>
             </span>
           </button>
           <a class="rkarte__mehr" href={u(`leistungen/${g.slug}/`)}>
@@ -97,7 +120,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       <section class="rstep" data-step="1">
         <h2 class="rstep__title">Worum geht es?</h2>
         <div class="rechner__tiles">
-          {GEWERKE.map((g) => (
+          {KARTEN.map((g) => (
             <button class="rtile" type="button" data-gewerk={g.slug}>
               <Icon name={g.icon} size={30} class="icon" />
               <span>{g.label}</span>
@@ -167,6 +190,46 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         </a>
       </div>
     </section>
+
+    {PAUSCHAL_DATA.map((p) => (
+      /* Pauschal-Leistung: Festpreis statt Berechnung */
+      <section class="rstep rpausch" data-step={`p-${p.slug}`} hidden>
+        <p class="rpanel__gewerk">{p.label}</p>
+        <H class="rstep__title">Ihr Festpreis</H>
+        <p class="rechner__result">{euro(p.preis)} € <span class="rpausch__art">pauschal</span></p>
+        <div class="rwahl">
+          <div class="rwahl__gruppe">
+            <HSub class="rwahl__titel">Das ist enthalten</HSub>
+            <ul>{p.enthalten.map((e) => <li>{e}</li>)}</ul>
+          </div>
+        </div>
+        <p class="small rechner__disclaimer">
+          Keine Berechnung nötig: Der {p.label} kostet immer {euro(p.preis)} €.
+          <a href={u(`leistungen/${p.slug}/`)}>Mehr zum {p.label}</a>
+        </p>
+        <div class="rechner__contact">
+          <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+            <Icon name="calendar" size={20} class="icon" /> {p.label.replace("Immobilien-", "")} buchen
+          </a>
+          <a
+            class="btn btn--dark btn--lg"
+            href={waLink(`Hallo Bauwelt Handwerk! 👋\n\nIch interessiere mich für den ${p.label} (Pauschalpreis ${euro(p.preis)} €).\n\nBitte melden Sie sich bei mir für einen Termin. Vielen Dank! 🙏`)}
+            target="_blank" rel="noopener"
+          >
+            <Icon name="whatsapp" size={20} class="icon" /> Anfrage per WhatsApp senden
+          </a>
+          <a
+            class="btn btn--ghost btn--lg"
+            href={`mailto:${EMAILS.service}?subject=${encodeURIComponent(`Anfrage: ${p.label}`)}&body=${encodeURIComponent(`Guten Tag,\n\nich interessiere mich für den ${p.label} (Pauschalpreis ${euro(p.preis)} €).\n\nAdresse der Immobilie:\nWunschtermin:\nName:\nTelefonnummer:\n`)}`}
+          >
+            <Icon name="mail" size={20} class="icon" /> Anfrage per E-Mail senden
+          </a>
+        </div>
+        {!start && (
+          <button class="btn btn--ghost btn--sm rpausch__zurueck" type="button" data-zurueck>Andere Leistung wählen</button>
+        )}
+      </section>
+    ))}
   </div>
 </div>
 
@@ -212,6 +275,10 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rtile :global(.icon) { color: var(--gold-700); width: 30px; height: 30px; }
   .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
   .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
+  .rtile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .rpausch__art { font-size: 0.5em; font-weight: 700; color: var(--anthrazit-600); }
+  .rpausch__zurueck { margin-top: 18px; }
+  .rpausch .rwahl { grid-template-columns: 1fr; }
 
   /* ---------- Startseite: Leistungskarten + Rechner-Panel ---------- */
   .rechner__app--start {
@@ -224,8 +291,13 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     .rechner__app--start { grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 24px; align-items: start; }
   }
   .rkarten { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @media (min-width: 640px) and (max-width: 1023px) { .rkarten { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .rkarten { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+  /* ungerade Anzahl (5 Leistungen): letzte Karte über die volle Breite */
+  .rkarte:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  @media (min-width: 1024px) {
+    .rkarten { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    /* Kalkulation bleibt beim Durchsehen der Karten im Blick */
+    .rechner__app--start .rechner__panel { position: sticky; top: calc(var(--header-h) + 16px); }
+  }
 
   .rkarte {
     position: relative;
@@ -265,6 +337,10 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     hyphens: auto; overflow-wrap: break-word;
   }
   .rkarte__nutzen, .rkarte__status { grid-column: 1 / -1; }
+  .rkarte__preis {
+    display: block; margin-top: 4px;
+    font-family: var(--font-heading); font-size: 13px; color: var(--gold-700);
+  }
   .rkarte__nutzen { font-size: 13px; line-height: 1.4; color: var(--anthrazit-700); overflow-wrap: break-word; hyphens: auto; }
   .rkarte__status {
     display: inline-flex; align-items: center;
@@ -466,29 +542,43 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       if (zuHoch || zuTief) panel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function show(step: number, scroll: Scroll = "immer") {
-      state.step = step;
-      steps.forEach((s) => (s.hidden = Number(s.dataset.step) !== step));
+    /** step: 1–3 = Rechner-Schritte, "p-<slug>" = Festpreis-Panel einer Pauschal-Leistung. */
+    function show(step: number | string, scroll: Scroll = "immer") {
+      const nr = typeof step === "number" ? step : 3; // Festpreis-Panel = Endpunkt
+      state.step = nr;
+      steps.forEach((s) => (s.hidden = s.dataset.step !== String(step)));
       if (bar && progress) {
-        bar.style.width = `${(step / 3) * 100}%`;
-        progress.setAttribute("aria-valuenow", String(step));
-        progress.setAttribute("aria-label", `Schritt ${step} von 3`);
+        bar.style.width = `${(nr / 3) * 100}%`;
+        progress.setAttribute("aria-valuenow", String(nr));
+        progress.setAttribute("aria-label", `Schritt ${nr} von 3`);
       }
-      app!.toggleAttribute("data-started", step > 1);
+      app!.toggleAttribute("data-started", nr > 1);
       scrollZu(scroll);
     }
 
-    function selectGewerk(g: Gewerk, scroll: Scroll = "immer") {
-      state.gewerk = g;
-      state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
+    /** Karte/Kachel als gewählt markieren (Rechner- und Pauschal-Leistungen). */
+    function markiere(slug: string) {
       app!.querySelectorAll<HTMLElement>("[data-gewerk]").forEach((t) => {
-        const an = t.dataset.gewerk === g.slug;
+        const an = t.dataset.gewerk === slug;
         t.classList.toggle("selected", an);
         if (START) {
           t.setAttribute("aria-pressed", String(an));
           t.closest(".rkarte")?.classList.toggle("selected", an);
         }
       });
+    }
+
+    /** Pauschal-Leistung: direkt das Festpreis-Panel zeigen (keine Rechenschritte). */
+    function selectPauschal(slug: string, scroll: Scroll = "immer") {
+      state.gewerk = null;
+      markiere(slug);
+      show(`p-${slug}`, scroll);
+    }
+
+    function selectGewerk(g: Gewerk, scroll: Scroll = "immer") {
+      state.gewerk = g;
+      state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
+      markiere(g.slug);
       if (gewerkLabel) gewerkLabel.textContent = `${g.label} berechnen`;
       frageEl.textContent = g.frage;
       range.min = String(g.min);
@@ -585,11 +675,17 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     }
 
     // Events
+    const istPauschal = (slug: string) => steps.some((s) => s.dataset.step === `p-${slug}`);
     app.querySelectorAll<HTMLButtonElement>("button[data-gewerk]").forEach((tile) =>
       tile.addEventListener("click", () => {
-        const g = GEWERKE.find((x) => x.slug === tile.dataset.gewerk);
+        const slug = tile.dataset.gewerk ?? "";
+        const g = GEWERKE.find((x) => x.slug === slug);
         if (g) selectGewerk(g, START ? "bedarf" : "immer");
+        else if (istPauschal(slug)) selectPauschal(slug, START ? "bedarf" : "immer");
       })
+    );
+    app.querySelectorAll<HTMLButtonElement>("[data-zurueck]").forEach((b) =>
+      b.addEventListener("click", () => show(1))
     );
     range.addEventListener("input", updateMenge);
     document.getElementById("rWeiter")!.addEventListener("click", showResult);
@@ -605,6 +701,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       const pre = new URLSearchParams(location.search).get("gewerk");
       const preG = pre ? GEWERKE.find((g) => g.slug === pre) : null;
       if (preG) selectGewerk(preG);
+      else if (pre && istPauschal(pre)) selectPauschal(pre);
     }
   }
 </script>

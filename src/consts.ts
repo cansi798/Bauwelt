@@ -61,12 +61,14 @@ export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
     children: [
-      // Nur noch 4 Leistungen im Menü (Kundenfeedback 30.09.2026) – Dach & Fassade,
+      // 5 Leistungen im Menü (Kundenfeedback 30.09. + 11.10.2026) – Dach & Fassade,
       // Maler & Böden, Sanitär/Heizung/Elektro bleiben online, aber ohne Menüeintrag.
       { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 2 Wochen" },
       { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von der Einzelmaßnahme bis zur Kernsanierung" },
       { label: "Fliesen- & Bodenlegerarbeiten", href: u("leistungen/fliesen-boden/"), icon: "tiles", desc: "Perfekte Oberflächen für Wand und Boden" },
       { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Räume neu gestalten und optimal nutzen" },
+      // 5. Leistung seit Kundenwunsch 11.10.2026 (Pauschalpreis steht in content/leistungen/sanierungscheck.md)
+      { label: "Immobilien-Sanierungscheck", href: u("leistungen/sanierungscheck/"), icon: "eye", desc: "Chancen, Risiken und Kosten frühzeitig erkennen" },
       { label: "Alle Leistungen im Überblick", href: u("leistungen/"), icon: "arrow" },
     ],
   },
@@ -82,11 +84,11 @@ export const NAV2: NavItem[] = [
   { label: "Kontakt", href: u("kontakt/") },
 ];
 
-/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext nennt die 4 Leistungen (Menü NAV2). */
+/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext nennt die 5 Leistungen (Menü NAV2). */
 export const waLink = (
   text = "Hallo Bauwelt Handwerk, ich interessiere mich für eine Ihrer Leistungen – " +
-    "Badsanierung, Sanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten oder " +
-    "Innenausbau & Trockenbau. Bitte melden Sie sich bei mir für ein " +
+    "Badsanierung, Sanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, " +
+    "Innenausbau & Trockenbau oder den Immobilien-Sanierungscheck. Bitte melden Sie sich bei mir für ein " +
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
   `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;

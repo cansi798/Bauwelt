@@ -1,16 +1,19 @@
 ---
-// Gewerk-Detailseite (Enpal-Produktseiten-Muster): Hero mit CTA → Leistungsumfang
-// → Ablauf → passende Referenzen → Versprechen-Siegel → FAQ (Kontakt-Kopf kommt aus dem Footer).
+// Leistungsseite – EINE Vorlage für alle Leistungen (Kundenwunsch 11.10.2026):
+// Hero mit H1 → Intro (ca. 8 Zeilen aus Kundensicht) → „Warum <Leistung> mit Bauwelt
+// Handwerk?“ → Leistungsumfang → Ablauf → Referenzen → Versprechen → FAQ → Abschluss-CTA
+// (Rechner bzw. Buchung bei Pauschal-Leistungen). Kontakt-Kopf kommt aus dem Footer.
+// Hintergründe wechseln automatisch (weiß/sand), auch wenn ein Abschnitt fehlt.
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import SectionHead from "../../components/SectionHead.astro";
 import Checkliste from "../../components/Checkliste.astro";
 import Steps from "../../components/Steps.astro";
 import Faq from "../../components/Faq.astro";
 import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
-import { u } from "../../consts";
+import SectionHead from "../../components/SectionHead.astro";
+import { u, TERMIN, waLink } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { siegelById, VERSPRECHEN } from "../../data/versprechen";
 
@@ -25,10 +28,14 @@ const { Content } = await render(l);
 const kurzTitel = l.data.title.replace(" zum Festpreis", "");
 // Überlange Wörter in der H1 (z. B. „Bodenlegerarbeiten") mit weichen Trennstellen,
 // sonst läuft die Überschrift auf dem Handy über den Rand.
-const h1Titel = kurzTitel.replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten");
+const h1Titel = kurzTitel
+  .replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten")
+  .replace("Sanierungscheck", "Sanierungs\u00ADcheck");
+const pauschal = l.data.pauschalpreis;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
+const euro = (n: number) => n.toLocaleString("de-DE");
 
 // Passendes Versprechen-Siegel (Frontmatter oder Fallback je Gewerk)
 const siegelFallback: Record<string, string> = {
@@ -54,55 +61,94 @@ const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
 };
 const alleRefs = (await getCollection("referenzen")).sort((a, b) => a.data.order - b.data.order);
 const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
+
+// Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
+const sektionen = [
+  "intro",
+  l.data.warum.length > 0 && "warum",
+  "umfang",
+  l.data.ablauf.length > 0 && "ablauf",
+  refs.length > 0 && "refs",
+  "siegel",
+  l.data.faq.length > 0 && "faq",
+  "cta",
+].filter(Boolean) as string[];
+const bg = (k: string) => ["section", { "section--sand": sektionen.indexOf(k) % 2 === 0 }];
+
+const description =
+  l.data.beschreibung ??
+  // Ziel ~140–160 Zeichen: langer Zusatz, wenn er passt, sonst kurzer, sonst nur Teaser.
+  ([
+    `${l.data.teaser} Jetzt online berechnen – Festpreis nach kostenlosem Vor-Ort-Termin in Norderstedt & Hamburg.`,
+    `${l.data.teaser} Jetzt online berechnen – Festpreis nach Vor-Ort-Termin.`,
+    l.data.teaser,
+  ].find((d) => d.length <= 160) ?? l.data.teaser);
+const waText =
+  `Hallo Bauwelt Handwerk, ich interessiere mich für: ${kurzTitel}` +
+  (pauschal ? ` (Pauschalpreis ${euro(pauschal)} €)` : "") +
+  `. Bitte melden Sie sich bei mir. Vielen Dank!`;
 ---
 
-<BaseLayout
-  title={`${l.data.title} – Norderstedt & Hamburg`}
-  description={
-    // Ziel ~140–160 Zeichen: langer Zusatz, wenn er passt, sonst kurzer, sonst nur Teaser.
-    [
-      `${l.data.teaser} Jetzt online berechnen – Festpreis nach kostenlosem Vor-Ort-Termin in Norderstedt & Hamburg.`,
-      `${l.data.teaser} Jetzt online berechnen – Festpreis nach Vor-Ort-Termin.`,
-      l.data.teaser,
-    ].find((d) => d.length <= 160) ?? l.data.teaser
-  }
->
+<BaseLayout title={`${l.data.title} – Norderstedt & Hamburg`} description={description}>
   <PageHero
     eyebrow={l.data.badge ? `${kurzTitel} · ${l.data.badge}` : kurzTitel}
     pre={`${h1Titel} zum `}
-    accent="Festpreis"
+    accent={l.data.h1Akzent}
     lead={l.data.lead}
-    bild={`hero-${l.id}.webp`}
+    bild={l.data.bild ?? `hero-${l.id}.webp`}
     alt={kurzTitel}
-    ctaHref={ctaHref}
-    ctaLabel={`${kurzTitel} berechnen`}
-    checks={["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"]}
+    ctaHref={pauschal ? u("kontakt/#termin") : ctaHref}
+    ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : `${kurzTitel} berechnen`}
+    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} €` : undefined}
+    ohneTermin={Boolean(pauschal)}
+    checks={l.data.checks ?? ["Festpreis-Garantie", "Alles aus einer Hand", "Verbindlicher Zeitplan"]}
   />
 
-  <section class="section section--sand">
+  <!-- 1. Intro: worum es geht – aus Kundensicht -->
+  <section class:list={bg("intro")}>
+    <div class="container ldetail__intro">
+      <SectionHead eyebrow={kurzTitel} pre={l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`} />
+      <div class="ldetail__prose"><Content /></div>
+    </div>
+  </section>
+
+  <!-- 2. Warum mit Bauwelt Handwerk? -->
+  {l.data.warum.length > 0 && (
+    <section class:list={bg("warum")}>
+      <div class="container">
+        <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${kurzTitel} mit `} accent="Bauwelt Handwerk?" />
+        <ul class="warum">
+          {l.data.warum.map((w) => (
+            <li class="card warum__item reveal">
+              <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
+              <h3>{w.title}</h3>
+              <p>{w.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- 3. Leistungsumfang -->
+  <section class:list={bg("umfang")}>
     <div class="container">
       <SectionHead eyebrow="Leistungsumfang" pre="Was alles drin " accent="ist" />
       <Checkliste items={l.data.umfang} />
     </div>
   </section>
 
-  <section class="section">
-    <div class="container ldetail__prose">
-      <Content />
-    </div>
-  </section>
-
   {l.data.ablauf.length > 0 && (
-    <section class="section section--sand">
+    <section class:list={bg("ablauf")}>
       <div class="container">
-        <SectionHead center eyebrow="Ablauf" pre="So läuft Ihr Projekt " accent="ab" />
+        <SectionHead center eyebrow="Ablauf" pre="So läuft es " accent="ab" />
         <Steps steps={l.data.ablauf} />
       </div>
     </section>
   )}
 
   {refs.length > 0 && (
-    <section class="section">
+    <section class:list={bg("refs")}>
       <div class="container">
         <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
         <div class="grid cols-2">
@@ -120,7 +166,7 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
     </section>
   )}
 
-  <section class="section section--sand">
+  <section class:list={bg("siegel")}>
     <div class="container ldetail__siegel">
       <span class="siegel__ring"><Icon name={siegel.icon} size={30} class="icon" /></span>
       <div>
@@ -132,7 +178,7 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
   </section>
 
   {l.data.faq.length > 0 && (
-    <section class="section">
+    <section class:list={bg("faq")}>
       <div class="container">
         <SectionHead center eyebrow="Häufige Fragen" pre={`${kurzTitel}: Gut zu `} accent="wissen" />
         <Faq items={l.data.faq} />
@@ -140,11 +186,71 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
     </section>
   )}
 
+  <!-- Abschluss: nächster Schritt (Rechner bzw. Buchung) -->
+  <section class:list={bg("cta")}>
+    <div class="container ldetail__cta">
+      {pauschal ? (
+        <SectionHead
+          center
+          eyebrow="Nächster Schritt"
+          pre={`${kurzTitel} für `}
+          accent={`${euro(pauschal)} €`}
+          text="Pauschalpreis ohne versteckte Kosten – Wunschtermin direkt online buchen oder kurz per WhatsApp anfragen."
+        />
+      ) : (
+        <SectionHead
+          center
+          eyebrow="Nächster Schritt"
+          pre="In 1 Minute zur ersten "
+          accent="Preisspanne"
+          text="Unverbindlich und ohne Kontaktdaten. Den Festpreis nennen wir Ihnen nach dem kostenlosen Vor-Ort-Termin."
+        />
+      )}
+      <div class="ldetail__actions">
+        {pauschal ? (
+          <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+            <Icon name="calendar" size={20} class="icon" /> {kurzTitel.replace("Immobilien-", "")} buchen
+          </a>
+        ) : (
+          <a class="btn btn--lg" href={ctaHref}>
+            <Icon name="calc" size={20} class="icon" /> {kurzTitel} berechnen
+          </a>
+        )}
+        {pauschal ? (
+          <a class="btn btn--lg btn--dark" href={waLink(waText)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp anfragen
+          </a>
+        ) : (
+          <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+            <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .ldetail__prose { max-width: var(--text-width); }
+  .ldetail__intro { max-width: 860px; }
+  .ldetail__prose { max-width: var(--text-width); font-size: 17px; line-height: 1.7; }
   .ldetail__prose :global(p) { margin-bottom: 1em; }
+  .ldetail__prose :global(p:last-child) { margin-bottom: 0; }
+
+  .warum { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  @media (min-width: 640px) { .warum { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .warum { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .warum__item { display: grid; gap: 10px; align-content: start; padding: 24px; }
+  .warum__icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .warum__item h3 { margin: 4px 0 0; font-size: 17px; text-transform: none; letter-spacing: 0; line-height: 1.3; }
+  .warum__item p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+
   .refmini { padding: 12px; display: grid; }
   .refmini__body { padding: 14px 10px 6px; }
   .refmini__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
@@ -165,4 +271,12 @@ const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
   }
   .ldetail__siegel p { margin: 0; }
   @media (min-width: 768px) { .ldetail__siegel { grid-template-columns: auto 1fr; gap: 28px; } }
+
+  .ldetail__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; justify-content: center; }
+  @media (max-width: 767px) {
+    .ldetail__actions { display: grid; justify-content: stretch; }
+    .ldetail__actions .btn {
+      width: 100%; min-height: 48px; padding: 11px 16px; font-size: 15px; line-height: 1.2;
+    }
+  }
 </style>
