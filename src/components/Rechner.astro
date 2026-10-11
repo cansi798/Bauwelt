@@ -1,0 +1,846 @@
+---
+// Projekt-Rechner 3.2 – gemeinsame Komponente für /rechner/ und die Startseite.
+// Enpal-Funnel-Mechanik: Ergebnis VOR Kontaktfrage. Zwei Wege im Umfang-Schritt:
+// „Schnelle Schätzung" (Slider) und „Genaue Angaben" (Maße + Auswahl-Buttons, Live-Preis).
+// WhatsApp/E-Mail bekommen einen klar formatierten Anfragetext (Fachbegriffe).
+//
+// variant="seite": bisheriger 3-Schritte-Funnel (Leistung → Umfang → Ergebnis).
+// variant="start" (Kundenwunsch 11.10.2026): Leistungskarten (Icon, Titel, Nutzen,
+//   „Mehr erfahren") SIND die Leistungsauswahl, daneben/darunter direkt der Rechner.
+//   Badsanierung ist vorausgewählt und serverseitig vorgerendert (kein Layout-Sprung).
+// Ohne JavaScript: Hinweis + Direktkontaktwege (html.js-Gate); auf der Startseite
+// bleiben die Karten mit ihren „Mehr erfahren"-Links sichtbar.
+import Icon from "./Icon.astro";
+import { GEWERKE } from "../data/rechner";
+import { SITE, EMAILS, TERMIN, u } from "../consts";
+
+interface Props {
+  variant?: "seite" | "start";
+}
+const { variant = "seite" } = Astro.props;
+const start = variant === "start";
+const H = start ? "h3" : "h2";     // Schritt-Überschriften
+const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
+const erstes = GEWERKE[0];
+// Weiche Trennstellen für lange Wörter in den schmalen Handy-Karten
+// (Chrome trennt Deutsch sonst nicht zuverlässig → „Modernisierun|g").
+const weich = (t: string) =>
+  t.replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten").replace("Modernisierung", "Moderni\u00ADsierung");
+
+// Nur die Daten, die der Client braucht (keine Funktionen).
+const CLIENT_DATA = GEWERKE.map((g) => ({
+  slug: g.slug, label: g.label, frage: g.frage, unit: g.unit,
+  min: g.min, max: g.max, step: g.step, default: g.default,
+  grund: g.grund, proEinheit: g.proEinheit, tiers: g.tiers, spanne: g.spanne,
+  bausteine: g.bausteine, extras: g.extras, icon: g.icon,
+}));
+---
+
+<!-- Ohne JS: ehrlicher Hinweis + Kontaktwege -->
+<div class="rechner__nojs">
+  <p>
+    Der Online-Rechner benötigt JavaScript. Sie erreichen uns aber jederzeit direkt –
+    wir nennen Ihnen gern am Telefon eine erste Einschätzung:
+  </p>
+  <div class="rechner__nojs-actions">
+    <a class="btn" href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>
+    <a class="btn btn--dark" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn btn--ghost" href={`mailto:${EMAILS.service}?subject=Projektanfrage`}>E-Mail schreiben</a>
+  </div>
+</div>
+
+<div
+  class:list={["rechner__app", start ? "rechner__app--start" : "card"]}
+  data-variant={variant}
+  data-gewerke={JSON.stringify(CLIENT_DATA)}
+>
+  {start ? (
+    /* Leistungskarten = Leistungsauswahl (Toggle-Buttons) + Link zur Leistungsseite */
+    <div class="rkarten" role="group" aria-label="Leistung für die Kalkulation wählen">
+      {GEWERKE.map((g, i) => (
+        <div class:list={["rkarte", { selected: i === 0 }]}>
+          <button
+            type="button"
+            class="rkarte__wahl"
+            id={`rTab-${g.slug}`}
+            data-gewerk={g.slug}
+            aria-pressed={i === 0 ? "true" : "false"}
+            aria-controls="rPanel"
+          >
+            <span class="rkarte__icon"><Icon name={g.icon} size={22} class="icon" /></span>
+            <span class="rkarte__titel">{weich(g.label)}</span>
+            <span class="rkarte__nutzen">{g.nutzen}</span>
+            <span class="rkarte__status" aria-hidden="true">
+              <span class="rkarte__status-an"><Icon name="check" size={14} class="icon" /> Ausgewählt</span>
+              <span class="rkarte__status-aus"><Icon name="calc" size={14} class="icon" /> Preis berechnen</span>
+            </span>
+          </button>
+          <a class="rkarte__mehr" href={u(`leistungen/${g.slug}/`)}>
+            Mehr erfahren<span class="visually-hidden"> über {g.label}</span> <Icon name="arrow" size={16} class="icon" />
+          </a>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div class="rechner__progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Schritt 1 von 3">
+      <span class="rechner__bar" style="width: 33%"></span>
+    </div>
+  )}
+
+  <div
+    class:list={["rechner__panel", { card: start }]}
+    id="rPanel"
+    {...(start ? { role: "region", "aria-label": "Projekt-Kalkulation" } : {})}
+  >
+    {!start && (
+      /* Schritt 1: Gewerk (nur Rechner-Seite – auf der Startseite übernehmen das die Karten) */
+      <section class="rstep" data-step="1">
+        <h2 class="rstep__title">Worum geht es?</h2>
+        <div class="rechner__tiles">
+          {GEWERKE.map((g) => (
+            <button class="rtile" type="button" data-gewerk={g.slug}>
+              <Icon name={g.icon} size={30} class="icon" />
+              <span>{g.label}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Schritt 2: Umfang – schnell oder genau (Auswahl-Buttons) -->
+    <section class="rstep" data-step="2" hidden={!start}>
+      {start && <p class="rpanel__gewerk" id="rGewerkLabel">{erstes.label} berechnen</p>}
+      <H class="rstep__title" id="rFrage">{start ? erstes.frage : "Wie groß ist Ihr Projekt?"}</H>
+
+      <div class="rmodus" role="radiogroup" aria-label="Wie möchten Sie rechnen?">
+        <button type="button" class="rmodus__btn selected" data-modus="schnell" role="radio" aria-checked="true">
+          <strong>Schnelle Schätzung</strong>
+          <small>Ergebnis in 1 Minute</small>
+        </button>
+        <button type="button" class="rmodus__btn" data-modus="genau" role="radio" aria-checked="false">
+          <strong>Genaue Angaben</strong>
+          <small>Maße eingeben, Auswahl treffen</small>
+        </button>
+      </div>
+
+      <div class="rechner__range" id="rRangeWrap">
+        <input
+          type="range" id="rMenge" aria-labelledby="rFrage"
+          min={start ? erstes.min : 3} max={start ? erstes.max : 30}
+          step={start ? erstes.step : 1} value={start ? erstes.default : 8}
+        />
+        <output class="rechner__mengeout" id="rMengeOut" for="rMenge">{start ? `${erstes.default} ${erstes.unit}` : "8 m²"}</output>
+      </div>
+
+      <div class="rmasse" id="rMasse" hidden>
+        <label class="rmasse__feld">
+          <span>Länge</span>
+          <input type="number" id="rLaenge" min="0.5" max="50" step="0.1" inputmode="decimal" /> <span>m</span>
+        </label>
+        <span class="rmasse__mal" aria-hidden="true">×</span>
+        <label class="rmasse__feld">
+          <span>Breite</span>
+          <input type="number" id="rBreite" min="0.5" max="50" step="0.1" inputmode="decimal" /> <span>m</span>
+        </label>
+        <output class="rmasse__flaeche" id="rFlaeche">= 8 m²</output>
+      </div>
+
+      <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau">
+        {start && erstes.tiers.map((t, i) => (
+          <button type="button" class:list={["rtier", { selected: i === 0 }]} role="radio" aria-checked={i === 0 ? "true" : "false"}>
+            <strong>{t.label}</strong><small>{t.hint}</small>
+          </button>
+        ))}
+      </div>
+
+      <div class="rmodule" id="rModuleWrap" hidden>
+        <HSub class="rmodule__title">Was soll gemacht werden?</HSub>
+        <div class="rmodule__grid" id="rModule"></div>
+      </div>
+      <div class="rmodule" id="rExtrasWrap" hidden>
+        <HSub class="rmodule__title">Extras <span class="rmodule__opt">(optional)</span></HSub>
+        <div class="rextras__grid" id="rExtras"></div>
+      </div>
+
+      <p class="rlivepreis" id="rLivePreis" hidden role="status"></p>
+      <div class="rnav">
+        {!start && <button class="btn btn--ghost rnav__zurueck" type="button" id="rZurueck2">Zurück</button>}
+        <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
+      </div>
+    </section>
+
+    <!-- Schritt 3: Ergebnis – Preis + sauber gruppierte Auswahl + Kontaktwege -->
+    <section class="rstep" data-step="3" hidden>
+      <H class="rstep__title">Ihre erste Preisspanne</H>
+      <p class="rechner__result" id="rErgebnis" role="status">–</p>
+
+      <div class="rwahl" id="rWahl" aria-label="Ihre Auswahl"></div>
+
+      <button class="btn btn--ghost btn--sm" type="button" id="rVerfeinern">
+        Genauer machen – Maße &amp; Auswahl anpassen
+      </button>
+      <p class="small rechner__disclaimer">
+        Unverbindliche Ersteinschätzung auf Basis von Erfahrungswerten, inkl. Material und Arbeit.
+        Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
+      </p>
+      <div class="rechner__contact">
+        {start ? (
+          <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+            <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
+          </a>
+        ) : (
+          <a class="btn btn--lg" href="#termin">
+            <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
+          </a>
+        )}
+        <a class="btn btn--dark btn--lg" id="rWhatsapp" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={20} class="icon" /> Anfrage per WhatsApp senden
+        </a>
+        <a class="btn btn--ghost btn--lg" id="rMail" href={`mailto:${EMAILS.service}`}>
+          <Icon name="mail" size={20} class="icon" /> Anfrage per E-Mail senden
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  html:not(.js) .rechner__app:not(.rechner__app--start),
+  html:not(.js) .rechner__app--start .rechner__panel { display: none; }
+  html.js .rechner__nojs { display: none; }
+  .rechner__nojs { text-align: center; display: grid; gap: 16px; justify-items: center; }
+  .rechner__nojs-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .rechner__app--start ~ .rechner__nojs, .rechner__nojs + .rechner__app--start { margin-top: 24px; }
+
+  .rechner__app {
+    position: relative;
+    padding: 28px 20px;
+    /* Schrittwechsel: Anfang landet UNTER dem fixierten Header – alles sofort im Blick */
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
+  @media (min-width: 768px) { .rechner__app { padding: 40px; } }
+  /* hidden-Attribut muss auch gegen display:grid/flex der Klassen gewinnen */
+  .rechner__app [hidden] { display: none !important; }
+
+  .rechner__progress {
+    height: 6px; border-radius: var(--radius-pill);
+    background: var(--anthrazit-100);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .rechner__bar { display: block; height: 100%; background: var(--gold-500); transition: width 300ms ease; }
+
+  .rstep__title { font-size: clamp(20px, 3vw, 26px); }
+
+  .rechner__tiles { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  .rtile {
+    display: grid; justify-items: center; gap: 10px;
+    padding: 22px 12px;
+    background: var(--weiss);
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px;
+    color: var(--anthrazit-800);
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  }
+  .rtile :global(.icon) { color: var(--gold-700); width: 30px; height: 30px; }
+  .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
+  .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
+
+  /* ---------- Startseite: Leistungskarten + Rechner-Panel ---------- */
+  .rechner__app--start {
+    padding: 0;
+    display: grid; gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 1080px; margin-inline: auto;
+  }
+  @media (min-width: 1024px) {
+    .rechner__app--start { grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  }
+  .rkarten { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 640px) and (max-width: 1023px) { .rkarten { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .rkarten { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+
+  .rkarte {
+    position: relative;
+    display: grid; grid-template-rows: 1fr auto;
+    background: var(--weiss);
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+  }
+  .rkarte:hover { border-color: var(--gold-500); box-shadow: var(--shadow); }
+  /* Gewählt: goldener Rahmen + goldene Kante links (Hintergrund bleibt weiß –
+     die Sektion selbst ist schon sandfarben) */
+  .rkarte.selected {
+    border-color: var(--gold-500);
+    box-shadow: inset 5px 0 0 var(--gold-500), var(--shadow);
+  }
+  .rkarte__wahl {
+    display: grid; align-content: start; gap: 6px;
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 14px 14px 4px;
+    background: none; border: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    text-align: left; color: inherit; cursor: pointer;
+  }
+  .rkarte__icon {
+    grid-row: span 1;
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: var(--gold-500);
+    color: var(--anthrazit-900);
+  }
+  .rkarte__titel {
+    align-self: center;
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px; line-height: 1.25;
+    color: var(--anthrazit-800);
+    hyphens: auto; overflow-wrap: break-word;
+  }
+  .rkarte__nutzen, .rkarte__status { grid-column: 1 / -1; }
+  .rkarte__nutzen { font-size: 13px; line-height: 1.4; color: var(--anthrazit-700); overflow-wrap: break-word; hyphens: auto; }
+  .rkarte__status {
+    display: inline-flex; align-items: center;
+    font-size: 12px; font-weight: 700; color: var(--anthrazit-600);
+  }
+  .rkarte__status > span { display: inline-flex; align-items: center; gap: 5px; }
+  .rkarte__status-an { display: none !important; color: var(--gold-700); }
+  .rkarte.selected .rkarte__status-an { display: inline-flex !important; }
+  .rkarte.selected .rkarte__status-aus { display: none !important; }
+  .rkarte__mehr {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px 12px;
+    font-weight: 700; font-size: 13.5px;
+    color: var(--gold-700);
+    justify-self: start;
+  }
+  .rkarte__mehr:hover { text-decoration: underline; }
+  @media (min-width: 1024px) {
+    .rkarte__wahl { grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; padding: 16px 16px 4px; }
+    .rkarte__icon { width: 40px; height: 40px; }
+    .rkarte__titel { font-size: 15px; }
+    .rkarte__nutzen { font-size: 13.5px; }
+    .rkarte__status { display: none; }
+    /* Desktop: Pfeil zur Kalkulation rechts an der gewählten Karte */
+    .rkarte.selected::after {
+      content: ""; position: absolute; top: 50%; right: -13px;
+      width: 20px; height: 20px; margin-top: -10px;
+      background: var(--weiss);
+      border-top: 2px solid var(--gold-500); border-right: 2px solid var(--gold-500);
+      transform: rotate(45deg);
+    }
+  }
+  .rechner__panel.card { padding: 24px 18px; scroll-margin-top: calc(var(--header-h) + 12px); }
+  @media (min-width: 768px) { .rechner__panel.card { padding: 32px 36px; } }
+  .rpanel__gewerk {
+    margin: 0 0 4px;
+    font-family: var(--font-heading); font-weight: 700; font-size: 12.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold-700);
+  }
+  .rechner__app--start .rstep__title { margin-top: 0; }
+
+  /* Modus-Umschalter (mobil gestapelt, ab Tablet nebeneinander) */
+  .rmodus { display: grid; gap: 10px; margin-block: 18px 22px; }
+  @media (min-width: 640px) { .rmodus { grid-template-columns: 1fr 1fr; } }
+  .rmodus__btn {
+    display: grid; gap: 2px; text-align: left;
+    padding: 12px 16px;
+    background: var(--weiss);
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .rmodus__btn strong { font-family: var(--font-heading); font-size: 14.5px; }
+  .rmodus__btn small { color: var(--anthrazit-600); font-size: 12.5px; }
+  .rmodus__btn.selected { border-color: var(--gold-500); background: var(--gold-100); }
+
+  .rechner__range { display: grid; gap: 8px; margin-block: 4px 20px; }
+  .rechner__range input[type="range"] { width: 100%; accent-color: var(--gold-600); height: 32px; }
+  .rechner__mengeout {
+    font-family: var(--font-heading); font-weight: 800; font-size: 28px;
+    text-align: center;
+  }
+
+  /* Länge × Breite (Genau-Modus) */
+  .rmasse { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px; margin-block: 4px 20px; }
+  .rmasse__feld { display: grid; gap: 4px; font-size: 13px; font-weight: 600; color: var(--anthrazit-700); }
+  .rmasse__feld input {
+    width: 96px;
+    padding: 10px 12px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    font-family: var(--font-heading); font-weight: 700; font-size: 17px;
+    color: var(--anthrazit-800);
+  }
+  .rmasse__feld input:focus { outline: none; border-color: var(--gold-500); }
+  .rmasse__mal { font-family: var(--font-heading); font-weight: 800; font-size: 20px; padding-bottom: 10px; }
+  .rmasse__flaeche {
+    font-family: var(--font-heading); font-weight: 800; font-size: 22px;
+    padding-bottom: 6px; margin-left: auto;
+  }
+
+  .rechner__tiers { display: grid; gap: 10px; margin-bottom: 20px; }
+  @media (min-width: 768px) { .rechner__tiers { grid-template-columns: repeat(3, 1fr); } }
+  .rechner__tiers :global(.rtier) {
+    display: grid; gap: 4px; align-content: start;
+    padding: 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    background: var(--weiss);
+    text-align: left;
+    font-size: 14px;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .rechner__tiers :global(.rtier strong) { font-family: var(--font-heading); }
+  .rechner__tiers :global(.rtier small) { color: var(--anthrazit-600); }
+  .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
+
+  /* Auswahl-Buttons (Genau-Modus) – laienfreundlich: Titel + Erklärzeile */
+  .rmodule__title { font-size: 16px; margin: 0 0 10px; }
+  .rmodule__opt { font-weight: 400; color: var(--anthrazit-600); font-size: 13px; }
+  .rmodule__grid, .rextras__grid { display: grid; gap: 8px; margin-bottom: 18px; }
+  @media (min-width: 560px) { .rmodule__grid, .rextras__grid { grid-template-columns: 1fr 1fr; } }
+  .rmodule :global(.rmodul) {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    background: var(--weiss);
+    text-align: left;
+    transition: border-color var(--transition), background var(--transition), opacity var(--transition);
+  }
+  .rmodule :global(.rmodul .rmodul__text) { display: grid; gap: 1px; }
+  .rmodule :global(.rmodul strong) { font-size: 14px; }
+  .rmodule :global(.rmodul small) { font-size: 12px; color: var(--anthrazit-600); font-weight: 400; }
+  .rmodule :global(.rmodul .rmodul__check) {
+    width: 22px; height: 22px; flex: none; margin-top: 2px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--anthrazit-400);
+    border-radius: 6px;
+    color: transparent;
+    transition: all var(--transition);
+  }
+  .rmodule :global(.rmodul[aria-pressed="true"]) { border-color: var(--gold-500); background: var(--gold-100); }
+  .rmodule :global(.rmodul[aria-pressed="true"] .rmodul__check) {
+    background: var(--gold-500); border-color: var(--gold-600); color: var(--anthrazit-900);
+  }
+  .rmodule :global(.rmodul[aria-pressed="false"]) { opacity: 0.7; }
+  .rmodule :global(.rmodul .rmodul__preis) { margin-left: auto; font-weight: 700; font-size: 13px; color: var(--gold-700); white-space: nowrap; padding-top: 2px; }
+
+  .rlivepreis {
+    margin: 0 0 16px;
+    font-family: var(--font-heading); font-weight: 800; font-size: 19px;
+    color: var(--anthrazit-800);
+  }
+  .rlivepreis :global(small) { display: block; font-weight: 400; font-size: 12.5px; color: var(--anthrazit-600); }
+
+  /* Mobile Navigation: Zurück + Weiter zusammen, unten angepinnt – oberhalb der
+     festen StickyBar (sonst verdeckt sie den Button). */
+  .rnav { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
+  .rechner__app--start .rnav { grid-template-columns: 1fr; }
+  .rechner__next { width: 100%; }
+  @media (max-width: 767px) {
+    .rnav {
+      position: sticky; z-index: 5;
+      bottom: calc(var(--stickybar-h) + env(safe-area-inset-bottom) + 10px);
+      background: var(--weiss);
+      padding: 10px;
+      margin-inline: -10px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+  @media (min-width: 768px) { .rnav__zurueck { display: none; } }
+
+  /* Ergebnis */
+  .rechner__result {
+    font-family: var(--font-heading); font-weight: 800;
+    font-size: clamp(26px, 5vw, 40px);
+    color: var(--anthrazit-800);
+    margin-block: 8px 16px;
+  }
+  .rechner__disclaimer { max-width: 560px; margin-top: 16px; }
+
+  /* Ihre Auswahl: sauber gruppiert statt Chip-Wolke */
+  .rwahl { display: grid; gap: 14px; margin-bottom: 18px; }
+  @media (min-width: 640px) { .rwahl { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); align-items: start; } }
+  .rwahl :global(.rwahl__gruppe) {
+    background: var(--gold-100);
+    border: 1px solid var(--gold-500);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .rwahl :global(.rwahl__titel) {
+    margin: 0 0 8px;
+    font-family: var(--font-heading); text-transform: uppercase;
+    font-size: 12px; letter-spacing: 0.08em; font-weight: 700;
+    color: var(--gold-700);
+  }
+  .rwahl :global(.rwahl__gruppe ul) {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 5px;
+  }
+  .rwahl :global(.rwahl__gruppe li) {
+    display: flex; align-items: baseline; gap: 8px;
+    font-size: 14px; font-weight: 600;
+  }
+  .rwahl :global(.rwahl__gruppe li::before) {
+    content: "✓";
+    color: var(--gold-700);
+    font-weight: 800;
+    flex: none;
+  }
+  .rwahl :global(.rwahl__gruppe li.plus::before) { content: "+"; }
+  .rwahl :global(.rwahl__gruppe li.info::before) { content: "•"; }
+
+  .rechner__contact { display: grid; gap: 12px; margin-top: 28px; }
+  .rechner__contact .btn { width: 100%; }
+</style>
+
+<script>
+  type Tier = { id: string; label: string; hint: string };
+  type Modul = { id: string; label: string; fach: string; hint: string; anteil: number };
+  type Extra = { id: string; label: string; preis: number };
+  type Gewerk = {
+    slug: string; label: string; frage: string; unit: string; icon: string;
+    min: number; max: number; step: number; default: number;
+    grund: number; proEinheit: Record<string, number>; tiers: Tier[]; spanne: number;
+    bausteine: Modul[]; extras: Extra[];
+  };
+
+  const app = document.querySelector<HTMLElement>(".rechner__app");
+  if (app) {
+    const START = app.dataset.variant === "start";
+    const GEWERKE: Gewerk[] = JSON.parse(app.dataset.gewerke || "[]");
+    const steps = Array.from(app.querySelectorAll<HTMLElement>(".rstep"));
+    const panel = document.getElementById("rPanel")!;
+    const bar = app.querySelector<HTMLElement>(".rechner__bar");
+    const progress = app.querySelector<HTMLElement>(".rechner__progress");
+    const range = document.getElementById("rMenge") as HTMLInputElement;
+    const mengeOut = document.getElementById("rMengeOut")!;
+    const frageEl = document.getElementById("rFrage")!;
+    const gewerkLabel = document.getElementById("rGewerkLabel");
+    const tiersEl = document.getElementById("rTiers")!;
+    const ergebnisEl = document.getElementById("rErgebnis")!;
+    const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
+    const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
+    const rangeWrap = document.getElementById("rRangeWrap")!;
+    const masseWrap = document.getElementById("rMasse")!;
+    const laengeIn = document.getElementById("rLaenge") as HTMLInputElement;
+    const breiteIn = document.getElementById("rBreite") as HTMLInputElement;
+    const flaecheOut = document.getElementById("rFlaeche")!;
+    const moduleWrap = document.getElementById("rModuleWrap")!;
+    const moduleEl = document.getElementById("rModule")!;
+    const livePreis = document.getElementById("rLivePreis")!;
+    const gruppeTag = START ? "h4" : "h3";
+
+    const state = {
+      step: START ? 2 : 1,
+      gewerk: null as Gewerk | null,
+      menge: 0,
+      tier: "",
+      modus: "schnell" as "schnell" | "genau",
+      laenge: 0,
+      breite: 0,
+      module: new Set<string>(),
+      extras: new Set<string>(),
+    };
+    const euro = (n: number) => n.toLocaleString("de-DE");
+    const m1 = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
+    const EMOJI: Record<string, string> = {
+      badsanierung: "🛁", "sanierung-modernisierung": "🏠", "fliesen-boden": "🔲", innenausbau: "🧱",
+    };
+
+    type Scroll = "immer" | "bedarf" | "nie";
+    function scrollZu(mode: Scroll) {
+      if (mode === "nie") return;
+      if (!START) {
+        app!.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      // Startseite: nur scrollen, wenn der Panel-Anfang nicht gut sichtbar ist.
+      const top = panel.getBoundingClientRect().top;
+      const headerH = document.getElementById("siteHeader")?.offsetHeight ?? 80;
+      const zuHoch = top < headerH;
+      const zuTief = top > window.innerHeight * (mode === "immer" ? 0.45 : 0.7);
+      if (zuHoch || zuTief) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function show(step: number, scroll: Scroll = "immer") {
+      state.step = step;
+      steps.forEach((s) => (s.hidden = Number(s.dataset.step) !== step));
+      if (bar && progress) {
+        bar.style.width = `${(step / 3) * 100}%`;
+        progress.setAttribute("aria-valuenow", String(step));
+        progress.setAttribute("aria-label", `Schritt ${step} von 3`);
+      }
+      app!.toggleAttribute("data-started", step > 1);
+      scrollZu(scroll);
+    }
+
+    function selectGewerk(g: Gewerk, scroll: Scroll = "immer") {
+      state.gewerk = g;
+      state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
+      state.module = new Set(g.bausteine.map((b) => b.id));
+      app!.querySelectorAll<HTMLElement>("[data-gewerk]").forEach((t) => {
+        const an = t.dataset.gewerk === g.slug;
+        t.classList.toggle("selected", an);
+        if (START) {
+          t.setAttribute("aria-pressed", String(an));
+          t.closest(".rkarte")?.classList.toggle("selected", an);
+        }
+      });
+      if (gewerkLabel) gewerkLabel.textContent = `${g.label} berechnen`;
+      frageEl.textContent = g.frage;
+      range.min = String(g.min);
+      range.max = String(g.max);
+      range.step = String(g.step);
+      range.value = String(g.default);
+      state.menge = g.default;
+      const b = Math.round(Math.sqrt(g.default / 1.6) * 10) / 10;
+      state.breite = b;
+      state.laenge = Math.round((g.default / b) * 10) / 10;
+      laengeIn.value = String(state.laenge);
+      breiteIn.value = String(state.breite);
+      renderTiers(g);
+      renderModule(g);
+      updateMenge();
+      updateMasse();
+      updateLive();
+      show(2, scroll);
+    }
+
+    function renderTiers(g: Gewerk) {
+      tiersEl.innerHTML = "";
+      for (const t of g.tiers) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rtier" + (t.id === state.tier ? " selected" : "");
+        btn.setAttribute("role", "radio");
+        btn.setAttribute("aria-checked", String(t.id === state.tier));
+        btn.innerHTML = `<strong>${t.label}</strong><small>${t.hint}</small>`;
+        btn.addEventListener("click", () => {
+          state.tier = t.id;
+          tiersEl.querySelectorAll(".rtier").forEach((el) => {
+            el.classList.toggle("selected", el === btn);
+            el.setAttribute("aria-checked", String(el === btn));
+          });
+          updateLive();
+        });
+        tiersEl.append(btn);
+      }
+    }
+
+    function renderModule(g: Gewerk) {
+      moduleEl.innerHTML = "";
+      for (const m of g.bausteine) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rmodul";
+        btn.dataset.modul = m.id;
+        btn.setAttribute("aria-pressed", "true");
+        btn.innerHTML =
+          `<span class="rmodul__check">✓</span>` +
+          `<span class="rmodul__text"><strong>${m.label}</strong><small>${m.hint}</small></span>`;
+        btn.addEventListener("click", () => toggleModul(m.id, btn));
+        moduleEl.append(btn);
+      }
+      const extrasEl = document.getElementById("rExtras")!;
+      extrasEl.innerHTML = "";
+      state.extras = new Set();
+      for (const x of g.extras) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rmodul";
+        btn.dataset.extra = x.id;
+        btn.setAttribute("aria-pressed", "false");
+        btn.innerHTML =
+          `<span class="rmodul__check">✓</span>` +
+          `<span class="rmodul__text"><strong>${x.label}</strong></span>` +
+          `<span class="rmodul__preis">+ ${euro(x.preis)} €</span>`;
+        btn.addEventListener("click", () => {
+          const an = !state.extras.has(x.id);
+          state.extras[an ? "add" : "delete"](x.id);
+          btn.setAttribute("aria-pressed", String(an));
+          updateLive();
+        });
+        extrasEl.append(btn);
+      }
+    }
+
+    function toggleModul(id: string, btn: HTMLElement) {
+      if (state.module.has(id)) {
+        if (state.module.size === 1) return; // mindestens ein Arbeitsschritt bleibt
+        state.module.delete(id);
+      } else {
+        state.module.add(id);
+      }
+      btn.setAttribute("aria-pressed", String(state.module.has(id)));
+      updateLive();
+    }
+
+    function setModus(m: "schnell" | "genau") {
+      state.modus = m;
+      app!.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) => {
+        const an = b.dataset.modus === m;
+        b.classList.toggle("selected", an);
+        b.setAttribute("aria-checked", String(an));
+      });
+      const genau = m === "genau";
+      rangeWrap.hidden = genau;
+      masseWrap.hidden = !genau;
+      moduleWrap.hidden = !genau;
+      document.getElementById("rExtrasWrap")!.hidden = !genau;
+      livePreis.hidden = !genau;
+      if (genau) updateMasse();
+      updateLive();
+    }
+
+    function updateMenge() {
+      state.menge = Number(range.value);
+      mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
+      updateLive();
+    }
+
+    function updateMasse() {
+      const l = Math.min(50, Math.max(0.5, Number(laengeIn.value) || 0.5));
+      const b = Math.min(50, Math.max(0.5, Number(breiteIn.value) || 0.5));
+      state.laenge = l;
+      state.breite = b;
+      const f = Math.round(l * b * 10) / 10;
+      flaecheOut.textContent = `= ${m1(f)} m²`;
+      updateLive();
+    }
+
+    function flaeche(): number {
+      return state.modus === "genau"
+        ? Math.round(state.laenge * state.breite * 10) / 10
+        : state.menge;
+    }
+
+    function modulFaktor(): number {
+      if (state.modus !== "genau") return 1;
+      return state.gewerk!.bausteine
+        .filter((m) => state.module.has(m.id))
+        .reduce((sum, m) => sum + m.anteil, 0);
+    }
+
+    function extraSumme(): number {
+      if (state.modus !== "genau") return 0;
+      return state.gewerk!.extras
+        .filter((x) => state.extras.has(x.id))
+        .reduce((sum, x) => sum + x.preis, 0);
+    }
+
+    function spanne() {
+      const g = state.gewerk!;
+      const proE = g.proEinheit[state.tier] ?? Object.values(g.proEinheit)[0];
+      const basis = (g.grund + flaeche() * proE) * modulFaktor() + extraSumme();
+      const r = (n: number) => Math.round(n / 500) * 500;
+      return { von: r(basis * (1 - g.spanne)), bis: r(basis * (1 + g.spanne)) };
+    }
+
+    function updateLive() {
+      if (!state.gewerk || state.modus !== "genau") return;
+      const { von, bis } = spanne();
+      const extraTxt = state.extras.size ? ` · ${state.extras.size} Extra${state.extras.size > 1 ? "s" : ""}` : "";
+      livePreis.innerHTML =
+        `Aktuell ca. ${euro(von)} € – ${euro(bis)} €` +
+        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Arbeitsschritten${extraTxt}</small>`;
+    }
+
+    function showResult() {
+      const g = state.gewerk!;
+      const { von, bis } = spanne();
+      const tierLabel = g.tiers.find((t) => t.id === state.tier)?.label ?? "";
+      const genau = state.modus === "genau";
+      const f = flaeche();
+      ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
+
+      const gewaehlt = g.bausteine.filter((m) => !genau || state.module.has(m.id));
+      const extrasGewaehlt = genau ? g.extras.filter((x) => state.extras.has(x.id)) : [];
+      const masse = genau
+        ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(f)} m²)`
+        : `${state.menge} ${g.unit}`;
+
+      // Auswahl sauber gruppiert darstellen
+      const wahl = document.getElementById("rWahl")!;
+      const gruppe = (titel: string, punkte: string[], klasse = "") =>
+        `<div class="rwahl__gruppe"><${gruppeTag} class="rwahl__titel">${titel}</${gruppeTag}><ul>` +
+        punkte.map((p) => `<li class="${klasse}">${p}</li>`).join("") +
+        `</ul></div>`;
+      let html = gruppe("Ihr Projekt", [g.label, masse, `Niveau ${tierLabel}`], "info");
+      html += gruppe(genau ? "Gewünschte Arbeiten" : "Enthaltene Arbeiten", gewaehlt.map((m) => m.label));
+      if (extrasGewaehlt.length) html += gruppe("Extras", extrasGewaehlt.map((x) => x.label), "plus");
+      wahl.innerHTML = html;
+
+      // Anfrage-Texte: klar formatiert, mit Absätzen und Emojis;
+      // Arbeiten in FACHSPRACHE, damit das Team sofort fachlich lesen kann.
+      const emoji = EMOJI[g.slug] ?? "🔨";
+      const arbeitenListe = gewaehlt.map((m) => `• ${m.fach}`).join("\n");
+      const extrasListe = extrasGewaehlt.length
+        ? `\n\n➕ Extras:\n${extrasGewaehlt.map((x) => `• ${x.label}`).join("\n")}`
+        : "";
+      const waText =
+        `Hallo Bauwelt Handwerk! 👋\n\n` +
+        `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
+        `${emoji} Projekt: ${g.label}\n` +
+        `📐 Größe: ${masse}\n` +
+        `⭐ Niveau: ${tierLabel}\n\n` +
+        `🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
+        extrasListe +
+        `\n\n💶 Ersteinschätzung: ca. ${euro(von)} – ${euro(bis)} €\n\n` +
+        `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank! 🙏`;
+      waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
+      waBtn.dataset.text = waText;
+
+      const subject = `Projektanfrage: ${g.label} (${masse})`;
+      const body =
+        `Guten Tag,\n\n` +
+        `ich habe im Online-Rechner folgendes Projekt berechnet:\n\n` +
+        `Projekt:  ${g.label}\n` +
+        `Größe:    ${masse}\n` +
+        `Niveau:   ${tierLabel}\n\n` +
+        `Gewünschte Arbeiten:\n${arbeitenListe}` +
+        (extrasGewaehlt.length ? `\n\nExtras:\n${extrasGewaehlt.map((x) => `• ${x.label}`).join("\n")}` : "") +
+        `\n\nErsteinschätzung: ca. ${euro(von)} – ${euro(bis)} €\n\n` +
+        `Bitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
+        `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
+      mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      show(3);
+    }
+
+    // Events
+    app.querySelectorAll<HTMLButtonElement>("button[data-gewerk]").forEach((tile) =>
+      tile.addEventListener("click", () => {
+        const g = GEWERKE.find((x) => x.slug === tile.dataset.gewerk);
+        if (g) selectGewerk(g, START ? "bedarf" : "immer");
+      })
+    );
+    app.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) =>
+      b.addEventListener("click", () => setModus(b.dataset.modus as "schnell" | "genau"))
+    );
+    range.addEventListener("input", updateMenge);
+    laengeIn.addEventListener("input", updateMasse);
+    breiteIn.addEventListener("input", updateMasse);
+    document.getElementById("rWeiter")!.addEventListener("click", showResult);
+    document.getElementById("rZurueck2")?.addEventListener("click", () => show((state.step - 1) as 1 | 2));
+    // Vom Ergebnis mit einem Klick in den Genau-Modus (weniger „Weiter"-Schritte)
+    document.getElementById("rVerfeinern")!.addEventListener("click", () => {
+      show(2);
+      setModus("genau");
+    });
+
+    if (START) {
+      // Startseite: erste Leistung ist vorausgewählt (Markup bereits serverseitig gerendert).
+      selectGewerk(GEWERKE[0], "nie");
+    } else {
+      // Vorauswahl per ?gewerk=<slug> (z. B. von den Leistungsseiten)
+      const pre = new URLSearchParams(location.search).get("gewerk");
+      const preG = pre ? GEWERKE.find((g) => g.slug === pre) : null;
+      if (preG) selectGewerk(preG);
+    }
+  }
+</script>

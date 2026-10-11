@@ -25,7 +25,7 @@ export const STATS = [
   { value: 24, prefix: "", suffix: " h", label: "Reaktionszeit" },
 ];
 
-/** Eine Bild-Text-Sektion je Gewerk (Enpal-Produktsektions-Muster). */
+/** Eine Bild-Text-Sektion je Gewerk (Enpal-Produktsektions-Muster) – nur die echten Leistungen. */
 export type LeistungSection = {
   slug: string;        // Leistungs-Seite + Rechner-Vorauswahl
   eyebrow: string;
@@ -76,45 +76,6 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     bild: "hero-innenausbau.webp",
     alt: "Heller Innenausbau mit Rundbogenfenstern im Rohbau",
     cta: "Ausbau berechnen",
-  },
-  {
-    slug: "dach-fassade",
-    eyebrow: "Dach & Fassade",
-    pre: "Dicht, gedämmt, ",
-    accent: "wertsteigernd",
-    text:
-      "Ein saniertes Dach und eine gedämmte Fassade schützen Ihr Haus und senken " +
-      "Ihre Heizkosten dauerhaft. Wir decken neu ein, dämmen nach aktuellem Standard " +
-      "und erneuern Rinnen und Anschlüsse – wetterfest zum Festpreis.",
-    bild: "hero-dach-fassade.webp",
-    alt: "Dachdecker bei der Neueindeckung eines Ziegeldachs",
-    cta: "Dach berechnen",
-  },
-  {
-    slug: "maler-boeden",
-    eyebrow: "Maler & Bodenbeläge",
-    pre: "Frische Wände, neue ",
-    accent: "Böden",
-    text:
-      "Der schnellste Weg zu einem neuen Wohngefühl sind professionell gestrichene Wände " +
-      "und ein neuer Boden – Vinyl, Laminat oder Parkett. Wir arbeiten staubarm, " +
-      "abgeklebt und besenrein, auch bewohnt kein Problem.",
-    bild: "hero-maler-boeden.webp",
-    alt: "Frisch gestrichener Raum mit neuem Bodenbelag",
-    cta: "Projekt berechnen",
-  },
-  {
-    slug: "sanitaer-heizung-elektro",
-    eyebrow: "Sanitär, Heizung, Elektro",
-    pre: "Technik, die einfach ",
-    accent: "läuft",
-    text:
-      "Neue Leitungen, moderne Elektrik, effiziente Heizungsverteilung – wir erneuern " +
-      "die Technik hinter Ihren Wänden – fachgerecht installiert und dokumentiert. " +
-      "Damit Sie sich die nächsten Jahrzehnte keine Gedanken machen müssen.",
-    bild: "hero-sanitaer-heizung-elektro.webp",
-    alt: "Neu installierter Heizkreisverteiler im Trockenbau",
-    cta: "Technik berechnen",
   },
 ];
 
@@ -235,52 +196,9 @@ export const ANGEBOT = {
   ],
 };
 
-/** Leistungs-Karten der Startseite – Fotos aus der Referenz-Galerie. */
-export const LEISTUNG_KARTEN = [
-  // Startseite „Unsere Leistungen – Wobei wir Sie unterstützen" (Kundenfeedback
-  // 07.10.2026): die vier Leistungen aus dem Header-Menü + Immobilien-Sanierungscheck.
-  {
-    icon: "bath",
-    title: "Badsanierung",
-    text: "Ihr neues Bad in 2 Wochen – geplant, gebaut und übergeben aus einer Hand.",
-    href: u("leistungen/badsanierung/"),
-    bild: "galerie-bad-02.webp",
-    alt: "Saniertes Bad mit Natursteinoptik und beleuchtetem Spiegel",
-  },
-  {
-    icon: "reno",
-    title: "Sanierung & Modernisierung",
-    text: "Von der Einzelmaßnahme bis zur Kernsanierung – alle Gewerke koordiniert.",
-    href: u("leistungen/sanierung-modernisierung/"),
-    bild: "galerie-sanierung-02.webp",
-    alt: "Modernisierte Küche mit beleuchteter Kochinsel",
-  },
-  {
-    icon: "tiles",
-    title: "Fliesen- & Bodenlegerarbeiten",
-    text: "Perfekte Oberflächen für Wand und Boden – vom Großformat bis zum Parkett.",
-    href: u("leistungen/fliesen-boden/"),
-    bild: "galerie-fliesen-03.webp",
-    alt: "Raumhohe Fliesen in Marmoroptik",
-  },
-  {
-    icon: "wall",
-    title: "Innenausbau & Trockenbau",
-    text: "Räume neu gestalten und optimal nutzen – Wände, Decken, Licht und Akustik.",
-    href: u("leistungen/innenausbau/"),
-    bild: "galerie-innenausbau-04.webp",
-    alt: "Büro mit Holzlamellen-Wand und indirekter Beleuchtung",
-  },
-  {
-    icon: "eye",
-    title: "Immobilien-Sanierungscheck",
-    text: "Chancen, Risiken und Kosten frühzeitig erkennen.",
-    // Noch keine eigene Seite → öffnet das Buchungsfenster (Besichtigungstermin)
-    termin: true,
-    bild: "ref-04-altbau.webp",
-    alt: "Altbau-Wohnraum mit Fischgrätparkett und hohen Decken",
-  },
-];
+/* LEISTUNG_KARTEN entfallen (Kundenwunsch 11.10.2026): Die Leistungskarten der
+ * Startseite kommen jetzt aus src/data/rechner.ts (Feld `nutzen`) und sind
+ * gleichzeitig die Auswahl des Projekt-Rechners (components/Rechner.astro). */
 
 export const FAQ_HOME = [
   {

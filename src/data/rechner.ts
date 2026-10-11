@@ -4,6 +4,10 @@
  *  Die Spannen sind bewusst breit: Das Ergebnis ist eine unverbindliche Ersteinschätzung,
  *  der Festpreis entsteht erst nach dem Vor-Ort-Termin.
  *
+ *  Nur die 4 echten Leistungen (= Menü NAV2, Kundenwunsch 11.10.2026). Dach & Fassade,
+ *  Maler & Böden, Sanitär/Heizung/Elektro sind bewusst NICHT im Rechner.
+ *  Fliesen-Werte (11.10.2026) sind Richtwerte inkl. Material – bitte vom Kunden bestätigen.
+ *
  *  Module: `label`/`hint` sind LAIENSPRACHE (UI), `fach` ist der Fachbegriff –
  *  er landet im Anfrage-Text (WhatsApp/E-Mail) und auf der Zeichnung, damit das
  *  Team sofort fachlich lesen kann, was der Kunde gewählt hat. */
@@ -24,6 +28,7 @@ export type Gewerk = {
   slug: string;          // = Slug der Leistungs-Seite
   label: string;
   icon: string;          // Icon-Name im Sprite
+  nutzen: string;        // 1 Zeile Nutzen (Leistungskarte Startseite)
   frage: string;         // Frage in Schritt 2
   unit: string;          // Einheit der Mengenangabe
   min: number;
@@ -34,8 +39,8 @@ export type Gewerk = {
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
   tiers: Tier[];
   spanne: number;        // ± relativ
-  /** Skizzen-Typ für die Zeichnung im Rechner (Bad-Grundriss, Raum, Dachfläche). */
-  skizze: "bad" | "raum" | "dach";
+  /** Skizzen-Typ für die Zeichnung im Rechner (Bad-Grundriss, Raum). */
+  skizze: "bad" | "raum";
   /** Leistungs-Module = Ebenen der Bauzeichnung (Index ↔ data-l im SVG). */
   bausteine: Modul[];
   /** Optionale Extras mit Aufpreis (nur Genau-Modus). */
@@ -47,6 +52,7 @@ export const GEWERKE: Gewerk[] = [
     slug: "badsanierung",
     label: "Badsanierung",
     icon: "bath",
+    nutzen: "Ihr neues Bad in 2 Wochen – geplant, gebaut und übergeben aus einer Hand.",
     frage: "Wie groß ist Ihr Bad?",
     unit: "m²",
     min: 3, max: 30, step: 1, default: 8,
@@ -78,6 +84,7 @@ export const GEWERKE: Gewerk[] = [
     slug: "sanierung-modernisierung",
     label: "Sanierung & Modernisierung",
     icon: "reno",
+    nutzen: "Von der Einzelmaßnahme bis zur Kernsanierung – alle Gewerke koordiniert.",
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
@@ -105,39 +112,41 @@ export const GEWERKE: Gewerk[] = [
     ],
   },
   {
-    slug: "dach-fassade",
-    label: "Dach & Fassade",
-    icon: "roof",
-    frage: "Wie groß ist die Dach- bzw. Fassadenfläche?",
+    slug: "fliesen-boden",
+    label: "Fliesen- & Bodenlegerarbeiten",
+    icon: "tiles",
+    nutzen: "Perfekte Oberflächen für Wand und Boden – vom Großformat bis zum Parkett.",
+    frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
-    min: 40, max: 400, step: 10, default: 120,
-    grund: 6000,
-    proEinheit: { basis: 180, komfort: 260, premium: 340 },
+    min: 5, max: 200, step: 5, default: 25,
+    grund: 900,
+    proEinheit: { basis: 70, komfort: 140, premium: 220 },
     tiers: [
-      { id: "basis", label: "Neueindeckung", hint: "Eindeckung erneuern, ohne Dämmung" },
-      { id: "komfort", label: "Mit Dämmung", hint: "Inkl. Aufsparren- oder Zwischensparrendämmung" },
-      { id: "premium", label: "Komplett", hint: "Dach + Fassade inkl. Dämmung und Rinnen" },
+      { id: "basis", label: "Vinyl & Laminat", hint: "Klick-Vinyl oder Laminat inkl. Trittschalldämmung" },
+      { id: "komfort", label: "Fliesen", hint: "Wand- oder Bodenfliesen bis ca. 60 × 60 cm" },
+      { id: "premium", label: "Großformat & Parkett", hint: "Großformatfliesen, Feinsteinzeug oder Echtholz-Parkett" },
     ],
-    spanne: 0.25,
-    skizze: "dach",
+    spanne: 0.20,
+    skizze: "raum",
     bausteine: [
-      { id: "geruest", label: "Gerüst stellen", fach: "Gerüststellung & Absicherung", hint: "Sicherer Zugang für alle Arbeiten", anteil: 0.10 },
-      { id: "unterkonstruktion", label: "Unterbau erneuern", fach: "Lattung & Unterspannbahn", hint: "Tragfähiger, dichter Unterbau fürs Dach", anteil: 0.15 },
-      { id: "daemmung", label: "Dämmen", fach: "Aufsparren-/Zwischensparrendämmung", hint: "Heizkosten runter, Wohnklima rauf", anteil: 0.30 },
-      { id: "eindeckung", label: "Neu eindecken", fach: "Neueindeckung", hint: "Neue Ziegel, sauber verlegt", anteil: 0.35 },
-      { id: "rinnen", label: "Rinnen & Anschlüsse", fach: "Dachentwässerung & Anschlussbleche", hint: "Regen läuft ab, Anschlüsse bleiben dicht", anteil: 0.10 },
+      { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus", anteil: 0.10 },
+      { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)", hint: "Eben und tragfähig – die Basis für lange Haltbarkeit", anteil: 0.20 },
+      { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nassbereich", hint: "In Bad und Küche: Schutz vor Feuchtigkeit", anteil: 0.10 },
+      { id: "verlegung", label: "Fliesen bzw. Boden verlegen", fach: "Verlegung Fliesen/Bodenbelag", hint: "Präzise verlegt im gewünschten Muster", anteil: 0.45 },
+      { id: "fugen", label: "Fugen & sauberer Abschluss", fach: "Verfugung, Silikon-/Anschlussfugen, Sockel", hint: "Saubere Fugen, Sockelleisten, besenrein übergeben", anteil: 0.15 },
     ],
     extras: [
-      { id: "dachfenster", label: "Dachfenster", preis: 1800 },
-      { id: "gaube", label: "Gauben-Instandsetzung", preis: 3500 },
-      { id: "pv", label: "Photovoltaik-Vorbereitung", preis: 1200 },
-      { id: "fassade", label: "Fassadenanstrich", preis: 3000 },
+      { id: "bodengleich", label: "Bodengleiche Dusche", preis: 2500 },
+      { id: "muster", label: "Verlegemuster (z. B. Fischgrät)", preis: 900 },
+      { id: "treppe", label: "Treppe belegen", preis: 1800 },
+      { id: "fliesenspiegel", label: "Fliesenspiegel Küche", preis: 800 },
     ],
   },
   {
     slug: "innenausbau",
     label: "Innenausbau & Trockenbau",
     icon: "wall",
+    nutzen: "Räume neu gestalten und optimal nutzen – Wände, Decken, Licht und Akustik.",
     frage: "Wie groß ist die auszubauende Fläche?",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
@@ -162,66 +171,6 @@ export const GEWERKE: Gewerk[] = [
       { id: "einbau", label: "Maß-Einbauschrank", preis: 2200 },
       { id: "akustik", label: "Akustikdecke", preis: 1900 },
       { id: "led", label: "LED-Beleuchtung", preis: 900 },
-    ],
-  },
-  {
-    slug: "maler-boeden",
-    label: "Maler & Bodenbeläge",
-    icon: "paint",
-    frage: "Wie groß ist die Fläche?",
-    unit: "m²",
-    min: 10, max: 300, step: 5, default: 60,
-    grund: 800,
-    proEinheit: { basis: 45, komfort: 75, premium: 120 },
-    tiers: [
-      { id: "basis", label: "Streichen", hint: "Wände/Decken vorbereiten und streichen" },
-      { id: "komfort", label: "Plus Böden", hint: "Inkl. neuer Bodenbelag (Vinyl/Laminat)" },
-      { id: "premium", label: "Hochwertig", hint: "Parkett, Spachteltechniken, Tapeten" },
-    ],
-    spanne: 0.20,
-    skizze: "raum",
-    bausteine: [
-      { id: "abdecken", label: "Alles abdecken", fach: "Abdeck- & Abklebearbeiten", hint: "Möbel und Böden bleiben sauber", anteil: 0.10 },
-      { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung", hint: "Spachteln, schleifen, grundieren", anteil: 0.20 },
-      { id: "streichen", label: "Streichen", fach: "Anstricharbeiten", hint: "Wände und Decken in Wunschfarbe", anteil: 0.30 },
-      { id: "bodenbelag", label: "Neuer Boden", fach: "Bodenverlegung", hint: "Vinyl, Laminat oder Parkett verlegt", anteil: 0.35 },
-      { id: "uebergabe", label: "Sauber übergeben", fach: "Endreinigung & Übergabe", hint: "Besenrein und bezugsfertig", anteil: 0.05 },
-    ],
-    extras: [
-      { id: "spachteltechnik", label: "Spachteltechnik", preis: 1200 },
-      { id: "sockelleisten", label: "Neue Sockelleisten", preis: 600 },
-      { id: "tuerlack", label: "Türen lackieren", preis: 900 },
-      { id: "tapete", label: "Vliestapete", preis: 800 },
-    ],
-  },
-  {
-    slug: "sanitaer-heizung-elektro",
-    label: "Sanitär, Heizung, Elektro",
-    icon: "tools",
-    frage: "Wie groß ist die Wohnfläche?",
-    unit: "m²",
-    min: 20, max: 300, step: 5, default: 100,
-    grund: 3500,
-    proEinheit: { basis: 90, komfort: 140, premium: 220 },
-    tiers: [
-      { id: "basis", label: "Ein Gewerk", hint: "z. B. Elektrik ODER Sanitär erneuern" },
-      { id: "komfort", label: "Zwei Gewerke", hint: "z. B. Sanitär + Heizungsverteilung" },
-      { id: "premium", label: "Komplett", hint: "Sanitär, Heizung und Elektro neu" },
-    ],
-    spanne: 0.30,
-    skizze: "raum",
-    bausteine: [
-      { id: "planung", label: "Planen & prüfen", fach: "Bestandsaufnahme & Planung", hint: "Was liegt, was fehlt, was muss neu", anteil: 0.10 },
-      { id: "leitungen", label: "Leitungen verlegen", fach: "Leitungsinstallation", hint: "Wasser- und Stromleitungen neu", anteil: 0.35 },
-      { id: "verteilung", label: "Verteiler & Sicherungen", fach: "Unterverteilung/Verteilung", hint: "Das Herzstück von Strom und Heizung", anteil: 0.20 },
-      { id: "montage", label: "Geräte montieren", fach: "Endmontage Objekte & Geräte", hint: "Heizkörper, Armaturen, Schalter dran", anteil: 0.25 },
-      { id: "pruefung", label: "Prüfen & dokumentieren", fach: "Prüfung & Dokumentation", hint: "Gemessen, geprüft, schriftlich bestätigt", anteil: 0.10 },
-    ],
-    extras: [
-      { id: "thermostate", label: "Smarte Thermostate", preis: 900 },
-      { id: "netzwerk", label: "Netzwerk-/LAN-Dosen", preis: 1100 },
-      { id: "wallbox", label: "Wallbox-Vorbereitung", preis: 1200 },
-      { id: "verteiler", label: "Neuer Sicherungskasten", preis: 1500 },
     ],
   },
 ];

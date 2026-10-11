@@ -17,7 +17,7 @@ ablauf:
 faq:
   - { q: "Verlegen Sie auch großformatige Fliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir vorher fachgerecht vor." }
   - { q: "Übernehmen Sie auch nur den Boden?", a: "Ja, auch einzelne Räume oder nur den Bodenbelag übernehmen wir – ohne dass Sie weitere Handwerker koordinieren müssen." }
-rechnerSlug: "maler-boeden"
+rechnerSlug: "fliesen-boden"
 siegel: "festpreis"
 ---
 

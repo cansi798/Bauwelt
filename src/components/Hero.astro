@@ -2,7 +2,7 @@
 // Vollbild-Hero (Enpal-Muster, Texte nach Kundenfeedback 28./30.09.2026): Eyebrow
 // (Positionierung), Headline mit ROTIERENDEM Begriff (CSS-Wortwalze:
 // „Bereit für Ihr neues [Badezimmer?|…]"), Statement + Unterzeile,
-// zwei CTAs (Rechner + Besichtigungstermin-Fenster).
+// zwei CTAs (Rechner direkt unter dem Hero, #leistungen + Besichtigungstermin-Fenster).
 // Bild füllt Mobil + Desktop den Viewport, Ken-Burns-Zoom + gestaffelte Entrance.
 // Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
 // Begriff statisch (global.css stoppt Rest).
@@ -53,7 +53,7 @@ const WALZE = [...WORTE, WORTE[0]];
       <p class="fhero__unterzeile">{HERO.unterzeile}</p>
     </div>
     <div class="fhero__actions fhero__in nur-desktop" style="--d: 360ms">
-      <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+      <a class="btn btn--lg" href="#leistungen">{CTA.label}</a>
       <a class="btn btn--lg fhero__ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
     </div>
   </div>

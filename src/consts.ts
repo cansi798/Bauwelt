@@ -82,11 +82,11 @@ export const NAV2: NavItem[] = [
   { label: "Kontakt", href: u("kontakt/") },
 ];
 
-/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext deckt alle Leistungen ab. */
+/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext nennt die 4 Leistungen (Menü NAV2). */
 export const waLink = (
   text = "Hallo Bauwelt Handwerk, ich interessiere mich für eine Ihrer Leistungen – " +
-    "z. B. Badsanierung, Komplettsanierung, Modernisierung, Dach & Fassade, Innenausbau, " +
-    "Sanitär/Heizung/Elektro oder Maler & Böden. Bitte melden Sie sich bei mir für ein " +
+    "Badsanierung, Sanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten oder " +
+    "Innenausbau & Trockenbau. Bitte melden Sie sich bei mir für ein " +
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
   `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
