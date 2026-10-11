@@ -1,7 +1,8 @@
 ---
 // Projekt-Rechner 3.2 – gemeinsame Komponente für /rechner/ und die Startseite.
-// Enpal-Funnel-Mechanik: Ergebnis VOR Kontaktfrage. Zwei Wege im Umfang-Schritt:
-// „Schnelle Schätzung" (Slider) und „Genaue Angaben" (Maße + Auswahl-Buttons, Live-Preis).
+// Enpal-Funnel-Mechanik: Ergebnis VOR Kontaktfrage. Immer „schnelle Schätzung"
+// (Fläche per Slider + Ausstattungsniveau) – die Modus-Wahl „Genaue Angaben“ ist
+// auf Kundenwunsch 11.10.2026 entfallen.
 // WhatsApp/E-Mail bekommen einen klar formatierten Anfragetext (Fachbegriffe).
 //
 // variant="seite": bisheriger 3-Schritte-Funnel (Leistung → Umfang → Ergebnis).
@@ -20,7 +21,6 @@ interface Props {
 const { variant = "seite" } = Astro.props;
 const start = variant === "start";
 const H = start ? "h3" : "h2";     // Schritt-Überschriften
-const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
 const erstes = GEWERKE[0];
 // Weiche Trennstellen für lange Wörter in den schmalen Handy-Karten
 // (Chrome trennt Deutsch sonst nicht zuverlässig → „Modernisierun|g").
@@ -32,7 +32,7 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   slug: g.slug, label: g.label, frage: g.frage, unit: g.unit,
   min: g.min, max: g.max, step: g.step, default: g.default,
   grund: g.grund, proEinheit: g.proEinheit, tiers: g.tiers, spanne: g.spanne,
-  bausteine: g.bausteine, extras: g.extras, icon: g.icon,
+  bausteine: g.bausteine, icon: g.icon,
 }));
 ---
 
@@ -107,42 +107,18 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       </section>
     )}
 
-    <!-- Schritt 2: Umfang – schnell oder genau (Auswahl-Buttons) -->
+    <!-- Schritt 2: Umfang – Fläche (Slider) + Ausstattungsniveau -->
     <section class="rstep" data-step="2" hidden={!start}>
       {start && <p class="rpanel__gewerk" id="rGewerkLabel">{erstes.label} berechnen</p>}
       <H class="rstep__title" id="rFrage">{start ? erstes.frage : "Wie groß ist Ihr Projekt?"}</H>
 
-      <div class="rmodus" role="radiogroup" aria-label="Wie möchten Sie rechnen?">
-        <button type="button" class="rmodus__btn selected" data-modus="schnell" role="radio" aria-checked="true">
-          <strong>Schnelle Schätzung</strong>
-          <small>Ergebnis in 1 Minute</small>
-        </button>
-        <button type="button" class="rmodus__btn" data-modus="genau" role="radio" aria-checked="false">
-          <strong>Genaue Angaben</strong>
-          <small>Maße eingeben, Auswahl treffen</small>
-        </button>
-      </div>
-
-      <div class="rechner__range" id="rRangeWrap">
+      <div class="rechner__range">
         <input
           type="range" id="rMenge" aria-labelledby="rFrage"
           min={start ? erstes.min : 3} max={start ? erstes.max : 30}
           step={start ? erstes.step : 1} value={start ? erstes.default : 8}
         />
         <output class="rechner__mengeout" id="rMengeOut" for="rMenge">{start ? `${erstes.default} ${erstes.unit}` : "8 m²"}</output>
-      </div>
-
-      <div class="rmasse" id="rMasse" hidden>
-        <label class="rmasse__feld">
-          <span>Länge</span>
-          <input type="number" id="rLaenge" min="0.5" max="50" step="0.1" inputmode="decimal" /> <span>m</span>
-        </label>
-        <span class="rmasse__mal" aria-hidden="true">×</span>
-        <label class="rmasse__feld">
-          <span>Breite</span>
-          <input type="number" id="rBreite" min="0.5" max="50" step="0.1" inputmode="decimal" /> <span>m</span>
-        </label>
-        <output class="rmasse__flaeche" id="rFlaeche">= 8 m²</output>
       </div>
 
       <div class="rechner__tiers" id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau">
@@ -153,16 +129,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         ))}
       </div>
 
-      <div class="rmodule" id="rModuleWrap" hidden>
-        <HSub class="rmodule__title">Was soll gemacht werden?</HSub>
-        <div class="rmodule__grid" id="rModule"></div>
-      </div>
-      <div class="rmodule" id="rExtrasWrap" hidden>
-        <HSub class="rmodule__title">Extras <span class="rmodule__opt">(optional)</span></HSub>
-        <div class="rextras__grid" id="rExtras"></div>
-      </div>
-
-      <p class="rlivepreis" id="rLivePreis" hidden role="status"></p>
       <div class="rnav">
         {!start && <button class="btn btn--ghost rnav__zurueck" type="button" id="rZurueck2">Zurück</button>}
         <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
@@ -176,8 +142,8 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
 
       <div class="rwahl" id="rWahl" aria-label="Ihre Auswahl"></div>
 
-      <button class="btn btn--ghost btn--sm" type="button" id="rVerfeinern">
-        Genauer machen – Maße &amp; Auswahl anpassen
+      <button class="btn btn--ghost btn--sm" type="button" id="rAendern">
+        Angaben ändern
       </button>
       <p class="small rechner__disclaimer">
         Unverbindliche Ersteinschätzung auf Basis von Erfahrungswerten, inkl. Material und Arbeit.
@@ -341,45 +307,14 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   }
   .rechner__app--start .rstep__title { margin-top: 0; }
 
-  /* Modus-Umschalter (mobil gestapelt, ab Tablet nebeneinander) */
-  .rmodus { display: grid; gap: 10px; margin-block: 18px 22px; }
-  @media (min-width: 640px) { .rmodus { grid-template-columns: 1fr 1fr; } }
-  .rmodus__btn {
-    display: grid; gap: 2px; text-align: left;
-    padding: 12px 16px;
-    background: var(--weiss);
-    border: 2px solid var(--linie);
-    border-radius: var(--radius-md);
-    transition: border-color var(--transition), background var(--transition);
-  }
-  .rmodus__btn strong { font-family: var(--font-heading); font-size: 14.5px; }
-  .rmodus__btn small { color: var(--anthrazit-600); font-size: 12.5px; }
-  .rmodus__btn.selected { border-color: var(--gold-500); background: var(--gold-100); }
 
-  .rechner__range { display: grid; gap: 8px; margin-block: 4px 20px; }
+  .rechner__range { display: grid; gap: 8px; margin-block: 18px 20px; }
   .rechner__range input[type="range"] { width: 100%; accent-color: var(--gold-600); height: 32px; }
   .rechner__mengeout {
     font-family: var(--font-heading); font-weight: 800; font-size: 28px;
     text-align: center;
   }
 
-  /* Länge × Breite (Genau-Modus) */
-  .rmasse { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px; margin-block: 4px 20px; }
-  .rmasse__feld { display: grid; gap: 4px; font-size: 13px; font-weight: 600; color: var(--anthrazit-700); }
-  .rmasse__feld input {
-    width: 96px;
-    padding: 10px 12px;
-    border: 2px solid var(--linie);
-    border-radius: var(--radius-md);
-    font-family: var(--font-heading); font-weight: 700; font-size: 17px;
-    color: var(--anthrazit-800);
-  }
-  .rmasse__feld input:focus { outline: none; border-color: var(--gold-500); }
-  .rmasse__mal { font-family: var(--font-heading); font-weight: 800; font-size: 20px; padding-bottom: 10px; }
-  .rmasse__flaeche {
-    font-family: var(--font-heading); font-weight: 800; font-size: 22px;
-    padding-bottom: 6px; margin-left: auto;
-  }
 
   .rechner__tiers { display: grid; gap: 10px; margin-bottom: 20px; }
   @media (min-width: 768px) { .rechner__tiers { grid-template-columns: repeat(3, 1fr); } }
@@ -397,44 +332,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
   .rechner__tiers :global(.rtier small) { color: var(--anthrazit-600); }
   .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
 
-  /* Auswahl-Buttons (Genau-Modus) – laienfreundlich: Titel + Erklärzeile */
-  .rmodule__title { font-size: 16px; margin: 0 0 10px; }
-  .rmodule__opt { font-weight: 400; color: var(--anthrazit-600); font-size: 13px; }
-  .rmodule__grid, .rextras__grid { display: grid; gap: 8px; margin-bottom: 18px; }
-  @media (min-width: 560px) { .rmodule__grid, .rextras__grid { grid-template-columns: 1fr 1fr; } }
-  .rmodule :global(.rmodul) {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 14px;
-    border: 2px solid var(--linie);
-    border-radius: var(--radius-md);
-    background: var(--weiss);
-    text-align: left;
-    transition: border-color var(--transition), background var(--transition), opacity var(--transition);
-  }
-  .rmodule :global(.rmodul .rmodul__text) { display: grid; gap: 1px; }
-  .rmodule :global(.rmodul strong) { font-size: 14px; }
-  .rmodule :global(.rmodul small) { font-size: 12px; color: var(--anthrazit-600); font-weight: 400; }
-  .rmodule :global(.rmodul .rmodul__check) {
-    width: 22px; height: 22px; flex: none; margin-top: 2px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 2px solid var(--anthrazit-400);
-    border-radius: 6px;
-    color: transparent;
-    transition: all var(--transition);
-  }
-  .rmodule :global(.rmodul[aria-pressed="true"]) { border-color: var(--gold-500); background: var(--gold-100); }
-  .rmodule :global(.rmodul[aria-pressed="true"] .rmodul__check) {
-    background: var(--gold-500); border-color: var(--gold-600); color: var(--anthrazit-900);
-  }
-  .rmodule :global(.rmodul[aria-pressed="false"]) { opacity: 0.7; }
-  .rmodule :global(.rmodul .rmodul__preis) { margin-left: auto; font-weight: 700; font-size: 13px; color: var(--gold-700); white-space: nowrap; padding-top: 2px; }
-
-  .rlivepreis {
-    margin: 0 0 16px;
-    font-family: var(--font-heading); font-weight: 800; font-size: 19px;
-    color: var(--anthrazit-800);
-  }
-  .rlivepreis :global(small) { display: block; font-weight: 400; font-size: 12.5px; color: var(--anthrazit-600); }
 
   /* Mobile Navigation: Zurück + Weiter zusammen, unten angepinnt – oberhalb der
      festen StickyBar (sonst verdeckt sie den Button). */
@@ -492,22 +389,37 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     font-weight: 800;
     flex: none;
   }
-  .rwahl :global(.rwahl__gruppe li.plus::before) { content: "+"; }
   .rwahl :global(.rwahl__gruppe li.info::before) { content: "•"; }
 
   .rechner__contact { display: grid; gap: 12px; margin-top: 28px; }
   .rechner__contact .btn { width: 100%; }
+  /* Handy: Kontakt-Buttons kompakter (Kundenwunsch 11.10.2026) – einzeilig,
+     aber weiterhin ≥ 44 px Touch-Höhe. Desktop bleibt btn--lg. */
+  @media (max-width: 768px) {
+    .rechner__contact { gap: 10px; margin-top: 22px; }
+    .rechner__contact .btn {
+      min-height: 48px;
+      padding: 11px 18px;
+      font-size: 15px;
+      gap: 8px;
+      line-height: 1.2;
+    }
+    .rechner__contact .btn :global(.icon) { width: 18px; height: 18px; }
+  }
+  /* Sehr schmale Handys (≈ 360 px): noch etwas kleiner, damit nichts umbricht */
+  @media (max-width: 400px) {
+    .rechner__contact .btn { font-size: 14px; padding-inline: 10px; gap: 6px; }
+  }
 </style>
 
 <script>
   type Tier = { id: string; label: string; hint: string };
-  type Modul = { id: string; label: string; fach: string; hint: string; anteil: number };
-  type Extra = { id: string; label: string; preis: number };
+  type Modul = { id: string; label: string; fach: string; hint: string };
   type Gewerk = {
     slug: string; label: string; frage: string; unit: string; icon: string;
     min: number; max: number; step: number; default: number;
     grund: number; proEinheit: Record<string, number>; tiers: Tier[]; spanne: number;
-    bausteine: Modul[]; extras: Extra[];
+    bausteine: Modul[];
   };
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
@@ -526,14 +438,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     const ergebnisEl = document.getElementById("rErgebnis")!;
     const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
     const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
-    const rangeWrap = document.getElementById("rRangeWrap")!;
-    const masseWrap = document.getElementById("rMasse")!;
-    const laengeIn = document.getElementById("rLaenge") as HTMLInputElement;
-    const breiteIn = document.getElementById("rBreite") as HTMLInputElement;
-    const flaecheOut = document.getElementById("rFlaeche")!;
-    const moduleWrap = document.getElementById("rModuleWrap")!;
-    const moduleEl = document.getElementById("rModule")!;
-    const livePreis = document.getElementById("rLivePreis")!;
     const gruppeTag = START ? "h4" : "h3";
 
     const state = {
@@ -541,14 +445,8 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       gewerk: null as Gewerk | null,
       menge: 0,
       tier: "",
-      modus: "schnell" as "schnell" | "genau",
-      laenge: 0,
-      breite: 0,
-      module: new Set<string>(),
-      extras: new Set<string>(),
     };
     const euro = (n: number) => n.toLocaleString("de-DE");
-    const m1 = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
     const EMOJI: Record<string, string> = {
       badsanierung: "🛁", "sanierung-modernisierung": "🏠", "fliesen-boden": "🔲", innenausbau: "🧱",
     };
@@ -583,7 +481,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
     function selectGewerk(g: Gewerk, scroll: Scroll = "immer") {
       state.gewerk = g;
       state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
-      state.module = new Set(g.bausteine.map((b) => b.id));
       app!.querySelectorAll<HTMLElement>("[data-gewerk]").forEach((t) => {
         const an = t.dataset.gewerk === g.slug;
         t.classList.toggle("selected", an);
@@ -598,17 +495,8 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
       range.max = String(g.max);
       range.step = String(g.step);
       range.value = String(g.default);
-      state.menge = g.default;
-      const b = Math.round(Math.sqrt(g.default / 1.6) * 10) / 10;
-      state.breite = b;
-      state.laenge = Math.round((g.default / b) * 10) / 10;
-      laengeIn.value = String(state.laenge);
-      breiteIn.value = String(state.breite);
       renderTiers(g);
-      renderModule(g);
       updateMenge();
-      updateMasse();
-      updateLive();
       show(2, scroll);
     }
 
@@ -627,143 +515,33 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
             el.classList.toggle("selected", el === btn);
             el.setAttribute("aria-checked", String(el === btn));
           });
-          updateLive();
         });
         tiersEl.append(btn);
       }
     }
 
-    function renderModule(g: Gewerk) {
-      moduleEl.innerHTML = "";
-      for (const m of g.bausteine) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "rmodul";
-        btn.dataset.modul = m.id;
-        btn.setAttribute("aria-pressed", "true");
-        btn.innerHTML =
-          `<span class="rmodul__check">✓</span>` +
-          `<span class="rmodul__text"><strong>${m.label}</strong><small>${m.hint}</small></span>`;
-        btn.addEventListener("click", () => toggleModul(m.id, btn));
-        moduleEl.append(btn);
-      }
-      const extrasEl = document.getElementById("rExtras")!;
-      extrasEl.innerHTML = "";
-      state.extras = new Set();
-      for (const x of g.extras) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "rmodul";
-        btn.dataset.extra = x.id;
-        btn.setAttribute("aria-pressed", "false");
-        btn.innerHTML =
-          `<span class="rmodul__check">✓</span>` +
-          `<span class="rmodul__text"><strong>${x.label}</strong></span>` +
-          `<span class="rmodul__preis">+ ${euro(x.preis)} €</span>`;
-        btn.addEventListener("click", () => {
-          const an = !state.extras.has(x.id);
-          state.extras[an ? "add" : "delete"](x.id);
-          btn.setAttribute("aria-pressed", String(an));
-          updateLive();
-        });
-        extrasEl.append(btn);
-      }
-    }
-
-    function toggleModul(id: string, btn: HTMLElement) {
-      if (state.module.has(id)) {
-        if (state.module.size === 1) return; // mindestens ein Arbeitsschritt bleibt
-        state.module.delete(id);
-      } else {
-        state.module.add(id);
-      }
-      btn.setAttribute("aria-pressed", String(state.module.has(id)));
-      updateLive();
-    }
-
-    function setModus(m: "schnell" | "genau") {
-      state.modus = m;
-      app!.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) => {
-        const an = b.dataset.modus === m;
-        b.classList.toggle("selected", an);
-        b.setAttribute("aria-checked", String(an));
-      });
-      const genau = m === "genau";
-      rangeWrap.hidden = genau;
-      masseWrap.hidden = !genau;
-      moduleWrap.hidden = !genau;
-      document.getElementById("rExtrasWrap")!.hidden = !genau;
-      livePreis.hidden = !genau;
-      if (genau) updateMasse();
-      updateLive();
-    }
-
     function updateMenge() {
       state.menge = Number(range.value);
       mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
-      updateLive();
     }
 
-    function updateMasse() {
-      const l = Math.min(50, Math.max(0.5, Number(laengeIn.value) || 0.5));
-      const b = Math.min(50, Math.max(0.5, Number(breiteIn.value) || 0.5));
-      state.laenge = l;
-      state.breite = b;
-      const f = Math.round(l * b * 10) / 10;
-      flaecheOut.textContent = `= ${m1(f)} m²`;
-      updateLive();
-    }
-
-    function flaeche(): number {
-      return state.modus === "genau"
-        ? Math.round(state.laenge * state.breite * 10) / 10
-        : state.menge;
-    }
-
-    function modulFaktor(): number {
-      if (state.modus !== "genau") return 1;
-      return state.gewerk!.bausteine
-        .filter((m) => state.module.has(m.id))
-        .reduce((sum, m) => sum + m.anteil, 0);
-    }
-
-    function extraSumme(): number {
-      if (state.modus !== "genau") return 0;
-      return state.gewerk!.extras
-        .filter((x) => state.extras.has(x.id))
-        .reduce((sum, x) => sum + x.preis, 0);
-    }
-
+    /** Preisspanne wie preisspanne() in data/rechner.ts (gerundet auf 500 €). */
     function spanne() {
       const g = state.gewerk!;
       const proE = g.proEinheit[state.tier] ?? Object.values(g.proEinheit)[0];
-      const basis = (g.grund + flaeche() * proE) * modulFaktor() + extraSumme();
+      const basis = g.grund + state.menge * proE;
       const r = (n: number) => Math.round(n / 500) * 500;
       return { von: r(basis * (1 - g.spanne)), bis: r(basis * (1 + g.spanne)) };
-    }
-
-    function updateLive() {
-      if (!state.gewerk || state.modus !== "genau") return;
-      const { von, bis } = spanne();
-      const extraTxt = state.extras.size ? ` · ${state.extras.size} Extra${state.extras.size > 1 ? "s" : ""}` : "";
-      livePreis.innerHTML =
-        `Aktuell ca. ${euro(von)} € – ${euro(bis)} €` +
-        `<small>${state.module.size} von ${state.gewerk.bausteine.length} Arbeitsschritten${extraTxt}</small>`;
     }
 
     function showResult() {
       const g = state.gewerk!;
       const { von, bis } = spanne();
       const tierLabel = g.tiers.find((t) => t.id === state.tier)?.label ?? "";
-      const genau = state.modus === "genau";
-      const f = flaeche();
       ergebnisEl.textContent = `ca. ${euro(von)} € – ${euro(bis)} €`;
 
-      const gewaehlt = g.bausteine.filter((m) => !genau || state.module.has(m.id));
-      const extrasGewaehlt = genau ? g.extras.filter((x) => state.extras.has(x.id)) : [];
-      const masse = genau
-        ? `${m1(state.laenge)} × ${m1(state.breite)} m (${m1(f)} m²)`
-        : `${state.menge} ${g.unit}`;
+      const arbeiten = g.bausteine;
+      const masse = `${state.menge} ${g.unit}`;
 
       // Auswahl sauber gruppiert darstellen
       const wahl = document.getElementById("rWahl")!;
@@ -772,17 +550,13 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         punkte.map((p) => `<li class="${klasse}">${p}</li>`).join("") +
         `</ul></div>`;
       let html = gruppe("Ihr Projekt", [g.label, masse, `Niveau ${tierLabel}`], "info");
-      html += gruppe(genau ? "Gewünschte Arbeiten" : "Enthaltene Arbeiten", gewaehlt.map((m) => m.label));
-      if (extrasGewaehlt.length) html += gruppe("Extras", extrasGewaehlt.map((x) => x.label), "plus");
+      html += gruppe("Enthaltene Arbeiten", arbeiten.map((m) => m.label));
       wahl.innerHTML = html;
 
       // Anfrage-Texte: klar formatiert, mit Absätzen und Emojis;
       // Arbeiten in FACHSPRACHE, damit das Team sofort fachlich lesen kann.
       const emoji = EMOJI[g.slug] ?? "🔨";
-      const arbeitenListe = gewaehlt.map((m) => `• ${m.fach}`).join("\n");
-      const extrasListe = extrasGewaehlt.length
-        ? `\n\n➕ Extras:\n${extrasGewaehlt.map((x) => `• ${x.label}`).join("\n")}`
-        : "";
+      const arbeitenListe = arbeiten.map((m) => `• ${m.fach}`).join("\n");
       const waText =
         `Hallo Bauwelt Handwerk! 👋\n\n` +
         `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
@@ -790,7 +564,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         `📐 Größe: ${masse}\n` +
         `⭐ Niveau: ${tierLabel}\n\n` +
         `🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
-        extrasListe +
         `\n\n💶 Ersteinschätzung: ca. ${euro(von)} – ${euro(bis)} €\n\n` +
         `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank! 🙏`;
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
@@ -804,7 +577,6 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         `Größe:    ${masse}\n` +
         `Niveau:   ${tierLabel}\n\n` +
         `Gewünschte Arbeiten:\n${arbeitenListe}` +
-        (extrasGewaehlt.length ? `\n\nExtras:\n${extrasGewaehlt.map((x) => `• ${x.label}`).join("\n")}` : "") +
         `\n\nErsteinschätzung: ca. ${euro(von)} – ${euro(bis)} €\n\n` +
         `Bitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
@@ -819,19 +591,11 @@ const CLIENT_DATA = GEWERKE.map((g) => ({
         if (g) selectGewerk(g, START ? "bedarf" : "immer");
       })
     );
-    app.querySelectorAll<HTMLElement>(".rmodus__btn").forEach((b) =>
-      b.addEventListener("click", () => setModus(b.dataset.modus as "schnell" | "genau"))
-    );
     range.addEventListener("input", updateMenge);
-    laengeIn.addEventListener("input", updateMasse);
-    breiteIn.addEventListener("input", updateMasse);
     document.getElementById("rWeiter")!.addEventListener("click", showResult);
     document.getElementById("rZurueck2")?.addEventListener("click", () => show((state.step - 1) as 1 | 2));
-    // Vom Ergebnis mit einem Klick in den Genau-Modus (weniger „Weiter"-Schritte)
-    document.getElementById("rVerfeinern")!.addEventListener("click", () => {
-      show(2);
-      setModus("genau");
-    });
+    // Vom Ergebnis zurück zu Fläche & Niveau (Werte bleiben erhalten)
+    document.getElementById("rAendern")!.addEventListener("click", () => show(2));
 
     if (START) {
       // Startseite: erste Leistung ist vorausgewählt (Markup bereits serverseitig gerendert).

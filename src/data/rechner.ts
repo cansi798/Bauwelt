@@ -7,6 +7,8 @@
  *  Nur die 4 echten Leistungen (= Menü NAV2, Kundenwunsch 11.10.2026). Dach & Fassade,
  *  Maler & Böden, Sanitär/Heizung/Elektro sind bewusst NICHT im Rechner.
  *  Fliesen-Werte (11.10.2026) sind Richtwerte inkl. Material – bitte vom Kunden bestätigen.
+ *  Nur noch „schnelle Schätzung“ (Kundenwunsch 11.10.2026 (2)): Preis = Grundpauschale
+ *  + Fläche × €/m² des Niveaus ± Spanne. Modul-Anteile und Extras sind entfallen.
  *
  *  Module: `label`/`hint` sind LAIENSPRACHE (UI), `fach` ist der Fachbegriff –
  *  er landet im Anfrage-Text (WhatsApp/E-Mail) und auf der Zeichnung, damit das
@@ -19,10 +21,7 @@ export type Modul = {
   label: string;   // laienfreundlich (Anzeige)
   fach: string;    // Fachbegriff (Anfrage-Text / Experten-Output)
   hint: string;    // eine Zeile Erklärung
-  anteil: number;  // PLATZHALTER-Anteil an der Kalkulation, Summe je Gewerk = 1
 };
-
-export type Extra = { id: string; label: string; preis: number }; // Aufpreis in € (PLATZHALTER)
 
 export type Gewerk = {
   slug: string;          // = Slug der Leistungs-Seite
@@ -41,10 +40,8 @@ export type Gewerk = {
   spanne: number;        // ± relativ
   /** Skizzen-Typ für die Zeichnung im Rechner (Bad-Grundriss, Raum). */
   skizze: "bad" | "raum";
-  /** Leistungs-Module = Ebenen der Bauzeichnung (Index ↔ data-l im SVG). */
+  /** Enthaltene Arbeiten (Ergebnisliste + Fachbegriffe im Anfragetext). */
   bausteine: Modul[];
-  /** Optionale Extras mit Aufpreis (nur Genau-Modus). */
-  extras: Extra[];
 };
 
 export const GEWERKE: Gewerk[] = [
@@ -66,18 +63,11 @@ export const GEWERKE: Gewerk[] = [
     spanne: 0.15,
     skizze: "bad",
     bausteine: [
-      { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau und Entsorgung von Wanne, Fliesen & Co.", anteil: 0.10 },
-      { id: "rohinstallation", label: "Wasser & Strom verlegen", fach: "Sanitär- & Elektro-Rohinstallation", hint: "Neue Leitungen für Dusche, WC und Waschtisch", anteil: 0.25 },
-      { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche", anteil: 0.10 },
-      { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest", anteil: 0.30 },
-      { id: "ausstattung", label: "Neue Einrichtung", fach: "Objektmontage & Ausstattung", hint: "Dusche, WC, Waschtisch und Möbel montiert", anteil: 0.25 },
-    ],
-    extras: [
-      { id: "bodengleich", label: "Bodengleiche Dusche", preis: 2500 },
-      { id: "badewanne", label: "Neue Badewanne", preis: 1800 },
-      { id: "doppelwaschtisch", label: "Doppelwaschtisch", preis: 900 },
-      { id: "handtuchheizung", label: "Handtuchheizkörper", preis: 600 },
-      { id: "fussbodenheizung", label: "Fußbodenheizung", preis: 1500 },
+      { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau und Entsorgung von Wanne, Fliesen & Co." },
+      { id: "rohinstallation", label: "Wasser & Strom verlegen", fach: "Sanitär- & Elektro-Rohinstallation", hint: "Neue Leitungen für Dusche, WC und Waschtisch" },
+      { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche" },
+      { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest" },
+      { id: "ausstattung", label: "Neue Einrichtung", fach: "Objektmontage & Ausstattung", hint: "Dusche, WC, Waschtisch und Möbel montiert" },
     ],
   },
   {
@@ -98,17 +88,11 @@ export const GEWERKE: Gewerk[] = [
     spanne: 0.25,
     skizze: "raum",
     bausteine: [
-      { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke", anteil: 0.05 },
-      { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen", anteil: 0.10 },
-      { id: "technik", label: "Leitungen & Technik neu", fach: "Elektro-, Sanitär- & Heizungsinstallation", hint: "Strom, Wasser und Heizung auf neuen Stand", anteil: 0.35 },
-      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu", anteil: 0.35 },
-      { id: "endmontage", label: "Fertig einrichten", fach: "Endmontage & Übergabe", hint: "Alles montiert, geprüft und besenrein übergeben", anteil: 0.15 },
-    ],
-    extras: [
-      { id: "tueren", label: "Neue Innentüren", preis: 2400 },
-      { id: "fussbodenheizung", label: "Fußbodenheizung", preis: 4500 },
-      { id: "smarthome", label: "Smart-Home-Basis", preis: 1800 },
-      { id: "fenster", label: "Neue Fenster", preis: 6000 },
+      { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
+      { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
+      { id: "technik", label: "Leitungen & Technik neu", fach: "Elektro-, Sanitär- & Heizungsinstallation", hint: "Strom, Wasser und Heizung auf neuen Stand" },
+      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu" },
+      { id: "endmontage", label: "Fertig einrichten", fach: "Endmontage & Übergabe", hint: "Alles montiert, geprüft und besenrein übergeben" },
     ],
   },
   {
@@ -129,17 +113,11 @@ export const GEWERKE: Gewerk[] = [
     spanne: 0.20,
     skizze: "raum",
     bausteine: [
-      { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus", anteil: 0.10 },
-      { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)", hint: "Eben und tragfähig – die Basis für lange Haltbarkeit", anteil: 0.20 },
-      { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nassbereich", hint: "In Bad und Küche: Schutz vor Feuchtigkeit", anteil: 0.10 },
-      { id: "verlegung", label: "Fliesen bzw. Boden verlegen", fach: "Verlegung Fliesen/Bodenbelag", hint: "Präzise verlegt im gewünschten Muster", anteil: 0.45 },
-      { id: "fugen", label: "Fugen & sauberer Abschluss", fach: "Verfugung, Silikon-/Anschlussfugen, Sockel", hint: "Saubere Fugen, Sockelleisten, besenrein übergeben", anteil: 0.15 },
-    ],
-    extras: [
-      { id: "bodengleich", label: "Bodengleiche Dusche", preis: 2500 },
-      { id: "muster", label: "Verlegemuster (z. B. Fischgrät)", preis: 900 },
-      { id: "treppe", label: "Treppe belegen", preis: 1800 },
-      { id: "fliesenspiegel", label: "Fliesenspiegel Küche", preis: 800 },
+      { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus" },
+      { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)", hint: "Eben und tragfähig – die Basis für lange Haltbarkeit" },
+      { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nassbereich", hint: "In Bad und Küche: Schutz vor Feuchtigkeit" },
+      { id: "verlegung", label: "Fliesen bzw. Boden verlegen", fach: "Verlegung Fliesen/Bodenbelag", hint: "Präzise verlegt im gewünschten Muster" },
+      { id: "fugen", label: "Fugen & sauberer Abschluss", fach: "Verfugung, Silikon-/Anschlussfugen, Sockel", hint: "Saubere Fugen, Sockelleisten, besenrein übergeben" },
     ],
   },
   {
@@ -160,17 +138,11 @@ export const GEWERKE: Gewerk[] = [
     spanne: 0.25,
     skizze: "raum",
     bausteine: [
-      { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht", anteil: 0.20 },
-      { id: "beplankung", label: "Wände schließen", fach: "Beplankung", hint: "Wände und Decken werden geschlossen", anteil: 0.25 },
-      { id: "schallschutz", label: "Ruhe reinbauen", fach: "Schall-/Wärmedämmung", hint: "Dämmung gegen Lärm und Kälte", anteil: 0.15 },
-      { id: "spachteln", label: "Glatte Flächen", fach: "Spachtelung (Q2/Q3)", hint: "Übergänge verschwinden, Flächen werden glatt", anteil: 0.20 },
-      { id: "streichfertig", label: "Streichfertig übergeben", fach: "Oberflächen-Finish", hint: "Bereit für Farbe oder Tapete", anteil: 0.20 },
-    ],
-    extras: [
-      { id: "schiebetuer", label: "Schiebetür", preis: 1400 },
-      { id: "einbau", label: "Maß-Einbauschrank", preis: 2200 },
-      { id: "akustik", label: "Akustikdecke", preis: 1900 },
-      { id: "led", label: "LED-Beleuchtung", preis: 900 },
+      { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht" },
+      { id: "beplankung", label: "Wände schließen", fach: "Beplankung", hint: "Wände und Decken werden geschlossen" },
+      { id: "schallschutz", label: "Ruhe reinbauen", fach: "Schall-/Wärmedämmung", hint: "Dämmung gegen Lärm und Kälte" },
+      { id: "spachteln", label: "Glatte Flächen", fach: "Spachtelung (Q2/Q3)", hint: "Übergänge verschwinden, Flächen werden glatt" },
+      { id: "streichfertig", label: "Streichfertig übergeben", fach: "Oberflächen-Finish", hint: "Bereit für Farbe oder Tapete" },
     ],
   },
 ];

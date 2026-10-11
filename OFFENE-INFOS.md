@@ -33,9 +33,8 @@ Legende: ⬜ offen · ✅ erledigt
   CSS-Mockup mit Markierungen (Festpreis, Leistungsumfang, digitale Freigabe …).
   Echten anonymisierten Angebots-Screenshot liefern, Markierungen bleiben erhalten.
 
-- ⬜ **Modul-Anteile im Rechner** (`src/data/rechner.ts`, Feld `anteil` je Baustein):
-  Platzhalter-Prozentanteile für den „Genaue Angaben"-Modus – bitte mit echter
-  Kalkulation abgleichen (Summe je Gewerk = 1).
+- ✅ ~~Modul-Anteile im Rechner~~ – entfallen: Der „Genaue Angaben"-Modus wurde auf
+  Kundenwunsch am 11.10.2026 entfernt, der Rechner arbeitet nur noch als schnelle Schätzung.
 - ✅ ~~KI-Funktionen im Rechner~~ – am 12.09.2026 eingebaut (WebLLM/Gemma) und
   auf Kundenwunsch am selben Tag wieder entfernt („macht nicht viel Sinn").
 
