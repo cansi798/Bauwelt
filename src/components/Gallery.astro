@@ -64,7 +64,8 @@ import Img from "./Img.astro";
   .gal__bild :global(img) { transition: transform 400ms ease; }
   .gal__bild:hover :global(img) { transform: scale(1.04); }
 
-  .gal__mehr { margin: 20px 0 0; text-align: center; }
+  /* Kundenwunsch 11.10.2026 (8): linksbündig, bündig mit der linken Kante des ersten Bildes */
+  .gal__mehr { margin: 16px 0 0; text-align: left; }
   .gal__mehr a {
     display: inline-flex; align-items: center; gap: 6px;
     font-weight: 700; color: var(--gold-700);

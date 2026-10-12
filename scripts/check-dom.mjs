@@ -33,7 +33,7 @@ for (const file of pages) {
   titles.set(title, page);
 
   // Keine Template-Unfälle
-  for (const bad of ["undefined", "[object Object]", "NaN €"]) {
+  for (const bad of ["undefined", "[object Object]", "NaN €", "MwSt.."]) {
     if (html.includes(bad)) err(page, `enthält "${bad}"`);
   }
 
