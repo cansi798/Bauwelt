@@ -10,12 +10,14 @@
  *    wohnumfeldverbessernde Maßnahmen), kein Flächen-Slider.
  *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
  *    Parkett gibt es nicht mehr. Ergebnis ist ein konkreter Betrag (keine ±-Spanne).
+ *    Die m²-Preise und der Rechenweg werden Kunden NICHT angezeigt (Kundenwunsch
+ *    12.10.2026) – sichtbar ist nur der Gesamtbetrag inkl. MwSt.
  *  - Sanierung & Modernisierung: Die bisherigen Werte (8.000 € + 600/900/1.400 €/m²)
  *    waren Richtwerte OHNE MwSt.-Angabe (nirgends im Repo als brutto ausgewiesen).
  *    Kundenwunsch: um 50 % senken, DANN inkl. 19 % MwSt. anzeigen → als Nettowerte
  *    behandelt: Anzeige = (Grund + m² × Satz) × 0,5 × 1,19, ± 25 %, auf 500 € gerundet.
- *  - Innenausbau & Trockenbau: Werte unverändert (Kundenwunsch), werden wie bisher
- *    angezeigt und gelten als Bruttowerte – vom Kunden zu bestätigen.
+ *  - Innenausbau & Trockenbau: Werte unverändert, sind Bruttowerte (vom Kunden
+ *    bestätigt 12.10.2026). Sanierung-Altwerte waren netto (ebenfalls bestätigt).
  *
  *  Das Ergebnis bleibt eine unverbindliche Ersteinschätzung; der Festpreis entsteht
  *  nach dem Vor-Ort-Termin.
@@ -135,11 +137,10 @@ export const GEWERKE: Gewerk[] = [
       },
       {
         id: "premium", label: "Premium", aufschlag: 2 * BAD_STUFE,
-        hint: "Fußbodenheizung, Großformatfliesen, LED-Spots – individuell gestaltbar",
+        hint: "Alles aus Komfort plus Fußbodenheizung und LED-Spots – individuell gestaltbar",
         enthalten: [
-          "Alles aus Basis, dazu:",
+          "Alles aus Komfort, dazu:",
           "Fußbodenheizung",
-          "Großformatfliesen",
           "LED-Spots",
           "Individuell gestaltbar, z. B. zusätzliche Trennwand",
         ],
@@ -211,9 +212,9 @@ export const GEWERKE: Gewerk[] = [
     netto: true,
     spanne: 0,
     tiers: [
-      { id: "basis", label: "Vinyl & Laminat", hint: `Klick-Vinyl oder Laminat – ${eur(brutto(FLIESEN_NETTO.vinyl))} €/m²` },
-      { id: "komfort", label: "Fliesen bis 60 × 60 cm", hint: `Wand- oder Bodenfliesen – ${eur(brutto(FLIESEN_NETTO.fliesen))} €/m²` },
-      { id: "premium", label: "Großformatfliesen", hint: `Großformat und Feinsteinzeug – ${eur(brutto(FLIESEN_NETTO.gross))} €/m²` },
+      { id: "basis", label: "Vinyl & Laminat", hint: "Klick-Vinyl oder Laminat inkl. Trittschalldämmung" },
+      { id: "komfort", label: "Fliesen bis 60 × 60 cm", hint: "Wand- oder Bodenfliesen" },
+      { id: "premium", label: "Großformatfliesen", hint: "Großformat und Feinsteinzeug" },
     ],
     bausteine: [
       { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus" },
@@ -232,7 +233,7 @@ export const GEWERKE: Gewerk[] = [
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
     preismodell: "flaeche",
-    // Unverändert (Kundenwunsch 11.10.2026) – gelten als Bruttowerte, bitte bestätigen.
+    // Unverändert (Kundenwunsch 11.10.2026) – Bruttowerte, vom Kunden bestätigt 12.10.2026.
     grund: 2500,
     proEinheit: { basis: 450, komfort: 650, premium: 900 },
     netto: false,
@@ -273,7 +274,7 @@ export const gewerkBySlug = (slug: string): Gewerk | undefined =>
 export type Ergebnis =
   | { art: "spanne"; von: number; bis: number; ab: boolean }   // „ab X bis Y“ bzw. „ca. X – Y“
   | { art: "unter"; bis: number }                              // fester Höchstpreis
-  | { art: "betrag"; betrag: number; grund: number; proEinheit: number }; // konkret, mit Rechenweg
+  | { art: "betrag"; betrag: number };                         // konkreter Gesamtbetrag
 
 export const tierById = (g: Gewerk, id: string): Tier => g.tiers.find((t) => t.id === id) ?? g.tiers[0];
 
@@ -292,8 +293,7 @@ export function berechne(g: Gewerk, menge: number, tierId: string): Ergebnis {
   const proE = (g.proEinheit[t.id] ?? Object.values(g.proEinheit)[0]) * f;
   const basis = grund + menge * proE;
   if (g.spanne === 0) {
-    const r2 = (n: number) => Math.round(n * 100) / 100;
-    return { art: "betrag", betrag: Math.round(basis), grund: r2(grund), proEinheit: r2(proE) };
+    return { art: "betrag", betrag: Math.round(basis) };
   }
   const round500 = (n: number) => Math.round(n / 500) * 500;
   return { art: "spanne", von: round500(basis * (1 - g.spanne)), bis: round500(basis * (1 + g.spanne)), ab: false };
@@ -304,10 +304,4 @@ export function preisText(e: Ergebnis): string {
   if (e.art === "unter") return `unter ${eur(e.bis)} €`;
   if (e.art === "betrag") return `ca. ${eur(e.betrag)} €`;
   return e.ab ? `ab ${eur(e.von)} € bis ${eur(e.bis)} €` : `ca. ${eur(e.von)} € – ${eur(e.bis)} €`;
-}
-
-/** Rechenweg für konkrete Beträge, z. B. „595 € Grundpauschale + 25 m² × 89,25 €/m²“. */
-export function rechenweg(e: Ergebnis, menge: number, unit: string): string {
-  if (e.art !== "betrag") return "";
-  return `${eur(e.grund)} € Grundpauschale + ${menge} ${unit} × ${eur(e.proEinheit)} €/${unit}`;
 }

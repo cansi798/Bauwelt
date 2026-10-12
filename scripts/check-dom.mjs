@@ -68,6 +68,9 @@ for (const need of ["rechner__nojs", "rechner__app", "progressbar", "bookingEmbe
 // Kundenwunsch 11.10.2026 (6): kein Parkett mehr bei Fliesen & Boden
 if (/parkett/i.test(readFileSync(join(DIST, "leistungen/fliesen-boden/index.html"), "utf8")))
   err("/leistungen/fliesen-boden/", "erwähnt noch Parkett");
+// Kundenwunsch 12.10.2026: keine m²-Preise / kein Rechenweg öffentlich
+for (const page of ["rechner/index.html", "index.html", "leistungen/fliesen-boden/index.html"])
+  if (/€\/m²|Grundpauschale/.test(readFileSync(join(DIST, page), "utf8"))) err(page, "zeigt m²-Preis/Rechenweg");
 
 // Sitemap deckt alle indexierbaren Seiten ab
 const sitemap = readFileSync(join(DIST, "sitemap.xml"), "utf8");

@@ -13,8 +13,8 @@ Legende: ⬜ offen · ✅ erledigt
   Alle Anzeigen brutto inkl. 19 % MwSt. Bad: echte Preistabelle 3–15 m² (Basis/Komfort/Premium
   je +1.500 €, Barrierefreie Dusche immer unter 4.180 €). Fliesen & Boden: 55/75/85 € netto je m²
   + 500 € netto Grundpauschale. Sanierung & Modernisierung: bisherige Werte −50 %, dann + MwSt.
-  - ⬜ Zu bestätigen: Innenausbau-Werte unverändert – sind das Bruttowerte?
-  - ⬜ Zu bestätigen: Premium-Bad enthält auch bodengleiche Dusche/wertigere Ausstattung aus Komfort?
+  - ✅ Innenausbau-Werte sind brutto, Sanierung-Altwerte waren netto (Kunde, 12.10.2026).
+  - ✅ Premium-Bad enthält alles aus Komfort. Fliesen: m²-Preise nicht öffentlich zeigen.
 
 ## B. Inhalte
 

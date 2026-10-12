@@ -172,7 +172,7 @@ const weich = (t: string) =>
     <section class="rstep" data-step="3" hidden>
       <H class="rstep__title" id="rErgebnisTitel">Ihre erste Preisspanne</H>
       <p class="rechner__result" id="rErgebnis" role="status">–</p>
-      <p class="rbrutto" id="rBrutto">{MWST_HINWEIS}<span id="rRechenweg"></span></p>
+      <p class="rbrutto" id="rBrutto">{MWST_HINWEIS}</p>
 
       <div class="rwahl" id="rWahl" aria-label="Ihre Auswahl"></div>
 
@@ -289,7 +289,6 @@ const weich = (t: string) =>
   html:not(.js) .rehrlich { display: none; }
   .rbrutto { margin: -8px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
   .rbrutto--klein { margin: -8px 0 16px; font-size: 12.5px; font-weight: 600; color: var(--anthrazit-600); }
-  .rbrutto span { display: block; font-weight: 500; }
 
   .rfreiwillig {
     display: flex; align-items: flex-start; gap: 8px;
@@ -553,7 +552,7 @@ const weich = (t: string) =>
 
 <script>
   // Preise + Logik kommen direkt aus data/rechner.ts (eine einzige Quelle, gebündelt von Vite).
-  import { GEWERKE, berechne, preisText, rechenweg, tierById, MWST_HINWEIS, type Gewerk } from "../data/rechner";
+  import { GEWERKE, berechne, preisText, tierById, MWST_HINWEIS, type Gewerk } from "../data/rechner";
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
   if (app) {
@@ -569,7 +568,6 @@ const weich = (t: string) =>
     const tiersEl = document.getElementById("rTiers")!;
     const rangeWrap = document.getElementById("rRange")!;
     const weiterBtn = document.getElementById("rWeiter")!;
-    const rechenwegEl = document.getElementById("rRechenweg")!;
     const ergebnisEl = document.getElementById("rErgebnis")!;
     const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
     const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
@@ -695,8 +693,6 @@ const weich = (t: string) =>
       const erg = berechne(g, state.menge, t.id);
       const preis = preisText(erg);
       ergebnisEl.textContent = preis;
-      const weg = rechenweg(erg, state.menge, g.unit);
-      rechenwegEl.textContent = weg;
       document.getElementById("rErgebnisTitel")!.textContent =
         erg.art === "spanne" ? "Ihre erste Preisspanne" : "Ihre erste Preiseinschätzung";
 

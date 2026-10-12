@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
-import { EMAILS, SITE } from "../consts";
+import { EMAILS, SITE, waLink } from "../consts";
 
 const BENEFITS = [
   { icon: "euro", title: "Faire, pünktliche Bezahlung", text: "Leistung wird bei uns anständig und zuverlässig vergütet – jeden Monat pünktlich." },
@@ -74,10 +74,19 @@ const BENEFITS = [
   <section class="section">
     <div class="container text-center karriere__cta">
       <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden" text="Kein Portal, kein Anschreiben-Roman – eine E-Mail mit Lebenslauf genügt. Wir melden uns innerhalb von 24 Stunden." />
-      <a class="btn btn--lg" href={`mailto:${EMAILS.bewerbung}?subject=Bewerbung`}>
-        <Icon name="mail" size={20} class="icon" /> Bewerbung senden
-      </a>
-      <p class="small">Oder rufen Sie an: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a></p>
+      <!-- Kundenwunsch 12.10.2026: Anruf + WhatsApp unter „Bewerbung senden“ – Design wie Partner-Seite -->
+      <div class="karriere__buttons">
+        <a class="btn btn--lg" href={`mailto:${EMAILS.bewerbung}?subject=Bewerbung`}>
+          <Icon name="mail" size={20} class="icon" /> Bewerbung senden
+        </a>
+        <a class="btn btn--dark btn--lg" href={waLink("Hallo Bauwelt Handwerk, ich interessiere mich für eine Stelle bei Ihnen. Bitte melden Sie sich bei mir.")} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
+        </a>
+        <a class="btn btn--ghost btn--lg" href={`tel:${SITE.phoneTel}`}>
+          <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
+        </a>
+      </div>
+      <p class="small">{EMAILS.bewerbung}</p>
     </div>
   </section>
 </BaseLayout>
@@ -113,4 +122,6 @@ const BENEFITS = [
     display: inline-flex; align-items: center; justify-content: center;
   }
   .karriere__cta { display: grid; justify-items: center; gap: 8px; }
+  .karriere__buttons { display: grid; gap: 12px; width: min(100%, 440px); }
+  .karriere__buttons .btn { width: 100%; }
 </style>
