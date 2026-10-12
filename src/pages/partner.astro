@@ -84,11 +84,8 @@ const ZIELGRUPPEN = [
         <a class="btn btn--ghost btn--lg" href={`tel:${SITE.phoneTel}`}>
           <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
         </a>
-        <!-- Kundenwunsch 12.10.2026: E-Mail-Adresse als Button (gleiches Design) statt Textzeile -->
-        <a class="btn btn--ghost btn--lg partner__mail" href={`mailto:${EMAILS.partner}`}>
-          <Icon name="mail" size={20} class="icon" /> {EMAILS.partner}
-        </a>
       </div>
+      <p class="small">{EMAILS.partner}</p>
     </div>
   </section>
 </BaseLayout>
@@ -107,9 +104,6 @@ const ZIELGRUPPEN = [
   .partner__cta { display: grid; justify-items: center; gap: 8px; }
   .partner__buttons { display: grid; gap: 12px; width: min(100%, 440px); }
   .partner__buttons .btn { width: 100%; }
-  /* E-Mail-Adresse einzeilig, auch auf schmalen Handys */
-  .partner__mail { white-space: nowrap; }
-  @media (max-width: 480px) { .partner__mail { font-size: 15px; padding-inline: 14px; } }
 
   .koop__liste {
     list-style: none; margin: 0 auto; padding: 0;
