@@ -13,8 +13,10 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  /** Footer nur mit Navigation (ohne Kontakt-Kopf) – Karriere & Partner, Kundenwunsch 11.10.2026 (10). */
+  footerNurNav?: boolean;
 }
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, footerNurNav = false } = Astro.props;
 
 const ogImage = new URL(u("assets/og-image.png"), Astro.site);
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -86,7 +88,7 @@ const jsonLd = {
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer nurNav={footerNurNav} />
     <StickyBar />
     <BookingDialog />
 

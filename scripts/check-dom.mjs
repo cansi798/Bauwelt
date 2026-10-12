@@ -39,7 +39,10 @@ for (const file of pages) {
 
   // Header/Footer überall
   if (!html.includes('id="siteHeader"')) err(page, "Header fehlt");
-  if (!html.includes('class="ftr"')) err(page, "Footer fehlt");
+  if (!/class="ftr[ "]/.test(html)) err(page, "Footer fehlt");
+  // Kundenwunsch 11.10.2026 (10): Karriere & Partner nur Footer-Navigation
+  const nurNav = page === "/karriere/" || page === "/partner/";
+  if (nurNav === html.includes("fkontakt")) err(page, nurNav ? "Footer-Kontaktkopf soll fehlen" : "Footer-Kontaktkopf fehlt");
 
   // Interne Links müssen als Datei existieren
   for (const m of html.matchAll(/href="(\/Bauwelt\/[^"#?]*)[#?"]?/g)) {

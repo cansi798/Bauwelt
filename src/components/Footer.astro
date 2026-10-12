@@ -7,12 +7,19 @@
 import { NAV2, SITE, u } from "../consts";
 import FooterKontakt from "./FooterKontakt.astro";
 
+interface Props {
+  /** Nur Navigation: ohne Kontakt-Kopf („So sollte Handwerk sein“, Buttons, Öffnungszeiten).
+   *  Karriere & Partner (Kundenwunsch 11.10.2026 (10)). */
+  nurNav?: boolean;
+}
+const { nurNav = false } = Astro.props;
+
 const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
 const jahr = new Date().getFullYear();
 ---
 
-<footer class="ftr">
-  <FooterKontakt />
+<footer class:list={["ftr", { "ftr--nurnav": nurNav }]}>
+  {!nurNav && <FooterKontakt />}
   <div class="container ftr__cols">
     <div>
       <h3 class="ftr__head">Leistungen</h3>
@@ -72,6 +79,7 @@ const jahr = new Date().getFullYear();
     /* Kundenwunsch 11.10.2026: Kopf und Spalten gleich anthrazit – feine Trennlinie wie unten */
     border-top: 1px solid var(--anthrazit-700);
   }
+  .ftr--nurnav .ftr__cols { border-top: 0; padding-top: 40px; }
   @media (min-width: 768px)  { .ftr__cols { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .ftr__cols { grid-template-columns: repeat(4, 1fr); } }
 
