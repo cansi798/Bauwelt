@@ -7,7 +7,6 @@ teaser: "Vor dem Kauf wissen, worauf Sie sich einlassen: Chancen, Risiken und Ko
 lead: "Sie haben eine Wohnung oder ein Haus im Blick? Wir schauen uns die Immobilie mit Ihnen an und sagen Ihnen ehrlich, was auf Sie zukommt – bevor Sie unterschreiben."
 beschreibung: "Immobilien-Sanierungscheck in Norderstedt & Hamburg: Chancen, Risiken und Kosten vor dem Kauf erkennen – Besichtigung vor Ort zum Pauschalpreis von 499 €."
 h1Akzent: "Pauschalpreis"
-checks: ["Pauschal 499 €", "Besichtigung vor Ort", "Ehrliche Einschätzung"]
 bild: "ref-04-altbau.webp"
 pauschalpreis: 499
 siegel: "transparenz"
