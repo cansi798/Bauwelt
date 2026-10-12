@@ -1,7 +1,10 @@
 ---
 // Vollbild-Menü (<1024px): aufklappbare Gruppen via <details>, scrollbar,
 // iOS-Safe-Area (Lektion: Inhalt war auf kleinen Handys nicht erreichbar).
-import { NAV2, CTA, SITE, u, waLink } from "../consts";
+// Kundenwunsch 12.10.2026 (14): unten keine Buttons (Projekt berechnen, Telefon,
+// WhatsApp) und keine Öffnungszeiten mehr – nur Navigation. Telefon/WhatsApp
+// bleiben als Symbole im Header.
+import { NAV2 } from "../consts";
 import Icon from "./Icon.astro";
 ---
 
@@ -34,19 +37,6 @@ import Icon from "./Icon.astro";
       )}
     </ul>
   </nav>
-
-  <div class="mm__footer">
-    <a class="btn btn--lg mm__cta" href={CTA.href}>{CTA.label}</a>
-    <div class="mm__contact">
-      <a class="btn btn--ghost" href={`tel:${SITE.phoneTel}`}>
-        <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
-      </a>
-      <a class="btn btn--ghost" href={waLink()} target="_blank" rel="noopener">
-        <Icon name="whatsapp" size={20} class="icon" /> WhatsApp
-      </a>
-    </div>
-    <p class="small">{SITE.hours} · Antwort innerhalb von 12 Stunden</p>
-  </div>
 </div>
 
 <style>
@@ -90,8 +80,4 @@ import Icon from "./Icon.astro";
   .mm__sub a:active { background: var(--gold-100); }
   .mm__sub a :global(.mm__icon) { color: var(--gold-700); flex: none; }
 
-  .mm__footer { display: grid; gap: 16px; margin-top: auto; }
-  .mm__cta { width: 100%; }
-  .mm__contact { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .mm__footer .small { text-align: center; margin: 0; }
 </style>
