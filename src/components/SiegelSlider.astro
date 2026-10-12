@@ -2,17 +2,17 @@
 // "Unsere Versprechen" – sieben eigene Siegel als handgezeichnete Szene
 // (Kundenfeedback 30.09.2026: Siegel-Karten + Erklär-Dialoge entfallen).
 // Rechtlich: eigene Zusagen, klar als solche gekennzeichnet – keine fremden Prüfzeichen.
-// Über uns (Kundenfeedback 07.10.2026): ohne Satz „Sieben Zusagen …", dafür
-// drei Fakten (`fakten`). Startseite bleibt unverändert.
+// Über uns (Kundenwunsch 11.10.2026 (9)): ohne Satz „Sieben Zusagen …“; die drei
+// Fakten (15+ Jahre, deutschsprachig, regional) sind jetzt selbst animierte Siegel
+// (Szene „siegelUeber“, 10 Siegel) statt Häkchen-Zeile. Startseite bleibt unverändert.
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
-import Icon from "./Icon.astro";
 
 interface Props {
-  /** Fakten-Zeile über der Zeichnung; ersetzt den Satz „Sieben Zusagen …". */
-  fakten?: string[];
+  /** Über-uns-Fassung: 3 Fakten-Siegel + 7 Versprechen. */
+  ueber?: boolean;
 }
-const { fakten = [] } = Astro.props;
+const { ueber = false } = Astro.props;
 ---
 
 <section class="section section--sand" id="versprechen">
@@ -22,22 +22,14 @@ const { fakten = [] } = Astro.props;
       eyebrow="Unsere Versprechen"
       pre="Worauf Sie sich verlassen "
       accent="können"
-      text={fakten.length ? undefined : "Sieben Zusagen, die bei jedem Projekt gelten."}
+      text={ueber ? undefined : "Sieben Zusagen, die bei jedem Projekt gelten."}
     />
-    {fakten.length > 0 && (
-      <ul class="check-row siegel__fakten">
-        {fakten.map((f) => (
-          <li><Icon name="check" size={18} class="icon" /> {f}</li>
-        ))}
-      </ul>
-    )}
     <RoughSzene
-      szene="siegel"
-      label="Sieben gezeichnete Siegel werden nacheinander aufgestempelt: Festpreis-Garantie, Termintreue, ein Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."
+      szene={ueber ? "siegelUeber" : "siegel"}
+      label={(ueber
+        ? "Zehn gezeichnete Siegel werden nacheinander aufgestempelt: 15+ Jahre Erfahrung, 100 % deutschsprachiger Ansprechpartner, regional vor Ort, "
+        : "Sieben gezeichnete Siegel werden nacheinander aufgestempelt: ") +
+        "Festpreis-Garantie, Termintreue, ein Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."}
     />
   </div>
 </section>
-
-<style>
-  .siegel__fakten { justify-content: center; margin: -16px 0 24px; }
-</style>

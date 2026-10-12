@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "portal" | "siegel";
+export type SzenenName = "weg" | "portal" | "siegel" | "siegelUeber";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -125,6 +125,20 @@ const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: numb
     z.pfad(`M${cx - 17 * s} ${cy}Q${cx} ${cy - 16 * s} ${cx + 17 * s} ${cy}Q${cx} ${cy + 16 * s} ${cx - 17 * s} ${cy}Z`, { strokeWidth: 2.2 }, 0.4);
     z.kreis(cx, cy, 11 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
   },
+  // Drei Fakten nur für „Über uns“ (Kundenwunsch 11.10.2026 (9))
+  erfahrung: (z, cx, cy, s) => z.text(cx, cy + 7 * s, "15+", { groesse: 20 * s, farbe: F.goldDunkel }),
+  deutsch: (z, cx, cy, s) => {
+    // Sprechblase mit „DE“ = deutschsprachiger Ansprechpartner
+    z.rundRechteck(cx - 17 * s, cy - 14 * s, 34 * s, 24 * s, 6 * s, { strokeWidth: 2.2 }, 0.4);
+    z.linie(cx - 8 * s, cy + 10 * s, cx - 12 * s, cy + 18 * s, { strokeWidth: 2.2 }, 0.2);
+    z.text(cx, cy + 3 * s, "DE", { groesse: 13 * s, farbe: F.goldDunkel });
+  },
+  regional: (z, cx, cy, s) => {
+    // Kartennadel = regional vor Ort
+    z.pfad(`M${cx} ${cy + 18 * s}C${cx - 6 * s} ${cy + 8 * s} ${cx - 14 * s} ${cy} ${cx - 14 * s} ${cy - 6 * s}A${14 * s} ${14 * s} 0 1 1 ${cx + 14 * s} ${cy - 6 * s}C${cx + 14 * s} ${cy} ${cx + 6 * s} ${cy + 8 * s} ${cx} ${cy + 18 * s}Z`,
+      { strokeWidth: 2.2 }, 0.4);
+    z.kreis(cx, cy - 6 * s, 10 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.6 }, 0.3);
+  },
   gewerke: (z, cx, cy, s) => {
     // Hammer + Kelle gekreuzt = alle Gewerke
     z.linie(cx - 12 * s, cy + 14 * s, cx + 8 * s, cy - 8 * s, { strokeWidth: 2.8 }, 0.3);
@@ -134,8 +148,11 @@ const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: numb
   },
 };
 
-/** Siegel-Titel zweizeilig umbrochen (schmale Handy-Spalten). */
-const SIEGEL_ZEILEN: Record<string, [string, string]> = {
+/** Siegel-Titel umbrochen (schmale Handy-Spalten), 2–3 Zeilen. */
+const SIEGEL_ZEILEN: Record<string, string[]> = {
+  erfahrung: ["15+ Jahre", "Erfahrung"],
+  deutsch: ["100 % deutsch-", "sprachiger An-", "sprechpartner"],
+  regional: ["Regional", "vor Ort"],
   festpreis: ["Festpreis-", "Garantie"],
   termin: ["Termin-", "treue"],
   ansprechpartner: ["Ein An-", "sprechpartner"],
@@ -249,24 +266,25 @@ function portal(a: Ansicht): Szene {
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 2.0 + 3 * 0.75 + 1 };
 }
 
-function siegel(a: Ansicht): Szene {
+/** Siegel-Reihe: `ids` = Motive (SIEGEL_MOTIV) in Reihenfolge, Reihen-Aufteilung je Ansicht. */
+function siegelSzene(a: Ansicht, ids: string[], reihenMobil: number[], reihenDesktop: number[]): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const n = VERSPRECHEN.length;
-  // Mobil im Muster 2-3-2 (Reihen versetzt), Desktop alle in einer Reihe
-  const reihen = mobil ? [2, 3, 2] : [n];
+  const n = ids.length;
+  const reihen = mobil ? reihenMobil : reihenDesktop;
+  const dreizeilig = ids.some((id) => (SIEGEL_ZEILEN[id]?.length ?? 2) > 2);
   const B = mobil ? 360 : 1000;
-  const rh = 150; // Reihenhöhe mobil
-  const H = mobil ? reihen.length * rh + 10 : 230;
+  const rh = mobil ? (dreizeilig ? 165 : 150) : 225; // Reihenhöhe
+  const H = mobil ? reihen.length * rh + 10 : reihen.length === 1 ? 230 : reihen.length * rh;
   const d = mobil ? 78 : 100; // Ring-Durchmesser
   const s = mobil ? 0.9 : 1.15; // Motiv-Maßstab
   const pos: [number, number][] = [];
   reihen.forEach((anz, r) => {
-    const sp = mobil ? 120 : B / anz;
+    const sp = mobil ? 120 : B / Math.max(...reihen);
     const start = (B - sp * anz) / 2 + sp / 2;
-    for (let k = 0; k < anz; k++) pos.push([start + k * sp, (mobil ? 56 + r * rh : 70)]);
+    for (let k = 0; k < anz; k++) pos.push([start + k * sp, mobil ? 56 + r * rh : 70 + r * rh]);
   });
-  VERSPRECHEN.forEach((v, i) => {
+  ids.forEach((id, i) => {
     const [cx, cy] = pos[i];
     const t = 0.2 + i * 0.55;
     z.bei(t);
@@ -274,16 +292,25 @@ function siegel(a: Ansicht): Szene {
       z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
       z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5);
       z.bei(t + 0.3);
-      SIEGEL_MOTIV[v.id]?.(z, cx, cy, s);
+      SIEGEL_MOTIV[id]?.(z, cx, cy, s);
     });
     z.bei(t + 0.45);
     // Desktop hat breitere Spalten – dort ohne Trennstrich
-    const [z1, z2] = !mobil && v.id === "ansprechpartner" ? ["Ein", "Ansprechpartner"] : SIEGEL_ZEILEN[v.id] ?? [v.title, ""];
+    const zeilen =
+      !mobil && id === "ansprechpartner" ? ["Ein", "Ansprechpartner"]
+      : !mobil && id === "deutsch" ? ["100 % deutsch-", "sprachiger", "Ansprechpartner"]
+      : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);
-    z.text(cx, ty, z1, { groesse: mobil ? 13 : 15, gewicht: 600 });
-    z.text(cx, ty + (mobil ? 17 : 20), z2, { groesse: mobil ? 13 : 15, gewicht: 600 });
+    zeilen.forEach((zl, k) => z.text(cx, ty + k * (mobil ? 17 : 20), zl, { groesse: mobil ? 13 : 15, gewicht: 600 }));
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + (n - 1) * 0.55 + 1 };
 }
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel };
+const SIEGEL_IDS = VERSPRECHEN.map((v) => v.id);
+// Startseite: 7 Siegel (mobil 2-3-2, Desktop eine Reihe)
+const siegel = (a: Ansicht) => siegelSzene(a, SIEGEL_IDS, [2, 3, 2], [SIEGEL_IDS.length]);
+// Über uns (Kundenwunsch 11.10.2026 (9)): 3 Fakten + 7 Siegel = 10 (mobil 2-3-2-3, Desktop 5-5)
+const siegelUeber = (a: Ansicht) =>
+  siegelSzene(a, ["erfahrung", "deutsch", "regional", ...SIEGEL_IDS], [2, 3, 2, 3], [5, 5]);
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel, siegelUeber };
