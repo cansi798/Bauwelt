@@ -38,26 +38,15 @@ const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
 const euro = (n: number) => n.toLocaleString("de-DE");
 
-// 2 passende Referenzen (Kategorie-Zuordnung je Gewerk)
-const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
-  badsanierung: "bad",
-  "fliesen-boden": "bad",
-  "sanierung-modernisierung": "sanierung",
-  innenausbau: "sanierung",
-  "maler-boeden": "sanierung",
-  "sanitaer-heizung-elektro": "sanierung",
-  "dach-fassade": "aussen",
-};
-const alleRefs = (await getCollection("referenzen")).sort((a, b) => a.data.order - b.data.order);
+// Referenzen: NUR echte Fotos aus refBilder (KI-Referenzbilder entfernt, 12.10.2026 (17)).
 const refBilder = l.data.refBilder ?? [];
-const refs = refBilder.length ? [] : alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
 
 // Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
 const sektionen = [
   "intro",
   l.data.warum.length > 0 && "warum",
   "ablauf",
-  (refs.length > 0 || refBilder.length > 0) && "refs",
+  refBilder.length > 0 && "refs",
   l.data.faq.length > 0 && "faq",
 ].filter(Boolean) as string[];
 const bg = (k: string) => ["section", { "section--sand": sektionen.indexOf(k) % 2 === 0 }];
@@ -78,7 +67,7 @@ const description =
     pre={`${h1Titel} zum `}
     accent={l.data.h1Akzent}
     lead={l.data.lead}
-    bild={l.data.bild ?? `hero-${l.id}.webp`}
+    bild={l.data.bild ?? `hero-${l.id}.webp` /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */}
     alt={kurzTitel}
     ctaHref={pauschal ? u("kontakt/#termin") : ctaHref}
     ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : `${kurzTitel} berechnen`}
@@ -127,32 +116,13 @@ const description =
     <section class:list={bg("refs")}>
       <div class="container">
         <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
-        <div class="grid cols-2">
+        <div class:list={["grid cols-2", { "refs--eins": refBilder.length === 1 }]}>
           {refBilder.map((b) => (
             <a class="card refmini reveal" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
               <Img src={b.file} alt={b.alt} w={560} h={420} />
               <div class="refmini__body">
                 <h3>{b.alt}</h3>
                 <p class="small"><Icon name="image" size={14} class="icon" /> Echtes Bauwelt-Projekt · mehr in den Referenzen</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  {refs.length > 0 && (
-    <section class:list={bg("refs")}>
-      <div class="container">
-        <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
-        <div class="grid cols-2">
-          {refs.map((r) => (
-            <a class="card refmini reveal" href={u(`referenzen/${r.id}/`)}>
-              <Img src={r.data.file ?? `${r.id}.webp`} alt={r.data.title} w={560} h={380} />
-              <div class="refmini__body">
-                <h3>{r.data.title}</h3>
-                <p class="small"><Icon name="pin" size={14} class="icon" /> {r.data.place}{r.data.dauer && ` · ${r.data.dauer}`}</p>
               </div>
             </a>
           ))}
@@ -193,6 +163,7 @@ const description =
   .warum__item p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
 
   .refmini { padding: 12px; display: grid; }
+  .refs--eins { grid-template-columns: minmax(0, 1fr) !important; max-width: 560px; }
   .refmini__body { padding: 14px 10px 6px; }
   .refmini__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
   .refmini__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }

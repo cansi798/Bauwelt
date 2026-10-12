@@ -1,6 +1,7 @@
 /** Referenz-Galerie, gegliedert nach den Leistungen aus dem Header-Menü
  *  (Kundenfeedback 07.10.2026 – ohne Immobilien-Sanierungscheck).
- *  Nur echte Bauwelt-Fotos. Neue Bilder: scripts/galerie-bilder.py. */
+ *  NUR echte Bauwelt-Fotos (galerie-*.webp). Die KI-Bilder ref-01…06 sind seit
+ *  Kundenwunsch 12.10.2026 (17) entfernt. Neue Bilder: scripts/galerie-bilder.py. */
 import { u } from "../consts";
 
 export type GalerieBild = { file: string; alt: string };
@@ -26,8 +27,6 @@ export const GALERIE: GalerieGruppe[] = [
       { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" },
       { file: "galerie-bad-08.webp", alt: "Altbau-Bad mit Wanne, Metrofliesen und Aufsatzwaschbecken" },
       { file: "galerie-bad-09.webp", alt: "Bad mit bodengleicher Glasdusche und Holz-Waschtisch" },
-      { file: "ref-01-wannenbad.webp", alt: "Wannenbad mit Eichenholz-Akzenten" },
-      { file: "ref-03-gaeste-wc.webp", alt: "Modern saniertes Gäste-WC" },
     ],
   },
   {
@@ -37,8 +36,6 @@ export const GALERIE: GalerieGruppe[] = [
     bilder: [
       { file: "galerie-sanierung-01.webp", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" },
       { file: "galerie-sanierung-02.webp", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" },
-      { file: "ref-04-altbau.webp", alt: "Sanierter Altbau-Wohnraum mit Fischgrätparkett" },
-      { file: "ref-05-wohnung.webp", alt: "Komplett sanierte Wohnung" },
     ],
   },
   {
@@ -49,7 +46,6 @@ export const GALERIE: GalerieGruppe[] = [
       { file: "galerie-fliesen-01.webp", alt: "Neu geflieste Eingangstreppe mit großformatigen Platten" },
       { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" },
       { file: "galerie-fliesen-03.webp", alt: "WC mit raumhohen Fliesen in Marmoroptik" },
-      { file: "ref-02-bodengleiche-dusche.webp", alt: "Großformatig geflieste bodengleiche Dusche" },
     ],
   },
   {

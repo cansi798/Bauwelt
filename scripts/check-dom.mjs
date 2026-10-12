@@ -33,7 +33,9 @@ for (const file of pages) {
   titles.set(title, page);
 
   // Keine Template-Unfälle
-  for (const bad of ["undefined", "[object Object]", "NaN €", "MwSt..", "499 €", "Nur wenn Sie möchten", "umfang__item"]) {
+  for (const bad of ["undefined", "[object Object]", "NaN €", "MwSt..", "499 €", "Nur wenn Sie möchten", "umfang__item",
+    // Kundenwunsch 12.10.2026 (17): keine KI-/Stockfotos außerhalb der Hero-Bereiche
+    "ref-01-", "ref-02-", "ref-03-", "ref-05-", "ref-06-", "img/team.webp"]) {
     if (html.includes(bad)) err(page, `enthält "${bad}"`);
   }
 

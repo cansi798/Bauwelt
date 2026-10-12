@@ -5,6 +5,9 @@ icon: "reno"
 teaser: "Wir bringen Wohnungen und Häuser auf den heutigen Stand – energetisch, technisch und optisch."
 lead: "Ob einzelne Räume oder das ganze Objekt: Wir modernisieren Ihre Immobilie durchdacht und aus einer Hand."
 heroPrompt: "Sanierter heller Altbau-Wohnraum mit Fischgrätparkett, hohen Decken und viel Tageslicht, fotorealistisch"
+refAnker: "sanierung"
+refBilder:
+  - { file: "galerie-sanierung-02.webp", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" }
 introTitel: "Aus Ihrer Immobilie wird Ihr Zuhause"
 warum:
   - { icon: "tools", title: "Alles aus einer Hand", text: "Abbruch, Trockenbau, Sanitär, Elektro, Fliesen, Böden und Maler – wir planen und steuern alle Gewerke selbst, damit die Übergänge passen." }

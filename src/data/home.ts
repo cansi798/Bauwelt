@@ -92,6 +92,8 @@ export const VIDEO = {
     "so fühlt es sich an, wenn wir fertig sind. Kommen Sie zu uns, wir zeigen es Ihnen.",
 };
 
+/** Über uns – drei Säulen. Bilder: NUR echte Bauwelt-Projektfotos (Kundenwunsch 12.10.2026 (17);
+ *  vorher Stockfotos fremder Baustellen mit irreführenden Alt-Texten). */
 export const USP = [
   {
     icon: "pin",
@@ -99,8 +101,8 @@ export const USP = [
     text:
       "Wir kommen aus Norderstedt – nicht aus einem Callcenter. Ihr Ansprechpartner " +
       "kennt Ihre Baustelle persönlich und antwortet innerhalb von 12 Stunden, auch per WhatsApp.",
-    bild: "hero-ueber-uns.webp",
-    alt: "Bauwelt-Team auf der Baustelle",
+    bild: "galerie-bad-07.webp",
+    alt: "Von Bauwelt saniertes Bad mit freistehender Wanne unter dem Dachfenster",
   },
   {
     icon: "hand",
@@ -108,8 +110,8 @@ export const USP = [
     text:
       "Fliesenleger, Sanitär, Elektrik, Maler – bei uns koordinieren Sie keine fünf " +
       "Firmen. Wir steuern alle Gewerke selbst – deshalb greifen die Termine ineinander.",
-    bild: "team.webp",
-    alt: "Team bespricht Wandöffnung im Rohbau",
+    bild: "galerie-sanierung-02.webp",
+    alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
   },
   {
     icon: "euro",
@@ -117,8 +119,8 @@ export const USP = [
     text:
       "Nach dem Vor-Ort-Termin bekommen Sie einen festen Preis und einen festen " +
       "Endtermin – schriftlich. Keine Nachträge, keine Überraschungen auf der Rechnung.",
-    bild: "hero-kontakt.webp",
-    alt: "Handschlag zwischen Handwerker und Kunde",
+    bild: "galerie-innenausbau-04.webp",
+    alt: "Von Bauwelt ausgebautes Büro mit Holzlamellen-Wand",
   },
 ];
 

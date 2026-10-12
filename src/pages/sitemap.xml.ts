@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { BASE } from "../consts";
 
 // Eigene Sitemap – listet alle indexierbaren Seiten (ohne Impressum/Datenschutz/404).
+// Referenz-Detailseiten entfallen seit 12.10.2026 (17): sie zeigten nur KI-Bilder.
 export const GET: APIRoute = async ({ site }) => {
   const origin = site?.origin ?? "https://cansi798.github.io";
 
@@ -17,12 +18,10 @@ export const GET: APIRoute = async ({ site }) => {
     "kontakt/",
   ];
   const leistungen = await getCollection("leistungen");
-  const referenzen = await getCollection("referenzen");
 
   const paths = [
     ...staticPaths,
     ...leistungen.map((l) => `leistungen/${l.id}/`),
-    ...referenzen.map((r) => `referenzen/${r.id}/`),
   ];
 
   const urls = paths
