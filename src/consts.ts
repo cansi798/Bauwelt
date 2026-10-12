@@ -61,8 +61,9 @@ export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
     children: [
-      // 5 Leistungen im Menü (Kundenfeedback 30.09. + 11.10.2026) – Dach & Fassade,
-      // Maler & Böden, Sanitär/Heizung/Elektro bleiben online, aber ohne Menüeintrag.
+      // 5 Leistungen im Menü (Kundenfeedback 30.09. + 11.10.2026). Dach & Fassade,
+      // Maler & Böden, Sanitär/Heizung/Elektro sind seit Kundenwunsch 12.10.2026 (18)
+      // ganz abgeschaltet (Inhalte in archiv/leistungen-abgeschaltet/).
       { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 2 Wochen" },
       { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von der Einzelmaßnahme bis zur Kernsanierung" },
       { label: "Fliesen- & Bodenlegerarbeiten", href: u("leistungen/fliesen-boden/"), icon: "tiles", desc: "Perfekte Oberflächen für Wand und Boden" },

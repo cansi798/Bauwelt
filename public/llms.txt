@@ -9,9 +9,8 @@
 - Badsanierung zum Festpreis (Kerngeschäft, typisch ~2 Wochen): /Bauwelt/leistungen/badsanierung/
 - Sanierung & Modernisierung (Renovierung bis Kernsanierung): /Bauwelt/leistungen/sanierung-modernisierung/
 - Innenausbau & Trockenbau: /Bauwelt/leistungen/innenausbau/
-- Dach & Fassade: /Bauwelt/leistungen/dach-fassade/
-- Maler & Bodenbeläge: /Bauwelt/leistungen/maler-boeden/
-- Sanitär, Heizung, Elektro: /Bauwelt/leistungen/sanitaer-heizung-elektro/
+- Fliesen- & Bodenlegerarbeiten: /Bauwelt/leistungen/fliesen-boden/
+- Immobilien-Sanierungscheck (Pauschalpreis): /Bauwelt/leistungen/sanierungscheck/
 
 ## Fakten
 
