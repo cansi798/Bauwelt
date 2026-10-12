@@ -59,9 +59,12 @@ for (const file of pages) {
 
 // Rechner: No-JS-Fallback + Funnel-Bausteine
 const rechner = readFileSync(join(DIST, "rechner/index.html"), "utf8");
-for (const need of ["rechner__nojs", "data-gewerke", "progressbar", "bookingEmbed"]) {
+for (const need of ["rechner__nojs", "rechner__app", "progressbar", "bookingEmbed", "inkl. 19 % MwSt."]) {
   if (!rechner.includes(need)) err("/rechner/", `fehlt: ${need}`);
 }
+// Kundenwunsch 11.10.2026 (6): kein Parkett mehr bei Fliesen & Boden
+if (/parkett/i.test(readFileSync(join(DIST, "leistungen/fliesen-boden/index.html"), "utf8")))
+  err("/leistungen/fliesen-boden/", "erwähnt noch Parkett");
 
 // Sitemap deckt alle indexierbaren Seiten ab
 const sitemap = readFileSync(join(DIST, "sitemap.xml"), "utf8");

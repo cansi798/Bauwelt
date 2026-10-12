@@ -50,7 +50,7 @@ node node_modules/astro/astro.js preview     # Vorschau des Builds
 - **Bilder:** Dateien mit den Namen aus `BILDER.md` in `public/assets/img/` ablegen –
   werden automatisch angezeigt (sonst bleibt der markenkonforme Platzhalter).
 - **Firmendaten** (Telefon, E-Mail, Adresse): zentral in `src/consts.ts`.
-- **Kalkulator-Preise:** `PRICING`-Objekt in `src/components/Calculator.astro`.
+- **Rechner-Preise:** alle in `src/data/rechner.ts` (brutto inkl. 19 % MwSt.).
 
 ## Noch offen
 

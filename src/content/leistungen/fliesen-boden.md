@@ -2,13 +2,13 @@
 title: "Fliesen- & Bodenlegerarbeiten"
 order: 25
 icon: "tiles"
-teaser: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl, Laminat und Parkett, sauber verlegt."
+teaser: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl und Laminat, sauber verlegt."
 lead: "Ob Bad, Küche oder Wohnraum: Wir verlegen Fliesen und Böden präzise, mit sauberem Untergrund, dichter Abdichtung und exakten Fugen."
 umfang:
   - "Wand- und Bodenfliesen, auch Großformate"
   - "Bodengleiche Duschen und Verbundabdichtung"
   - "Untergrundvorbereitung: Schleifen, Spachteln, Ausgleichen"
-  - "Vinyl, Laminat und Parkett verlegen"
+  - "Vinyl und Laminat verlegen"
   - "Silikon- und Anschlussfugen"
 ablauf:
   - { title: "Beratung", text: "Wir besprechen Material, Format und Verlegemuster vor Ort." }
@@ -18,7 +18,7 @@ faq:
   - { q: "Verlegen Sie auch großformatige Fliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir vorher fachgerecht vor." }
   - { q: "Übernehmen Sie auch nur den Boden?", a: "Ja, auch einzelne Räume oder nur den Bodenbelag übernehmen wir – ohne dass Sie weitere Handwerker koordinieren müssen." }
 rechnerSlug: "fliesen-boden"
-beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl, Laminat und Parkett zum Festpreis. Jetzt Preis online berechnen."
+beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat zum Festpreis. Jetzt Preis online berechnen."
 introTitel: "Böden und Wände, die jeden Tag Freude machen"
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen, saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }

@@ -7,7 +7,7 @@ lead: "Farbe und Boden geben den Ton an. Wir sorgen für den sauberen Abschluss 
 heroPrompt: "Frisch gestrichener heller Raum mit neuem Bodenbelag, sauber, warm, fotorealistisch"
 umfang:
   - "Maler- und Tapezierarbeiten"
-  - "Boden verlegen (Vinyl, Parkett, Fliesen)"
+  - "Boden verlegen (Vinyl, Laminat, Fliesen)"
   - "Spachtel- und Ausgleichsarbeiten"
   - "Sauberer Abschluss und Übergabe"
 ablauf:

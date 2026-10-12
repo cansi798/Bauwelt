@@ -1,26 +1,58 @@
-/** Projekt-Rechner: Gewerke, Fragen und Preislogik.
- *  >>> PLATZHALTER-PREISE – Richtwerte, bitte durch echte Kalkulationswerte ersetzen
- *  (siehe OFFENE-INFOS.md). Bad-Werte stammen aus dem bisherigen Badkalkulator. <<<
- *  Die Spannen sind bewusst breit: Das Ergebnis ist eine unverbindliche Ersteinschätzung,
- *  der Festpreis entsteht erst nach dem Vor-Ort-Termin.
+/** Projekt-Rechner: Gewerke, Fragen und Preislogik – EINZIGE Quelle aller Rechner-Preise.
  *
- *  Nur die 4 echten Leistungen (= Menü NAV2, Kundenwunsch 11.10.2026). Dach & Fassade,
- *  Maler & Böden, Sanitär/Heizung/Elektro sind bewusst NICHT im Rechner.
- *  Fliesen-Werte (11.10.2026) sind Richtwerte inkl. Material – bitte vom Kunden bestätigen.
- *  Nur noch „schnelle Schätzung“ (Kundenwunsch 11.10.2026 (2)): Preis = Grundpauschale
- *  + Fläche × €/m² des Niveaus ± Spanne. Modul-Anteile und Extras sind entfallen.
+ *  ALLE angezeigten Preise sind BRUTTO inkl. 19 % MwSt. (Kundenwunsch 11.10.2026 (6)).
+ *  Wo der Kunde Nettopreise geliefert hat, steht hier der Nettowert und `netto: true` –
+ *  die Umrechnung (× 1,19) passiert ausschließlich in `berechne()` bzw. `brutto()`.
+ *
+ *  - Badsanierung: echte Brutto-Preistabelle „ab“-Preis je m² (3–15 m²). Komfort = Basis
+ *    + 1.500 €, Premium = Komfort + 1.500 €; angezeigt wird „ab X € bis X + 1.500 €“.
+ *    4. Option „Barrierefreie Dusche“: fester Höchstpreis (Budget der Pflegekasse für
+ *    wohnumfeldverbessernde Maßnahmen), kein Flächen-Slider.
+ *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
+ *    Parkett gibt es nicht mehr. Ergebnis ist ein konkreter Betrag (keine ±-Spanne).
+ *  - Sanierung & Modernisierung: Die bisherigen Werte (8.000 € + 600/900/1.400 €/m²)
+ *    waren Richtwerte OHNE MwSt.-Angabe (nirgends im Repo als brutto ausgewiesen).
+ *    Kundenwunsch: um 50 % senken, DANN inkl. 19 % MwSt. anzeigen → als Nettowerte
+ *    behandelt: Anzeige = (Grund + m² × Satz) × 0,5 × 1,19, ± 25 %, auf 500 € gerundet.
+ *  - Innenausbau & Trockenbau: Werte unverändert (Kundenwunsch), werden wie bisher
+ *    angezeigt und gelten als Bruttowerte – vom Kunden zu bestätigen.
+ *
+ *  Das Ergebnis bleibt eine unverbindliche Ersteinschätzung; der Festpreis entsteht
+ *  nach dem Vor-Ort-Termin.
  *
  *  Module: `label`/`hint` sind LAIENSPRACHE (UI), `fach` ist der Fachbegriff –
- *  er landet im Anfrage-Text (WhatsApp/E-Mail) und auf der Zeichnung, damit das
- *  Team sofort fachlich lesen kann, was der Kunde gewählt hat. */
+ *  er landet im Anfrage-Text (WhatsApp/E-Mail), damit das Team sofort fachlich lesen
+ *  kann, was der Kunde gewählt hat. */
 
-export type Tier = { id: string; label: string; hint: string };
+export const MWST = 0.19;
+export const MWST_HINWEIS = "Bruttopreise inkl. 19 % MwSt.";
+/** Netto → brutto, auf Cent gerundet. */
+export const brutto = (netto: number) => Math.round(netto * (1 + MWST) * 100) / 100;
+
+const eur = (n: number) =>
+  n.toLocaleString("de-DE", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
 
 export type Modul = {
   id: string;
   label: string;   // laienfreundlich (Anzeige)
   fach: string;    // Fachbegriff (Anfrage-Text / Experten-Output)
   hint: string;    // eine Zeile Erklärung
+};
+
+export type Tier = {
+  id: string;
+  label: string;
+  hint: string;
+  /** Zweite Zeile unter dem Namen, z. B. „mit Zuschuss der Pflegekasse“. */
+  untertitel?: string;
+  /** Ausstattung dieses Niveaus (Ergebnis + Anfragetext). */
+  enthalten?: string[];
+  /** Badsanierung: Aufschlag in € (brutto) auf den Basis-„ab“-Preis der Tabelle. */
+  aufschlag?: number;
+  /** Fester Höchstpreis in € (brutto) – ohne Flächen-Slider. */
+  festBis?: number;
+  /** Abweichende Arbeitsschritte für dieses Niveau (sonst die des Gewerks). */
+  bausteine?: Modul[];
 };
 
 export type Gewerk = {
@@ -34,15 +66,36 @@ export type Gewerk = {
   max: number;
   step: number;
   default: number;
+  /** "tabelle": Brutto-„ab“-Preis je m² aus `preistabelle` (+ Tier-Aufschlag), bis = ab + `tabelleSpanne`.
+   *  "flaeche": (Grund + Menge × €/Einheit) × faktor, ggf. × 1,19, ± spanne. */
+  preismodell: "tabelle" | "flaeche";
+  preistabelle?: Record<number, number>;
+  tabelleSpanne?: number;
   grund: number;         // Grundpauschale €
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
+  /** true = grund/proEinheit sind NETTO und werden für die Anzeige × 1,19 gerechnet. */
+  netto: boolean;
+  /** Preisfaktor auf grund/proEinheit (z. B. 0.5 = −50 %). */
+  faktor?: number;
+  spanne: number;        // ± relativ (0 = konkreter Betrag)
   tiers: Tier[];
-  spanne: number;        // ± relativ
-  /** Skizzen-Typ für die Zeichnung im Rechner (Bad-Grundriss, Raum). */
-  skizze: "bad" | "raum";
   /** Enthaltene Arbeiten (Ergebnisliste + Fachbegriffe im Anfragetext). */
   bausteine: Modul[];
 };
+
+/* ---------- Badsanierung: echte Bruttopreise (Kunde, 11.10.2026) ---------- */
+/** „ab“-Preis Basis in € BRUTTO inkl. 19 % MwSt., je Badgröße in m². */
+export const BAD_AB_BRUTTO: Record<number, number> = {
+  3: 11305, 4: 11882, 5: 12459, 6: 13070, 7: 13685, 8: 14340, 9: 14999,
+  10: 15970, 11: 16946, 12: 18029, 13: 19111, 14: 20194, 15: 21277,
+};
+/** Spanne „ab … bis …“: bis = ab + 1.500 €. Gleichzeitig Stufenabstand Basis → Komfort → Premium. */
+export const BAD_STUFE = 1500;
+/** Barrierefreie Dusche: Budget der Pflegekasse für wohnumfeldverbessernde Maßnahmen. */
+export const BAD_BARRIEREFREI_BIS = 4180;
+
+/* ---------- Fliesen & Boden: Nettopreise (Kunde, 11.10.2026) ---------- */
+const FLIESEN_NETTO = { grund: 500, vinyl: 55, fliesen: 75, gross: 85 };
 
 export const GEWERKE: Gewerk[] = [
   {
@@ -52,16 +105,62 @@ export const GEWERKE: Gewerk[] = [
     nutzen: "Ihr neues Bad in 2 Wochen – geplant, gebaut und übergeben aus einer Hand.",
     frage: "Wie groß ist Ihr Bad?",
     unit: "m²",
-    min: 3, max: 30, step: 1, default: 8,
-    grund: 4500,
-    proEinheit: { basis: 2200, komfort: 3000, premium: 4200 },
+    min: 3, max: 15, step: 1, default: 8,
+    preismodell: "tabelle",
+    preistabelle: BAD_AB_BRUTTO,
+    tabelleSpanne: BAD_STUFE,
+    grund: 0, proEinheit: {}, netto: false, spanne: 0,
     tiers: [
-      { id: "basis", label: "Basis", hint: "Solide Markenqualität, bewährte Standards" },
-      { id: "komfort", label: "Komfort", hint: "Gehobene Ausstattung, z. B. bodengleiche Dusche" },
-      { id: "premium", label: "Premium", hint: "Hochwertige Materialien und Sonderlösungen" },
+      {
+        id: "basis", label: "Basis", aufschlag: 0,
+        hint: "Dusche oder Wanne, WC, Waschtisch, Standard-Fliesen",
+        enthalten: [
+          "Dusche ODER Badewanne (nicht beides)",
+          "WC und Waschtisch",
+          "Leitungen bis zum Knotenpunkt erneuert",
+          "Position der Sanitärobjekte anpassbar",
+          "Standard-Fliesen",
+          "Alle übrigen Teile und Material",
+        ],
+      },
+      {
+        id: "komfort", label: "Komfort", aufschlag: BAD_STUFE,
+        hint: "Bodengleiche Dusche, wertigere Ausstattung, Großformatfliesen",
+        enthalten: [
+          "Alles aus Basis, dazu:",
+          "Bodengleiche Dusche",
+          "Wertigere Ausstattung",
+          "Großformatfliesen",
+        ],
+      },
+      {
+        id: "premium", label: "Premium", aufschlag: 2 * BAD_STUFE,
+        hint: "Fußbodenheizung, Großformatfliesen, LED-Spots – individuell gestaltbar",
+        enthalten: [
+          "Alles aus Basis, dazu:",
+          "Fußbodenheizung",
+          "Großformatfliesen",
+          "LED-Spots",
+          "Individuell gestaltbar, z. B. zusätzliche Trennwand",
+        ],
+      },
+      {
+        id: "barrierefrei", label: "Barrierefreie Dusche", untertitel: "mit Zuschuss der Pflegekasse",
+        festBis: BAD_BARRIEREFREI_BIS,
+        hint: "Alte Dusche raus, bodengleiche Dusche rein – immer unter 4.180 €",
+        enthalten: [
+          "Alte Dusche raus",
+          "Bodengleiche Dusche rein",
+          "Fliesen im Duschbereich neu – identische Fliesen sind nicht immer möglich, das Ergebnis wird trotzdem schön",
+          "Passend zum Budget der Pflegekasse für wohnumfeldverbessernde Maßnahmen",
+        ],
+        bausteine: [
+          { id: "demontage", label: "Alte Dusche raus", fach: "Demontage & Entsorgung Duschbereich", hint: "" },
+          { id: "dusche", label: "Bodengleiche Dusche rein", fach: "Einbau bodengleiche Dusche inkl. Abdichtung", hint: "" },
+          { id: "fliesen", label: "Fliesen neu", fach: "Fliesenarbeiten Duschbereich", hint: "" },
+        ],
+      },
     ],
-    spanne: 0.15,
-    skizze: "bad",
     bausteine: [
       { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau und Entsorgung von Wanne, Fliesen & Co." },
       { id: "rohinstallation", label: "Wasser & Strom verlegen", fach: "Sanitär- & Elektro-Rohinstallation", hint: "Neue Leitungen für Dusche, WC und Waschtisch" },
@@ -78,15 +177,18 @@ export const GEWERKE: Gewerk[] = [
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
+    preismodell: "flaeche",
+    // Bisherige Richtwerte (netto behandelt, s. Kopfkommentar) – −50 % per faktor, dann × 1,19
     grund: 8000,
     proEinheit: { basis: 600, komfort: 900, premium: 1400 },
+    netto: true,
+    faktor: 0.5,
+    spanne: 0.25,
     tiers: [
       { id: "basis", label: "Renovierung", hint: "Oberflächen erneuern: Böden, Wände, Türen" },
       { id: "komfort", label: "Teilsanierung", hint: "Inkl. Bad/Küche, Elektrik in Teilen" },
       { id: "premium", label: "Kernsanierung", hint: "Bis auf den Rohbau, alle Leitungen neu" },
     ],
-    spanne: 0.25,
-    skizze: "raum",
     bausteine: [
       { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
       { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
@@ -99,19 +201,20 @@ export const GEWERKE: Gewerk[] = [
     slug: "fliesen-boden",
     label: "Fliesen- & Bodenlegerarbeiten",
     icon: "tiles",
-    nutzen: "Perfekte Oberflächen für Wand und Boden – vom Großformat bis zum Parkett.",
+    nutzen: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl und Laminat.",
     frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
     min: 5, max: 200, step: 5, default: 25,
-    grund: 900,
-    proEinheit: { basis: 70, komfort: 140, premium: 220 },
+    preismodell: "flaeche",
+    grund: FLIESEN_NETTO.grund,
+    proEinheit: { basis: FLIESEN_NETTO.vinyl, komfort: FLIESEN_NETTO.fliesen, premium: FLIESEN_NETTO.gross },
+    netto: true,
+    spanne: 0,
     tiers: [
-      { id: "basis", label: "Vinyl & Laminat", hint: "Klick-Vinyl oder Laminat inkl. Trittschalldämmung" },
-      { id: "komfort", label: "Fliesen", hint: "Wand- oder Bodenfliesen bis ca. 60 × 60 cm" },
-      { id: "premium", label: "Großformat & Parkett", hint: "Großformatfliesen, Feinsteinzeug oder Echtholz-Parkett" },
+      { id: "basis", label: "Vinyl & Laminat", hint: `Klick-Vinyl oder Laminat – ${eur(brutto(FLIESEN_NETTO.vinyl))} €/m²` },
+      { id: "komfort", label: "Fliesen bis 60 × 60 cm", hint: `Wand- oder Bodenfliesen – ${eur(brutto(FLIESEN_NETTO.fliesen))} €/m²` },
+      { id: "premium", label: "Großformatfliesen", hint: `Großformat und Feinsteinzeug – ${eur(brutto(FLIESEN_NETTO.gross))} €/m²` },
     ],
-    spanne: 0.20,
-    skizze: "raum",
     bausteine: [
       { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus" },
       { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)", hint: "Eben und tragfähig – die Basis für lange Haltbarkeit" },
@@ -128,15 +231,17 @@ export const GEWERKE: Gewerk[] = [
     frage: "Wie groß ist die auszubauende Fläche?",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
+    preismodell: "flaeche",
+    // Unverändert (Kundenwunsch 11.10.2026) – gelten als Bruttowerte, bitte bestätigen.
     grund: 2500,
     proEinheit: { basis: 450, komfort: 650, premium: 900 },
+    netto: false,
+    spanne: 0.25,
     tiers: [
       { id: "basis", label: "Basis", hint: "Wände/Decken stellen, spachteln, streichfertig" },
       { id: "komfort", label: "Ausbau", hint: "Inkl. Böden, Türen, Schallschutz" },
       { id: "premium", label: "Komplett", hint: "Inkl. Elektro, Beleuchtung, Maßeinbauten" },
     ],
-    spanne: 0.25,
-    skizze: "raum",
     bausteine: [
       { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht" },
       { id: "beplankung", label: "Wände schließen", fach: "Beplankung", hint: "Wände und Decken werden geschlossen" },
@@ -164,10 +269,45 @@ export const PAUSCHAL: Pauschal[] = [
 export const gewerkBySlug = (slug: string): Gewerk | undefined =>
   GEWERKE.find((g) => g.slug === slug);
 
-/** Preisspanne in € (gerundet auf 500er). */
-export function preisspanne(g: Gewerk, menge: number, tierId: string): { von: number; bis: number } {
-  const proE = g.proEinheit[tierId] ?? Object.values(g.proEinheit)[0];
-  const basis = g.grund + menge * proE;
+/** Ergebnis einer Berechnung – alle Beträge in € BRUTTO inkl. 19 % MwSt. */
+export type Ergebnis =
+  | { art: "spanne"; von: number; bis: number; ab: boolean }   // „ab X bis Y“ bzw. „ca. X – Y“
+  | { art: "unter"; bis: number }                              // fester Höchstpreis
+  | { art: "betrag"; betrag: number; grund: number; proEinheit: number }; // konkret, mit Rechenweg
+
+export const tierById = (g: Gewerk, id: string): Tier => g.tiers.find((t) => t.id === id) ?? g.tiers[0];
+
+/** Preis für Gewerk, Menge und Niveau (Brutto). */
+export function berechne(g: Gewerk, menge: number, tierId: string): Ergebnis {
+  const t = tierById(g, tierId);
+  if (t.festBis) return { art: "unter", bis: t.festBis };
+  if (g.preismodell === "tabelle") {
+    const tab = g.preistabelle!;
+    const m = Math.min(Math.max(Math.round(menge), g.min), g.max);
+    const ab = tab[m] + (t.aufschlag ?? 0);
+    return { art: "spanne", von: ab, bis: ab + (g.tabelleSpanne ?? 0), ab: true };
+  }
+  const f = (g.faktor ?? 1) * (g.netto ? 1 + MWST : 1);
+  const grund = g.grund * f;
+  const proE = (g.proEinheit[t.id] ?? Object.values(g.proEinheit)[0]) * f;
+  const basis = grund + menge * proE;
+  if (g.spanne === 0) {
+    const r2 = (n: number) => Math.round(n * 100) / 100;
+    return { art: "betrag", betrag: Math.round(basis), grund: r2(grund), proEinheit: r2(proE) };
+  }
   const round500 = (n: number) => Math.round(n / 500) * 500;
-  return { von: round500(basis * (1 - g.spanne)), bis: round500(basis * (1 + g.spanne)) };
+  return { art: "spanne", von: round500(basis * (1 - g.spanne)), bis: round500(basis * (1 + g.spanne)), ab: false };
+}
+
+/** Anzeige-Text des Ergebnisses (Ergebnisfeld, WhatsApp, E-Mail). */
+export function preisText(e: Ergebnis): string {
+  if (e.art === "unter") return `unter ${eur(e.bis)} €`;
+  if (e.art === "betrag") return `ca. ${eur(e.betrag)} €`;
+  return e.ab ? `ab ${eur(e.von)} € bis ${eur(e.bis)} €` : `ca. ${eur(e.von)} € – ${eur(e.bis)} €`;
+}
+
+/** Rechenweg für konkrete Beträge, z. B. „595 € Grundpauschale + 25 m² × 89,25 €/m²“. */
+export function rechenweg(e: Ergebnis, menge: number, unit: string): string {
+  if (e.art !== "betrag") return "";
+  return `${eur(e.grund)} € Grundpauschale + ${menge} ${unit} × ${eur(e.proEinheit)} €/${unit}`;
 }

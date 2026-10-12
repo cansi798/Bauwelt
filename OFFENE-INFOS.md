@@ -9,12 +9,12 @@ Legende: ⬜ offen · ✅ erledigt
 
 ## A. Rechner „scharf" schalten (wichtigster Punkt)
 
-- ⬜ **Echte Preise für den Projekt-Rechner** (`src/data/rechner.ts`).
-  Aktuell Schätz-Platzhalter mit bewusst breiten Spannen. Pro Gewerk bitte:
-  - Grundpauschale: ____ €
-  - Preis pro m² für die drei Niveaus (Basis / Komfort / Premium): ____ / ____ / ____ €
-  - gewünschte Spanne (aktuell ±15 % Bad, ±20–30 % übrige Gewerke): ____ %
-  Die Bad-Werte entsprechen dem bisherigen Badkalkulator (4.500 € + 2.200/3.000/4.200 €/m²).
+- ✅ **Echte Preise für den Projekt-Rechner** (`src/data/rechner.ts`, Kundenwunsch 11.10.2026 (6)).
+  Alle Anzeigen brutto inkl. 19 % MwSt. Bad: echte Preistabelle 3–15 m² (Basis/Komfort/Premium
+  je +1.500 €, Barrierefreie Dusche immer unter 4.180 €). Fliesen & Boden: 55/75/85 € netto je m²
+  + 500 € netto Grundpauschale. Sanierung & Modernisierung: bisherige Werte −50 %, dann + MwSt.
+  - ⬜ Zu bestätigen: Innenausbau-Werte unverändert – sind das Bruttowerte?
+  - ⬜ Zu bestätigen: Premium-Bad enthält auch bodengleiche Dusche/wertigere Ausstattung aus Komfort?
 
 ## B. Inhalte
 
