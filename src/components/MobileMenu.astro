@@ -2,9 +2,9 @@
 // Vollbild-Menü (<1024px): aufklappbare Gruppen via <details>, scrollbar,
 // iOS-Safe-Area (Lektion: Inhalt war auf kleinen Handys nicht erreichbar).
 // Kundenwunsch 12.10.2026 (14): unten keine Buttons (Projekt berechnen, Telefon,
-// WhatsApp) und keine Öffnungszeiten mehr – nur Navigation. Telefon/WhatsApp
-// bleiben als Symbole im Header.
-import { NAV2 } from "../consts";
+// WhatsApp) – Telefon/WhatsApp bleiben als Symbole im Header.
+// (15): Zeile mit Öffnungszeiten/Reaktionszeit bleibt aber erhalten.
+import { NAV2, SITE } from "../consts";
 import Icon from "./Icon.astro";
 ---
 
@@ -37,6 +37,10 @@ import Icon from "./Icon.astro";
       )}
     </ul>
   </nav>
+
+  <div class="mm__footer">
+    <p class="small">{SITE.hours} · Antwort innerhalb von 12 Stunden</p>
+  </div>
 </div>
 
 <style>
@@ -80,4 +84,7 @@ import Icon from "./Icon.astro";
   .mm__sub a:active { background: var(--gold-100); }
   .mm__sub a :global(.mm__icon) { color: var(--gold-700); flex: none; }
 
+
+  .mm__footer { margin-top: auto; }
+  .mm__footer .small { text-align: center; margin: 0; }
 </style>
