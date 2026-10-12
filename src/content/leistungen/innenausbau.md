@@ -5,6 +5,11 @@ icon: "wall"
 teaser: "Neue Räume, Decken und Böden. Wir gestalten Ihr Zuhause von innen neu."
 lead: "Aus alt mach neu: Wir strukturieren Räume, ziehen Wände und schaffen Wohnqualität."
 heroPrompt: "Moderner heller Innenraum im Ausbau, saubere Trockenbauwände, indirekte Beleuchtung, fotorealistisch"
+bild: "galerie-innenausbau-04.webp"
+refAnker: "innenausbau"
+refBilder:
+  - { file: "galerie-innenausbau-05.webp", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" }
+  - { file: "galerie-innenausbau-01.webp", alt: "Gastraum mit indirekt beleuchteten Wandpaneelen" }
 introTitel: "Mehr Raum für das, was Ihnen wichtig ist"
 warum:
   - { icon: "wall", title: "Räume, die zu Ihrem Leben passen", text: "Neue Raumaufteilung, Nischen, abgehängte Decken mit Licht – wir planen mit Ihnen, was zu Ihrem Alltag passt." }

@@ -29,6 +29,13 @@ const leistungen = defineCollection({
     beschreibung: z.string().optional(),             // Meta-Description (Standard: aus teaser)
     /** Fester Pauschalpreis in € (statt Rechner), z. B. Sanierungscheck. */
     pauschalpreis: z.number().optional(),
+    /** Zusatzhinweis zum Pauschalpreis (z. B. Anrechnung), auch im Rechner-Festpreisfenster. */
+    pauschalHinweis: z.string().optional(),
+    /** Echte Referenzfotos (Dateien in assets/img/) für den Referenzen-Abschnitt der
+     *  Leistungsseite; sonst die Referenz-Collection. Kundenwunsch 12.10.2026 (16). */
+    refBilder: z.array(z.object({ file: z.string(), alt: z.string() })).optional(),
+    /** Anker der Galerie-Gruppe auf /referenzen/ (z. B. "bad"). */
+    refAnker: z.string().optional(),
   }),
 });
 

@@ -9,7 +9,7 @@
 // variant="start" (Kundenwunsch 11.10.2026): Leistungskarten (Icon, Titel, Nutzen,
 //   „Mehr erfahren") SIND die Leistungsauswahl, daneben/darunter direkt der Rechner.
 //   Badsanierung ist vorausgewählt und serverseitig vorgerendert (kein Layout-Sprung).
-// Pauschal-Leistungen (Immobilien-Sanierungscheck, 499 €): keine Rechenschritte, sondern
+// Pauschal-Leistungen (Immobilien-Sanierungscheck, 595 € inkl. MwSt.): keine Rechenschritte, sondern
 //   ein Festpreis-Panel mit Leistungsinhalt und Buchen/Anfragen. Preis + Inhalt kommen
 //   aus der Content-Datei (pauschalpreis/umfang) – eine einzige Quelle.
 // Ohne JavaScript: Hinweis + Direktkontaktwege (html.js-Gate); auf der Startseite
@@ -34,7 +34,7 @@ const PAUSCHAL_DATA = await Promise.all(
   PAUSCHAL.map(async (p) => {
     const e = await getEntry("leistungen", p.slug);
     if (!e?.data.pauschalpreis) throw new Error(`Pauschalpreis fehlt in content/leistungen/${p.slug}.md`);
-    return { ...p, preis: e.data.pauschalpreis, enthalten: e.data.umfang };
+    return { ...p, preis: e.data.pauschalpreis, enthalten: e.data.umfang, hinweis: e.data.pauschalHinweis };
   })
 );
 /** Alle Leistungskarten in Menü-Reihenfolge: erst die Rechner-Gewerke, dann Pauschal. */
@@ -62,13 +62,10 @@ const weich = (t: string) =>
   </div>
 </div>
 
-<!-- Vertrauens-Hinweis (Kundenwunsch 11.10.2026): Preis ohne Kontaktdaten -->
+<!-- Vertrauens-Hinweis (Kundenwunsch 11.10.2026; 12.10.2026: nur noch eine Zeile) -->
 <p class:list={["rtrust", { "rtrust--start": start }]}>
-  <span class="rtrust__icon" aria-hidden="true"><Icon name="shield" size={22} class="icon" /></span>
-  <span class="rtrust__text">
-    <strong>Ohne E-Mail &amp; ohne Telefonnummer – Preis sofort sehen</strong>
-    <span>Keine Registrierung, keine Kontaktdaten. Ihr Ergebnis bleibt bei Ihnen.</span>
-  </span>
+  <span class="rtrust__icon" aria-hidden="true"><Icon name="shield" size={18} class="icon" /></span>
+  <strong class="rtrust__text">Keine Kontaktdaten nötig – Ihr Preis wird sofort angezeigt.</strong>
 </p>
 <!-- Ehrlichkeits-Hinweis (Kundenwunsch 11.10.2026 (6)) -->
 <p class:list={["rehrlich", { "rehrlich--start": start }]}>
@@ -183,10 +180,6 @@ const weich = (t: string) =>
         Unverbindliche Ersteinschätzung, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
         Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
       </p>
-      <p class="rfreiwillig">
-        <Icon name="shield" size={18} class="icon" />
-        <span>Nur wenn Sie möchten, schicken Sie uns Ihr Ergebnis – per WhatsApp oder E-Mail.</span>
-      </p>
       <div class="rechner__contact">
         {start ? (
           <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
@@ -212,6 +205,7 @@ const weich = (t: string) =>
         <p class="rpanel__gewerk">{p.label}</p>
         <H class="rstep__title">Ihr Festpreis</H>
         <p class="rechner__result">{euro(p.preis)} € <span class="rpausch__art">pauschal</span></p>
+        <p class="rbrutto">{MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}</p>
         <div class="rwahl">
           <div class="rwahl__gruppe">
             <HSub class="rwahl__titel">Das ist enthalten</HSub>
@@ -220,6 +214,7 @@ const weich = (t: string) =>
         </div>
         <p class="small rechner__disclaimer">
           Keine Berechnung nötig: Der {p.label} kostet immer {euro(p.preis)} €.
+          {p.hinweis && <strong class="rpausch__hinweis">{p.hinweis}</strong>}
           <a href={u(`leistungen/${p.slug}/`)}>Mehr zum {p.label}</a>
         </p>
         <div class="rechner__contact">
@@ -256,26 +251,24 @@ const weich = (t: string) =>
 
   /* Vertrauens-Hinweis über dem Rechner */
   .rtrust {
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; gap: 10px;
     width: fit-content; max-width: 100%;
     margin: 0 auto 20px;
-    padding: 10px 18px 10px 12px;
+    padding: 8px 16px 8px 8px;
     background: var(--weiss);
     border: 1px solid var(--gold-500);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-pill);
     box-shadow: var(--shadow-sm);
   }
   .rtrust__icon {
     flex: none;
-    width: 38px; height: 38px;
+    width: 32px; height: 32px;
     display: inline-flex; align-items: center; justify-content: center;
     border-radius: 50%;
     background: var(--gold-100);
     color: var(--gold-700);
   }
-  .rtrust__text { display: grid; gap: 1px; text-align: left; }
-  .rtrust__text strong { font-family: var(--font-heading); font-size: 14.5px; color: var(--anthrazit-800); line-height: 1.3; }
-  .rtrust__text span { font-size: 13px; color: var(--anthrazit-600); line-height: 1.35; }
+  .rtrust__text { font-family: var(--font-heading); font-size: 14.5px; color: var(--anthrazit-800); line-height: 1.3; text-align: left; }
   .rtrust--start { margin-bottom: 12px; }
   /* Ehrlichkeits-Hinweis direkt unter dem Vertrauens-Kästchen */
   .rehrlich {
@@ -290,13 +283,6 @@ const weich = (t: string) =>
   .rbrutto { margin: -8px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
   .rbrutto--klein { margin: -8px 0 16px; font-size: 12.5px; font-weight: 600; color: var(--anthrazit-600); }
 
-  .rfreiwillig {
-    display: flex; align-items: flex-start; gap: 8px;
-    margin: 18px 0 0;
-    font-size: 14px; font-weight: 600; color: var(--anthrazit-700);
-  }
-  .rfreiwillig :global(.icon) { flex: none; margin-top: 1px; color: var(--gold-700); }
-  .rfreiwillig + .rechner__contact { margin-top: 12px; }
   .rechner__nojs { text-align: center; display: grid; gap: 16px; justify-items: center; }
   .rechner__nojs-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
   .rechner__app--start ~ .rechner__nojs, .rechner__nojs + .rechner__app--start { margin-top: 24px; }
@@ -338,6 +324,7 @@ const weich = (t: string) =>
   .rtile:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .rpausch__art { font-size: 0.5em; font-weight: 700; color: var(--anthrazit-600); }
   .rpausch__zurueck { margin-top: 18px; }
+  .rpausch__hinweis { display: block; margin-top: 8px; color: var(--anthrazit-800); }
   .rpausch .rwahl { grid-template-columns: 1fr; }
 
   /* ---------- Startseite: Leistungskarten + Rechner-Panel ---------- */

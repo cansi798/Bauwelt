@@ -7,6 +7,11 @@ teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Sanitär, Licht
 lead: "Unser Kerngeschäft. Wir planen und bauen Ihr Bad komplett – von der ersten Idee bis zur fertigen Übergabe. Ein Ansprechpartner, ein Festpreis, ein Termin."
 heroPrompt: "Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat"
 beschreibung: "Badsanierung zum Festpreis in Norderstedt & Hamburg: alles aus einer Hand, in rund zwei Wochen fertig. Preis jetzt online berechnen – unverbindlich."
+bild: "galerie-bad-03.webp"
+refAnker: "bad"
+refBilder:
+  - { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" }
+  - { file: "galerie-bad-02.webp", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" }
 introTitel: "Ihr neues Bad – ohne Stress und ohne Überraschungen"
 warum:
   - { icon: "euro", title: "Festpreis statt Kostenfalle", text: "Der Preis im Angebot ist der Preis auf der Rechnung. Nur was Sie selbst zusätzlich beauftragen, ändert ihn – vorher schriftlich." }

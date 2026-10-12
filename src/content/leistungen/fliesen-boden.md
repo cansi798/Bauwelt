@@ -19,6 +19,11 @@ faq:
   - { q: "Übernehmen Sie auch nur den Boden?", a: "Ja, auch einzelne Räume oder nur den Bodenbelag übernehmen wir – ohne dass Sie weitere Handwerker koordinieren müssen." }
 rechnerSlug: "fliesen-boden"
 beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat zum Festpreis. Jetzt Preis online berechnen."
+bild: "galerie-fliesen-03.webp"
+refAnker: "fliesen"
+refBilder:
+  - { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" }
+  - { file: "galerie-fliesen-01.webp", alt: "Neu geflieste Eingangstreppe mit großformatigen Platten" }
 introTitel: "Böden und Wände, die jeden Tag Freude machen"
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen, saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }

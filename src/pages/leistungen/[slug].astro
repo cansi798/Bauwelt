@@ -1,8 +1,10 @@
 ---
 // Leistungsseite – EINE Vorlage für alle Leistungen (Kundenwunsch 11.10.2026):
 // Hero mit H1 (ohne Häkchen-Zeile) → Intro (ca. 8 Zeilen aus Kundensicht) → „Warum
-// <Leistung> mit Bauwelt Handwerk?“ → Leistungsumfang (Icon-Karten) → Ablauf (gezeichnete
-// Ablauf-Animation der Startseite) → Referenzen → FAQ. Kontakt-Kopf kommt aus dem Footer.
+// <Leistung> mit Bauwelt Handwerk?“ → Ablauf (gezeichnete Ablauf-Animation der
+// Startseite) → Referenzen → FAQ. Kontakt-Kopf kommt aus dem Footer.
+// Kundenwunsch 12.10.2026 (16): Abschnitt „Was alles drin ist“ entfällt; Referenzen
+// zeigen echte Fotos (refBilder im Frontmatter), wo vorhanden.
 // Kundenwunsch 11.10.2026 (7): „Unser Versprechen“ und „Nächster Schritt“ entfallen.
 // Hintergründe wechseln automatisch (weiß/sand), auch wenn ein Abschnitt fehlt.
 import { getCollection, render } from "astro:content";
@@ -36,30 +38,6 @@ const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
 const euro = (n: number) => n.toLocaleString("de-DE");
 
-// Leistungsumfang als Icon-Karten: passendes Icon je Punkt über Stichworte
-// (Reihenfolge = Priorität), sonst Häkchen.
-const UMFANG_ICONS: [RegExp, string][] = [
-  [/besichtigung/i, "eye"],
-  [/kosten/i, "euro"],
-  [/gespräch/i, "chat"],
-  [/einschätzung|zustand/i, "doc"],
-  [/demontage|rückbau|entsorg/i, "hammer"],
-  [/sanitär|heizung/i, "tap"],
-  [/energetisch|elektro|beleuchtung/i, "bolt"],
-  [/barriere/i, "user"],
-  [/fliese|großformat/i, "tiles"],
-  [/dusche|möbel|accessoire/i, "bath"],
-  [/untergrund|schleif|spachtel/i, "tools"],
-  [/vinyl|laminat/i, "tiles"],
-  [/fugen|silikon/i, "check"],
-  [/komplettsanierung|wohnung|haus/i, "reno"],
-  [/grundriss|trockenbau|decke|vorwand|vorwände|wand/i, "wall"],
-  [/koordination|gewerk/i, "user"],
-  [/termin|preis/i, "calendar"],
-  [/tür|zarge/i, "reno"],
-];
-const umfangIcon = (t: string) => UMFANG_ICONS.find(([re]) => re.test(t))?.[1] ?? "check";
-
 // 2 passende Referenzen (Kategorie-Zuordnung je Gewerk)
 const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
   badsanierung: "bad",
@@ -71,15 +49,15 @@ const catMap: Record<string, "bad" | "sanierung" | "aussen"> = {
   "dach-fassade": "aussen",
 };
 const alleRefs = (await getCollection("referenzen")).sort((a, b) => a.data.order - b.data.order);
-const refs = alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
+const refBilder = l.data.refBilder ?? [];
+const refs = refBilder.length ? [] : alleRefs.filter((r) => r.data.cat === catMap[l.id]).slice(0, 2);
 
 // Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
 const sektionen = [
   "intro",
   l.data.warum.length > 0 && "warum",
-  "umfang",
   "ablauf",
-  refs.length > 0 && "refs",
+  (refs.length > 0 || refBilder.length > 0) && "refs",
   l.data.faq.length > 0 && "faq",
 ].filter(Boolean) as string[];
 const bg = (k: string) => ["section", { "section--sand": sektionen.indexOf(k) % 2 === 0 }];
@@ -104,7 +82,7 @@ const description =
     alt={kurzTitel}
     ctaHref={pauschal ? u("kontakt/#termin") : ctaHref}
     ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : `${kurzTitel} berechnen`}
-    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} €` : undefined}
+    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} € inkl. MwSt.` : undefined}
     ohneTermin={Boolean(pauschal)}
   />
 
@@ -134,22 +112,6 @@ const description =
     </section>
   )}
 
-  <!-- 3. Leistungsumfang -->
-  <section class:list={bg("umfang")}>
-    <div class="container">
-      <SectionHead eyebrow="Leistungsumfang" pre="Was alles drin " accent="ist" />
-      <ul class="umfang">
-        {l.data.umfang.map((t, i) => (
-          <li class="umfang__item reveal">
-            <span class="umfang__icon"><Icon name={umfangIcon(t)} size={26} class="icon" /></span>
-            <span class="umfang__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-            <p>{t}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
   <!-- Ablauf: dieselbe gezeichnete Animation wie auf der Startseite -->
   <section class:list={bg("ablauf")}>
     <div class="container">
@@ -160,6 +122,25 @@ const description =
       />
     </div>
   </section>
+
+  {refBilder.length > 0 && (
+    <section class:list={bg("refs")}>
+      <div class="container">
+        <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
+        <div class="grid cols-2">
+          {refBilder.map((b) => (
+            <a class="card refmini reveal" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
+              <Img src={b.file} alt={b.alt} w={560} h={420} />
+              <div class="refmini__body">
+                <h3>{b.alt}</h3>
+                <p class="small"><Icon name="image" size={14} class="icon" /> Echtes Bauwelt-Projekt · mehr in den Referenzen</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {refs.length > 0 && (
     <section class:list={bg("refs")}>
@@ -216,38 +197,4 @@ const description =
   .refmini__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
   .refmini__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
   .refmini__body :global(.icon) { color: var(--gold-700); }
-  /* Leistungsumfang: Icon-Karten (Kundenwunsch 11.10.2026 (7)) */
-  .umfang { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-  @media (min-width: 640px) { .umfang { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
-  @media (min-width: 1024px) { .umfang { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
-  .umfang__item {
-    position: relative;
-    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px;
-    padding: 20px 22px;
-    background: var(--weiss);
-    border: 1px solid var(--linie);
-    border-left: 4px solid var(--gold-500);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--transition), box-shadow var(--transition);
-  }
-  .umfang__item:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-  .umfang__icon {
-    width: 56px; height: 56px;
-    border-radius: 14px;
-    background: var(--gold-100);
-    border: 1px solid var(--gold-500);
-    color: var(--gold-700);
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .umfang__nr {
-    position: absolute; top: 10px; right: 14px;
-    font-family: var(--font-heading); font-weight: 800; font-size: 13px; letter-spacing: 0.06em;
-    color: var(--gold-500);
-  }
-  .umfang__item p {
-    margin: 0; padding-right: 18px;
-    font-family: var(--font-heading); font-weight: 600; font-size: 16px; line-height: 1.35;
-    color: var(--anthrazit-800);
-  }
 </style>
