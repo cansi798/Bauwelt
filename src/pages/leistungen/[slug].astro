@@ -119,11 +119,8 @@ const description =
         <div class:list={["grid cols-2", { "refs--eins": refBilder.length === 1 }]}>
           {refBilder.map((b) => (
             <a class="card refmini reveal" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
+              {/* Kundenwunsch 13.10.2026 (20): keine Beschreibung unter den Fotos (alt-Text bleibt für Screenreader) */}
               <Img src={b.file} alt={b.alt} w={560} h={420} />
-              <div class="refmini__body">
-                <h3>{b.alt}</h3>
-                <p class="small"><Icon name="image" size={14} class="icon" /> Echtes Bauwelt-Projekt · mehr in den Referenzen</p>
-              </div>
             </a>
           ))}
         </div>
@@ -164,8 +161,4 @@ const description =
 
   .refmini { padding: 12px; display: grid; }
   .refs--eins { grid-template-columns: minmax(0, 1fr) !important; max-width: 560px; }
-  .refmini__body { padding: 14px 10px 6px; }
-  .refmini__body h3 { margin: 0 0 4px; font-size: 17px; text-transform: none; letter-spacing: 0; }
-  .refmini__body p { margin: 0; display: inline-flex; align-items: center; gap: 6px; }
-  .refmini__body :global(.icon) { color: var(--gold-700); }
 </style>
