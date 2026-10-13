@@ -209,7 +209,7 @@ export const FAQ_HOME = [
   },
   {
     q: "Gilt der Festpreis wirklich?",
-    a: "Ja. Der Preis aus dem Angebot ist der Preis auf der Rechnung. Nur wenn Sie nachträglich zusätzliche Leistungen beauftragen, ändert er sich – vorher schriftlich vereinbart, nie einfach auf der Rechnung.",
+    a: "Ja. Der Preis aus dem Angebot ist der Preis auf der Rechnung. Ändern kann er sich nur, wenn Sie nachträglich zusätzliche Leistungen beauftragen oder wenn sich unvorhergesehene Umstände zeigen – zum Beispiel versteckte Schäden, die erst beim Öffnen von Wänden oder Böden sichtbar werden. In beiden Fällen sprechen wir das vorher mit Ihnen ab und vereinbaren es schriftlich – nie einfach auf der Rechnung.",
   },
   {
     q: "Wie lange dauert mein Projekt?",
