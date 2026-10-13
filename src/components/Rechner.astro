@@ -458,21 +458,13 @@ const weich = (t: string) =>
   .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
 
 
-  /* Mobile Navigation: Zurück + Weiter zusammen, unten angepinnt – oberhalb der
-     festen StickyBar (sonst verdeckt sie den Button). */
+  /* Mobile Navigation: Zurück + Weiter zusammen. Kundenwunsch 13.10.2026 (19):
+     nicht mehr angepinnt/mitlaufend und ohne weißen Rahmen – steht fest unter der Auswahl. */
   .rnav { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
   .rechner__app--start .rnav { grid-template-columns: 1fr; }
   .rechner__next { width: 100%; }
   @media (max-width: 767px) {
-    .rnav {
-      position: sticky; z-index: 5;
-      bottom: calc(var(--stickybar-h) + env(safe-area-inset-bottom) + 10px);
-      background: var(--weiss);
-      padding: 10px;
-      margin-inline: -10px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-    }
+    .rnav { margin-top: 18px; }
   }
   @media (min-width: 768px) { .rnav__zurueck { display: none; } }
 
