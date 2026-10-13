@@ -95,7 +95,7 @@ const weich = (t: string) =>
             <span class="rkarte__titel">{weich(g.label)}</span>
             <span class="rkarte__nutzen">
               {g.nutzen}
-              {g.preis && <strong class="rkarte__preis">Pauschal {euro(g.preis)} €</strong>}
+              {/* Kundenwunsch 13.10.2026 (23): Pauschalpreis nicht direkt auf der Karte zeigen (erst nach Klick) */}
             </span>
             <span class="rkarte__status" aria-hidden="true">
               <span class="rkarte__status-an"><Icon name="check" size={14} class="icon" /> Ausgewählt</span>

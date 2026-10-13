@@ -101,6 +101,12 @@ const SEITEN = [1, 2];
     font-weight: 600;
   }
   .angebot__punkte :global(.icon) { color: var(--gold-700); flex: none; }
+  /* Kundenwunsch 13.10.2026 (23): Haken-Punkte auf dem Handy mittig */
+  @media (max-width: 767px) {
+    .angebot__punkte li { display: block; text-align: center; }
+    .angebot__punkte li :global(.icon) { display: inline-block; vertical-align: -3px; margin-right: 8px; }
+    .angebot__cta { text-align: center; }
+  }
   .angebot__cta { margin-top: 28px; }
 
   .angebot__viewer { margin: 0; width: 100%; max-width: 520px; justify-self: center; }
