@@ -219,10 +219,7 @@ export const FAQ_HOME = [
     q: "Muss ich während der Arbeiten ausziehen?",
     a: "Meistens nicht. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung, damit Wohnen neben der Baustelle funktioniert. Bei Kernsanierungen besprechen wir das gemeinsam im Vor-Ort-Termin.",
   },
-  {
-    q: "In welcher Region sind Sie tätig?",
-    a: "Wir arbeiten in Norderstedt, Hamburg und Umgebung. Ob Ihr Projekt in unserem Einzugsgebiet liegt, klären wir gern in einem kurzen Gespräch – rufen Sie an oder buchen Sie direkt einen Termin.",
-  },
+  // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];
 
 /** Dunkler Footer-Kopf auf jeder Seite (Kundenwunsch 10.10.2026: ersetzt das
