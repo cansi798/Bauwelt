@@ -1,4 +1,5 @@
 ---
+import RoughSzene from "../components/RoughSzene.astro";
 // Partner (B2B) – Kundenwunsch 14.10.2026 (39): finale Struktur von Jamil, Texte wörtlich:
 // 1 Hero (2 Buttons) → 2 Mit wem wir arbeiten → 3 Warum Partner mit uns arbeiten (dunkel)
 // → Für Hausverwaltungen (Jamils Ergänzung „B2B-Mehrwert“) → 4 Bestehende Kooperationen
@@ -130,7 +131,11 @@ const ABLAUF = [
   <section class="section">
     <div class="container">
       <SectionHead center eyebrow="Ablauf" pre="Einfach. Direkt. " accent="Verbindlich." />
-      <Steps steps={ABLAUF} />
+      {/* Kundenwunsch 15.10.2026 (62): gezeichnete Animation im Stil der anderen statt Karten */}
+      <RoughSzene
+        szene="partnerWeg"
+        label={`Gezeichneter Ablauf in vier Stationen: ${ABLAUF.map((x, i) => `${i + 1}. ${x.title} – ${x.text}`).join(" ")}`}
+      />
     </div>
   </section>
 

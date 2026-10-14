@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "weg" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -180,10 +180,17 @@ const WEG_UNTER: string[][] = [
   ["Wir koordinieren alles", "und setzen es für Sie um"],
 ];
 
+type Motiv = (z: Zeichner, cx: number, cy: number, s?: number) => void;
 function weg(a: Ansicht): Szene {
+  return wegSzene(a, STEPS.map((st) => [st.title]), WEG_UNTER, WEG_MOTIVE);
+}
+
+/** Vier Stationen mit Wegen dazwischen (Startseite/Leistungen; Partner mit eigenen Texten/Motiven). */
+function wegSzene(a: Ansicht, titel: string[][], unter: string[][], motive: Motiv[]): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 540 : 300;
+  const zeilenMax = Math.max(...titel.map((t, i) => t.length + unter[i].length));
+  const B = mobil ? 360 : 1000, H = mobil ? 540 + Math.max(0, zeilenMax - 3) * 17 : 300 + Math.max(0, zeilenMax - 3) * 21;
   // Stationen: mobil im Zickzack untereinander, Desktop nebeneinander
   const pos: [number, number][] = mobil
     ? [[80, 76], [280, 206], [80, 336], [280, 466]]
@@ -192,7 +199,7 @@ function weg(a: Ansicht): Szene {
   pos.forEach(([cx, cy], i) => {
     const t = 0.2 + i * 1.15;
     z.bei(t);
-    WEG_MOTIVE[i](z, cx, cy, 1);
+    motive[i](z, cx, cy, 1);
     // Nummer-Badge
     z.bei(t + 0.3);
     const bx = cx - 52, by = cy - 46;
@@ -204,14 +211,16 @@ function weg(a: Ansicht): Szene {
       const links = i % 2 === 0;
       const tx = links ? 150 : 210;
       const anker = links ? "start" : "end";
-      z.text(tx, cy - 2, STEPS[i].title, { groesse: 15.5, anker });
-      WEG_UNTER[i].forEach((zeile, k) =>
-        z.text(tx, cy + 18 + k * 17, zeile, { groesse: 13, gewicht: 400, farbe: F.text2, anker })
+      titel[i].forEach((tz, k) => z.text(tx, cy - 2 + k * 18, tz, { groesse: 15.5, anker }));
+      const o = (titel[i].length - 1) * 18;
+      unter[i].forEach((zeile, k) =>
+        z.text(tx, cy + 18 + o + k * 17, zeile, { groesse: 13, gewicht: 400, farbe: F.text2, anker })
       );
     } else {
-      z.text(cx, 206, STEPS[i].title, { groesse: 18 });
-      WEG_UNTER[i].forEach((zeile, k) =>
-        z.text(cx, 232 + k * 20, zeile, { groesse: 14.5, gewicht: 400, farbe: F.text2 })
+      titel[i].forEach((tz, k) => z.text(cx, 206 + k * 22, tz, { groesse: 18 }));
+      const o = (titel[i].length - 1) * 22;
+      unter[i].forEach((zeile, k) =>
+        z.text(cx, 232 + o + k * 20, zeile, { groesse: 14.5, gewicht: 400, farbe: F.text2 })
       );
     }
     // Weg zur nächsten Station
@@ -228,6 +237,36 @@ function weg(a: Ansicht): Szene {
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + 3 * 1.15 + 1.2 };
 }
+
+/* ─── Partner-Ablauf (Kundenwunsch 15.10.2026 (62)): „Einfach. Direkt. Verbindlich.“ als Zeichnung ─── */
+function papierflieger(z: Zeichner, cx: number, cy: number, s = 1) {
+  z.pfad(`M${cx - 34 * s} ${cy + 2 * s}L${cx + 36 * s} ${cy - 30 * s}L${cx + 10 * s} ${cy + 32 * s}L${cx - 2 * s} ${cy + 12 * s}Z`,
+    { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.3, strokeWidth: 2.4 });
+  z.linie(cx + 36 * s, cy - 30 * s, cx - 2 * s, cy + 12 * s, { strokeWidth: 2 }, 0.3);
+  z.linie(cx - 2 * s, cy + 12 * s, cx - 6 * s, cy + 28 * s, { strokeWidth: 2 }, 0.2);
+  z.gruppe("puls", () => {
+    z.linie(cx - 56 * s, cy + 14 * s, cx - 40 * s, cy + 12 * s, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.5 }, 0.2);
+    z.linie(cx - 52 * s, cy + 26 * s, cx - 34 * s, cy + 22 * s, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.5 }, 0.2);
+  });
+}
+function wiederkehrend(z: Zeichner, cx: number, cy: number, s = 1) {
+  kalender(z, cx - 8 * s, cy, s);
+  // Wiederholungs-Pfeil rechts unten
+  const px = cx + 26 * s, py = cy + 22 * s, r = 15 * s;
+  z.gruppe("stempel", () => {
+    z.kreis(px, py, 2 * r + 10 * s, { fill: "var(--weiss)", fillStyle: "solid", stroke: F.gold, strokeWidth: 2 }, 0.3);
+    z.pfad(`M${px + r} ${py}A${r} ${r} 0 1 1 ${px} ${py - r}`, { stroke: F.goldDunkel, strokeWidth: 2.4, roughness: 0.6 }, 0.3);
+    z.pfad(`M${px - 6 * s} ${py - r - 5 * s}L${px} ${py - r}L${px - 5 * s} ${py - r + 6 * s}`, { stroke: F.goldDunkel, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
+  });
+}
+const PARTNER_TITEL: string[][] = [["Anfrage senden"], ["Abstimmung"], ["Umsetzung"], ["Langfristige", "Zusammenarbeit"]];
+const PARTNER_UNTER: string[][] = [
+  ["Beschreiben Sie kurz", "Ihr Anliegen."],
+  ["Wir besprechen Umfang,", "Anforderungen und Abläufe."],
+  ["Festpreis, feste, deutsch-", "sprachige Ansprechpartner", "und saubere Dokumentation."],
+  ["Klare Prozesse für", "wiederkehrende Projekte."],
+];
+const partnerWeg = (a: Ansicht) => wegSzene(a, PARTNER_TITEL, PARTNER_UNTER, [papierflieger, sprechblasen, dokument, wiederkehrend]);
 
 const PORTAL_TEILE = [
   // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
@@ -403,4 +442,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
