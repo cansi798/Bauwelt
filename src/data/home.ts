@@ -5,7 +5,7 @@ import { u } from "../consts";
 export const HERO = {
   /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
    *  kurz genug für Mobil und Desktop, daher keine eigene Kurzfassung mehr. */
-  eyebrow: "Badsanierung & Innenausbau für Hamburg & Umgebung",
+  eyebrow: "Badsanierung, Fliesenarbeiten & Innenausbau für Hamburg & Umgebung",
   /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
   vor: "Bereit für Ihr neues",
   nach: "",
