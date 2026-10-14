@@ -63,11 +63,13 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
       )}
     </div>
 
+    {chips.length > 0 && (
     <ul class="lhero__chips lhero__in" style="--d: 420ms">
-      {chips.map((c) => (
-        <li><Icon name="check" size={16} class="icon" /> {c}</li>
-      ))}
-    </ul>
+        {chips.map((c) => (
+          <li><Icon name="check" size={16} class="icon" /> {c}</li>
+        ))}
+      </ul>
+    )}
   </div>
 </section>
 

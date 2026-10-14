@@ -61,6 +61,13 @@ const teile = (t: string) => {
 };
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
+// Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero, sondern als Karten im
+// „Warum“-Abschnitt. Festpreis und Ansprechpartner sind dort schon; ergänzt werden 12 h / 24 h.
+const zusatzVorteile = [
+  { icon: "chat", title: "Antwort in 12 Stunden", text: "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie innerhalb von 12 Stunden eine persönliche Antwort." },
+  ...(pauschal ? [] : [{ icon: "doc", title: "Angebot in 24 Stunden", text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches Angebot zum Festpreis." }]),
+];
+const warumKarten = [...l.data.warum, ...zusatzVorteile.filter((z) => !l.data.warum.some((w) => w.title === z.title))];
 const chips = [
   pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Garantie",
   "Antwort in 12 h",
@@ -90,7 +97,7 @@ const description =
     ctaHref={hatRechner ? "#rechner" : buchen.href}
     ctaLabel={hatRechner ? "Jetzt Preis berechnen" : buchen.label}
     mitTermin={!pauschal}
-    chips={chips}
+    chips={[] /* (54): Plaketten entfallen, siehe warumKarten */}
   />
 
   {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
@@ -143,12 +150,12 @@ const description =
   )}
 
   <!-- 2. Warum mit Bauwelt Handwerk? – dunkler Kontrast-Abschnitt -->
-  {l.data.warum.length > 0 && (
+  {warumKarten.length > 0 && (
     <section class="section section--dark lwarum">
       <div class="container">
         <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${kurzTitel} mit `} accent="Bauwelt Handwerk?" />
-        <ul class="warum">
-          {l.data.warum.map((w, i) => (
+        <ul class:list={["warum", { "warum--zentriert": warumKarten.length === 5 || warumKarten.length === 6 }]}>
+          {warumKarten.map((w, i) => (
             <li class="warum__item reveal">
               <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>

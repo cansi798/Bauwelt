@@ -236,6 +236,9 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 .warum { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 @media (min-width: 640px) { .warum { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .warum { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+/* 5–6 Vorteile (Leistungsseiten, Kundenwunsch 14.10.2026 (54)): 3 pro Reihe, letzte Reihe mittig */
+@media (min-width: 640px) { .warum--zentriert { display: flex; flex-wrap: wrap; justify-content: center; } .warum--zentriert > * { flex: 0 1 calc((100% - 16px) / 2); min-width: 0; } }
+@media (min-width: 1024px) { .warum--zentriert > * { flex-basis: calc((100% - 40px) / 3); } }
 .warum__item {
   position: relative;
   display: grid; gap: 12px; align-content: start;
