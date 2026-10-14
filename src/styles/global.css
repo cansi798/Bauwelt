@@ -264,6 +264,18 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 @media (min-width: 1024px) { .warum--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .kacheln { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 980px; }
 @media (min-width: 768px) { .kacheln { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+/* Zentrierte Variante (Leistungsseiten): letzte Reihe mittig statt linksbündig */
+.kacheln--zentriert { display: flex; flex-wrap: wrap; justify-content: center; }
+.kacheln--zentriert > * { flex: 0 1 calc((100% - 14px) / 2); min-width: 0; }
+@media (max-width: 767px) {
+  /* lange Wörter (Trockenbauarbeiten, Projektkoordination) sauber trennen statt an den Rand laufen */
+  .kacheln--zentriert .kachel__titel { font-size: 13.5px; hyphens: manual; } /* Trennstellen als weiche Trennstriche in den Daten */
+}
+@media (min-width: 768px) { .kacheln--zentriert > * { flex-basis: calc((100% - 36px) / 3); } }
+@media (min-width: 1024px) {
+  .kacheln--vier { max-width: 1180px; }
+  .kacheln--vier > * { flex-basis: calc((100% - 54px) / 4); }
+}
 .kachel {
   display: flex; align-items: center; gap: 14px;
   padding: 20px 18px;

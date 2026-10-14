@@ -129,7 +129,8 @@ const description =
     <section class="section section--sand">
       <div class="container">
         <SectionHead center eyebrow="Leistungsumfang" {...teile(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`)} text={l.data.umfangText} />
-        <ul class="kacheln">
+        {/* Kundenwunsch 14.10.2026 (53): Kacheln zentriert umbrechen (7 Kacheln → 4 + 3), keine einzelne Restkachel */}
+        <ul class:list={["kacheln", "kacheln--zentriert", { "kacheln--vier": l.data.kacheln.length === 7 || l.data.kacheln.length === 8 }]}>
           {l.data.kacheln.map((k) => (
             <li class="kachel reveal">
               <span class="kachel__icon"><Icon name={k.icon} size={26} class="icon" /></span>

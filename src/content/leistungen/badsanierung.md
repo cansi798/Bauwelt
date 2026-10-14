@@ -30,12 +30,13 @@ rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unv
 umfangTitel: "Was gehört zu einer Badsanierung?"
 umfangText: "Von der Demontage bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:
-  - { icon: "tap", title: "Sanitärarbeiten" }
-  - { icon: "bolt", title: "Elektroarbeiten" }
-  - { icon: "tiles", title: "Fliesenarbeiten" }
   - { icon: "hammer", title: "Rückbau & Demontage" }
+  - { icon: "tap", title: "Sanitär\u00ADarbeiten" }
+  - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
+  - { icon: "wall", title: "Trocken\u00ADbau\u00ADarbeiten" }
+  - { icon: "tiles", title: "Fliesen\u00ADarbeiten" }
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
-  - { icon: "doc", title: "Projektkoordination" }
+  - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }

@@ -30,7 +30,7 @@ umfangTitel: "Was gehört zu Fliesen- & Bodenarbeiten?"
 umfangText: "Vom alten Belag bis zur fertigen Fuge erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:
   - { icon: "hammer", title: "Rückbau alter Beläge" }
-  - { icon: "tools", title: "Untergrundvorbereitung" }
+  - { icon: "tools", title: "Untergrund\u00ADvorbereitung" }
   - { icon: "shield", title: "Abdichtung im Nassbereich" }
   - { icon: "tiles", title: "Fliesen & Großformate" }
   - { icon: "check", title: "Vinyl & Laminat" }

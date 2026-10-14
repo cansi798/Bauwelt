@@ -31,7 +31,7 @@ kacheln:
   - { icon: "bolt", title: "Elektro & Sanitär" }
   - { icon: "tiles", title: "Fliesen & Böden" }
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
-  - { icon: "doc", title: "Projektkoordination" }
+  - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden – wichtig, wenn Umzug oder Mietbeginn daran hängen." }
