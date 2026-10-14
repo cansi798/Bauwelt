@@ -305,7 +305,7 @@ export function berechne(g: Gewerk, menge: number, tierId: string): Ergebnis {
 
 /** Anzeige-Text des Ergebnisses (Ergebnisfeld, WhatsApp, E-Mail). */
 export function preisText(e: Ergebnis): string {
-  if (e.art === "unter") return `unter ${eur(e.bis)} €`;
+  if (e.art === "unter") return `≈ ${eur(e.bis)} €`; // Kundenwunsch 14.10.2026 (46): „≈“ statt „unter“
   if (e.art === "betrag") return `ca. ${eur(e.betrag)} €`;
   return e.ab ? `ab ${eur(e.von)} € bis ${eur(e.bis)} €` : `ca. ${eur(e.von)} € – ${eur(e.bis)} €`;
 }
