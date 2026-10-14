@@ -41,7 +41,7 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
 
   <div class="container lhero__content">
     <nav class="lhero__pfad lhero__in" style="--d: 0ms" aria-label="Brotkrumen">
-      <a href={u("leistungen/")}>Leistungen</a>
+      <a href={`${u("")}#leistungen`}>Leistungen</a>{/* (71) Übersichtsseite entfernt → Leistungsbereich der Startseite */}
       <Icon name="chevron" size={14} class="icon lhero__pfeil" />
       <span aria-current="page">{titel}</span>
     </nav>

@@ -70,7 +70,7 @@ export const NAV2: NavItem[] = [
       { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Räume neu gestalten und optimal nutzen" },
       // 5. Leistung seit Kundenwunsch 11.10.2026 (Pauschalpreis steht in content/leistungen/sanierungscheck.md)
       { label: "Immobilien-Sanierungscheck", href: u("leistungen/sanierungscheck/"), icon: "eye", desc: "Chancen, Risiken und Kosten frühzeitig erkennen" },
-      { label: "Alle Leistungen im Überblick", href: u("leistungen/"), icon: "arrow" },
+      // Kundenwunsch 15.10.2026 (71): „Alle Leistungen im Überblick“ + Übersichtsseite entfernt
     ],
   },
   { label: "Referenzen", href: u("referenzen/") },
