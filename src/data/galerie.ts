@@ -11,12 +11,17 @@ export type GalerieGruppe = {
   id: string;          // Anker auf der Referenzseite (#bad …)
   title: string;
   href: string;        // passende Leistungsseite
+  /** Kategorie-Einleitung auf der Referenzseite (Kundenwunsch 14.10.2026 (36)) */
+  slogan?: string;
+  intro?: string;
   bilder: GalerieBild[];
 };
 
 export const GALERIE: GalerieGruppe[] = [
   {
     id: "bad",
+    slogan: "Mehr Komfort. Mehr Design. Mehr Wohnqualität.",
+    intro: "Von kompakten Gäste-WCs bis hin zum großzügigen Wellnessbad begleiten wir unsere Kunden von der Planung bis zur fertigen Übergabe.",
     title: "Badsanierung",
     href: u("leistungen/badsanierung/"),
     bilder: [
@@ -33,6 +38,8 @@ export const GALERIE: GalerieGruppe[] = [
   },
   {
     id: "sanierung",
+    slogan: "Bestehendes modern gedacht.",
+    intro: "Ob einzelne Räume oder ganze Wohnbereiche – hier sehen Sie Beispiele realisierter Modernisierungen.",
     title: "Sanierung & Modernisierung",
     href: u("leistungen/sanierung-modernisierung/"),
     bilder: [
@@ -42,6 +49,8 @@ export const GALERIE: GalerieGruppe[] = [
   },
   {
     id: "fliesen",
+    slogan: "Präzision bis ins Detail.",
+    intro: "Von Großformatfliesen bis zu modernen Bodenbelägen.",
     title: "Fliesen- & Bodenlegerarbeiten",
     href: u("leistungen/fliesen-boden/"),
     bilder: [
@@ -51,6 +60,8 @@ export const GALERIE: GalerieGruppe[] = [
   },
   {
     id: "innenausbau",
+    slogan: "Räume neu gestalten.",
+    intro: "Individuelle Lösungen für Wohnräume, Geschäftsräume und Umbauten.",
     title: "Innenausbau & Trockenbau",
     href: u("leistungen/innenausbau/"),
     bilder: [
