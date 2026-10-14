@@ -146,7 +146,7 @@ export const GEWERKE: Gewerk[] = [
         ],
       },
       {
-        id: "barrierefrei", label: "Barrierefreie Dusche", untertitel: "mit Zuschuss der Pflegekasse",
+        id: "barrierefrei", label: "Barrierefreie Dusche",
         festBis: BAD_BARRIEREFREI_BIS,
         hint: "Alte Dusche raus, bodengleiche Dusche rein, Fliesen neu", // Preis erst im Ergebnis (Kundenwunsch 12.10.2026)
         enthalten: [
