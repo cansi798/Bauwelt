@@ -14,7 +14,7 @@ export const HERO = {
   /** Statement groß, darunter klein und nicht fett die Unterzeile
    *  (Kundenfeedback 30.09.2026 – Stichsätze + „60 Sekunden" entfallen). */
   statement: "Handwerk, wie es heute sein sollte.",
-  unterzeile: "Klare Prozesse. Transparente Kommunikation. Ein deutschsprachiger Ansprechpartner, der Verantwortung übernimmt.",
+  unterzeile: "Klare Prozesse. Transparente Kommunikation. Deutschsprachiger Ansprechpartner, der Verantwortung übernimmt.",
   bild: "hero.webp",
 };
 

@@ -38,7 +38,7 @@ export const VERSPRECHEN: Siegel[] = [
   {
     id: "ansprechpartner",
     icon: "user",
-    title: "Ein deutschsprachiger Ansprechpartner",
+    title: "Deutschsprachiger Ansprechpartner",
     short: "Eine Nummer für alles – vom Angebot bis zur Abnahme.",
     long:
       "Bei uns koordinieren Sie keine fünf Firmen. Sie haben einen persönlichen " +

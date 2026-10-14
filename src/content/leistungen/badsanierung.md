@@ -24,7 +24,7 @@ ablauf:
   - { title: "Umsetzung", text: "Wir bauen termingerecht und koordinieren alle Gewerke." }
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
 claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
-lead: "Von der ersten Idee bis zur fertigen Übergabe koordinieren wir sämtliche Arbeiten für Sie. Ein deutschsprachiger Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+lead: "Von der ersten Idee bis zur fertigen Übergabe koordinieren wir sämtliche Arbeiten für Sie. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
@@ -41,7 +41,7 @@ warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }
   - { icon: "tools", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
-  - { icon: "user", title: "Ein deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+  - { icon: "user", title: "Deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"

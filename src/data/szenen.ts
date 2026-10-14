@@ -151,11 +151,11 @@ const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: numb
 /** Siegel-Titel umbrochen (schmale Handy-Spalten), 2–3 Zeilen. */
 const SIEGEL_ZEILEN: Record<string, string[]> = {
   erfahrung: ["15+ Jahre", "Erfahrung"],
-  deutsch: ["100 % deutsch-", "sprachiger An-", "sprechpartner"],
+  deutsch: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 15.10.2026 (55)
   regional: ["Regional", "vor Ort"],
   festpreis: ["Festpreis-", "Garantie"],
   termin: ["Termin-", "treue"],
-  ansprechpartner: ["Ein deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 14.10.2026 (50)
+  ansprechpartner: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 14.10.2026 (50) / 15.10. (55)
   antwort: ["Antwort in", "12 Stunden"],
   angebot: ["Angebot in", "24 Stunden"],
   transparenz: ["Volle", "Transparenz"],
@@ -305,8 +305,8 @@ function siegelSzene(
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const zeilen =
       eigeneZeilen[id] ? eigeneZeilen[id][a]
-      : !mobil && id === "ansprechpartner" ? ["Ein deutsch-", "sprachiger", "Ansprechpartner"]
-      : !mobil && id === "deutsch" ? ["100 % deutsch-", "sprachiger", "Ansprechpartner"]
+      : !mobil && id === "ansprechpartner" ? ["Deutsch-", "sprachiger", "Ansprechpartner"]
+      : !mobil && id === "deutsch" ? ["Deutsch-", "sprachiger", "Ansprechpartner"]
       : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);
     zeilen.forEach((zl, k) => z.text(cx, ty + k * (mobil ? 17 : 20), zl, { groesse: mobil ? 13 : 15, gewicht: 600 }));
@@ -320,7 +320,7 @@ const siegel = (a: Ansicht) => siegelSzene(a, SIEGEL_IDS, [2, 3, 2], [SIEGEL_IDS
 // Über uns (Kundenwunsch 11.10.2026 (9)): 3 Fakten + 7 Siegel = 10 (mobil 2-3-2-3, Desktop 5-5)
 // Kundenwunsch 14.10.2026 (37): Beschriftung wörtlich nach „Zahlen & Fakten“ (nur Über uns)
 const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
-  deutsch: { mobil: ["100 % deutsch-", "sprachige An-", "sprechpartner"], desktop: ["100 % deutsch-", "sprachige", "Ansprechpartner"] },
+  deutsch: { mobil: ["Deutsch-", "sprachiger An-", "sprechpartner"], desktop: ["Deutsch-", "sprachiger", "Ansprechpartner"] },
   regional: { mobil: ["Regional in", "Hamburg &", "Umgebung"], desktop: ["Regional in", "Hamburg & Umgebung"] },
   antwort: { mobil: ["Antwort", "innerhalb von", "12 Stunden"], desktop: ["Antwort innerhalb", "von 12 Stunden"] },
   angebot: { mobil: ["Angebot", "innerhalb von", "24 Stunden"], desktop: ["Angebot innerhalb", "von 24 Stunden"] },

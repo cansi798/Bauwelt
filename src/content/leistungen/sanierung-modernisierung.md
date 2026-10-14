@@ -20,7 +20,7 @@ ablauf:
   - { title: "Konzept", text: "Sie erhalten einen klaren Plan mit Preis und Zeitrahmen." }
   - { title: "Umsetzung", text: "Wir sanieren sauber und halten Sie auf dem Laufenden." }
 claim: "Ihre Immobilie wie neu. Durchdacht geplant. Aus einer Hand umgesetzt."
-lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Ein deutschsprachiger Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Ihre Sanierung – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Sanierung?"
@@ -36,7 +36,7 @@ warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden – wichtig, wenn Umzug oder Mietbeginn daran hängen." }
   - { icon: "tools", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
-  - { icon: "user", title: "Ein deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+  - { icon: "user", title: "Deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnte Ihr modernisiertes Zuhause aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Sanierung sein"

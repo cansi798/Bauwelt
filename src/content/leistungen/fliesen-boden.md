@@ -23,7 +23,7 @@ refBilder:
 ablaufZiel: "neuen Boden"
 siegel: "festpreis"
 claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
-lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein deutschsprachiger Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Neue Böden – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Fliesen- & Bodenarbeiten?"
@@ -39,7 +39,7 @@ warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
-  - { icon: "user", title: "Ein deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+  - { icon: "user", title: "Deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnten Ihre neuen Fliesen aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann ein neuer Boden sein"
