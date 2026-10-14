@@ -3,7 +3,7 @@
 import { USP } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
-import Img from "./Img.astro";
+import RoughSzene from "./RoughSzene.astro";
 
 // Kundenwunsch 14.10.2026 (37): Überschrift wörtlich mit Punkt; Hintergrund wählbar
 // (auf Über uns weiß, damit sich Sand/Weiß/Dunkel abwechseln).
@@ -17,7 +17,8 @@ const { weiss = false } = Astro.props;
     <div class="grid cols-3">
       {USP.map((usp) => (
         <article class="card usp reveal">
-          <Img src={usp.bild} alt={usp.alt} w={520} h={340} />
+          {/* Kundenwunsch 15.10.2026 (61): gezeichnete Animation statt Foto */}
+          <div class="usp__bild"><RoughSzene szene={usp.szene} label={`Zeichnung: ${usp.title}`} /></div>
           <div class="usp__head">
             <span class="usp__icon"><Icon name={usp.icon} size={24} class="icon" /></span>
             <h3>{usp.title}</h3>
@@ -30,6 +31,9 @@ const { weiss = false } = Astro.props;
 </section>
 
 <style>
+  .usp__bild { background: var(--sand, #f3f0ea); border-radius: var(--radius-lg); padding: 18px 12px 6px; }
+  .usp__bild :global(.rszene) { margin: 0 auto; }
+  .usp__bild :global(.rszene__bild) { max-width: 300px; }
   .usp { display: grid; gap: 16px; align-content: start; padding: 16px 16px 28px; }
   .usp__head { display: flex; align-items: center; gap: 12px; padding-inline: 8px; }
   .usp__head h3 { margin: 0; }

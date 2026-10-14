@@ -102,13 +102,15 @@ export const USP = [
     text:
       "Wir kommen aus Norderstedt und betreuen unsere Kunden persönlich vor Ort. " +
       "Keine Hotline, kein Callcenter, sondern direkte, deutschsprachige Ansprechpartner.",
+    szene: "uspRegional" as const,
     bild: "galerie-bad-07.webp",
     alt: "Von Bauwelt saniertes Bad mit freistehender Wanne unter dem Dachfenster",
   },
   {
-    icon: "reno",
+    icon: "hand",
     title: "Alles aus einer Hand",
     text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau koordinieren wir sämtliche Arbeiten für Sie.",
+    szene: "uspHand" as const,
     bild: "galerie-sanierung-02.webp",
     alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
   },
@@ -116,6 +118,7 @@ export const USP = [
     icon: "euro",
     title: "Zum Festpreis fertig",
     text: "Nach der Besichtigung erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.",
+    szene: "uspFestpreis" as const,
     bild: "galerie-innenausbau-04.webp",
     alt: "Von Bauwelt ausgebautes Büro mit Holzlamellen-Wand",
   },

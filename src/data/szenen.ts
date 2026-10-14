@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "portal" | "siegel" | "siegelUeber";
+export type SzenenName = "weg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -332,7 +332,75 @@ const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
   antwort: { mobil: ["Antwort", "innerhalb von", "12 Stunden"], desktop: ["Antwort innerhalb", "von 12 Stunden"] },
   angebot: { mobil: ["Angebot", "innerhalb von", "24 Stunden"], desktop: ["Angebot innerhalb", "von 24 Stunden"] },
 };
+// Kundenwunsch 15.10.2026 (60): Siegel „DE“ (deutsch) entfernt – doppelt mit „Deutschsprachiger Ansprechpartner“
+// → 9 Siegel (mobil 3-3-3, Desktop 5-4)
 const siegelUeber = (a: Ansicht) =>
-  siegelSzene(a, ["erfahrung", "deutsch", "regional", ...SIEGEL_IDS], [2, 3, 2, 3], [5, 5], ZEILEN_UEBER);
+  siegelSzene(a, ["erfahrung", "regional", ...SIEGEL_IDS], [3, 3, 3], [5, 4], ZEILEN_UEBER);
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel, siegelUeber };
+/* ─── USP-Bilder als Zeichnungen (Kundenwunsch 15.10.2026 (61), Über uns „Handwerk ohne Überraschungen“) ─── */
+const USP_B = 300, USP_H = 180;
+function uspRahmen(fn: (z: Zeichner, cx: number, cy: number) => void): Szene {
+  const z = new Zeichner();
+  z.bei(0.2);
+  fn(z, USP_B / 2, USP_H / 2 + 6);
+  return { breite: USP_B, hoehe: USP_H, elemente: z.elemente, ende: 3.2 };
+}
+// Regional & persönlich: Haus mit Standort-Pin darüber, Wege-Linie zum Haus
+const uspRegional = () => uspRahmen((z, cx, cy) => {
+  z.linie(cx - 120, cy + 52, cx + 120, cy + 52, { stroke: F.hell, strokeWidth: 2 }, 0.4);
+  z.pfad(`M${cx - 110} ${cy + 52}Q${cx - 70} ${cy + 20} ${cx - 40} ${cy + 40}`, { stroke: F.gold, strokeWidth: 2.4, strokeLineDash: [6, 7] } as never, 0.6);
+  z.bei(0.8);
+  z.pfad(`M${cx - 38} ${cy + 52}V${cy + 2}L${cx} ${cy - 30}L${cx + 38} ${cy + 2}V${cy + 52}Z`, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.3 });
+  z.rechteck(cx - 10, cy + 22, 20, 30, { strokeWidth: 2.2 }, 0.3);
+  z.rechteck(cx + 14, cy + 8, 14, 12, { stroke: F.grau, strokeWidth: 1.8 }, 0.25);
+  z.bei(1.6);
+  z.gruppe("stempel", () => {
+    z.pfad(`M${cx + 62} ${cy - 6}C${cx + 44} ${cy - 30} ${cx + 44} ${cy - 62} ${cx + 62} ${cy - 66}C${cx + 80} ${cy - 62} ${cx + 80} ${cy - 30} ${cx + 62} ${cy - 6}Z`,
+      { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.4);
+    z.kreis(cx + 62, cy - 46, 13, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
+  });
+});
+// Alles aus einer Hand: offene Hand von vorn (Handfläche, vier Finger, Daumen), daneben Hammer & Pinsel
+const uspHand = () => uspRahmen((z, cx, cy) => {
+  const hx = cx - 4, hy = cy + 14;
+  // Finger (von links nach rechts unterschiedlich lang) und Handfläche
+  [[-27, 40], [-12, 50], [3, 47], [18, 38]].forEach(([dx, h], i) =>
+    z.rundRechteck(hx + dx, hy - 8 - h, 13, h + 14, 6.5, { strokeWidth: 2.4 }, 0.25 + i * 0.03));
+  z.rundRechteck(hx - 30, hy - 10, 62, 52, 18, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.3, strokeWidth: 2.6 }, 0.6);
+  // Daumen schräg nach links
+  z.pfad(`M${hx - 30} ${hy + 22}L${hx - 50} ${hy + 2}Q${hx - 58} ${hy - 8} ${hx - 48} ${hy - 13}Q${hx - 42} ${hy - 15} ${hx - 36} ${hy - 8}L${hx - 28} ${hy + 2}`,
+    { strokeWidth: 2.4 }, 0.4);
+  // Handgelenk
+  z.linie(hx - 20, hy + 42, hx - 20, hy + 58, { strokeWidth: 2.4 }, 0.2);
+  z.linie(hx + 22, hy + 42, hx + 22, hy + 58, { strokeWidth: 2.4 }, 0.2);
+  z.bei(1.3);
+  // Werkzeuge links und rechts der Hand
+  z.gruppe("stempel", () => {
+    // Hammer links
+    z.linie(cx - 92, cy + 30, cx - 70, cy - 18, { strokeWidth: 3 }, 0.3);
+    z.rechteck(cx - 82, cy - 30, 26, 12, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+    // Pinsel rechts
+    z.linie(cx + 88, cy + 30, cx + 72, cy - 6, { stroke: F.goldDunkel, strokeWidth: 3 }, 0.3);
+    z.rechteck(cx + 62, cy - 30, 18, 24, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+  });
+  z.gruppe("puls", () => {
+    z.linie(cx + 40, cy - 60, cx + 40, cy - 44, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
+    z.linie(cx + 32, cy - 52, cx + 48, cy - 52, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
+  });
+});
+// Zum Festpreis fertig: Preisschild mit € und goldenem Haken
+const uspFestpreis = () => uspRahmen((z, cx, cy) => {
+  const x = cx - 70, y = cy - 40;
+  z.pfad(`M${x} ${y + 40}L${x + 34} ${y}H${x + 130}V${y + 80}H${x + 34}Z`, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.3, strokeWidth: 2.6 }, 0.8);
+  z.kreis(x + 30, y + 40, 12, { strokeWidth: 2 }, 0.2);
+  z.pfad(`M${x + 18} ${y + 40}Q${x - 10} ${y + 30} ${x - 18} ${y + 8}`, { stroke: F.grau, strokeWidth: 1.8 }, 0.3);
+  z.bei(1.0);
+  z.text(x + 86, y + 54, "€", { groesse: 40, farbe: F.goldDunkel, gewicht: 700 });
+  z.bei(1.6);
+  z.gruppe("stempel", () => {
+    z.kreis(cx + 76, cy + 34, 40, { fill: F.gold, fillStyle: "solid", strokeWidth: 2 }, 0.3);
+    z.pfad(`M${cx + 66} ${cy + 34}l${7} ${7}l${13} -${14}`, { strokeWidth: 3, roughness: 0.5 }, 0.3);
+  });
+});
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
