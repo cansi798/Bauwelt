@@ -727,10 +727,14 @@ const weich = (t: string) =>
       selectGewerk(GEWERKE[0], "nie");
     } else {
       // Vorauswahl per ?gewerk=<slug> (z. B. von den Leistungsseiten)
-      const pre = new URLSearchParams(location.search).get("gewerk") ?? app.dataset.vorwahl ?? null;
+      // Kundenwunsch 14.10.2026 (28): eingebetteter Rechner (data-vorwahl) wählt still vor –
+      // die Leistungsseite bleibt oben; nur ein ?gewerk=-Link scrollt zum Rechner.
+      const urlPre = new URLSearchParams(location.search).get("gewerk");
+      const pre = urlPre ?? app.dataset.vorwahl ?? null;
+      const scroll: Scroll = urlPre ? "immer" : "nie";
       const preG = pre ? GEWERKE.find((g) => g.slug === pre) : null;
-      if (preG) selectGewerk(preG);
-      else if (pre && istPauschal(pre)) selectPauschal(pre);
+      if (preG) selectGewerk(preG, scroll);
+      else if (pre && istPauschal(pre)) selectPauschal(pre, scroll);
     }
   }
 </script>
