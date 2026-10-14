@@ -176,7 +176,7 @@ export const PORTAL = {
   ],
 };
 
-/** Angebots-Sektion („Transparente Angebote statt Positionsdschungel"). */
+/** Angebots-Sektion („Verständliche Angebote statt Positionsdschungel“, 14.10.2026). */
 export const ANGEBOT = {
   sub:
     "Wir glauben, dass Angebote verständlich sein sollten. Deshalb konzentrieren " +

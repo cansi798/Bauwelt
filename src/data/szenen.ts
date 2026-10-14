@@ -223,11 +223,11 @@ function weg(a: Ansicht): Szene {
 }
 
 const PORTAL_TEILE = [
-  { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "an einem Ort"] },
-  { motiv: kalender, zeilen: ["Alle Termine", "im Blick"] },
-  // Erste Zeile fett, folgende normal (Kundenfeedback 30.09.2026)
-  { motiv: chat, zeilen: ["WhatsApp oder E-Mail", "wie Sie wollen"] },
-  { motiv: pfeilKreis, zeilen: ["Aktueller Projektstatus", "Immer wissen, was als", "Nächstes passiert"] },
+  // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
+  { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "An einem Ort."] },
+  { motiv: kalender, zeilen: ["Alle Termine", "Im Blick."] },
+  { motiv: chat, zeilen: ["Kommunikation", "Per WhatsApp oder E-Mail."] },
+  { motiv: pfeilKreis, zeilen: ["Projektstatus", "Jederzeit nachvollziehbar."] },
 ];
 
 function portal(a: Ansicht): Szene {

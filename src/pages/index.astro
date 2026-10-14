@@ -1,6 +1,6 @@
 ---
 // Startseite – Reihenfolge laut Kundenfeedback 30.09.2026:
-// 1 Hero → 2 Leistungen-Rechner (11.10.2026: Leistungskarten + Projekt-Kalkulation
+// 14.10.2026 (30): 1 Hero → Versprechen → 2 Leistungen-Rechner (11.10.2026: Leistungskarten + Projekt-Kalkulation
 // kombiniert, ersetzt „Unsere Leistungen“) → 3 Ablauf → 4 Referenzen → 5 Kundenportal → 6 Angebot
 // → 7 Versprechen → 8 Einzugsgebiet → 9 FAQ → 10 Kontakt.
 // Entfallen: CTA-Band „So sollte Handwerk sein", Terminbuchungs-Sektion
@@ -15,6 +15,7 @@ import Rechner from "../components/Rechner.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import Faq from "../components/Faq.astro";
 import ServiceArea from "../components/ServiceArea.astro";
+import WarumAnders from "../components/WarumAnders.astro";
 import SectionHead from "../components/SectionHead.astro";
 import { CTA, TERMIN } from "../consts";
 import { FAQ_HOME } from "../data/home";
@@ -27,8 +28,11 @@ import { FAQ_HOME } from "../data/home";
   <Hero />
   <div id="weiter"></div>
 
+  <!-- Kundenwunsch 14.10.2026 (30): „Worauf Sie sich verlassen können“ direkt nach dem Hero, danach der Rechner -->
+  <SiegelSlider />
+
   <!-- Leistungen + Projekt-Kalkulation in einem (Kundenwunsch 11.10.2026) -->
-  <section class="section section--sand" id="leistungen">
+  <section class="section" id="leistungen">
     <div class="container">
       <SectionHead
         center
@@ -40,7 +44,7 @@ import { FAQ_HOME } from "../data/home";
     </div>
   </section>
 
-  <section class="section" id="ablauf">
+  <section class="section section--sand" id="ablauf">
     <div class="container">
       <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Von der ersten Idee bis zum fertigen " accent="Ergebnis" />
       <RoughSzene
@@ -63,7 +67,7 @@ import { FAQ_HOME } from "../data/home";
 
   <PortalSection />
   <AngebotSection />
-  <SiegelSlider />
+  <WarumAnders />
   <ServiceArea />
 
   <!-- Weniger Abstand zum Einzugsgebiet darüber (Kundenfeedback 07.10.2026) -->

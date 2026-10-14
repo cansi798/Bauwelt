@@ -1,0 +1,76 @@
+---
+// „Warum wir anders arbeiten“ (Kundenwunsch 14.10.2026 (34)): Zitat des Geschäftsführers links,
+// rundes Foto rechts (mobil: Foto oben). Steht auf der Startseite vor dem Einzugsgebiet.
+// Text wörtlich vom Kunden; Foto so beschnitten, dass die Sonnenbrille nicht zu sehen ist.
+import SectionHead from "./SectionHead.astro";
+import { u } from "../consts";
+---
+
+<section class="section section--sand anders" id="warum-anders">
+  <div class="container anders__grid">
+    <div class="anders__text">
+      <SectionHead eyebrow="Unsere Haltung" pre="Warum wir anders " accent="arbeiten" />
+      <blockquote class="anders__zitat">
+        <p>
+          Viele Menschen verbinden Handwerk mit langen Wartezeiten, fehlenden Rückmeldungen und unklaren
+          Abläufen. Wir haben uns gefragt, warum die Zusammenarbeit mit einem Handwerksbetrieb nicht genauso
+          einfach sein kann wie mit den besten Dienstleistungsunternehmen.
+        </p>
+        <p>
+          Inspiriert von Unternehmen, die ihre Kunden mit Verbindlichkeit, Transparenz und erstklassigem
+          Service begeistern, haben wir unsere Prozesse neu gedacht. Denn wir sind überzeugt: Gutes Handwerk
+          zeigt sich nicht nur im Ergebnis, sondern während des gesamten Projekts.
+        </p>
+        <footer class="anders__autor">
+          <strong>Burim Ahmedi</strong>
+          <span>Geschäftsführer</span>
+        </footer>
+      </blockquote>
+    </div>
+    <figure class="anders__bild reveal">
+      <img
+        src={u("assets/img/geschaeftsfuehrer-burim-ahmedi.webp")}
+        alt="Burim Ahmedi, Geschäftsführer von Bauwelt Handwerk"
+        width="560"
+        height="560"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .anders__grid { display: grid; gap: 32px; align-items: center; }
+  .anders__text :global(.section-head) { margin-bottom: 44px; }
+  .anders__zitat { position: relative; margin: 0; padding: 0 0 0 28px; border-left: 3px solid var(--gold-500); }
+  .anders__zitat::before {
+    content: "“";
+    position: absolute; left: 18px; top: -46px;
+    font-family: Georgia, serif; font-size: 110px; line-height: 1;
+    color: var(--gold-300); opacity: 0.55;
+    pointer-events: none;
+  }
+  .anders__zitat p { position: relative; margin: 0 0 1em; font-size: 18px; line-height: 1.7; color: var(--anthrazit-800); font-style: italic; }
+  .anders__autor { display: grid; gap: 2px; margin-top: 20px; font-style: normal; }
+  .anders__autor strong { font-family: var(--font-heading); font-size: 17px; color: var(--anthrazit-900); }
+  .anders__autor span { font-size: 14px; color: var(--gold-700); letter-spacing: 0.04em; }
+
+  .anders__bild { margin: 0; justify-self: center; }
+  .anders__bild img {
+    display: block;
+    width: clamp(200px, 26vw, 320px); height: auto; aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid var(--weiss);
+    box-shadow: 0 0 0 2px var(--gold-500), 0 24px 50px -20px rgba(31, 30, 32, 0.45);
+  }
+
+  @media (min-width: 900px) {
+    .anders__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 64px; }
+  }
+  @media (max-width: 899px) {
+    .anders__bild { order: -1; }
+    .anders__zitat p { font-size: 16px; }
+  }
+</style>

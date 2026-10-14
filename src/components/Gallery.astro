@@ -57,9 +57,10 @@ import Img from "./Img.astro";
   .gal__gruppe + .gal__gruppe { margin-top: 64px; }
   .gal__gruppe :global(.section-head) { margin-bottom: 28px; }
   /* Mobil 2 Spalten, Tablet 3, Desktop 4 – einheitliches Hochformat 4:5 */
-  .gal__grid { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
-  @media (min-width: 768px) { .gal__grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
-  @media (min-width: 1024px) { .gal__grid { grid-template-columns: repeat(4, 1fr); } }
+  /* größer (Kundenwunsch 14.10.2026 (33)): mobil 1, Tablet 2, Desktop 3 Spalten */
+  .gal__grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 640px) { .gal__grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
+  @media (min-width: 1024px) { .gal__grid { grid-template-columns: repeat(3, 1fr); gap: 22px; } }
   .gal__bild { display: block; border-radius: var(--radius-lg); overflow: hidden; }
   .gal__bild :global(img) { transition: transform 400ms ease; }
   .gal__bild:hover :global(img) { transform: scale(1.04); }
