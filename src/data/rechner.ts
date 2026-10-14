@@ -5,7 +5,8 @@
  *  die Umrechnung (× 1,19) passiert ausschließlich in `berechne()` bzw. `brutto()`.
  *
  *  - Badsanierung: echte Brutto-Preistabelle „ab“-Preis je m² (3–15 m²). Komfort = Basis
- *    + 1.500 €, Premium = Komfort + 1.500 €; angezeigt wird „ab X € bis X + 1.500 €“.
+ *    + 1.500 €, Premium = Komfort + 1.500 €; angezeigt wird „ab X € bis X + 1.500 €“
+ *    (Premium: „ab X € bis X + 2.300 €“, Kundenwunsch 14.10.2026 (44)).
  *    4. Option „Barrierefreie Dusche“: fester Höchstpreis (Budget der Pflegekasse für
  *    wohnumfeldverbessernde Maßnahmen), kein Flächen-Slider.
  *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
@@ -53,6 +54,8 @@ export type Tier = {
   aufschlag?: number;
   /** Fester Höchstpreis in € (brutto) – ohne Flächen-Slider. */
   festBis?: number;
+  /** Eigene Spannenbreite „ab X bis X + spanne“ für dieses Niveau (sonst tabelleSpanne des Gewerks). */
+  tierSpanne?: number;
   /** Abweichende Arbeitsschritte für dieses Niveau (sonst die des Gewerks). */
   bausteine?: Modul[];
 };
@@ -136,7 +139,8 @@ export const GEWERKE: Gewerk[] = [
         ],
       },
       {
-        id: "premium", label: "Premium", aufschlag: 2 * BAD_STUFE,
+        // Kundenwunsch 14.10.2026 (44): Premium-Spanne = Mindestpreis + 2.300 € (nur Badsanierung)
+        id: "premium", label: "Premium", aufschlag: 2 * BAD_STUFE, tierSpanne: 2300,
         hint: "Alles aus Komfort plus Fußbodenheizung und LED-Spots – individuell gestaltbar",
         enthalten: [
           "Alles aus Komfort, dazu:",
@@ -286,7 +290,7 @@ export function berechne(g: Gewerk, menge: number, tierId: string): Ergebnis {
     const tab = g.preistabelle!;
     const m = Math.min(Math.max(Math.round(menge), g.min), g.max);
     const ab = tab[m] + (t.aufschlag ?? 0);
-    return { art: "spanne", von: ab, bis: ab + (g.tabelleSpanne ?? 0), ab: true };
+    return { art: "spanne", von: ab, bis: ab + (t.tierSpanne ?? g.tabelleSpanne ?? 0), ab: true };
   }
   const f = (g.faktor ?? 1) * (g.netto ? 1 + MWST : 1);
   const grund = g.grund * f;
