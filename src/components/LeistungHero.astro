@@ -46,7 +46,7 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
       <span aria-current="page">{titel}</span>
     </nav>
 
-    <div class="eyebrow lhero__in" style="--d: 60ms">{eyebrow}</div>
+    {/* Kundenwunsch 14.10.2026 (49): kleine Zeile über der H1 entfällt auf allen Leistungsseiten (Pfad bleibt) */}
     <h1 class="lhero__in" style="--d: 120ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
 
     {(claim || lead) && (

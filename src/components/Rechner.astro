@@ -195,10 +195,7 @@ const weich = (t: string) =>
               <label class="rextra"><input type="checkbox" value={x.id} /><span>{x.label}</span></label>
             ))}
           </div>
-          <p class="rlive" aria-live="polite">
-            Ihr Preis inkl. Extras:
-            <strong id="rLive">{mitKalk ? preisText(berechne(erstes, erstes.default, erstes.tiers[0].id, { art: "detail" })) : ""}</strong>
-          </p>
+          {/* Kundenwunsch 14.10.2026 (48): kein Live-Preis – der Preis erscheint erst nach „Preisspanne anzeigen“ */}
         </fieldset>
       </div>
       {/* Kundenwunsch 13.10.2026 (21): kein Brutto-Hinweis mehr über „Preisspanne anzeigen“ (auf der Ergebnisseite bleibt er, PAngV) */}
@@ -633,7 +630,7 @@ const weich = (t: string) =>
     const kalkRadios = Array.from(kalkEl.querySelectorAll<HTMLInputElement>('input[name="rKalkArt"]'));
     const extrasEl = document.getElementById("rExtras")!;
     const extrasListe = document.getElementById("rExtrasListe")!;
-    const liveEl = document.getElementById("rLive")!;
+    const liveEl = document.getElementById("rLive"); // entfernt (48) – bleibt optional
 
     const state = {
       step: START ? 2 : 1,
@@ -778,7 +775,7 @@ const weich = (t: string) =>
     function updateLive() {
       const g = state.gewerk;
       if (!g?.extras) return;
-      liveEl.textContent = preisText(berechne(g, state.menge, state.tier, { art: "detail", extras: state.extras }));
+      if (liveEl) liveEl.textContent = preisText(berechne(g, state.menge, state.tier, { art: "detail", extras: state.extras }));
     }
 
     /** Festpreis-Option (z. B. Barrierefreie Dusche): kein Flächen-Slider. */
