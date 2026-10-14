@@ -10,6 +10,8 @@ refAnker: "innenausbau"
 refBilder:
   - { file: "galerie-innenausbau-05.webp", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" }
   - { file: "galerie-innenausbau-01.webp", alt: "Gastraum mit indirekt beleuchteten Wandpaneelen" }
+claim: "Mehr aus Ihren Räumen machen – Wände, Decken, Licht und Akustik nach Maß."
+ablaufZiel: "neuen Raum"
 introTitel: "Mehr Raum für das, was Ihnen wichtig ist"
 warum:
   - { icon: "wall", title: "Räume, die zu Ihrem Leben passen", text: "Neue Raumaufteilung, Nischen, abgehängte Decken mit Licht – wir planen mit Ihnen, was zu Ihrem Alltag passt." }

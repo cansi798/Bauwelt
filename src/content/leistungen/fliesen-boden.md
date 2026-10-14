@@ -23,6 +23,8 @@ bild: "galerie-fliesen-03.webp"
 refAnker: "fliesen"
 refBilder:
   - { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" }
+claim: "Gerade Kanten, saubere Fugen – Böden und Wände, an denen Sie lange Freude haben."
+ablaufZiel: "neuen Boden"
 introTitel: "Böden und Wände, die jeden Tag Freude machen"
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen, saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }

@@ -6,17 +6,21 @@
 // Kundenwunsch 12.10.2026 (16): Abschnitt „Was alles drin ist“ entfällt; Referenzen
 // zeigen echte Fotos (refBilder im Frontmatter), wo vorhanden.
 // Kundenwunsch 11.10.2026 (7): „Unser Versprechen“ und „Nächster Schritt“ entfallen.
-// Hintergründe wechseln automatisch (weiß/sand), auch wenn ein Abschnitt fehlt.
+// Kundenwunsch 14.10.2026 (29): Jede Leistungsseite ist eine eigenständige „Landingpage“,
+// die man Kunden direkt schicken kann: Vollbild-Hero (LeistungHero) → Rechner → Intro mit
+// Foto → „Warum mit uns?“ (dunkel) → Referenzen-Karussell → Ablauf mit CTAs → Versprechen
+// (Siegel der Startseite) → FAQ mit Termin-Button. Gleiches Schema für alle Leistungen.
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageHero from "../../components/PageHero.astro";
+import LeistungHero from "../../components/LeistungHero.astro";
+import SiegelSlider from "../../components/SiegelSlider.astro";
 import RoughSzene from "../../components/RoughSzene.astro";
 import Faq from "../../components/Faq.astro";
 import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
 import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
-import { u } from "../../consts";
+import { TERMIN, u } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 
@@ -45,16 +49,18 @@ const euro = (n: number) => n.toLocaleString("de-DE");
 const galerieGruppe = GALERIE.find((g) => g.id === l.data.refAnker);
 const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data.refBilder ?? []);
 
-// Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
-const sektionen = [
-  hatRechner && "rechner",
-  "intro",
-  l.data.warum.length > 0 && "warum",
-  "ablauf",
-  refBilder.length > 0 && "refs",
-  l.data.faq.length > 0 && "faq",
-].filter(Boolean) as string[];
-const bg = (k: string) => ["section", { "section--sand": sektionen.indexOf(k) % 2 === 0 }];
+const heroBild = l.data.bild ?? `hero-${l.id}.webp`; /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */
+// Foto neben dem Intro: erstes Referenzfoto, das nicht schon im Hero steht.
+const introBild = refBilder.find((b) => b.file !== heroBild);
+const buchen = pauschal
+  ? { href: u("kontakt/#termin"), label: `${kurzTitel.replace("Immobilien-", "")} buchen`, extern: false }
+  : { href: TERMIN.href, label: TERMIN.label, extern: true };
+const chips = [
+  pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Garantie",
+  "Antwort in 12 h",
+  "Angebot in 24 h",
+  "Ein Ansprechpartner",
+];
 
 const description =
   l.data.beschreibung ??
@@ -67,22 +73,23 @@ const description =
 ---
 
 <BaseLayout title={`${l.data.title} – Norderstedt & Hamburg`} description={description}>
-  <PageHero
+  <LeistungHero
+    titel={kurzTitel}
     eyebrow={l.data.badge ? `${kurzTitel} · ${l.data.badge}` : kurzTitel}
     pre={`${h1Titel} zum `}
     accent={l.data.h1Akzent}
+    claim={l.data.claim}
     lead={l.data.lead}
-    bild={l.data.bild ?? `hero-${l.id}.webp` /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */}
-    alt={kurzTitel}
-    ctaHref={u("kontakt/#termin")}
-    ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : "Kostenlosen Besichtigungstermin buchen"}
-    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} € inkl. MwSt.` : "Kostenlos & unverbindlich vor Ort"}
-    ohneTermin={true}
+    bild={heroBild}
+    ctaHref={hatRechner ? "#rechner" : buchen.href}
+    ctaLabel={hatRechner ? "Jetzt Preis berechnen" : buchen.label}
+    mitTermin={!pauschal}
+    chips={chips}
   />
 
   {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
   {hatRechner && (
-    <section class:list={bg("rechner")} id="rechner">
+    <section class="section section--sand" id="rechner">
       <div class="container">
         <SectionHead center eyebrow={`${kurzTitel} berechnen`} pre="Was kostet Ihr " accent="Projekt?" />
         <Rechner variant="seite" gewerk={rechnerSlug} />
@@ -90,22 +97,39 @@ const description =
     </section>
   )}
 
-  <!-- 1. Intro: worum es geht – aus Kundensicht -->
-  <section class:list={bg("intro")}>
-    <div class="container ldetail__intro">
-      <SectionHead eyebrow={kurzTitel} pre={l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`} />
-      <div class="ldetail__prose"><Content /></div>
+  <!-- 1. Intro: worum es geht – aus Kundensicht, mit echtem Foto daneben -->
+  <section class="section">
+    <div class:list={["container", "lintro", { "lintro--bild": introBild }]}>
+      <div class="lintro__text">
+        <SectionHead eyebrow={kurzTitel} pre={l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`} />
+        <div class="ldetail__prose"><Content /></div>
+        <div class="lintro__actions nur-desktop">
+          {buchen.extern
+            ? <a class="btn" href={buchen.href} target="_blank" rel="noopener" data-termin>{buchen.label}</a>
+            : <a class="btn" href={buchen.href}>{buchen.label}</a>}
+        </div>
+      </div>
+      {introBild && (
+        <figure class="lintro__bild reveal">
+          <Img src={introBild.file} alt={introBild.alt} w={4} h={5} />
+          <figcaption class="lintro__siegel">
+            <Icon name="check" size={18} class="icon" />
+            <span><strong>{pauschal ? "Pauschalpreis" : "Festpreis"}</strong> – {pauschal ? "ohne Überraschungen" : "der Preis im Angebot gilt"}</span>
+          </figcaption>
+        </figure>
+      )}
     </div>
   </section>
 
-  <!-- 2. Warum mit Bauwelt Handwerk? -->
+  <!-- 2. Warum mit Bauwelt Handwerk? – dunkler Kontrast-Abschnitt -->
   {l.data.warum.length > 0 && (
-    <section class:list={bg("warum")}>
+    <section class="section section--dark lwarum">
       <div class="container">
         <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${kurzTitel} mit `} accent="Bauwelt Handwerk?" />
         <ul class="warum">
-          {l.data.warum.map((w) => (
-            <li class="card warum__item reveal">
+          {l.data.warum.map((w, i) => (
+            <li class="warum__item reveal">
+              <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
               <h3>{w.title}</h3>
               <p>{w.text}</p>
@@ -116,19 +140,8 @@ const description =
     </section>
   )}
 
-  <!-- Ablauf: dieselbe gezeichnete Animation wie auf der Startseite -->
-  <section class:list={bg("ablauf")}>
-    <div class="container">
-      <SectionHead center eyebrow="Ablauf" pre="So läuft es " accent="ab" />
-      <RoughSzene
-        szene="weg"
-        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
-      />
-    </div>
-  </section>
-
   {refBilder.length > 0 && (
-    <section class:list={bg("refs")}>
+    <section class="section section--sand">
       <div class="container">
         <div class="lrefs__head">
           <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
@@ -153,15 +166,37 @@ const description =
             ))}
           </div>
         </div>
+        <div class="lmitte">
+          <a class="btn btn--ghost" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>Alle Referenzen ansehen</a>
+        </div>
       </div>
     </section>
   )}
 
+  <!-- Ablauf: dieselbe gezeichnete Animation wie auf der Startseite, mit CTAs -->
+  <section class="section">
+    <div class="container">
+      <SectionHead center eyebrow="Ablauf" pre="So einfach kommen Sie zu Ihrem " accent={l.data.ablaufZiel ?? "Ergebnis"} />
+      <RoughSzene
+        szene="weg"
+        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+      />
+      <div class="lmitte lmitte--zwei nur-desktop">
+        {hatRechner && <a class="btn btn--lg" href="#rechner">Jetzt Preis berechnen</a>}
+        {buchen.extern
+          ? <a class:list={["btn", "btn--lg", { "btn--ghost": hatRechner }]} href={buchen.href} target="_blank" rel="noopener" data-termin>{buchen.label}</a>
+          : <a class="btn btn--lg" href={buchen.href}>{buchen.label}</a>}
+      </div>
+    </div>
+  </section>
+
+  <SiegelSlider />
+
   {l.data.faq.length > 0 && (
-    <section class:list={bg("faq")}>
+    <section class="section">
       <div class="container">
         <SectionHead center eyebrow="Häufige Fragen" pre={`${kurzTitel}: Gut zu `} accent="wissen" />
-        <Faq items={l.data.faq} />
+        <Faq items={l.data.faq} withCta />
       </div>
     </section>
   )}
@@ -173,27 +208,70 @@ const description =
   .lrefs__head :global(.section-head) { margin-bottom: 0; }
   .refmini { width: min(72vw, 320px); }
 
-  .ldetail__intro { max-width: 860px; }
+  .lmitte { display: flex; justify-content: center; margin-top: 8px; }
+  .lmitte--zwei { flex-wrap: wrap; gap: 14px 16px; margin-top: 32px; }
+
+  .lintro { display: grid; gap: 32px; align-items: center; }
+  .lintro:not(.lintro--bild) { max-width: 860px; }
+  .lintro__text { display: grid; gap: 0; justify-items: start; }
+  .lintro__actions { margin-top: 28px; }
+  .lintro__bild { position: relative; margin: 0; }
+  .lintro__bild :global(img) { width: 100%; border-radius: var(--radius-lg, 20px); box-shadow: 0 24px 60px -24px rgba(31, 30, 32, 0.45); }
+  .lintro__siegel {
+    position: absolute; left: -16px; bottom: 28px;
+    display: flex; align-items: center; gap: 10px;
+    max-width: 280px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: var(--weiss);
+    box-shadow: 0 16px 40px -16px rgba(31, 30, 32, 0.35);
+    font-size: 14px; line-height: 1.35; color: var(--anthrazit-700);
+  }
+  .lintro__siegel strong { color: var(--anthrazit-900); }
+  .lintro__siegel :global(.icon) {
+    flex: none; width: 34px; height: 34px; padding: 7px;
+    border-radius: 50%; background: var(--gold-500); color: var(--anthrazit-900);
+  }
+  @media (min-width: 1024px) {
+    .lintro--bild { grid-template-columns: 1.15fr 0.85fr; gap: 72px; }
+  }
+  @media (max-width: 1023px) {
+    .lintro__bild { max-width: 460px; justify-self: center; width: 100%; }
+    .lintro__siegel { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+  }
   .ldetail__prose { max-width: var(--text-width); font-size: 17px; line-height: 1.7; }
   .ldetail__prose :global(p) { margin-bottom: 1em; }
   .ldetail__prose :global(p:last-child) { margin-bottom: 0; }
 
   .warum { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
   @media (min-width: 640px) { .warum { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .warum { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .warum__item { display: grid; gap: 10px; align-content: start; padding: 24px; }
+  @media (min-width: 1024px) { .warum { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+  .warum__item {
+    position: relative;
+    display: grid; gap: 12px; align-content: start;
+    padding: 28px 24px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+  .warum__item:hover { border-color: var(--gold-500); transform: translateY(-3px); }
+  .warum__nr {
+    position: absolute; top: 18px; right: 22px;
+    font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 1;
+    color: rgba(255, 255, 255, 0.08);
+  }
   .warum__icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
+    width: 52px; height: 52px;
+    border-radius: 14px;
     background: var(--gold-500);
     color: var(--anthrazit-900);
     display: inline-flex; align-items: center; justify-content: center;
   }
-  .warum__item h3 { margin: 4px 0 0; font-size: 17px; text-transform: none; letter-spacing: 0; line-height: 1.3; }
-  .warum__item p { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .lwarum .warum__item h3 { margin: 6px 0 0; font-size: 18px; text-transform: none; letter-spacing: 0; line-height: 1.3; color: var(--weiss); }
+  .lwarum .warum__item p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--anthrazit-200); }
 
   .refmini { padding: 12px; display: grid; }
-  .refs--eins { grid-template-columns: minmax(0, 1fr) !important; max-width: 560px; }
 </style>
 
 <script>

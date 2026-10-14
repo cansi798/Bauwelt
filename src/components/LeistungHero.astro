@@ -1,0 +1,175 @@
+---
+// Leistungsseiten-Hero (Kundenwunsch 14.10.2026 (29)): Leistungsseite als eigenständige
+// „Landingpage“, die man Kunden direkt schicken kann – Vollbild-Foto wie auf der
+// Startseite, aber niedriger und mit Pfad „Leistungen › …“, damit klar bleibt: Unterseite.
+// Aufbau: Pfad → Eyebrow → H1 → Claim (emotional) → Lead → CTAs → Vertrauens-Chips.
+// CTAs nur ab Desktop (mobil übernimmt die feste Leiste unten, wie auf der Startseite).
+import { TERMIN, u } from "../consts";
+import Icon from "./Icon.astro";
+
+interface Props {
+  titel: string;          // Kurztitel für den Pfad, z. B. „Badsanierung“
+  eyebrow: string;
+  pre: string;
+  accent?: string;
+  claim?: string;
+  lead?: string;
+  bild: string;           // Datei in assets/img/
+  ctaHref: string;
+  ctaLabel: string;
+  /** Termin-Button zusätzlich anzeigen (bei Pauschal-Leistungen ist der Haupt-CTA schon die Buchung). */
+  mitTermin?: boolean;
+  chips: string[];
+}
+const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, chips } = Astro.props;
+---
+
+<section class="lhero">
+  <div class="lhero__bg" aria-hidden="true">
+    <img
+      src={u(`assets/img/${bild}`)}
+      alt=""
+      width="1600"
+      height="900"
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+      onerror="this.remove()"
+    />
+    <div class="lhero__shade"></div>
+  </div>
+
+  <div class="container lhero__content">
+    <nav class="lhero__pfad lhero__in" style="--d: 0ms" aria-label="Brotkrumen">
+      <a href={u("leistungen/")}>Leistungen</a>
+      <Icon name="chevron" size={14} class="icon lhero__pfeil" />
+      <span aria-current="page">{titel}</span>
+    </nav>
+
+    <div class="eyebrow lhero__in" style="--d: 60ms">{eyebrow}</div>
+    <h1 class="lhero__in" style="--d: 120ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
+
+    {(claim || lead) && (
+      <div class="lhero__text lhero__in" style="--d: 220ms">
+        {claim && <p class="lhero__claim">{claim}</p>}
+        {lead && <p class="lhero__lead">{lead}</p>}
+      </div>
+    )}
+
+    <div class="lhero__actions lhero__in nur-desktop" style="--d: 320ms">
+      <a class="btn btn--lg" href={ctaHref}>{ctaLabel}</a>
+      {mitTermin && (
+        <a class="btn btn--lg lhero__ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+      )}
+    </div>
+
+    <ul class="lhero__chips lhero__in" style="--d: 420ms">
+      {chips.map((c) => (
+        <li><Icon name="check" size={16} class="icon" /> {c}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .lhero {
+    position: relative;
+    min-height: min(80svh, 720px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--anthrazit-900); /* Fallback, falls das Bild fehlt */
+  }
+  .lhero__bg { position: absolute; inset: 0; }
+  .lhero__bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    animation: lkenburns 24s ease-in-out infinite alternate;
+  }
+  @keyframes lkenburns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07) translateX(-1.5%); }
+  }
+  .lhero__shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(31, 30, 32, 0.86) 0%, rgba(31, 30, 32, 0.62) 50%, rgba(31, 30, 32, 0.25) 100%),
+      linear-gradient(180deg, rgba(31, 30, 32, 0.2) 0%, rgba(31, 30, 32, 0) 35%, rgba(31, 30, 32, 0.5) 100%);
+  }
+
+  .lhero__content {
+    position: relative;
+    width: 100%; /* sonst schrumpft der Container im Flex-Hero und steht nicht bündig mit dem Inhalt darunter */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    justify-items: start;
+    padding-block: 64px 72px;
+  }
+  .lhero__content > * { max-width: 100%; min-width: 0; }
+  .lhero__content h1 { color: var(--weiss); margin: 0; max-width: 19ch; }
+  .lhero__content .eyebrow { color: var(--gold-300); margin: 0; }
+
+  .lhero__pfad {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--anthrazit-200);
+  }
+  .lhero__pfad a { color: var(--anthrazit-100); text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); }
+  .lhero__pfad a:hover { color: var(--weiss); border-color: var(--gold-300); }
+  .lhero__pfad :global(.lhero__pfeil) { width: 14px; height: 14px; transform: rotate(-90deg); opacity: 0.7; }
+  .lhero__pfad span { color: var(--gold-300); }
+
+  .lhero__text { display: grid; gap: 10px; max-width: 620px; }
+  .lhero__claim {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(20px, 2.3vw, 27px);
+    line-height: 1.28;
+    color: var(--weiss);
+  }
+  .lhero__lead { margin: 0; font-size: 16px; line-height: 1.6; color: var(--anthrazit-100); }
+
+  .lhero__actions { display: flex; flex-wrap: wrap; gap: 14px 16px; margin-top: 12px; }
+  .lhero__ghost {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.55);
+    color: var(--weiss);
+    box-shadow: none;
+  }
+  .lhero__ghost:hover { background: rgba(255, 255, 255, 0.12); border-color: var(--weiss); }
+
+  .lhero__chips {
+    list-style: none; margin: 8px 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .lhero__chips li {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px 7px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    color: var(--weiss);
+    font-size: 14px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .lhero__chips :global(.icon) { width: 16px; height: 16px; color: var(--gold-300); flex: none; }
+
+  .lhero__in {
+    animation: lrise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes lrise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 767px) {
+    .lhero { min-height: auto; }
+    .lhero__content { padding-block: 44px 40px; gap: 12px; }
+    .lhero__lead { font-size: 15px; }
+    .lhero__chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+    .lhero__chips li { font-size: 13px; padding: 7px 10px; white-space: normal; line-height: 1.25; border-radius: 12px; }
+  }
+</style>

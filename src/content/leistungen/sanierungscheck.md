@@ -12,6 +12,8 @@ pauschalpreis: 595
 # 500 € netto + 19 % MwSt. = 595 € brutto (Kundenwunsch 12.10.2026)
 pauschalHinweis: "Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an."
 siegel: "transparenz"
+claim: "Der ehrliche Blick vom Fachmann – bevor Sie kaufen."
+ablaufZiel: "Ergebnis"
 introTitel: "Sicher entscheiden statt teuer überrascht werden"
 warum:
   - { icon: "eye", title: "Der Blick vom Fach", text: "Wir sanieren selbst Bäder, Wohnungen und Häuser – und wissen, worauf es bei einer Immobilie ankommt." }

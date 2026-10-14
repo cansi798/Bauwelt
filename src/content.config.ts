@@ -22,6 +22,10 @@ const leistungen = defineCollection({
     // Einheitliche Leistungsseite (Kundenwunsch 11.10.2026): H1 → Intro (Markdown-Text,
     // ca. 8 Zeilen aus Kundensicht) → „Warum <Leistung> mit Bauwelt Handwerk?“
     introTitel: z.string().optional(),                // H2 über dem Intro-Text
+    // Landingpage-Hero (Kundenwunsch 14.10.2026 (29)): emotionaler Satz unter der H1
+    claim: z.string().optional(),
+    /** Akzentwort im Ablauf: „So einfach kommen Sie zu Ihrem <ablaufZiel>“ */
+    ablaufZiel: z.string().optional(),
     warum: z.array(z.object({ icon: z.string(), title: z.string(), text: z.string() })).default([]),
     h1Akzent: z.string().default("Festpreis"),       // goldenes Wort in der H1
     checks: z.array(z.string()).optional(),          // Häkchen im Hero (Standard: Festpreis …)

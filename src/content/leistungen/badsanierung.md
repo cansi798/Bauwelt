@@ -12,6 +12,8 @@ refAnker: "bad"
 refBilder:
   - { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" }
   - { file: "galerie-bad-02.webp", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" }
+claim: "Ihr Wohlfühlbad – geplant, gebaut und übergeben aus einer Hand."
+ablaufZiel: "neuen Bad"
 introTitel: "Ihr neues Bad – ohne Stress und ohne Überraschungen"
 warum:
   - { icon: "euro", title: "Festpreis statt Kostenfalle", text: "Der Preis im Angebot ist der Preis auf der Rechnung. Nur was Sie selbst zusätzlich beauftragen, ändert ihn – vorher schriftlich." }
