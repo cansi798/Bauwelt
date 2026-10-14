@@ -1,89 +1,203 @@
 ---
-// Karriere: derzeit keine offenen Stellen, nur Initiativbewerbung (Kundenfeedback
-// 07.10.2026) + Benefits. Ansprache durchgehend "Sie".
+// Karriere – Kundenwunsch 14.10.2026 (38): finale Struktur von Jamil, Texte wörtlich:
+// 1 Hero → 2 Was Sie bei uns erwartet (dunkel) → 3 Bonusmodell → 4 Was Sie verdienen können
+// → 5 Unsere Kultur → 6 Offene Stellen (aus src/content/stellen, `offen: true`) bzw.
+// „Derzeit suchen wir keine Verstärkung.“ + Initiativbewerbung → 7 Bewerbung ohne Hürden.
+// Ansprache durchgehend "Sie".
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
+import Img from "../components/Img.astro";
 import { EMAILS, SITE, waLink } from "../consts";
 
-const BENEFITS = [
-  { icon: "euro", title: "Faire, pünktliche Bezahlung", text: "Leistung wird bei uns anständig und zuverlässig vergütet – jeden Monat pünktlich." },
-  { icon: "pin", title: "Baustellen in der Region", text: "Norderstedt, Hamburg und Umgebung – Sie sind abends zu Hause, nicht auf Montage." },
-  { icon: "tools", title: "Ordentliches Werkzeug", text: "Moderne Maschinen und Material, mit dem man sauber arbeiten kann." },
-  { icon: "user", title: "Kurze Wege", text: "Kleines Team, direkter Draht zur Führung, Entscheidungen ohne Umwege." },
+/** Kundenwunsch 14.10.2026 (38), Abschnitt 4: Jamil: „Die genauen Zahlen natürlich erst
+ *  festlegen.“ → Abschnitt ist fertig gebaut, aber ausgeblendet, bis Bauwelt die Gehälter
+ *  freigibt. Zum Einblenden auf `true` setzen (Beträge ggf. unten in VERGUETUNG anpassen). */
+const VERGUETUNG_FREIGEGEBEN = false;
+
+const ERWARTET = [
+  { icon: "euro", title: "Leistung wird belohnt", text: "Neben einem fairen Grundgehalt können Sie durch erfolgreich abgeschlossene Projekte zusätzliche Prämien erhalten." },
+  { icon: "arrow", title: "Mehr verdienen statt nur mehr arbeiten", text: "Wer Verantwortung übernimmt, sauber arbeitet und gute Ergebnisse liefert, soll auch finanziell davon profitieren." },
+  { icon: "reno", title: "Regionale Baustellen", text: "Unsere Projekte liegen überwiegend in Hamburg, Norderstedt und Umgebung. Abends zu Hause statt auf Montage." },
+  { icon: "hand", title: "Direkter Draht zur Geschäftsführung", text: "Kurze Wege, schnelle Entscheidungen und ein Team, in dem jede Meinung zählt." },
 ];
+
+const VERGUETUNG = [
+  { title: "Fliesenleger / Handwerker (m/w/d)", betrag: "3.500 € – 5.000 € brutto möglich", text: "Je nach Erfahrung, Verantwortung und Projektbeteiligung." },
+  { title: "Helfer / Bauhelfer (m/w/d)", betrag: "z. B. 2.800 € – 3.500 € brutto möglich" },
+  { title: "Vorarbeiter / Bauleiter (m/w/d)", betrag: "Individuelle Vergütung + Projektbeteiligung" },
+];
+
+const stellen = (await getCollection("stellen"))
+  .filter((s) => s.data.offen)
+  .sort((a, b) => a.data.order - b.data.order);
+const hatStellen = stellen.length > 0;
+
+// Sand/Weiß abwechselnd – auch wenn Abschnitt 4 ausgeblendet ist
+const folge = ["bonus", ...(VERGUETUNG_FREIGEGEBEN ? ["verguetung"] : []), "kultur", "stellen", "bewerbung"];
+const bg = (name: string) => ["section", { "section--sand": folge.indexOf(name) % 2 === 1 }];
+
+const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=${encodeURIComponent(betreff)}`;
 ---
 
 <BaseLayout
   footerNurNav
   title="Karriere – Jobs im Handwerk in Norderstedt | Bauwelt Handwerk"
-  description="Arbeiten bei der Bauwelt Handwerk GmbH in Norderstedt – Initiativbewerbung per E-Mail. Faire Bezahlung, regionale Baustellen, kurze Wege."
+  description="Gute Handwerker verdienen mehr: faires Grundgehalt plus Projektprämien, regionale Baustellen in Hamburg und Norderstedt, kurze Wege. Bewerbung per E-Mail oder WhatsApp."
 >
+  <!-- 1. Hero -->
   <PageHero
     eyebrow="Karriere"
-    pre="Arbeiten bei "
-    accent="Bauwelt Handwerk"
-    lead="Wir suchen Menschen, die sauberes Handwerk, Prozesse und Struktur lieben und schätzen – und dafür geschätzt werden wollen. Bewerben Sie sich einfach per E-Mail."
-    bild="hero-karriere.webp"
-    alt="Handwerker beim Trockenbau"
-  />
+    pre="Gute Handwerker verdienen "
+    accent="mehr."
+    lead="Wir suchen Menschen, die sauberes Handwerk, klare Prozesse und Verantwortung schätzen."
+    bild="team.webp"
+    alt="Handwerker-Team bespricht sich auf der Baustelle"
+  >
+    <p>
+      Bei Bauwelt Handwerk zählt nicht nur, wie lange jemand arbeitet, sondern welche Qualität geliefert
+      wird. Deshalb schaffen wir ein Umfeld, in dem Leistung gesehen, geschätzt und belohnt wird.
+    </p>
+  </PageHero>
 
-  <section class="section">
+  <!-- 2. Was Sie bei uns erwartet -->
+  <section class="section section--dark">
     <div class="container">
-      <!-- Keine offenen Stellen (Kundenfeedback 07.10.2026). Die Stellen-Inhalte in
-           src/content/stellen bleiben erhalten und lassen sich später wieder einblenden. -->
-      <SectionHead eyebrow="Offene Stellen" pre="Derzeit suchen wir keine " accent="Verstärkung" />
-      <div class="grid stellen__grid stellen__grid--leer">
+      <SectionHead center eyebrow="Warum Bauwelt" pre="Handwerk, wie es auch für Mitarbeiter sein " accent="sollte." />
+      <ul class="warum">
+        {ERWARTET.map((w, i) => (
+          <li class="warum__item reveal">
+            <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <span class:list={["warum__icon", { "karriere__trend": w.icon === "arrow" }]}><Icon name={w.icon} size={24} class="icon" /></span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Unser Bonusmodell -->
+  <section class:list={bg("bonus")}>
+    <div class="container karriere__bonus">
+      <SectionHead center eyebrow="Leistung soll sich lohnen" pre="Andere bezahlen Zeit. Wir honorieren " accent="Leistung." />
+      <div class="karriere__prosa">
+        <p class="lead">Wir glauben, dass gute Handwerker mehr verdienen sollten als durchschnittliche Handwerker.</p>
+        <p>Deshalb kombinieren wir ein faires Grundgehalt mit leistungsabhängigen Projektprämien.</p>
+        <p>Wer Projekte in hoher Qualität und innerhalb der vereinbarten Zeit abschließt, profitiert direkt vom gemeinsamen Erfolg.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Was Sie verdienen können (ausgeblendet bis zur Freigabe der Zahlen, s. o.) -->
+  {VERGUETUNG_FREIGEGEBEN && (
+    <section class:list={bg("verguetung")}>
+      <div class="container">
+        <SectionHead center eyebrow="Transparente Vergütung" pre="Was Sie bei uns verdienen " accent="können." />
+        <ul class="verdienst">
+          {VERGUETUNG.map((v) => (
+            <li class="card verdienst__karte reveal">
+              <span class="verdienst__icon"><Icon name="euro" size={24} class="icon" /></span>
+              <h3>{v.title}</h3>
+              <p class="verdienst__betrag">{v.betrag}</p>
+              {v.text && <p class="verdienst__text">{v.text}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- 5. Unsere Kultur -->
+  <section class:list={bg("kultur")}>
+    <div class="container karriere__kultur">
+      <div>
+        <SectionHead eyebrow="Unsere Überzeugung" pre="Gute Arbeit beginnt beim " accent="Team." />
+        <div class="karriere__prosa karriere__prosa--links">
+          <p class="lead">
+            Wir sind überzeugt, dass hochwertige Arbeit nur dort entstehen kann, wo Menschen respektvoll
+            miteinander umgehen.
+          </p>
+          <p>
+            Verlässlichkeit, Ehrlichkeit und Verantwortung gelten bei uns nicht nur gegenüber Kunden, sondern
+            auch innerhalb des Teams.
+          </p>
+        </div>
+      </div>
+      <div class="karriere__kultur-bild reveal">
+        <Img src="hero-karriere.webp" alt="Handwerker beim Trockenbau" w={720} h={540} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Offene Stellen: offene Stellen aus src/content/stellen (offen: true), sonst Hinweis -->
+  <section class:list={bg("stellen")} id="stellen">
+    <div class="container">
+      {hatStellen
+        ? <SectionHead eyebrow="Offene Stellen" pre="Aktuell suchen " accent="wir …" />
+        : <SectionHead eyebrow="Offene Stellen" pre="Derzeit suchen wir keine " accent="Verstärkung." />}
+      <div class:list={["grid", "stellen__grid", { "stellen__grid--leer": !hatStellen }]}>
+        {stellen.map((s) => (
+          <article class="card stelle reveal">
+            <header class="stelle__head">
+              <h3>{s.data.title}</h3>
+              <p class="small">{s.data.art} · {s.data.ort}</p>
+            </header>
+            {s.data.aufgaben.length > 0 && (
+              <div>
+                <h4>Aufgaben</h4>
+                <ul>{s.data.aufgaben.map((a) => <li>{a}</li>)}</ul>
+              </div>
+            )}
+            {s.data.profil.length > 0 && (
+              <div>
+                <h4>Profil</h4>
+                <ul>{s.data.profil.map((p) => <li>{p}</li>)}</ul>
+              </div>
+            )}
+            <a class="btn" href={mailBewerbung(`Bewerbung: ${s.data.title}`)}>
+              <Icon name="mail" size={18} class="icon" /> Jetzt bewerben
+            </a>
+          </article>
+        ))}
         <article class="card stelle stelle--initiativ reveal">
           <header class="stelle__head">
             <h3>Initiativbewerbung</h3>
-            <p class="small">Vollzeit oder Teilzeit · Norderstedt & Umgebung</p>
           </header>
           <p class="stelle__text">
-            Sie möchten trotzdem zu uns? Bewerben Sie sich initiativ – gute Handwerkerinnen
-            und Handwerker finden bei uns immer einen Platz. Erzählen Sie uns kurz,
-            was Sie können, den Rest besprechen wir persönlich.
+            Gute Handwerker finden bei uns immer einen Platz.
           </p>
-          <a
-            class="btn"
-            href={`mailto:${EMAILS.bewerbung}?subject=${encodeURIComponent("Initiativbewerbung")}`}
-          >
-            <Icon name="mail" size={18} class="icon" /> Jetzt bewerben
+          <p class="stelle__text">
+            Erzählen Sie uns kurz, wer Sie sind und was Sie können. Den Rest besprechen wir persönlich.
+          </p>
+          <a class="btn" href={mailBewerbung("Initiativbewerbung")}>
+            <Icon name="mail" size={18} class="icon" /> Jetzt initiativ bewerben
           </a>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section section--sand">
-    <div class="container">
-      <SectionHead center eyebrow="Warum Bauwelt" pre="Was Sie bei uns " accent="erwartet" />
-      <div class="grid cols-4">
-        {BENEFITS.map((b) => (
-          <div class="card benefit reveal">
-            <span class="benefit__icon"><Icon name={b.icon} size={24} class="icon" /></span>
-            <h3>{b.title}</h3>
-            <p>{b.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
+  <!-- 7. Bewerbung ohne Hürden (Buttons wie Partner-Seite; nicht in der Sticky-Leiste ⇒ auch mobil) -->
+  <section class:list={bg("bewerbung")} id="bewerben">
     <div class="container text-center karriere__cta">
-      <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden" text="Kein Portal, kein Anschreiben-Roman – eine E-Mail mit Lebenslauf genügt. Wir melden uns innerhalb von 24 Stunden." />
-      <!-- Kundenwunsch 12.10.2026: Anruf + WhatsApp unter „Bewerbung senden“ – Design wie Partner-Seite -->
+      <SectionHead center eyebrow="So einfach geht's" pre="Bewerbung ohne " accent="Hürden." />
+      <div class="karriere__prosa">
+        <p class="lead">Kein Bewerbungsportal. Kein Anschreiben-Roman. Keine komplizierten Formulare.</p>
+        <p>Eine kurze Nachricht oder Ihr Lebenslauf genügt.</p>
+        <p>Wir melden uns innerhalb von 24 Stunden zurück.</p>
+      </div>
       <div class="karriere__buttons">
-        <a class="btn btn--lg" href={`mailto:${EMAILS.bewerbung}?subject=Bewerbung`}>
-          <Icon name="mail" size={20} class="icon" /> Bewerbung senden
+        <a class="btn btn--lg" href={mailBewerbung("Bewerbung")}>
+          <Icon name="mail" size={20} class="icon" /> Bewerbung per E-Mail senden
         </a>
         <a class="btn btn--dark btn--lg" href={waLink("Hallo Bauwelt Handwerk, ich interessiere mich für eine Stelle bei Ihnen. Bitte melden Sie sich bei mir.")} target="_blank" rel="noopener">
           <Icon name="whatsapp" size={20} class="icon" /> Per WhatsApp schreiben
         </a>
         <a class="btn btn--ghost btn--lg" href={`tel:${SITE.phoneTel}`}>
-          <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay}
+          <Icon name="phone" size={20} class="icon" /> {SITE.phoneDisplay} anrufen
         </a>
       </div>
       <p class="small">{EMAILS.bewerbung}</p>
@@ -92,14 +206,39 @@ const BENEFITS = [
 </BaseLayout>
 
 <style>
+  /* Pfeil-Icon schräg nach oben = „mehr verdienen“ */
+  .karriere__trend :global(.icon) { transform: rotate(-45deg); }
+
+  .karriere__prosa { max-width: var(--text-width); margin-inline: auto; display: grid; gap: 14px; }
+  .karriere__prosa p { margin: 0; }
+  .karriere__bonus .karriere__prosa { text-align: center; }
+  .karriere__prosa--links { margin-inline: 0; }
+
+  .karriere__kultur { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 1024px) { .karriere__kultur { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
+
+  .verdienst { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+  @media (min-width: 900px) { .verdienst { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .verdienst__karte { display: grid; gap: 10px; align-content: start; border-top: 4px solid var(--gold-500); }
+  .verdienst__karte h3 { margin: 0; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .verdienst__betrag { margin: 0; font-family: var(--font-heading); font-weight: 800; font-size: 22px; line-height: 1.3; color: var(--gold-700); }
+  .verdienst__text { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .verdienst__icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--gold-100); color: var(--gold-700);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
   .stellen__grid { grid-template-columns: 1fr; }
+  @media (min-width: 768px) { .stellen__grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1024px) { .stellen__grid { grid-template-columns: repeat(3, 1fr); } }
   .stellen__grid--leer { max-width: 560px; }
-  @media (min-width: 1024px) { .stellen__grid--leer { grid-template-columns: 1fr; } }
+  @media (min-width: 768px) { .stellen__grid--leer { grid-template-columns: 1fr; } }
   /* Flex-Spalte + margin-top:auto ⇒ „Jetzt bewerben" sitzt in allen Karten bündig unten */
   .stelle { display: flex; flex-direction: column; gap: 16px; }
   .stelle .btn { margin-top: auto; align-self: flex-start; }
   .stelle--initiativ { border: 2px dashed var(--gold-500); background: var(--gold-100); }
+  .section--sand .stelle--initiativ { background: var(--weiss); }
   .stelle__text { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
   .stelle__head h3 { margin: 0 0 4px; font-size: 19px; }
   .stelle__head p { margin: 0; }
@@ -108,20 +247,12 @@ const BENEFITS = [
     letter-spacing: 0.08em; color: var(--gold-700); margin: 0 0 8px;
   }
   .stelle ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
-  .stelle .btn { justify-self: start; }
-  .karriere__initiativ { margin-top: 28px; }
 
-  .benefit { display: grid; gap: 10px; align-content: start; }
-  .benefit h3 { margin: 0; font-size: 16px; }
-  .benefit p { margin: 0; font-size: 14px; color: var(--anthrazit-700); }
-  .benefit__icon {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: var(--gold-100);
-    color: var(--gold-700);
-    display: inline-flex; align-items: center; justify-content: center;
-  }
   .karriere__cta { display: grid; justify-items: center; gap: 8px; }
+  .karriere__cta .karriere__prosa { margin-bottom: 24px; }
   .karriere__buttons { display: grid; gap: 12px; width: min(100%, 440px); }
   .karriere__buttons .btn { width: 100%; }
+  @media (max-width: 767px) {
+    .karriere__buttons .btn { white-space: normal; text-align: center; }
+  }
 </style>

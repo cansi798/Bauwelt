@@ -2,30 +2,60 @@
 // „Warum wir anders arbeiten“ (Kundenwunsch 14.10.2026 (34)): Zitat des Geschäftsführers links,
 // rundes Foto rechts (mobil: Foto oben). Steht auf der Startseite vor dem Einzugsgebiet.
 // Text wörtlich vom Kunden; Foto so beschnitten, dass die Sonnenbrille nicht zu sehen ist.
+// Kundenwunsch 14.10.2026 (37/39/40): wiederverwendbar für Über uns (Geschäftsführer-Statement),
+// Partner und Kontakt (Ansprechpartner) – Überschrift, Text (Slot), Zitat-Optik und Hintergrund
+// per Props. Ohne Props/Slot bleibt die Startseiten-Fassung unverändert.
 import SectionHead from "./SectionHead.astro";
 import { u } from "../consts";
+
+interface Props {
+  eyebrow?: string;
+  pre?: string;
+  accent?: string;
+  /** Text als Zitat (Anführungszeichen, kursiv) – sonst normaler Fließtext. */
+  zitat?: boolean;
+  /** Hintergrund: Sand (Standard) oder Weiß. */
+  weiss?: boolean;
+  id?: string;
+}
+const {
+  eyebrow = "Unsere Haltung",
+  pre = "Warum wir anders ",
+  accent = "arbeiten",
+  zitat = true,
+  weiss = false,
+  id = "warum-anders",
+} = Astro.props;
+const eigenerText = Astro.slots.has("default");
+const Rahmen = zitat ? "blockquote" : "div";
 ---
 
-<section class="section section--sand anders" id="warum-anders">
+<section class:list={["section", "anders", { "section--sand": !weiss }]} id={id}>
   <div class="container anders__grid">
     <div class="anders__text">
-      <SectionHead eyebrow="Unsere Haltung" pre="Warum wir anders " accent="arbeiten" />
-      <blockquote class="anders__zitat">
-        <p>
-          Viele Menschen verbinden Handwerk mit langen Wartezeiten, fehlenden Rückmeldungen und unklaren
-          Abläufen. Wir haben uns gefragt, warum die Zusammenarbeit mit einem Handwerksbetrieb nicht genauso
-          einfach sein kann wie mit den besten Dienstleistungsunternehmen.
-        </p>
-        <p>
-          Inspiriert von Unternehmen, die ihre Kunden mit Verbindlichkeit, Transparenz und erstklassigem
-          Service begeistern, haben wir unsere Prozesse neu gedacht. Denn wir sind überzeugt: Gutes Handwerk
-          zeigt sich nicht nur im Ergebnis, sondern während des gesamten Projekts.
-        </p>
+      <SectionHead eyebrow={eyebrow} pre={pre} accent={accent} />
+      <Rahmen class:list={["anders__zitat", { "anders__zitat--text": !zitat }]}>
+        {eigenerText ? (
+          <slot />
+        ) : (
+          <>
+            <p>
+              Viele Menschen verbinden Handwerk mit langen Wartezeiten, fehlenden Rückmeldungen und unklaren
+              Abläufen. Wir haben uns gefragt, warum die Zusammenarbeit mit einem Handwerksbetrieb nicht genauso
+              einfach sein kann wie mit den besten Dienstleistungsunternehmen.
+            </p>
+            <p>
+              Inspiriert von Unternehmen, die ihre Kunden mit Verbindlichkeit, Transparenz und erstklassigem
+              Service begeistern, haben wir unsere Prozesse neu gedacht. Denn wir sind überzeugt: Gutes Handwerk
+              zeigt sich nicht nur im Ergebnis, sondern während des gesamten Projekts.
+            </p>
+          </>
+        )}
         <footer class="anders__autor">
           <strong>Burim Ahmedi</strong>
           <span>Geschäftsführer</span>
         </footer>
-      </blockquote>
+      </Rahmen>
     </div>
     <figure class="anders__bild reveal">
       <img
@@ -51,7 +81,10 @@ import { u } from "../consts";
     color: var(--gold-300); opacity: 0.55;
     pointer-events: none;
   }
-  .anders__zitat p { position: relative; margin: 0 0 1em; font-size: 18px; line-height: 1.7; color: var(--anthrazit-800); font-style: italic; }
+  .anders__zitat :global(p) { position: relative; margin: 0 0 1em; font-size: 18px; line-height: 1.7; color: var(--anthrazit-800); font-style: italic; }
+  /* Fließtext-Variante (Ansprechpartner): ohne Anführungszeichen, nicht kursiv */
+  .anders__zitat--text::before { content: none; }
+  .anders__zitat--text :global(p) { font-style: normal; }
   .anders__autor { display: grid; gap: 2px; margin-top: 20px; font-style: normal; }
   .anders__autor strong { font-family: var(--font-heading); font-size: 17px; color: var(--anthrazit-900); }
   .anders__autor span { font-size: 14px; color: var(--gold-700); letter-spacing: 0.04em; }
@@ -71,6 +104,6 @@ import { u } from "../consts";
   }
   @media (max-width: 899px) {
     .anders__bild { order: -1; }
-    .anders__zitat p { font-size: 16px; }
+    .anders__zitat :global(p) { font-size: 16px; }
   }
 </style>

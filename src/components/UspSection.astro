@@ -4,11 +4,16 @@ import { USP } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
+
+// Kundenwunsch 14.10.2026 (37): Überschrift wörtlich mit Punkt; Hintergrund wählbar
+// (auf Über uns weiß, damit sich Sand/Weiß/Dunkel abwechseln).
+interface Props { weiss?: boolean; }
+const { weiss = false } = Astro.props;
 ---
 
-<section class="section section--sand">
+<section class:list={["section", { "section--sand": !weiss }]}>
   <div class="container">
-    <SectionHead center eyebrow="Warum Bauwelt" pre="Handwerk ohne " accent="Überraschungen" />
+    <SectionHead center eyebrow="Warum Bauwelt" pre="Handwerk ohne " accent="Überraschungen." />
     <div class="grid cols-3">
       {USP.map((usp) => (
         <article class="card usp reveal">

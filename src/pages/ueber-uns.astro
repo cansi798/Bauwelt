@@ -1,76 +1,103 @@
 ---
-// Über uns: Einstieg + Überzeugung (Texte Kunde 07.10.2026), Werte, Versprechen, Kontakt.
+// Über uns – Kundenwunsch 14.10.2026 (37): finale Struktur von Jamil, Texte wörtlich:
+// 1 Hero → 2 Geschäftsführer-Statement → 3 Unsere Werte (dunkel) → 4 Handwerk ohne
+// Überraschungen → 5 Zahlen & Fakten (gezeichnete Siegel = Icons/Kreise) → 6 Partner & Auftraggeber.
+// Abschnitt „Was für uns gutes Handwerk ausmacht“ entfällt (nicht mehr in der Struktur).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import UspSection from "../components/UspSection.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
-import Img from "../components/Img.astro";
+import WarumAnders from "../components/WarumAnders.astro";
+import Kooperationen from "../components/Kooperationen.astro";
+import Icon from "../components/Icon.astro";
+
+const WERTE = [
+  { icon: "clock", title: "Verbindlichkeit", text: "Wir halten Zusagen ein und reagieren schnell." },
+  { icon: "eye", title: "Transparenz", text: "Sie wissen jederzeit, was als Nächstes passiert." },
+  { icon: "hand", title: "Verantwortung", text: "Ein Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." },
+];
 ---
 
 <BaseLayout
   title="Über uns – Handwerk, wie es heute sein sollte | Bauwelt Handwerk"
   description="Bauwelt Handwerk aus Norderstedt verbindet hochwertige Handwerksarbeit mit klarer Kommunikation, transparenten Abläufen und festen Zusagen – seit über 15 Jahren."
 >
-  <!-- Texte laut Kundenfeedback 07.10.2026 (wörtlich übernommen) -->
+  <!-- 1. Hero (Kundenwunsch 14.10.2026 (37), Text wörtlich) -->
   <PageHero
     eyebrow="Über uns"
-    pre="Handwerk, wie es heute "
-    accent="sein sollte"
+    pre="Handwerk, wie es heute sein "
+    accent="sollte."
     bild="hero-ueber-uns.webp"
     alt="Das Bauwelt-Team auf der Baustelle"
   >
     <div class="ueber__intro">
       <p class="lead">
-        Im Laufe der Jahre haben wir festgestellt, dass es oft nicht die handwerkliche
-        Arbeit ist, die Kunden frustriert, sondern fehlende Kommunikation, unklare Abläufe
-        und lange Wartezeiten.
+        Im Laufe der Jahre haben wir festgestellt, dass Kunden oft nicht die handwerkliche Arbeit
+        frustriert, sondern fehlende Kommunikation, unklare Abläufe und lange Wartezeiten.
       </p>
       <p>
-        Gleichzeitig haben wir erlebt, wie serviceorientierte Unternehmen in anderen
-        Branchen ihre Kunden begeistern: mit Transparenz, Verbindlichkeit und klaren Prozessen.
+        Gleichzeitig haben wir erlebt, wie serviceorientierte Unternehmen ihre Kunden mit Transparenz,
+        Verbindlichkeit und klaren Prozessen begeistern.
       </p>
       <p>Das hat bei uns ein Umdenken ausgelöst.</p>
       <p class="ueber__frage">Warum sollte modernes Handwerk nicht genauso funktionieren?</p>
       <p>
-        Mit dieser Überzeugung haben wir unsere Abläufe neu gestaltet und verbinden heute
-        hochwertige Handwerksarbeit mit den Service-Standards moderner
-        Dienstleistungsunternehmen. Selbstverständlich optimieren wir diese Abläufe ständig.
+        Mit dieser Überzeugung haben wir unsere Abläufe neu gestaltet und verbinden heute hochwertige
+        Handwerksarbeit mit den Service-Standards moderner Dienstleistungsunternehmen.
       </p>
     </div>
   </PageHero>
 
-  <section class="section">
-    <div class="container ueber__grid">
-      <div>
-        <SectionHead eyebrow="Unsere Überzeugung" pre="Was für uns gutes Handwerk " accent="ausmacht" />
-        <p>
-          Wir sind überzeugt, dass Kunden heute mehr erwarten dürfen als ein gutes
-          handwerkliches Ergebnis.
-        </p>
-        <p>
-          Ein Projekt sollte nachvollziehbar geplant, transparent kommuniziert und zuverlässig
-          umgesetzt werden. Genau deshalb haben wir unsere Abläufe konsequent an den
-          Bedürfnissen unserer Kunden ausgerichtet.
-        </p>
-        <p>
-          Denn am Ende zählt nicht nur das fertige Badezimmer oder die abgeschlossene
-          Sanierung, sondern auch die Art und Weise, wie man dorthin gelangt.
-        </p>
-      </div>
-      <div class="ueber__media reveal">
-        <Img src="galerie-sanierung-01.webp" alt="Von Bauwelt modernisierte Wohnküche mit Esstisch" w={720} h={540} />
-      </div>
+  <!-- 2. Geschäftsführer-Statement -->
+  <WarumAnders eyebrow="Ein persönliches Wort" pre="Warum wir anders " accent="arbeiten." id="statement">
+    <p>
+      Wir haben uns gefragt, warum die Zusammenarbeit mit einem Handwerksbetrieb nicht genauso einfach
+      sein kann wie mit den besten Dienstleistungsunternehmen.
+    </p>
+    <p>
+      Inspiriert von Unternehmen, die ihre Kunden mit Verbindlichkeit, Transparenz und erstklassigem
+      Service begeistern, haben wir unsere Prozesse neu gestaltet.
+    </p>
+    <p>
+      Denn wir sind überzeugt: Gutes Handwerk zeigt sich nicht nur im Ergebnis, sondern während des
+      gesamten Projekts.
+    </p>
+  </WarumAnders>
+
+  <!-- 3. Unsere Werte -->
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead center eyebrow="Dafür stehen wir" pre="Unsere " accent="Überzeugung." />
+      <ul class="warum warum--3">
+        {WERTE.map((w, i) => (
+          <li class="warum__item reveal">
+            <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <UspSection />
-  <SiegelSlider ueber />
+  <!-- 4. Handwerk ohne Überraschungen (Texte in data/home.ts → USP) -->
+  <UspSection weiss />
+
+  <!-- 5. Zahlen & Fakten: zehn gezeichnete Siegel (Icons in Kreisen) -->
+  <SiegelSlider ueber eyebrow="Auf einen Blick" pre="Darauf können Sie sich " accent="verlassen." />
+
+  <!-- 6. Partner & Auftraggeber – nur Namen, keine Logos (Nutzung nicht freigegeben) -->
+  <Kooperationen
+    eyebrow="Vertrauen durch starke Partnerschaften"
+    pre="Unsere Erfahrung kommt vielen Projekten "
+    accent="zugute."
+    text="Unsere Erfahrung bringen wir nicht nur in eigene Projekte ein. Auch Kunden bekannter Anbieter wie Hornbach, OBI und Senovio vertrauen auf unsere Leistungen."
+  />
 </BaseLayout>
 
 <style>
-  .ueber__grid { display: grid; gap: 32px; align-items: center; }
-  @media (min-width: 1024px) { .ueber__grid { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
   .ueber__intro { display: grid; gap: 12px; }
   .ueber__intro p { margin: 0; }
   .ueber__frage { font-family: var(--font-heading); font-weight: 700; color: var(--anthrazit-900); }

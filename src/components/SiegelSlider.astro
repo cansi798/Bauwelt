@@ -11,23 +11,32 @@ import RoughSzene from "./RoughSzene.astro";
 interface Props {
   /** Über-uns-Fassung: 3 Fakten-Siegel + 7 Versprechen. */
   ueber?: boolean;
+  // Kundenwunsch 14.10.2026 (37): Über uns „Auf einen Blick – Darauf können Sie sich verlassen.“
+  eyebrow?: string;
+  pre?: string;
+  accent?: string;
 }
-const { ueber = false } = Astro.props;
+const {
+  ueber = false,
+  eyebrow = "Unsere Versprechen",
+  pre = "Worauf Sie sich verlassen ",
+  accent = "können",
+} = Astro.props;
 ---
 
 <section class="section section--sand" id="versprechen">
   <div class="container">
     <SectionHead
       center
-      eyebrow="Unsere Versprechen"
-      pre="Worauf Sie sich verlassen "
-      accent="können"
+      eyebrow={eyebrow}
+      pre={pre}
+      accent={accent}
       text={ueber ? undefined : "Sieben Zusagen, die bei jedem Projekt gelten."}
     />
     <RoughSzene
       szene={ueber ? "siegelUeber" : "siegel"}
       label={(ueber
-        ? "Zehn gezeichnete Siegel werden nacheinander aufgestempelt: 15+ Jahre Erfahrung, 100 % deutschsprachiger Ansprechpartner, regional vor Ort, "
+        ? "Zehn gezeichnete Siegel werden nacheinander aufgestempelt: 15+ Jahre Erfahrung, 100 % deutschsprachige Ansprechpartner, regional in Hamburg & Umgebung, "
         : "Sieben gezeichnete Siegel werden nacheinander aufgestempelt: ") +
         "Festpreis-Garantie, Termintreue, ein Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."}
     />

@@ -75,6 +75,9 @@ const stellen = defineCollection({
     art: z.string().default("Vollzeit"),
     ort: z.string().default("Norderstedt & Umgebung"),
     order: z.number().default(50),
+    /** Kundenwunsch 14.10.2026 (38): Stelle nur auf der Karriereseite zeigen, wenn offen.
+     *  Sind alle geschlossen, erscheint „Derzeit suchen wir keine Verstärkung.“ */
+    offen: z.boolean().default(false),
     aufgaben: z.array(z.string()).default([]),
     profil: z.array(z.string()).default([]),
   }),

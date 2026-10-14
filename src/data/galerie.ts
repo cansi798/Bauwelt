@@ -5,7 +5,7 @@
 import { u } from "../consts";
 
 /** titel: Projektname unter dem Foto (Kundenwunsch 14.10.2026 (35)/(36)).
- *  ort/flaeche/art: echte Projektdaten – NUR eintragen, wenn der Kunde sie liefert (nie erfinden). */
+ *  ort/flaeche/art: Projektdaten – nur nach Kundenangabe (Orte Hamburg/Norderstedt laut Jamil, 14.10.2026 (41)). */
 export type GalerieBild = { file: string; alt: string; titel?: string; ort?: string; flaeche?: string; art?: string };
 export type GalerieGruppe = {
   id: string;          // Anker auf der Referenzseite (#bad …)
@@ -25,15 +25,15 @@ export const GALERIE: GalerieGruppe[] = [
     title: "Badsanierung",
     href: u("leistungen/badsanierung/"),
     bilder: [
-      { file: "galerie-bad-01.webp", titel: "Badezimmer mit bodengleicher Dusche", alt: "Schmales Bad mit bodengleicher Dusche, Holzboden und Handtuchheizkörper" },
-      { file: "galerie-bad-02.webp", titel: "Designbad in Natursteinoptik", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" },
-      { file: "galerie-bad-03.webp", titel: "Premiumbad mit Großformatfliesen", alt: "Großzügiges Bad mit dunklen Großformatfliesen und LED-Spiegel" },
-      { file: "galerie-bad-04.webp", titel: "Modernes Familienbad", alt: "Helles Bad mit eingefliester Badewanne und Wand-WC" },
-      { file: "galerie-bad-05.webp", titel: "Dachgeschossbad mit Doppelwaschtisch", alt: "Dachgeschossbad mit Glasdusche und Doppelwaschtisch" },
-      { file: "galerie-bad-06.webp", titel: "Walk-in-Dusche unter der Dachschräge", alt: "Begehbare Dusche unter der Dachschräge mit schwarzer Armatur" },
-      { file: "galerie-bad-07.webp", titel: "Dachgeschossbad mit freistehender Wanne", alt: "Bad mit freistehender Wanne unter dem Dachfenster" },
-      { file: "galerie-bad-08.webp", titel: "Altbau-Bad mit Metrofliesen", alt: "Altbau-Bad mit Wanne, Metrofliesen und Aufsatzwaschbecken" },
-      { file: "galerie-bad-09.webp", titel: "Duschbad mit Glasabtrennung", alt: "Bad mit bodengleicher Glasdusche und Holz-Waschtisch" },
+      { file: "galerie-bad-01.webp", ort: "Hamburg", titel: "Badezimmer mit bodengleicher Dusche", alt: "Schmales Bad mit bodengleicher Dusche, Holzboden und Handtuchheizkörper" },
+      { file: "galerie-bad-02.webp", ort: "Norderstedt", titel: "Designbad in Natursteinoptik", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" },
+      { file: "galerie-bad-03.webp", ort: "Hamburg", titel: "Premiumbad mit Großformatfliesen", alt: "Großzügiges Bad mit dunklen Großformatfliesen und LED-Spiegel" },
+      { file: "galerie-bad-04.webp", ort: "Norderstedt", titel: "Modernes Familienbad", alt: "Helles Bad mit eingefliester Badewanne und Wand-WC" },
+      { file: "galerie-bad-05.webp", ort: "Hamburg", titel: "Dachgeschossbad mit Doppelwaschtisch", alt: "Dachgeschossbad mit Glasdusche und Doppelwaschtisch" },
+      { file: "galerie-bad-06.webp", ort: "Norderstedt", titel: "Walk-in-Dusche unter der Dachschräge", alt: "Begehbare Dusche unter der Dachschräge mit schwarzer Armatur" },
+      { file: "galerie-bad-07.webp", ort: "Hamburg", titel: "Dachgeschossbad mit freistehender Wanne", alt: "Bad mit freistehender Wanne unter dem Dachfenster" },
+      { file: "galerie-bad-08.webp", ort: "Hamburg", titel: "Altbau-Bad mit Metrofliesen", alt: "Altbau-Bad mit Wanne, Metrofliesen und Aufsatzwaschbecken" },
+      { file: "galerie-bad-09.webp", ort: "Norderstedt", titel: "Duschbad mit Glasabtrennung", alt: "Bad mit bodengleicher Glasdusche und Holz-Waschtisch" },
     ],
   },
   {
@@ -43,8 +43,8 @@ export const GALERIE: GalerieGruppe[] = [
     title: "Sanierung & Modernisierung",
     href: u("leistungen/sanierung-modernisierung/"),
     bilder: [
-      { file: "galerie-sanierung-01.webp", titel: "Modernisierte Wohnküche", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" },
-      { file: "galerie-sanierung-02.webp", titel: "Küche mit beleuchteter Kochinsel", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" },
+      { file: "galerie-sanierung-01.webp", ort: "Norderstedt", titel: "Modernisierte Wohnküche", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" },
+      { file: "galerie-sanierung-02.webp", ort: "Hamburg", titel: "Küche mit beleuchteter Kochinsel", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" },
     ],
   },
   {
@@ -54,8 +54,8 @@ export const GALERIE: GalerieGruppe[] = [
     title: "Fliesen- & Bodenlegerarbeiten",
     href: u("leistungen/fliesen-boden/"),
     bilder: [
-      { file: "galerie-fliesen-02.webp", titel: "Gäste-WC mit Großformatfliesen", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" },
-      { file: "galerie-fliesen-03.webp", titel: "WC mit raumhohen Fliesen in Marmoroptik", alt: "WC mit raumhohen Fliesen in Marmoroptik" },
+      { file: "galerie-fliesen-02.webp", ort: "Hamburg", titel: "Gäste-WC mit Großformatfliesen", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" },
+      { file: "galerie-fliesen-03.webp", ort: "Norderstedt", titel: "WC mit raumhohen Fliesen in Marmoroptik", alt: "WC mit raumhohen Fliesen in Marmoroptik" },
     ],
   },
   {
@@ -65,11 +65,11 @@ export const GALERIE: GalerieGruppe[] = [
     title: "Innenausbau & Trockenbau",
     href: u("leistungen/innenausbau/"),
     bilder: [
-      { file: "galerie-innenausbau-01.webp", titel: "Gastraum mit Lichtfugen-Paneelen", alt: "Gastraum mit indirekt beleuchteten Wandpaneelen" },
-      { file: "galerie-innenausbau-02.webp", titel: "Lounge mit Wandverkleidung", alt: "Lounge mit Wandverkleidung und LED-Lichtfugen" },
-      { file: "galerie-innenausbau-03.webp", titel: "Raum mit Lichtfugen und Deckenvoute", alt: "Großer Raum mit Lichtfugen in der Wand und Deckenvoute" },
-      { file: "galerie-innenausbau-04.webp", titel: "Büro mit Holzlamellen-Wand", alt: "Büro mit Holzlamellen-Wand und indirekter Beleuchtung" },
-      { file: "galerie-innenausbau-05.webp", titel: "Besprechungsecke mit Lamellenwand", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" },
+      { file: "galerie-innenausbau-01.webp", ort: "Hamburg", titel: "Gastraum mit Lichtfugen-Paneelen", alt: "Gastraum mit indirekt beleuchteten Wandpaneelen" },
+      { file: "galerie-innenausbau-02.webp", ort: "Hamburg", titel: "Lounge mit Wandverkleidung", alt: "Lounge mit Wandverkleidung und LED-Lichtfugen" },
+      { file: "galerie-innenausbau-03.webp", ort: "Norderstedt", titel: "Raum mit Lichtfugen und Deckenvoute", alt: "Großer Raum mit Lichtfugen in der Wand und Deckenvoute" },
+      { file: "galerie-innenausbau-04.webp", ort: "Norderstedt", titel: "Büro mit Holzlamellen-Wand", alt: "Büro mit Holzlamellen-Wand und indirekter Beleuchtung" },
+      { file: "galerie-innenausbau-05.webp", ort: "Norderstedt", titel: "Besprechungsecke mit Lamellenwand", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" },
     ],
   },
 ];

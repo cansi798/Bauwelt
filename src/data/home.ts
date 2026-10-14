@@ -94,31 +94,28 @@ export const VIDEO = {
 
 /** Über uns – drei Säulen. Bilder: NUR echte Bauwelt-Projektfotos (Kundenwunsch 12.10.2026 (17);
  *  vorher Stockfotos fremder Baustellen mit irreführenden Alt-Texten). */
+// Kundenwunsch 14.10.2026 (37): Texte wörtlich (Über uns „Handwerk ohne Überraschungen.“)
 export const USP = [
   {
     icon: "pin",
     title: "Regional & persönlich",
     text:
-      "Wir kommen aus Norderstedt – nicht aus einem Callcenter. Ihr Ansprechpartner " +
-      "kennt Ihre Baustelle persönlich und antwortet innerhalb von 12 Stunden, auch per WhatsApp.",
+      "Wir kommen aus Norderstedt und betreuen unsere Kunden persönlich vor Ort. " +
+      "Keine Hotline, kein Callcenter, sondern direkte Ansprechpartner.",
     bild: "galerie-bad-07.webp",
     alt: "Von Bauwelt saniertes Bad mit freistehender Wanne unter dem Dachfenster",
   },
   {
-    icon: "hand",
+    icon: "reno",
     title: "Alles aus einer Hand",
-    text:
-      "Fliesenleger, Sanitär, Elektrik, Maler – bei uns koordinieren Sie keine fünf " +
-      "Firmen. Wir steuern alle Gewerke selbst – deshalb greifen die Termine ineinander.",
+    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau koordinieren wir sämtliche Arbeiten für Sie.",
     bild: "galerie-sanierung-02.webp",
     alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
   },
   {
     icon: "euro",
     title: "Zum Festpreis fertig",
-    text:
-      "Nach dem Vor-Ort-Termin bekommen Sie einen festen Preis und einen festen " +
-      "Endtermin – schriftlich. Keine Nachträge, keine Überraschungen auf der Rechnung.",
+    text: "Nach der Besichtigung erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.",
     bild: "galerie-innenausbau-04.webp",
     alt: "Von Bauwelt ausgebautes Büro mit Holzlamellen-Wand",
   },

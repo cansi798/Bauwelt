@@ -1,0 +1,48 @@
+---
+// Kooperationen / Auftraggeber als Namens-Kacheln (Über uns + Partner).
+// Kundenwunsch 14.10.2026 (37/39): Logos nur mit rechtlicher Freigabe der Unternehmen –
+// bis dahin bewusst nur die Namen als Text.
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  eyebrow: string;
+  pre: string;
+  accent: string;
+  text: string;
+  /** Hintergrund Sand statt Weiß. */
+  sand?: boolean;
+}
+const { eyebrow, pre, accent, text, sand = false } = Astro.props;
+
+/** Derzeitige Kooperationen (Kundenfeedback 07.10.2026). */
+const KOOPERATIONEN = ["Hornbach", "OBI", "Senovio"];
+---
+
+<section class:list={["section", { "section--sand": sand }]}>
+  <div class="container">
+    <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} text={text} />
+    <ul class="koop__liste">
+      {KOOPERATIONEN.map((k) => <li class="koop__name reveal">{k}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .koop__liste {
+    list-style: none; margin: 0 auto; padding: 0;
+    display: grid; gap: 12px; max-width: 900px;
+  }
+  @media (min-width: 640px) {
+    .koop__liste { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .koop__name { min-height: 110px; }
+  }
+  .koop__name {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 64px; padding: 14px;
+    border: 1px solid var(--linie); border-radius: var(--radius-lg);
+    background: var(--weiss);
+    font-family: var(--font-heading); font-weight: 700; font-size: 22px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--anthrazit-800);
+  }
+</style>

@@ -267,7 +267,14 @@ function portal(a: Ansicht): Szene {
 }
 
 /** Siegel-Reihe: `ids` = Motive (SIEGEL_MOTIV) in Reihenfolge, Reihen-Aufteilung je Ansicht. */
-function siegelSzene(a: Ansicht, ids: string[], reihenMobil: number[], reihenDesktop: number[]): Szene {
+function siegelSzene(
+  a: Ansicht,
+  ids: string[],
+  reihenMobil: number[],
+  reihenDesktop: number[],
+  /** Abweichende Beschriftung je Siegel-ID und Ansicht (z. B. Über uns). */
+  eigeneZeilen: Record<string, { mobil: string[]; desktop: string[] }> = {}
+): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
   const n = ids.length;
@@ -297,7 +304,8 @@ function siegelSzene(a: Ansicht, ids: string[], reihenMobil: number[], reihenDes
     z.bei(t + 0.45);
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const zeilen =
-      !mobil && id === "ansprechpartner" ? ["Ein", "Ansprechpartner"]
+      eigeneZeilen[id] ? eigeneZeilen[id][a]
+      : !mobil && id === "ansprechpartner" ? ["Ein", "Ansprechpartner"]
       : !mobil && id === "deutsch" ? ["100 % deutsch-", "sprachiger", "Ansprechpartner"]
       : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);
@@ -310,7 +318,14 @@ const SIEGEL_IDS = VERSPRECHEN.map((v) => v.id);
 // Startseite: 7 Siegel (mobil 2-3-2, Desktop eine Reihe)
 const siegel = (a: Ansicht) => siegelSzene(a, SIEGEL_IDS, [2, 3, 2], [SIEGEL_IDS.length]);
 // Über uns (Kundenwunsch 11.10.2026 (9)): 3 Fakten + 7 Siegel = 10 (mobil 2-3-2-3, Desktop 5-5)
+// Kundenwunsch 14.10.2026 (37): Beschriftung wörtlich nach „Zahlen & Fakten“ (nur Über uns)
+const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
+  deutsch: { mobil: ["100 % deutsch-", "sprachige An-", "sprechpartner"], desktop: ["100 % deutsch-", "sprachige", "Ansprechpartner"] },
+  regional: { mobil: ["Regional in", "Hamburg &", "Umgebung"], desktop: ["Regional in", "Hamburg & Umgebung"] },
+  antwort: { mobil: ["Antwort", "innerhalb von", "12 Stunden"], desktop: ["Antwort innerhalb", "von 12 Stunden"] },
+  angebot: { mobil: ["Angebot", "innerhalb von", "24 Stunden"], desktop: ["Angebot innerhalb", "von 24 Stunden"] },
+};
 const siegelUeber = (a: Ansicht) =>
-  siegelSzene(a, ["erfahrung", "deutsch", "regional", ...SIEGEL_IDS], [2, 3, 2, 3], [5, 5]);
+  siegelSzene(a, ["erfahrung", "deutsch", "regional", ...SIEGEL_IDS], [2, 3, 2, 3], [5, 5], ZEILEN_UEBER);
 
 export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, portal, siegel, siegelUeber };
