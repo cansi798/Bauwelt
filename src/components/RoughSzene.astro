@@ -44,7 +44,7 @@ const mobil = SZENEN[szene]("mobil");
 const desktop = SZENEN[szene]("desktop");
 ---
 
-<div class={`rszene rszene--${szene}`} data-rszene data-ende={mobil.ende} data-ende-desktop={desktop.ende}>
+<div class={`rszene rszene--${szene}`} data-rszene data-ende={mobil.ende} data-ende-desktop={desktop.ende} data-halten={desktop.halten ?? 0}>
   <div class="rszene__bild" role="img" aria-label={label}>
     <Fragment set:html={svg("mobil", mobil) + svg("desktop", desktop)} />
   </div>
@@ -74,7 +74,7 @@ const desktop = SZENEN[szene]("desktop");
           laeuft = false;
           if (sichtbar) runde(); // sonst wartet sie, bis sie wieder im Bild ist
         }, BLENDE);
-      }, dauer() + HALTEN);
+      }, dauer() + HALTEN + Number(el.dataset.halten || 0));
     };
 
     if (!("IntersectionObserver" in window)) { sichtbar = true; runde(); return; }

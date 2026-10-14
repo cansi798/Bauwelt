@@ -21,6 +21,8 @@ export type Element =
 export interface Szene {
   breite: number;
   hoehe: number;
+  /** Zusätzliche Standzeit in ms nach dem Zeichnen (z. B. Über-uns-Siegel, Kundenwunsch 15.10.2026 (65)). */
+  halten?: number;
   elemente: Element[];
   /** Zeitpunkt (s), zu dem alles steht – für den „nochmal"-Knopf. */
   ende: number;

@@ -15,16 +15,19 @@ interface Props {
   eyebrow?: string;
   pre?: string;
   accent?: string;
+  /** Weißer statt Sand-Hintergrund (Über uns: Wechsel Sand/Weiß, Kundenwunsch 15.10.2026 (66)). */
+  weiss?: boolean;
 }
 const {
   ueber = false,
   eyebrow = "Unsere Versprechen",
   pre = "Worauf Sie sich verlassen ",
   accent = "können",
+  weiss = false,
 } = Astro.props;
 ---
 
-<section class="section section--sand" id="versprechen">
+<section class:list={["section", { "section--sand": !weiss }]} id="versprechen">
   <div class="container">
     <SectionHead
       center

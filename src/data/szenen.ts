@@ -436,8 +436,11 @@ function siegelSzene(
   reihenMobil: number[],
   reihenDesktop: number[],
   /** Abweichende Beschriftung je Siegel-ID und Ansicht (z. B. Über uns). */
-  eigeneZeilen: Record<string, { mobil: string[]; desktop: string[] }> = {}
+  eigeneZeilen: Record<string, { mobil: string[]; desktop: string[] }> = {},
+  /** Rahmenform, Abstand zwischen zwei Siegeln (s) und Zusatz-Standzeit (ms). */
+  stil: { form?: "kreis" | "rechteck"; schritt?: number; halten?: number } = {}
 ): Szene {
+  const schritt = stil.schritt ?? 0.55;
   const z = new Zeichner();
   const mobil = a === "mobil";
   const n = ids.length;
@@ -456,15 +459,20 @@ function siegelSzene(
   });
   ids.forEach((id, i) => {
     const [cx, cy] = pos[i];
-    const t = 0.2 + i * 0.55;
+    const t = 0.2 + i * schritt;
     z.bei(t);
     z.gruppe("stempel", () => {
-      z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
-      z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5);
+      if (stil.form === "rechteck") {
+        z.rundRechteck(cx - d / 2, cy - d / 2, d, d, 16, { strokeWidth: 2.6 }, 0.45);
+        z.rundRechteck(cx - (d - 14) / 2, cy - (d - 14) / 2, d - 14, d - 14, 11, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.45);
+      } else {
+        z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
+        z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5);
+      }
       z.bei(t + 0.3);
       SIEGEL_MOTIV[id]?.(z, cx, cy, s);
     });
-    z.bei(t + 0.45);
+    z.bei(t + Math.min(0.45, schritt));
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const zeilen =
       eigeneZeilen[id] ? eigeneZeilen[id][a]
@@ -474,7 +482,7 @@ function siegelSzene(
     const ty = cy + d / 2 + (mobil ? 22 : 28);
     zeilen.forEach((zl, k) => z.text(cx, ty + k * (mobil ? 17 : 20), zl, { groesse: mobil ? 13 : 15, gewicht: 600 }));
   });
-  return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + (n - 1) * 0.55 + 1 };
+  return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + (n - 1) * schritt + 1, halten: stil.halten };
 }
 
 const SIEGEL_IDS = VERSPRECHEN.map((v) => v.id);
@@ -491,7 +499,9 @@ const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
 // Kundenwunsch 15.10.2026 (60): Siegel „DE“ (deutsch) entfernt – doppelt mit „Deutschsprachiger Ansprechpartner“
 // → 9 Siegel (mobil 3-3-3, Desktop 5-4)
 const siegelUeber = (a: Ansicht) =>
-  siegelSzene(a, ["erfahrung", "regional", ...SIEGEL_IDS], [3, 3, 3], [5, 4], ZEILEN_UEBER);
+  siegelSzene(a, ["erfahrung", "regional", ...SIEGEL_IDS], [3, 3, 3], [5, 4], ZEILEN_UEBER,
+    // Kundenwunsch 15.10.2026 (65): Rechtecke statt Kreise, schneller, 1 s länger stehen
+    { form: "rechteck", schritt: 0.32, halten: 1000 });
 
 /* ─── USP-Bilder als Zeichnungen (Kundenwunsch 15.10.2026 (61), Über uns „Handwerk ohne Überraschungen“) ─── */
 const USP_B = 300, USP_H = 180;
