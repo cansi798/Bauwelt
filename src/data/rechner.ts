@@ -97,7 +97,7 @@ export const BAD_AB_BRUTTO: Record<number, number> = {
 /** Spanne „ab … bis …“: bis = ab + 1.500 €. Gleichzeitig Stufenabstand Basis → Komfort → Premium. */
 export const BAD_STUFE = 1500;
 /** Barrierefreie Dusche: Budget der Pflegekasse für wohnumfeldverbessernde Maßnahmen. */
-export const BAD_BARRIEREFREI_BIS = 4180;
+export const BAD_BARRIEREFREI_BIS = 4099; // Kundenwunsch 14.10.2026 (45): vorher 4.180 €
 
 /* ---------- Fliesen & Boden: Nettopreise (Kunde, 11.10.2026) ---------- */
 const FLIESEN_NETTO = { grund: 500, vinyl: 55, fliesen: 75, gross: 85 };
