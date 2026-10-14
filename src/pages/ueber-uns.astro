@@ -15,7 +15,7 @@ import Icon from "../components/Icon.astro";
 const WERTE = [
   { icon: "clock", title: "Verbindlichkeit", text: "Wir halten Zusagen ein und reagieren schnell." },
   { icon: "eye", title: "Transparenz", text: "Sie wissen jederzeit, was als Nächstes passiert." },
-  { icon: "hand", title: "Verantwortung", text: "Ein deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." },
+  { icon: "hand", title: "Verantwortung", text: "Ein Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." /* (57) ohne „deutschsprachig“ */ },
 ];
 ---
 
@@ -65,22 +65,7 @@ const WERTE = [
     </p>
   </WarumAnders>
 
-  <!-- 3. Unsere Werte -->
-  <section class="section section--dark">
-    <div class="container">
-      <SectionHead center eyebrow="Dafür stehen wir" pre="Unsere " accent="Überzeugung." />
-      <ul class="warum warum--3">
-        {WERTE.map((w, i) => (
-          <li class="warum__item reveal">
-            <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-            <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
-            <h3>{w.title}</h3>
-            <p>{w.text}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <!-- Kundenwunsch 15.10.2026 (59): Abschnitt „Unsere Überzeugung.“ (Werte) entfernt -->
 
   <!-- 4. Handwerk ohne Überraschungen (Texte in data/home.ts → USP) -->
   <UspSection weiss />

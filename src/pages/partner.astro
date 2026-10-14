@@ -26,7 +26,7 @@ const WARUM = [
   { icon: "doc", title: "Dokumentierte Abläufe", text: "Klare Kommunikation und nachvollziehbare Projektstände." },
   { icon: "clock", title: "Schnelle Reaktionszeiten", text: "Antwort innerhalb von 12 Stunden." },
   { icon: "user", title: "Feste, deutschsprachige Ansprechpartner", text: "Keine wechselnden Kontakte oder lange Abstimmungsketten." },
-  { icon: "tools", title: "Koordination aus einer Hand", text: "Deutschsprachiger Ansprechpartner für die komplette Umsetzung." },
+  { icon: "hand", title: "Koordination aus einer Hand", text: "Deutschsprachiger Ansprechpartner für die komplette Umsetzung." },
 ];
 
 /** Jamils Ergänzung (B2B-Mehrwert) – wörtlich. */
@@ -93,7 +93,6 @@ const ABLAUF = [
       <ul class="warum">
         {WARUM.map((w, i) => (
           <li class="warum__item reveal">
-            <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
             <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
             <h3>{w.title}</h3>
             <p>{w.text}</p>

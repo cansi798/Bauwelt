@@ -157,7 +157,6 @@ const description =
         <ul class:list={["warum", { "warum--zentriert": warumKarten.length === 5 || warumKarten.length === 6 }]}>
           {warumKarten.map((w, i) => (
             <li class="warum__item reveal">
-              <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
               <h3>{w.title}</h3>
               <p>{w.text}</p>

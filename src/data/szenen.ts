@@ -39,25 +39,32 @@ function dokument(z: Zeichner, cx: number, cy: number, s = 1, haken = true) {
   }
 }
 
-function badewanne(z: Zeichner, cx: number, cy: number, s = 1) {
-  const y = cy + 2 * s;
-  // Fliesen-Andeutung hinter der Wanne
-  z.linie(cx - 44 * s, cy - 36 * s, cx + 44 * s, cy - 36 * s, { stroke: F.hell, strokeWidth: 1.6 }, 0.3);
-  z.linie(cx - 44 * s, cy - 18 * s, cx + 44 * s, cy - 18 * s, { stroke: F.hell, strokeWidth: 1.6 }, 0.3);
-  z.linie(cx - 44 * s, y, cx + 44 * s, y, { strokeWidth: 2.8 }, 0.4);
-  z.pfad(
-    `M${cx - 40 * s} ${y}Q${cx - 40 * s} ${y + 30 * s} ${cx - 18 * s} ${y + 30 * s}H${cx + 18 * s}` +
-      `Q${cx + 40 * s} ${y + 30 * s} ${cx + 40 * s} ${y}`,
-    { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.4 }
-  );
-  z.linie(cx - 26 * s, y + 30 * s, cx - 30 * s, y + 38 * s, {}, 0.2);
-  z.linie(cx + 26 * s, y + 30 * s, cx + 30 * s, y + 38 * s, {}, 0.2);
-  z.pfad(`M${cx + 34 * s} ${y}V${cy - 40 * s}H${cx + 20 * s}V${cy - 34 * s}`, { strokeWidth: 2.4 }, 0.4);
-  // Funkeln – pulsiert danach leise weiter
+// Kundenwunsch 15.10.2026 (56): 4. Station „Zurücklehnen & genießen“ – Sessel mit dampfender Tasse
+// statt Badewanne (gilt für alle Leistungen, nicht nur Bad).
+function entspannen(z: Zeichner, cx: number, cy: number, s = 1) {
+  const x = cx - 8 * s; // Sessel etwas links, Tasse rechts daneben
+  // Rückenlehne (goldene Schraffur) und Sitzpolster
+  z.rundRechteck(x - 28 * s, cy - 32 * s, 56 * s, 38 * s, 12 * s, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.4 });
+  z.rundRechteck(x - 32 * s, cy + 2 * s, 64 * s, 16 * s, 6 * s);
+  // Armlehnen
+  z.rundRechteck(x - 44 * s, cy - 12 * s, 14 * s, 32 * s, 6 * s, { strokeWidth: 2.2 }, 0.35);
+  z.rundRechteck(x + 30 * s, cy - 12 * s, 14 * s, 32 * s, 6 * s, { strokeWidth: 2.2 }, 0.35);
+  // Füße
+  z.linie(x - 34 * s, cy + 20 * s, x - 37 * s, cy + 30 * s, {}, 0.2);
+  z.linie(x + 34 * s, cy + 20 * s, x + 37 * s, cy + 30 * s, {}, 0.2);
+  // Tasse auf einem kleinen Beistelltisch
+  const tx = cx + 50 * s, ty = cy + 6 * s;
+  z.linie(tx - 12 * s, ty + 10 * s, tx + 12 * s, ty + 10 * s, { strokeWidth: 2.4 }, 0.2);
+  z.linie(tx, ty + 10 * s, tx, ty + 24 * s, { strokeWidth: 2 }, 0.2);
+  z.pfad(`M${tx - 8 * s} ${ty - 6 * s}H${tx + 8 * s}V${ty + 4 * s}Q${tx + 8 * s} ${ty + 9 * s} ${tx + 3 * s} ${ty + 9 * s}H${tx - 3 * s}Q${tx - 8 * s} ${ty + 9 * s} ${tx - 8 * s} ${ty + 4 * s}Z`,
+    { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.35);
+  z.pfad(`M${tx + 8 * s} ${ty - 3 * s}Q${tx + 14 * s} ${ty - 2 * s} ${tx + 8 * s} ${ty + 5 * s}`, { strokeWidth: 1.6 }, 0.2);
+  // Dampf – pulsiert danach leise weiter
   z.gruppe("puls", () => {
-    const fx = cx + 50 * s, fy = cy - 30 * s;
-    z.linie(fx, fy - 9 * s, fx, fy + 9 * s, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
-    z.linie(fx - 9 * s, fy, fx + 9 * s, fy, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.2);
+    z.pfad(`M${tx - 3 * s} ${ty - 10 * s}Q${tx - 7 * s} ${ty - 16 * s} ${tx - 3 * s} ${ty - 21 * s}Q${tx + 1 * s} ${ty - 26 * s} ${tx - 3 * s} ${ty - 31 * s}`,
+      { stroke: F.gold, strokeWidth: 2, roughness: 0.6 }, 0.3);
+    z.pfad(`M${tx + 4 * s} ${ty - 10 * s}Q${tx} ${ty - 16 * s} ${tx + 4 * s} ${ty - 21 * s}Q${tx + 8 * s} ${ty - 26 * s} ${tx + 4 * s} ${ty - 31 * s}`,
+      { stroke: F.gold, strokeWidth: 2, roughness: 0.6 }, 0.3);
   });
 }
 
@@ -164,7 +171,7 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
 
 /* ─────────────── Szenen ─────────────── */
 
-const WEG_MOTIVE = [rechner, sprechblasen, dokument, badewanne];
+const WEG_MOTIVE = [rechner, sprechblasen, dokument, entspannen];
 // Unterzeilen je Station (mehrzeilig möglich – Schritt 4 laut Kundenfeedback 30.09.2026)
 const WEG_UNTER: string[][] = [
   ["Preis in wenigen Minuten"],

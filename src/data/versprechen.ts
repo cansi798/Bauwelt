@@ -75,7 +75,7 @@ export const VERSPRECHEN: Siegel[] = [
   },
   {
     id: "gewerke",
-    icon: "tools",
+    icon: "hand",
     title: "Alle Gewerke aus einer Hand",
     short: "Wir koordinieren alle Arbeiten – Sie lehnen sich zurück.",
     long:

@@ -69,7 +69,6 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
       <ul class="warum">
         {ERWARTET.map((w, i) => (
           <li class="warum__item reveal">
-            <span class="warum__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
             <span class:list={["warum__icon", { "karriere__trend": w.icon === "arrow" }]}><Icon name={w.icon} size={24} class="icon" /></span>
             <h3>{w.title}</h3>
             <p>{w.text}</p>
