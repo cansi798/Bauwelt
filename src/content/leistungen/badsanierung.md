@@ -24,7 +24,7 @@ ablauf:
   - { title: "Umsetzung", text: "Wir bauen termingerecht und koordinieren alle Gewerke." }
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
 claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
-lead: "Von der ersten Idee bis zur fertigen Übergabe koordinieren wir sämtliche Arbeiten für Sie. Ein Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+lead: "Von der ersten Idee bis zur fertigen Übergabe koordinieren wir sämtliche Arbeiten für Sie. Ein deutschsprachiger Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
@@ -40,7 +40,7 @@ warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }
   - { icon: "tools", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
-  - { icon: "user", title: "Ein Ansprechpartner", text: "Ein fester Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+  - { icon: "user", title: "Ein deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"
@@ -51,7 +51,7 @@ faq:
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
   - { q: "Wie läuft die Besichtigung ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Die Besichtigung ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 

@@ -14,7 +14,7 @@ export const HERO = {
   /** Statement groß, darunter klein und nicht fett die Unterzeile
    *  (Kundenfeedback 30.09.2026 – Stichsätze + „60 Sekunden" entfallen). */
   statement: "Handwerk, wie es heute sein sollte.",
-  unterzeile: "Klare Prozesse. Transparente Kommunikation. Ein Ansprechpartner, der Verantwortung übernimmt.",
+  unterzeile: "Klare Prozesse. Transparente Kommunikation. Ein deutschsprachiger Ansprechpartner, der Verantwortung übernimmt.",
   bild: "hero.webp",
 };
 
@@ -59,7 +59,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     text:
       "Wohnung geerbt, Haus gekauft, Altbau in die Jahre gekommen? Wir modernisieren " +
       "komplett – von der Renovierung einzelner Räume bis zur Kernsanierung. " +
-      "Ein Zeitplan, ein Festpreis, ein Ansprechpartner für alle Gewerke.",
+      "Ein Zeitplan, ein Festpreis, ein deutschsprachiger Ansprechpartner für alle Gewerke.",
     bild: "hero-sanierung-modernisierung.webp",
     alt: "Heller modernisierter Wohnraum mit hohen Decken",
     cta: "Sanierung berechnen",
@@ -101,7 +101,7 @@ export const USP = [
     title: "Regional & persönlich",
     text:
       "Wir kommen aus Norderstedt und betreuen unsere Kunden persönlich vor Ort. " +
-      "Keine Hotline, kein Callcenter, sondern direkte Ansprechpartner.",
+      "Keine Hotline, kein Callcenter, sondern direkte, deutschsprachige Ansprechpartner.",
     bild: "galerie-bad-07.webp",
     alt: "Von Bauwelt saniertes Bad mit freistehender Wanne unter dem Dachfenster",
   },

@@ -33,9 +33,6 @@ umfangTitel: "Was gehört zum Sanierungscheck?"
 umfangText: "Vom Termin bis zur Kosteneinschätzung – alles zum festen Pauschalpreis."
 kacheln:
   - { icon: "eye", title: "Besichtigung vor Ort" }
-  - { icon: "bath", title: "Bad & Sanitär" }
-  - { icon: "tiles", title: "Böden & Wände" }
-  - { icon: "wall", title: "Innenausbau" }
   - { icon: "euro", title: "Erste Kosteneinschätzung" }
   - { icon: "chat", title: "Persönliches Gespräch" }
 ablaufTitel: "So einfach geht’s"

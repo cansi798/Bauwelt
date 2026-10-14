@@ -38,7 +38,7 @@ export const VERSPRECHEN: Siegel[] = [
   {
     id: "ansprechpartner",
     icon: "user",
-    title: "Ein Ansprechpartner",
+    title: "Ein deutschsprachiger Ansprechpartner",
     short: "Eine Nummer für alles – vom Angebot bis zur Abnahme.",
     long:
       "Bei uns koordinieren Sie keine fünf Firmen. Sie haben einen persönlichen " +
@@ -53,7 +53,7 @@ export const VERSPRECHEN: Siegel[] = [
     short: "Sie warten nicht tagelang auf einen Rückruf.",
     long:
       "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie innerhalb von " +
-      "12 Stunden eine persönliche Antwort von Ihrem Ansprechpartner.",
+      "12 Stunden eine persönliche Antwort von Ihrem deutschsprachigen Ansprechpartner.",
   },
   {
     id: "angebot",

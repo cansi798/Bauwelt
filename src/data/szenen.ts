@@ -155,7 +155,7 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
   regional: ["Regional", "vor Ort"],
   festpreis: ["Festpreis-", "Garantie"],
   termin: ["Termin-", "treue"],
-  ansprechpartner: ["Ein An-", "sprechpartner"],
+  ansprechpartner: ["Ein deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 14.10.2026 (50)
   antwort: ["Antwort in", "12 Stunden"],
   angebot: ["Angebot in", "24 Stunden"],
   transparenz: ["Volle", "Transparenz"],
@@ -305,7 +305,7 @@ function siegelSzene(
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const zeilen =
       eigeneZeilen[id] ? eigeneZeilen[id][a]
-      : !mobil && id === "ansprechpartner" ? ["Ein", "Ansprechpartner"]
+      : !mobil && id === "ansprechpartner" ? ["Ein deutsch-", "sprachiger", "Ansprechpartner"]
       : !mobil && id === "deutsch" ? ["100 % deutsch-", "sprachiger", "Ansprechpartner"]
       : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);

@@ -16,7 +16,7 @@ import { EMAILS, SITE, waLink } from "../consts";
 const mailPartner = `mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`;
 
 const ZIELGRUPPEN = [
-  { icon: "reno", title: "Hausverwaltungen", text: "Ein Rahmen, viele Objekte. Feste Ansprechpartner, planbare Budgets und dokumentierte Ausführung." },
+  { icon: "reno", title: "Hausverwaltungen", text: "Ein Rahmen, viele Objekte. Feste, deutschsprachige Ansprechpartner, planbare Budgets und dokumentierte Ausführung." },
   { icon: "euro", title: "Makler & Investoren", text: "Sanierungsmaßnahmen mit Festpreis und klaren Fertigstellungsterminen für eine sichere Kalkulation." },
   { icon: "doc", title: "Architekten & Planer", text: "Saubere Ausführung, kurze Kommunikationswege und zuverlässige Umsetzung Ihrer Planung." },
   { icon: "hammer", title: "Fachbetriebe", text: "Langfristige Zusammenarbeit auf Augenhöhe. Faire Bezahlung und verlässliche Projektabläufe." },
@@ -25,8 +25,8 @@ const ZIELGRUPPEN = [
 const WARUM = [
   { icon: "doc", title: "Dokumentierte Abläufe", text: "Klare Kommunikation und nachvollziehbare Projektstände." },
   { icon: "clock", title: "Schnelle Reaktionszeiten", text: "Antwort innerhalb von 12 Stunden." },
-  { icon: "user", title: "Feste Ansprechpartner", text: "Keine wechselnden Kontakte oder lange Abstimmungsketten." },
-  { icon: "tools", title: "Koordination aus einer Hand", text: "Ein Ansprechpartner für die komplette Umsetzung." },
+  { icon: "user", title: "Feste, deutschsprachige Ansprechpartner", text: "Keine wechselnden Kontakte oder lange Abstimmungsketten." },
+  { icon: "tools", title: "Koordination aus einer Hand", text: "Ein deutschsprachiger Ansprechpartner für die komplette Umsetzung." },
 ];
 
 /** Jamils Ergänzung (B2B-Mehrwert) – wörtlich. */
@@ -34,13 +34,13 @@ const HAUSVERWALTUNGEN = [
   "Rahmen\u00ADvereinbarungen möglich", // weiche Trennstelle: sonst läuft das Wort mobil über die Kachel
   "Priorisierte Bearbeitung",
   "Dokumentierte Ausführung",
-  "Feste Ansprechpartner",
+  "Feste, deutschsprachige Ansprechpartner",
 ];
 
 const ABLAUF = [
   { title: "Anfrage senden", text: "Beschreiben Sie kurz Ihr Anliegen." },
   { title: "Abstimmung", text: "Wir besprechen Umfang, Anforderungen und Abläufe." },
-  { title: "Umsetzung", text: "Festpreis, feste Ansprechpartner und saubere Dokumentation." },
+  { title: "Umsetzung", text: "Festpreis, feste, deutschsprachige Ansprechpartner und saubere Dokumentation." },
   { title: "Langfristige Zusammenarbeit", text: "Klare Prozesse für wiederkehrende Projekte." },
 ];
 ---
@@ -48,7 +48,7 @@ const ABLAUF = [
 <BaseLayout
   footerNurNav
   title="Partner – Zusammenarbeit mit Bauwelt Handwerk"
-  description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe – Sanierung und Ausbau mit Festpreis, Dokumentation und festen Ansprechpartnern."
+  description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe – Sanierung und Ausbau mit Festpreis, Dokumentation und festen, deutschsprachigen Ansprechpartnern."
 >
   <!-- 1. Hero -->
   <PageHero

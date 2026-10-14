@@ -21,7 +21,7 @@ ablauf:
   - { title: "Plan", text: "Fester Preis, klarer Ablauf." }
   - { title: "Ausbau", text: "Sauber verarbeitet bis in die Ecke." }
 claim: "Räume neu gestalten. Klar geplant. Sauber ausgebaut."
-lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein deutschsprachiger Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
 introTitel: "Mehr Raum – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zum Innenausbau?"
@@ -37,7 +37,7 @@ warum:
   - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
   - { icon: "tools", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
-  - { icon: "user", title: "Ein Ansprechpartner", text: "Ein fester Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+  - { icon: "user", title: "Ein deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnten Ihre neuen Räume aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Innenausbau sein"
@@ -48,7 +48,7 @@ faq:
   - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir spachteln die Flächen glatt und übergeben sie streichfertig – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
   - { q: "Wie läuft die Besichtigung ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Die Besichtigung ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 
 Sie wünschen sich ein zusätzliches Zimmer, ein ruhiges Homeoffice oder eine neue Raumaufteilung, aber keine wochenlange Baustelle und keine unklaren Kosten?
