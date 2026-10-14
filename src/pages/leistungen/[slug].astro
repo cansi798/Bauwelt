@@ -18,6 +18,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import { u } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
+import { GALERIE } from "../../data/galerie";
 
 export async function getStaticPaths() {
   const leistungen = await getCollection("leistungen");
@@ -39,7 +40,10 @@ const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const euro = (n: number) => n.toLocaleString("de-DE");
 
 // Referenzen: NUR echte Fotos aus refBilder (KI-Referenzbilder entfernt, 12.10.2026 (17)).
-const refBilder = l.data.refBilder ?? [];
+// Kundenwunsch 14.10.2026 (27): ALLE Fotos der zugehörigen Galerie-Gruppe als Karussell
+// (Fallback: refBilder aus der Leistungsdatei)
+const galerieGruppe = GALERIE.find((g) => g.id === l.data.refAnker);
+const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data.refBilder ?? []);
 
 // Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
 const sektionen = [
@@ -126,14 +130,28 @@ const description =
   {refBilder.length > 0 && (
     <section class:list={bg("refs")}>
       <div class="container">
-        <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
-        <div class:list={["grid cols-2", { "refs--eins": refBilder.length === 1 }]}>
-          {refBilder.map((b) => (
-            <a class="card refmini reveal" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
-              {/* Kundenwunsch 13.10.2026 (20): keine Beschreibung unter den Fotos (alt-Text bleibt für Screenreader) */}
-              <Img src={b.file} alt={b.alt} w={560} h={420} />
-            </a>
-          ))}
+        <div class="lrefs__head">
+          <SectionHead eyebrow="Referenzen" pre="Das haben wir schon " accent="gebaut" />
+          {refBilder.length > 1 && (
+            <div class="slider__nav">
+              <button class="slider__btn" type="button" data-dir="-1" aria-label="Zurück">
+                <Icon name="arrow-left" size={20} class="icon" />
+              </button>
+              <button class="slider__btn" type="button" data-dir="1" aria-label="Weiter">
+                <Icon name="arrow" size={20} class="icon" />
+              </button>
+            </div>
+          )}
+        </div>
+        <div class="slider">
+          <div class="slider__track" data-slider>
+            {refBilder.map((b) => (
+              <a class="card refmini" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
+                {/* Kundenwunsch 13.10.2026 (20): keine Beschreibung unter den Fotos (alt-Text bleibt für Screenreader) */}
+                <Img src={b.file} alt={b.alt} w={4} h={5} />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -151,6 +169,10 @@ const description =
 </BaseLayout>
 
 <style>
+  .lrefs__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: 24px; }
+  .lrefs__head :global(.section-head) { margin-bottom: 0; }
+  .refmini { width: min(72vw, 320px); }
+
   .ldetail__intro { max-width: 860px; }
   .ldetail__prose { max-width: var(--text-width); font-size: 17px; line-height: 1.7; }
   .ldetail__prose :global(p) { margin-bottom: 1em; }
@@ -173,3 +195,20 @@ const description =
   .refmini { padding: 12px; display: grid; }
   .refs--eins { grid-template-columns: minmax(0, 1fr) !important; max-width: 560px; }
 </style>
+
+<script>
+  // Karussell der Referenzfotos (wie Startseiten-Slider): Pfeile scrollen um eine Kartenbreite
+  for (const slider of document.querySelectorAll<HTMLElement>(".slider")) {
+    const track = slider.querySelector<HTMLElement>("[data-slider]");
+    const nav = slider.closest("section")?.querySelectorAll<HTMLButtonElement>(".slider__btn");
+    if (!track || !nav?.length) continue;
+    const step = () => (track.firstElementChild as HTMLElement)?.offsetWidth + 20 || 300;
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth - 4;
+      nav.forEach((b) => { b.disabled = Number(b.dataset.dir) < 0 ? track.scrollLeft <= 4 : track.scrollLeft >= max; });
+    };
+    nav.forEach((b) => b.addEventListener("click", () => track.scrollBy({ left: Number(b.dataset.dir) * step(), behavior: "smooth" })));
+    track.addEventListener("scroll", update, { passive: true });
+    update();
+  }
+</script>
