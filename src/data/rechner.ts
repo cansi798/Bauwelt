@@ -4,11 +4,16 @@
  *  Wo der Kunde Nettopreise geliefert hat, steht hier der Nettowert und `netto: true` –
  *  die Umrechnung (× 1,19) passiert ausschließlich in `berechne()` bzw. `brutto()`.
  *
- *  - Badsanierung: echte Brutto-Preistabelle „ab“-Preis je m² (3–15 m²). Komfort = Basis
- *    + 1.500 €, Premium = Komfort + 1.500 €; angezeigt wird „ab X € bis X + 1.500 €“
- *    (Premium: „ab X € bis X + 2.300 €“, Kundenwunsch 14.10.2026 (44)).
- *    4. Option „Barrierefreie Dusche“: fester Höchstpreis (Budget der Pflegekasse für
- *    wohnumfeldverbessernde Maßnahmen), kein Flächen-Slider.
+ *  - Badsanierung (Kundenwunsch 14.10.2026 (47)): nur noch ZWEI Optionen, keine Niveaus
+ *    Basis/Komfort/Premium mehr.
+ *    „Badsanierung“: echte Brutto-Preistabelle „ab“-Preis X je m² (3–15 m²), dann wählt der
+ *    Kunde die Kalkulationsart:
+ *      · „Schnelle Kalkulation“:     „ab X € bis X + 5.160 €“ (BAD_SCHNELL_SPANNE)
+ *      · „Detaillierte Kalkulation“: „ab X + Extras bis X + 1.500 € + Extras“ (BAD_STUFE);
+ *        Extras (BAD_EXTRAS, brutto) werden per Checkbox gewählt, der Preis ändert sich
+ *        live. Die Einzelpreise der Extras werden Kunden NICHT angezeigt.
+ *    „Barrierefreie Dusche“: fester Preis (Budget der Pflegekasse für wohnumfeldverbessernde
+ *    Maßnahmen), kein Flächen-Slider.
  *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
  *    Parkett gibt es nicht mehr. Ergebnis ist ein konkreter Betrag (keine ±-Spanne).
  *    Die m²-Preise und der Rechenweg werden Kunden NICHT angezeigt (Kundenwunsch
@@ -50,15 +55,29 @@ export type Tier = {
   untertitel?: string;
   /** Ausstattung dieses Niveaus (Ergebnis + Anfragetext). */
   enthalten?: string[];
-  /** Badsanierung: Aufschlag in € (brutto) auf den Basis-„ab“-Preis der Tabelle. */
-  aufschlag?: number;
   /** Fester Höchstpreis in € (brutto) – ohne Flächen-Slider. */
   festBis?: number;
-  /** Eigene Spannenbreite „ab X bis X + spanne“ für dieses Niveau (sonst tabelleSpanne des Gewerks). */
-  tierSpanne?: number;
   /** Abweichende Arbeitsschritte für dieses Niveau (sonst die des Gewerks). */
   bausteine?: Modul[];
 };
+
+/** Zusatzleistung der detaillierten Kalkulation (Badsanierung). Preis BRUTTO inkl. MwSt.
+ *  `preis`/`proM2` sind NUR für die Rechnung – Kunden sehen nie den Einzelpreis. */
+export type Extra = {
+  id: string;
+  label: string;   // laienfreundlich (Checkbox, Ergebnis)
+  fach: string;    // Fachbegriff (Anfrage-Text)
+  preis: number;   // € brutto (bei proM2: je m²)
+  proM2?: boolean; // true = preis × gewählte m²
+};
+
+/** Kalkulationsart (Badsanierung, Kundenwunsch 14.10.2026 (47)). */
+export type KalkArt = "schnell" | "detail";
+export const KALK_ARTEN: { id: KalkArt; label: string; hint: string }[] = [
+  { id: "schnell", label: "Schnelle Kalkulation", hint: "Preisrahmen nur nach Badgröße" },
+  { id: "detail", label: "Detaillierte Kalkulation", hint: "Mit Ihren Wunsch-Extras – der Preis passt sich sofort an" },
+];
+export const kalkArtLabel = (id: KalkArt) => KALK_ARTEN.find((k) => k.id === id)?.label ?? id;
 
 export type Gewerk = {
   slug: string;          // = Slug der Leistungs-Seite
@@ -71,11 +90,19 @@ export type Gewerk = {
   max: number;
   step: number;
   default: number;
-  /** "tabelle": Brutto-„ab“-Preis je m² aus `preistabelle` (+ Tier-Aufschlag), bis = ab + `tabelleSpanne`.
+  /** "tabelle": Brutto-„ab“-Preis je m² aus `preistabelle`, bis = ab + `tabelleSpanne`
+   *    (bzw. + `schnellSpanne` bei „Schnelle Kalkulation“; Extras kommen auf beide Werte).
    *  "flaeche": (Grund + Menge × €/Einheit) × faktor, ggf. × 1,19, ± spanne. */
   preismodell: "tabelle" | "flaeche";
   preistabelle?: Record<number, number>;
   tabelleSpanne?: number;
+  /** Spannenbreite der „Schnellen Kalkulation“ (nur Gewerke mit Kalkulationsart). */
+  schnellSpanne?: number;
+  /** Gesetzt = Kalkulationsart „Schnell/Detailliert“ wählbar; Extras der detaillierten Kalkulation. */
+  extras?: Extra[];
+  /** Gesetzt = Optionswahl (tiers) steht VOR der Mengenangabe; Text = Überschrift der Optionswahl,
+   *  `frage` beschriftet dann den Slider. */
+  wahlFrage?: string;
   grund: number;         // Grundpauschale €
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
   /** true = grund/proEinheit sind NETTO und werden für die Anzeige × 1,19 gerechnet. */
@@ -94,8 +121,20 @@ export const BAD_AB_BRUTTO: Record<number, number> = {
   3: 11305, 4: 11882, 5: 12459, 6: 13070, 7: 13685, 8: 14340, 9: 14999,
   10: 15970, 11: 16946, 12: 18029, 13: 19111, 14: 20194, 15: 21277,
 };
-/** Spanne „ab … bis …“: bis = ab + 1.500 €. Gleichzeitig Stufenabstand Basis → Komfort → Premium. */
+/** Detaillierte Kalkulation: Spanne „ab … bis …“, bis = ab + 1.500 € (Standardpreis, vorher „Basis“). */
 export const BAD_STUFE = 1500;
+/** Schnelle Kalkulation: bis = ab + 5.160 € – Kundenwunsch 14.10.2026 (47), Beispiel des Kunden:
+ *  8 m² → „ab 14.340 € bis 19.500 €“; gilt gleichermaßen für alle Badgrößen. */
+export const BAD_SCHNELL_SPANNE = 5160;
+/** Extras der detaillierten Kalkulation – Bruttopreise, werden Kunden NICHT angezeigt
+ *  (Kundenwunsch 14.10.2026 (47)). Reihenfolge = Anzeige-Reihenfolge. */
+export const BAD_EXTRAS: Extra[] = [
+  { id: "grosse-fliesen", label: "Große Fliesen", fach: "Großformatfliesen (statt Standardformat)", preis: 35, proM2: true },
+  { id: "led-spots", label: "LED-Spots", fach: "LED-Einbaustrahler", preis: 400 },
+  { id: "fussbodenheizung", label: "Fußbodenheizung", fach: "Fußbodenheizung", preis: 800 },
+  { id: "sitzbank", label: "Sitzbank verfliest", fach: "Gemauerte Sitzbank, gefliest", preis: 400 },
+  { id: "bodeneben", label: "Bodenebene Dusche verfliest", fach: "Bodengleiche Dusche, gefliest (inkl. Abdichtung)", preis: 550 },
+];
 /** Barrierefreie Dusche: Budget der Pflegekasse für wohnumfeldverbessernde Maßnahmen. */
 export const BAD_BARRIEREFREI_BIS = 4099; // Kundenwunsch 14.10.2026 (45): vorher 4.180 €
 
@@ -114,11 +153,17 @@ export const GEWERKE: Gewerk[] = [
     preismodell: "tabelle",
     preistabelle: BAD_AB_BRUTTO,
     tabelleSpanne: BAD_STUFE,
+    schnellSpanne: BAD_SCHNELL_SPANNE,
+    extras: BAD_EXTRAS,
+    wahlFrage: "Was ist geplant?",
     grund: 0, proEinheit: {}, netto: false, spanne: 0,
+    // Kundenwunsch 14.10.2026 (47): nur noch „Badsanierung“ und „Barrierefreie Dusche“
+    // (Komfort/Premium entfallen; Extras stattdessen in der detaillierten Kalkulation).
     tiers: [
       {
-        id: "basis", label: "Basis", aufschlag: 0,
-        hint: "Dusche oder Wanne, WC, Waschtisch, Standard-Fliesen",
+        id: "bad", label: "Badsanierung",
+        hint: "Komplett neues Bad – Preis nach Badgröße, auf Wunsch mit Extras",
+        // Standard-Inhalt = bisheriges „Basis“-Niveau
         enthalten: [
           "Dusche ODER Badewanne (nicht beides)",
           "WC und Waschtisch",
@@ -126,27 +171,6 @@ export const GEWERKE: Gewerk[] = [
           "Position der Sanitärobjekte anpassbar",
           "Standard-Fliesen",
           "Alle übrigen Teile und Material",
-        ],
-      },
-      {
-        id: "komfort", label: "Komfort", aufschlag: BAD_STUFE,
-        hint: "Bodengleiche Dusche, wertigere Ausstattung, Großformatfliesen",
-        enthalten: [
-          "Alles aus Basis, dazu:",
-          "Bodengleiche Dusche",
-          "Wertigere Ausstattung",
-          "Großformatfliesen",
-        ],
-      },
-      {
-        // Kundenwunsch 14.10.2026 (44): Premium-Spanne = Mindestpreis + 2.300 € (nur Badsanierung)
-        id: "premium", label: "Premium", aufschlag: 2 * BAD_STUFE, tierSpanne: 2300,
-        hint: "Alles aus Komfort plus Fußbodenheizung und LED-Spots – individuell gestaltbar",
-        enthalten: [
-          "Alles aus Komfort, dazu:",
-          "Fußbodenheizung",
-          "LED-Spots",
-          "Individuell gestaltbar, z. B. zusätzliche Trennwand",
         ],
       },
       {
@@ -282,15 +306,30 @@ export type Ergebnis =
 
 export const tierById = (g: Gewerk, id: string): Tier => g.tiers.find((t) => t.id === id) ?? g.tiers[0];
 
-/** Preis für Gewerk, Menge und Niveau (Brutto). */
-export function berechne(g: Gewerk, menge: number, tierId: string): Ergebnis {
+/** Optionen der Badsanierung: Kalkulationsart + gewählte Extras (ids). */
+export type KalkOptionen = { art?: KalkArt; extras?: string[] };
+
+/** Summe der gewählten Extras in € brutto (m²-Extras × Menge). */
+export function extrasSumme(g: Gewerk, menge: number, ids: string[] = []): number {
+  return (g.extras ?? [])
+    .filter((x) => ids.includes(x.id))
+    .reduce((summe, x) => summe + (x.proM2 ? x.preis * menge : x.preis), 0);
+}
+
+/** Preis für Gewerk, Menge und Niveau (Brutto). `opt` nur für Gewerke mit Kalkulationsart. */
+export function berechne(g: Gewerk, menge: number, tierId: string, opt: KalkOptionen = {}): Ergebnis {
   const t = tierById(g, tierId);
   if (t.festBis) return { art: "unter", bis: t.festBis };
   if (g.preismodell === "tabelle") {
     const tab = g.preistabelle!;
     const m = Math.min(Math.max(Math.round(menge), g.min), g.max);
-    const ab = tab[m] + (t.aufschlag ?? 0);
-    return { art: "spanne", von: ab, bis: ab + (t.tierSpanne ?? g.tabelleSpanne ?? 0), ab: true };
+    // Kundenwunsch 14.10.2026 (47): schnell = „ab X bis X + 5.160 €“ (ohne Extras),
+    // detailliert = „ab X + Extras bis X + 1.500 € + Extras“.
+    if (g.schnellSpanne && (opt.art ?? "schnell") === "schnell") {
+      return { art: "spanne", von: tab[m], bis: tab[m] + g.schnellSpanne, ab: true };
+    }
+    const ab = tab[m] + extrasSumme(g, m, opt.extras);
+    return { art: "spanne", von: ab, bis: ab + (g.tabelleSpanne ?? 0), ab: true };
   }
   const f = (g.faktor ?? 1) * (g.netto ? 1 + MWST : 1);
   const grund = g.grund * f;

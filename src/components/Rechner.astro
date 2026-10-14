@@ -14,9 +14,13 @@
 //   aus der Content-Datei (pauschalpreis/umfang) – eine einzige Quelle.
 // Ohne JavaScript: Hinweis + Direktkontaktwege (html.js-Gate); auf der Startseite
 // bleiben die Karten mit ihren „Mehr erfahren"-Links sichtbar.
+// Kundenwunsch 14.10.2026 (47): Badsanierung nur noch „Badsanierung“ / „Barrierefreie Dusche“.
+//   Badsanierung: Badgröße + Kalkulationsart „Schnelle“ (Spanne nach m²) oder „Detaillierte
+//   Kalkulation“ (echte Checkboxen für Extras, Preis live – Einzelpreise der Extras bleiben
+//   unsichtbar). Optionswahl steht dort VOR der Badgröße (Gewerk.wahlFrage).
 import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
-import { GEWERKE, PAUSCHAL, MWST_HINWEIS } from "../data/rechner";
+import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, berechne, preisText } from "../data/rechner";
 import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
 
 interface Props {
@@ -32,6 +36,10 @@ const H = start ? "h3" : "h2";     // Schritt-Überschriften
 const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
 const erstes = GEWERKE[0];
 const euro = (n: number) => n.toLocaleString("de-DE");
+// Startseite (Badsanierung vorgerendert): Optionswahl vor der Badgröße, wenn das Gewerk es so will.
+const wahlZuerst = start && Boolean(erstes.wahlFrage);
+const teile = wahlZuerst ? ["tiers", "range"] : ["range", "tiers"];
+const mitKalk = start && Boolean(erstes.extras);
 
 // Pauschal-Leistungen mit Preis + Inhalt aus der jeweiligen Leistungs-Content-Datei
 const PAUSCHAL_DATA = await Promise.all(
@@ -139,29 +147,59 @@ const weich = (t: string) =>
       </section>
     )}
 
-    <!-- Schritt 2: Umfang – Fläche (Slider) + Ausstattungsniveau -->
+    <!-- Schritt 2: Umfang – Fläche (Slider) + Ausstattungsniveau
+         (Badsanierung: Option → Badgröße → Kalkulationsart → ggf. Extras) -->
     <section class="rstep" data-step="2" hidden={!start}>
       {start && <p class="rpanel__gewerk" id="rGewerkLabel">{erstes.label} berechnen</p>}
-      <H class="rstep__title" id="rFrage">{start ? erstes.frage : "Wie groß ist Ihr Projekt?"}</H>
+      <H class="rstep__title" id="rFrage">{start ? (erstes.wahlFrage ?? erstes.frage) : "Wie groß ist Ihr Projekt?"}</H>
 
-      <div class="rechner__range" id="rRange">
-        <input
-          type="range" id="rMenge" aria-labelledby="rFrage"
-          min={start ? erstes.min : 3} max={start ? erstes.max : 30}
-          step={start ? erstes.step : 1} value={start ? erstes.default : 8}
-        />
-        <output class="rechner__mengeout" id="rMengeOut" for="rMenge">{start ? `${erstes.default} ${erstes.unit}` : "8 m²"}</output>
-      </div>
+      {teile.map((teil) => teil === "range" ? (
+        <div class="rechner__range" id="rRange">
+          <p class="rfrage" id="rMengeFrage" hidden={!wahlZuerst}>{wahlZuerst ? erstes.frage : ""}</p>
+          <input
+            type="range" id="rMenge" aria-labelledby={wahlZuerst ? "rMengeFrage" : "rFrage"}
+            min={start ? erstes.min : 3} max={start ? erstes.max : 30}
+            step={start ? erstes.step : 1} value={start ? erstes.default : 8}
+          />
+          <output class="rechner__mengeout" id="rMengeOut" for="rMenge">{start ? `${erstes.default} ${erstes.unit}` : "8 m²"}</output>
+        </div>
+      ) : (
+        <div
+          class:list={["rechner__tiers", { "rechner__tiers--2": start && erstes.tiers.length === 2 }]}
+          id="rTiers" role="radiogroup" aria-label={wahlZuerst ? erstes.wahlFrage : "Ausstattungsniveau"}
+        >
+          {start && erstes.tiers.map((t, i) => (
+            <button type="button" class:list={["rtier", { selected: i === 0 }]} role="radio" aria-checked={i === 0 ? "true" : "false"} data-tier={t.id}>
+              <strong>{t.label}</strong>{t.untertitel && <em class="rtier__sub">{t.untertitel}</em>}<small>{t.hint}</small>
+            </button>
+          ))}
+        </div>
+      ))}
 
-      <div
-        class:list={["rechner__tiers", { "rechner__tiers--4": start && erstes.tiers.length === 4 }]}
-        id="rTiers" role="radiogroup" aria-label="Ausstattungsniveau"
-      >
-        {start && erstes.tiers.map((t, i) => (
-          <button type="button" class:list={["rtier", { selected: i === 0 }]} role="radio" aria-checked={i === 0 ? "true" : "false"} data-tier={t.id}>
-            <strong>{t.label}</strong>{t.untertitel && <em class="rtier__sub">{t.untertitel}</em>}<small>{t.hint}</small>
-          </button>
-        ))}
+      {/* Kundenwunsch 14.10.2026 (47): Kalkulationsart + Extras (nur Gewerke mit `extras`, z. B. Badsanierung).
+          Echte Radio-/Checkbox-Elemente (Tastatur, Screenreader); Extra-Preise werden NIE angezeigt. */}
+      <div class="rkalk" id="rKalk" hidden={!mitKalk}>
+        <p class="rfrage" id="rKalkFrage">Wie möchten Sie rechnen?</p>
+        <div class="rkalk__arten" role="radiogroup" aria-labelledby="rKalkFrage">
+          {KALK_ARTEN.map((k, i) => (
+            <label class="rart">
+              <input type="radio" name="rKalkArt" value={k.id} checked={i === 0} />
+              <span class="rart__text"><strong>{k.label}</strong><small>{k.hint}</small></span>
+            </label>
+          ))}
+        </div>
+        <fieldset class="rextras" id="rExtras" hidden>
+          <legend class="rfrage">Ihre Extras <span class="rextras__opt">(optional)</span></legend>
+          <div class="rextras__liste" id="rExtrasListe">
+            {mitKalk && erstes.extras!.map((x) => (
+              <label class="rextra"><input type="checkbox" value={x.id} /><span>{x.label}</span></label>
+            ))}
+          </div>
+          <p class="rlive" aria-live="polite">
+            Ihr Preis inkl. Extras:
+            <strong id="rLive">{mitKalk ? preisText(berechne(erstes, erstes.default, erstes.tiers[0].id, { art: "detail" })) : ""}</strong>
+          </p>
+        </fieldset>
       </div>
       {/* Kundenwunsch 13.10.2026 (21): kein Brutto-Hinweis mehr über „Preisspanne anzeigen“ (auf der Ergebnisseite bleibt er, PAngV) */}
 
@@ -430,9 +468,71 @@ const weich = (t: string) =>
   }
   .rechner__tiers :global(.rtier strong) { font-family: var(--font-heading); }
   .rechner__tiers :global(.rtier__sub) { font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--gold-700); }
-  @media (min-width: 768px) { .rechner__tiers--4 { grid-template-columns: repeat(2, 1fr); } }
+  /* Badsanierung: nur 2 Optionen (Kundenwunsch 14.10.2026 (47)) → 2 Spalten statt 3 */
+  @media (min-width: 768px) { .rechner__tiers--2 { grid-template-columns: repeat(2, 1fr); } }
   .rechner__tiers :global(.rtier small) { color: var(--anthrazit-600); }
   .rechner__tiers :global(.rtier.selected) { border-color: var(--gold-500); background: var(--gold-100); }
+
+  /* Zwischenfragen (Badgröße, Kalkulationsart, Extras) */
+  .rfrage {
+    margin: 0;
+    font-family: var(--font-heading); font-weight: 700; font-size: 16px;
+    color: var(--anthrazit-800);
+  }
+
+  /* Kalkulationsart + Extras (Kundenwunsch 14.10.2026 (47)) – echte Radios/Checkboxen */
+  .rkalk { display: grid; gap: 10px; margin-bottom: 20px; }
+  .rkalk__arten { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .rkalk__arten { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .rart {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px;
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    background: var(--weiss);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .rart:hover { border-color: var(--gold-500); }
+  .rart:has(input:checked) { border-color: var(--gold-500); background: var(--gold-100); }
+  .rart:has(input:focus-visible) { outline: 3px solid var(--gold-600); outline-offset: 2px; }
+  .rart input { flex: none; width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--gold-600); }
+  .rart__text { display: grid; gap: 4px; min-width: 0; }
+  .rart strong { font-family: var(--font-heading); }
+  .rart small { color: var(--anthrazit-600); }
+
+  .rextras {
+    min-width: 0; margin: 4px 0 0; padding: 14px 16px 16px;
+    background: var(--gold-100);
+    border: 1px solid var(--gold-500);
+    border-radius: var(--radius-md);
+  }
+  .rextras legend { float: left; width: 100%; padding: 0; margin-bottom: 10px; }
+  .rextras__opt { font-weight: 600; font-size: 13.5px; color: var(--anthrazit-600); }
+  .rextras__liste { clear: both; display: grid; gap: 8px; }
+  @media (min-width: 640px) { .rextras__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .rextras :global(.rextra) {
+    display: flex; align-items: center; gap: 10px;
+    min-height: 44px; padding: 9px 12px;
+    background: var(--weiss);
+    border: 2px solid var(--linie);
+    border-radius: var(--radius-md);
+    font-size: 14px; font-weight: 600; line-height: 1.3;
+    cursor: pointer;
+    transition: border-color var(--transition);
+  }
+  .rextras :global(.rextra:hover),
+  .rextras :global(.rextra:has(input:checked)) { border-color: var(--gold-500); }
+  .rextras :global(.rextra:has(input:focus-visible)) { outline: 3px solid var(--gold-600); outline-offset: 2px; }
+  .rextras :global(.rextra input) { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--gold-600); }
+  .rlive { margin: 14px 0 0; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
+  .rlive strong {
+    display: block; margin-top: 2px;
+    font-family: var(--font-heading); font-weight: 800;
+    font-size: clamp(20px, 3.4vw, 26px);
+    color: var(--anthrazit-800);
+  }
 
 
   /* Mobile Navigation: Zurück + Weiter zusammen. Kundenwunsch 13.10.2026 (19):
@@ -508,7 +608,7 @@ const weich = (t: string) =>
 
 <script>
   // Preise + Logik kommen direkt aus data/rechner.ts (eine einzige Quelle, gebündelt von Vite).
-  import { GEWERKE, berechne, preisText, tierById, MWST_HINWEIS, type Gewerk } from "../data/rechner";
+  import { GEWERKE, berechne, preisText, tierById, kalkArtLabel, MWST_HINWEIS, type Gewerk, type KalkArt } from "../data/rechner";
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
   if (app) {
@@ -528,12 +628,20 @@ const weich = (t: string) =>
     const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
     const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
     const gruppeTag = START ? "h4" : "h3";
+    const mengeFrage = document.getElementById("rMengeFrage")!;
+    const kalkEl = document.getElementById("rKalk")!;
+    const kalkRadios = Array.from(kalkEl.querySelectorAll<HTMLInputElement>('input[name="rKalkArt"]'));
+    const extrasEl = document.getElementById("rExtras")!;
+    const extrasListe = document.getElementById("rExtrasListe")!;
+    const liveEl = document.getElementById("rLive")!;
 
     const state = {
       step: START ? 2 : 1,
       gewerk: null as Gewerk | null,
       menge: 0,
       tier: "",
+      art: "schnell" as KalkArt,   // Kalkulationsart (nur Gewerke mit Extras)
+      extras: [] as string[],      // gewählte Extra-ids
     };
     const euro = (n: number) => n.toLocaleString("de-DE");
     const EMOJI: Record<string, string> = {
@@ -593,12 +701,20 @@ const weich = (t: string) =>
       state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
       markiere(g.slug);
       if (gewerkLabel) gewerkLabel.textContent = `${g.label} berechnen`;
-      frageEl.textContent = g.frage;
+      // Gewerke mit wahlFrage (Badsanierung): erst Option, dann Menge – Slider bekommt eigene Frage
+      frageEl.textContent = g.wahlFrage ?? g.frage;
+      mengeFrage.textContent = g.wahlFrage ? g.frage : "";
+      mengeFrage.hidden = !g.wahlFrage;
+      range.setAttribute("aria-labelledby", g.wahlFrage ? "rMengeFrage" : "rFrage");
+      tiersEl.setAttribute("aria-label", g.wahlFrage ?? "Ausstattungsniveau");
+      if (g.wahlFrage) rangeWrap.before(tiersEl);
+      else tiersEl.before(rangeWrap);
       range.min = String(g.min);
       range.max = String(g.max);
       range.step = String(g.step);
       range.value = String(g.default);
       renderTiers(g);
+      renderExtras(g);
       updateMenge();
       updateRange();
       show(2, scroll);
@@ -627,7 +743,42 @@ const weich = (t: string) =>
         });
         tiersEl.append(btn);
       }
-      tiersEl.classList.toggle("rechner__tiers--4", g.tiers.length === 4);
+      tiersEl.classList.toggle("rechner__tiers--2", g.tiers.length === 2);
+    }
+
+    /** Extras der detaillierten Kalkulation als echte Checkboxen – NUR Bezeichnung, kein Preis. */
+    function renderExtras(g: Gewerk) {
+      extrasListe.innerHTML = "";
+      for (const x of g.extras ?? []) {
+        const label = document.createElement("label");
+        label.className = "rextra";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = x.id;
+        cb.checked = state.extras.includes(x.id);
+        const text = document.createElement("span");
+        text.textContent = x.label;
+        label.append(cb, text);
+        extrasListe.append(label);
+      }
+    }
+
+    /** Kalkulationsart/Extras nur bei Gewerken mit Extras und ohne Festpreis-Option. */
+    function updateKalk() {
+      const g = state.gewerk;
+      const sichtbar = Boolean(g?.extras) && !tierById(g!, state.tier).festBis;
+      kalkEl.hidden = !sichtbar;
+      if (!sichtbar) return;
+      kalkRadios.forEach((r) => (r.checked = r.value === state.art));
+      extrasEl.hidden = state.art !== "detail";
+      updateLive();
+    }
+
+    /** Live-Preis der detaillierten Kalkulation (ändert sich beim An-/Abhaken und mit der Badgröße). */
+    function updateLive() {
+      const g = state.gewerk;
+      if (!g?.extras) return;
+      liveEl.textContent = preisText(berechne(g, state.menge, state.tier, { art: "detail", extras: state.extras }));
     }
 
     /** Festpreis-Option (z. B. Barrierefreie Dusche): kein Flächen-Slider. */
@@ -636,23 +787,30 @@ const weich = (t: string) =>
       const fest = Boolean(g && tierById(g, state.tier).festBis);
       rangeWrap.hidden = fest;
       weiterBtn.textContent = fest ? "Preis anzeigen" : "Preisspanne anzeigen";
+      updateKalk();
     }
 
     function updateMenge() {
       state.menge = Number(range.value);
       mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
+      updateLive();
     }
 
     function showResult() {
       const g = state.gewerk!;
       const t = tierById(g, state.tier);
-      const erg = berechne(g, state.menge, t.id);
+      const fest = Boolean(t.festBis);
+      // Kundenwunsch 14.10.2026 (47): Badsanierung mit Kalkulationsart (+ Extras bei „detailliert“)
+      const kalk = Boolean(g.extras) && !fest;
+      const detail = kalk && state.art === "detail";
+      const extras = detail ? g.extras!.filter((x) => state.extras.includes(x.id)) : [];
+      const artLabel = kalkArtLabel(state.art);
+      const erg = berechne(g, state.menge, t.id, kalk ? { art: state.art, extras: state.extras } : {});
       const preis = preisText(erg);
       ergebnisEl.textContent = preis;
       document.getElementById("rErgebnisTitel")!.textContent =
         erg.art === "spanne" ? "Ihre erste Preisspanne" : "Ihre erste Preiseinschätzung";
 
-      const fest = Boolean(t.festBis);
       const arbeiten = t.bausteine ?? g.bausteine;
       const masse = `${state.menge} ${g.unit}`;
       const niveau = t.untertitel ? `${t.label} (${t.untertitel})` : t.label;
@@ -663,10 +821,15 @@ const weich = (t: string) =>
         `<div class="rwahl__gruppe"><${gruppeTag} class="rwahl__titel">${titel}</${gruppeTag}><ul>` +
         punkte.map((p) => `<li class="${klasse}">${p}</li>`).join("") +
         `</ul></div>`;
-      const projekt = fest ? [g.label, niveau] : [g.label, masse, `Niveau: ${niveau}`];
+      const extrasZeile = extras.length ? `Extras: ${extras.map((x) => x.label).join(", ")}` : "Ohne Extras";
+      const projekt = fest
+        ? [g.label, niveau]
+        : kalk
+          ? [g.label, masse, artLabel, ...(detail ? [extrasZeile] : [])]
+          : [g.label, masse, `Niveau: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
-        ? gruppe("Das ist enthalten", t.enthalten)
+        ? gruppe("Das ist enthalten", [...t.enthalten, ...extras.map((x) => x.label)])
         : gruppe("Enthaltene Arbeiten", arbeiten.map((m) => m.label));
       wahl.innerHTML = html;
 
@@ -676,12 +839,20 @@ const weich = (t: string) =>
       const arbeitenListe = arbeiten.map((m) => `• ${m.fach}`).join("\n");
       const ausstattung = t.enthalten ? `\n\n✅ Ausstattung:\n${t.enthalten.map((e) => `• ${e}`).join("\n")}` : "";
       const preisZeile = `${preis} (${MWST_HINWEIS.replace("Bruttopreise", "brutto")})`;
+      // Badsanierung: Kalkulationsart + Extras (Fachbegriffe) statt „Niveau“
+      const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
+      const waWahl = kalk
+        ? `🧮 Kalkulation: ${artLabel}` + (detail ? `\n✨ Extras:${extrasText}` : "")
+        : `⭐ ${g.extras ? "Auswahl" : "Niveau"}: ${niveau}`;
+      const mailWahl = kalk
+        ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
+        : `${g.extras ? "Auswahl:  " : "Niveau:   "}${niveau}`;
       const waText =
         `Hallo Bauwelt Handwerk! 👋\n\n` +
         `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
         `${emoji} Projekt: ${g.label}\n` +
         (fest ? "" : `📐 Größe: ${masse}\n`) +
-        `⭐ Niveau: ${niveau}` +
+        waWahl +
         ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\n💶 Ersteinschätzung: ${preisZeile}\n\n` +
@@ -689,13 +860,15 @@ const weich = (t: string) =>
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
       waBtn.dataset.text = waText;
 
-      const subject = fest ? `Projektanfrage: ${g.label} – ${t.label}` : `Projektanfrage: ${g.label} (${masse})`;
+      const subject = fest
+        ? `Projektanfrage: ${g.label} – ${t.label}`
+        : `Projektanfrage: ${g.label} (${masse}${kalk ? `, ${artLabel}` : ""})`;
       const body =
         `Guten Tag,\n\n` +
         `ich habe im Online-Rechner folgendes Projekt berechnet:\n\n` +
         `Projekt:  ${g.label}\n` +
         (fest ? "" : `Größe:    ${masse}\n`) +
-        `Niveau:   ${niveau}` +
+        mailWahl +
         ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\nErsteinschätzung: ${preisZeile}\n\n` +
@@ -719,6 +892,18 @@ const weich = (t: string) =>
       b.addEventListener("click", () => show(1))
     );
     range.addEventListener("input", updateMenge);
+    // Kalkulationsart wechseln (echte Radios) und Extras an-/abhaken → Preis live
+    kalkRadios.forEach((r) =>
+      r.addEventListener("change", () => {
+        if (!r.checked) return;
+        state.art = r.value as KalkArt;
+        updateKalk();
+      })
+    );
+    extrasListe.addEventListener("change", () => {
+      state.extras = Array.from(extrasListe.querySelectorAll<HTMLInputElement>("input:checked")).map((c) => c.value);
+      updateLive();
+    });
     document.getElementById("rWeiter")!.addEventListener("click", showResult);
     document.getElementById("rZurueck2")?.addEventListener("click", () => show((state.step - 1) as 1 | 2));
     // Vom Ergebnis zurück zu Fläche & Niveau (Werte bleiben erhalten)
