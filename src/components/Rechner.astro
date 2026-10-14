@@ -21,8 +21,10 @@ import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
 
 interface Props {
   variant?: "seite" | "start";
+  /** Vorauswahl einer Leistung (Leistungsseiten, Kundenwunsch 14.10.2026) */
+  gewerk?: string;
 }
-const { variant = "seite" } = Astro.props;
+const { variant = "seite", gewerk } = Astro.props;
 const start = variant === "start";
 const H = start ? "h3" : "h2";     // Schritt-Überschriften
 const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
@@ -77,6 +79,7 @@ const weich = (t: string) =>
 <div
   class:list={["rechner__app", start ? "rechner__app--start" : "card"]}
   data-variant={variant}
+  data-vorwahl={gewerk}
 >
   {start ? (
     /* Leistungskarten = Leistungsauswahl (Toggle-Buttons) + Link zur Leistungsseite */
@@ -724,7 +727,7 @@ const weich = (t: string) =>
       selectGewerk(GEWERKE[0], "nie");
     } else {
       // Vorauswahl per ?gewerk=<slug> (z. B. von den Leistungsseiten)
-      const pre = new URLSearchParams(location.search).get("gewerk");
+      const pre = new URLSearchParams(location.search).get("gewerk") ?? app.dataset.vorwahl ?? null;
       const preG = pre ? GEWERKE.find((g) => g.slug === pre) : null;
       if (preG) selectGewerk(preG);
       else if (pre && istPauschal(pre)) selectPauschal(pre);

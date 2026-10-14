@@ -15,6 +15,7 @@ import Faq from "../../components/Faq.astro";
 import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
 import SectionHead from "../../components/SectionHead.astro";
+import Rechner from "../../components/Rechner.astro";
 import { u } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 
@@ -35,7 +36,6 @@ const h1Titel = kurzTitel
 const pauschal = l.data.pauschalpreis;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
-const ctaHref = hatRechner ? u(`rechner/?gewerk=${rechnerSlug}`) : u("rechner/");
 const euro = (n: number) => n.toLocaleString("de-DE");
 
 // Referenzen: NUR echte Fotos aus refBilder (KI-Referenzbilder entfernt, 12.10.2026 (17)).
@@ -43,6 +43,7 @@ const refBilder = l.data.refBilder ?? [];
 
 // Abschnitte in fester Reihenfolge; jeder zweite bekommt den Sand-Hintergrund.
 const sektionen = [
+  hatRechner && "rechner",
   "intro",
   l.data.warum.length > 0 && "warum",
   "ablauf",
@@ -69,11 +70,21 @@ const description =
     lead={l.data.lead}
     bild={l.data.bild ?? `hero-${l.id}.webp` /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */}
     alt={kurzTitel}
-    ctaHref={pauschal ? u("kontakt/#termin") : ctaHref}
-    ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : `${kurzTitel} berechnen`}
-    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} € inkl. MwSt.` : undefined}
-    ohneTermin={Boolean(pauschal)}
+    ctaHref={u("kontakt/#termin")}
+    ctaLabel={pauschal ? `${kurzTitel.replace("Immobilien-", "")} buchen` : "Kostenlosen Besichtigungstermin buchen"}
+    ctaNote={pauschal ? `Pauschalpreis ${euro(pauschal)} € inkl. MwSt.` : "Kostenlos & unverbindlich vor Ort"}
+    ohneTermin={true}
   />
+
+  {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
+  {hatRechner && (
+    <section class:list={bg("rechner")} id="rechner">
+      <div class="container">
+        <SectionHead center eyebrow={`${kurzTitel} berechnen`} pre="Was kostet Ihr " accent="Projekt?" />
+        <Rechner variant="seite" gewerk={rechnerSlug} />
+      </div>
+    </section>
+  )}
 
   <!-- 1. Intro: worum es geht – aus Kundensicht -->
   <section class:list={bg("intro")}>

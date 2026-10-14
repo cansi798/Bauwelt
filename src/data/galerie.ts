@@ -43,7 +43,6 @@ export const GALERIE: GalerieGruppe[] = [
     title: "Fliesen- & Bodenlegerarbeiten",
     href: u("leistungen/fliesen-boden/"),
     bilder: [
-      { file: "galerie-fliesen-01.webp", alt: "Neu geflieste Eingangstreppe mit großformatigen Platten" },
       { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" },
       { file: "galerie-fliesen-03.webp", alt: "WC mit raumhohen Fliesen in Marmoroptik" },
     ],
@@ -68,7 +67,7 @@ export const GALERIE_HIGHLIGHTS: (GalerieBild & { gruppe: string; anker: string 
   ["innenausbau", "galerie-innenausbau-04.webp"],
   ["bad", "galerie-bad-05.webp"],
   ["sanierung", "galerie-sanierung-02.webp"],
-  ["fliesen", "galerie-fliesen-01.webp"],
+  ["fliesen", "galerie-fliesen-02.webp"],   // Eingangstreppe entfernt (Kundenwunsch 14.10.2026)
   ["bad", "galerie-bad-07.webp"],
   ["innenausbau", "galerie-innenausbau-02.webp"],
   ["bad", "galerie-bad-03.webp"],
