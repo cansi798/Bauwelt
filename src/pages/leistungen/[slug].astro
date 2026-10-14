@@ -118,10 +118,7 @@ const description =
       {introBild && (
         <figure class="lintro__bild reveal">
           <Img src={introBild.file} alt={introBild.alt} w={4} h={5} />
-          <figcaption class="lintro__siegel">
-            <Icon name="check" size={18} class="icon" />
-            <span><strong>{pauschal ? "Pauschalpreis" : "Festpreis"}</strong> – {pauschal ? "ohne Überraschungen" : "der Preis im Angebot gilt"}</span>
-          </figcaption>
+          {/* Kundenwunsch 14.10.2026 (52): Festpreis-Schild auf dem Foto entfernt */}
         </figure>
       )}
     </div>
