@@ -23,8 +23,10 @@ interface Props {
   variant?: "seite" | "start";
   /** Vorauswahl einer Leistung (Leistungsseiten, Kundenwunsch 14.10.2026) */
   gewerk?: string;
+  /** Eigener Einleitungstext (Leistungsseiten, Kundenwunsch 14.10.2026 (35)); MwSt-Hinweis bleibt. */
+  intro?: string;
 }
-const { variant = "seite", gewerk } = Astro.props;
+const { variant = "seite", gewerk, intro } = Astro.props;
 const start = variant === "start";
 const H = start ? "h3" : "h2";     // Schritt-Überschriften
 const HSub = start ? "h4" : "h3";  // Zwischenüberschriften
@@ -70,10 +72,10 @@ const weich = (t: string) =>
 <!-- Einleitung: Kundenwunsch 13.10.2026 (22) – Einleitungstext, „Keine Kontaktdaten nötig“ und
      Ehrlichkeits-Hinweis zu EINEM Absatz im Stil des Einleitungstexts zusammengefasst. -->
 <p class:list={["lead", "rintro", { "rintro--start": start }]}>
-  {start
+  {intro ? <>{intro} ({MWST_HINWEIS})</> : <>{start
     ? "Wählen Sie Ihre Leistung und sehen Sie sofort, womit Sie rechnen können – unverbindlich und ohne Kontaktdaten."
     : "In einer Minute zur ersten Preisspanne – unverbindlich und ohne Kontaktdaten."}
-  {" "}Unsere Preise liegen sehr nah am tatsächlichen Preis: keine Lockangebote, sondern realistische Werte ({MWST_HINWEIS.replace("Bruttopreise", "Bruttopreise")}).
+  {" "}Unsere Preise liegen sehr nah am tatsächlichen Preis: keine Lockangebote, sondern realistische Werte ({MWST_HINWEIS.replace("Bruttopreise", "Bruttopreise")}).</>}
 </p>
 
 <div

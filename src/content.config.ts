@@ -26,6 +26,15 @@ const leistungen = defineCollection({
     claim: z.string().optional(),
     /** Akzentwort im Ablauf: „So einfach kommen Sie zu Ihrem <ablaufZiel>“ */
     ablaufZiel: z.string().optional(),
+    // Landingpage-Schema nach Kundenwunsch 14.10.2026 (35): Rechner-Untertext, Leistungsumfang
+    // als Kacheln, Projektbilder-Überschrift, Ablauf-Überschrift (letztes Wort jeweils gold)
+    rechnerText: z.string().optional(),
+    umfangTitel: z.string().optional(),
+    umfangText: z.string().optional(),
+    kacheln: z.array(z.object({ icon: z.string(), title: z.string() })).default([]),
+    bilderTitel: z.string().optional(),
+    bilderText: z.string().optional(),
+    ablaufTitel: z.string().optional(),
     warum: z.array(z.object({ icon: z.string(), title: z.string(), text: z.string() })).default([]),
     h1Akzent: z.string().default("Festpreis"),       // goldenes Wort in der H1
     checks: z.array(z.string()).optional(),          // Häkchen im Hero (Standard: Festpreis …)

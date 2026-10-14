@@ -1,9 +1,9 @@
 ---
 title: "Fliesen- & Bodenlegerarbeiten"
+badge: "Festpreis"
 order: 25
 icon: "tiles"
 teaser: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl und Laminat, sauber verlegt."
-lead: "Ob Bad, Küche oder Wohnraum: Wir verlegen Fliesen und Böden präzise, mit sauberem Untergrund, dichter Abdichtung und exakten Fugen."
 umfang:
   - "Wand- und Bodenfliesen, auch Großformate"
   - "Bodengleiche Duschen und Verbundabdichtung"
@@ -14,24 +14,46 @@ ablauf:
   - { title: "Beratung", text: "Wir besprechen Material, Format und Verlegemuster vor Ort." }
   - { title: "Angebot", text: "Innerhalb von 24 Stunden – fester Preis, klare Leistung." }
   - { title: "Ausführung", text: "Untergrund, Abdichtung, Verlegung – sauber und termingerecht." }
-faq:
-  - { q: "Verlegen Sie auch großformatige Fliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir vorher fachgerecht vor." }
-  - { q: "Übernehmen Sie auch nur den Boden?", a: "Ja, auch einzelne Räume oder nur den Bodenbelag übernehmen wir – ohne dass Sie weitere Handwerker koordinieren müssen." }
 rechnerSlug: "fliesen-boden"
 beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat zum Festpreis. Jetzt Preis online berechnen."
 bild: "galerie-fliesen-03.webp"
 refAnker: "fliesen"
 refBilder:
   - { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" }
-claim: "Gerade Kanten, saubere Fugen – Böden und Wände, an denen Sie lange Freude haben."
 ablaufZiel: "neuen Boden"
-introTitel: "Böden und Wände, die jeden Tag Freude machen"
-warum:
-  - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen, saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
-  - { icon: "shield", title: "Dicht, wo es darauf ankommt", text: "In Bad und Dusche verlegen wir mit fachgerechter Verbundabdichtung – Schutz vor Feuchtigkeitsschäden." }
-  - { icon: "euro", title: "Fester Preis – auch für kleine Flächen", text: "Ob ein Raum oder die ganze Wohnung: Nach der Besichtigung erhalten Sie einen festen Preis." }
-  - { icon: "tools", title: "Alles in einer Hand", text: "Alten Belag entfernen, Untergrund vorbereiten, neu verlegen – Sie müssen keine weiteren Handwerker koordinieren." }
 siegel: "festpreis"
+claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
+lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein Ansprechpartner, ein Festpreis und ein strukturierter Ablauf."
+introTitel: "Neue Böden – ohne Stress und Überraschungen"
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+umfangTitel: "Was gehört zu Fliesen- & Bodenarbeiten?"
+umfangText: "Vom alten Belag bis zur fertigen Fuge erhalten Sie sämtliche Leistungen aus einer Hand."
+kacheln:
+  - { icon: "hammer", title: "Rückbau alter Beläge" }
+  - { icon: "tools", title: "Untergrundvorbereitung" }
+  - { icon: "shield", title: "Abdichtung im Nassbereich" }
+  - { icon: "tiles", title: "Fliesen & Großformate" }
+  - { icon: "check", title: "Vinyl & Laminat" }
+  - { icon: "paint", title: "Fugen & Abschlussarbeiten" }
+warum:
+  - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
+  - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }
+  - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
+  - { icon: "user", title: "Ein Ansprechpartner", text: "Ein fester Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
+bilderTitel: "So könnten Ihre neuen Fliesen aussehen"
+bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
+ablaufTitel: "So einfach kann ein neuer Boden sein"
+faq:
+  - { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir Ihnen einen festen Preis für alle vereinbarten Leistungen. Der gilt – ohne Aufschlag hinterher. Nur was Sie selbst zusätzlich beauftragen, ändert ihn, und zwar vorher schriftlich." }
+  - { q: "Wie lange dauern die Arbeiten?", a: "Ein einzelner Raum ist oft in wenigen Tagen fertig. Trocknungszeiten von Ausgleichsmasse, Abdichtung und Fugen planen wir ein. Den Zeitplan legen wir vorher gemeinsam fest." }
+  - { q: "Muss ich während der Arbeiten ausziehen?", a: "Nein. Wir arbeiten Raum für Raum, kleben sauber ab und stimmen mit Ihnen ab, wann welcher Raum nicht nutzbar ist." }
+  - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
+  - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
+  - { q: "Verlegen Sie auch Großformatfliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir entsprechend vor, damit die Fliesen plan liegen und die Fugen gerade verlaufen." }
+  - { q: "Wie läuft die Besichtigung ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Die Besichtigung ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 
-Fliesen und Böden sehen Sie jeden Tag – und Sie merken sofort, ob sauber gearbeitet wurde. Schiefe Fugen, hohle Stellen oder ein Boden, der knarzt, ärgern noch Jahre später. Deshalb legen wir besonderen Wert auf die Arbeit, die man später nicht mehr sieht: einen ebenen, tragfähigen Untergrund, eine dichte Abdichtung im Nassbereich und exakte Fugen. Ob großformatige Fliesen im Bad, ein neuer Boden im Wohnzimmer oder nur ein einzelner Raum: Wir beraten Sie zu Material, Format und Verlegemuster, nennen Ihnen nach dem Vor-Ort-Termin einen festen Preis und verlegen termingerecht – sauber abgeklebt und besenrein übergeben.
+Sie wünschen sich neue Fliesen oder einen neuen Boden, aber keine schiefen Fugen, keine hohlen Stellen und keinen Staub in der ganzen Wohnung?
+
+Genau dafür sind wir da. Wir entfernen den alten Belag, bereiten den Untergrund eben und tragfähig vor, dichten Nassbereiche fachgerecht ab und verlegen termingerecht – sauber abgeklebt und besenrein übergeben.
