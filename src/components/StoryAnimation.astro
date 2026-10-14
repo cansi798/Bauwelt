@@ -1,0 +1,90 @@
+---
+// Bewegte Bild-Geschichte für die Startseite (Kundenwunsch 15.10.2026):
+// Preis online berechnen → Termin vor Ort → Angebot & Zusage → Bauen (Kunde trinkt Tee) → Fertig.
+// Ein Durchlauf = 8 s (--story), danach Endlosschleife. Formen: rough.js beim Build
+// (src/data/story.ts), Bewegung: reine CSS-Keyframes auf SVG-Gruppen. Das kleine Skript
+// lässt die Schleife nur laufen, solange sie im Bild ist (ohne JS läuft sie einfach).
+// „Bewegung reduzieren“: keine Animation, Standbild Szene 4 mit Unterschrift.
+import { storyAnimation, STORY_DAUER, STORY_TEXTE, STORY_STANDBILD } from "../data/story";
+
+interface Props {
+  /** Beschreibt die ganze Geschichte für Screenreader (role="img"). */
+  label: string;
+}
+const { label } = Astro.props;
+const { svg, css } = storyAnimation();
+const standbild = STORY_STANDBILD + 1;
+---
+
+<div class="story" data-story style={`--story:${STORY_DAUER}s`}>
+  <div class="story__inner" role="img" aria-label={label}>
+    <div class="story__buehne">
+      <Fragment set:html={svg} />
+    </div>
+    <div class="story__unter" aria-hidden="true">
+      <div class="story__caps">
+        {STORY_TEXTE.map((text, i) => (
+          <p class={`story__cap st-sz st-sz${i + 1}`}>
+            <span class="story__nr">{i + 1}</span>
+            {text}
+          </p>
+        ))}
+      </div>
+      <div class="story__balken">
+        {STORY_TEXTE.map((_, i) => <span><i class={`st-sz st-sz${i + 1}`}></i></span>)}
+      </div>
+    </div>
+  </div>
+</div>
+
+<Fragment set:html={`<style>${css}.story .st-sz{opacity:0}.story .st-sz${standbild}{opacity:1}</style>`} />
+
+<script>
+  // Läuft nur, solange sie im Bild ist (spart Akku) – und beginnt so beim ersten Hinsehen bei Szene 1.
+  document.querySelectorAll<HTMLElement>("[data-story]").forEach((el) => {
+    if (!("IntersectionObserver" in window)) { el.classList.add("laeuft"); return; }
+    new IntersectionObserver(([e]) => el.classList.toggle("laeuft", e.isIntersecting), { threshold: 0.15 }).observe(el);
+  });
+</script>
+
+<style is:global>
+  .story { margin: 0 auto 28px; max-width: 800px; }
+  .story__buehne { position: relative; }
+  .story__svg { display: block; width: 100%; height: auto; }
+  .story__svg text { font-family: var(--font-heading); stroke: none; }
+  .story__svg g { transform-box: view-box; }
+
+  .story__unter { margin-top: 10px; text-align: center; }
+  .story__caps { display: grid; }
+  .story__cap {
+    grid-area: 1 / 1;
+    margin: 0;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(17px, 2.4vw, 22px);
+    line-height: 1.25;
+    color: var(--anthrazit-800);
+  }
+  .story__nr {
+    flex: none;
+    display: inline-grid; place-items: center;
+    width: 1.55em; height: 1.55em;
+    border-radius: 50%;
+    background: var(--gold-500);
+    font-size: 0.8em;
+    color: var(--anthrazit-900);
+  }
+  .story__balken { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+  .story__balken span {
+    position: relative; width: 28px; height: 4px; border-radius: 2px;
+    background: var(--anthrazit-200); overflow: hidden;
+  }
+  .story__balken i { position: absolute; inset: 0; background: var(--gold-500); }
+
+  /* Mit JS startet die Schleife pausiert (Zeit 0) und läuft nur, solange sie sichtbar ist */
+  html.js .story:not(.laeuft) * { animation-play-state: paused !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .story * { animation: none !important; }
+  }
+</style>

@@ -7,7 +7,7 @@
 // (Termin jetzt überall per Buchungsfenster), Schritt-Karten beim Ablauf.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import RoughSzene from "../components/RoughSzene.astro";
+import StoryAnimation from "../components/StoryAnimation.astro";
 import PortalSection from "../components/PortalSection.astro";
 import AngebotSection from "../components/AngebotSection.astro";
 import RefSlider from "../components/RefSlider.astro";
@@ -47,9 +47,9 @@ import { FAQ_HOME } from "../data/home";
   <section class="section section--sand" id="ablauf">
     <div class="container">
       <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Von der ersten Idee bis zum fertigen " accent="Ergebnis" />
-      <RoughSzene
-        szene="story"
-        label="Gezeichnete Bild-Geschichte in fünf Szenen: Sie rufen an. Wir schauen vor Ort vorbei. Sie erhalten Ihr Angebot. Sie stimmen zu. Wir bauen mit unserem Team – Sie schauen zu."
+      <!-- Kundenwunsch 15.10.2026: bewegte Bild-Geschichte (Figuren bewegen sich), ein Durchlauf 8 s -->
+      <StoryAnimation
+        label="Animierte Bild-Geschichte in fünf Szenen: Sie berechnen auf unserer Website Ihren Preis und wir werden sofort benachrichtigt. Wir kommen vorbei und Sie zeigen uns alles. Wir erstellen Ihr Angebot und Sie sagen zu. Zwei Handwerker bauen, während Sie im Sessel Tee trinken und zuschauen. Alles ist fertig und Sie sind zufrieden."
       />
       <div class="weg__actions nur-desktop">
         <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>

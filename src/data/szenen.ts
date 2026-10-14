@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "story" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "weg" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -268,123 +268,6 @@ const PARTNER_UNTER: string[][] = [
 ];
 const partnerWeg = (a: Ansicht) => wegSzene(a, PARTNER_TITEL, PARTNER_UNTER, [papierflieger, sprechblasen, dokument, wiederkehrend]);
 
-/* ─── Startseite: kleine Bild-Story (Kundenwunsch 15.10.2026 (64), max. 8 s) ───
- * Kunde ruft an → Handwerker schaut vor Ort → erstellt Angebot → Kunde stimmt zu →
- * Team baut, Kunde schaut zu. Handwerker = goldener Helm, Kunde ohne Helm. */
-type FigurOpt = { helm?: boolean; arm?: "normal" | "telefon" | "hoch" | "zeigen" | "hammer"; spiegeln?: boolean };
-/** Strichfigur, Füße bei (x, y), Höhe ≈ 80·s. */
-function figur(z: Zeichner, x: number, y: number, s = 1, o: FigurOpt = {}) {
-  const r = o.spiegeln ? -1 : 1;
-  const kopfY = y - 66 * s, schulterY = y - 46 * s, hueftY = y - 22 * s;
-  z.kreis(x, kopfY, 18 * s, { strokeWidth: 2.2 }, 0.25);
-  if (o.helm) z.pfad(`M${x - 11 * s} ${kopfY - 1 * s}Q${x} ${kopfY - 17 * s} ${x + 11 * s} ${kopfY - 1 * s}Z`,
-    { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
-  z.linie(x, kopfY + 9 * s, x, hueftY, { strokeWidth: 2.4 }, 0.25);
-  z.linie(x, hueftY, x - 10 * s, y, { strokeWidth: 2.4 }, 0.2);
-  z.linie(x, hueftY, x + 10 * s, y, { strokeWidth: 2.4 }, 0.2);
-  // hinterer Arm hängt
-  z.linie(x, schulterY, x - 12 * r * s, schulterY + 20 * s, { strokeWidth: 2.2 }, 0.2);
-  const ax = x + 12 * r * s;
-  switch (o.arm ?? "normal") {
-    case "telefon":
-      z.pfad(`M${x} ${schulterY}L${ax} ${schulterY + 8 * s}L${x + 8 * r * s} ${kopfY + 2 * s}`, { strokeWidth: 2.2 }, 0.25);
-      z.rechteck(x + 5 * r * s - 3 * s, kopfY - 6 * s, 6 * s, 12 * s, { fill: F.strich, fillStyle: "solid", strokeWidth: 1.4 }, 0.15);
-      break;
-    case "hoch":
-      z.linie(x, schulterY, x + 14 * r * s, schulterY - 22 * s, { strokeWidth: 2.2 }, 0.2);
-      break;
-    case "zeigen":
-      z.linie(x, schulterY, x + 22 * r * s, schulterY - 4 * s, { strokeWidth: 2.2 }, 0.2);
-      break;
-    case "hammer":
-      z.linie(x, schulterY, x + 14 * r * s, schulterY - 16 * s, { strokeWidth: 2.2 }, 0.2);
-      z.linie(x + 14 * r * s, schulterY - 16 * s, x + 14 * r * s, schulterY - 32 * s, { strokeWidth: 2.4 }, 0.15);
-      z.rechteck(x + 14 * r * s - 7 * s, schulterY - 38 * s, 14 * s, 7 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15);
-      break;
-    default:
-      z.linie(x, schulterY, ax, schulterY + 20 * s, { strokeWidth: 2.2 }, 0.2);
-  }
-}
-function wellen(z: Zeichner, x: number, y: number, s = 1) {
-  z.gruppe("puls", () => {
-    for (let k = 0; k < 3; k++) {
-      const rr = (8 + k * 7) * s;
-      z.pfad(`M${x + rr * 0.6} ${y - rr * 0.8}Q${x + rr * 1.2} ${y} ${x + rr * 0.6} ${y + rr * 0.8}`, { stroke: F.gold, strokeWidth: 2.2, roughness: 0.5 }, 0.15);
-    }
-  });
-}
-function haus(z: Zeichner, x: number, y: number, s = 1) {
-  z.pfad(`M${x - 26 * s} ${y}V${y - 34 * s}L${x} ${y - 56 * s}L${x + 26 * s} ${y - 34 * s}V${y}Z`, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.2, strokeWidth: 2.2 }, 0.4);
-  z.rechteck(x - 7 * s, y - 20 * s, 14 * s, 20 * s, { strokeWidth: 1.8 }, 0.2);
-}
-const STORY_TEXT: string[][] = [
-  ["Sie rufen an"],
-  ["Wir schauen", "vor Ort vorbei"],
-  ["Sie erhalten", "Ihr Angebot"],
-  ["Sie stimmen zu"],
-  ["Wir bauen –", "Sie schauen zu"],
-];
-/** Szenen-Bilder: Mittelpunkt x, Boden y. */
-const STORY_BILDER: ((z: Zeichner, x: number, y: number, s: number) => void)[] = [
-  (z, x, y, s) => { figur(z, x - 6 * s, y, s, { arm: "telefon" }); z.bei(z.jetzt + 0.25); wellen(z, x + 10 * s, y - 68 * s, s); },
-  (z, x, y, s) => { haus(z, x + 22 * s, y, s); figur(z, x - 28 * s, y, s, { helm: true, arm: "zeigen" }); },
-  (z, x, y, s) => {
-    dokument(z, x + 6 * s, y - 40 * s, 0.8 * s, false);
-    z.text(x + 2 * s, y - 34 * s, "€", { groesse: 20 * s, farbe: F.goldDunkel });
-    z.linie(x + 30 * s, y - 14 * s, x + 46 * s, y - 34 * s, { stroke: F.goldDunkel, strokeWidth: 3 }, 0.25);
-  },
-  (z, x, y, s) => {
-    figur(z, x - 18 * s, y, s, { arm: "hoch" });
-    z.gruppe("stempel", () => {
-      z.kreis(x + 26 * s, y - 50 * s, 34 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 2 }, 0.3);
-      z.pfad(`M${x + 18 * s} ${y - 50 * s}l${6 * s} ${6 * s}l${11 * s} -${12 * s}`, { strokeWidth: 3, roughness: 0.5 }, 0.25);
-    });
-  },
-  (z, x, y, s) => {
-    // Mauer im Bau
-    for (let r = 0; r < 3; r++)
-      for (let c = 0; c < 3 - (r === 2 ? 1 : 0); c++)
-        z.rechteck(x - 18 * s + c * 18 * s + (r % 2) * 9 * s, y - 12 * s - r * 12 * s, 18 * s, 12 * s,
-          { fill: r === 2 ? F.gold : F.goldHell, fillStyle: "solid", strokeWidth: 1.4 }, 0.12);
-    figur(z, x - 44 * s, y, s * 0.9, { helm: true, arm: "hammer" });
-    figur(z, x + 46 * s, y, s * 0.9, { helm: true, arm: "zeigen", spiegeln: true });
-    z.bei(z.jetzt + 0.2);
-    // Kunde schaut zu (etwas abseits, zufrieden mit erhobenem Arm)
-    figur(z, x + 92 * s, y, s * 0.85, { arm: "hoch", spiegeln: true });
-  },
-];
-function story(a: Ansicht): Szene {
-  const z = new Zeichner();
-  const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 5 * 128 + 70 : 290;
-  const s = mobil ? 0.85 : 1;
-  const pos: [number, number][] = mobil
-    ? [0, 1, 2, 3, 4].map((i) => [i === 4 ? 170 : 110, 104 + i * 128] as [number, number])
-    : [[90, 170], [275, 170], [470, 170], [655, 170], [860, 170]];
-  pos.forEach(([x, y], i) => {
-    const t = 0.2 + i * 1.3;
-    z.bei(t);
-    STORY_BILDER[i](z, x, y, s);
-    z.bei(t + 0.7);
-    if (mobil) {
-      // letzte Szene ist breit (Team + Kunde) → Text darunter, sonst rechts daneben
-      STORY_TEXT[i].forEach((zl, k) => i === 4
-        ? z.text(180, y + 28 + k * 19, zl, { groesse: 15, gewicht: k === 0 ? 700 : 600 })
-        : z.text(232, y - 46 + k * 19, zl, { groesse: 15, anker: "start", gewicht: k === 0 ? 700 : 600 }));
-      if (i < 4) { z.bei(t + 0.9); z.kurve([[26, y + 6], [14, y + 40], [34, y + 66], [24, y + 92]], { stroke: F.gold, strokeWidth: 2.2, roughness: 1.2 }, 0.35); }
-    } else {
-      STORY_TEXT[i].forEach((zl, k) => z.text(x + (i === 4 ? 24 : 0), 222 + k * 22, zl, { groesse: 17 }));
-      if (i < 4) {
-        z.bei(t + 0.9);
-        const nx = pos[i + 1][0];
-        z.kurve([[x + 58, 130], [x + 78, 118], [nx - 78, 142], [nx - 58, 130]], { stroke: F.gold, strokeWidth: 2.4, roughness: 1.2 }, 0.35);
-      }
-    }
-  });
-  // Zeichnen ≈ 6,9 s (Kundenwunsch: max. 8 s)
-  return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + 4 * 1.3 + 1.5 };
-}
-
 const PORTAL_TEILE = [
   // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
   { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "An einem Ort."] },
@@ -569,4 +452,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, story, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };

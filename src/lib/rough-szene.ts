@@ -113,6 +113,15 @@ export class Zeichner {
     });
     return this;
   }
+  /** Alles in `fn` Gezeichnete als eigene Liste zurückgeben (für einzeln animierte Teile, StoryAnimation). */
+  sammeln(fn: () => void): Element[] {
+    const kinder: Element[] = [];
+    const vorher = this.ziel;
+    this.ziel = kinder;
+    fn();
+    this.ziel = vorher;
+    return kinder;
+  }
   /** Alles in `fn` Gezeichnete bekommt einen Stempel- oder Puls-Effekt. */
   gruppe(effekt: "stempel" | "puls", fn: () => void) {
     const kinder: Element[] = [];
