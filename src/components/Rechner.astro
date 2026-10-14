@@ -663,7 +663,7 @@ const weich = (t: string) =>
         `<div class="rwahl__gruppe"><${gruppeTag} class="rwahl__titel">${titel}</${gruppeTag}><ul>` +
         punkte.map((p) => `<li class="${klasse}">${p}</li>`).join("") +
         `</ul></div>`;
-      const projekt = fest ? [g.label, niveau] : [g.label, masse, `Niveau ${niveau}`];
+      const projekt = fest ? [g.label, niveau] : [g.label, masse, `Niveau: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
         ? gruppe("Das ist enthalten", t.enthalten)
