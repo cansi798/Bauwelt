@@ -54,6 +54,12 @@ class Buehne {
 const r1 = (x: number) => Math.round(x * 10) / 10;
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+// „Soll nicht so stark aussehen“ (Kundenwunsch 15.10.2026): dünnere Linien und weicheres Dunkelgrau
+// statt fast Schwarz – nur in der Story, die übrigen Rough-Szenen bleiben unverändert.
+const LINIE = 0.65;
+const sanft = (farbe: string) => (farbe === F.strich ? "var(--anthrazit-700)" : farbe);
+const breite = (b: number) => r1(b * LINIE);
+
 function svgTeile(t: Teil[]): string {
   let out = "";
   for (let i = 0; i < t.length; i++) {
@@ -67,13 +73,13 @@ function svgTeile(t: Teil[]): string {
           if (n.art !== "strich" || n.farbe !== e.farbe || n.breite !== e.breite) break;
           d += n.d; i++;
         }
-        out += `<path d="${d}" stroke="${e.farbe}" stroke-width="${e.breite}"/>`;
+        out += `<path d="${d}" stroke="${sanft(e.farbe)}" stroke-width="${breite(e.breite)}"/>`;
         break;
       }
       case "flaeche":
         out += e.breite > 0
-          ? `<path d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}"/>`
-          : `<path d="${e.d}" fill="${e.farbe}"/>`;
+          ? `<path d="${e.d}" stroke="${sanft(e.farbe)}" stroke-width="${breite(e.breite)}"/>`
+          : `<path d="${e.d}" fill="${sanft(e.farbe)}"/>`;
         break;
       case "text":
         out += `<text x="${r1(e.x)}" y="${r1(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}">${esc(e.text)}</text>`;
