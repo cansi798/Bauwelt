@@ -24,8 +24,6 @@ const preis = l.data.pauschalpreis.toLocaleString("de-DE");
 const cta = { href: u("kontakt/#termin"), label: "Zuhause-Check anfragen" };
 
 /** ❌/✅ aus Jamils Text: Mittel zum Zweck vs. das, worauf es wirklich ankommt. */
-const mittel = ["Haltegriffe", "Bodengleiche Duschen", "Handläufe"];
-const wuensche = ["Sicherheit", "Selbstständigkeit", "Das eigene Zuhause behalten"];
 
 const bereiche = [
   { icon: "bath", titel: "Badezimmer", punkte: ["Bodengleiche Duschen", "Haltegriffe", "Rutschhemmende Böden", "Erreichbarkeit von Armaturen", "Einstiegshilfen"] },
@@ -92,29 +90,9 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 2. Worum es wirklich geht (❌ Mittel zum Zweck / ✅ eigentlicher Wunsch) -->
-    <section class="section section--sand">
-      <div class="container">
-        <SectionHead center eyebrow="Worum es wirklich geht" pre="Es geht nicht um Haltegriffe. Es geht um Ihr " accent="Zuhause" />
-        <div class="zc-vergleich">
-          <div class="zc-spalte zc-spalte--mittel reveal">
-            <h3>Nur die Mittel zum Zweck</h3>
-            <ul class="zc-liste zc-liste--nein">
-              {mittel.map((m) => <li><span class="zc-marke"><Icon name="close" size={18} class="icon" /></span> {m}</li>)}
-            </ul>
-          </div>
-          <div class="zc-spalte zc-spalte--wunsch reveal">
-            <h3>Worauf es Ihnen ankommt</h3>
-            <ul class="zc-liste zc-liste--ja">
-              {wuensche.map((w) => <li><span class="zc-marke"><Icon name="check" size={18} class="icon" /></span> {w}</li>)}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    {/* Kundenwunsch 17.10.2026 (79): Abschnitt „Worum es wirklich geht“ (Mittel zum Zweck / Wünsche) entfernt */}
     <!-- 3. Was wir gemeinsam prüfen -->
-    <section class="section">
+    <section class="section section--sand">
       <div class="container">
         <SectionHead center eyebrow="Fünf Bereiche" pre="Was wir gemeinsam " accent="prüfen" />
         <ul class="zc-bereiche">
