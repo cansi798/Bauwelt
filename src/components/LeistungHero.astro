@@ -4,8 +4,9 @@
 // Startseite, aber niedriger und mit Pfad „Leistungen › …“, damit klar bleibt: Unterseite.
 // Aufbau: Pfad → Eyebrow → H1 → Claim (emotional) → Lead → CTAs → Vertrauens-Chips.
 // CTAs nur ab Desktop (mobil übernimmt die feste Leiste unten, wie auf der Startseite).
-import { TERMIN, u } from "../consts";
+import { TERMIN, istKiBild, u } from "../consts";
 import Icon from "./Icon.astro";
+import KiHinweis from "./KiHinweis.astro";
 
 interface Props {
   titel: string;          // Kurztitel für den Pfad, z. B. „Badsanierung“
@@ -38,6 +39,7 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
     />
     <div class="lhero__shade"></div>
   </div>
+  {istKiBild(bild) && <KiHinweis pos="oben-rechts" />}
 
   <div class="container lhero__content">
     <nav class="lhero__pfad lhero__in" style="--d: 0ms" aria-label="Brotkrumen">

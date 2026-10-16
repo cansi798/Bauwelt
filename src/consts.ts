@@ -93,3 +93,18 @@ export const waLink = (
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
   `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
+
+/* KI-generierte Bilder (Kundenwunsch 16.10.2026, Jamil: „Diese Bilder sind KI“).
+   Jedes hier gelistete Bild bekommt automatisch den Hinweis „KI-generiertes Bild“ –
+   überall, wo es verwendet wird (Img, Startseiten-Hero, Leistungs-Hero).
+   Neue KI-Bilder einfach hier eintragen. Hintergrund: Transparenz nach Art. 50 EU-KI-Verordnung. */
+export const KI_BILDER = new Set<string>([
+  "hero.webp",                           // Startseite
+  "hero-sanierung-modernisierung.webp",  // Leistung Sanierung & Modernisierung
+  "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
+  "hero-referenzen.webp",                // Referenzen
+  "hero-ueber-uns.webp",                 // Über uns
+  "team.webp",                           // Karriere
+  "hero-partner.webp",                   // Partner
+]);
+export const istKiBild = (datei?: string): boolean => Boolean(datei && KI_BILDER.has(datei));

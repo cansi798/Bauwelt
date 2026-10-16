@@ -2,8 +2,9 @@
 // Bild mit BILDER.md-Mechanik: Datei in public/assets/img/<src> wird angezeigt;
 // fehlt sie, entfernt onerror das <img> und der Platzhalter dahinter wird sichtbar.
 // w/h reservieren Platz (kein Layout-Springen).
-import { u } from "../consts";
+import { istKiBild, u } from "../consts";
 import Icon from "./Icon.astro";
+import KiHinweis from "./KiHinweis.astro";
 
 interface Props {
   src: string;       // Dateiname in assets/img/
@@ -28,6 +29,7 @@ const { src, alt, w, h, eager = false, class: cls = "", round = true } = Astro.p
     decoding={eager ? "sync" : "async"}
     onerror="this.remove()"
   />
+  {istKiBild(src) && <KiHinweis />}
 </div>
 
 <style>

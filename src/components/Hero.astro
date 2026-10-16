@@ -6,9 +6,10 @@
 // Bild füllt Mobil + Desktop den Viewport, Ken-Burns-Zoom + gestaffelte Entrance.
 // Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
 // Begriff statisch (global.css stoppt Rest).
-import { CTA, TERMIN, u } from "../consts";
+import { CTA, TERMIN, istKiBild, u } from "../consts";
 import { HERO } from "../data/home";
 import Icon from "./Icon.astro";
+import KiHinweis from "./KiHinweis.astro";
 
 const WORTE = HERO.begriffe;
 // Für die nahtlose Schleife wird das erste Wort am Ende wiederholt.
@@ -29,6 +30,7 @@ const WALZE = [...WORTE, WORTE[0]];
     />
     <div class="fhero__shade"></div>
   </div>
+  {istKiBild(HERO.bild) && <KiHinweis pos="oben-rechts" />}
 
   <div class="container fhero__content">
     <div class="eyebrow fhero__in" style="--d: 0ms">
