@@ -299,10 +299,10 @@ export const PAUSCHAL: Pauschal[] = [
   },
   // Kundenwunsch 16.10.2026 (73): neue Leistung, pauschal 249 € brutto, bei Umsetzung angerechnet
   {
-    slug: "zuhause-check-60",
-    label: name("zuhause-check-60"),
+    slug: "sicher-wohnen", // Kundenwunsch 17.10.2026 (82): früher „Zuhause-Check 60+“
+    label: name("sicher-wohnen"),
     icon: "heim",
-    cta: "Zuhause-Check anfragen",
+    cta: "Beratungstermin anfragen",
   },
 ];
 

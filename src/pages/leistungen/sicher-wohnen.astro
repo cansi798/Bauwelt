@@ -1,0 +1,275 @@
+---
+// Leistungsseite „Sicher wohnen. Heute und morgen.“ (Kundenwunsch 16.10.2026 (73), Texte: Jamil;
+// 17.10.2026 (82): neuer Name statt „Zuhause-Check 60+“, kein Altersbezug – Pflegebedarf gibt es in jedem Alter).
+// Alte Adresse /leistungen/zuhause-check-60/ leitet per Stub-Seite hierher weiter.
+// Gleiche Bausteine wie die übrigen Leistungsseiten (LeistungHero, SectionHead, Sand/Dunkel-
+// Wechsel, Vorteilskarten, FAQ mit Termin-Button), aber eigener Aufbau: Die Seite spricht nicht
+// über Handwerk, sondern über Sicherheit, Selbstständigkeit und das eigene Zuhause.
+// Kernsatz (Hero-Claim + Zitatband): „Möglichst lange selbstständig in den eigenen vier Wänden leben.“
+// Barrierearm lesbar: größere Schrift, hoher Kontrast, große Buttons (auch mobil), ruhiger Ton.
+// Preis, Umfang (Rechner-Festpreisfenster) und FAQ: content/leistungen/sicher-wohnen.md.
+// CTA „Beratungstermin anfragen“ wie beim Sanierungscheck → Kontaktseite #termin (Buchungsfenster).
+import { getEntry, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LeistungHero from "../../components/LeistungHero.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Faq from "../../components/Faq.astro";
+import Icon from "../../components/Icon.astro";
+import Img from "../../components/Img.astro";
+import { SITE, u, leistungBySlug } from "../../consts";
+
+const l = await getEntry("leistungen", "sicher-wohnen");
+const leistung = leistungBySlug("sicher-wohnen");
+if (!l || !leistung || !l.data.pauschalpreis) throw new Error("Sicher wohnen: Content-Datei oder LEISTUNGEN-Eintrag fehlt");
+const { Content } = await render(l);
+const preis = l.data.pauschalpreis.toLocaleString("de-DE");
+const cta = { href: u("kontakt/#termin"), label: "Beratungstermin anfragen" };
+
+/** ❌/✅ aus Jamils Text: Mittel zum Zweck vs. das, worauf es wirklich ankommt. */
+
+const bereiche = [
+  { icon: "bath", titel: "Badezimmer", punkte: ["Bodengleiche Duschen", "Haltegriffe", "Rutschhemmende Böden", "Erreichbarkeit von Armaturen", "Einstiegshilfen"] },
+  { icon: "tuer", titel: "Wege & Durchgänge", punkte: ["Türbreiten", "Schwellen", "Engstellen", "Bewegungsflächen"] },
+  { icon: "sofa", titel: "Wohn- und Schlafbereiche", punkte: ["Stolperfallen", "Teppiche", "Kabel", "Möbelanordnung", "Lichtverhältnisse"] },
+  { icon: "treppe", titel: "Treppen & Eingänge", punkte: ["Handläufe", "Beleuchtung", "Stufenmarkierungen", "Hauseingang", "Außenwege"] },
+  { icon: "kueche", titel: "Küche", punkte: ["Erreichbarkeit von Schränken", "Arbeitsflächen", "Beleuchtung", "Bedienbarkeit von Geräten"] },
+];
+
+const fuerWen = [
+  "Menschen mit Pflegebedarf oder eingeschränkter Mobilität – in jedem Alter",
+  "Menschen nach einem Unfall oder einer Erkrankung",
+  "Angehörige, die einen nahestehenden Menschen unterstützen möchten",
+  "Eigentümer von Einfamilienhäusern",
+  "Wohnungen und Häuser jeder Art",
+  "Menschen, die frühzeitig vorsorgen möchten",
+];
+const ergebnis = [
+  "Einschätzung möglicher Risiken",
+  "Empfehlungen für sinnvolle Anpassungen",
+  "Priorisierte Maßnahmenliste",
+  "Erste Kosteneinschätzung",
+  "Auf Wunsch ein Angebot für die Umsetzung",
+];
+
+const vorteile = [
+  { icon: "calendar", titel: "Heute planen statt morgen reagieren", text: "Viele Maßnahmen sind klein und kostengünstig, erhöhen aber Sicherheit und Komfort deutlich. Oft reichen bereits wenige Anpassungen, um das tägliche Leben spürbar zu erleichtern." },
+  { icon: "euro", titel: `Pauschal ${preis} € – wird angerechnet`, text: `Der Check kostet pauschal ${preis} € inkl. MwSt. ${l.data.pauschalHinweis ?? ""}` },
+  { icon: "hand", titel: "Zusammen mit unserem Partnerpfleger", text: "Beim Check „Sicher wohnen“ arbeiten wir mit einem Partnerpfleger zusammen." },
+];
+---
+
+<BaseLayout title={`${leistung.unterschrift} – ${leistung.ueberschrift} | Norderstedt & Hamburg` /* „Sicher wohnen. Heute und morgen. – Sicher und selbstbestimmt wohnen | …“ */} description={l.data.beschreibung ?? l.data.teaser}>
+  <LeistungHero
+    titel={leistung.kurz ?? leistung.unterschrift}
+    eyebrow={leistung.unterschrift}
+    pre={"Sicher und selbst­bestimmt " /* weiche Trennstelle für schmale Handys */}
+    accent="wohnen"
+    claim={l.data.claim}
+    lead={l.data.lead}
+    bild={l.data.bild ?? "hero-sanierung-modernisierung.webp"}
+    ctaHref={cta.href}
+    ctaLabel={cta.label}
+    mitTermin={false}
+    ctaMobil
+    chips={[]}
+  />
+
+  <div class="zc">
+    <!-- 1. Das Wichtigste zuerst -->
+    <section class="section">
+      <div class="container zc-intro">
+        <div>
+          <SectionHead eyebrow="Das Wichtigste zuerst" pre="Risiken erkennen, bevor sie zum " accent="Problem werden" />
+          <div class="zc-prose"><Content /></div>
+          <p class="zc-preis">
+            <Icon name="euro" size={22} class="icon" />
+            <span><strong>Pauschal {preis} € inkl. MwSt.</strong> – wird bei Umsetzung wieder angerechnet.</span>
+          </p>
+        </div>
+        <figure class="zc-intro__bild reveal">
+          <Img src="galerie-bad-06.webp" alt="Von Bauwelt umgebautes Bad mit bodengleicher Walk-in-Dusche" w={4} h={5} />
+        </figure>
+      </div>
+    </section>
+
+    {/* Kundenwunsch 17.10.2026 (79): Abschnitt „Worum es wirklich geht“ (Mittel zum Zweck / Wünsche) entfernt */}
+    <!-- 3. Was wir gemeinsam prüfen -->
+    <section class="section section--sand">
+      <div class="container">
+        <SectionHead center eyebrow="Fünf Bereiche" pre="Was wir gemeinsam " accent="prüfen" />
+        <ul class="zc-bereiche">
+          {bereiche.map((b) => (
+            <li class="zc-bereich reveal">
+              <span class="kachel__icon"><Icon name={b.icon} size={26} class="icon" /></span>
+              <h3>{b.titel}</h3>
+              <ul class="check-list">
+                {b.punkte.map((pkt) => <li><Icon name="check" size={20} class="icon" /> {pkt}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. Kernsatz der Seite als Zitatband -->
+    <section class="section section--dark zc-zitat">
+      <div class="container">
+        <blockquote>
+          <p class="zc-zitat__satz">„Möglichst lange selbstständig in den eigenen vier Wänden&nbsp;leben.“</p>
+          <p class="zc-zitat__text">
+            Darum geht es bei „Sicher wohnen. Heute und morgen.“ Handläufe, Duschen oder Türbreiten sind nur die Mittel zum Zweck –
+            der eigentliche Wunsch ist, das vertraute Zuhause nicht verlassen zu müssen.
+          </p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 5. Ihr Vorteil -->
+    <section class="section section--sand">
+      <div class="container">
+        <SectionHead center eyebrow="Ihr Vorteil" pre="Heute planen statt morgen " accent="reagieren" />
+        <ul class="zc-vorteile">
+          {vorteile.map((v) => (
+            <li class="zc-vorteil reveal">
+              <span class="warum__icon"><Icon name={v.icon} size={24} class="icon" /></span>
+              <h3>{v.titel}</h3>
+              <p>{v.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. Für wen + was Sie erhalten -->
+    <section class="section">
+      <div class="container zc-zwei">
+        <div class="zc-box reveal">
+          <h2 class="rule">Für wen eignet sich <span class="accent">„Sicher&nbsp;wohnen“?</span></h2>
+          <ul class="check-list">
+            {fuerWen.map((f) => <li><Icon name="check" size={22} class="icon" /> {f}</li>)}
+          </ul>
+        </div>
+        <div class="zc-box reveal">
+          <h2 class="rule">Was Sie nach dem Termin <span class="accent">erhalten</span></h2>
+          <ul class="check-list">
+            {ergebnis.map((e) => <li><Icon name="check" size={22} class="icon" /> {e}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Abschluss -->
+    <section class="section section--sand zc-abschluss">
+      <div class="container">
+        <SectionHead center eyebrow={leistung.unterschrift} pre="Zuhause bleiben. Sicher " accent="leben." />
+        <p class="zc-abschluss__text">
+          Mit „Sicher wohnen. Heute und morgen.“ erhalten Sie Klarheit darüber, wie Ihr Zuhause heute und in Zukunft zu Ihnen passen kann.
+        </p>
+        <div class="zc-abschluss__actions">
+          <a class="btn btn--lg zc-btn" href={cta.href}>
+            <Icon name="calendar" size={22} class="icon" /> {cta.label}
+          </a>
+          <a class="btn btn--lg btn--ghost zc-btn" href={`tel:${SITE.phoneTel}`}>
+            <Icon name="phone" size={22} class="icon" /> Lieber anrufen: {SITE.phoneDisplay}
+          </a>
+        </div>
+        <p class="zc-abschluss__preis">Pauschal {preis} € inkl. MwSt. · wird bei Umsetzung angerechnet</p>
+      </div>
+    </section>
+
+    <!-- 8. FAQ -->
+    {l.data.faq.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionHead center eyebrow="Häufige Fragen" pre="Sicher wohnen: Gut zu " accent="wissen" />
+          <Faq items={l.data.faq} withCta />
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  /* Barrierearm lesbar: größere Grundschrift, ruhige Abstände, starke Kontraste */
+  .zc { font-size: 18px; line-height: 1.7; }
+  .zc :global(.section-head .lead) { font-size: 19px; }
+  .zc :global(.check-list) { gap: 14px; }
+  .zc :global(.check-list li) { font-size: 18px; color: var(--anthrazit-800); }
+  .zc :global(.check-list .icon) { color: var(--gold-700); margin-top: 4px; }
+
+  .zc-intro { display: grid; gap: 36px; align-items: center; }
+  .zc-prose { max-width: var(--text-width); }
+  .zc-prose :global(p) { font-size: 19px; line-height: 1.75; color: var(--anthrazit-800); margin-bottom: 1em; }
+  .zc-preis {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin: 24px 0 0; padding: 16px 20px;
+    border-radius: 14px; background: var(--gold-100); border: 1px solid var(--gold-300);
+    font-size: 17px; color: var(--anthrazit-800);
+  }
+  .zc-preis :global(.icon) { flex: none; color: var(--gold-700); margin-top: 2px; }
+  .zc-intro__bild { margin: 0; }
+  .zc-intro__bild :global(.img-wrap) { box-shadow: 0 24px 60px -24px rgba(31, 30, 32, 0.45); }
+  @media (min-width: 1024px) { .zc-intro { grid-template-columns: 1.2fr 0.8fr; gap: 72px; } }
+  @media (max-width: 1023px) { .zc-intro__bild { max-width: 440px; justify-self: center; width: 100%; } }
+
+  /* ❌ / ✅ Gegenüberstellung */
+  .zc-vergleich { display: grid; gap: 20px; max-width: 900px; margin-inline: auto; }
+  @media (min-width: 768px) { .zc-vergleich { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  .zc-spalte { padding: 28px 26px; border-radius: 18px; background: var(--weiss); border: 1px solid var(--linie); }
+  .zc-spalte h3 { margin: 0 0 18px; font-size: 19px; text-transform: none; letter-spacing: 0; }
+  .zc-spalte--mittel h3 { color: var(--anthrazit-600); }
+  .zc-spalte--wunsch { border: 2px solid var(--gold-500); box-shadow: var(--shadow); }
+  .zc-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .zc-liste li { display: flex; align-items: center; gap: 14px; font-size: 19px; font-family: var(--font-heading); font-weight: 600; }
+  .zc-marke { flex: none; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .zc-liste--nein li { color: var(--anthrazit-600); }
+  .zc-liste--nein .zc-marke { background: var(--anthrazit-100); color: var(--anthrazit-600); }
+  .zc-liste--ja li { color: var(--anthrazit-900); font-weight: 700; }
+  .zc-liste--ja .zc-marke { background: var(--gold-500); color: var(--anthrazit-900); }
+
+  /* Prüfbereiche */
+  .zc-bereiche { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 18px; max-width: 1100px; }
+  @media (min-width: 700px) { .zc-bereiche { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) {
+    .zc-bereiche { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .zc-bereiche > * { flex: 0 1 calc((100% - 40px) / 3); min-width: 0; }
+  }
+  .zc-bereich { display: grid; gap: 14px; align-content: start; padding: 26px 24px; border-radius: 18px; background: var(--weiss); border: 1px solid var(--linie); }
+  .zc-bereich h3 { margin: 0; font-size: 20px; text-transform: none; letter-spacing: 0; }
+  .zc-bereich :global(.check-list li) { font-size: 17px; }
+
+  /* Zitatband */
+  .zc-zitat blockquote { margin: 0 auto; max-width: 900px; text-align: center; }
+  .zc-zitat__satz {
+    max-width: none; margin: 0 0 20px;
+    font-family: var(--font-heading); font-weight: 700;
+    font-size: clamp(26px, 4.2vw, 42px); line-height: 1.25;
+    color: var(--weiss) !important;
+  }
+  .zc-zitat__satz::first-letter { color: var(--gold-500); }
+  .zc-zitat__text { margin: 0 auto; max-width: 680px; font-size: 19px; line-height: 1.7; color: var(--anthrazit-100) !important; }
+
+  /* Vorteile (helle Variante der Vorteilskarten) */
+  .zc-vorteile { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 18px; max-width: 1100px; }
+  @media (min-width: 900px) { .zc-vorteile { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+  .zc-vorteil { display: grid; gap: 12px; align-content: start; padding: 28px 24px; border-radius: 18px; background: var(--weiss); border: 1px solid var(--linie); }
+  .zc-vorteil h3 { margin: 4px 0 0; font-size: 20px; line-height: 1.3; text-transform: none; letter-spacing: 0; }
+  .zc-vorteil p { margin: 0; font-size: 17px; line-height: 1.65; color: var(--anthrazit-700); }
+
+  /* Für wen / Ergebnis */
+  .zc-zwei { display: grid; gap: 24px; }
+  @media (min-width: 900px) { .zc-zwei { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  .zc-box { padding: 32px 28px; border-radius: 18px; background: var(--gold-100); }
+  .zc-box h2 { font-size: clamp(22px, 2.8vw, 28px); margin-bottom: 28px; }
+
+  /* Abschluss */
+  .zc-abschluss { text-align: center; }
+  .zc-abschluss__text { margin: -8px auto 32px; max-width: 640px; font-size: 20px; line-height: 1.65; color: var(--anthrazit-800); }
+  .zc-abschluss__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; }
+  .zc-btn { font-size: 19px; padding: 20px 36px; }
+  .zc-abschluss__preis { margin: 22px auto 0; font-size: 16px; font-weight: 600; color: var(--anthrazit-700); }
+  @media (max-width: 767px) {
+    .zc-abschluss__actions { display: grid; }
+    .zc-btn { width: 100%; white-space: normal; text-align: center; }
+  }
+</style>

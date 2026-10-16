@@ -21,6 +21,10 @@ const titles = new Map();
 for (const file of pages) {
   const html = readFileSync(file, "utf8");
   const page = file.replace(DIST, "").replace(/\/index\.html$/, "/").replace("404.html", "404");
+  // Weiterleitungs-Stubs alter Adressen (z. B. /leistungen/zuhause-check-60/, Kundenwunsch 17.10.2026 (82))
+  if (html.includes('http-equiv="refresh"')) continue;
+  // Kundenwunsch 17.10.2026 (82): kein „Zuhause-Check 60+“ und kein Altersbezug mehr
+  for (const alt of ["Zuhause-Check", "60+", "ab 60", "Senior"]) if (html.includes(alt)) err(page, `enthält noch "${alt}"`);
 
   // Genau eine H1
   const h1 = (html.match(/<h1[\s>]/g) || []).length;

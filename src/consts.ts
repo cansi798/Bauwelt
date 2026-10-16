@@ -81,7 +81,8 @@ export const LEISTUNGEN: Leistung[] = [
   { slug: "innenausbau", ueberschrift: "Räume neu denken", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
   // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
   { slug: "sanierungscheck", ueberschrift: "Klarheit vor dem Immobilienkauf", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
-  { slug: "zuhause-check-60", ueberschrift: "Sicher und selbstbestimmt wohnen", unterschrift: "Zuhause-Check 60+", icon: "heim", hervorheben: true },
+  // Kundenwunsch 17.10.2026 (82): Name „Sicher wohnen. Heute und morgen.“ statt „Zuhause-Check 60+“ – ohne Altersbezug
+  { slug: "sicher-wohnen", ueberschrift: "Sicher und selbstbestimmt wohnen", unterschrift: "Sicher wohnen. Heute und morgen.", kurz: "Sicher wohnen", icon: "heim", hervorheben: true },
 ];
 export const leistungBySlug = (slug: string): Leistung | undefined => LEISTUNGEN.find((l) => l.slug === slug);
 /** Kurzname einer Leistung (für Fließtext-Sätze). */
@@ -120,7 +121,7 @@ export const NAV2: NavItem[] = [
 export const waLink = (
   text = "Hallo Bauwelt Handwerk, ich interessiere mich für eine Ihrer Leistungen – " +
     "Badsanierung, Komplettsanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, " +
-    "Innenausbau & Trockenbau, den Immobilien-Sanierungscheck oder den Zuhause-Check 60+. " +
+    "Innenausbau & Trockenbau, den Immobilien-Sanierungscheck oder „Sicher wohnen. Heute und morgen.“ " +
     "Bitte melden Sie sich bei mir für ein " +
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
@@ -132,7 +133,7 @@ export const waLink = (
    Neue KI-Bilder einfach hier eintragen. Hintergrund: Transparenz nach Art. 50 EU-KI-Verordnung. */
 export const KI_BILDER = new Set<string>([
   "hero.webp",                           // Startseite
-  "hero-sanierung-modernisierung.webp",  // Leistungen Komplettsanierung & Modernisierung + Zuhause-Check 60+
+  "hero-sanierung-modernisierung.webp",  // Leistungen Komplettsanierung & Modernisierung + Sicher wohnen
   "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
   "hero-referenzen.webp",                // Referenzen
   "hero-ueber-uns.webp",                 // Über uns

@@ -24,7 +24,7 @@ import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 
 export async function getStaticPaths() {
-  // Leistungen mit eigener Seitendatei (eigeneSeite, z. B. Zuhause-Check 60+) nicht doppelt erzeugen
+  // Leistungen mit eigener Seitendatei (eigeneSeite, z. B. Sicher wohnen) nicht doppelt erzeugen
   const leistungen = await getCollection("leistungen", (l) => !l.data.eigeneSeite);
   return leistungen.map((l) => ({ params: { slug: l.id }, props: { l } }));
 }

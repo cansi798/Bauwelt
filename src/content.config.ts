@@ -38,7 +38,7 @@ const leistungen = defineCollection({
     warum: z.array(z.object({ icon: z.string(), title: z.string(), text: z.string() })).default([]),
     h1Akzent: z.string().default("Festpreis"),       // (bis 16.10.2026) goldenes Wort in der H1 – H1 ist jetzt die Überschrift aus LEISTUNGEN
     /** Eigene Seitendatei unter src/pages/leistungen/<slug>.astro statt der gemeinsamen Vorlage
-     *  (Zuhause-Check 60+, Kundenwunsch 16.10.2026 (73)). Preis/FAQ/Umfang bleiben hier. */
+     *  (Sicher wohnen, Kundenwunsch 16.10.2026 (73)). Preis/FAQ/Umfang bleiben hier. */
     eigeneSeite: z.boolean().default(false),
     /** Intro-Abschnitt (Text + Foto) ausblenden – Badsanierung, Kundenwunsch 16.10.2026 (77). */
     ohneIntro: z.boolean().default(false),
