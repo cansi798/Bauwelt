@@ -6,17 +6,20 @@
 // Bild füllt Mobil + Desktop den Viewport, Ken-Burns-Zoom + gestaffelte Entrance.
 // Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
 // Begriff statisch (global.css stoppt Rest).
+// Kundenwunsch 17.10.2026 (81): jede Animation läuft genau einmal (data-einmal, global.css)
+// – Walze rollt einmal durch alle Begriffe und bleibt auf dem ersten stehen,
+// Ken-Burns zoomt einmal hinein und bleibt, der Pfeil wippt einmal.
 import { CTA, TERMIN, istKiBild, u } from "../consts";
 import { HERO } from "../data/home";
 import Icon from "./Icon.astro";
 import KiHinweis from "./KiHinweis.astro";
 
 const WORTE = HERO.begriffe;
-// Für die nahtlose Schleife wird das erste Wort am Ende wiederholt.
+// Das erste Wort steht am Ende noch einmal: Endbild der einen Runde = Anfangsbild.
 const WALZE = [...WORTE, WORTE[0]];
 ---
 
-<section class="fhero">
+<section class="fhero" data-einmal>
   <div class="fhero__bg" aria-hidden="true">
     <img
       src={u(`assets/img/${HERO.bild}`)}
@@ -79,7 +82,7 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__bg img {
     width: 100%; height: 100%;
     object-fit: cover;
-    animation: kenburns 22s ease-in-out infinite alternate;
+    animation: kenburns 22s ease-in-out 1 forwards;
   }
   @keyframes kenburns {
     from { transform: scale(1) translateX(0); }
@@ -144,8 +147,9 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__band {
     display: flex;
     flex-direction: column;
-    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – letzter Frame = erster (nahtlos) */
-    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s infinite;
+    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – EINE Runde, Endbild = erster Begriff
+       (Kopie am Ende); forwards hält ihn danach fest */
+    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s 1 forwards;
   }
   .fhero__wort {
     display: block;
@@ -171,7 +175,8 @@ const WALZE = [...WORTE, WORTE[0]];
     display: inline-flex; align-items: center; justify-content: center;
     color: var(--weiss);
     border-radius: 50%;
-    animation: nudge 2.2s ease-in-out infinite;
+    transform: translateX(-50%); /* Ruhelage (auch ohne Animation zentriert) */
+    animation: nudge 2.2s ease-in-out 1 forwards;
   }
   @keyframes nudge {
     0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.9; }

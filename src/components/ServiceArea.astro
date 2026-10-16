@@ -1,7 +1,9 @@
 ---
 // Einzugsgebiets-Sektion: statt Chip-Wolke ein ruhig durchlaufendes Orts-Band
 // (eine Zeile, weiche Kanten-Ausblendung) – wirkt leicht statt überladen.
-// Reines CSS; bei prefers-reduced-motion steht das Band und ist seitlich scrollbar.
+// Kundenwunsch 17.10.2026 (81): Das Band läuft beim ersten Sichtbarwerden GENAU EINE
+// Runde (endet bei -50 % = identisch zum Anfang) und steht dann; danach (und bei
+// prefers-reduced-motion) ist es – nur falls breiter als der Platz – seitlich scrollbar.
 import { REGION_CITIES } from "../data/region";
 import { SITE } from "../consts";
 import SectionHead from "./SectionHead.astro";
@@ -12,16 +14,18 @@ interface Props {
 }
 const { eingebettet = false } = Astro.props;
 
-// Für die nahtlose Schleife wird die Liste einmal dupliziert.
-const BAND = [...REGION_CITIES, ...REGION_CITIES];
+// Für die nahtlose Runde wird die Liste einmal dupliziert (Kopie nur während der Bewegung).
+const BAND = [false, true].flatMap((kopie) =>
+  REGION_CITIES.map((c, i) => ({ c, kopie, letzte: !kopie && i === REGION_CITIES.length - 1 }))
+);
 ---
 
 {eingebettet ? (
   <div class="area area--eingebettet">
-    <div class="area__band" aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
+    <div class="area__band" data-einmal aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
       <ul class="area__track" aria-hidden="true">
-        {BAND.map((c) => (
-          <li>{c}<span class="area__dot">·</span></li>
+        {BAND.map(({ c, kopie, letzte }) => (
+          <li class:list={{ area__kopie: kopie, area__letzte: letzte }}>{c}<span class="area__dot">·</span></li>
         ))}
       </ul>
     </div>
@@ -41,10 +45,10 @@ const BAND = [...REGION_CITIES, ...REGION_CITIES];
     />
   </div>
 
-  <div class="area__band" aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
+  <div class="area__band" data-einmal aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
     <ul class="area__track" aria-hidden="true">
-      {BAND.map((c) => (
-        <li>{c}<span class="area__dot">·</span></li>
+      {BAND.map(({ c, kopie, letzte }) => (
+        <li class:list={{ area__kopie: kopie, area__letzte: letzte }}>{c}<span class="area__dot">·</span></li>
       ))}
     </ul>
   </div>
@@ -67,8 +71,15 @@ const BAND = [...REGION_CITIES, ...REGION_CITIES];
     list-style: none; margin: 0; padding: 0;
     display: flex; align-items: center;
     width: max-content;
-    animation: area-scroll 60s linear infinite;
+    animation: area-scroll 60s linear 1 forwards;
   }
+  /* Nach der einen Runde („is-fertig“ setzt src/scripts/einmal-animieren.ts):
+     Endbild (-50 %) = Anfangsbild ohne Kopie → stillstehend,
+     seitlich scrollbar nur, wenn die Ortsliste breiter ist als der Platz. */
+  .area__band.is-fertig { overflow-x: auto; }
+  .area__band.is-fertig .area__track { animation: none; transform: none; margin-inline: auto; }
+  .area__band.is-fertig .area__kopie,
+  .area__band.is-fertig .area__letzte .area__dot { display: none; }
   .area__band:hover .area__track { animation-play-state: paused; }
   .area__track li {
     display: inline-flex; align-items: center;
@@ -86,6 +97,8 @@ const BAND = [...REGION_CITIES, ...REGION_CITIES];
   /* Reduced motion (global.css stoppt die Animation): Band steht, bleibt scrollbar */
   @media (prefers-reduced-motion: reduce) {
     .area__band { overflow-x: auto; }
+    .area__track { margin-inline: auto; }
+    .area__kopie, .area__letzte .area__dot { display: none; }
   }
   .area--eingebettet { margin-bottom: 28px; }
   .area__note { margin: 16px auto 0; padding-inline: 20px; max-width: var(--text-width); text-align: center; }

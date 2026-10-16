@@ -97,24 +97,9 @@ const jsonLd = {
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
     </button>
     <script>
-      // Scroll-Reveal: nur Zusatz-Schicht. Ohne JS fehlt html.js → alles sichtbar (CSS-Gate).
-      const els = document.querySelectorAll(".reveal");
-      if ("IntersectionObserver" in window && els.length) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add("is-visible");
-                io.unobserve(e.target);
-              }
-            }
-          },
-          { rootMargin: "0px 0px -10% 0px" }
-        );
-        els.forEach((el) => io.observe(el));
-      } else {
-        els.forEach((el) => el.classList.add("is-visible"));
-      }
+      // Scroll-Reveal + alle Animationen: genau einmal beim ersten Sichtbarwerden
+      // (Kundenwunsch 17.10.2026 (81)). Ohne JS fehlt html.js → alles sichtbar (CSS-Gate).
+      import "../scripts/einmal-animieren";
 
       // Scroll-Fortschritt + Nach-oben-Button (passiv, ein Listener für beides)
       const fill = document.getElementById("scrollFill");

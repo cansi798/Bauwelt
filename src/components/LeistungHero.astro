@@ -27,7 +27,7 @@ interface Props {
 const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
 ---
 
-<section class="lhero">
+<section class="lhero" data-einmal>
   <div class="lhero__bg" aria-hidden="true">
     <img
       src={u(`assets/img/${bild}`)}
@@ -90,7 +90,7 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
   .lhero__bg img {
     width: 100%; height: 100%;
     object-fit: cover;
-    animation: lkenburns 24s ease-in-out infinite alternate;
+    animation: lkenburns 24s ease-in-out 1 forwards; /* einmal, Kundenwunsch 17.10.2026 (81) */
   }
   @keyframes lkenburns {
     from { transform: scale(1); }

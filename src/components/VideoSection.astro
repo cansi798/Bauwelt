@@ -27,7 +27,7 @@ const hasVideo = VIDEO.url.length > 0;
         </button>
       </div>
     ) : (
-      <div class="story__frame story__scene reveal" role="img" aria-label="Animierte Zeichnung: Ein Haus entsteht, die Fenster leuchten auf – aus Baustelle wird Zuhause.">
+      <div class="story__frame story__scene reveal" data-einmal role="img" aria-label="Animierte Zeichnung: Ein Haus entsteht, die Fenster leuchten auf – aus Baustelle wird Zuhause.">
         <svg viewBox="0 0 800 420" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <g class="sc-sun">
             <circle cx="672" cy="88" r="34" fill="var(--gold-300)" stroke="none" />
@@ -109,10 +109,10 @@ const hasVideo = VIDEO.url.length > 0;
   }
   @keyframes sc-draw { to { stroke-dashoffset: 0; } }
 
-  /* Fenster leuchten auf und glimmen weiter */
+  /* Fenster leuchten auf und glimmen einmal nach (Kundenwunsch 17.10.2026 (81): alles nur einmal) */
   .sc-glow {
     opacity: 0;
-    animation: sc-on 0.8s ease-out forwards, sc-glow 3.5s ease-in-out infinite;
+    animation: sc-on 0.8s ease-out forwards, sc-glow 3.5s ease-in-out 1 forwards;
     animation-delay: var(--gd, 2.5s), calc(var(--gd, 2.5s) + 0.8s);
   }
   @keyframes sc-on { to { opacity: 1; } }
@@ -132,8 +132,8 @@ const hasVideo = VIDEO.url.length > 0;
     animation: sc-draw 2.4s ease-in-out 2.5s forwards;
   }
 
-  /* Rauch-Puffs steigen dauerhaft */
-  .sc-puff { opacity: 0; animation: sc-puff 4.2s ease-out infinite; animation-delay: calc(2.2s + var(--pd, 0s)); }
+  /* Rauch-Puffs steigen einmal auf */
+  .sc-puff { opacity: 0; animation: sc-puff 4.2s ease-out 1 forwards; animation-delay: calc(2.2s + var(--pd, 0s)); }
   @keyframes sc-puff {
     0% { opacity: 0; transform: translateY(0) scale(0.6); }
     15% { opacity: 0.9; }
@@ -145,7 +145,7 @@ const hasVideo = VIDEO.url.length > 0;
   .sc-heart {
     opacity: 0;
     transform-origin: 506px 80px;
-    animation: sc-heart 5s ease-in-out 3.4s infinite;
+    animation: sc-heart 5s ease-in-out 3.4s 1 forwards;
   }
   @keyframes sc-heart {
     0% { opacity: 0; transform: translateY(6px) scale(0.5); }

@@ -218,7 +218,14 @@ html.js .slider__nav { display: flex; }
 
 /* ---------- Reveal (NUR mit JS – ohne JS ist alles sichtbar) ---------- */
 html.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 600ms ease, transform 600ms ease; }
-html.js .reveal.is-visible { opacity: 1; transform: none; }
+html.js .reveal.is-sichtbar { opacity: 1; transform: none; }
+
+/* ---------- Animationen nur EINMAL (Kundenwunsch 17.10.2026 (81)) ----------
+   Alles in [data-einmal] wartet pausiert (Anfangsbild per fill-mode), bis
+   src/scripts/einmal-animieren.ts beim ersten Sichtbarwerden „is-sichtbar“ setzt.
+   Die Animationen selbst laufen mit iteration-count 1 + forwards → Endzustand bleibt. */
+html.js [data-einmal]:not(.is-sichtbar),
+html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !important; }
 
 /* ---------- Bild-Platzhalter (BILDER.md-Mechanik) ---------- */
 .ph {
