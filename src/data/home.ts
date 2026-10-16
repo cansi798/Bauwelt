@@ -53,7 +53,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
   },
   {
     slug: "sanierung-modernisierung",
-    eyebrow: "Sanierung & Modernisierung",
+    eyebrow: "Komplettsanierung & Modernisierung",
     pre: "Aus alt wird ",
     accent: "Zuhause",
     text:
@@ -199,7 +199,7 @@ export const ANGEBOT = {
 };
 
 /* LEISTUNG_KARTEN entfallen (Kundenwunsch 11.10.2026): Die Leistungskarten der
- * Startseite kommen jetzt aus src/data/rechner.ts (Feld `nutzen`) und sind
+ * Startseite kommen jetzt aus src/data/rechner.ts + LEISTUNGEN in consts.ts (Überschrift/Unterschrift, 16.10.2026 (73)) und sind
  * gleichzeitig die Auswahl des Projekt-Rechners (components/Rechner.astro). */
 
 export const FAQ_HOME = [

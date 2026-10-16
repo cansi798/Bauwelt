@@ -32,6 +32,15 @@
  *  er landet im Anfrage-Text (WhatsApp/E-Mail), damit das Team sofort fachlich lesen
  *  kann, was der Kunde gewählt hat. */
 
+import { LEISTUNGEN, kurzName } from "../consts";
+
+/** Leistungsname aus der zentralen Liste LEISTUNGEN (consts.ts) – Kundenwunsch 16.10.2026 (73). */
+const name = (slug: string): string => {
+  const l = LEISTUNGEN.find((x) => x.slug === slug);
+  if (!l) throw new Error(`Leistung ${slug} fehlt in LEISTUNGEN (consts.ts)`);
+  return kurzName(l);
+};
+
 export const MWST = 0.19;
 export const MWST_HINWEIS = "Bruttopreise inkl. 19 % MwSt.";
 /** Netto → brutto, auf Cent gerundet. */
@@ -83,7 +92,6 @@ export type Gewerk = {
   slug: string;          // = Slug der Leistungs-Seite
   label: string;
   icon: string;          // Icon-Name im Sprite
-  nutzen: string;        // 1 Zeile Nutzen (Leistungskarte Startseite)
   frage: string;         // Frage in Schritt 2
   unit: string;          // Einheit der Mengenangabe
   min: number;
@@ -144,9 +152,8 @@ const FLIESEN_NETTO = { grund: 500, vinyl: 55, fliesen: 75, gross: 85 };
 export const GEWERKE: Gewerk[] = [
   {
     slug: "badsanierung",
-    label: "Badsanierung",
+    label: name("badsanierung"),
     icon: "bath",
-    nutzen: "Ihr neues Bad in 2 Wochen – geplant, gebaut und übergeben aus einer Hand.",
     frage: "Wie groß ist Ihr Bad?",
     unit: "m²",
     min: 3, max: 15, step: 1, default: 8,
@@ -200,9 +207,8 @@ export const GEWERKE: Gewerk[] = [
   },
   {
     slug: "sanierung-modernisierung",
-    label: "Sanierung & Modernisierung",
+    label: name("sanierung-modernisierung"),
     icon: "reno",
-    nutzen: "Von der Einzelmaßnahme bis zur Kernsanierung – alle Gewerke koordiniert.",
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
@@ -228,9 +234,8 @@ export const GEWERKE: Gewerk[] = [
   },
   {
     slug: "fliesen-boden",
-    label: "Fliesen- & Bodenlegerarbeiten",
+    label: name("fliesen-boden"),
     icon: "tiles",
-    nutzen: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl und Laminat.",
     frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
     min: 5, max: 200, step: 5, default: 25,
@@ -254,9 +259,8 @@ export const GEWERKE: Gewerk[] = [
   },
   {
     slug: "innenausbau",
-    label: "Innenausbau & Trockenbau",
+    label: name("innenausbau"),
     icon: "wall",
-    nutzen: "Räume neu gestalten und optimal nutzen – Wände, Decken, Licht und Akustik.",
     frage: "Wie groß ist die auszubauende Fläche?",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
@@ -283,15 +287,22 @@ export const GEWERKE: Gewerk[] = [
 
 /** Leistungen mit festem Pauschalpreis – ohne Rechenschritte (Kundenwunsch 11.10.2026).
  *  Preis und Leistungsinhalt stehen NUR in der Content-Datei (pauschalpreis/umfang),
- *  hier nur die Daten für die Leistungskarte. */
-export type Pauschal = { slug: string; label: string; icon: string; nutzen: string };
+ *  hier nur die Daten für die Leistungskarte. Kartentexte (Überschrift/Unterschrift) seit
+ *  16.10.2026 (73) aus LEISTUNGEN; `cta`: Beschriftung des Buchen-Buttons (Standard: „… buchen“). */
+export type Pauschal = { slug: string; label: string; icon: string; cta?: string };
 
 export const PAUSCHAL: Pauschal[] = [
   {
     slug: "sanierungscheck",
-    label: "Immobilien-Sanierungscheck",
+    label: name("sanierungscheck"),
     icon: "eye",
-    nutzen: "Chancen, Risiken und Kosten frühzeitig erkennen – vor dem Kauf.",
+  },
+  // Kundenwunsch 16.10.2026 (73): neue Leistung, pauschal 249 € brutto, bei Umsetzung angerechnet
+  {
+    slug: "zuhause-check-60",
+    label: name("zuhause-check-60"),
+    icon: "heim",
+    cta: "Zuhause-Check anfragen",
   },
 ];
 

@@ -6,11 +6,12 @@
 
 ## Leistungen
 
-- Badsanierung zum Festpreis (Kerngeschäft, typisch ~2 Wochen): /Bauwelt/leistungen/badsanierung/
-- Sanierung & Modernisierung (Renovierung bis Kernsanierung): /Bauwelt/leistungen/sanierung-modernisierung/
-- Innenausbau & Trockenbau: /Bauwelt/leistungen/innenausbau/
-- Fliesen- & Bodenlegerarbeiten: /Bauwelt/leistungen/fliesen-boden/
-- Immobilien-Sanierungscheck (Pauschalpreis): /Bauwelt/leistungen/sanierungscheck/
+- Badsanierung aus einer Hand – „Ihr neues Badezimmer beginnt hier“ (Kerngeschäft, Festpreis, typisch ~2 Wochen): /Bauwelt/leistungen/badsanierung/
+- Komplettsanierung & Modernisierung – „Aus Alt wird Zuhause“ (Renovierung bis Kernsanierung): /Bauwelt/leistungen/sanierung-modernisierung/
+- Fliesen- & Bodenlegerarbeiten – „Oberflächen, die Eindruck hinterlassen“: /Bauwelt/leistungen/fliesen-boden/
+- Innenausbau & Trockenbau – „Räume neu denken“: /Bauwelt/leistungen/innenausbau/
+- Immobilien-Sanierungscheck – „Klarheit vor dem Immobilienkauf“ (Pauschalpreis 595 € inkl. MwSt.): /Bauwelt/leistungen/sanierungscheck/
+- Zuhause-Check 60+ – „Sicher und selbstbestimmt wohnen“ (altersgerechtes Wohnen, pauschal 249 € inkl. MwSt., bei Umsetzung angerechnet; in Zusammenarbeit mit einem Partnerpfleger): /Bauwelt/leistungen/zuhause-check-60/
 
 ## Fakten
 

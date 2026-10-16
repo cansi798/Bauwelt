@@ -1,5 +1,5 @@
 ---
-title: "Sanierung & Modernisierung"
+title: "Komplettsanierung & Modernisierung"
 badge: "Festpreis"
 order: 20
 icon: "reno"
@@ -53,4 +53,4 @@ faq:
 
 Sie möchten Ihre Wohnung oder Ihr Haus modernisieren, aber keine wochenlange Baustelle, keine unklaren Kosten und kein Handwerker-Chaos?
 
-Genau dafür sind wir da. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit festem Preis und festem Zeitrahmen und koordinieren danach sämtliche Arbeiten – vom Rückbau bis zum letzten Anstrich, mit klaren Zuständigkeiten.
+Genau dafür sind wir da. Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten – bevor auch nur ein Handgriff passiert. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit festem Preis und festem Zeitrahmen und koordinieren danach sämtliche Arbeiten – vom Rückbau bis zum letzten Anstrich, mit klaren Zuständigkeiten.

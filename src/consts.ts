@@ -53,25 +53,55 @@ export const TERMIN = {
   href: "https://portal.bauwelt-handwerk.de/buchen",
 };
 
-export type NavChild = { label: string; href: string; icon?: string; desc?: string };
+export type NavChild = {
+  label: string; href: string; icon?: string; desc?: string;
+  /** Gold hervorgehoben, unter einer Trennlinie (wie bisher der Sanierungscheck). */
+  hervorheben?: boolean;
+};
 export type NavItem = { label: string; href?: string; children?: NavChild[] };
+
+/** Leistungen – EINZIGE Quelle für Namen und Reihenfolge (Menü, Mobilmenü, Footer, Startseiten-
+ *  Karten, Rechner, Leistungsseiten). Kundenwunsch 16.10.2026 (73): Jede Leistung hat eine
+ *  Überschrift (emotional, im Menü fett) und eine Unterschrift (Leistungsname, im Menü grau).
+ *  Reihenfolge: oben Badsanierung + Komplettsanierung, ganz unten die beiden Checks –
+ *  hervorgehoben (gold, unter Trennlinie) wie zuvor der Sanierungscheck.
+ *  `kurz`: Kurzname für Sätze wie „Warum Badsanierung mit Bauwelt Handwerk?“ (Standard: unterschrift). */
+export type Leistung = {
+  slug: string;
+  ueberschrift: string;
+  unterschrift: string;
+  kurz?: string;
+  icon: string;
+  hervorheben?: boolean;
+};
+export const LEISTUNGEN: Leistung[] = [
+  { slug: "badsanierung", ueberschrift: "Ihr neues Badezimmer beginnt hier", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
+  { slug: "sanierung-modernisierung", ueberschrift: "Aus Alt wird Zuhause", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
+  { slug: "fliesen-boden", ueberschrift: "Oberflächen, die Eindruck hinterlassen", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
+  { slug: "innenausbau", ueberschrift: "Räume neu denken", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
+  // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
+  { slug: "sanierungscheck", ueberschrift: "Klarheit vor dem Immobilienkauf", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
+  { slug: "zuhause-check-60", ueberschrift: "Sicher und selbstbestimmt wohnen", unterschrift: "Zuhause-Check 60+", icon: "heim", hervorheben: true },
+];
+export const leistungBySlug = (slug: string): Leistung | undefined => LEISTUNGEN.find((l) => l.slug === slug);
+/** Kurzname einer Leistung (für Fließtext-Sätze). */
+export const kurzName = (l: Leistung): string => l.kurz ?? l.unterschrift;
 
 /** Navigation mit Dropdown-Gruppen (Desktop: Mega-Dropdown, Mobil: aufklappbare Gruppen). */
 export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
-    children: [
-      // 5 Leistungen im Menü (Kundenfeedback 30.09. + 11.10.2026). Dach & Fassade,
-      // Maler & Böden, Sanitär/Heizung/Elektro sind seit Kundenwunsch 12.10.2026 (18)
-      // ganz abgeschaltet (Inhalte in archiv/leistungen-abgeschaltet/).
-      { label: "Badsanierung", href: u("leistungen/badsanierung/"), icon: "bath", desc: "Ihr neues Bad in 2 Wochen" },
-      { label: "Sanierung & Modernisierung", href: u("leistungen/sanierung-modernisierung/"), icon: "reno", desc: "Von der Einzelmaßnahme bis zur Kernsanierung" },
-      { label: "Fliesen- & Bodenlegerarbeiten", href: u("leistungen/fliesen-boden/"), icon: "tiles", desc: "Perfekte Oberflächen für Wand und Boden" },
-      { label: "Innenausbau & Trockenbau", href: u("leistungen/innenausbau/"), icon: "wall", desc: "Räume neu gestalten und optimal nutzen" },
-      // 5. Leistung seit Kundenwunsch 11.10.2026 (Pauschalpreis steht in content/leistungen/sanierungscheck.md)
-      { label: "Immobilien-Sanierungscheck", href: u("leistungen/sanierungscheck/"), icon: "eye", desc: "Chancen, Risiken und Kosten frühzeitig erkennen" },
-      // Kundenwunsch 15.10.2026 (71): „Alle Leistungen im Überblick“ + Übersichtsseite entfernt
-    ],
+    // Kundenwunsch 16.10.2026 (73): fett = Überschrift, grau = Unterschrift (Daten: LEISTUNGEN).
+    // Dach & Fassade, Maler & Böden, Sanitär/Heizung/Elektro sind seit Kundenwunsch 12.10.2026 (18)
+    // ganz abgeschaltet (Inhalte in archiv/leistungen-abgeschaltet/).
+    // Kundenwunsch 15.10.2026 (71): „Alle Leistungen im Überblick“ + Übersichtsseite entfernt
+    children: LEISTUNGEN.map((l) => ({
+      label: l.ueberschrift,
+      desc: l.unterschrift,
+      href: u(`leistungen/${l.slug}/`),
+      icon: l.icon,
+      hervorheben: l.hervorheben,
+    })),
   },
   { label: "Referenzen", href: u("referenzen/") },
   {
@@ -79,17 +109,19 @@ export const NAV2: NavItem[] = [
     children: [
       { label: "Über uns", href: u("ueber-uns/"), icon: "user", desc: "Team, Werte, Arbeitsweise" },
       { label: "Karriere", href: u("karriere/"), icon: "karriere", desc: "Arbeiten bei Bauwelt Handwerk" },
-      { label: "Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis" },
+      // Partner war schon bisher als letzter Eintrag gold abgesetzt – bleibt so (16.10.2026 (73))
+      { label: "Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis", hervorheben: true },
     ],
   },
   { label: "Kontakt", href: u("kontakt/") },
 ];
 
-/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext nennt die 5 Leistungen (Menü NAV2). */
+/** WhatsApp-Chat-Link mit vorbefüllter Nachricht. Standardtext nennt die 6 Leistungen (LEISTUNGEN). */
 export const waLink = (
   text = "Hallo Bauwelt Handwerk, ich interessiere mich für eine Ihrer Leistungen – " +
-    "Badsanierung, Sanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, " +
-    "Innenausbau & Trockenbau oder den Immobilien-Sanierungscheck. Bitte melden Sie sich bei mir für ein " +
+    "Badsanierung, Komplettsanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, " +
+    "Innenausbau & Trockenbau, den Immobilien-Sanierungscheck oder den Zuhause-Check 60+. " +
+    "Bitte melden Sie sich bei mir für ein " +
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
   `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -100,7 +132,7 @@ export const waLink = (
    Neue KI-Bilder einfach hier eintragen. Hintergrund: Transparenz nach Art. 50 EU-KI-Verordnung. */
 export const KI_BILDER = new Set<string>([
   "hero.webp",                           // Startseite
-  "hero-sanierung-modernisierung.webp",  // Leistung Sanierung & Modernisierung
+  "hero-sanierung-modernisierung.webp",  // Leistungen Komplettsanierung & Modernisierung + Zuhause-Check 60+
   "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
   "hero-referenzen.webp",                // Referenzen
   "hero-ueber-uns.webp",                 // Über uns

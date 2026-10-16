@@ -4,7 +4,7 @@
 // Oben der dunkle Kontakt-Kopf „So sollte Handwerk sein." (Kundenwunsch 10.10.2026).
 // Kundenwunsch 10.10.2026 (Screenshot): Footer kompakter – Kontaktwege unten raus
 // (stehen im Kopf darüber), Logo kleiner nach oben rechts, weniger Abstände.
-import { NAV2, SITE, u } from "../consts";
+import { LEISTUNGEN, SITE, u } from "../consts";
 import FooterKontakt from "./FooterKontakt.astro";
 
 interface Props {
@@ -14,7 +14,8 @@ interface Props {
 }
 const { nurNav = false } = Astro.props;
 
-const leistungen = NAV2.find((n) => n.label === "Leistungen")?.children?.filter((c) => c.desc) ?? [];
+// Kundenwunsch 16.10.2026 (73): im Footer die Unterschrift (= Leistungsname) – kompakter als die Überschrift
+const leistungen = LEISTUNGEN.map((l) => ({ label: l.unterschrift, href: u(`leistungen/${l.slug}/`) }));
 const jahr = new Date().getFullYear();
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Badsanierung zum Festpreis"
+title: "Badsanierung aus einer Hand"
 order: 10
 icon: "bath"
 badge: "Festpreis"
@@ -24,12 +24,17 @@ ablauf:
   - { title: "Umsetzung", text: "Wir bauen termingerecht und koordinieren alle Gewerke." }
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
 claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
-lead: "Von der ersten Idee bis zur fertigen Übergabe koordinieren wir sämtliche Arbeiten für Sie. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
+# Kundenwunsch 16.10.2026 (76): Beratungs-Satz; seit (77) im Lead, weil der Intro-Abschnitt entfällt
+lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
+# Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
+ohneIntro: true
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
 umfangText: "Von der Demontage bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:
+  # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
+  - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Demontage" }
   - { icon: "tap", title: "Sanitär\u00ADarbeiten" }
   - { icon: "bolt", title: "Elektro\u00ADarbeiten" }

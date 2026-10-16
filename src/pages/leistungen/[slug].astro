@@ -19,24 +19,29 @@ import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
 import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
-import { TERMIN, u } from "../../consts";
+import { TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 
 export async function getStaticPaths() {
-  const leistungen = await getCollection("leistungen");
+  // Leistungen mit eigener Seitendatei (eigeneSeite, z. B. Zuhause-Check 60+) nicht doppelt erzeugen
+  const leistungen = await getCollection("leistungen", (l) => !l.data.eigeneSeite);
   return leistungen.map((l) => ({ params: { slug: l.id }, props: { l } }));
 }
 
 const { l } = Astro.props;
 const { Content } = await render(l);
 
-const kurzTitel = l.data.title.replace(" zum Festpreis", "");
-// Überlange Wörter in der H1 (z. B. „Bodenlegerarbeiten") mit weichen Trennstellen,
-// sonst läuft die Überschrift auf dem Handy über den Rand.
-const h1Titel = kurzTitel
-  .replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten")
-  .replace("Sanierungscheck", "Sanierungs\u00ADcheck");
+// Kundenwunsch 16.10.2026 (73): Namen aus LEISTUNGEN (consts.ts) – H1 = Überschrift (letztes
+// Wort gold), Pfad/Brotkrumen + Seitentitel = Unterschrift (Leistungsname).
+const leistung = leistungBySlug(l.id);
+if (!leistung) throw new Error(`Leistung ${l.id} fehlt in LEISTUNGEN (consts.ts)`);
+const kurzTitel = kurzName(leistung);
+// Überlange Wörter in der H1 mit weichen Trennstellen, sonst läuft die Überschrift auf dem Handy über den Rand.
+const h1Titel = leistung.ueberschrift
+  .replace("Immobilienkauf", "Immobilien\u00ADkauf")
+  .replace("Oberflächen", "Ober\u00ADflächen")
+  .replace("selbstbestimmt", "selbst\u00ADbestimmt");
 const pauschal = l.data.pauschalpreis;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
@@ -59,6 +64,10 @@ const teile = (t: string) => {
   const i = t.lastIndexOf(" ");
   return i < 0 ? { pre: "", accent: t } : { pre: t.slice(0, i + 1), accent: t.slice(i + 1) };
 };
+const h1 = teile(h1Titel);
+const mitIntro = !l.data.ohneIntro;
+// Hintergrund-Wechsel: ohne Intro folgt die Kachel-Sektion direkt auf den (sandfarbenen) Rechner → weiß
+const kachelnSand = mitIntro || !hatRechner;
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero, sondern als Karten im
@@ -85,12 +94,12 @@ const description =
   ].find((d) => d.length <= 160) ?? l.data.teaser);
 ---
 
-<BaseLayout title={`${l.data.title} – Norderstedt & Hamburg`} description={description}>
+<BaseLayout title={`${leistung.unterschrift} – Norderstedt & Hamburg`} description={description}>
   <LeistungHero
-    titel={kurzTitel}
-    eyebrow={l.data.badge ? `${kurzTitel} • ${l.data.badge}` : kurzTitel}
-    pre={`${h1Titel} zum `}
-    accent={l.data.h1Akzent}
+    titel={leistung.unterschrift}
+    eyebrow={leistung.unterschrift}
+    pre={h1.pre}
+    accent={h1.accent}
     claim={l.data.claim}
     lead={l.data.lead}
     bild={heroBild}
@@ -110,7 +119,9 @@ const description =
     </section>
   )}
 
-  <!-- 1. Intro: worum es geht – aus Kundensicht, mit echtem Foto daneben -->
+  <!-- 1. Intro: worum es geht – aus Kundensicht, mit echtem Foto daneben.
+       Kundenwunsch 16.10.2026 (77): per ohneIntro abschaltbar (Badsanierung: „entfernen“) -->
+  {mitIntro && (
   <section class="section">
     <div class:list={["container", "lintro", { "lintro--bild": introBild }]}>
       <div class="lintro__text">
@@ -130,10 +141,11 @@ const description =
       )}
     </div>
   </section>
+  )}
 
   <!-- Leistungsumfang als Kacheln (Kundenwunsch 14.10.2026 (35)) -->
   {l.data.kacheln.length > 0 && (
-    <section class="section section--sand">
+    <section class:list={["section", { "section--sand": kachelnSand }]}>
       <div class="container">
         <SectionHead center eyebrow="Leistungsumfang" {...teile(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`)} text={l.data.umfangText} />
         {/* Kundenwunsch 14.10.2026 (53): Kacheln zentriert umbrechen (7 Kacheln → 4 + 3), keine einzelne Restkachel */}

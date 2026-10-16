@@ -21,7 +21,7 @@
 import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
 import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, berechne, preisText } from "../data/rechner";
-import { SITE, EMAILS, TERMIN, u, waLink } from "../consts";
+import { SITE, EMAILS, TERMIN, u, waLink, leistungBySlug } from "../consts";
 
 interface Props {
   variant?: "seite" | "start";
@@ -49,18 +49,23 @@ const PAUSCHAL_DATA = await Promise.all(
     return { ...p, preis: e.data.pauschalpreis, enthalten: e.data.umfang, hinweis: e.data.pauschalHinweis };
   })
 );
-/** Alle Leistungskarten in Menü-Reihenfolge: erst die Rechner-Gewerke, dann Pauschal. */
-const KARTEN: { slug: string; label: string; icon: string; nutzen: string; preis?: number }[] = [
-  ...GEWERKE,
-  ...PAUSCHAL_DATA,
-];
+/** Alle Leistungskarten in Menü-Reihenfolge: erst die Rechner-Gewerke, dann Pauschal.
+ *  Kundenwunsch 16.10.2026 (73): Karte zeigt wie das Menü fett die Überschrift, darunter die
+ *  Unterschrift (beides aus LEISTUNGEN in consts.ts). */
+const KARTEN = [...GEWERKE, ...PAUSCHAL_DATA].map((g) => {
+  const l = leistungBySlug(g.slug);
+  if (!l) throw new Error(`Leistung ${g.slug} fehlt in LEISTUNGEN (consts.ts)`);
+  return { ...g, titel: l.ueberschrift, unterschrift: l.unterschrift, preis: "preis" in g ? g.preis : undefined };
+});
 // Weiche Trennstellen für lange Wörter in den schmalen Handy-Karten
 // (Chrome trennt Deutsch sonst nicht zuverlässig → „Modernisierun|g").
 // Weiche Trennstellen für lange Kartentitel (Handy: sonst Umbruch mitten im Wort ohne Bindestrich)
 const weich = (t: string) =>
   t.replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten").replace("Modernisierung", "Moderni\u00ADsierung")
    .replace("Badsanierung", "Bad\u00ADsanierung").replace("Innenausbau", "Innen\u00ADausbau")
-   .replace("Trockenbau", "Trocken\u00ADbau").replace("Sanierungscheck", "Sanierungs\u00ADcheck");
+   .replace("Trockenbau", "Trocken\u00ADbau").replace("Sanierungscheck", "Sanierungs\u00ADcheck")
+   .replace("Komplettsanierung", "Komplett\u00ADsanierung").replace("Immobilienkauf", "Immobilien\u00ADkauf")
+   .replace("selbstbestimmt", "selbst\u00ADbestimmt").replace("Oberflächen", "Ober\u00ADflächen").replace("Badezimmer", "Bade\u00ADzimmer");
 
 ---
 
@@ -105,9 +110,9 @@ const weich = (t: string) =>
             aria-controls="rPanel"
           >
             <span class="rkarte__icon"><Icon name={g.icon} size={22} class="icon" /></span>
-            <span class="rkarte__titel">{weich(g.label)}</span>
+            <span class="rkarte__titel">{weich(g.titel)}</span>
             <span class="rkarte__nutzen">
-              {g.nutzen}
+              {weich(g.unterschrift)}
               {/* Kundenwunsch 13.10.2026 (23): Pauschalpreis nicht direkt auf der Karte zeigen (erst nach Klick) */}
             </span>
             <span class="rkarte__status" aria-hidden="true">
@@ -140,7 +145,7 @@ const weich = (t: string) =>
           {KARTEN.map((g) => (
             <button class="rtile" type="button" data-gewerk={g.slug}>
               <Icon name={g.icon} size={30} class="icon" />
-              <span>{g.label}</span>
+              <span class="rtile__text"><strong>{weich(g.titel)}</strong><small>{weich(g.unterschrift)}</small></span>
             </button>
           ))}
         </div>
@@ -260,7 +265,7 @@ const weich = (t: string) =>
         </p>
         <div class="rechner__contact">
           <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
-            <Icon name="calendar" size={20} class="icon" /> {p.label.replace("Immobilien-", "")} buchen
+            <Icon name="calendar" size={20} class="icon" /> {p.cta ?? `${p.label.replace("Immobilien-", "")} buchen`}
           </a>
           <a
             class="btn btn--dark btn--lg"
@@ -331,6 +336,8 @@ const weich = (t: string) =>
     transition: border-color var(--transition), background var(--transition), transform var(--transition);
   }
   .rtile :global(.icon) { color: var(--gold-700); width: 30px; height: 30px; }
+  .rtile__text { display: grid; gap: 4px; text-align: center; line-height: 1.3; }
+  .rtile__text small { font-family: var(--font-body); font-weight: 600; font-size: 13px; color: var(--anthrazit-600); }
   .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
   .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
   .rtile:last-child:nth-child(odd) { grid-column: 1 / -1; }
@@ -350,7 +357,7 @@ const weich = (t: string) =>
     .rechner__app--start { grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 24px; align-items: start; }
   }
   .rkarten { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* ungerade Anzahl (5 Leistungen): letzte Karte über die volle Breite */
+  /* ungerade Anzahl: letzte Karte über die volle Breite (seit 16.10.2026 (73) sind es 6 Leistungen) */
   .rkarte:last-child:nth-child(odd) { grid-column: 1 / -1; }
   @media (min-width: 1024px) {
     .rkarten { grid-template-columns: minmax(0, 1fr); gap: 12px; }
@@ -396,6 +403,8 @@ const weich = (t: string) =>
     hyphens: auto; overflow-wrap: break-word;
   }
   .rkarte__nutzen, .rkarte__status { grid-column: 1 / -1; }
+  /* 16.10.2026 (73): längere Überschriften – auf schmalen Karten (Handy/Tablet) eigene Zeile unter dem Icon */
+  @media (max-width: 1023px) { .rkarte__titel { grid-column: 1 / -1; } }
   .rkarte__preis {
     display: block; margin-top: 4px;
     font-family: var(--font-heading); font-size: 13px; color: var(--gold-700);

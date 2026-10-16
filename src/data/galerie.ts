@@ -40,7 +40,7 @@ export const GALERIE: GalerieGruppe[] = [
     id: "sanierung",
     slogan: "Bestehendes modern gedacht.",
     intro: "Ob einzelne Räume oder ganze Wohnbereiche – hier sehen Sie Beispiele realisierter Modernisierungen.",
-    title: "Sanierung & Modernisierung",
+    title: "Komplettsanierung & Modernisierung", // Kundenwunsch 16.10.2026 (73): neuer Leistungsname
     href: u("leistungen/sanierung-modernisierung/"),
     bilder: [
       { file: "galerie-sanierung-01.webp", ort: "Norderstedt", titel: "Modernisierte Wohnküche", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" },

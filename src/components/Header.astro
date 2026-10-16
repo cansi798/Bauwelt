@@ -23,9 +23,10 @@ import MobileMenu from "./MobileMenu.astro";
               </button>
               <div class="dd__panel">
                 <ul class="dd__list">
-                  {item.children.map((c) => (
+                  {item.children.map((c, i) => (
                     <li>
-                      <a class="dd__item" href={c.href}>
+                      {/* Kundenwunsch 16.10.2026 (73): hervorgehobene Einträge gold, Trennlinie vor dem ersten */}
+                      <a class:list={["dd__item", { "dd__item--hervor": c.hervorheben, "dd__item--trenner": c.hervorheben && !item.children![i - 1]?.hervorheben }]} href={c.href}>
                         {c.icon && <Icon name={c.icon} size={22} class="icon dd__icon" />}
                         <span class="dd__text">
                           <strong>{c.label}</strong>
@@ -117,7 +118,7 @@ import MobileMenu from "./MobileMenu.astro";
   .dd__panel {
     position: absolute; top: 100%; left: 50%;
     transform: translateX(-50%) translateY(8px);
-    min-width: 340px;
+    min-width: 400px; /* 16.10.2026 (73): längere Überschriften einzeilig */
     background: var(--weiss);
     border: 1px solid var(--linie);
     border-radius: var(--radius-lg);
@@ -144,7 +145,11 @@ import MobileMenu from "./MobileMenu.astro";
   .dd__item :global(.dd__icon) { color: var(--gold-700); flex: none; }
   .dd__text { display: grid; line-height: 1.35; }
   .dd__text small { color: var(--anthrazit-600); }
-  .dd__list li:last-child .dd__item { border-top: 1px solid var(--linie); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: 6px; padding-top: 12px; color: var(--gold-700); font-weight: 600; }
+  /* Hervorgehobene Einträge (vorher nur der letzte, jetzt per Flag hervorheben in consts.ts) */
+  .dd__item--hervor { color: var(--gold-700); font-weight: 600; }
+  .dd__item--hervor .dd__text strong { color: var(--gold-700); }
+  .dd__item--trenner { border-top: 1px solid var(--linie); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: 6px; padding-top: 12px; }
+  .dd__item--trenner:hover { border-radius: var(--radius-md); }
 
   .hdr__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .hdr__iconbtn {
