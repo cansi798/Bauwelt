@@ -6,10 +6,30 @@ import { REGION_CITIES } from "../data/region";
 import { SITE } from "../consts";
 import SectionHead from "./SectionHead.astro";
 
+interface Props {
+  /** Nur Orts-Band + Hinweis, ohne eigene Sektion/Überschrift (z. B. Kontaktseite, Kundenwunsch 17.10.2026 (78)). */
+  eingebettet?: boolean;
+}
+const { eingebettet = false } = Astro.props;
+
 // Für die nahtlose Schleife wird die Liste einmal dupliziert.
 const BAND = [...REGION_CITIES, ...REGION_CITIES];
 ---
 
+{eingebettet ? (
+  <div class="area area--eingebettet">
+    <div class="area__band" aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
+      <ul class="area__track" aria-hidden="true">
+        {BAND.map((c) => (
+          <li>{c}<span class="area__dot">·</span></li>
+        ))}
+      </ul>
+    </div>
+    <p class="small text-center area__note">
+      Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.
+    </p>
+  </div>
+) : (
 <section class="section area">
   <div class="container">
     <SectionHead
@@ -33,6 +53,7 @@ const BAND = [...REGION_CITIES, ...REGION_CITIES];
     Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.
   </p>
 </section>
+)}
 
 <style>
   .area__band {
@@ -66,5 +87,6 @@ const BAND = [...REGION_CITIES, ...REGION_CITIES];
   @media (prefers-reduced-motion: reduce) {
     .area__band { overflow-x: auto; }
   }
+  .area--eingebettet { margin-bottom: 28px; }
   .area__note { margin: 16px auto 0; padding-inline: 20px; max-width: var(--text-width); text-align: center; }
 </style>

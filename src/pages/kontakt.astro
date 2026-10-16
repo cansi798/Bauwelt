@@ -9,6 +9,7 @@ import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import RoughSzene from "../components/RoughSzene.astro";
 import WarumAnders from "../components/WarumAnders.astro";
+import ServiceArea from "../components/ServiceArea.astro";
 import Icon from "../components/Icon.astro";
 import { CTA, EMAILS, SITE, TERMIN, waLink } from "../consts";
 
@@ -24,7 +25,6 @@ const WEGE: Weg[] = [
   { icon: "calendar", title: "Besichtigungstermin", text: "Vereinbaren Sie direkt einen Termin vor Ort.", label: "Termin buchen", href: TERMIN.href, extern: true, termin: true, id: "termin" },
 ];
 
-const GEBIET = ["Hamburg", "Norderstedt", "Schleswig-Holstein", "Nördliches Niedersachsen"];
 ---
 
 <BaseLayout
@@ -85,14 +85,8 @@ const GEBIET = ["Hamburg", "Norderstedt", "Schleswig-Holstein", "Nördliches Nie
   <section class="section section--sand" id="einzugsgebiet">
     <div class="container">
       <SectionHead center eyebrow="Wo wir tätig sind" pre="Für Hamburg, Norderstedt und " accent="Umgebung." text="Wir betreuen Privatkunden, Hausverwaltungen, Investoren und Unternehmen in:" />
-      <ul class="kacheln gebiet">
-        {GEBIET.map((g) => (
-          <li class="kachel reveal">
-            <span class="kachel__icon"><Icon name="pin" size={26} class="icon" /></span>
-            <span class="kachel__titel">{g}</span>
-          </li>
-        ))}
-      </ul>
+      {/* Kundenwunsch 17.10.2026 (78): statt Gebiets-Kacheln das laufende Orts-Band wie auf der Startseite */}
+      <ServiceArea eingebettet />
       <div class="card kontakt__anfahrt">
         <p>
           <strong>{SITE.legal}</strong><br />
