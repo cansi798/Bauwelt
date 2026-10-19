@@ -21,7 +21,7 @@ const WA_HREF = waLink();
 <dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}>
   <div class="bdlg__kopf">
     <div class="bdlg__titel">
-      <h2 id="bookingDialogTitle">{TERMIN.label}</h2>
+      <p class="bdlg__h" id="bookingDialogTitle">{TERMIN.label}</p> {/* SEO-/KI-Audit S9: Fenster-Titel (aria-labelledby), keine Seiten-Überschrift */}
       <p class="bdlg__unter">Wir kommen zu Ihnen nach Hause – kostenlos und unverbindlich.</p>
     </div>
     <button class="bdlg__close" type="button" data-close aria-label="Buchungsfenster schließen">
@@ -55,7 +55,7 @@ const WA_HREF = waLink();
     padding: 14px 14px 14px 20px;
     border-bottom: 1px solid var(--linie);
   }
-  .bdlg__kopf h2 { margin: 0; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .bdlg__kopf .bdlg__h { margin: 0; font-family: var(--font-heading); font-weight: 700; font-size: 17px; line-height: 1.25; color: var(--anthrazit-800); }
   .bdlg__titel { display: grid; gap: 2px; min-width: 0; }
   .bdlg__unter { margin: 0; font-size: 14px; line-height: 1.4; color: var(--anthrazit-600); }
   /* Kalender-Gerüst (Skeleton) liegt über dem iframe, bis das Portal gezeichnet ist */
@@ -123,7 +123,7 @@ const WA_HREF = waLink();
   /* Handy: fast bildschirmfüllend */
   @media (max-width: 767px) {
     .bdlg { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
-    .bdlg__kopf h2 { font-size: 15px; }
+    .bdlg__kopf .bdlg__h { font-size: 15px; }
     .bdlg__unter { font-size: 13px; }
   }
 </style>
