@@ -138,6 +138,8 @@ const jsonLd = {
       }
       .hoch:hover { background: var(--gold-100); transform: translateY(-2px); }
       @media (min-width: 1024px) { .hoch { bottom: 24px; } }
+      /* Audit 1.10 (19.10.2026): am Handy/Tablet kein „Nach oben“-Button – Leiste unten + Logo reichen */
+      @media (max-width: 1023px) { .hoch { display: none !important; } }
     </style>
   </body>
 </html>
