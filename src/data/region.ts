@@ -6,9 +6,12 @@
 export const REGION_CENTER = {
   lat: 53.7064,
   lng: 10.0122, // Norderstedt
-  radiusMeter: 100_000,
+  // Kundenwunsch 19.10.2026 (Audit 3.3): Gebiet laut Jamils Karte, ca. 50 km um Norderstedt
+  radiusMeter: 50_000,
 };
 
+/** Orte im Einzugsgebiet – nur Orte INNERHALB von Jamils markiertem Gebiet (19.10.2026):
+ *  Elbe bei Itzehoe → Neumünster → A21 → Bad Oldesloe/Bargteheide → Reinbek → Elbe-Nordufer über Wedel. */
 export const REGION_CITIES = [
   "Norderstedt",
   "Hamburg",
@@ -16,21 +19,18 @@ export const REGION_CITIES = [
   "Kaltenkirchen",
   "Quickborn",
   "Pinneberg",
+  "Halstenbek",
   "Wedel",
+  "Uetersen",
   "Elmshorn",
+  "Barmstedt",
   "Itzehoe",
-  "Ahrensburg",
-  "Bad Oldesloe",
-  "Bad Segeberg",
-  "Reinbek",
-  "Geesthacht",
+  "Kellinghusen",
   "Neumünster",
-  "Kiel",
-  "Lübeck",
-  "Stade",
-  "Buxtehude",
-  "Winsen (Luhe)",
-  "Lüneburg",
+  "Bad Oldesloe",
+  "Bargteheide",
+  "Ahrensburg",
+  "Reinbek",
 ];
 
 /** Leistungs-Typen für strukturierte Daten (Schema.org serviceType). */

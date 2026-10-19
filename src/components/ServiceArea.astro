@@ -1,105 +1,73 @@
 ---
-// Einzugsgebiets-Sektion: statt Chip-Wolke ein ruhig durchlaufendes Orts-Band
-// (eine Zeile, weiche Kanten-Ausblendung) – wirkt leicht statt überladen.
-// Kundenwunsch 17.10.2026 (81): Das Band läuft beim ersten Sichtbarwerden GENAU EINE
-// Runde (endet bei -50 % = identisch zum Anfang) und steht dann; danach (und bei
-// prefers-reduced-motion) ist es – nur falls breiter als der Platz – seitlich scrollbar.
+// Einzugsgebiet (Kundenwunsch 19.10.2026, Audit 3.3 – ersetzt das Orts-Laufband):
+// eigene gezeichnete Karte nach Jamils markiertem Gebiet (Szene „gebiet“, src/data/szenen.ts)
+// + feste, lesbare Ortsliste. Keine Kartenkacheln, keine fremden Dienste (Datenschutz).
 import { REGION_CITIES } from "../data/region";
 import { SITE } from "../consts";
 import SectionHead from "./SectionHead.astro";
+import RoughSzene from "./RoughSzene.astro";
 
 interface Props {
-  /** Nur Orts-Band + Hinweis, ohne eigene Sektion/Überschrift (z. B. Kontaktseite, Kundenwunsch 17.10.2026 (78)). */
+  /** Ohne eigene Sektion/Überschrift (z. B. Kontaktseite, Kundenwunsch 17.10.2026 (78)). */
   eingebettet?: boolean;
 }
 const { eingebettet = false } = Astro.props;
-
-// Für die nahtlose Runde wird die Liste einmal dupliziert (Kopie nur während der Bewegung).
-const BAND = [false, true].flatMap((kopie) =>
-  REGION_CITIES.map((c, i) => ({ c, kopie, letzte: !kopie && i === REGION_CITIES.length - 1 }))
-);
+const BESCHREIBUNG =
+  "Gezeichnete Karte unseres Einzugsgebiets: von der Elbe bei Itzehoe im Westen nach Norden bis Neumünster, " +
+  "im Osten bis Bad Oldesloe und Bargteheide, im Süden bis Reinbek und entlang der Elbe über Hamburg und Wedel. " +
+  "Unser Sitz ist Norderstedt.";
 ---
 
-{eingebettet ? (
-  <div class="area area--eingebettet">
-    <div class="area__band" data-einmal aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
-      <ul class="area__track" aria-hidden="true">
-        {BAND.map(({ c, kopie, letzte }) => (
-          <li class:list={{ area__kopie: kopie, area__letzte: letzte }}>{c}<span class="area__dot">·</span></li>
-        ))}
-      </ul>
+{!eingebettet && (
+  <section class="section area" id="einzugsgebiet-karte">
+    <div class="container">
+      <SectionHead
+        center
+        eyebrow="Einzugsgebiet"
+        pre="In Ihrer Nähe für Sie "
+        accent="unterwegs"
+        text={`Von ${SITE.city} aus betreuen wir Projekte in Hamburg und im südlichen Schleswig-Holstein.`}
+      />
+      <div class="area__grid">
+        <RoughSzene szene="gebiet" label={BESCHREIBUNG} />
+        <div class="area__liste">
+          <p class="area__titel">Hier sind wir für Sie da:</p>
+          <ul>{REGION_CITIES.map((c) => <li>{c}</li>)}</ul>
+          <p class="small area__note">Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.</p>
+        </div>
+      </div>
     </div>
-    <p class="small text-center area__note">
-      Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.
-    </p>
+  </section>
+)}
+{eingebettet && (
+  <div class="area area--eingebettet">
+    <div class="area__grid">
+      <RoughSzene szene="gebiet" label={BESCHREIBUNG} />
+      <div class="area__liste">
+        <p class="area__titel">Hier sind wir für Sie da:</p>
+        <ul>{REGION_CITIES.map((c) => <li>{c}</li>)}</ul>
+        <p class="small area__note">Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.</p>
+      </div>
+    </div>
   </div>
-) : (
-<section class="section area">
-  <div class="container">
-    <SectionHead
-      center
-      eyebrow="Einzugsgebiet"
-      pre="In Ihrer Nähe für Sie "
-      accent="unterwegs"
-      text={`Von ${SITE.city} aus betreuen wir Projekte in ganz Hamburg, Schleswig-Holstein und dem nördlichen Niedersachsen.`}
-    />
-  </div>
-
-  <div class="area__band" data-einmal aria-label={`Orte im Einzugsgebiet, unter anderem ${REGION_CITIES.slice(0, 6).join(", ")} und weitere`}>
-    <ul class="area__track" aria-hidden="true">
-      {BAND.map(({ c, kopie, letzte }) => (
-        <li class:list={{ area__kopie: kopie, area__letzte: letzte }}>{c}<span class="area__dot">·</span></li>
-      ))}
-    </ul>
-  </div>
-
-  <p class="small text-center area__note">
-    Ihr Ort ist nicht dabei? Fragen Sie einfach an – oft lohnt sich die Anfahrt trotzdem.
-  </p>
-</section>
 )}
 
 <style>
-  .area__band {
-    overflow: hidden;
-    padding-block: 8px;
-    /* weiche Kanten links/rechts */
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  }
-  .area__track {
+  .area__grid { display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 900px) { .area__grid { grid-template-columns: 1.15fr 0.85fr; gap: 48px; } }
+  .area__grid :global(.rszene) { margin: 0; }
+  .area__grid :global(.rszene__bild) { max-width: 620px; }
+  .area__titel { margin: 0 0 12px; font-family: var(--font-heading); font-weight: 700; font-size: 18px; color: var(--anthrazit-900); }
+  .area__liste ul {
     list-style: none; margin: 0; padding: 0;
-    display: flex; align-items: center;
-    width: max-content;
-    animation: area-scroll 60s linear 1 forwards;
+    display: flex; flex-wrap: wrap; gap: 8px;
   }
-  /* Nach der einen Runde („is-fertig“ setzt src/scripts/einmal-animieren.ts):
-     Endbild (-50 %) = Anfangsbild ohne Kopie → stillstehend,
-     seitlich scrollbar nur, wenn die Ortsliste breiter ist als der Platz. */
-  .area__band.is-fertig { overflow-x: auto; }
-  .area__band.is-fertig .area__track { animation: none; transform: none; margin-inline: auto; }
-  .area__band.is-fertig .area__kopie,
-  .area__band.is-fertig .area__letzte .area__dot { display: none; }
-  .area__band:hover .area__track { animation-play-state: paused; }
-  .area__track li {
-    display: inline-flex; align-items: center;
-    white-space: nowrap;
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: clamp(16px, 2vw, 20px);
-    color: var(--anthrazit-600);
+  .area__liste li {
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--weiss); border: 1px solid var(--linie);
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--anthrazit-700);
   }
-  .area__dot { color: var(--gold-500); padding-inline: 18px; }
-  @keyframes area-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  /* Reduced motion (global.css stoppt die Animation): Band steht, bleibt scrollbar */
-  @media (prefers-reduced-motion: reduce) {
-    .area__band { overflow-x: auto; }
-    .area__track { margin-inline: auto; }
-    .area__kopie, .area__letzte .area__dot { display: none; }
-  }
+  .area__liste li:first-child { border-color: var(--gold-500); color: var(--gold-700); }
+  .area__note { margin: 16px 0 0; }
   .area--eingebettet { margin-bottom: 28px; }
-  .area__note { margin: 16px auto 0; padding-inline: 20px; max-width: var(--text-width); text-align: center; }
 </style>

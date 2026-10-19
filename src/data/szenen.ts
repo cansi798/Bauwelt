@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -318,6 +318,63 @@ const KONTAKT_UNTER: string[][] = [
 ];
 const wegKontakt = (a: Ansicht) => wegSzene(a, KONTAKT_TITEL, KONTAKT_UNTER, [papierflieger, chat, kalender, dokument]);
 
+/* ─── Einzugsgebiet als Skizzen-Karte (Kundenwunsch 19.10.2026, Audit 3.3) ───
+   Nach Jamils markierter Karte (19.10.2026): von der Elbe bei Glückstadt/Itzehoe im Westen
+   nach Norden bis Neumünster, im Osten an der A21 entlang bis Bad Oldesloe/Bargteheide,
+   im Süden bis Reinbek, dann am Nordufer der Elbe (inkl. Hamburg und Hafen) zurück über Wedel.
+   Eigene, vereinfachte Zeichnung – keine Kartenkacheln, keine fremden Dienste.
+   Koordinaten = Pixel der Vorlage (1232 × 1280) × 0,5, um 20 nach oben verschoben. */
+const GEBIET_ORTE: { name: string; x: number; y: number; sitz?: boolean; gross?: boolean; anker?: "start" | "middle" | "end" }[] = [
+  { name: "Norderstedt", x: 600, y: 709, sitz: true },
+  { name: "Hamburg", x: 590, y: 935, gross: true },
+  { name: "Itzehoe", x: 160, y: 356 },
+  { name: "Neumünster", x: 590, y: 150 },
+  { name: "Kaltenkirchen", x: 560, y: 505 },
+  { name: "Henstedt-Ulzburg", x: 585, y: 585 },
+  { name: "Pinneberg", x: 415, y: 770, anker: "end" },
+  { name: "Wedel", x: 345, y: 885, anker: "end" },
+  { name: "Bad Oldesloe", x: 900, y: 545 },
+  { name: "Bargteheide", x: 830, y: 665 },
+  { name: "Reinbek", x: 815, y: 975 },
+];
+function gebiet(a: Ansicht): Szene {
+  const z = new Zeichner();
+  const mobil = a === "mobil";
+  const k = (x: number, y: number): [number, number] => [x * 0.5, (y - 40) * 0.5];
+  const B = 700, H = 560; // rechts Platz für Beschriftungen (Bad Oldesloe, Bargteheide, Reinbek)
+  // Elbe (breiter, heller Strich) mit Beschriftung
+  z.bei(0.1);
+  z.kurve([[0, 520], [70, 585], [160, 705], [270, 835], [420, 935], [560, 975], [700, 1000], [820, 1060], [960, 1110], [1240, 1180]].map(([x, y]) => k(x, y)),
+    { stroke: "var(--anthrazit-200)", strokeWidth: mobil ? 11 : 9, roughness: 0.8 }, 0.8);
+  z.text(...k(14, 650), "Elbe", { groesse: mobil ? 20 : 14, gewicht: 600, farbe: F.grau, anker: "start" });
+  // Gebiet: zarte goldene Fläche + gestrichelte, fließende Grenze (wie im Ablauf)
+  const rand: [number, number][] = [
+    [45, 470], [70, 365], [150, 268], [370, 152], [560, 88], [700, 160], [775, 270], [825, 380], [905, 445], [938, 565],
+    [930, 685], [880, 795], [820, 895], [760, 1000], [690, 1035], [590, 1040], [470, 982], [330, 880], [255, 815], [165, 680],
+    [95, 580], [72, 515], [45, 470],
+  ].map(([x, y]) => k(x, y));
+  z.bei(0.4);
+  z.pfad(`M${rand.map(([x, y]) => `${x} ${y}`).join("L")}Z`, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 9, fillWeight: 1, stroke: "transparent", strokeWidth: 0.1, roughness: 0.6 }, 0.6);
+  z.gruppe("fluss", () => z.kurve(rand, { stroke: F.gold, strokeWidth: mobil ? 3.6 : 3, roughness: 0.9 }, 1.2));
+  // Orte
+  GEBIET_ORTE.forEach((o, i) => {
+    const [x, y] = k(o.x, o.y);
+    z.bei(1.2 + i * 0.06);
+    const r = o.sitz ? (mobil ? 18 : 14) : o.gross ? (mobil ? 14 : 11) : (mobil ? 10 : 8);
+    const fs = (o.gross ? 1.25 : 1) * (mobil ? 25 : 14.5);
+    if (o.sitz) {
+      z.gruppe("stempel", () => z.kreis(x, y, r, { fill: F.gold, fillStyle: "solid", strokeWidth: 2 }, 0.3));
+    } else {
+      z.kreis(x, y, r, { fill: o.gross ? F.strich : "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
+    }
+    const anker = o.anker ?? "start";
+    const dx = anker === "end" ? -(r / 2 + 6) : anker === "middle" ? 0 : r / 2 + 6;
+    z.text(x + dx, y + fs * 0.35, o.name, { groesse: fs, gewicht: o.sitz || o.gross ? 700 : 600, farbe: o.sitz ? F.goldDunkel : F.strich, anker });
+    if (o.sitz) z.text(x + dx, y + fs * 0.35 + fs * 1.1, "Unser Sitz", { groesse: fs * 0.8, gewicht: 600, farbe: F.text2, anker });
+  });
+  return { breite: B, hoehe: H, elemente: z.elemente, ende: 2.2 };
+}
+
 const PORTAL_TEILE = [
   // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
   { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "An einem Ort."] },
@@ -503,4 +560,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
