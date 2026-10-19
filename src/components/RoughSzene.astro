@@ -37,8 +37,27 @@ function el(e: Element, f: number): string {
     case "text":
       return `<text class="rs-x" x="${n(e.x)}" y="${n(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}">${esc(e.text)}</text>`;
     case "gruppe":
+      if (e.effekt === "fluss") return fluss(e.kinder, f);
       return `<g class="rs-g rs-g--${e.effekt}" style="--t:${n(e.t * f)}s">${e.kinder.map((k) => el(k, f)).join("")}</g>`;
   }
+}
+
+/** Goldene Verbindungslinie (Kundenwunsch 19.10.2026, 2. Sprachnachricht Jamil): Die Linie ist
+ *  von Anfang an GESTRICHELT und fließt ständig. Gezeichnet wird sie über eine Maske: Ein
+ *  unsichtbarer Maskenstrich läuft wie bisher an (rs-zeichnen) und gibt die gestrichelte Linie frei. */
+let maskeNr = 0;
+const maskePrefix = Math.random().toString(36).slice(2, 7);
+function fluss(kinder: Element[], f: number): string {
+  const id = `rsm-${maskePrefix}-${++maskeNr}`;
+  const striche = kinder.filter((k): k is Extract<Element, { art: "strich" }> => k.art === "strich");
+  const maske = striche
+    .map((k) => `<path class="rs-s" pathLength="1" d="${k.d}" stroke="#fff" stroke-width="${k.breite + 8}" style="--t:${n(k.t * f)}s;--d:${n(Math.max(0.12, k.dauer * f))}s"/>`)
+    .join("");
+  const linie = striche
+    .map((k) => `<path class="rs-fl" pathLength="1" d="${k.d}" stroke="${k.farbe}" stroke-width="${k.breite}"/>`)
+    .join("");
+  return `<mask id="${id}" maskUnits="userSpaceOnUse" x="-5000" y="-5000" width="10000" height="10000">${maske}</mask>` +
+    `<g class="rs-g rs-g--fluss" mask="url(#${id})">${linie}</g>`;
 }
 
 function svg(a: Ansicht, sz: Szene): string {
@@ -74,6 +93,7 @@ const desktop = SZENEN[szene]("desktop");
   }
 
   .rs-s { stroke-dasharray: 1 1; }
+  .rs-fl { stroke-dasharray: 0.06 0.035; }
   .rs-g--stempel { transform-box: fill-box; transform-origin: center; }
 
   /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
@@ -98,11 +118,9 @@ const desktop = SZENEN[szene]("desktop");
       transform-box: fill-box; transform-origin: center;
       animation: rs-dreh 14s linear var(--ende, 2s) infinite;
     }
-    html.js .rszene.is-sichtbar .rs-g--fluss .rs-s,
-    html.js .rszene.is-sichtbar.is-fertig .rs-g--fluss .rs-s {
-      opacity: 1;
-      animation: rs-zeichnen var(--d) ease-out var(--t) both, rs-fluss 1.6s linear calc(var(--ende, 2s) + 0.2s) infinite;
-    }
+    /* Verbindungslinien: gestrichelt von Anfang an, fließen schon während des Zeichnens */
+    html.js .rszene.is-sichtbar .rs-fl,
+    html.js .rszene.is-sichtbar.is-fertig .rs-fl { animation: rs-fluss 1.6s linear infinite; }
   }
 
   @keyframes rs-zeichnen {
