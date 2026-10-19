@@ -83,7 +83,7 @@ export type Extra = {
 /** Kalkulationsart (Badsanierung, Kundenwunsch 14.10.2026 (47)). */
 export type KalkArt = "schnell" | "detail";
 export const KALK_ARTEN: { id: KalkArt; label: string; hint: string }[] = [
-  { id: "schnell", label: "Schnelle Kalkulation", hint: "Preisrahmen nur nach Badgröße" },
+  { id: "schnell", label: "Schnelle Kalkulation", hint: "Preisspanne nur nach Badgröße" },
   { id: "detail", label: "Detaillierte Kalkulation", hint: "Mit Ihren Wunsch-Extras – der Preis passt sich sofort an" },
 ];
 export const kalkArtLabel = (id: KalkArt) => KALK_ARTEN.find((k) => k.id === id)?.label ?? id;
@@ -357,5 +357,6 @@ export function berechne(g: Gewerk, menge: number, tierId: string, opt: KalkOpti
 export function preisText(e: Ergebnis): string {
   if (e.art === "unter") return `≈ ${eur(e.bis)} €`; // Kundenwunsch 14.10.2026 (46): „≈“ statt „unter“
   if (e.art === "betrag") return `ca. ${eur(e.betrag)} €`;
-  return e.ab ? `ab ${eur(e.von)} € bis ${eur(e.bis)} €` : `ca. ${eur(e.von)} € – ${eur(e.bis)} €`;
+  // Kundenwunsch 19.10.2026 (Audit 4.3): ein Format für alle Preisspannen – „15.020 – 16.520 €“
+  return `${eur(e.von)} – ${eur(e.bis)} €`;
 }

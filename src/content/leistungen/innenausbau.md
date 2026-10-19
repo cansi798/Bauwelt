@@ -23,7 +23,7 @@ ablauf:
 claim: "Räume neu gestalten. Klar geplant. Sauber ausgebaut."
 lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Mehr Raum – ohne Stress und Überraschungen"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zum Innenausbau?"
 umfangText: "Von der Planung bis zur streichfertigen Oberfläche erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:

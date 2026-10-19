@@ -231,7 +231,7 @@ const weich = (t: string) =>
         Angaben ändern
       </button>
       <p class="small rechner__disclaimer">
-        Unverbindliche Ersteinschätzung, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
+        Unverbindliche Preisspanne, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
         Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
       </p>
       {/* Kundenwunsch 19.10.2026 (Audit 6.3): Rückruf-Formular direkt unter der Preisspanne */}
@@ -265,7 +265,7 @@ const weich = (t: string) =>
       /* Pauschal-Leistung: Festpreis statt Berechnung */
       <section class="rstep rpausch" data-step={`p-${p.slug}`} hidden>
         <p class="rpanel__gewerk">{p.label}</p>
-        <H class="rstep__title">Ihr Festpreis</H>
+        <H class="rstep__title">Ihr Pauschalpreis</H>
         <p class="rechner__result">{euro(p.preis)} € <span class="rpausch__art">pauschal</span></p>
         <p class="rbrutto">{MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}</p>
         <div class="rwahl">
@@ -936,7 +936,7 @@ const weich = (t: string) =>
         waWahl +
         ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\n💶 Ersteinschätzung: ${preisZeile}\n\n` +
+        `\n\n💶 Preisspanne: ${preisZeile}\n\n` +
         `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank! 🙏`;
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
       waBtn.dataset.text = waText;
@@ -952,7 +952,7 @@ const weich = (t: string) =>
         mailWahl +
         ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\nErsteinschätzung: ${preisZeile}\n\n` +
+        `\n\nPreisspanne: ${preisZeile}\n\n` +
         `Bitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
       mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -960,7 +960,7 @@ const weich = (t: string) =>
       const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
       if (rrf) rrf.dataset.zusammenfassung =
         `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl + ausstattung.replace("✅ ", "") +
-        `\nGewünschte Arbeiten:\n${arbeitenListe}\nErsteinschätzung: ${preisZeile}`;
+        `\nGewünschte Arbeiten:\n${arbeitenListe}\nPreisspanne: ${preisZeile}`;
       show(3);
     }
 

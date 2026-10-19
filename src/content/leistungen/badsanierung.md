@@ -29,7 +29,7 @@ lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koord
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
 ohneIntro: true
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
 umfangText: "Von der Demontage bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:

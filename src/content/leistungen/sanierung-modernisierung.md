@@ -22,7 +22,7 @@ ablauf:
 claim: "Ihre Immobilie wie neu. Durchdacht geplant. Aus einer Hand umgesetzt."
 lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Ihre Sanierung – ohne Stress und Überraschungen"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Sanierung?"
 umfangText: "Von der Planung bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:

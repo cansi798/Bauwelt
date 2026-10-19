@@ -130,7 +130,7 @@ export const STEPS = [
   // 4 Schritte wörtlich nach Kundenfeedback 28.09.2026 (Abschnitt 1)
   {
     title: "Orientierung erhalten",
-    text: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung für Ihr Projekt.",
+    text: "Erhalten Sie in wenigen Minuten eine erste Preisspanne für Ihr Projekt.",
   },
   {
     title: "Wünsche besprechen",
