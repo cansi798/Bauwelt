@@ -1,0 +1,28 @@
+---
+// Zahlenleiste unter dem Startbild (Kundenwunsch 19.10.2026, Audit 6.6) – Daten: ZAHLEN in data/home.ts.
+import { ZAHLEN } from "../data/home";
+---
+
+<section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen">
+  <ul class="container zahlen__liste">
+    {ZAHLEN.map((z) => (
+      <li class="zahlen__item">
+        <strong>{z.wert}</strong>
+        <span>{z.label}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .zahlen { background: var(--anthrazit-800); color: var(--weiss); }
+  .zahlen__liste {
+    list-style: none; margin: 0 auto; padding-block: 22px;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+    text-align: center;
+  }
+  .zahlen__item { display: grid; gap: 2px; justify-items: center; align-content: start; }
+  .zahlen__item strong { font-family: var(--font-heading); font-weight: 800; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; color: var(--gold-500); }
+  .zahlen__item span { font-size: 14px; line-height: 1.35; color: var(--anthrazit-200); max-width: 22ch; }
+  @media (max-width: 479px) { .zahlen__item span { font-size: 12.5px; } }
+</style>

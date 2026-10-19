@@ -14,6 +14,7 @@ import RefSlider from "../components/RefSlider.astro";
 import Rechner from "../components/Rechner.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import Vertrauensleiste from "../components/Vertrauensleiste.astro";
+import Zahlenleiste from "../components/Zahlenleiste.astro";
 import Faq from "../components/Faq.astro";
 import ServiceArea from "../components/ServiceArea.astro";
 import SectionHead from "../components/SectionHead.astro";
@@ -28,6 +29,7 @@ import { FAQ_HOME } from "../data/home";
   <Hero />
   <div id="weiter"></div>
   <!-- Kundenwunsch 19.10.2026 (Audit 6.2): Vertrauensleiste direkt unter dem Hero -->
+  <Zahlenleiste /> {/* Audit 6.6 */}
   <Vertrauensleiste />
 
   <!-- Kundenwunsch 14.10.2026 (30): „Worauf Sie sich verlassen können“ direkt nach dem Hero, danach der Rechner -->

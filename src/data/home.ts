@@ -18,11 +18,14 @@ export const HERO = {
   bild: "hero.webp",
 };
 
-export const STATS = [
-  { value: 30, prefix: "", suffix: "+", label: "sanierte Bäder" },
-  { value: 15, prefix: "", suffix: "+", label: "Komplettsanierungen" },
-  { value: 10, prefix: "", suffix: "+", label: "Jahre Erfahrung" },
-  { value: 24, prefix: "", suffix: " h", label: "Reaktionszeit" },
+/** Zahlenleiste unter dem Startbild (Kundenwunsch 19.10.2026, Audit 6.6).
+ *  NUR bestätigte Zahlen: 15+ Jahre (Über uns), 12 h / 24 h (Zusagen). Projektzahlen
+ *  (z. B. sanierte Bäder) erst eintragen, wenn Jamil sie bestätigt – die alten Werte
+ *  „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
+export const ZAHLEN = [
+  { wert: "15+", label: "Jahre Erfahrung" },
+  { wert: "12 h", label: "bis zur Antwort (werktags)" },
+  { wert: "24 h", label: "bis zum Angebot" },
 ];
 
 /** Eine Bild-Text-Sektion je Gewerk (Enpal-Produktsektions-Muster) – nur die echten Leistungen. */
