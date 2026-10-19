@@ -140,7 +140,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     <div class="container">
       {hatStellen
         ? <SectionHead eyebrow="Offene Stellen" pre="Aktuell suchen " accent="wir …" />
-        : <SectionHead eyebrow="Offene Stellen" pre="Derzeit suchen wir keine " accent="Verstärkung." />}
+        : <SectionHead eyebrow="Bewerben" pre="Initiativ bewerben – wir suchen immer gute " accent="Leute." /> /* Audit 6.8 (19.10.2026) */}
       <div class:list={["grid", "stellen__grid", { "stellen__grid--leer": !hatStellen }]}>
         {stellen.map((s) => (
           <article class="card stelle reveal">
@@ -175,9 +175,15 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
           <p class="stelle__text">
             Erzählen Sie uns kurz, wer Sie sind und was Sie können. Den Rest besprechen wir persönlich.
           </p>
-          <a class="btn" href={mailBewerbung("Initiativbewerbung")}>
-            <Icon name="mail" size={18} class="icon" /> Jetzt initiativ bewerben
-          </a>
+          {/* Audit 6.8: WhatsApp als Hauptweg, E-Mail daneben */}
+          <div class="stelle__wege">
+            <a class="btn" href={waLink("Hallo Bauwelt Handwerk, ich möchte mich initiativ bewerben. Kurz zu mir: ")} target="_blank" rel="noopener">
+              <Icon name="whatsapp" size={18} class="icon" /> Per WhatsApp bewerben
+            </a>
+            <a class="btn btn--ghost" href={mailBewerbung("Initiativbewerbung")}>
+              <Icon name="mail" size={18} class="icon" /> Per E-Mail
+            </a>
+          </div>
         </article>
       </div>
     </div>
@@ -243,6 +249,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
   .stelle--initiativ { border: 2px dashed var(--gold-500); background: var(--gold-100); }
   .section--sand .stelle--initiativ { background: var(--weiss); }
   .stelle__text { margin: 0; font-size: 15px; color: var(--anthrazit-700); }
+  .stelle__wege { display: flex; flex-wrap: wrap; gap: 10px; }
   .stelle__head h3 { margin: 0 0 4px; font-size: 19px; }
   .stelle__head p { margin: 0; }
   .stelle h4 {
