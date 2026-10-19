@@ -54,7 +54,8 @@ const ergebnis = [
 
 const vorteile = [
   { icon: "calendar", titel: "Kleine Maßnahmen, große Wirkung" /* Audit 5.5: nicht doppelt mit der H2 */, text: "Viele Maßnahmen sind klein und kostengünstig, erhöhen aber Sicherheit und Komfort deutlich. Oft reichen bereits wenige Anpassungen, um das tägliche Leben spürbar zu erleichtern." },
-  { icon: "euro", titel: `Pauschal ${preis} € – wird angerechnet`, text: `Der Check kostet pauschal ${preis} € inkl. MwSt. ${l.data.pauschalHinweis ?? ""}` },
+  // Audit 5.7: Preis steht oben im Startbild und im Abschluss – hier ohne Betrag
+  { icon: "euro", titel: "Wird bei Umsetzung angerechnet", text: l.data.pauschalHinweis ?? "" },
   { icon: "hand", titel: "Zusammen mit unserem Partnerpfleger", text: "Beim Check „Sicher wohnen“ arbeiten wir mit einem Partnerpfleger zusammen." },
 ];
 ---
@@ -85,10 +86,7 @@ const vorteile = [
         <div>
           <SectionHead eyebrow="Das Wichtigste zuerst" pre="Risiken erkennen, bevor sie zum " accent="Problem werden" />
           <div class="zc-prose"><Content /></div>
-          <p class="zc-preis">
-            <Icon name="euro" size={22} class="icon" />
-            <span><strong>Pauschal {preis} € inkl. MwSt.</strong> – wird bei Umsetzung wieder angerechnet.</span>
-          </p>
+          {/* Audit 5.7: Preis-Kasten entfernt – der Preis steht im Startbild und im Abschluss */}
         </div>
         <figure class="zc-intro__bild reveal">
           <Img src="galerie-bad-06.webp" alt="Von Bauwelt umgebautes Bad mit bodengleicher Walk-in-Dusche" w={4} h={5} />

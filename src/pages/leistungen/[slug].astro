@@ -143,7 +143,8 @@ const description =
       <div class="lintro__text">
         <SectionHead eyebrow={kurzTitel} pre={l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`} />
         <div class="ldetail__prose"><Content /></div>
-        <div class="lintro__actions nur-desktop">
+        {/* Audit 5.7: bei Pauschal-Checks kein dritter gleicher Buchen-Button */}
+        <div class:list={["lintro__actions", "nur-desktop", { "lintro__actions--aus": pauschal }]}>
           {buchen.extern
             ? <a class="btn" href={buchen.href} target="_blank" rel="noopener" data-termin>{buchen.label}</a>
             : <a class="btn" href={buchen.href}>{buchen.label}</a>}
@@ -283,6 +284,7 @@ const description =
   .lintro:not(.lintro--bild) { max-width: 860px; }
   .lintro__text { display: grid; gap: 0; justify-items: start; }
   .lintro__actions { margin-top: 28px; }
+  .lintro__actions--aus { display: none !important; }
   .lintro__bild { position: relative; margin: 0; }
   .lintro__bild :global(img) { width: 100%; border-radius: var(--radius-lg, 20px); box-shadow: 0 24px 60px -24px rgba(31, 30, 32, 0.45); }
   .lintro__siegel {

@@ -14,7 +14,7 @@ siegel: "transparenz"
 ablaufZiel: "Ergebnis"
 warum:
   - { icon: "eye", title: "Der Blick vom Fach", text: "Wir sanieren selbst Bäder, Wohnungen und Häuser – und wissen, worauf es bei einer Immobilie ankommt." }
-  - { icon: "euro", title: "Pauschal 595 € – wird angerechnet", text: "Ein fester Preis inkl. MwSt. Und: Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an." }
+  - { icon: "euro", title: "Wird bei Sanierung angerechnet", text: "Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an." } # Audit 5.7: Preis nicht noch einmal
   - { icon: "doc", title: "Klare Zahlen für Ihre Entscheidung", text: "Eine erste Kosteneinschätzung hilft Ihnen bei Kaufpreis, Budget und Finanzierung." }
 umfang:
   - "Besichtigung der Immobilie vor Ort – gern gemeinsam mit Ihnen"
