@@ -10,7 +10,7 @@
 // Buttons (pointerdown/Enter – Beginn des Klicks, nicht beim bloßen Überfahren), und statt eines
 // kleinen Spinners steht sofort ein Kalender-Gerüst (Skeleton) da, bis das Portal gezeichnet ist.
 // Die Bezeichnung des Termintyps IM Portal (Relexable) kann nur im Portal selbst geändert werden.
-import { SITE, TERMIN, waLink } from "../consts";
+import { SITE, TERMIN, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
 const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
@@ -95,6 +95,11 @@ const WA_HREF = waLink();
      Handys, v. a. iOS Safari, den sichtbaren Bereich) */
   .bdlg__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; min-height: 320px; }
   .bdlg__body iframe { display: block; width: 100%; min-height: 640px; border: 0; background: #fff; }
+  /* Einwilligung vor dem Kalender (SEO-/KI-Audit K1) */
+  .bdlg-ok { display: grid; gap: 14px; justify-items: start; padding: 28px 24px; font-size: 15px; line-height: 1.6; }
+  .bdlg-ok p { margin: 0; }
+  .bdlg-ok__titel { font-family: var(--font-heading); font-weight: 700; font-size: 18px; color: var(--anthrazit-900); }
+  .bdlg-ok__alt { font-size: 14px; color: var(--anthrazit-600); }
   .bdlg__fuss { margin: 0; padding: 10px 20px 14px; border-top: 1px solid var(--linie); }
   .bdlg-spinner {
     display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -123,12 +128,32 @@ const WA_HREF = waLink();
   }
 </style>
 
-<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay }}>
+<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay, WA_HREF, DS_HREF: u("datenschutz/#termin"), KONTAKT_HREF: u("kontakt/#rueckruf") }}>
   (function () {
     var dlg = document.getElementById("bookingDialog");
     var body = document.getElementById("bookingBody");
     if (!dlg || !body || typeof dlg.showModal !== "function") return; // Fallback: Link öffnet Portal
     var loaded = false, done = false;
+    // SEO-/KI-Audit K1 (19.10.2026): Das Buchungsportal (Relexable) lädt beim Öffnen Dienste von
+    // Google (Tag Manager, Google Ads, Google Fonts). Deshalb lädt der Kalender erst nach
+    // ausdrücklicher Einwilligung („Kalender laden“); die Einwilligung gilt für diesen Besuch
+    // (sessionStorage) und kann durch Schließen des Tabs „vergessen“ werden.
+    var ZUSTIMMUNG = "bw-kalender-ok";
+    function zugestimmt() { try { return sessionStorage.getItem(ZUSTIMMUNG) === "1"; } catch (e) { return false; } }
+    function hinweis() {
+      body.innerHTML = '<div class="bdlg-ok">' +
+        '<p class="bdlg-ok__titel">Bevor der Kalender lädt</p>' +
+        '<p>Die Terminbuchung läuft über unser Buchungsportal (Relexable). Beim Laden werden Daten wie Ihre IP-Adresse an Relexable und an Google (Google Tag Manager, Google Ads, Google Fonts) übertragen – auch in die USA. ' +
+        'Mehr dazu in der <a href="' + DS_HREF + '" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>' +
+        '<button type="button" class="btn btn--lg bdlg-ok__laden">Einverstanden – Kalender laden</button>' +
+        '<p class="bdlg-ok__alt">Lieber ohne Kalender? Rufen Sie an: <a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a>, schreiben Sie per <a href="' + WA_HREF + '" target="_blank" rel="noopener">WhatsApp</a> oder nutzen Sie unser <a href="' + KONTAKT_HREF + '">Rückruf-Formular</a>.</p>' +
+        '</div>';
+      body.querySelectorAll(".bdlg-ok__alt a").forEach(function (l) { l.addEventListener("click", function () { dlg.close(); }); });
+      body.querySelector(".bdlg-ok__laden").addEventListener("click", function () {
+        try { sessionStorage.setItem(ZUSTIMMUNG, "1"); } catch (e) {}
+        load();
+      });
+    }
 
     function load() {
       if (loaded) return;
@@ -163,7 +188,8 @@ const WA_HREF = waLink();
     }
 
     function open() {
-      load();
+      if (zugestimmt()) load();
+      else if (!loaded) hinweis();
       if (!dlg.open) dlg.showModal();
     }
     dlg.querySelector("[data-close]").addEventListener("click", function () { dlg.close(); });
@@ -183,7 +209,7 @@ const WA_HREF = waLink();
       var a = t && t.closest ? t.closest('[data-termin], a[href$="#termin"]') : null;
       if (!a) return;
       if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
-      load();
+      if (zugestimmt()) load(); // früh laden nur mit Einwilligung (K1)
     }
     document.addEventListener("pointerdown", frueh, { passive: true });
     document.addEventListener("keydown", frueh);
