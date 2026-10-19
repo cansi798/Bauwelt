@@ -1,0 +1,132 @@
+# Audit-Regeln Bauwelt Handwerk
+
+Verbindliche Checkliste aus den beiden Audits – **Website-Audit 17.10.2026** (UX, Design, Animation, Wording, Conversion, Marke; Nummern 1.1–7.8) und **SEO-/KI-Audit 19.10.2026** (S = SEO, L = Lokal, K = KI-Konformität/Recht, G = KI-Plattformen), inkl. Jamils Entscheidungen im Talk-Raum „Bauwelt“ (Nachrichten 2154–2392).
+Berichte: Nextcloud `Bauwelt/Website-Audit/`.
+
+**Auftrag Jamil (19.10.2026, Msg 2392):** „Sobald eine Änderung Auswirkung auf eines der Audit-Themen hat, weise mich darauf hin.“
+
+## So arbeiten (jeder Agent, jede Änderung)
+
+1. Nach dem Build: `node scripts/audit-check.mjs` (läuft auch automatisch in GitHub Actions, blockiert den Deploy nicht).
+2. Jede Zeile `AUDIT-WARNUNG` lesen. Entweder beheben oder bewusst so lassen.
+3. **Berührt eine Änderung ein Thema unten → Jamil im Talk-Raum `gjcy64m2` darauf hinweisen**: *was* sich ändert, *warum* es ein Audit-Thema berührt, *Empfehlung*. Kurz, ohne Fachbegriffe.
+4. Neue Entscheidungen von Jamil hier nachtragen (mit Datum + Audit-Nummer) und, wenn prüfbar, in `scripts/audit-check.mjs` ergänzen.
+
+---
+
+## 1. Texte & Wording (Audit 4.x, 7.5–7.8, K3)
+
+**Einheitsbegriffe (immer so):**
+
+| Thema | So schreiben | Nicht mehr |
+|---|---|---|
+| Termin (4.1) | „Kostenloser Vor-Ort-Termin“, Button „Vor-Ort-Termin buchen“ | Besichtigungstermin, Beratungstermin, Erstes Gespräch, Telefontermin |
+| Rechner-CTA (4.4) | „Preis berechnen“ (im Rechner: „Preisspanne anzeigen“) | Projekt berechnen, Jetzt Preis berechnen, Festpreis ansehen |
+| Rechner-Ergebnis (4.3) | „Preisspanne“, Format „14.340 – 19.500 €“ | Preisrahmen, Preiseinschätzung, Ersteinschätzung, „ab … bis …“ |
+| Preis der Checks (4.2/4.3) | „Pauschalpreis“ (595 € / 249 €) | „Festpreis“ für Checks |
+| Auftragspreis (4.2) | „Festpreis“, Siegel „Festpreis-Zusage“ | Festpreis-Garantie, Preisgarantie |
+| Ansprechpartner (4.6/7.6) | „Ein fester Ansprechpartner“ | deutschsprachiger Ansprechpartner |
+| Reaktionszeit (4.7) | „innerhalb von 12 Stunden (werktags)“ / „Angebot innerhalb von 24 Stunden“ | 12h, Antwort in 12 h |
+| Öffnungszeiten (4.9) | „Mo–Fr 8–18 Uhr“ | Montag - Freitag, 8:00 - 18:00 Uhr |
+| Leistungsnamen (4.5/1.3) | nur die Namen aus `LEISTUNGEN` in `src/consts.ts` (Menü); Name fett/primär, Slogan als Unterzeile | eigene Varianten |
+| Marken-Dreiklang (7.7) | „Planbar. Transparent. Verlässlich.“ | andere Dreiklänge |
+| Eigene Stärken (7.5) | „Keine Lockangebote“, „Verständliche Angebote statt Positionsdschungel“ | „Alles aus einer Hand“ |
+| Partner (6.7) | „seniovo“ klein; OBI seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, Logos (keine Freigabe) |
+| Karriere (4.8/6.8) | positiv: „Faire Bezahlung. Prämien für gute Projekte.“, „Initiativ bewerben – wir suchen immer gute Leute“ | „Derzeit suchen wir keine Verstärkung“, abwertend über die Branche |
+| Erfahrung (K3) | „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre alt) | „15 Jahre“ ohne „im Handwerk“ |
+| Zahlen (6.6) | 40+ sanierte Bäder, 15+ Jahre Erfahrung im Handwerk, 12 h, 24 h | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre |
+
+**Verbotene Aussagen (Werberecht/UWG, K2/K3):**
+- „Meisterbetrieb“ (ist es nicht). Erlaubt nur: „Elektromeisterbetrieb“ als Partner für Endanschlüsse.
+- „Garantie“ ohne verlinkte Bedingungen.
+- Kein „Zuhause-Check 60+“, kein Altersbezug („60+“, „Senior“).
+- Keine erfundenen Bewertungen/Sterne/Kundenstimmen (6.1: es gibt noch keine).
+- Kein „unser Team“ zu KI-Bildern (7.1 – alt-Texte wahrheitsgemäß).
+
+**AGB-konform formulieren (AGB Stand 02/2026, Jamil 19.10.):**
+- Festpreis gilt „für alles, was im Angebot steht“; Änderungen nur mit schriftlichem Nachtrag (Zusatzwünsche, technisch nötige Zusatzarbeiten, verdeckte Mängel, § 6 Materialpreise). **Nicht**: „Preis im Angebot = Preis auf der Rechnung“, „ohne Ihre Freigabe ändert sich nichts“.
+- Termine: nur „schriftlich als verbindlich vereinbart“ (§ 11). **Nicht**: „verbindlicher Zeitplan mit Start- und Endtermin“ ohne „schriftlich“.
+- Elektro: nur Vorarbeiten/Koordination; Endanschlüsse macht ein Elektromeisterbetrieb (§ 13).
+- Demontage/Entsorgung/Untergrund: stehen immer in den Angebotspositionen (Jamil) – Website-Text bleibt.
+- Angebote: Jamil hat Variante **B** gewählt – § 2 AGB wird beim Anwaltscheck zu „verbindliche Festpreisangebote, gültig 30 Tage“. Bis dahin Website wie besprochen.
+- Kostenloser Vor-Ort-Termin: Absage jederzeit kostenfrei; Ausfallkosten (§ 11) nur für vereinbarte Ausführungstermine.
+- **„5 Jahre Gewährleistung“ ist erlaubt** (Jamil 19.10., Msg 2366) – sachlich mit Bezug auf die AGB (FAQ, llms-Dateien). Nicht als reißerisches Siegel.
+
+## 2. Design & Animation (Audit 1.x, 2.x, 3.x)
+
+- Zwei Kartenarten: hell (Radius 16 px, 1 px Linie, kein Schatten) und dunkel (2.1). Kartentitel 18 px / 700 / Satzschreibung (2.2).
+- Gold-Text auf hellem Grund nur dunkles Gold (#8C7345 o. dunkler) – Kontrast ≥ 4,5:1 (2.3). Häkchen überall gold (2.4).
+- Drei Button-Größen S/M/L als Tokens (2.7). Tap-Ziele mobil ≥ 44–48 px (1.9).
+- Hover-Lift nur bei klickbaren Karten, einheitlich 2 px (3.5). Motion-Tokens für Tempo (3.4).
+- Skizzen-Animationen: Texte erscheinen erst mit ihrer Form (Bugfix 19.10.), Linien in ca. 1,5–2 s fertig (3.1); goldene Linien fließen, Siegel-Ringe drehen (Sprachnachricht 19.10.).
+- Hero-Wortwalze bleibt in Dauerschleife (Jamil 1.1), jedes Wort 1,6 s.
+- Kein Ken-Burns-Zoom in den Leistungs-Startbildern, bis schärfere Fotos da sind (3.6).
+- Rechner: Schritt-Anzeige sichtbar, Badsanierung in zwei Mini-Schritten (1.5), kurzer Übergang, Preisspanne zählt hoch (3.7); mobil Liste ohne Silbentrennung (2.9).
+- Mobil: Leistungen im Menü aufgeklappt + Preis berechnen / Vor-Ort-Termin / Telefon (1.6); Sticky-Leiste passend zur Seite (1.7); kein „Nach oben“-Button (1.10); Unterseiten Text zuerst, Bild darunter (2.6); Referenzen waagerecht wischbar (1.4).
+- „Sicher wohnen“ im Aufbau der anderen Leistungsseiten (2.5); alle Leistungsseiten mit Einleitung + Foto (2.8).
+- Eigene Abläufe für Sanierungscheck und Kontakt (1.8); eine gemeinsame Leiste mit 4 Kernvorteilen, Leistungsseiten max. 3 eigene Vorteile (5.1).
+- Keine Doppelungen: allgemeine FAQ nur auf der Startseite (5.6), Zitat nur auf Über uns (5.2), kein doppelter Kontaktblock auf Kontakt (5.4), Preis bei den Checks max. 2× (5.7).
+
+## 3. Bilder & KI-Kennzeichnung (Audit 7.1/7.2, EU-KI-VO Art. 50)
+
+- Jedes KI-Bild steht in `KI_BILDER` (`src/consts.ts`) und trägt sichtbar „KI-generiertes Bild“.
+- Start- und Referenz-Hero mit echtem Projektfoto (7.2); Über uns: KI-Bild eines *fiktiven* Teams, so gekennzeichnet (7.1).
+- Bilder WebP, < 200 KB, alt-Texte wahrheitsgemäß.
+
+## 4. SEO (S1–S11)
+
+- **Titel ≤ 60 Zeichen** mit Leistung + **Norderstedt** (S4, Jamil: „wichtig, wir wollen in Norderstedt und Umkreis sichtbarer werden“).
+- **Beschreibungen ≤ ca. 155 Zeichen**, nennen Norderstedt, Hamburg und Umkreis.
+- Genau eine H1, eigener Titel, Canonical; Rechtsseiten, Login und 404 auf `noindex`.
+- Sitemap mit `<lastmod>` (S8). Termin-Fenster-Titel ist keine Überschrift (S9). Rückruf-Formular ohne `mailto:`-Formularziel (S10).
+- Rechner-Seite mit „So rechnet der Rechner“ + 3 Fragen (S7).
+- **Keine sichtbaren Preisbeispiele auf Leistungsseiten** (S5 – Jamil: nicht umsetzen); Preise nur in llms-full.txt.
+- **Kein sichtbarer Faktenblock** (G2 – nicht gewünscht); Fakten nur in JSON-LD/llms.
+- Offen/extern: Domain-Umzug S1 + noindex der Vorschau S2 (beim Produktivgang), Google-Profil L1, Branchenbücher L2, Bing Webmaster G4.
+
+## 5. Strukturierte Daten (S3)
+
+- Firma als `GeneralContractor` mit Logo, Adresse, Öffnungszeiten, Handwerkskammer, `areaServed` = Orte aus `src/data/region.ts`.
+- **Nur echte Leistungen** (aus `LEISTUNGEN`) – kein Dach, Fassade, Maler, Sanitär/Heizung, Elektro.
+- Je Leistungsseite `Service` (+ Preis bei Checks), `BreadcrumbList`; `FAQPage` wo Fragen stehen.
+- Keine Bewertungs-Daten, solange es keine echten Bewertungen gibt.
+
+## 6. KI-Plattformen (K2, G1, G3, G4)
+
+- `llms.txt` und `llms-full.txt` werden **automatisch aus den Website-Daten** erzeugt (`src/pages/llms*.txt.ts`) – nie von Hand pflegen, keine veralteten Aussagen (Meisterbetrieb, 100 km, Kiel/Lübeck/Stade, alte Zahlen).
+- `robots.txt` erlaubt ausdrücklich: GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, Claude-SearchBot, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended, CCBot, meta-externalagent, Amazonbot, DuckAssistBot, MistralAI-User, Bingbot.
+- IndexNow meldet nach dem Domain-Umzug jede Änderung an Bing (G4).
+
+## 7. Datenschutz & Einwilligung (K1, K4)
+
+- Das Buchungsportal (Relexable, lädt Google Tag Manager/Ads/Fonts) lädt **erst nach Klick auf „Einverstanden – Kalender laden“**. Kein `<iframe>` zum Portal im ausgelieferten HTML, keine Google-Dienste auf der eigenen Seite.
+- Alternativen daneben: Telefon, WhatsApp, Rückruf.
+- Datenschutzerklärung Abschnitt `#termin` (Relexable + Google) muss bleiben. Schriften lokal, keine Cookies, kein Tracking.
+- Vor dem Umzug: Datenschutz juristisch prüfen, Hosting-Abschnitt anpassen.
+
+## 8. AGB & FAQ (K5)
+
+- `/agb/` = AGB Stand Februar 2026, 1:1, mit PDF-Download; Link im Footer neben Impressum/Datenschutz und unter den FAQ.
+- FAQ müssen zu den AGB passen (siehe Abschnitt 1). Ändert sich die AGB → FAQ und llms-Dateien mitprüfen.
+- Jamil soll die AGB vom Anwalt prüfen lassen (Widerrufsbelehrung fehlt, § 2 Variante B).
+
+## 9. Einzugsgebiet & Karte (3.3, 4.10)
+
+- **Eine Quelle:** `src/data/region.ts` (Jamils 2. Karte, 19.10.2026): Hamburg und Umgebung – Wedel, Uetersen, Kellinghusen, Neumünster, Bargteheide, Ahrensburg, Barsbüttel; Sitz Norderstedt; **rund 40 km**.
+- Nicht mehr im Gebiet: Kiel, Lübeck (nur „Handwerkskammer Lübeck“ erlaubt), Stade, Lüneburg, Itzehoe, Bad Oldesloe, Reinbek; keine „50/60/100 km“.
+- Gezeichnete Karte im Skizzen-Stil statt Orts-Laufband; Ortsliste, Texte, JSON-LD und llms immer aus `region.ts`.
+
+## 10. Rechner (Jamil 19.10., Msg 2381)
+
+- **Nichts mehr mit Elektro, Sanitär oder Dach** im Rechner (Optionen, Hinweise, Fachbegriffe) – in allen Varianten.
+- Preisspanne vor jeder Datenabfrage, Rückruf-Formular darunter (6.3, geht an service@bauwelt-handwerk.de).
+
+## 11. Barrierefreiheit & Bewegung (K6, 1.9)
+
+- `prefers-reduced-motion` wird respektiert (Animationen aus, Endzustand sichtbar). Ohne JavaScript bleibt alles sichtbar.
+- Alle Bilder mit `alt`, `lang="de"`. Kleinbetrieb → keine BFSG-Pflicht (K6), Niveau trotzdem halten (Lighthouse 100).
+
+## 12. Performance (1.11, S6, S11)
+
+- Logo als kleine WebP (kein PNG), Startbild am Handy in kleiner Variante (`hero-828.webp`), Zeichnungen erst bei Bedarf aufbauen.
+- Bilder < 200 KB. Beim eigenen Hosting lange Cache-Zeiten (S11).

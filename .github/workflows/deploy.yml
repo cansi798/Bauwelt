@@ -30,6 +30,11 @@ jobs:
         with:
           # Astro 7 benötigt Node >= 22.12 (Action-Default ist 20).
           node-version: 22
+      # Audit-Wächter (Jamil 19.10.2026): prüft dist/ gegen beide Audits (AUDIT-REGELN.md).
+      # Blockiert den Deploy nie – Befunde erscheinen als „AUDIT-WARNUNG“ im Log und als Warnungen im Actions-Lauf.
+      - name: Audit-Check
+        continue-on-error: true
+        run: node scripts/audit-check.mjs
 
   deploy:
     needs: build

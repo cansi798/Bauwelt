@@ -21,6 +21,7 @@ if [ ! -d node_modules ] || [ package-lock.json -nt node_modules/.package-lock.j
 fi
 node node_modules/astro/bin/astro.mjs build
 node scripts/check-dom.mjs
+node scripts/audit-check.mjs   # Audit-Wächter (AUDIT-REGELN.md), bricht nie ab
 
 rsync -a --delete dist/ "$PROJEKT/dist/"
 echo "✓ dist/ nach $PROJEKT/dist zurückgespielt"

@@ -42,3 +42,7 @@ Vor Abschluss einer Änderung diese Punkte durchgehen. Nur abhaken, was tatsäch
 ## Vor jedem Commit/Push
 - `git status` / `git diff` sichten: nichts Vertrauliches, keine `.env`, keine Keys, keine großen Binärdumps.
 - Build läuft fehlerfrei (`node node_modules/astro/astro.js build`).
+
+## Audit-Wächter (Pflicht, Jamil 19.10.2026)
+- **Vor jedem Commit audit-check laufen lassen:** nach `astro build` → `node scripts/audit-check.mjs`. Regeln aus Website-Audit 17.10. und SEO-/KI-Audit 19.10. stehen in `AUDIT-REGELN.md` (u. a. Titel ≤ 60 Zeichen mit Norderstedt, keine verbotenen Aussagen wie „Meisterbetrieb“, KI-Bild-Kennzeichnung, llms.txt aus den Daten, KI-Crawler erlaubt, Buchungsportal erst nach Einwilligung, AGB/FAQ konsistent, Gebiet aus `region.ts`, Rechner ohne Elektro/Sanitär/Dach).
+- **Betrifft eine Änderung ein Audit-Thema → Jamil im Talk-Raum (`gjcy64m2`) darauf hinweisen: was, warum, Empfehlung.**
