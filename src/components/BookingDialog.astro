@@ -5,6 +5,11 @@
 // DSGVO: Der iframe (Drittanbieter) lädt erst beim ERSTEN Klick. Ohne JS führt
 // der Link (href = TERMIN.href) direkt zum Buchungsportal im neuen Tab.
 // postMessages (Höhe, Bestätigung) werden streng origin-geprüft.
+// Kundenwunsch 19.10.2026 (Audit 6.4): Titel + Unterzeile versprechen dasselbe wie der Button
+// („Kostenloser Vor-Ort-Termin“). Schneller: Der Kalender lädt schon beim Antippen/Drücken des
+// Buttons (pointerdown/Enter – Beginn des Klicks, nicht beim bloßen Überfahren), und statt eines
+// kleinen Spinners steht sofort ein Kalender-Gerüst (Skeleton) da, bis das Portal gezeichnet ist.
+// Die Bezeichnung des Termintyps IM Portal (Relexable) kann nur im Portal selbst geändert werden.
 import { SITE, TERMIN, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
@@ -15,7 +20,10 @@ const WA_HREF = waLink();
 
 <dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}>
   <div class="bdlg__kopf">
-    <h2 id="bookingDialogTitle">{TERMIN.label}</h2>
+    <div class="bdlg__titel">
+      <h2 id="bookingDialogTitle">{TERMIN.label}</h2>
+      <p class="bdlg__unter">Wir kommen zu Ihnen nach Hause – kostenlos und unverbindlich.</p>
+    </div>
     <button class="bdlg__close" type="button" data-close aria-label="Buchungsfenster schließen">
       <Icon name="close" size={24} class="icon" />
     </button>
@@ -48,6 +56,32 @@ const WA_HREF = waLink();
     border-bottom: 1px solid var(--linie);
   }
   .bdlg__kopf h2 { margin: 0; font-size: 17px; text-transform: none; letter-spacing: 0; }
+  .bdlg__titel { display: grid; gap: 2px; min-width: 0; }
+  .bdlg__unter { margin: 0; font-size: 14px; line-height: 1.4; color: var(--anthrazit-600); }
+  /* Kalender-Gerüst (Skeleton) liegt über dem iframe, bis das Portal gezeichnet ist */
+  .bdlg__body { position: relative; }
+  .bdlg-skel {
+    position: absolute; inset: 0; z-index: 1;
+    display: grid; align-content: start; gap: 14px;
+    padding: 24px 20px;
+    background: var(--weiss);
+    transition: opacity 0.25s ease;
+  }
+  .bdlg-skel.is-weg { opacity: 0; pointer-events: none; }
+  .bdlg-skel__info { margin: 0; font-size: 14px; color: var(--anthrazit-600); }
+  .bdlg-skel__zeile { height: 18px; width: 45%; border-radius: 8px; }
+  .bdlg-skel__tage { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+  .bdlg-skel__tag { aspect-ratio: 1; border-radius: 10px; }
+  .bdlg-skel__zeiten { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+  .bdlg-skel__zeit { height: 40px; border-radius: 10px; }
+  .bdlg-skel__zeile, .bdlg-skel__tag, .bdlg-skel__zeit {
+    background: linear-gradient(90deg, var(--gold-100) 0%, #FAF8F4 50%, var(--gold-100) 100%);
+    background-size: 200% 100%;
+    animation: bdlg-schimmer 1.2s ease-in-out infinite;
+  }
+  @keyframes bdlg-schimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+  .bdlg-skel__lang { margin: 4px 0 0; font-size: 14px; color: var(--anthrazit-700); }
+  .bdlg-skel__lang[hidden] { display: none; }
   .bdlg__close {
     flex: none;
     width: 44px; height: 44px;
@@ -85,6 +119,7 @@ const WA_HREF = waLink();
   @media (max-width: 767px) {
     .bdlg { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
     .bdlg__kopf h2 { font-size: 15px; }
+    .bdlg__unter { font-size: 13px; }
   }
 </style>
 
@@ -98,17 +133,33 @@ const WA_HREF = waLink();
     function load() {
       if (loaded) return;
       loaded = true;
-      body.innerHTML = '<div class="bdlg-spinner" id="bookingSpinner"><span class="bdlg-spinner__ring"></span><span>Kalender wird geladen …</span></div>';
+      var tage = "", zeiten = "";
+      for (var i = 0; i < 14; i++) tage += '<span class="bdlg-skel__tag"></span>';
+      for (var j = 0; j < 6; j++) zeiten += '<span class="bdlg-skel__zeit"></span>';
+      body.innerHTML = '<div class="bdlg-skel" id="bookingSkel" aria-live="polite">' +
+        '<p class="bdlg-skel__info">Freie Termine werden geladen …</p>' +
+        '<span class="bdlg-skel__zeile"></span><div class="bdlg-skel__tage">' + tage + '</div>' +
+        '<div class="bdlg-skel__zeiten">' + zeiten + '</div>' +
+        '<p class="bdlg-skel__lang" id="bookingLang" hidden>Dauert es zu lange? Rufen Sie uns einfach an: ' +
+        '<a href="tel:' + PHONE_TEL + '">' + PHONE_DISPLAY + '</a></p></div>';
       var frame = document.createElement("iframe");
       frame.src = dlg.dataset.src;
       frame.id = "relexable-booking";
-      frame.title = "Termin online buchen";
+      frame.title = "Kostenlosen Vor-Ort-Termin online buchen";
       frame.setAttribute("referrerpolicy", "no-referrer");
-      frame.addEventListener("load", function () {
-        var s = document.getElementById("bookingSpinner");
-        if (s) s.remove();
-      });
+      frame.setAttribute("fetchpriority", "high");
+      // Gerüst ausblenden, sobald das Portal gezeichnet ist (erste Höhen-Meldung) –
+      // spätestens 1,5 s nach dem Laden des iframes
+      frame.addEventListener("load", function () { setTimeout(fertig, 1500); });
+      setTimeout(function () { var l = document.getElementById("bookingLang"); if (l) l.hidden = false; }, 8000);
       body.appendChild(frame);
+    }
+
+    function fertig() {
+      var s = document.getElementById("bookingSkel");
+      if (!s || s.classList.contains("is-weg")) return;
+      s.classList.add("is-weg");
+      setTimeout(function () { s.remove(); }, 300);
     }
 
     function open() {
@@ -126,6 +177,16 @@ const WA_HREF = waLink();
       e.preventDefault();
       open();
     });
+    // Schneller laden: schon beim Drücken/Antippen (Beginn des Klicks) bzw. Enter auf dem Button
+    function frueh(e) {
+      var t = e.target;
+      var a = t && t.closest ? t.closest('[data-termin], a[href$="#termin"]') : null;
+      if (!a) return;
+      if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+      load();
+    }
+    document.addEventListener("pointerdown", frueh, { passive: true });
+    document.addEventListener("keydown", frueh);
     // Direktaufruf mit #termin (alte Links, Lesezeichen) öffnet das Fenster
     if (location.hash === "#termin") open();
 
@@ -135,6 +196,7 @@ const WA_HREF = waLink();
       if (d.type === "relexable-booking-height") {
         var frame = document.getElementById("relexable-booking");
         if (frame && d.height) frame.style.height = d.height + "px";
+        fertig();
         return;
       }
       var signal = ((d.type || d.event || d.status || "") + "").toLowerCase();
