@@ -47,7 +47,8 @@ for (const file of pages) {
   if (!html.includes('id="siteHeader"')) err(page, "Header fehlt");
   if (!/class="ftr[ "]/.test(html)) err(page, "Footer fehlt");
   // Kundenwunsch 11.10.2026 (10): Karriere & Partner nur Footer-Navigation
-  const nurNav = page === "/karriere/" || page === "/partner/";
+  // + Kontakt seit Kundenwunsch 19.10.2026 (Audit 5.4)
+  const nurNav = page === "/karriere/" || page === "/partner/" || page === "/kontakt/";
   if (nurNav === html.includes("fkontakt")) err(page, nurNav ? "Footer-Kontaktkopf soll fehlen" : "Footer-Kontaktkopf fehlt");
 
   // Interne Links müssen als Datei existieren
