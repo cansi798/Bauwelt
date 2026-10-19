@@ -136,10 +136,10 @@ export const BAD_STUFE = 1500;
 export const BAD_SCHNELL_SPANNE = 5160;
 /** Extras der detaillierten Kalkulation – Bruttopreise, werden Kunden NICHT angezeigt
  *  (Kundenwunsch 14.10.2026 (47)). Reihenfolge = Anzeige-Reihenfolge. */
+// Jamil 19.10.2026 (Talk 2381): keine Elektro-/Sanitär-/Dach-Gewerke mehr im Rechner →
+// Extras „LED-Spots“ (Elektro) und „Fußbodenheizung“ (Elektro bzw. Heizung/Sanitär) entfernt.
 export const BAD_EXTRAS: Extra[] = [
   { id: "grosse-fliesen", label: "Große Fliesen", fach: "Großformatfliesen (statt Standardformat)", preis: 35, proM2: true },
-  { id: "led-spots", label: "LED-Spots", fach: "LED-Einbaustrahler", preis: 400 },
-  { id: "fussbodenheizung", label: "Fußbodenheizung", fach: "Fußbodenheizung", preis: 800 },
   { id: "sitzbank", label: "Sitzbank verfliest", fach: "Gemauerte Sitzbank, gefliest", preis: 400 },
   { id: "bodeneben", label: "Bodenebene Dusche verfliest", fach: "Bodengleiche Dusche, gefliest (inkl. Abdichtung)", preis: 550 },
 ];
@@ -170,12 +170,11 @@ export const GEWERKE: Gewerk[] = [
       {
         id: "bad", label: "Badsanierung",
         hint: "Komplett neues Bad – Preis nach Badgröße, auf Wunsch mit Extras",
-        // Standard-Inhalt = bisheriges „Basis“-Niveau
+        // Standard-Inhalt = bisheriges „Basis“-Niveau; Jamil 19.10.2026 (Talk 2381): ohne
+        // „Leitungen bis zum Knotenpunkt“ / „Position der Sanitärobjekte anpassbar“ (Sanitär-Gewerk).
         enthalten: [
           "Dusche ODER Badewanne (nicht beides)",
           "WC und Waschtisch",
-          "Leitungen bis zum Knotenpunkt erneuert",
-          "Position der Sanitärobjekte anpassbar",
           "Standard-Fliesen",
           "Alle übrigen Teile und Material",
         ],
@@ -199,7 +198,6 @@ export const GEWERKE: Gewerk[] = [
     ],
     bausteine: [
       { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau und Entsorgung von Wanne, Fliesen & Co." },
-      { id: "rohinstallation", label: "Wasser & Strom verlegen", fach: "Sanitär- & Elektro-Rohinstallation", hint: "Neue Leitungen für Dusche, WC und Waschtisch" },
       { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche" },
       { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest" },
       { id: "ausstattung", label: "Neue Einrichtung", fach: "Objektmontage & Ausstattung", hint: "Dusche, WC, Waschtisch und Möbel montiert" },
@@ -219,15 +217,15 @@ export const GEWERKE: Gewerk[] = [
     netto: true,
     faktor: 0.5,
     spanne: 0.25,
+    // Jamil 19.10.2026 (Talk 2381): keine Elektro-/Sanitär-Leitungen mehr (Texte + Baustein „technik“ entfernt).
     tiers: [
       { id: "basis", label: "Renovierung", hint: "Oberflächen erneuern: Böden, Wände, Türen" },
-      { id: "komfort", label: "Teilsanierung", hint: "Inkl. Bad/Küche, Elektrik in Teilen" },
-      { id: "premium", label: "Kernsanierung", hint: "Bis auf den Rohbau, alle Leitungen neu" },
+      { id: "komfort", label: "Teilsanierung", hint: "Zusätzlich Fliesen und Oberflächen in Bad und Küche" },
+      { id: "premium", label: "Kernsanierung", hint: "Bis auf den Rohbau, alle Oberflächen und Einbauten neu" },
     ],
     bausteine: [
       { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
       { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
-      { id: "technik", label: "Leitungen & Technik neu", fach: "Elektro-, Sanitär- & Heizungsinstallation", hint: "Strom, Wasser und Heizung auf neuen Stand" },
       { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu" },
       { id: "endmontage", label: "Fertig einrichten", fach: "Endmontage & Übergabe", hint: "Alles montiert, geprüft und besenrein übergeben" },
     ],
@@ -270,10 +268,11 @@ export const GEWERKE: Gewerk[] = [
     proEinheit: { basis: 450, komfort: 650, premium: 900 },
     netto: false,
     spanne: 0.25,
+    // Jamil 19.10.2026 (Talk 2381): „Komplett“ ohne Elektro/Beleuchtung.
     tiers: [
       { id: "basis", label: "Basis", hint: "Wände/Decken stellen, spachteln, streichfertig" },
       { id: "komfort", label: "Ausbau", hint: "Inkl. Böden, Türen, Schallschutz" },
-      { id: "premium", label: "Komplett", hint: "Inkl. Elektro, Beleuchtung, Maßeinbauten" },
+      { id: "premium", label: "Komplett", hint: "Inkl. Böden, Türen, Schallschutz und Maßeinbauten" },
     ],
     bausteine: [
       { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht" },
