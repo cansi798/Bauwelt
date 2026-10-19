@@ -2,7 +2,7 @@
 // Unterseiten-Hero: Headline + Lead links, Bild rechts (Mobil: Bild oben), optionaler CTA.
 // Mit Haupt-CTA erscheint zusätzlich der Zweit-CTA zur Terminbuchung samt
 // Rechner-Hinweis (gleiches Muster wie der Startseiten-Hero).
-import { u } from "../consts";
+import { TERMIN, u } from "../consts";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
 
@@ -48,7 +48,7 @@ const istRechner = Boolean(ctaHref?.includes("rechner/"));
           </div>
           {!ohneTermin && (
             <a class="btn btn--lg btn--ghost nur-desktop" href={u("kontakt/#termin")}>
-              Kostenlosen Besichtigungstermin buchen
+              {TERMIN.label}
             </a>
           )}
         </div>

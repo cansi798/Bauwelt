@@ -50,7 +50,7 @@ faq:
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
   - { q: "Verlegen Sie auch Großformatfliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir entsprechend vor, damit die Fliesen plan liegen und die Fugen gerade verlaufen." }
-  - { q: "Wie läuft die Besichtigung ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Die Besichtigung ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
+  - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
   - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 

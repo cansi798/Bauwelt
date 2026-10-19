@@ -302,7 +302,7 @@ export const PAUSCHAL: Pauschal[] = [
     slug: "sicher-wohnen", // Kundenwunsch 17.10.2026 (82): früher „Zuhause-Check 60+“
     label: name("sicher-wohnen"),
     icon: "heim",
-    cta: "Beratungstermin anfragen",
+    cta: "Check „Sicher wohnen“ buchen", // Audit 4.1: kein eigener Termin-Begriff (Pauschal-Check wie Sanierungscheck)
   },
 ];
 

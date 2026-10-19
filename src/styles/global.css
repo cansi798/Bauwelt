@@ -310,7 +310,7 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
 }
 .text-center { text-align: center; }
 
-/* Mobil/Tablet stehen Rechner + Besichtigungstermin dauerhaft in der festen
+/* Mobil/Tablet stehen Rechner + Vor-Ort-Termin dauerhaft in der festen
    Leiste unten – doppelte Buttons im Seiteninhalt entfallen dort
    (Kundenfeedback 07.10.2026). */
 @media (max-width: 1023px) { .nur-desktop { display: none !important; } }

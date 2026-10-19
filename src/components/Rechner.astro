@@ -230,11 +230,11 @@ const weich = (t: string) =>
       <div class="rechner__contact">
         {start ? (
           <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
-            <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
+            <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
           </a>
         ) : (
           <a class="btn btn--lg" href="#termin">
-            <Icon name="calendar" size={20} class="icon" /> Kostenlosen Termin buchen
+            <Icon name="calendar" size={20} class="icon" /> {TERMIN.label}
           </a>
         )}
         <a class="btn btn--dark btn--lg" id="rWhatsapp" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener">

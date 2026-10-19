@@ -1,6 +1,6 @@
 ---
 // Kontakt – Kundenwunsch 14.10.2026 (40): finale Struktur von Jamil, Texte wörtlich:
-// 1 Hero → 2 So erreichen Sie uns (4 Wege, Besichtigungstermin = Sprungziel #termin, öffnet das
+// 1 Hero → 2 So erreichen Sie uns (4 Wege, Vor-Ort-Termin = Sprungziel #termin, öffnet das
 // Buchungsfenster wie bisher die Termin-Karte) → 3 Was passiert nach Ihrer Anfrage? (gezeichneter
 // Ablauf der Startseite) → 5 Einzugsgebiet (mit Adresse + Route statt Karten-Embed – DSGVO)
 // → 6 Persönlicher Ansprechpartner (Burim Ahmedi). Direktkontakt steht zusätzlich im Footer-Kopf.
@@ -22,14 +22,14 @@ const WEGE: Weg[] = [
   { icon: "whatsapp", title: "WhatsApp", text: "Für schnelle Fragen und unkomplizierte Abstimmungen.", label: "Per WhatsApp schreiben", href: waLink(), extern: true },
   { icon: "mail", title: "E-Mail", text: "Für Anfragen, Unterlagen oder ausführlichere Informationen.", label: "E-Mail schreiben", href: `mailto:${EMAILS.service}` },
   { icon: "phone", title: "Telefon", text: "Direkter Kontakt für alle Fragen rund um Ihr Projekt.", label: `${SITE.phoneDisplay} anrufen`, href: `tel:${SITE.phoneTel}` },
-  { icon: "calendar", title: "Besichtigungstermin", text: "Vereinbaren Sie direkt einen Termin vor Ort.", label: "Termin buchen", href: TERMIN.href, extern: true, termin: true, id: "termin" },
+  { icon: "calendar", title: TERMIN.begriff, text: "Vereinbaren Sie direkt einen Termin bei Ihnen vor Ort.", label: TERMIN.kurz, href: TERMIN.href, extern: true, termin: true, id: "termin" },
 ];
 
 ---
 
 <BaseLayout
   title="Kontakt – Bauwelt Handwerk in Norderstedt"
-  description="Kontakt zur Bauwelt Handwerk GmbH – WhatsApp, E-Mail, Telefon oder direkt einen Besichtigungstermin buchen. Schweriner Straße 16, 22844 Norderstedt."
+  description="Kontakt zur Bauwelt Handwerk GmbH – WhatsApp, E-Mail, Telefon oder direkt einen kostenlosen Vor-Ort-Termin buchen. Schweriner Straße 16, 22844 Norderstedt."
 >
   <!-- 1. Hero – Buttons nur Desktop (mobil stehen Termin + Rechner in der festen Leiste) -->
   <PageHero
@@ -42,7 +42,7 @@ const WEGE: Weg[] = [
   >
     <p>
       Sie entscheiden selbst, wie Sie mit uns Kontakt aufnehmen möchten. Per WhatsApp, E-Mail, Telefon
-      oder über einen direkten Besichtigungstermin.
+      oder über einen direkten kostenlosen Vor-Ort-Termin.
     </p>
     {/* Kundenwunsch 15.10.2026 (63): Buttons im Kontakt-Hero entfernt */}
   </PageHero>
@@ -76,7 +76,7 @@ const WEGE: Weg[] = [
       <SectionHead center eyebrow="So geht es weiter" pre="Klar. Einfach. " accent="Transparent." />
       <RoughSzene
         szene="weg"
-        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – persönlicher Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
       />
     </div>
   </section>

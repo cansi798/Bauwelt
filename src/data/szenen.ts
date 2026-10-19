@@ -175,7 +175,7 @@ const WEG_MOTIVE = [rechner, sprechblasen, dokument, entspannen];
 // Unterzeilen je Station (mehrzeilig möglich – Schritt 4 laut Kundenfeedback 30.09.2026)
 const WEG_UNTER: string[][] = [
   ["Preis in wenigen Minuten"],
-  ["Persönlicher Termin"],
+  ["Kostenloser Vor-Ort-Termin"], // Audit 4.1 (früher „Persönlicher Termin“)
   ["Angebot in 24 Stunden"],
   ["Wir koordinieren alles", "und setzen es für Sie um"],
 ];

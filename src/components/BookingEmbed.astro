@@ -9,14 +9,14 @@ import Icon from "./Icon.astro";
   <div class="booking__intro">
     <Icon name="calendar" size={48} class="icon booking__icon" />
     <h3>Termin online buchen</h3>
-    <p>Wählen Sie direkt einen passenden Termin für Ihre kostenlose Besichtigung.</p>
+    <p>Wählen Sie direkt eine passende Zeit für Ihren kostenlosen Vor-Ort-Termin.</p>
     <ul class="check-row booking__chips">
       <li><Icon name="check" size={16} class="icon" /> Kostenlos</li>
       <li><Icon name="check" size={16} class="icon" /> Unverbindlich</li>
       <li><Icon name="clock" size={16} class="icon" /> Antwort in 12 h</li>
     </ul>
     <a class="btn" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
-      <Icon name="calendar" size={18} class="icon" /> Termin buchen
+      <Icon name="calendar" size={18} class="icon" /> Vor-Ort-Termin buchen
     </a>
     <p class="small">
       Lieber direkt? <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a> ·

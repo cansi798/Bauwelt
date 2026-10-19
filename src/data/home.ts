@@ -117,7 +117,7 @@ export const USP = [
   {
     icon: "euro",
     title: "Zum Festpreis fertig",
-    text: "Nach der Besichtigung erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.",
+    text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.",
     szene: "uspFestpreis" as const,
     bild: "galerie-innenausbau-04.webp",
     alt: "Von Bauwelt ausgebautes Büro mit Holzlamellen-Wand",

@@ -44,12 +44,14 @@ export const SITE = {
 /** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
 export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
 
-/** Besichtigungstermin (Kundenfeedback 30.09.2026): Alle Termin-Buttons öffnen
+/** Kostenloser Vor-Ort-Termin (Kundenfeedback 30.09.2026): Alle Termin-Buttons öffnen
  *  per JS das Buchungsfenster (BookingDialog, `data-termin`). Ohne JS führt der
  *  Link direkt zum Relexable-Buchungsportal (neuer Tab). */
 export const TERMIN = {
-  label: "Kostenlosen Besichtigungstermin buchen",
-  kurz: "Besichtigungstermin buchen",
+  // Kundenwunsch 19.10.2026 (Audit 4.1): EIN Begriff überall – „Kostenloser Vor-Ort-Termin“
+  label: "Kostenlosen Vor-Ort-Termin buchen",
+  kurz: "Vor-Ort-Termin buchen",
+  begriff: "Kostenloser Vor-Ort-Termin",
   href: "https://portal.bauwelt-handwerk.de/buchen",
 };
 

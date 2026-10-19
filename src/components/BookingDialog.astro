@@ -5,7 +5,7 @@
 // DSGVO: Der iframe (Drittanbieter) lädt erst beim ERSTEN Klick. Ohne JS führt
 // der Link (href = TERMIN.href) direkt zum Buchungsportal im neuen Tab.
 // postMessages (Höhe, Bestätigung) werden streng origin-geprüft.
-import { SITE, waLink } from "../consts";
+import { SITE, TERMIN, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
 const BOOKING_ORIGIN = "https://portal.bauwelt-handwerk.de";
@@ -15,7 +15,7 @@ const WA_HREF = waLink();
 
 <dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}>
   <div class="bdlg__kopf">
-    <h2 id="bookingDialogTitle">Kostenlosen Besichtigungstermin buchen</h2>
+    <h2 id="bookingDialogTitle">{TERMIN.label}</h2>
     <button class="bdlg__close" type="button" data-close aria-label="Buchungsfenster schließen">
       <Icon name="close" size={24} class="icon" />
     </button>

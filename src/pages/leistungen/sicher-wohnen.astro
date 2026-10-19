@@ -8,7 +8,7 @@
 // Kernsatz (Hero-Claim + Zitatband): „Möglichst lange selbstständig in den eigenen vier Wänden leben.“
 // Barrierearm lesbar: größere Schrift, hoher Kontrast, große Buttons (auch mobil), ruhiger Ton.
 // Preis, Umfang (Rechner-Festpreisfenster) und FAQ: content/leistungen/sicher-wohnen.md.
-// CTA „Beratungstermin anfragen“ wie beim Sanierungscheck → Kontaktseite #termin (Buchungsfenster).
+// CTA „Check „Sicher wohnen“ buchen“ (Audit 4.1, früher „Beratungstermin anfragen“) wie beim Sanierungscheck → Kontaktseite #termin (Buchungsfenster).
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LeistungHero from "../../components/LeistungHero.astro";
@@ -23,7 +23,7 @@ const leistung = leistungBySlug("sicher-wohnen");
 if (!l || !leistung || !l.data.pauschalpreis) throw new Error("Sicher wohnen: Content-Datei oder LEISTUNGEN-Eintrag fehlt");
 const { Content } = await render(l);
 const preis = l.data.pauschalpreis.toLocaleString("de-DE");
-const cta = { href: u("kontakt/#termin"), label: "Beratungstermin anfragen" };
+const cta = { href: u("kontakt/#termin"), label: "Check „Sicher wohnen“ buchen" };
 
 /** ❌/✅ aus Jamils Text: Mittel zum Zweck vs. das, worauf es wirklich ankommt. */
 

@@ -59,7 +59,7 @@ export const VERSPRECHEN: Siegel[] = [
     id: "angebot",
     icon: "doc",
     title: "Angebot innerhalb von 24 Stunden",
-    short: "Nach der Besichtigung schnell Klarheit.",
+    short: "Nach dem Vor-Ort-Termin schnell Klarheit.",
     long:
       "Nach dem Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches " +
       "Angebot mit klaren Leistungen und festen Preisen – digital abrufbar und freigebbar.",

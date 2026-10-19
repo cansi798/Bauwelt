@@ -52,7 +52,7 @@ import MobileMenu from "./MobileMenu.astro";
       <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={25} />
       </a>
-      <!-- Login entfernt (Kundenfeedback 30.09.2026) – stattdessen Besichtigungstermin -->
+      <!-- Login entfernt (Kundenfeedback 30.09.2026) – stattdessen Vor-Ort-Termin -->
       <a class="hdr__termin" href={TERMIN.href} target="_blank" rel="noopener" data-termin aria-label={TERMIN.label}>
         <Icon name="calendar" size={18} class="icon" /> <span>{TERMIN.kurz}</span>
       </a>
@@ -162,7 +162,7 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__iconbtn:hover { background: var(--gold-100); }
   .hdr__cta { display: none; }
-  /* Besichtigungstermin: mobil nur Kalender-Symbol, ab Desktop mit Text */
+  /* Vor-Ort-Termin: mobil nur Kalender-Symbol, ab Desktop mit Text */
   .hdr__termin {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 14px;

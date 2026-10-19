@@ -47,7 +47,7 @@ faq:
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }
   - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir spachteln die Flächen glatt und übergeben sie streichfertig – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
-  - { q: "Wie läuft die Besichtigung ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Die Besichtigung ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
+  - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
   - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 
