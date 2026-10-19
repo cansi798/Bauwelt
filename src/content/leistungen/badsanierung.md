@@ -25,7 +25,7 @@ ablauf:
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
 claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
 # Kundenwunsch 16.10.2026 (76): Beratungs-Satz; seit (77) im Lead, weil der Intro-Abschnitt entfällt
-lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
+lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
 ohneIntro: true
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
@@ -54,7 +54,7 @@ faq:
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
   - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 

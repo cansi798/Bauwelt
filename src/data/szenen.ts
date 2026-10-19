@@ -162,7 +162,7 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
   regional: ["Regional", "vor Ort"],
   festpreis: ["Festpreis-", "Zusage"], // Audit 4.2 (19.10.2026): „Zusage“ statt „Garantie“
   termin: ["Termin-", "treue"],
-  ansprechpartner: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 14.10.2026 (50) / 15.10. (55)
+  ansprechpartner: ["Ein fester", "Ansprech-", "partner"], // Audit 7.6 (19.10.2026), früher „Deutschsprachiger Ansprechpartner“
   antwort: ["Antwort in", "12 Stunden"],
   angebot: ["Angebot in", "24 Stunden"],
   transparenz: ["Volle", "Transparenz"],
@@ -264,7 +264,7 @@ const PARTNER_TITEL: string[][] = [["Anfrage senden"], ["Abstimmung"], ["Umsetzu
 const PARTNER_UNTER: string[][] = [
   ["Beschreiben Sie kurz", "Ihr Anliegen."],
   ["Wir besprechen Umfang,", "Anforderungen und Abläufe."],
-  ["Festpreis, feste, deutsch-", "sprachige Ansprechpartner", "und saubere Dokumentation."],
+  ["Festpreis, ein fester", "Ansprechpartner und", "saubere Dokumentation."],
   ["Klare Prozesse für", "wiederkehrende Projekte."],
 ];
 const partnerWeg = (a: Ansicht) => wegSzene(a, PARTNER_TITEL, PARTNER_UNTER, [papierflieger, sprechblasen, dokument, wiederkehrend]);
@@ -401,7 +401,7 @@ function siegelSzene(
     // Desktop hat breitere Spalten – dort ohne Trennstrich
     const zeilen =
       eigeneZeilen[id] ? eigeneZeilen[id][a]
-      : !mobil && id === "ansprechpartner" ? ["Deutsch-", "sprachiger", "Ansprechpartner"]
+      : !mobil && id === "ansprechpartner" ? ["Ein fester", "Ansprechpartner"]
       : !mobil && id === "deutsch" ? ["Deutsch-", "sprachiger", "Ansprechpartner"]
       : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);

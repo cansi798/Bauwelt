@@ -23,7 +23,7 @@ refBilder:
 ablaufZiel: "neuen Boden"
 siegel: "festpreis"
 claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
-lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
+lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Neue Böden – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Fliesen- & Bodenarbeiten?"
@@ -48,7 +48,7 @@ faq:
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
   - { q: "Verlegen Sie auch Großformatfliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund – den bereiten wir entsprechend vor, damit die Fliesen plan liegen und die Fugen gerade verlaufen." }
   - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 
 Sie wünschen sich neue Fliesen oder einen neuen Boden, aber keine schiefen Fugen, keine hohlen Stellen und keinen Staub in der ganzen Wohnung?

@@ -20,7 +20,7 @@ ablauf:
   - { title: "Konzept", text: "Sie erhalten einen klaren Plan mit Preis und Zeitrahmen." }
   - { title: "Umsetzung", text: "Wir sanieren sauber und halten Sie auf dem Laufenden." }
 claim: "Ihre Immobilie wie neu. Durchdacht geplant. Aus einer Hand umgesetzt."
-lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Deutschsprachiger Ansprechpartner, Festpreis und strukturierter Ablauf."
+lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Ihre Sanierung – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preiseinschätzung. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Sanierung?"
@@ -42,9 +42,9 @@ faq:
   - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den genauen Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest." }
   - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
   - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
-  - { q: "Übernehmen Sie auch die Planung?", a: "Ja. Wir planen, koordinieren und setzen um – Sie haben einen deutschsprachigen Ansprechpartner für alles." }
+  - { q: "Übernehmen Sie auch die Planung?", a: "Ja. Wir planen, koordinieren und setzen um – Sie haben einen festen Ansprechpartner für alles." }
   - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen, deutschsprachigen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
+  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für bestimmte Maßnahmen – etwa barrierearme Umbauten oder energetische Modernisierungen – gibt es Förderprogramme und Zuschüsse. Welche für Ihr Vorhaben infrage kommen, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 
