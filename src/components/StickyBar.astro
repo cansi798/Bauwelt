@@ -45,7 +45,7 @@ const { knoepfe = STANDARD } = Astro.props;
     flex: 1 1 0; min-width: 0;
     min-height: 48px; /* Audit 1.9: Tap-Ziel mind. 48 px */
     padding: 9px 10px;
-    font-size: 14px; line-height: 1.15;
+    font-size: var(--btn-s-fs); line-height: 1.15; /* Größe S, Höhe 48 px (Audit 1.9/2.7) */
     text-align: center; white-space: normal;
   }
   .sticky-bar__btn.btn--ghost { background: var(--weiss); }

@@ -165,10 +165,10 @@ import MobileMenu from "./MobileMenu.astro";
   /* Vor-Ort-Termin: mobil nur Kalender-Symbol, ab Desktop mit Text */
   .hdr__termin {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 14px;
+    padding: var(--btn-s-pad); /* Größe S wie „Preis berechnen“ daneben (Audit 2.7) */
     border: 1px solid var(--linie);
     border-radius: var(--radius-pill);
-    font-family: var(--font-heading); font-weight: 700; font-size: 13px;
+    font-family: var(--font-heading); font-weight: 700; font-size: var(--btn-s-fs);
     color: var(--anthrazit-800);
   }
   .hdr__termin:hover { background: var(--gold-100); border-color: var(--gold-500); text-decoration: none; }

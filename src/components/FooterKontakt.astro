@@ -71,8 +71,8 @@ import Icon from "./Icon.astro";
   .fkontakt__actions .btn {
     justify-content: center;
     /* Kundenwunsch 10.10.2026: etwas kleiner, am Handy trotzdem ≥ 44 px hoch */
-    padding: 11px 22px;
-    font-size: 15px;
+    padding: var(--btn-s-pad); /* Größe S (Audit 2.7) */
+    font-size: var(--btn-s-fs);
     gap: 8px;
   }
   /* Adresse darf nicht mitten im Wort umbrechen; Schriftgröße wie alle Buttons (Kundenwunsch 11.10.2026) */

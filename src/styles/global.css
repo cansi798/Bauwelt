@@ -152,12 +152,12 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 28px;
+  padding: var(--btn-m-pad);
   border-radius: var(--radius-pill);
   border: 2px solid transparent;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 16px;
+  font-size: var(--btn-m-fs);
   line-height: 1.2;
   text-decoration: none;
   background: var(--gold-500);
@@ -171,8 +171,16 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .btn--dark:hover { background: var(--anthrazit-900); }
 .btn--ghost { background: transparent; border-color: var(--anthrazit-200); color: var(--anthrazit-800); box-shadow: none; }
 .btn--ghost:hover { background: var(--anthrazit-100); border-color: var(--anthrazit-400); }
-.btn--lg { padding: 18px 36px; font-size: 17px; }
-.btn--sm { padding: 10px 20px; font-size: 14px; }
+/* Kundenwunsch 19.10.2026 (Audit 2.7): nur noch DREI Button-Größen S / M / L als Tokens;
+   am Handy wird L zu M (Platz). Eigene Größen in Komponenten entfallen. */
+:root {
+  --btn-s-fs: 14px; --btn-s-pad: 10px 20px;
+  --btn-m-fs: 16px; --btn-m-pad: 14px 28px;
+  --btn-l-fs: 17px; --btn-l-pad: 18px 36px;
+}
+.btn--lg { padding: var(--btn-l-pad); font-size: var(--btn-l-fs); }
+.btn--sm { padding: var(--btn-s-pad); font-size: var(--btn-s-fs); }
+@media (max-width: 767px) { .btn--lg { padding: var(--btn-m-pad); font-size: var(--btn-m-fs); } }
 .btn .icon { flex: none; }
 
 /* ---------- Karten ----------

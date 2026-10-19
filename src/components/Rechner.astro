@@ -638,8 +638,8 @@ const weich = (t: string) =>
     .rechner__contact { gap: 10px; margin-top: 22px; }
     .rechner__contact .btn {
       min-height: 48px;
-      padding: 11px 18px;
-      font-size: 15px;
+      padding: var(--btn-m-pad);
+      font-size: var(--btn-m-fs); /* Größe M (Audit 2.7) */
       gap: 8px;
       line-height: 1.2;
     }
@@ -647,7 +647,7 @@ const weich = (t: string) =>
   }
   /* Sehr schmale Handys (≈ 360 px): noch etwas kleiner, damit nichts umbricht */
   @media (max-width: 400px) {
-    .rechner__contact .btn { font-size: 14px; padding-inline: 10px; gap: 6px; }
+    .rechner__contact .btn { padding: var(--btn-s-pad); font-size: var(--btn-s-fs); gap: 6px; } /* Größe S */
   }
 </style>
 
