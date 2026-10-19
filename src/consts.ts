@@ -146,7 +146,8 @@ export const KI_BILDER = new Set<string>([
   "hero-sanierung-modernisierung.webp",  // Leistungen Komplettsanierung & Modernisierung + Sicher wohnen
   "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
   "hero-referenzen.webp",                // Referenzen
-  "hero-ueber-uns.webp",                 // Über uns
+  "hero-ueber-uns.webp",                 // (früher Über uns – Bagger-Bild, seit 19.10.2026 nicht mehr verwendet)
+  "team-fiktiv.webp",                    // Über uns: KI-Bild eines fiktiven Teams (Kundenwunsch 19.10.2026, Audit 7.1)
   "team.webp",                           // Karriere
   "hero-partner.webp",                   // Partner
 ]);

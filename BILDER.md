@@ -62,6 +62,7 @@ warmes Licht; nicht übersättigt; keine Filter.
 
 | Dateiname | Verwendung | Format |
 |---|---|---|
+| `team-fiktiv.webp` | „Über uns“-Startbild (Kundenwunsch 19.10.2026): KI-Bild eines **fiktiven** Teams im sauberen Innenausbau – bekommt automatisch den Hinweis „KI-generiertes Bild“. Bis die Datei da ist, steht dort ein echtes Projektfoto (galerie-bad-05) | quer 16:11, ca. 1520 × 1080, WebP < 200 KB |
 | `burim.webp` | Porträt Burim Ahmedi (GF) – zweiter Ansprechpartner im Kontaktbereich (echtes Foto nötig, Platzhalter aktiv) | quadratisch, ca. 400 × 400 |
 | `video-poster.webp` | Standbild der Video-Sektion auf der Startseite („In 3 Minuten erklärt") – bis das echte Firmenvideo da ist. Motiv: Team/Baustelle in Aktion, warmes Licht | 16:9, ca. 1600 × 900 |
 
