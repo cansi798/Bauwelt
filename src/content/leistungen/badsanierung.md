@@ -5,7 +5,7 @@ icon: "bath"
 badge: "Festpreis"
 teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Sanitär, Licht und Möbel. Zum vorher vereinbarten Festpreis."
 heroPrompt: "Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat"
-beschreibung: "Badsanierung zum Festpreis in Norderstedt & Hamburg: alles aus einer Hand, in rund zwei Wochen fertig. Preis jetzt online berechnen – unverbindlich."
+beschreibung: "Badsanierung zum Festpreis in Norderstedt, Hamburg und Umkreis: in rund zwei Wochen fertig, ein fester Ansprechpartner. Preis jetzt online berechnen."
 bild: "galerie-bad-03.webp"
 refAnker: "bad"
 refBilder:

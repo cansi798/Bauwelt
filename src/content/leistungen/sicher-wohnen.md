@@ -9,7 +9,7 @@ order: 50
 icon: "heim"
 badge: "Pauschal 249 €"
 teaser: "Sicher und selbstbestimmt wohnen: Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm wird – pauschal 249 € inkl. MwSt."
-beschreibung: "Sicher wohnen. Heute und morgen. – in Norderstedt & Hamburg: Risiken im Zuhause früh erkennen, sinnvolle Anpassungen planen. Pauschal 249 € inkl. MwSt., bei Umsetzung angerechnet."
+beschreibung: "Sicher wohnen in Norderstedt, Hamburg und Umkreis: Risiken im Zuhause früh erkennen, Anpassungen planen. Pauschal 249 € inkl. MwSt., wird angerechnet."
 bild: "hero-sanierung-modernisierung.webp"
 pauschalpreis: 249
 pauschalHinweis: "Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an."

@@ -91,12 +91,18 @@ const chips = [
   "Ein fester Ansprechpartner",
 ];
 
+// SEO-/KI-Audit S4 (19.10.2026): Titel mit Leistung + Norderstedt (lokaler Fokus), max. ca. 60 Zeichen
+const seoTitel = [
+  `${kurzTitel} in Norderstedt & Hamburg | Bauwelt Handwerk`,
+  `${kurzTitel} in Norderstedt & Hamburg | Bauwelt`,
+  `${kurzTitel} in Norderstedt | Bauwelt`,
+].find((t) => t.length <= 60) ?? `${kurzTitel} | Bauwelt`;
 const description =
   l.data.beschreibung ??
   // Ziel ~140–160 Zeichen: langer Zusatz, wenn er passt, sonst kurzer, sonst nur Teaser.
   ([
-    `${l.data.teaser} Jetzt online berechnen – Festpreis nach kostenlosem Vor-Ort-Termin in Norderstedt & Hamburg.`,
-    `${l.data.teaser} Jetzt online berechnen – Festpreis nach Vor-Ort-Termin.`,
+    `${l.data.teaser} In Norderstedt, Hamburg und Umkreis – Festpreis nach Vor-Ort-Termin.`,
+    `${l.data.teaser} In Norderstedt, Hamburg und Umkreis.`,
     l.data.teaser,
   ].find((d) => d.length <= 160) ?? l.data.teaser);
 ---
@@ -111,7 +117,7 @@ const description =
     ]),
     ...faqSchema(l.data.faq),
   ] /* SEO-/KI-Audit S3 */}
-  title={`${leistung.unterschrift} – Norderstedt & Hamburg`}
+  title={seoTitel /* SEO-/KI-Audit S4: Leistung + Norderstedt, max. ca. 60 Zeichen */}
   description={description}
   sticky={pauschal ? [
     { label: buchen.label, href: buchen.href },
