@@ -62,8 +62,9 @@ const vorteile = [
   <LeistungHero
     titel={leistung.kurz ?? leistung.unterschrift}
     eyebrow={leistung.unterschrift}
-    pre={"Sicher und selbst­bestimmt " /* weiche Trennstelle für schmale Handys */}
-    accent="wohnen"
+    pre={"Sicher wohnen. Heute und " /* Kundenwunsch 19.10.2026 (Audit 1.3): H1 = Leistungsname */}
+    accent="morgen."
+    slogan={leistung.ueberschrift}
     claim={l.data.claim}
     lead={l.data.lead}
     bild={l.data.bild ?? "hero-sanierung-modernisierung.webp"}

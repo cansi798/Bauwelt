@@ -32,16 +32,18 @@ export async function getStaticPaths() {
 const { l } = Astro.props;
 const { Content } = await render(l);
 
-// Kundenwunsch 16.10.2026 (73): Namen aus LEISTUNGEN (consts.ts) – H1 = Überschrift (letztes
-// Wort gold), Pfad/Brotkrumen + Seitentitel = Unterschrift (Leistungsname).
+// Kundenwunsch 16.10.2026 (73): Namen aus LEISTUNGEN (consts.ts).
+// Kundenwunsch 19.10.2026 (Audit 1.3): H1 = Leistungsname (unterschrift, letztes Wort gold),
+// darunter klein der Slogan (ueberschrift); Pfad/Brotkrumen + Seitentitel = Leistungsname.
 const leistung = leistungBySlug(l.id);
 if (!leistung) throw new Error(`Leistung ${l.id} fehlt in LEISTUNGEN (consts.ts)`);
 const kurzTitel = kurzName(leistung);
 // Überlange Wörter in der H1 mit weichen Trennstellen, sonst läuft die Überschrift auf dem Handy über den Rand.
-const h1Titel = leistung.ueberschrift
-  .replace("Immobilienkauf", "Immobilien\u00ADkauf")
-  .replace("Oberflächen", "Ober\u00ADflächen")
-  .replace("selbstbestimmt", "selbst\u00ADbestimmt");
+const h1Titel = leistung.unterschrift
+  .replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten")
+  .replace("Komplettsanierung", "Komplett\u00ADsanierung")
+  .replace("Modernisierung", "Moderni\u00ADsierung")
+  .replace("Sanierungscheck", "Sanierungs\u00ADcheck");
 const pauschal = l.data.pauschalpreis;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
@@ -100,6 +102,7 @@ const description =
     eyebrow={leistung.unterschrift}
     pre={h1.pre}
     accent={h1.accent}
+    slogan={leistung.ueberschrift}
     claim={l.data.claim}
     lead={l.data.lead}
     bild={heroBild}

@@ -13,6 +13,8 @@ interface Props {
   eyebrow: string;
   pre: string;
   accent?: string;
+  /** Slogan der Leistung, klein unter dem Leistungsnamen (Kundenwunsch 19.10.2026, Audit 1.3) */
+  slogan?: string;
   claim?: string;
   lead?: string;
   bild: string;           // Datei in assets/img/
@@ -24,7 +26,7 @@ interface Props {
   ctaMobil?: boolean;
   chips: string[];
 }
-const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
+const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
 ---
 
 <section class="lhero" data-einmal>
@@ -52,6 +54,7 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
 
     {/* Kundenwunsch 14.10.2026 (49): kleine Zeile über der H1 entfällt auf allen Leistungsseiten (Pfad bleibt) */}
     <h1 class="lhero__in" style="--d: 120ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
+    {slogan && <p class="lhero__slogan lhero__in" style="--d: 170ms">{slogan}</p>}
 
     {(claim || lead) && (
       <div class="lhero__text lhero__in" style="--d: 220ms">
@@ -127,6 +130,15 @@ const { titel, eyebrow, pre, accent = "", claim, lead, bild, ctaHref, ctaLabel, 
   .lhero__pfad :global(.lhero__pfeil) { width: 14px; height: 14px; transform: rotate(-90deg); opacity: 0.7; }
   .lhero__pfad span { color: var(--gold-300); }
 
+  /* Slogan unter dem Leistungsnamen (Audit 1.3): klein, gold, nicht in Versalien */
+  .lhero__slogan {
+    margin: -4px 0 0;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: clamp(17px, 1.7vw, 21px);
+    line-height: 1.3;
+    color: var(--gold-300);
+  }
   .lhero__text { display: grid; gap: 10px; max-width: 620px; }
   .lhero__claim {
     margin: 0;

@@ -62,7 +62,9 @@ export type NavItem = { label: string; href?: string; children?: NavChild[] };
 
 /** Leistungen – EINZIGE Quelle für Namen und Reihenfolge (Menü, Mobilmenü, Footer, Startseiten-
  *  Karten, Rechner, Leistungsseiten). Kundenwunsch 16.10.2026 (73): Jede Leistung hat eine
- *  Überschrift (emotional, im Menü fett) und eine Unterschrift (Leistungsname, im Menü grau).
+ *  Überschrift (emotionaler Slogan) und eine Unterschrift (Leistungsname).
+ *  Kundenwunsch 19.10.2026 (Audit 1.3): überall steht der LEISTUNGSNAME (unterschrift) fett
+ *  und primär, der Slogan (ueberschrift) klein darunter – Wortlaut beider unverändert.
  *  Reihenfolge: oben Badsanierung + Komplettsanierung, ganz unten die beiden Checks –
  *  hervorgehoben (gold, unter Trennlinie) wie zuvor der Sanierungscheck.
  *  `kurz`: Kurzname für Sätze wie „Warum Badsanierung mit Bauwelt Handwerk?“ (Standard: unterschrift). */
@@ -92,13 +94,13 @@ export const kurzName = (l: Leistung): string => l.kurz ?? l.unterschrift;
 export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
-    // Kundenwunsch 16.10.2026 (73): fett = Überschrift, grau = Unterschrift (Daten: LEISTUNGEN).
+    // Kundenwunsch 19.10.2026 (Audit 1.3): fett = Leistungsname (unterschrift), grau = Slogan (ueberschrift).
     // Dach & Fassade, Maler & Böden, Sanitär/Heizung/Elektro sind seit Kundenwunsch 12.10.2026 (18)
     // ganz abgeschaltet (Inhalte in archiv/leistungen-abgeschaltet/).
     // Kundenwunsch 15.10.2026 (71): „Alle Leistungen im Überblick“ + Übersichtsseite entfernt
     children: LEISTUNGEN.map((l) => ({
-      label: l.ueberschrift,
-      desc: l.unterschrift,
+      label: l.unterschrift,
+      desc: l.ueberschrift,
       href: u(`leistungen/${l.slug}/`),
       icon: l.icon,
       hervorheben: l.hervorheben,
