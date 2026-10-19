@@ -52,7 +52,7 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Antwort innerhalb von 12 Stunden",
     short: "Sie warten nicht tagelang auf einen Rückruf.",
     long:
-      "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie innerhalb von " +
+      "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie werktags innerhalb von " +
       "12 Stunden eine persönliche Antwort von Ihrem festen Ansprechpartner.",
   },
   {

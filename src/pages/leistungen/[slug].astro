@@ -80,13 +80,13 @@ const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // stehen jetzt EINMAL in der gemeinsamen Leiste (Kernvorteile) unter dem Hero. Hier bleiben nur
 // die eigenen Vorteile der Leistung – höchstens 3 (ergänzt um „Angebot in 24 Stunden“, wo Platz ist).
 const zusatzVorteile = pauschal ? [] : [
-  { icon: "doc", title: "Angebot in 24 Stunden", text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches Angebot zum Festpreis." },
+  { icon: "doc", title: "Angebot innerhalb von 24 Stunden", text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches Angebot zum Festpreis." },
 ];
 const warumKarten = [...l.data.warum, ...zusatzVorteile.filter((z) => !l.data.warum.some((w) => w.title === z.title))].slice(0, 3);
 const chips = [
   pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Zusage",
-  "Antwort in 12 h",
-  "Angebot in 24 h",
+  "Antwort innerhalb von 12 Stunden",
+  "Angebot innerhalb von 24 Stunden",
   "Ein fester Ansprechpartner",
 ];
 
@@ -244,7 +244,7 @@ const description =
       ) : (
         <RoughSzene
           szene="weg"
-          label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+          label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot innerhalb von 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
         />
       )}
       <div class="lmitte lmitte--zwei nur-desktop">

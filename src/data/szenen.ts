@@ -163,8 +163,8 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
   festpreis: ["Festpreis-", "Zusage"], // Audit 4.2 (19.10.2026): „Zusage“ statt „Garantie“
   termin: ["Termin-", "treue"],
   ansprechpartner: ["Ein fester", "Ansprech-", "partner"], // Audit 7.6 (19.10.2026), früher „Deutschsprachiger Ansprechpartner“
-  antwort: ["Antwort in", "12 Stunden"],
-  angebot: ["Angebot in", "24 Stunden"],
+  antwort: ["Antwort", "innerhalb von", "12 Stunden"], // Audit 4.7: einheitlich „innerhalb von“
+  angebot: ["Angebot", "innerhalb von", "24 Stunden"],
   transparenz: ["Volle", "Transparenz"],
   gewerke: ["Alle Gewerke", "aus einer Hand"],
 };
@@ -176,7 +176,7 @@ const WEG_MOTIVE = [rechner, sprechblasen, dokument, entspannen];
 const WEG_UNTER: string[][] = [
   ["Preis in wenigen Minuten"],
   ["Kostenloser Vor-Ort-Termin"], // Audit 4.1 (früher „Persönlicher Termin“)
-  ["Angebot in 24 Stunden"],
+  ["Angebot innerhalb", "von 24 Stunden"], // Audit 4.7
   ["Wir koordinieren alles", "und setzen es für Sie um"],
 ];
 
@@ -303,7 +303,7 @@ const wegCheck = (a: Ansicht) => wegSzene(a, CHECK_TITEL, CHECK_UNTER, [kalender
 const KONTAKT_TITEL: string[][] = [["Anfrage senden"], ["Persönliche Antwort"], ["Termin vor Ort"], ["Klares Angebot"]];
 const KONTAKT_UNTER: string[][] = [
   ["WhatsApp, E-Mail,", "Telefon oder Rückruf"],
-  ["Innerhalb von", "12 Stunden"],
+  ["Innerhalb von 12 Stunden", "(werktags)"],
   ["Kostenlos und", "unverbindlich"],
   ["Innerhalb von 24 Stunden", "nach dem Termin"],
 ];
