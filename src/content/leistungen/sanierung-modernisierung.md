@@ -26,9 +26,12 @@ rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindl
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
 umfangText: "Von der Planung bis zur fertigen Übergabe aus einer Hand – mit verständlichem Angebot und festem Preis. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
+  # Jamil 20.10. (Talk 2568): Kacheln wie bei Badsanierung – Beratung zuerst, Sanitär und Elektro getrennt
+  - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Entkernung" }
+  - { icon: "tap", title: "Sanitär\u00ADarbeiten" }
+  - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
   - { icon: "wall", title: "Trockenbau & Grundriss" }
-  - { icon: "bolt", title: "Elektro & Sanitär" }
   - { icon: "tiles", title: "Fliesen & Böden" }
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
