@@ -8,7 +8,8 @@
 // Solange KEIN Endpunkt existiert (Stand 19.10.2026), öffnet „Rückruf anfordern“ das
 // E-Mail-Programm mit fertig ausgefüllter Nachricht an service@bauwelt-handwerk.de (mailto) –
 // über die Website selbst werden dann keine Daten übertragen oder gespeichert.
-// Ohne JavaScript: klassisches Formular mit action="mailto:…".
+// Ohne JavaScript: Hinweis mit E-Mail-Link/Telefon (<noscript>). Das Formular selbst hat KEIN
+// action="mailto:…" mehr – Chrome meldete das als unsicher (SEO-/KI-Audit S10, 19.10.2026).
 import { RUECKRUF, SITE, u, waLink } from "../consts";
 import Icon from "./Icon.astro";
 
@@ -34,9 +35,6 @@ const {
 <form
   class:list={["rrf", { "rrf--rechner": rechner }]}
   id={id}
-  action={`mailto:${RUECKRUF.an}?subject=${encodeURIComponent(betreff)}`}
-  method="post"
-  enctype="text/plain"
   data-rueckruf
   data-betreff={betreff}
   data-an={RUECKRUF.an}
@@ -45,6 +43,7 @@ const {
 >
   <p class="rrf__titel"><Icon name="phone" size={20} class="icon" /> {titel}</p>
   <p class="rrf__text">{text}</p>
+  <noscript><p class="rrf__text">Ohne JavaScript schreiben Sie uns bitte direkt an <a href={`mailto:${RUECKRUF.an}?subject=${encodeURIComponent(betreff)}`}>{RUECKRUF.an}</a> oder rufen Sie an: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>.</p></noscript>
 
   <div class="rrf__felder">
     <label class="rrf__feld">
