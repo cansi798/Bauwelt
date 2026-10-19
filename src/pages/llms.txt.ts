@@ -4,7 +4,7 @@ import { BASE, EMAILS, LEISTUNGEN, SITE } from "../consts";
 import { GEWERKE, berechne, preisText, MWST_HINWEIS } from "../data/rechner";
 import { REGION_CITIES, REGION_TEXT } from "../data/region";
 import { FAQ_HOME, ZAHLEN } from "../data/home";
-import { KERNVORTEILE, siegelById } from "../data/versprechen";
+import { VERSPRECHEN } from "../data/versprechen";
 
 // llms.txt – kompakte Zusammenfassung für KI-Assistenten (SEO-/KI-Audit K2, 19.10.2026).
 // Wird bei jedem Build AUS DEN WEBSITE-DATEN erzeugt (Leistungen, Preise, Gebiet, Zahlen, FAQ),
@@ -44,7 +44,7 @@ Online-Rechner (Preisspanne ohne Kontaktdaten): ${o}rechner/
 ## Fakten
 
 ${ZAHLEN.map((z) => `- ${z.wert} ${z.label}`).join("\n")}
-${[...KERNVORTEILE, siegelById("angebot")!].map((k) => `- ${k.title}: ${k.short}`).join("\n")}
+${VERSPRECHEN.map((k) => `- ${k.title}: ${k.short}`).join("\n")}
 - Eingetragen bei der Handwerkskammer Lübeck; versicherter Betrieb
 - Referenzen (echte Projektfotos aus Hamburg und Norderstedt): ${o}referenzen/
 

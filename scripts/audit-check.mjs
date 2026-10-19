@@ -142,12 +142,45 @@ else {
 // S7: Rechner-Seite mit Erklärtext
 const rechnerSeite = seite("/rechner/");
 if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("SEO (S7)", "/rechner/: Abschnitt „So rechnet der Rechner“ fehlt"); seoProbleme++; }
-// 6.6: Zahlenleiste nur 40+ Bäder / 15+ Jahre – 12 h / 24 h nur in „Unsere Versprechen“ (Jamil 19.10., Talk 2531/2536)
+// 6.6/6.2: Vertrauensleiste – Zahlen nur 40+ Bäder / 15+ Jahre (12 h / 24 h nur in „Unsere Versprechen“, Talk 2531/2536)
+//          + Nachweise versichert / Handwerkskammer + Impressum-Link (Talk 2544/2547)
 {
   const start = seite("/");
   const leiste = start?.html.match(/<section class="zahlen[\s\S]*?<\/section>/)?.[0];
   if (leiste && /\b(?:12|24)\s*h\b|Stunden/.test(sichtText(leiste))) warn("Zahlen (6.6)", "Zahlenleiste zeigt wieder 12 h / 24 h – laut Jamil nur in „Unsere Versprechen“");
-  else if (leiste) pass("Zahlen (6.6)", "Zahlenleiste ohne 12 h / 24 h");
+  else if (leiste) pass("Zahlen (6.6)", "Vertrauensleiste ohne 12 h / 24 h");
+  // Jamil 19.10.2026 (Talk 2544/2547): EINE dunkle Leiste mit 4 Kreisen; keine separate weiße Nachweis-Zeile mehr
+  for (const s of S) {
+    if (/class="vleiste/.test(s.html)) warn("Vertrauensleiste (6.2)", `${s.page}: alte weiße Nachweis-Zeile (vleiste) – gehört in die dunkle Vertrauensleiste`);
+    const l = s.html.match(/<section class="zahlen[\s\S]*?<\/section>/)?.[0];
+    if (l && !(/Versicherter Betrieb/.test(l) && /Handwerkskammer Lübeck/.test(l) && /impressum\//.test(l))) warn("Vertrauensleiste (6.2)", `${s.page}: Vertrauensleiste ohne Versichert/Handwerkskammer/Impressum-Link`);
+  }
+}
+// 5.1 neu (Jamil 19.10.2026, Talk 2538/2539/2541): 7 Versprechen überall gleich, jeder Vorteil pro Seite nur EINMAL.
+// Geprüft wird (a) die Markierung data-versprechen (Siegel + Leistungs-Vorteile) und (b) der sichtbare
+// Text der Seite ohne Kopf/Menü/Fuß und ohne gezeichnete Szenen (SVG) auf die genauen Versprechen-Titel.
+{
+  const vSrc = lies("src/data/versprechen.ts");
+  const VERSPRECHEN_TITEL = [...(vSrc.match(/VERSPRECHEN: Siegel\[\] = \[([\s\S]*?)\n\];/)?.[1] ?? "").matchAll(/^\s*id: "([^"]+)",[\s\S]*?title: "([^"]+)"/gm)]
+    .map((m) => ({ id: m[1], title: m[2] }));
+  if (VERSPRECHEN_TITEL.length !== 7) warn("Versprechen (Jamil 19.10.)", `src/data/versprechen.ts enthält ${VERSPRECHEN_TITEL.length} statt 7 Versprechen`);
+  let doppelt = 0;
+  for (const s of S) {
+    const ids = [...s.html.matchAll(/data-versprechen="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/));
+    const zaehl = ids.reduce((a, id) => ((a[id] = (a[id] || 0) + 1), a), {});
+    for (const [id, n] of Object.entries(zaehl)) if (n > 1) { warn("Versprechen doppelt (Jamil 19.10.)", `${s.page}: Versprechen „${id}“ wird ${n}× als Vorteil gezeigt – pro Seite nur einmal`); doppelt++; }
+    // (b) Versprechen-Titel als eigene Überschrift/Zeile (ganzer Elementinhalt) – Fließtext zählt nicht
+    const inhalt = s.html
+      .replace(/<head[\s\S]*?<\/head>/i, " ").replace(/<header[\s\S]*?<\/header>/gi, " ").replace(/<footer[\s\S]*?<\/footer>/gi, " ")
+      .replace(/<nav[\s\S]*?<\/nav>/gi, " ").replace(/<dialog[\s\S]*?<\/dialog>/gi, " ")
+      .replace(/<svg[\s\S]*?<\/svg>/gi, " ").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/&shy;|\u00AD/g, "");
+    for (const v of VERSPRECHEN_TITEL) {
+      const n = (inhalt.match(new RegExp(`>\\s*${v.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*<`, "g")) || []).length;
+      if (n > 1) { warn("Versprechen doppelt (Jamil 19.10.)", `${s.page}: „${v.title}“ steht ${n}× als Vorteil auf der Seite – jeder Vorteil nur einmal`); doppelt++; }
+    }
+  }
+  if (!doppelt && VERSPRECHEN_TITEL.length === 7) pass("Versprechen", "7 Versprechen aus versprechen.ts, keine Seite zeigt einen Vorteil doppelt");
 }
 // S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (siehe AUDIT-REGELN.md)
 for (const s of S) {

@@ -1,41 +1,142 @@
 ---
-// Kundenwunsch 19.10.2026 (Audit 6.2): kleine Vertrauensleiste mit harten Nachweisen.
-// Nur, was belegt ist: Versicherung (laut Jamil vorhanden – bewusst ohne Versicherer/Art,
-// bis die Angaben vorliegen) und der Eintrag bei der Handwerkskammer Lübeck (siehe Impressum).
-// Bewusst KEIN „Meister“ und KEINE „5 Jahre Gewährleistung“ (Kundenfeedback 30.09.2026).
+// Vertrauensleiste – Jamil 19.10.2026 (Talk 2544/2547): Zahlen (Audit 6.6) und Nachweise (Audit 6.2)
+// in EINER dunklen Leiste mit vier goldenen Kreisen. Ersetzt die frühere Zahlenleiste UND die weiße
+// Zeile „Versicherter Betrieb · Handwerkskammer Lübeck“. Überall dieselbe Komponente (Startseite,
+// Leistungsseiten, Kontakt). Daten: ZAHLEN + NACHWEISE in data/home.ts.
+// Nachweise (belegbar) ≠ Versprechen (Zusagen, data/versprechen.ts) – beides bleibt getrennt.
+// Bewegung (kreisförmig, Jamil Msg 2518/2523): jeder Ring zeichnet sich EINMAL; nur die ZAHLEN
+// zählen dabei hoch, die Symbole stehen still. Ohne JS / bei reduzierter Bewegung: sofort fertig.
+// Bewusst KEIN „Meister“ (Audit K2/K3).
 import Icon from "./Icon.astro";
 import { u } from "../consts";
+import { ZAHLEN, NACHWEISE } from "../data/home";
 
-interface Props {
-  /** Sand-Hintergrund (z. B. unter der weißen Kernvorteile-Leiste) */
-  sand?: boolean;
-}
-const { sand = false } = Astro.props;
+const R = 46;
+const UMFANG = +(2 * Math.PI * R).toFixed(1);
+type Punkt =
+  | { art: "zahl"; label: string; wert: string; zahl: number | null; rest: string }
+  | { art: "symbol"; label: string; icon: string };
+const punkte: Punkt[] = [
+  ...ZAHLEN.map((z): Punkt => {
+    const m = z.wert.match(/^(\d+)(.*)$/);
+    return { art: "zahl", label: z.label, wert: z.wert, zahl: m ? Number(m[1]) : null, rest: m ? m[2] : "" };
+  }),
+  ...NACHWEISE.map((n): Punkt => ({ art: "symbol", label: n.label, icon: n.icon })),
+];
 ---
 
-<aside class:list={["vleiste", { "vleiste--sand": sand }]} aria-label="Nachweise">
-  <div class="container vleiste__inner">
-    <span class="vleiste__item"><Icon name="shield" size={18} class="icon" /> Versicherter Betrieb</span>
-    <span class="vleiste__item"><Icon name="hammer" size={18} class="icon" /> Eingetragen bei der Handwerkskammer Lübeck</span>
-    <a class="vleiste__link" href={u("impressum/")}>Angaben im Impressum</a>
+<section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen und Nachweisen" data-einmal>
+  <div class="container">
+    <ul class="zahlen__liste" style={`--umfang:${UMFANG}`}>
+      {punkte.map((p, i) => (
+        <li class="zahlen__item" style={`--i:${i}`}>
+          <span class="zahlen__ring">
+            <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+              <circle class="zahlen__spur" cx="50" cy="50" r={R} />
+              <circle class="zahlen__bogen" cx="50" cy="50" r={R} />
+            </svg>
+            {p.art === "zahl" ? (
+              <strong class="zahlen__wert">
+                <span class="visually-hidden">{p.wert}</span><span class="zahlen__zahl" data-ziel={p.zahl ?? undefined} aria-hidden="true">{p.zahl ?? p.wert}</span>{p.rest && <span class="zahlen__plus" aria-hidden="true">{p.rest}</span>}
+              </strong>
+            ) : (
+              <span class="zahlen__symbol"><Icon name={p.icon} size={34} class="icon" /></span>
+            )}
+          </span>
+          <span class="zahlen__label">{p.label}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="zahlen__beleg"><a href={u("impressum/")}>Angaben im Impressum</a></p>
   </div>
-</aside>
+</section>
+
+<script>
+  // Zählt einmal von 0 auf den Endwert, sobald die Leiste „is-sichtbar“ bekommt
+  // (scripts/einmal-animieren.ts) – gleichzeitig zeichnen sich die Ringe (CSS).
+  // Bei reduzierter Bewegung oder ohne JS bleibt einfach der Endwert stehen.
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (const leiste of document.querySelectorAll<HTMLElement>("section.zahlen")) {
+      const zahlen = [...leiste.querySelectorAll<HTMLElement>(".zahlen__zahl[data-ziel]")];
+      const zaehlen = () => {
+        const dauer = 1600;
+        const t0 = performance.now();
+        const schritt = (t: number) => {
+          const p = Math.min(1, (t - t0) / dauer);
+          const e = 1 - Math.pow(1 - p, 3); // ease-out
+          for (const z of zahlen) z.textContent = String(Math.round(Number(z.dataset.ziel) * e));
+          if (p < 1) requestAnimationFrame(schritt);
+        };
+        requestAnimationFrame(schritt);
+      };
+      if (leiste.classList.contains("is-sichtbar")) zaehlen();
+      else {
+        for (const z of zahlen) z.textContent = "0";
+        const mo = new MutationObserver(() => {
+          if (!leiste.classList.contains("is-sichtbar")) return;
+          mo.disconnect();
+          zaehlen();
+        });
+        mo.observe(leiste, { attributes: true, attributeFilter: ["class"] });
+      }
+    }
+  }
+</script>
 
 <style>
-  .vleiste { background: var(--weiss); border-bottom: 1px solid var(--anthrazit-100); }
-  .vleiste--sand { background: var(--gold-100); border-bottom: 0; }
-  .vleiste__inner {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-    gap: 8px 28px;
-    padding-block: 14px;
-    font-size: 14px; line-height: 1.4;
-    color: var(--anthrazit-700);
+  .zahlen { background: var(--anthrazit-800); color: var(--weiss); }
+  .zahlen__liste {
+    list-style: none; margin: 0 auto; padding: 32px 0 0; max-width: 1040px;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
   }
-  .vleiste__item { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
-  .vleiste__item :global(.icon) { flex: none; width: 18px; height: 18px; color: var(--gold-700); }
-  .vleiste__link { color: var(--anthrazit-600); font-size: 13px; text-underline-offset: 3px; }
-  .vleiste__link:hover { color: var(--gold-700); }
-  @media (max-width: 479px) {
-    .vleiste__inner { flex-direction: column; align-items: flex-start; gap: 8px; padding-block: 14px 16px; }
+  .zahlen__item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; min-width: 0; }
+  /* feine goldene Trennlinie zwischen den Kreisen */
+  .zahlen__item + .zahlen__item::before {
+    content: ""; position: absolute; left: -12px; top: 12px;
+    width: 1px; height: 76px;
+    background: linear-gradient(to bottom, transparent, var(--gold-500), transparent); opacity: 0.4;
+  }
+
+  .zahlen__ring { position: relative; flex: none; width: 100px; height: 100px; display: grid; place-items: center; }
+  .zahlen__ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .zahlen__ring circle { fill: none; stroke-width: 1.5; }
+  .zahlen__spur { stroke: var(--gold-500); opacity: 0.22; }
+  .zahlen__bogen {
+    stroke: var(--gold-500); stroke-linecap: round;
+    stroke-dasharray: var(--umfang); stroke-dashoffset: 0;
+  }
+  html.js .zahlen__bogen { animation: zahlen-ring 1.6s var(--ease) both; animation-delay: calc(var(--i, 0) * 120ms); }
+  @keyframes zahlen-ring { from { stroke-dashoffset: var(--umfang); } to { stroke-dashoffset: 0; } }
+
+  .zahlen__wert {
+    position: relative; display: inline-flex; align-items: flex-start;
+    font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1;
+    color: var(--gold-500); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .zahlen__plus { font-size: 0.55em; margin-left: 1px; margin-top: 0.08em; }
+  .zahlen__symbol { position: relative; display: inline-flex; color: var(--gold-500); }
+  .zahlen__symbol :global(.icon) { width: 40px; height: 40px; stroke-width: 1.5; }
+  .zahlen__label {
+    font-family: var(--font-heading); font-weight: 600; line-height: 1.35;
+    font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 17px;
+    color: var(--anthrazit-100); max-width: 19ch;
+  }
+  .zahlen__beleg { margin: 0 auto; max-width: none; padding: 6px 0 10px; text-align: center; font-size: 13px; line-height: 1.4; }
+  .zahlen__beleg a { display: inline-block; padding: 12px 8px; color: var(--anthrazit-200); text-underline-offset: 3px; } /* Tap-Ziel ≥ 44 px (Audit 1.9) */
+  .zahlen__beleg a:hover { color: var(--gold-500); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zahlen__bogen { animation: none !important; stroke-dashoffset: 0; }
+  }
+
+  /* Tablet/Handy: 2 × 2 */
+  @media (max-width: 767px) {
+    .zahlen__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; padding-top: 26px; }
+    .zahlen__item:nth-child(odd)::before { display: none; }
+    .zahlen__item:nth-child(even)::before { left: -6px; }
+    .zahlen__ring { width: 84px; height: 84px; }
+    .zahlen__wert { font-size: 30px; }
+    .zahlen__symbol :global(.icon) { width: 34px; height: 34px; }
+    .zahlen__label { font-size: 15px; letter-spacing: 0.05em; max-width: 17ch; hyphens: auto; }
   }
 </style>

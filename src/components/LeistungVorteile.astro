@@ -1,0 +1,165 @@
+---
+// Jamil 19.10.2026 (Talk 2538/2539/2541): Auf den Leistungsseiten standen die Vorteile doppelt
+// (weiße Leiste unter dem Hero + Karten „Ihre Vorteile“). Jetzt EIN Abschnitt im dunklen Design:
+// links groß das, was diese Leistung besonders macht (eigene Vorteile aus dem Frontmatter),
+// rechts die 7 Versprechen (gleiche Quelle wie Startseite/Über uns: src/data/versprechen.ts)
+// als nummerierte Linie mit goldenen Ziffern. Eigene Darstellung – NICHT die Siegel der Startseite.
+// Bewegung: nur kreisförmig (Jamil Msg 2518/2523) – die goldenen Ringe zeichnen sich EINMAL,
+// danach erscheinen Titel/Text (nur Deckkraft). Bei „Bewegung reduzieren“ steht sofort alles.
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import { vorteileFuerSeite, type Vorteil } from "../data/versprechen";
+
+interface Props {
+  eyebrow?: string;
+  pre: string;
+  accent?: string;
+  /** Überschrift über den eigenen Vorteilen, z. B. „Das Besondere an Ihrer Badsanierung“ */
+  eigeneTitel: string;
+  /** Eigene Vorteile der Leistung (warum-Liste); Doppelungen mit den Versprechen fallen weg. */
+  vorteile: Vorteil[];
+}
+const { eyebrow = "Ihre Vorteile", pre, accent = "", eigeneTitel, vorteile } = Astro.props;
+const { eigene, zusagen } = vorteileFuerSeite(vorteile);
+const R = 24;
+const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
+---
+
+<section class="section section--dark lvort" aria-label="Ihre Vorteile">
+  <div class="container">
+    <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} />
+    <div class:list={["lvort__grid", { "lvort__grid--eins": eigene.length === 0 }]}>
+      {eigene.length > 0 && (
+        <div class="lvort__eigen">
+          <p class="lvort__kicker">{eigeneTitel}</p>
+          <ul class="lvort__eigenliste">
+            {eigene.map((v) => (
+              <li class="lvort__eigenpunkt">
+                <span class="lvort__eigenicon"><Icon name={v.icon} size={24} class="icon" /></span>
+                <div>
+                  <h3>{v.title}</h3>
+                  <p>{v.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div class="lvort__zusagen" data-einmal>
+        <p class="lvort__kicker">Unsere {zusagen.length} Versprechen</p>
+        <ol class="lvort__liste" style={`--umfang:${UMFANG}`}>
+          {zusagen.map((z, i) => (
+            <li class="lvort__punkt" data-versprechen={z.id} style={`--i:${i}`}>
+              <span class="lvort__nr" aria-hidden="true">
+                <svg viewBox="0 0 56 56" focusable="false">
+                  <circle class="lvort__spur" cx="28" cy="28" r={R} />
+                  <circle class="lvort__ring" cx="28" cy="28" r={R} />
+                </svg>
+                <span class="lvort__ziffer">{String(i + 1).padStart(2, "0")}</span>
+              </span>
+              <div class="lvort__text">
+                <h3>{z.title}</h3>
+                <p>{z.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lvort__grid { display: grid; gap: 40px; align-items: start; max-width: 1120px; margin-inline: auto; }
+  @media (min-width: 1024px) {
+    .lvort__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 72px; }
+    .lvort__grid--eins { grid-template-columns: minmax(0, 760px); justify-content: center; }
+    .lvort__eigen { position: sticky; top: 112px; }
+  }
+
+  .lvort__kicker {
+    margin: 0 0 20px;
+    font-family: var(--font-heading);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-500) !important;
+  }
+
+  /* Links: das Besondere an dieser Leistung – groß, mit goldenem Rahmen hervorgehoben */
+  .lvort__eigen {
+    padding: 32px 28px;
+    border-radius: var(--radius-card, 16px);
+    background: rgba(195, 165, 111, 0.08);
+    border: 1px solid rgba(195, 165, 111, 0.35);
+  }
+  .lvort__eigenliste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .lvort__eigenpunkt { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; padding-block: 22px; }
+  .lvort__eigenpunkt:first-child { padding-top: 4px; }
+  .lvort__eigenpunkt:last-child { padding-bottom: 0; }
+  .lvort__eigenpunkt + .lvort__eigenpunkt { border-top: 1px solid rgba(195, 165, 111, 0.22); }
+  .lvort__eigenicon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--gold-500); color: var(--anthrazit-900);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .lvort__eigenpunkt h3 {
+    margin: 0 0 8px;
+    font-size: 22px; line-height: 1.3; font-weight: 700; letter-spacing: 0; text-transform: none;
+    color: var(--weiss);
+  }
+  .lvort__eigenpunkt p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--anthrazit-200); }
+
+  /* Rechts: die 7 Versprechen als nummerierte Linie */
+  .lvort__liste { list-style: none; margin: 0; padding: 0; display: grid; }
+  .lvort__punkt { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding-bottom: 26px; }
+  .lvort__punkt:last-child { padding-bottom: 0; }
+  /* feine goldene Verbindungslinie zwischen den Ziffern */
+  .lvort__punkt:not(:last-child)::before {
+    content: ""; position: absolute; left: 27.5px; top: 60px; bottom: 4px;
+    width: 1px; background: linear-gradient(to bottom, rgba(195, 165, 111, 0.45), rgba(195, 165, 111, 0.1));
+  }
+  .lvort__nr { position: relative; width: 56px; height: 56px; display: grid; place-items: center; }
+  .lvort__nr svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .lvort__nr circle { fill: none; }
+  .lvort__spur { stroke: rgba(195, 165, 111, 0.18); stroke-width: 1; }
+  .lvort__ring {
+    stroke: var(--gold-500); stroke-width: 1.6; stroke-linecap: round;
+    stroke-dasharray: var(--umfang); stroke-dashoffset: 0;
+  }
+  .lvort__ziffer {
+    position: relative;
+    font-family: var(--font-heading); font-weight: 700; font-size: 17px; letter-spacing: 0.02em;
+    color: var(--gold-500);
+    font-variant-numeric: tabular-nums;
+  }
+  .lvort__text { padding-top: 6px; min-width: 0; }
+  .lvort__text h3 {
+    margin: 0 0 4px;
+    font-size: 18px; line-height: 1.35; font-weight: 700; letter-spacing: 0; text-transform: none;
+    color: var(--weiss);
+  }
+  .lvort__text p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--anthrazit-200); }
+
+  /* Einmal beim ersten Sichtbarwerden (scripts/einmal-animieren.ts): Ring zeichnet sich im Kreis,
+     dann erscheinen Ziffer und Text. Ohne JS / bei reduzierter Bewegung: fertiges Bild. */
+  :global(html.js) .lvort__ring { animation: lvort-ring 0.9s var(--ease) both; animation-delay: calc(var(--i) * 140ms); }
+  :global(html.js) .lvort__ziffer,
+  :global(html.js) .lvort__text { animation: lvort-ein 0.5s var(--ease) both; animation-delay: calc(var(--i) * 140ms + 250ms); }
+  @keyframes lvort-ring { from { stroke-dashoffset: var(--umfang); } to { stroke-dashoffset: 0; } }
+  @keyframes lvort-ein { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .lvort__ring, .lvort__ziffer, .lvort__text { animation: none !important; opacity: 1; stroke-dashoffset: 0; }
+  }
+
+  @media (max-width: 639px) {
+    .lvort__grid { gap: 32px; }
+    .lvort__eigen { padding: 24px 20px; }
+    .lvort__eigenpunkt { grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding-block: 18px; }
+    .lvort__eigenicon { width: 40px; height: 40px; }
+    .lvort__eigenpunkt h3 { font-size: 19px; }
+    .lvort__punkt { grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding-bottom: 22px; }
+    .lvort__nr { width: 48px; height: 48px; }
+    .lvort__punkt:not(:last-child)::before { left: 23.5px; top: 52px; }
+    .lvort__ziffer { font-size: 15px; }
+    .lvort__text { padding-top: 3px; }
+  }
+</style>

@@ -34,7 +34,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | Partner (6.7) | „seniovo“ klein; OBI seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, Logos (keine Freigabe) |
 | Karriere (4.8/6.8) | positiv: „Faire Bezahlung. Prämien für gute Projekte.“, „Initiativ bewerben – wir suchen immer gute Leute“ | „Derzeit suchen wir keine Verstärkung“, abwertend über die Branche |
 | Erfahrung (K3) | „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre alt) | „15 Jahre“ ohne „im Handwerk“ |
-| Zahlen (6.6) | Zahlenleiste unter dem Startbild: nur 40+ sanierte Bäder und 15+ Jahre Erfahrung im Handwerk. 12 h Antwort / 24 h Angebot **nur** in „Unsere Versprechen“ (Jamil 19.10., Talk 2531/2536, Variante A) | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre; 12 h / 24 h in der Zahlenleiste |
+| Zahlen (6.6) | Vertrauensleiste: nur 40+ sanierte Bäder und 15+ Jahre Erfahrung im Handwerk als Zahlen (dazu die Nachweise versichert / Handwerkskammer, siehe Abschnitt 2a). 12 h Antwort / 24 h Angebot **nur** in den Versprechen (Jamil 19.10., Talk 2531/2536, Variante A) | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre; 12 h / 24 h in der Zahlenleiste |
 
 **Verbotene Aussagen (Werberecht/UWG, K2/K3):**
 - „Meisterbetrieb“ (ist es nicht). Erlaubt nur: „Elektromeisterbetrieb“ als Partner für Endanschlüsse.
@@ -60,14 +60,21 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 - Hover-Lift nur bei klickbaren Karten, einheitlich 2 px (3.5). Motion-Tokens für Tempo (3.4).
 - Skizzen-Animationen: Texte erscheinen erst mit ihrer Form (Bugfix 19.10.), Linien in ca. 1,5–2 s fertig (3.1); goldene Linien fließen, Siegel-Ringe drehen (Sprachnachricht 19.10.).
 - **Animierte Formen einheitlich kreisförmig** (Jamil 19.10., Msg 2518/2523): Siegel, Schritt-Nummern, Stempel-Effekte, Lade-Anzeigen rund – keine Rechteck-Rahmen mehr (ersetzt Kundenwunsch 15.10. (65) „Rechtecke“ auf Über uns). Symbol-Behälter (Audit 2.4) bleiben, da nicht animiert.
-- Zahlenleiste (6.6, Jamil 19.10., Talk 2531/2536): „wie eine Errungenschaft, aber nicht übertrieben“ – große goldene Zahl in feinem goldenem Ring, Ring zeichnet sich einmal, Zahl zählt einmal hoch; Beschriftung in Kapitälchen. Kein Konfetti, keine blinkenden Abzeichen.
+- Vertrauensleiste (6.6/6.2, Jamil 19.10., Talk 2531/2536 + 2544/2547): „wie eine Errungenschaft, aber nicht übertrieben“ – EINE dunkle Leiste mit vier goldenen Kreisen (40+ Bäder, 15+ Jahre, Schild „Versicherter Betrieb“, Hammer „Eingetragen bei der Handwerkskammer Lübeck“). Ringe zeichnen sich einmal, **nur die Zahlen** zählen hoch, Symbole stehen still; Beschriftung in Kapitälchen; darunter klein „Angaben im Impressum“. Handy 2 × 2. Kein Konfetti, keine blinkenden Abzeichen.
 - Hero-Wortwalze bleibt in Dauerschleife (Jamil 1.1), jedes Wort 1,6 s.
 - Kein Ken-Burns-Zoom in den Leistungs-Startbildern, bis schärfere Fotos da sind (3.6).
 - Rechner: Schritt-Anzeige sichtbar, Badsanierung in zwei Mini-Schritten (1.5), kurzer Übergang, Preisspanne zählt hoch (3.7); mobil Liste ohne Silbentrennung (2.9).
 - Mobil: Leistungen im Menü aufgeklappt + Preis berechnen / Vor-Ort-Termin / Telefon (1.6); Sticky-Leiste passend zur Seite (1.7); kein „Nach oben“-Button (1.10); Unterseiten Text zuerst, Bild darunter (2.6); Referenzen waagerecht wischbar (1.4).
 - „Sicher wohnen“ im Aufbau der anderen Leistungsseiten (2.5); alle Leistungsseiten mit Einleitung + Foto (2.8).
-- Eigene Abläufe für Sanierungscheck und Kontakt (1.8); eine gemeinsame Leiste mit 4 Kernvorteilen, Leistungsseiten max. 3 eigene Vorteile (5.1).
+- Eigene Abläufe für Sanierungscheck und Kontakt (1.8). Vorteile/Versprechen: siehe Abschnitt 2a (ersetzt die frühere Leiste mit 4 Kernvorteilen, 5.1).
 - Keine Doppelungen: allgemeine FAQ nur auf der Startseite (5.6), Zitat nur auf Über uns (5.2), kein doppelter Kontaktblock auf Kontakt (5.4), Preis bei den Checks max. 2× (5.7).
+
+## 2a. Versprechen & Nachweise (Jamil 19.10.2026, Talk 2538/2539/2541 + 2544/2547)
+
+- **Überall genau 7 Versprechen** – eine Quelle `src/data/versprechen.ts`: Festpreis-Zusage, Termintreue, Ein fester Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, Volle Transparenz, Alle Gewerke aus einer Hand. Startseite **und** Über uns zeigen dieselben 7 gezeichneten Siegel (kein „Regional“ / „15+ Jahre“ mehr dazwischen – das sind keine Versprechen; auf Über uns stehen sie als Fakten im Hero).
+- **Jeder Vorteil nur einmal pro Seite.** Keine zweite Leiste/Karten mit denselben Vorteilen. `audit-check.mjs` warnt („Versprechen doppelt“), wenn ein Versprechen-Titel oder eine `data-versprechen`-Markierung zweimal auf einer Seite steht.
+- **Leistungsseiten mit eigener Darstellung** (nicht die Siegel der Startseite): ein dunkler Abschnitt `LeistungVorteile.astro` – links groß, was die Leistung besonders macht (eigene Vorteile aus dem Frontmatter, z. B. „Keine Lockangebote“), rechts die 7 Versprechen als nummerierte Linie mit goldenen Ziffern in Ringen (Ring zeichnet sich einmal, kreisförmig; reduzierte Bewegung = sofort fertig). Eigene Vorteile, die inhaltlich ein Versprechen sind („Verständliche Angebote statt Positionsdschungel“ → Volle Transparenz), werden zusammengelegt. Keine neuen Aussagen erfinden.
+- **Nachweise ≠ Versprechen:** Belegbare Fakten (40+ Bäder, 15+ Jahre im Handwerk, versicherter Betrieb, Handwerkskammer Lübeck) stehen in der **Vertrauensleiste** (`Vertrauensleiste.astro`, Daten `ZAHLEN` + `NACHWEISE` in `src/data/home.ts`) – eine Komponente überall (Startseite, alle Leistungsseiten, Kontakt), mit Link „Angaben im Impressum“. Zusagen (Versprechen) stehen nie in dieser Leiste und umgekehrt. Kein „Meister“.
 
 ## 3. Bilder & KI-Kennzeichnung (Audit 7.1/7.2, EU-KI-VO Art. 50)
 

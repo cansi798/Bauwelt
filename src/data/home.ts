@@ -30,6 +30,15 @@ export const ZAHLEN = [
   { wert: "15+", label: "Jahre Erfahrung im Handwerk" }, // Audit K3: Erfahrung im Handwerk (GmbH seit ca. 2024)
 ];
 
+/** Belegbare Nachweise (Audit 6.2) – Jamil 19.10.2026 (Talk 2544/2547): stehen zusammen mit den
+ *  ZAHLEN in EINER dunklen Vertrauensleiste (4 goldene Kreise, Komponente Vertrauensleiste.astro).
+ *  Nachweis = belegbar (Impressum), NICHT zu verwechseln mit den Versprechen (Zusagen, versprechen.ts).
+ *  Bewusst KEIN „Meister“ (Audit K2/K3). */
+export const NACHWEISE = [
+  { icon: "shield", label: "Versicherter Betrieb" },
+  { icon: "hammer", label: "Eingetragen bei der Handwerkskammer Lübeck" },
+];
+
 /** Eine Bild-Text-Sektion je Gewerk (Enpal-Produktsektions-Muster) – nur die echten Leistungen. */
 export type LeistungSection = {
   slug: string;        // Leistungs-Seite + Rechner-Vorauswahl

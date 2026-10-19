@@ -12,7 +12,7 @@
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LeistungHero from "../../components/LeistungHero.astro";
-import Kernvorteile from "../../components/Kernvorteile.astro";
+import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import SectionHead from "../../components/SectionHead.astro";
 import Faq from "../../components/Faq.astro";
@@ -85,8 +85,7 @@ const vorteile = [
     ctaMobil
     chips={[]}
   />
-  <Kernvorteile />
-  <Vertrauensleiste sand />
+  <Vertrauensleiste />
 
   <div class="zc">
     <!-- 1. Das Wichtigste zuerst -->
@@ -122,21 +121,15 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 4. Ihr Vorteil – dunkel wie auf allen Leistungsseiten (Audit 2.5) -->
-    <section class="section section--dark lwarum">
-      <div class="container">
-        <SectionHead center eyebrow="Ihr Vorteil" pre="Heute planen statt morgen " accent="reagieren" />
-        <ul class="warum warum--zentriert">
-          {vorteile.map((v) => (
-            <li class="warum__item reveal">
-              <span class="warum__icon"><Icon name={v.icon} size={24} class="icon" /></span>
-              <h3>{v.titel}</h3>
-              <p>{v.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <!-- 4. Ihr Vorteil – EIN dunkler Vorteils-Abschnitt wie auf allen Leistungsseiten (Jamil 19.10.2026):
+         eigene Vorteile des Checks + die 7 Versprechen, jeder Vorteil genau einmal -->
+    <LeistungVorteile
+      eyebrow="Ihr Vorteil"
+      pre="Heute planen statt morgen "
+      accent="reagieren"
+      eigeneTitel="Das bringt Ihnen der Check"
+      vorteile={vorteile.map((v) => ({ icon: v.icon, title: v.titel, text: v.text }))}
+    />
 
     <!-- 5. Ablauf als Zeichnung (Audit 2.5, gleicher Stil wie die anderen Leistungsseiten) -->
     <section class="section">

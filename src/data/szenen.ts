@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -479,21 +479,8 @@ function siegelSzene(
 const SIEGEL_IDS = VERSPRECHEN.map((v) => v.id);
 // Startseite: 7 Siegel (mobil 2-3-2, Desktop eine Reihe)
 const siegel = (a: Ansicht) => siegelSzene(a, SIEGEL_IDS, [2, 3, 2], [SIEGEL_IDS.length]);
-// Über uns (Kundenwunsch 11.10.2026 (9)): 3 Fakten + 7 Siegel = 10 (mobil 2-3-2-3, Desktop 5-5)
-// Kundenwunsch 14.10.2026 (37): Beschriftung wörtlich nach „Zahlen & Fakten“ (nur Über uns)
-const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
-  deutsch: { mobil: ["Deutsch-", "sprachiger An-", "sprechpartner"], desktop: ["Deutsch-", "sprachiger", "Ansprechpartner"] },
-  regional: { mobil: ["Regional in", "Hamburg &", "Umgebung"], desktop: ["Regional in", "Hamburg & Umgebung"] },
-  antwort: { mobil: ["Antwort", "innerhalb von", "12 Stunden"], desktop: ["Antwort innerhalb", "von 12 Stunden"] },
-  angebot: { mobil: ["Angebot", "innerhalb von", "24 Stunden"], desktop: ["Angebot innerhalb", "von 24 Stunden"] },
-};
-// Kundenwunsch 15.10.2026 (60): Siegel „DE“ (deutsch) entfernt – doppelt mit „Deutschsprachiger Ansprechpartner“
-// → 9 Siegel (mobil 3-3-3, Desktop 5-4)
-const siegelUeber = (a: Ansicht) =>
-  siegelSzene(a, ["erfahrung", "regional", ...SIEGEL_IDS], [3, 3, 3], [5, 4], ZEILEN_UEBER,
-    // Kundenwunsch 15.10.2026 (65): schneller, 1 s länger stehen. Die damaligen Rechteck-Rahmen sind
-    // seit 19.10.2026 (Jamil Msg 2523) wieder Kreise – wie auf der Startseite, einheitlich überall.
-    { schritt: 0.32, halten: 1000 });
+// Über uns zeigt seit Jamil 19.10.2026 (Talk 2538/2539/2541) GENAU dieselben 7 Siegel wie die
+// Startseite (Szene „siegel“). Die Fakten 15+ Jahre / regional stehen dort im Hero-Text.
 
 /* ─── USP-Bilder als Zeichnungen (Kundenwunsch 15.10.2026 (61), Über uns „Handwerk ohne Überraschungen“) ─── */
 const USP_B = 300, USP_H = 180;
@@ -561,4 +548,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis };

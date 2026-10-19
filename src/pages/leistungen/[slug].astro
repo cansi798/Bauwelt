@@ -19,7 +19,7 @@ import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
 import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
-import Kernvorteile from "../../components/Kernvorteile.astro";
+import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
@@ -78,21 +78,10 @@ const mitIntro = !l.data.ohneIntro;
 const kachelnSand = mitIntro || !hatRechner;
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
-// Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero, sondern als Karten im
-// „Warum“-Abschnitt.
-// Kundenwunsch 19.10.2026 (Audit 5.1): Festpreis, Zeitplan, Ansprechpartner und Antwort in 12 h
-// stehen jetzt EINMAL in der gemeinsamen Leiste (Kernvorteile) unter dem Hero. Hier bleiben nur
-// die eigenen Vorteile der Leistung – höchstens 3 (ergänzt um „Angebot in 24 Stunden“, wo Platz ist).
-const zusatzVorteile = pauschal ? [] : [
-  { icon: "doc", title: "Angebot innerhalb von 24 Stunden", text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches Angebot zum Festpreis." },
-];
-const warumKarten = [...l.data.warum, ...zusatzVorteile.filter((z) => !l.data.warum.some((w) => w.title === z.title))].slice(0, 3);
-const chips = [
-  pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Zusage",
-  "Antwort innerhalb von 12 Stunden",
-  "Angebot innerhalb von 24 Stunden",
-  "Ein fester Ansprechpartner",
-];
+// Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero.
+// Jamil 19.10.2026 (Talk 2538/2539/2541): Die frühere Leiste mit 4 Kernvorteilen unter dem Hero
+// und die Karten „Ihre Vorteile“ zeigten dieselben Vorteile doppelt. Jetzt EIN Abschnitt
+// (LeistungVorteile): eigene Vorteile der Leistung + die 7 Versprechen – jeder Vorteil genau einmal.
 
 // SEO-/KI-Audit S4 (19.10.2026): Titel mit Leistung + Norderstedt (lokaler Fokus), max. ca. 60 Zeichen
 const seoTitel = [
@@ -137,10 +126,9 @@ const description =
     ctaHref={hatRechner ? "#rechner" : buchen.href}
     ctaLabel={hatRechner ? CTA.label : buchen.label}
     mitTermin={!pauschal}
-    chips={[] /* (54): Plaketten entfallen, siehe warumKarten */}
+    chips={[] /* (54): Plaketten entfallen, Vorteile stehen in LeistungVorteile */}
   />
-  <Kernvorteile />
-  <Vertrauensleiste sand />
+  <Vertrauensleiste />
 
   {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
   {hatRechner && (
@@ -195,23 +183,13 @@ const description =
     </section>
   )}
 
-  <!-- 2. Warum mit Bauwelt Handwerk? – dunkler Kontrast-Abschnitt -->
-  {warumKarten.length > 0 && (
-    <section class="section section--dark lwarum">
-      <div class="container">
-        <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${weich(kurzTitel)} mit `} accent="Bauwelt Handwerk?" />
-        <ul class:list={["warum", { "warum--zentriert": warumKarten.length !== 4 }]}>
-          {warumKarten.map((w, i) => (
-            <li class="warum__item reveal">
-              <span class="warum__icon"><Icon name={w.icon} size={24} class="icon" /></span>
-              <h3>{w.title}</h3>
-              <p>{w.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
+  <!-- 2. Warum mit Bauwelt Handwerk? – EIN dunkler Vorteils-Abschnitt (Jamil 19.10.2026) -->
+  <LeistungVorteile
+    pre={`Warum ${weich(kurzTitel)} mit `}
+    accent="Bauwelt Handwerk?"
+    eigeneTitel={pauschal ? `Das bringt Ihnen der ${kurzTitel}` : `Das Besondere bei ${kurzTitel}`}
+    vorteile={l.data.warum}
+  />
 
   {refBilder.length > 0 && (
     <section class="section">

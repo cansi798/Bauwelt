@@ -22,6 +22,8 @@ const WERTE = [
 // < 200 KB) → wird automatisch verwendet und trägt den Hinweis „KI-generiertes Bild“ (KI_BILDER).
 // Solange die Datei fehlt, steht hier ein echtes Projektfoto.
 import { existsSync } from "node:fs";
+// Jamil 19.10.2026: Fakten statt Siegel – früher als Siegel „15+ Jahre“ / „Regional in Hamburg & Umgebung“
+const FAKTEN = ["15+ Jahre Erfahrung im Handwerk" /* Audit K3 */, "Regional in Hamburg & Umgebung, Sitz Norderstedt" /* region.ts */];
 const TEAM_BILD = "team-fiktiv.webp";
 const teamDa = existsSync(`${process.cwd()}/public/assets/img/${TEAM_BILD}`); // Build läuft im Projektordner
 const heroBild = teamDa
@@ -40,6 +42,7 @@ const heroBild = teamDa
     accent="sollte."
     bild={heroBild.bild}
     alt={heroBild.alt}
+    checks={FAKTEN}
   >
     <div class="ueber__intro">
       <p class="lead">
@@ -85,8 +88,9 @@ const heroBild = teamDa
 
   <!-- Kundenwunsch 15.10.2026 (66): „Handwerk ohne Überraschungen“ entfernt -->
 
-  <!-- 5. Zahlen & Fakten: zehn gezeichnete Siegel (Icons in Kreisen) -->
-  <SiegelSlider ueber weiss eyebrow="Auf einen Blick" pre="Darauf können Sie sich " accent="verlassen." />
+  <!-- 5. Unsere Versprechen: dieselben 7 gezeichneten Siegel wie auf der Startseite (Jamil 19.10.2026,
+       Talk 2538/2539/2541). „15+ Jahre“ und „Regional“ sind keine Versprechen → stehen jetzt im Hero. -->
+  <SiegelSlider weiss pre="Darauf können Sie sich " accent="verlassen." />
 
   <!-- 6. Partner & Auftraggeber – nur Namen, keine Logos (Nutzung nicht freigegeben) -->
   <Kooperationen

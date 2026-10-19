@@ -2,16 +2,14 @@
 // "Unsere Versprechen" – sieben eigene Siegel als handgezeichnete Szene
 // (Kundenfeedback 30.09.2026: Siegel-Karten + Erklär-Dialoge entfallen).
 // Rechtlich: eigene Zusagen, klar als solche gekennzeichnet – keine fremden Prüfzeichen.
-// Über uns (Kundenwunsch 11.10.2026 (9)): ohne Satz „Sieben Zusagen …“; die drei
-// Fakten (15+ Jahre, deutschsprachig, regional) sind jetzt selbst animierte Siegel
-// (Szene „siegelUeber“, 10 Siegel) statt Häkchen-Zeile. Startseite bleibt unverändert.
+// Jamil 19.10.2026 (Talk 2538/2539/2541): Startseite UND Über uns zeigen genau dieselben
+// 7 Versprechen (src/data/versprechen.ts) – keine Fakten-Siegel (15+ Jahre, regional) mehr dazwischen.
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
+import { VERSPRECHEN } from "../data/versprechen";
 
 interface Props {
-  /** Über-uns-Fassung: 3 Fakten-Siegel + 7 Versprechen. */
-  ueber?: boolean;
-  // Kundenwunsch 14.10.2026 (37): Über uns „Auf einen Blick – Darauf können Sie sich verlassen.“
+  // Kundenwunsch 14.10.2026 (37): Über uns mit eigener Überschrift
   eyebrow?: string;
   pre?: string;
   accent?: string;
@@ -19,29 +17,25 @@ interface Props {
   weiss?: boolean;
 }
 const {
-  ueber = false,
   eyebrow = "Unsere Versprechen",
   pre = "Worauf Sie sich verlassen ",
   accent = "können",
   weiss = false,
 } = Astro.props;
+const label =
+  `${VERSPRECHEN.length === 7 ? "Sieben" : VERSPRECHEN.length} gezeichnete Siegel werden nacheinander aufgestempelt: ` +
+  VERSPRECHEN.map((v) => v.title).join(", ") + ".";
 ---
 
-<section class:list={["section", { "section--sand": !weiss }]} id="versprechen">
+<section class:list={["section", { "section--sand": !weiss }]} id="versprechen" data-versprechen={VERSPRECHEN.map((v) => v.id).join(" ")}>
   <div class="container">
     <SectionHead
       center
       eyebrow={eyebrow}
       pre={pre}
       accent={accent}
-      text={ueber ? undefined : "Sieben Zusagen, die bei jedem Projekt gelten."}
+      text="Sieben Zusagen, die bei jedem Projekt gelten."
     />
-    <RoughSzene
-      szene={ueber ? "siegelUeber" : "siegel"}
-      label={(ueber
-        ? "Zehn gezeichnete Siegel werden nacheinander aufgestempelt: 15+ Jahre Erfahrung im Handwerk, regional in Hamburg & Umgebung, "
-        : "Sieben gezeichnete Siegel werden nacheinander aufgestempelt: ") +
-        "Festpreis-Zusage, Termintreue, ein fester Ansprechpartner, Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden, volle Transparenz und alle Gewerke aus einer Hand."}
-    />
+    <RoughSzene szene="siegel" label={label} />
   </div>
 </section>
