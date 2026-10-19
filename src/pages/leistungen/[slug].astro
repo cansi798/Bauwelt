@@ -41,12 +41,15 @@ const { Content } = await render(l);
 const leistung = leistungBySlug(l.id);
 if (!leistung) throw new Error(`Leistung ${l.id} fehlt in LEISTUNGEN (consts.ts)`);
 const kurzTitel = kurzName(leistung);
-// Überlange Wörter in der H1 mit weichen Trennstellen, sonst läuft die Überschrift auf dem Handy über den Rand.
-const h1Titel = leistung.unterschrift
+// Überlange Wörter in sichtbaren Überschriften (H1 + H2) mit weichen Trennstellen, sonst läuft die
+// Überschrift auf dem Handy über den Rand und die Seite lässt sich seitlich verschieben
+// (z. B. „Was gehört zu Fliesen- & Bodenlegerarbeiten?“ bei 360 px). Nicht für Titel/Meta verwenden.
+const weich = (t: string) => t
   .replace("Bodenlegerarbeiten", "Boden\u00ADleger\u00ADarbeiten")
   .replace("Komplettsanierung", "Komplett\u00ADsanierung")
   .replace("Modernisierung", "Moderni\u00ADsierung")
   .replace("Sanierungscheck", "Sanierungs\u00ADcheck");
+const h1Titel = weich(leistung.unterschrift);
 const pauschal = l.data.pauschalpreis;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
@@ -155,7 +158,7 @@ const description =
   <section class="section">
     <div class:list={["container", "lintro", { "lintro--bild": introBild }]}>
       <div class="lintro__text">
-        <SectionHead eyebrow={kurzTitel} pre={l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`} />
+        <SectionHead eyebrow={kurzTitel} pre={weich(l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`)} />
         <div class="ldetail__prose"><Content /></div>
         {/* Audit 5.7: bei Pauschal-Checks kein dritter gleicher Buchen-Button */}
         <div class:list={["lintro__actions", "nur-desktop", { "lintro__actions--aus": pauschal }]}>
@@ -178,7 +181,7 @@ const description =
   {l.data.kacheln.length > 0 && (
     <section class:list={["section", { "section--sand": kachelnSand }]}>
       <div class="container">
-        <SectionHead center eyebrow="Leistungsumfang" {...teile(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`)} text={l.data.umfangText} />
+        <SectionHead center eyebrow="Leistungsumfang" {...teile(weich(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`))} text={l.data.umfangText} />
         {/* Kundenwunsch 14.10.2026 (53): Kacheln zentriert umbrechen (7 Kacheln → 4 + 3), keine einzelne Restkachel */}
         <ul class:list={["kacheln", "kacheln--zentriert", { "kacheln--vier": l.data.kacheln.length === 7 || l.data.kacheln.length === 8 }]}>
           {l.data.kacheln.map((k) => (
@@ -196,7 +199,7 @@ const description =
   {warumKarten.length > 0 && (
     <section class="section section--dark lwarum">
       <div class="container">
-        <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${kurzTitel} mit `} accent="Bauwelt Handwerk?" />
+        <SectionHead center eyebrow="Ihre Vorteile" pre={`Warum ${weich(kurzTitel)} mit `} accent="Bauwelt Handwerk?" />
         <ul class:list={["warum", { "warum--zentriert": warumKarten.length !== 4 }]}>
           {warumKarten.map((w, i) => (
             <li class="warum__item reveal">
@@ -274,7 +277,7 @@ const description =
   {l.data.faq.length > 0 && (
     <section class="section">
       <div class="container">
-        <SectionHead center eyebrow="Häufige Fragen" pre={`${kurzTitel}: Gut zu `} accent="wissen" />
+        <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: Gut zu `} accent="wissen" />
         <Faq items={l.data.faq} withCta />
         {/* Audit 5.6: allgemeine Fragen (Festpreis, Vor-Ort-Termin, Ablauf) stehen einmal auf der Startseite */}
         <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Festpreis, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>
