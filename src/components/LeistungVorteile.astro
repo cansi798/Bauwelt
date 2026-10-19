@@ -4,10 +4,15 @@
 // links groß das, was diese Leistung besonders macht (eigene Vorteile aus dem Frontmatter),
 // rechts die 7 Versprechen (gleiche Quelle wie Startseite/Über uns: src/data/versprechen.ts)
 // als nummerierte Linie mit goldenen Ziffern. Eigene Darstellung – NICHT die Siegel der Startseite.
+// Polish 19.10.2026: Links blieb unter dem kurzen Kasten eine große leere Fläche. Die linke Spalte
+// (Kasten + ruhiges echtes Projektfoto der Leistung + vorhandener Button) bleibt jetzt am Desktop
+// beim Scrollen stehen (sticky), während rechts die Versprechen laufen. Ohne Foto: nur Button.
+// Handy: alles untereinander, nichts klebt. Keine neuen Texte – nur bestehende CTA-Beschriftungen.
 // Bewegung: nur kreisförmig (Jamil Msg 2518/2523) – die goldenen Ringe zeichnen sich EINMAL,
 // danach erscheinen Titel/Text (nur Deckkraft). Bei „Bewegung reduzieren“ steht sofort alles.
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
+import Img from "./Img.astro";
 import { vorteileFuerSeite, type Vorteil } from "../data/versprechen";
 
 interface Props {
@@ -18,9 +23,16 @@ interface Props {
   eigeneTitel: string;
   /** Eigene Vorteile der Leistung (warum-Liste); Doppelungen mit den Versprechen fallen weg. */
   vorteile: Vorteil[];
+  /** Ruhiges, echtes Projektfoto der Leistung unter dem Kasten (optional, Datei in assets/img/). */
+  bild?: { file: string; alt: string };
+  /** Bestehender Button der Seite („Preis berechnen“ / „… buchen“), nur Desktop. */
+  cta?: { href: string; label: string; extern?: boolean };
 }
-const { eyebrow = "Ihre Vorteile", pre, accent = "", eigeneTitel, vorteile } = Astro.props;
+const { eyebrow = "Ihre Vorteile", pre, accent = "", eigeneTitel, vorteile, bild, cta } = Astro.props;
 const { eigene, zusagen } = vorteileFuerSeite(vorteile);
+// Foto nur, solange die linke Spalte damit nicht länger wird als die Versprechen-Liste
+// (1 Vorteil: 16:10, 2 Vorteile: flaches 3:1, ab 3 Vorteilen kein Foto – der Kasten füllt dann selbst).
+const zeigeBild = eigene.length <= 2;
 const R = 24;
 const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
 ---
@@ -30,6 +42,7 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
     <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} />
     <div class:list={["lvort__grid", { "lvort__grid--eins": eigene.length === 0 }]}>
       {eigene.length > 0 && (
+        <div class:list={["lvort__seite", { "lvort__seite--hoch": eigene.length > 1 }]}>
         <div class="lvort__eigen">
           <p class="lvort__kicker">{eigeneTitel}</p>
           <ul class="lvort__eigenliste">
@@ -43,6 +56,19 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
               </li>
             ))}
           </ul>
+        </div>
+        {zeigeBild && bild && (
+          <figure class="lvort__bild">
+            <Img src={bild.file} alt={bild.alt} w={eigene.length > 1 ? 3 : 16} h={eigene.length > 1 ? 1 : 10} />
+          </figure>
+        )}
+        {cta && (
+          <div class="lvort__cta nur-desktop">
+            {cta.extern
+              ? <a class="btn" href={cta.href} target="_blank" rel="noopener" data-termin>{cta.label}</a>
+              : <a class="btn" href={cta.href}>{cta.label}</a>}
+          </div>
+        )}
         </div>
       )}
       <div class="lvort__zusagen" data-einmal>
@@ -74,8 +100,29 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
   @media (min-width: 1024px) {
     .lvort__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 72px; }
     .lvort__grid--eins { grid-template-columns: minmax(0, 760px); justify-content: center; }
-    .lvort__eigen { position: sticky; top: 112px; }
   }
+  /* Linke Spalte bleibt beim Scrollen stehen – nur am Desktop und nur, wenn das Fenster hoch genug ist
+     (sonst wäre der untere Teil nie erreichbar). Abstand oben = feste Kopfzeile + Luft. */
+  @media (min-width: 1024px) and (min-height: 720px) {
+    .lvort__seite { position: sticky; top: calc(var(--header-h, 80px) + 40px); }
+  }
+  /* höherer Kasten (mehrere eigene Vorteile): erst ab entsprechend hohem Fenster kleben */
+  @media (min-width: 1024px) and (max-height: 859px) {
+    .lvort__seite--hoch { position: static; }
+  }
+  .lvort__seite { display: grid; gap: 24px; min-width: 0; }
+
+  /* Foto unter dem Kasten: ruhig, abgerundet, feiner goldener Rahmen wie der Kasten */
+  .lvort__bild {
+    margin: 0;
+    padding: 6px;
+    border-radius: calc(var(--radius-card, 16px) + 6px);
+    border: 1px solid rgba(195, 165, 111, 0.35);
+    background: rgba(195, 165, 111, 0.05);
+  }
+  .lvort__bild :global(.img-wrap) { border-radius: var(--radius-card, 16px); }
+  .lvort__bild :global(img) { filter: saturate(0.92); }
+  .lvort__cta { display: flex; }
 
   .lvort__kicker {
     margin: 0 0 20px;

@@ -21,7 +21,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
-import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
+import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName, istKiBild } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
@@ -64,6 +64,12 @@ const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data
 const heroBild = l.data.bild ?? `hero-${l.id}.webp`; /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */
 // Foto neben dem Intro: erstes Referenzfoto, das nicht schon im Hero steht.
 const introBild = refBilder.find((b) => b.file !== heroBild);
+// Foto links im Vorteils-Abschnitt (Polish 19.10.2026): ein echtes Projektfoto, das weder im Hero
+// noch neben dem Intro steht; sonst das (echte) Hero-Foto der Leistung. Gibt es keins (oder nur ein
+// KI-Bild), zeigt der Abschnitt nur den Button.
+const vorteilBild =
+  refBilder.find((b) => b.file !== heroBild && b.file !== introBild?.file) ??
+  (istKiBild(heroBild) ? undefined : refBilder.find((b) => b.file === heroBild));
 const buchen = pauschal
   ? { href: u("kontakt/#termin"), label: `${kurzTitel.replace("Immobilien-", "")} buchen`, extern: false }
   : { href: TERMIN.href, label: TERMIN.label, extern: true };
@@ -189,6 +195,8 @@ const description =
     accent="Bauwelt Handwerk?"
     eigeneTitel={pauschal ? `Das bringt Ihnen der ${kurzTitel}` : `Das Besondere bei ${kurzTitel}`}
     vorteile={l.data.warum}
+    bild={vorteilBild}
+    cta={pauschal ? undefined /* Audit 5.7: kein weiterer Buchen-Button bei Pauschal-Checks */ : hatRechner ? { href: "#rechner", label: CTA.label } : buchen}
   />
 
   {refBilder.length > 0 && (
