@@ -35,7 +35,7 @@ function el(e: Element, f: number): string {
         ? `<path class="rs-f" d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}" style="--t:${n(e.t * f)}s"/>`
         : `<path class="rs-f" d="${e.d}" fill="${e.farbe}" stroke="none" style="--t:${n(e.t * f)}s"/>`;
     case "text":
-      return `<text class="rs-x" x="${n(e.x)}" y="${n(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}">${esc(e.text)}</text>`;
+      return `<text class="rs-x${e.beschriftung ? " rs-xb" : ""}" style="--t:${n(e.t * f)}s" x="${n(e.x)}" y="${n(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}">${esc(e.text)}</text>`;
     case "gruppe":
       if (e.effekt === "fluss") return fluss(e.kinder, f);
       return `<g class="rs-g rs-g--${e.effekt}" style="--t:${n(e.t * f)}s">${e.kinder.map((k) => el(k, f)).join("")}</g>`;
@@ -98,9 +98,13 @@ const desktop = SZENEN[szene]("desktop");
 
   /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
   @media (prefers-reduced-motion: no-preference) {
-    /* Texte (.rs-x) stehen sofort (Audit 3.1) – nur Linien/Flächen werden gezeichnet */
+    /* Beschriftungen (.rs-xb: Titel/Unterzeilen) stehen sofort (Audit 3.1). Texte, die zur
+       Zeichnung gehören (z. B. „12h“ im Siegel, Schritt-Nummern, Ortsnamen der Karte), erscheinen
+       erst mit ihrer Zeichnung – vorher waren sie zu früh sichtbar (Bug-Meldung Jamil 19.10.2026). */
     html.js .rszene .rs-s,
-    html.js .rszene .rs-f { opacity: 0; }
+    html.js .rszene .rs-f,
+    html.js .rszene .rs-x:not(.rs-xb) { opacity: 0; }
+    html.js .rszene.is-sichtbar .rs-x:not(.rs-xb) { animation: rs-ein 0.25s ease-out calc(var(--t) + 0.15s) both; } /* kurz nach der eigenen Form */
 
     html.js .rszene.is-sichtbar .rs-s { animation: rs-zeichnen var(--d) ease-out var(--t) both; }
     html.js .rszene.is-sichtbar .rs-f { animation: rs-ein 0.25s ease-out var(--t) both; }

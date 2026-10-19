@@ -14,6 +14,9 @@ export type Element =
   | {
       art: "text"; x: number; y: number; text: string; t: number;
       groesse: number; gewicht: number; farbe: string; anker: "start" | "middle" | "end";
+      /** Beschriftung (Titel/Unterzeile) steht sofort; sonst gehört der Text zur Zeichnung
+       *  (z. B. „12h“ im Siegel, Schritt-Nummer) und erscheint erst mit ihr (Fix 19.10.2026). */
+      beschriftung?: boolean;
     }
   /** Gruppe mit „Stempel"-Effekt (kurzes Aufploppen) oder Dauer-Puls; „dreh“ (goldener Ring dreht
    *  sich nach dem Zeichnen ständig) und „fluss“ (goldene Verbindungslinie fließt ständig) –
@@ -109,10 +112,11 @@ export class Zeichner {
       `V${y + r}Q${x} ${y} ${x + r} ${y}Z`;
     return this.pfad(d, o, dauer);
   }
-  text(x: number, y: number, text: string, o: Partial<{ groesse: number; gewicht: number; farbe: string; anker: "start" | "middle" | "end" }> = {}) {
+  text(x: number, y: number, text: string, o: Partial<{ groesse: number; gewicht: number; farbe: string; anker: "start" | "middle" | "end"; beschriftung: boolean }> = {}) {
     this.ziel.push({
       art: "text", x, y, text, t: this.uhr,
       groesse: o.groesse ?? 16, gewicht: o.gewicht ?? 700, farbe: o.farbe ?? F.strich, anker: o.anker ?? "middle",
+      beschriftung: o.beschriftung ?? false,
     });
     return this;
   }

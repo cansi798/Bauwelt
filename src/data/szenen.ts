@@ -211,16 +211,16 @@ function wegSzene(a: Ansicht, titel: string[][], unter: string[][], motive: Moti
       const links = i % 2 === 0;
       const tx = links ? 150 : 210;
       const anker = links ? "start" : "end";
-      titel[i].forEach((tz, k) => z.text(tx, cy - 2 + k * 18, tz, { groesse: 15.5, anker }));
+      titel[i].forEach((tz, k) => z.text(tx, cy - 2 + k * 18, tz, { groesse: 15.5, anker, beschriftung: true }));
       const o = (titel[i].length - 1) * 18;
       unter[i].forEach((zeile, k) =>
-        z.text(tx, cy + 18 + o + k * 17, zeile, { groesse: 13, gewicht: 400, farbe: F.text2, anker })
+        z.text(tx, cy + 18 + o + k * 17, zeile, { groesse: 13, gewicht: 400, farbe: F.text2, anker, beschriftung: true })
       );
     } else {
-      titel[i].forEach((tz, k) => z.text(cx, 206 + k * 22, tz, { groesse: 18 }));
+      titel[i].forEach((tz, k) => z.text(cx, 206 + k * 22, tz, { groesse: 18, beschriftung: true }));
       const o = (titel[i].length - 1) * 22;
       unter[i].forEach((zeile, k) =>
-        z.text(cx, 232 + o + k * 20, zeile, { groesse: 14.5, gewicht: 400, farbe: F.text2 })
+        z.text(cx, 232 + o + k * 20, zeile, { groesse: 14.5, gewicht: 400, farbe: F.text2, beschriftung: true })
       );
     }
     // Weg zur nächsten Station
@@ -411,9 +411,9 @@ function portal(a: Ansicht): Szene {
     z.bei(t + 0.35);
     const ty = mobil ? cy + 32 : cy + 42;
     const [kopf, ...rest] = PORTAL_TEILE[i].zeilen;
-    z.text(cx, ty, kopf, { groesse: mobil ? 13.5 : 16 });
+    z.text(cx, ty, kopf, { groesse: mobil ? 13.5 : 16, beschriftung: true });
     rest.forEach((zeile, k) =>
-      z.text(cx, ty + (mobil ? 18 : 21) * (k + 1), zeile, { groesse: mobil ? 12.5 : 14, gewicht: 400, farbe: F.text2 })
+      z.text(cx, ty + (mobil ? 18 : 21) * (k + 1), zeile, { groesse: mobil ? 12.5 : 14, gewicht: 400, farbe: F.text2, beschriftung: true })
     );
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 2.0 + 3 * 0.75 + 1 };
@@ -471,7 +471,7 @@ function siegelSzene(
       : !mobil && id === "deutsch" ? ["Deutsch-", "sprachiger", "Ansprechpartner"]
       : SIEGEL_ZEILEN[id] ?? [VERSPRECHEN.find((v) => v.id === id)?.title ?? id];
     const ty = cy + d / 2 + (mobil ? 22 : 28);
-    zeilen.forEach((zl, k) => z.text(cx, ty + k * (mobil ? 17 : 20), zl, { groesse: mobil ? 13 : 15, gewicht: 600 }));
+    zeilen.forEach((zl, k) => z.text(cx, ty + k * (mobil ? 17 : 20), zl, { groesse: mobil ? 13 : 15, gewicht: 600, beschriftung: true }));
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + (n - 1) * schritt + 1, halten: stil.halten };
 }
