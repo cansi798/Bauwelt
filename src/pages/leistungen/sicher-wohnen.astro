@@ -18,6 +18,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Faq from "../../components/Faq.astro";
 import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
+import RoughSzene from "../../components/RoughSzene.astro";
 import { SITE, u, leistungBySlug } from "../../consts";
 
 const l = await getEntry("leistungen", "sicher-wohnen");
@@ -98,13 +99,13 @@ const vorteile = [
     </section>
 
     {/* Kundenwunsch 17.10.2026 (79): Abschnitt „Worum es wirklich geht“ (Mittel zum Zweck / Wünsche) entfernt */}
-    <!-- 3. Was wir gemeinsam prüfen -->
+    <!-- 3. Was wir gemeinsam prüfen (Karten im Standard-Stil, Audit 2.5) -->
     <section class="section section--sand">
       <div class="container">
         <SectionHead center eyebrow="Fünf Bereiche" pre="Was wir gemeinsam " accent="prüfen" />
         <ul class="zc-bereiche">
           {bereiche.map((b) => (
-            <li class="zc-bereich reveal">
+            <li class="card zc-bereich reveal">
               <span class="kachel__icon"><Icon name={b.icon} size={26} class="icon" /></span>
               <h3>{b.titel}</h3>
               <ul class="check-list">
@@ -116,7 +117,52 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 4. Kernsatz der Seite als Zitatband -->
+    <!-- 4. Ihr Vorteil – dunkel wie auf allen Leistungsseiten (Audit 2.5) -->
+    <section class="section section--dark lwarum">
+      <div class="container">
+        <SectionHead center eyebrow="Ihr Vorteil" pre="Heute planen statt morgen " accent="reagieren" />
+        <ul class="warum warum--zentriert">
+          {vorteile.map((v) => (
+            <li class="warum__item reveal">
+              <span class="warum__icon"><Icon name={v.icon} size={24} class="icon" /></span>
+              <h3>{v.titel}</h3>
+              <p>{v.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. Ablauf als Zeichnung (Audit 2.5, gleicher Stil wie die anderen Leistungsseiten) -->
+    <section class="section">
+      <div class="container">
+        <SectionHead center eyebrow="Ablauf" pre="So läuft der Check " accent="ab" />
+        <RoughSzene
+          szene="wegSicher"
+          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder per Telefon. 2. Gemeinsame Prüfung – zusammen mit unserem Partnerpfleger. 3. Empfehlungen – priorisierte Maßnahmen und Kosteneinschätzung. 4. Sicher wohnen – bei Umsetzung wird der Check angerechnet."
+        />
+      </div>
+    </section>
+
+    <!-- 6. Für wen + was Sie erhalten (helle Karten wie überall, Audit 2.5) -->
+    <section class="section section--sand">
+      <div class="container zc-zwei">
+        <div class="card zc-box reveal">
+          <h3 class="zc-box__titel">Für wen eignet sich <span class="accent">„Sicher&nbsp;wohnen“?</span></h3>
+          <ul class="check-list">
+            {fuerWen.map((f) => <li><Icon name="check" size={22} class="icon" /> {f}</li>)}
+          </ul>
+        </div>
+        <div class="card zc-box reveal">
+          <h3 class="zc-box__titel">Was Sie nach dem Termin <span class="accent">erhalten</span></h3>
+          <ul class="check-list">
+            {ergebnis.map((e) => <li><Icon name="check" size={22} class="icon" /> {e}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Kernsatz der Seite als Zitatband -->
     <section class="section section--dark zc-zitat">
       <div class="container">
         <blockquote>
@@ -129,41 +175,7 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 5. Ihr Vorteil -->
-    <section class="section section--sand">
-      <div class="container">
-        <SectionHead center eyebrow="Ihr Vorteil" pre="Heute planen statt morgen " accent="reagieren" />
-        <ul class="zc-vorteile">
-          {vorteile.map((v) => (
-            <li class="zc-vorteil reveal">
-              <span class="warum__icon"><Icon name={v.icon} size={24} class="icon" /></span>
-              <h3>{v.titel}</h3>
-              <p>{v.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <!-- 6. Für wen + was Sie erhalten -->
-    <section class="section">
-      <div class="container zc-zwei">
-        <div class="zc-box reveal">
-          <h2 class="rule">Für wen eignet sich <span class="accent">„Sicher&nbsp;wohnen“?</span></h2>
-          <ul class="check-list">
-            {fuerWen.map((f) => <li><Icon name="check" size={22} class="icon" /> {f}</li>)}
-          </ul>
-        </div>
-        <div class="zc-box reveal">
-          <h2 class="rule">Was Sie nach dem Termin <span class="accent">erhalten</span></h2>
-          <ul class="check-list">
-            {ergebnis.map((e) => <li><Icon name="check" size={22} class="icon" /> {e}</li>)}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Abschluss -->
+    <!-- 8. Abschluss -->
     <section class="section section--sand zc-abschluss">
       <div class="container">
         <SectionHead center eyebrow={leistung.unterschrift} pre="Zuhause bleiben. Sicher " accent="leben." />
@@ -182,7 +194,7 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 8. FAQ -->
+    <!-- 9. FAQ -->
     {l.data.faq.length > 0 && (
       <section class="section">
         <div class="container">
@@ -239,8 +251,8 @@ const vorteile = [
     .zc-bereiche { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
     .zc-bereiche > * { flex: 0 1 calc((100% - 40px) / 3); min-width: 0; }
   }
-  .zc-bereich { display: grid; gap: 14px; align-content: start; padding: 26px 24px; border-radius: 18px; background: var(--weiss); border: 1px solid var(--linie); }
-  .zc-bereich h3 { margin: 0; font-size: 20px; text-transform: none; letter-spacing: 0; }
+  .zc-bereich { display: grid; gap: 14px; align-content: start; } /* Optik aus .card (Audit 2.5) */
+  .zc-bereich h3 { margin: 0; }
   .zc-bereich :global(.check-list li) { font-size: 17px; }
 
   /* Zitatband */
@@ -264,8 +276,8 @@ const vorteile = [
   /* Für wen / Ergebnis */
   .zc-zwei { display: grid; gap: 24px; }
   @media (min-width: 900px) { .zc-zwei { grid-template-columns: 1fr 1fr; gap: 32px; } }
-  .zc-box { padding: 32px 28px; border-radius: 18px; background: var(--gold-100); }
-  .zc-box h2 { font-size: clamp(22px, 2.8vw, 28px); margin-bottom: 28px; }
+  .zc-box { display: grid; gap: 18px; align-content: start; } /* Optik aus .card (Audit 2.5) */
+  .zc-box .zc-box__titel { margin: 0; font-size: 20px !important; }
 
   /* Abschluss */
   .zc-abschluss { text-align: center; }

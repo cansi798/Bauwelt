@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "wegCheck" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -298,6 +298,15 @@ const CHECK_UNTER: string[][] = [
   ["Sanierungsbedarf", "und Kosten"],
   ["Bei Sanierung mit uns", "wird der Check angerechnet"],
 ];
+// Sicher wohnen (Audit 2.5): Ablauf aus den Seitentexten (Partnerpfleger, Maßnahmenliste, Anrechnung)
+const SICHER_TITEL: string[][] = [["Termin buchen"], ["Gemeinsame Prüfung"], ["Empfehlungen"], ["Sicher wohnen"]];
+const SICHER_UNTER: string[][] = [
+  ["Online oder", "per Telefon"],
+  ["Zusammen mit unserem", "Partnerpfleger"],
+  ["Priorisierte Maßnahmen", "und Kosteneinschätzung"],
+  ["Bei Umsetzung wird", "der Check angerechnet"],
+];
+const wegSicher = (a: Ansicht) => wegSzene(a, SICHER_TITEL, SICHER_UNTER, [kalender, lupeHaus, dokument, muenzeHaken]);
 const wegCheck = (a: Ansicht) => wegSzene(a, CHECK_TITEL, CHECK_UNTER, [kalender, lupeHaus, dokument, muenzeHaken]);
 // Kontakt: „Was nach Ihrer Anfrage passiert“ – nur bestehende Zusagen (12 h, Vor-Ort-Termin, 24 h)
 const KONTAKT_TITEL: string[][] = [["Anfrage senden"], ["Persönliche Antwort"], ["Termin vor Ort"], ["Klares Angebot"]];
@@ -494,4 +503,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, wegCheck, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
