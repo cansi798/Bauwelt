@@ -70,8 +70,20 @@ import { FAQ_HOME } from "../data/home";
     text="Jedes Projekt ist einzigartig. Unser Anspruch bleibt derselbe – hochwertige Handwerksarbeit, klare Kommunikation und ein Ergebnis, das begeistert."
   />
 
-  <PortalSection />
-  <AngebotSection />
+  <!-- Kundenwunsch 19.10.2026 (Audit 5.8): Angebot + Kundenportal als EINE Sektion „So arbeiten wir heute“ -->
+  <section class="section section--sand" id="so-arbeiten-wir">
+    <div class="container">
+      <SectionHead
+        center
+        eyebrow="Modernes Handwerk"
+        pre="So arbeiten wir "
+        accent="heute"
+        text="Ein verständliches Angebot, das Sie digital freigeben, und ein Kundenportal, in dem Sie Ihr Projekt jederzeit im Blick behalten."
+      />
+    </div>
+    <AngebotSection eingebettet />
+    <PortalSection eingebettet />
+  </section>
   {/* Audit 5.2 (19.10.2026): Zitat „Warum wir anders arbeiten“ steht nur noch auf Über uns */}
   <ServiceArea />
 

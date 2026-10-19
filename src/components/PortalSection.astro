@@ -5,9 +5,16 @@
 import { PORTAL } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
+
+interface Props {
+  /** Audit 5.8 (19.10.2026): Teil der gemeinsamen Sektion „So arbeiten wir heute“ (ohne eigene Sektion) */
+  eingebettet?: boolean;
+}
+const { eingebettet = false } = Astro.props;
+const Tag = eingebettet ? "div" : "section";
 ---
 
-<section class="section section--sand" id="kundenportal">
+<Tag class:list={[{ section: !eingebettet, "section--sand": !eingebettet, "portal--eingebettet": eingebettet }]} id="kundenportal">
   <div class="container">
     <SectionHead
       center
@@ -21,4 +28,7 @@ import RoughSzene from "./RoughSzene.astro";
       label="Gezeichnetes Handy mit dem Kundenportal: Projektfortschritt und Freigabe-Knopf, dazu vier Vorteile – alle Dokumente an einem Ort, alle Termine im Blick, Kommunikation per WhatsApp oder E-Mail und ein Projektstatus, der jederzeit nachvollziehbar ist."
     />
   </div>
-</section>
+</Tag>
+<style>
+  .portal--eingebettet { padding-top: 64px; }
+</style>

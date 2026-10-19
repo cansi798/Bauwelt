@@ -11,9 +11,15 @@ import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 
 const SEITEN = [1, 2];
+interface Props {
+  /** Audit 5.8 (19.10.2026): Teil der gemeinsamen Sektion „So arbeiten wir heute“ */
+  eingebettet?: boolean;
+}
+const { eingebettet = false } = Astro.props;
+const Tag = eingebettet ? "div" : "section";
 ---
 
-<section class="section" id="angebot">
+<Tag class:list={[{ section: !eingebettet }]} id="angebot">
   <div class="container angebot__grid">
     <div class="angebot__text">
       <SectionHead
@@ -58,7 +64,7 @@ const SEITEN = [1, 2];
       <figcaption class="small">Echtes Angebot als Beispiel · Kundendaten geändert</figcaption>
     </figure>
   </div>
-</section>
+</Tag>
 
 <script>
   document.querySelectorAll<HTMLElement>("[data-blaettern]").forEach((v) => {
