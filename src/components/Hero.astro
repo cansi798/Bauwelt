@@ -7,8 +7,8 @@
 // Alles reines CSS: läuft ohne JS, prefers-reduced-motion zeigt den ersten
 // Begriff statisch (global.css stoppt Rest).
 // Kundenwunsch 17.10.2026 (81): jede Animation läuft genau einmal (data-einmal, global.css)
-// – Walze rollt einmal durch alle Begriffe und bleibt auf dem ersten stehen,
-// Ken-Burns zoomt einmal hinein und bleibt, der Pfeil wippt einmal.
+// – Ken-Burns zoomt einmal hinein und bleibt, der Pfeil wippt einmal.
+// Ausnahme Kundenwunsch 19.10.2026 (Audit 1.1): die Wortwalze läuft in Dauerschleife.
 import { CTA, TERMIN, istKiBild, u } from "../consts";
 import { HERO } from "../data/home";
 import Icon from "./Icon.astro";
@@ -147,9 +147,9 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__band {
     display: flex;
     flex-direction: column;
-    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – EINE Runde, Endbild = erster Begriff
-       (Kopie am Ende); forwards hält ihn danach fest */
-    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s 1 forwards;
+    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – Endbild = erster Begriff (Kopie am
+       Ende), daher nahtlose Dauerschleife (Kundenwunsch 19.10.2026, Audit 1.1) */
+    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s infinite;
   }
   .fhero__wort {
     display: block;
