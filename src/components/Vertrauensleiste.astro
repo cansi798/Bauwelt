@@ -7,8 +7,9 @@
 // Bewegung (kreisförmig, Jamil Msg 2518/2523): jeder Ring zeichnet sich EINMAL; nur die ZAHLEN
 // zählen dabei hoch, die Symbole stehen still. Ohne JS / bei reduzierter Bewegung: sofort fertig.
 // Bewusst KEIN „Meister“ (Audit K2/K3).
+// Jamil 20.10.2026 (Talk 2561): KEINE Zeile „Angaben im Impressum“ mehr unter der Leiste;
+// das Impressum selbst bleibt im Footer verlinkt (Pflicht). Abstand oben/unten gleich.
 import Icon from "./Icon.astro";
-import { u } from "../consts";
 import { ZAHLEN, NACHWEISE } from "../data/home";
 
 const R = 46;
@@ -47,7 +48,6 @@ const punkte: Punkt[] = [
         </li>
       ))}
     </ul>
-    <p class="zahlen__beleg"><a href={u("impressum/")}>Angaben im Impressum</a></p>
   </div>
 </section>
 
@@ -86,7 +86,7 @@ const punkte: Punkt[] = [
 <style>
   .zahlen { background: var(--anthrazit-800); color: var(--weiss); }
   .zahlen__liste {
-    list-style: none; margin: 0 auto; padding: 32px 0 0; max-width: 1040px;
+    list-style: none; margin: 0 auto; padding: 32px 0; max-width: 1040px;
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
   }
   .zahlen__item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; min-width: 0; }
@@ -121,9 +121,6 @@ const punkte: Punkt[] = [
     font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 17px;
     color: var(--anthrazit-100); max-width: 19ch;
   }
-  .zahlen__beleg { margin: 0 auto; max-width: none; padding: 6px 0 10px; text-align: center; font-size: 13px; line-height: 1.4; }
-  .zahlen__beleg a { display: inline-block; padding: 12px 8px; color: var(--anthrazit-200); text-underline-offset: 3px; } /* Tap-Ziel ≥ 44 px (Audit 1.9) */
-  .zahlen__beleg a:hover { color: var(--gold-500); }
 
   @media (prefers-reduced-motion: reduce) {
     .zahlen__bogen { animation: none !important; stroke-dashoffset: 0; }
@@ -131,7 +128,7 @@ const punkte: Punkt[] = [
 
   /* Tablet/Handy: 2 × 2 */
   @media (max-width: 767px) {
-    .zahlen__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; padding-top: 26px; }
+    .zahlen__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; padding: 26px 0; }
     .zahlen__item:nth-child(odd)::before { display: none; }
     .zahlen__item:nth-child(even)::before { left: -6px; }
     .zahlen__ring { width: 84px; height: 84px; }

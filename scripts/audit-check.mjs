@@ -144,7 +144,8 @@ else {
 const rechnerSeite = seite("/rechner/");
 if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("SEO (S7)", "/rechner/: Abschnitt „So rechnet der Rechner“ fehlt"); seoProbleme++; }
 // 6.6/6.2: Vertrauensleiste – Zahlen nur 40+ Bäder / 15+ Jahre (12 h / 24 h nur in „Unsere Versprechen“, Talk 2531/2536)
-//          + Nachweise versichert / Handwerkskammer + Impressum-Link (Talk 2544/2547)
+//          + Nachweise versichert / Handwerkskammer (Talk 2544/2547)
+//          + KEINE Zeile „Angaben im Impressum“ (Jamil 20.10.2026, Talk 2561); Footer-Impressum-Link Pflicht
 {
   const start = seite("/");
   const leiste = start?.html.match(/<section class="zahlen[\s\S]*?<\/section>/)?.[0];
@@ -154,7 +155,10 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   for (const s of S) {
     if (/class="vleiste/.test(s.html)) warn("Vertrauensleiste (6.2)", `${s.page}: alte weiße Nachweis-Zeile (vleiste) – gehört in die dunkle Vertrauensleiste`);
     const l = s.html.match(/<section class="zahlen[\s\S]*?<\/section>/)?.[0];
-    if (l && !(/Versicherter Betrieb/.test(l) && /Handwerkskammer Lübeck/.test(l) && /impressum\//.test(l))) warn("Vertrauensleiste (6.2)", `${s.page}: Vertrauensleiste ohne Versichert/Handwerkskammer/Impressum-Link`);
+    if (l && !(/Versicherter Betrieb/.test(l) && /Handwerkskammer Lübeck/.test(l))) warn("Vertrauensleiste (6.2)", `${s.page}: Vertrauensleiste ohne Versichert/Handwerkskammer`);
+    if (/Angaben im Impressum/.test(s.html)) warn("Vertrauensleiste (6.2)", `${s.page}: Zeile „Angaben im Impressum“ ist wieder da – laut Jamil 20.10. (Talk 2561) entfernt`);
+    const fuss = s.html.match(/<footer class="ftr[\s\S]*?<\/footer>/)?.[0]; // Seiten-Footer (nicht Zitat-<footer>)
+    if (!fuss || !/href="[^"]*impressum\/"/.test(fuss)) warn("Impressum (Pflicht)", `${s.page}: Impressum-Link im Footer fehlt`);
   }
 }
 // 5.1 neu (Jamil 19.10.2026, Talk 2538/2539/2541): 7 Versprechen überall gleich, jeder Vorteil pro Seite nur EINMAL.
