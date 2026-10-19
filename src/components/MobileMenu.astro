@@ -4,7 +4,9 @@
 // Kundenwunsch 12.10.2026 (14): unten keine Buttons (Projekt berechnen, Telefon,
 // WhatsApp) – Telefon/WhatsApp bleiben als Symbole im Header.
 // (15): Zeile mit Öffnungszeiten/Reaktionszeit bleibt aber erhalten.
-import { NAV2, SITE } from "../consts";
+// Kundenwunsch 19.10.2026 (Audit 1.6, ersetzt (14)): „Leistungen“ ist gleich aufgeklappt,
+// darunter „Projekt berechnen“, „Vor-Ort-Termin buchen“ und die Telefonnummer.
+import { CTA, NAV2, SITE, TERMIN } from "../consts";
 import Icon from "./Icon.astro";
 ---
 
@@ -14,7 +16,7 @@ import Icon from "./Icon.astro";
       {NAV2.map((item) =>
         item.children ? (
           <li>
-            <details class="mm__group">
+            <details class="mm__group" open={item.label === "Leistungen"}>
               <summary>
                 {item.label}
                 <Icon name="chevron" size={18} class="icon mm__chev" />
@@ -43,6 +45,14 @@ import Icon from "./Icon.astro";
     </ul>
   </nav>
 
+  <div class="mm__ctas">
+    <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+    <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
+      <Icon name="calendar" size={20} class="icon" /> {TERMIN.kurz}
+    </a>
+    <a class="mm__tel" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} class="icon" /> {SITE.phoneDisplay}</a>
+  </div>
+
   <div class="mm__footer">
     <p class="small">{SITE.hours} · Antwort innerhalb von 12 Stunden</p>
   </div>
@@ -64,6 +74,13 @@ import Icon from "./Icon.astro";
   .mm.open { display: flex; }
   @media (min-width: 1024px) { .mm.open { display: none; } }
 
+  .mm__ctas { display: grid; gap: 10px; }
+  .mm__ctas .btn { width: 100%; justify-content: center; min-height: 52px; }
+  .mm__tel {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 10px; font-weight: 700; color: var(--anthrazit-800); text-decoration: none;
+  }
+  .mm__tel :global(.icon) { color: var(--gold-700); }
   .mm__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
   .mm__top, .mm__group summary {
     display: flex; align-items: center; justify-content: space-between;
