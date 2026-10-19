@@ -235,10 +235,18 @@ const description =
       {ablaufKopf
         ? <SectionHead center eyebrow="Ablauf" pre={ablaufKopf.pre} accent={ablaufKopf.accent} />
         : <SectionHead center eyebrow="Ablauf" pre="So einfach kommen Sie zu Ihrem " accent={l.data.ablaufZiel ?? "Ergebnis"} />}
-      <RoughSzene
-        szene="weg"
-        label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
-      />
+      {/* Kundenwunsch 19.10.2026 (Audit 1.8): Pauschal-Check (Sanierungscheck) mit eigenem Ablauf */}
+      {pauschal ? (
+        <RoughSzene
+          szene="wegCheck"
+          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder kurz per WhatsApp. 2. Besichtigung – vor Ort, gern gemeinsam mit Ihnen. 3. Einschätzung – Sanierungsbedarf und Kosten. 4. Sicher entscheiden – bei einer Sanierung mit uns wird der Check angerechnet."
+        />
+      ) : (
+        <RoughSzene
+          szene="weg"
+          label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot in 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+        />
+      )}
       <div class="lmitte lmitte--zwei nur-desktop">
         {hatRechner && <a class="btn btn--lg" href="#rechner">Jetzt Preis berechnen</a>}
         {buchen.extern

@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "weg" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "weg" | "wegCheck" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "siegelUeber" | "uspRegional" | "uspHand" | "uspFestpreis";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -269,6 +269,46 @@ const PARTNER_UNTER: string[][] = [
 ];
 const partnerWeg = (a: Ansicht) => wegSzene(a, PARTNER_TITEL, PARTNER_UNTER, [papierflieger, sprechblasen, dokument, wiederkehrend]);
 
+/* ─── Eigene Abläufe (Kundenwunsch 19.10.2026, Audit 1.8) – gleicher Zeichenstil wie „weg“ ─── */
+/** Haus mit Lupe: Besichtigung vor Ort */
+function lupeHaus(z: Zeichner, cx: number, cy: number, s = 1) {
+  const hx = cx - 10 * s, hy = cy + 6 * s;
+  z.pfad(`M${hx - 24 * s} ${hy + 24 * s}V${hy - 4 * s}L${hx} ${hy - 26 * s}L${hx + 24 * s} ${hy - 4 * s}V${hy + 24 * s}Z`,
+    { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.3, strokeWidth: 2.4 });
+  z.rechteck(hx - 6 * s, hy + 8 * s, 12 * s, 16 * s, { strokeWidth: 2 }, 0.25);
+  z.gruppe("stempel", () => {
+    z.kreis(cx + 22 * s, cy - 4 * s, 30 * s, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.35);
+    z.linie(cx + 33 * s, cy + 7 * s, cx + 46 * s, cy + 20 * s, { strokeWidth: 3.4 }, 0.25);
+  });
+}
+/** Münze mit Haken: Kosten des Checks werden angerechnet */
+function muenzeHaken(z: Zeichner, cx: number, cy: number, s = 1) {
+  z.kreis(cx - 6 * s, cy, 50 * s, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 5, fillWeight: 1.3, strokeWidth: 2.4 });
+  z.text(cx - 6 * s, cy + 9 * s, "€", { groesse: 26 * s, farbe: F.goldDunkel });
+  z.gruppe("stempel", () => {
+    z.kreis(cx + 22 * s, cy + 20 * s, 26 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+    z.pfad(`M${cx + 15 * s} ${cy + 20 * s}l${5 * s} ${5 * s}l${9 * s} -${9 * s}`, { strokeWidth: 2.4, roughness: 0.4 }, 0.2);
+  });
+}
+// Sanierungscheck: Texte aus content/leistungen/sanierungscheck.md (ablauf) + Pauschal-Hinweis
+const CHECK_TITEL: string[][] = [["Termin buchen"], ["Besichtigung"], ["Einschätzung"], ["Sicher entscheiden"]];
+const CHECK_UNTER: string[][] = [
+  ["Online oder kurz", "per WhatsApp"],
+  ["Vor Ort – gern", "gemeinsam mit Ihnen"],
+  ["Sanierungsbedarf", "und Kosten"],
+  ["Bei Sanierung mit uns", "wird der Check angerechnet"],
+];
+const wegCheck = (a: Ansicht) => wegSzene(a, CHECK_TITEL, CHECK_UNTER, [kalender, lupeHaus, dokument, muenzeHaken]);
+// Kontakt: „Was nach Ihrer Anfrage passiert“ – nur bestehende Zusagen (12 h, Vor-Ort-Termin, 24 h)
+const KONTAKT_TITEL: string[][] = [["Anfrage senden"], ["Persönliche Antwort"], ["Termin vor Ort"], ["Klares Angebot"]];
+const KONTAKT_UNTER: string[][] = [
+  ["WhatsApp, E-Mail,", "Telefon oder Rückruf"],
+  ["Innerhalb von", "12 Stunden"],
+  ["Kostenlos und", "unverbindlich"],
+  ["Innerhalb von 24 Stunden", "nach dem Termin"],
+];
+const wegKontakt = (a: Ansicht) => wegSzene(a, KONTAKT_TITEL, KONTAKT_UNTER, [papierflieger, chat, kalender, dokument]);
+
 const PORTAL_TEILE = [
   // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
   { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "An einem Ort."] },
@@ -454,4 +494,4 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { weg, wegCheck, wegKontakt, partnerWeg, portal, siegel, siegelUeber, uspRegional, uspHand, uspFestpreis };
