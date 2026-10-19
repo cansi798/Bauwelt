@@ -197,7 +197,6 @@ const description =
                 <Icon name={k.icon} size={26} class="icon" />
               </span>
               <span class="umfang__text">
-                <span class="umfang__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <span class="umfang__titel">{k.title}</span>
               </span>
             </li>
@@ -354,10 +353,6 @@ const description =
   .umfang__ring { stroke: var(--gold-500); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: var(--ring-u); stroke-dashoffset: 0; }
   .umfang__symbol :global(.icon) { position: relative; width: 24px; height: 24px; }
   .umfang__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .umfang__nr {
-    font-family: var(--font-heading); font-weight: 600; font-size: 12px; letter-spacing: 0.16em;
-    color: var(--gold-700); font-variant-numeric: tabular-nums;
-  }
   .umfang__titel {
     font-family: var(--font-heading); font-weight: 700; font-size: 16px; line-height: 1.35;
     color: var(--anthrazit-900); hyphens: manual; overflow-wrap: break-word; text-wrap: balance;

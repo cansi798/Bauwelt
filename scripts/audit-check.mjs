@@ -187,7 +187,7 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   }
   if (!doppelt && VERSPRECHEN_TITEL.length === 7) pass("Versprechen", "7 Versprechen aus versprechen.ts, keine Seite zeigt einen Vorteil doppelt");
 }
-// Leistungsumfang (Jamil 20.10.2026, Talk 2572; Ausnahme zu Audit 2.4): Symbol im Goldring (Kreis), Schritt-Nummern,
+// Leistungsumfang (Jamil 20.10.2026, Talk 2572; Ausnahme zu Audit 2.4): Symbol im Goldring (Kreis), keine Nummern (Talk 2587),
 // keine weißen Kacheln / Sand-Quadrate. Geprüft auf allen Leistungsseiten mit Abschnitt „Leistungsumfang“.
 {
   let uProbleme = 0, uSeiten = 0;
@@ -199,9 +199,9 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
     const sek = ab.slice(0, ab.indexOf("</section>") + 1 || undefined);
     if (/class="kachel[\s"_]/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: wieder weiße Kacheln / Quadrat-Symbol – laut Jamil (Talk 2572) Symbol im Goldring`); uProbleme++; }
     else if (!/class="umfang[\s"]/.test(sek) || !/umfang__ring/.test(sek) || !/<circle[^>]*umfang__ring/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Goldring (Kreis) im Leistungsumfang fehlt`); uProbleme++; }
-    else if (!/umfang__nr/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Schritt-Nummern im Leistungsumfang fehlen`); uProbleme++; }
+    else if (/umfang__nr/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Nummern im Leistungsumfang – laut Jamil (Talk 2587) ohne Zahlen`); uProbleme++; }
   }
-  if (uSeiten && !uProbleme) pass("Leistungsumfang", `${uSeiten} Leistungsseiten: Symbole im Goldring mit Schritt-Nummer (Jamil 20.10.)`);
+  if (uSeiten && !uProbleme) pass("Leistungsumfang", `${uSeiten} Leistungsseiten: Symbole im Goldring, ohne Nummern (Jamil 20.10.)`);
 }
 // Leistungs-Unterzeile = Kundennutzen (Jamil 20.10.2026, Talk 2564): Feld `nutzen` in LEISTUNGEN (consts.ts),
 // je Leistung eigener, kurzer Nutzen (≤ 55 Zeichen), kein allgemeines Versprechen (Festpreis, Zeitplan …).
