@@ -57,9 +57,11 @@ const WALZE = [...WORTE, WORTE[0]];
       <p class="fhero__statement">{HERO.statement}</p>
       <p class="fhero__unterzeile">{HERO.unterzeile}</p>
     </div>
-    <div class="fhero__actions fhero__in nur-desktop" style="--d: 360ms">
+    <!-- Kundenwunsch 19.10.2026 (Audit 1.2): „Projekt berechnen“ auch mobil im Bild;
+         der Termin-Button steht mobil in der Sticky-Leiste und bleibt hier nur am Desktop -->
+    <div class="fhero__actions fhero__in" style="--d: 360ms">
       <a class="btn btn--lg" href="#leistungen">{CTA.label}</a>
-      <a class="btn btn--lg fhero__ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+      <a class="btn btn--lg fhero__ghost nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
     </div>
   </div>
 
@@ -193,8 +195,9 @@ const WALZE = [...WORTE, WORTE[0]];
   }
 
   @media (max-width: 767px) {
-    .fhero { min-height: calc(100svh - var(--header-h)); }
-    .fhero__content { padding-block: 40px 88px; gap: 14px; }
+    /* Kundenwunsch 19.10.2026 (Audit 1.2): Text mobil oben statt im unteren Drittel */
+    .fhero { min-height: calc(100svh - var(--header-h)); align-items: flex-start; }
+    .fhero__content { padding-block: 36px 88px; gap: 14px; }
     /* früher umbrechen, damit die Zeile nicht bis an die Kante läuft */
     .fhero__statement { max-width: 18ch; }
     .fhero__unterzeile { font-size: 15px; }
