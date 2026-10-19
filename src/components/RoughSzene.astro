@@ -98,13 +98,15 @@ const desktop = SZENEN[szene]("desktop");
 
   /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
   @media (prefers-reduced-motion: no-preference) {
-    /* Beschriftungen (.rs-xb: Titel/Unterzeilen) stehen sofort (Audit 3.1). Texte, die zur
-       Zeichnung gehören (z. B. „12h“ im Siegel, Schritt-Nummern, Ortsnamen der Karte), erscheinen
-       erst mit ihrer Zeichnung – vorher waren sie zu früh sichtbar (Bug-Meldung Jamil 19.10.2026). */
+    /* Texte erscheinen mit ihrer Station (Bug-Meldungen Jamil 19.10.2026 „Der Text steht immer
+       noch da“): Beschriftungen (.rs-xb, Titel/Unterzeilen) blenden ein, sobald ihre Station
+       gezeichnet wird; Texte in der Zeichnung („12h“, Schritt-Nummern, Ortsnamen) kurz nach ihrer
+       Form. Gesamtdauer bleibt ca. 2 s (Audit 3.1). */
     html.js .rszene .rs-s,
     html.js .rszene .rs-f,
-    html.js .rszene .rs-x:not(.rs-xb) { opacity: 0; }
-    html.js .rszene.is-sichtbar .rs-x:not(.rs-xb) { animation: rs-ein 0.25s ease-out calc(var(--t) + 0.15s) both; } /* kurz nach der eigenen Form */
+    html.js .rszene .rs-x { opacity: 0; }
+    html.js .rszene.is-sichtbar .rs-x { animation: rs-ein 0.3s ease-out var(--t) both; }
+    html.js .rszene.is-sichtbar .rs-x:not(.rs-xb) { animation-delay: calc(var(--t) + 0.15s); } /* kurz nach der eigenen Form */
 
     html.js .rszene.is-sichtbar .rs-s { animation: rs-zeichnen var(--d) ease-out var(--t) both; }
     html.js .rszene.is-sichtbar .rs-f { animation: rs-ein 0.25s ease-out var(--t) both; }
