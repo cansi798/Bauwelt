@@ -68,7 +68,7 @@
   --dur-reveal: 500ms; /* Einblenden */
   --transition: var(--dur-fast) var(--ease);
   --header-h: 80px;
-  --stickybar-h: 64px;
+  --stickybar-h: 72px; /* Audit 1.9: 48 px hohe Buttons in der Leiste */
 }
 
 /* ---------- Reset & Grundlagen ---------- */

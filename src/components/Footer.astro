@@ -67,11 +67,11 @@ const jahr = new Date().getFullYear();
   .ftr a:not(.btn):hover { color: var(--weiss); }
   /* Mobil: Links auf mindestens ~40px Tipphöhe bringen (Touchziel-Audit) */
   @media (max-width: 767px) {
-    .ftr a { display: inline-block; padding-block: 6px; }
+    .ftr a { display: inline-block; padding-block: 8px; } /* Audit 1.9: ca. 44 px Tipphöhe */
     .ftr__contact a { display: inline-flex; }
     /* Kundenwunsch 10.10.2026: Stapel am Handy enger */
     .ftr__cols { gap: 20px; }
-    .ftr__cols ul { gap: 4px; }
+    .ftr__cols ul { gap: 0; }
   }
 
   .ftr__cols {
