@@ -66,14 +66,12 @@ const vorteile = [
     ...serviceSchema({ name: leistung.unterschrift, beschreibung: l.data.teaser, url: new URL(u("leistungen/sicher-wohnen/"), Astro.site).href, preis: l.data.pauschalpreis, gebiet: "Hamburg und Umgebung" }),
     ...breadcrumbSchema([
       { name: "Startseite", url: new URL(u(""), Astro.site).href },
-      { name: "Leistungen", url: new URL(`${u("")}#leistungen`, Astro.site).href },
       { name: leistung.unterschrift, url: new URL(u("leistungen/sicher-wohnen/"), Astro.site).href },
     ]),
     ...faqSchema(l.data.faq),
   ] /* SEO-/KI-Audit S3 */}
   sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title="Sicher wohnen – Check in Norderstedt & Hamburg | Bauwelt" /* SEO-/KI-Audit S4 */ description={l.data.beschreibung ?? l.data.teaser}>
   <LeistungHero
-    titel={leistung.kurz ?? leistung.unterschrift}
     eyebrow={leistung.unterschrift}
     pre={"Sicher wohnen. Heute und " /* Kundenwunsch 19.10.2026 (Audit 1.3): H1 = Leistungsname */}
     accent="morgen."

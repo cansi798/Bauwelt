@@ -1,15 +1,16 @@
 ---
 // Leistungsseiten-Hero (Kundenwunsch 14.10.2026 (29)): Leistungsseite als eigenständige
 // „Landingpage“, die man Kunden direkt schicken kann – Vollbild-Foto wie auf der
-// Startseite, aber niedriger und mit Pfad „Leistungen › …“, damit klar bleibt: Unterseite.
-// Aufbau: Pfad → Eyebrow → H1 → Claim (emotional) → Lead → CTAs → Vertrauens-Chips.
+// Startseite, aber niedriger.
+// Aufbau: H1 → Slogan → Claim (emotional) → Lead → CTAs → Vertrauens-Chips.
+// Jamil 19.10.2026 (Talk 2529): Pfad „Leistungen › …“ entfernt – die allgemeine
+// Leistungsübersicht gibt es nicht mehr, der Link führte ins Leere.
 // CTAs nur ab Desktop (mobil übernimmt die feste Leiste unten, wie auf der Startseite).
 import { TERMIN, istKiBild, u } from "../consts";
 import Icon from "./Icon.astro";
 import KiHinweis from "./KiHinweis.astro";
 
 interface Props {
-  titel: string;          // Kurztitel für den Pfad, z. B. „Badsanierung“
   eyebrow: string;
   pre: string;
   accent?: string;
@@ -26,7 +27,7 @@ interface Props {
   ctaMobil?: boolean;
   chips: string[];
 }
-const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
+const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
 ---
 
 <section class="lhero" data-einmal>
@@ -46,14 +47,8 @@ const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ct
   {istKiBild(bild) && <KiHinweis pos="oben-rechts" />}
 
   <div class="container lhero__content">
-    <nav class="lhero__pfad lhero__in" style="--d: 0ms" aria-label="Brotkrumen">
-      <a href={`${u("")}#leistungen`}>Leistungen</a>{/* (71) Übersichtsseite entfernt → Leistungsbereich der Startseite */}
-      <Icon name="chevron" size={14} class="icon lhero__pfeil" />
-      <span aria-current="page">{titel}</span>
-    </nav>
-
-    {/* Kundenwunsch 14.10.2026 (49): kleine Zeile über der H1 entfällt auf allen Leistungsseiten (Pfad bleibt) */}
-    <h1 class="lhero__in" style="--d: 120ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
+    {/* Kundenwunsch 14.10.2026 (49): kleine Zeile über der H1 entfällt auf allen Leistungsseiten */}
+    <h1 class="lhero__in" style="--d: 0ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
     {slogan && <p class="lhero__slogan lhero__in" style="--d: 170ms">{slogan}</p>}
 
     {(claim || lead) && (
@@ -124,14 +119,6 @@ const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ct
   @media (min-width: 768px) { .lhero__content h1 { hyphens: none; } }
   .lhero__content .eyebrow { color: var(--gold-300); margin: 0; }
 
-  .lhero__pfad {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 13px; color: var(--anthrazit-200);
-  }
-  .lhero__pfad a { color: var(--anthrazit-100); text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); }
-  .lhero__pfad a:hover { color: var(--weiss); border-color: var(--gold-300); }
-  .lhero__pfad :global(.lhero__pfeil) { width: 14px; height: 14px; transform: rotate(-90deg); opacity: 0.7; }
-  .lhero__pfad span { color: var(--gold-300); }
 
   /* Slogan unter dem Leistungsnamen (Audit 1.3): klein, gold, nicht in Versalien */
   .lhero__slogan {

@@ -89,7 +89,8 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 - Firma als `GeneralContractor` mit Logo, Adresse, Öffnungszeiten, Handwerkskammer, `areaServed` = Orte aus `src/data/region.ts`.
 - **Nur echte Leistungen** (aus `LEISTUNGEN`) – kein Dach, Fassade, Maler, Sanitär/Heizung, Elektro.
-- Je Leistungsseite `Service` (+ Preis bei Checks), `BreadcrumbList`; `FAQPage` wo Fragen stehen.
+- Je Leistungsseite `Service` (+ Preis bei Checks), `BreadcrumbList` (nur Startseite › Leistung); `FAQPage` wo Fragen stehen.
+- **Kein sichtbarer Brotkrumen-Pfad** („Leistungen › …“) im Kopfbereich der Leistungsseiten (Jamil 19.10.2026, Talk 2529): Eine allgemeine Leistungsübersicht gibt es nicht mehr, der Link wäre ein schlechter Link. Auch in den strukturierten Daten keinen Zwischenschritt „Leistungen“.
 - Keine Bewertungs-Daten, solange es keine echten Bewertungen gibt.
 
 ## 6. KI-Plattformen (K2, G1, G3, G4)

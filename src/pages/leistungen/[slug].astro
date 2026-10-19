@@ -112,7 +112,6 @@ const description =
     ...serviceSchema({ name: leistung.unterschrift, beschreibung: l.data.teaser, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href, preis: pauschal, gebiet: "Hamburg und Umgebung" }),
     ...breadcrumbSchema([
       { name: "Startseite", url: new URL(u(""), Astro.site).href },
-      { name: "Leistungen", url: new URL(`${u("")}#leistungen`, Astro.site).href },
       { name: leistung.unterschrift, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href },
     ]),
     ...faqSchema(l.data.faq),
@@ -125,7 +124,6 @@ const description =
   ] : undefined /* Audit 1.7: Pauschal-Checks ohne Rechner */}
 >
   <LeistungHero
-    titel={leistung.unterschrift}
     eyebrow={leistung.unterschrift}
     pre={h1.pre}
     accent={h1.accent}

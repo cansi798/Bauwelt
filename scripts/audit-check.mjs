@@ -163,6 +163,10 @@ for (const s of S) {
   if (!typen.has("WebSite")) { warn("Strukturierte Daten (S3)", `${s.page}: WebSite-Knoten fehlt`); ldProbleme++; }
   if (/^\/leistungen\/[^/]+\/$/.test(s.page)) {
     for (const t of ["Service", "BreadcrumbList"]) if (!typen.has(t)) { warn("Strukturierte Daten (S3)", `${s.page}: „${t}“ fehlt`); ldProbleme++; }
+    // Jamil 19.10.2026 (Talk 2529): kein sichtbarer Brotkrumen-Pfad, kein Zwischenschritt „Leistungen“
+    if (/class="lhero__pfad|aria-label="Brotkrumen"/.test(s.html)) { warn("Leistungsseiten", `${s.page}: sichtbarer Brotkrumen-Pfad – entfernt laut Jamil 19.10.`); ldProbleme++; }
+    const bc = knoten.find((n) => n["@type"] === "BreadcrumbList");
+    if (bc && (bc.itemListElement || []).some((i) => i.name === "Leistungen")) { warn("Strukturierte Daten (S3)", `${s.page}: BreadcrumbList mit Zwischenschritt „Leistungen“ (Seite gibt es nicht)`); ldProbleme++; }
   }
   const hatFaq = /class="faq__item/.test(s.html);
   if (hatFaq && !typen.has("FAQPage")) { warn("Strukturierte Daten (S3)", `${s.page}: Fragen auf der Seite, aber kein „FAQPage“`); ldProbleme++; }
