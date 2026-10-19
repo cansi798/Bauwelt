@@ -1,0 +1,223 @@
+---
+// Rückruf-Formular (Kundenwunsch 19.10.2026, Audit 6.3): Name + Telefon (Pflicht), kurze
+// Nachricht (optional), Einwilligung mit Link zur Datenschutzerklärung (Pflicht).
+// Steht unter der Preisspanne des Rechners (mit Zusammenfassung der Berechnung) und auf Kontakt.
+//
+// Versand: Die Website ist statisch (GitHub Pages). Ist RUECKRUF.endpoint gesetzt, wird die
+// Anfrage per POST (JSON) dorthin geschickt, und der Server mailt sie an RUECKRUF.an.
+// Solange KEIN Endpunkt existiert (Stand 19.10.2026), öffnet „Rückruf anfordern“ das
+// E-Mail-Programm mit fertig ausgefüllter Nachricht an service@bauwelt-handwerk.de (mailto) –
+// über die Website selbst werden dann keine Daten übertragen oder gespeichert.
+// Ohne JavaScript: klassisches Formular mit action="mailto:…".
+import { RUECKRUF, SITE, u, waLink } from "../consts";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** Eindeutige id (mehrere Formulare je Seite möglich) */
+  id: string;
+  titel?: string;
+  text?: string;
+  /** Betreff der E-Mail */
+  betreff?: string;
+  /** Rechner: Zusammenfassung der Berechnung wird per Skript in data-zusammenfassung gesetzt */
+  rechner?: boolean;
+}
+const {
+  id,
+  titel = "Wir rufen Sie zurück",
+  text = "Name und Telefonnummer genügen – wir melden uns innerhalb von 12 Stunden bei Ihnen.",
+  betreff = "Rückruf-Anfrage über die Website",
+  rechner = false,
+} = Astro.props;
+---
+
+<form
+  class:list={["rrf", { "rrf--rechner": rechner }]}
+  id={id}
+  action={`mailto:${RUECKRUF.an}?subject=${encodeURIComponent(betreff)}`}
+  method="post"
+  enctype="text/plain"
+  data-rueckruf
+  data-betreff={betreff}
+  data-an={RUECKRUF.an}
+  data-endpoint={RUECKRUF.endpoint}
+  novalidate
+>
+  <p class="rrf__titel"><Icon name="phone" size={20} class="icon" /> {titel}</p>
+  <p class="rrf__text">{text}</p>
+
+  <div class="rrf__felder">
+    <label class="rrf__feld">
+      <span>Name <abbr title="Pflichtfeld">*</abbr></span>
+      <input name="Name" type="text" autocomplete="name" required maxlength="80" />
+    </label>
+    <label class="rrf__feld">
+      <span>Telefon <abbr title="Pflichtfeld">*</abbr></span>
+      <input name="Telefon" type="tel" autocomplete="tel" inputmode="tel" required maxlength="40" />
+    </label>
+    <label class="rrf__feld rrf__feld--voll">
+      <span>Kurze Nachricht <small>(optional)</small></span>
+      <textarea name="Nachricht" rows="2" maxlength="600" placeholder="z. B. beste Uhrzeit für den Rückruf"></textarea>
+    </label>
+  </div>
+
+  <label class="rrf__ok">
+    <input name="Einwilligung" type="checkbox" value="ja" required />
+    <span>
+      Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Rückruf-Anfrage verwendet werden.
+      Mehr dazu in der <a href={u("datenschutz/#kontakt")} target="_blank" rel="noopener">Datenschutzerklärung</a>. <abbr title="Pflichtfeld">*</abbr>
+    </span>
+  </label>
+
+  <!-- Honeypot gegen Spam-Bots (für einen späteren Server-Endpunkt): Menschen sehen das Feld nicht -->
+  <label class="rrf__hp" aria-hidden="true">Website <input name="Website" type="text" tabindex="-1" autocomplete="off" /></label>
+
+  <p class="rrf__fehler" role="alert" hidden></p>
+
+  <button class="btn btn--lg rrf__senden" type="submit">
+    <Icon name="phone" size={20} class="icon" /> Rückruf anfordern
+  </button>
+
+  <div class="rrf__danke" role="status" hidden>
+    <p class="rrf__danke-titel"><Icon name="check" size={20} class="icon" /> <span data-danke-titel>Fast geschafft!</span></p>
+    <p data-danke-text>
+      Ihr E-Mail-Programm öffnet sich mit der fertigen Nachricht an {RUECKRUF.an} –
+      bitte dort nur noch auf „Senden“ tippen.
+    </p>
+    <p class="rrf__alternativ">
+      Es öffnet sich nichts? Schreiben Sie uns per
+      <a href={waLink()} target="_blank" rel="noopener">WhatsApp</a> oder rufen Sie an:
+      <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a>.
+    </p>
+  </div>
+</form>
+
+<style>
+  .rrf {
+    display: grid;
+    gap: 14px;
+    padding: 24px;
+    border-radius: var(--radius-lg, 20px);
+    background: var(--weiss);
+    border: 2px solid var(--gold-500);
+    text-align: left;
+  }
+  .rrf--rechner { margin-top: 24px; }
+  .rrf__titel {
+    margin: 0;
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.25;
+    color: var(--anthrazit-900);
+  }
+  .rrf__titel :global(.icon) { color: var(--gold-700); flex: none; }
+  .rrf__text { margin: -6px 0 0; font-size: 15px; line-height: 1.55; color: var(--anthrazit-700); }
+  .rrf__felder { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rrf__feld { display: grid; gap: 6px; font-size: 14px; font-weight: 600; color: var(--anthrazit-800, #2E2D30); }
+  .rrf__feld--voll { grid-column: 1 / -1; }
+  .rrf__feld small { font-weight: 400; color: var(--anthrazit-600); }
+  .rrf abbr { text-decoration: none; color: var(--gold-700); }
+  .rrf__feld input,
+  .rrf__feld textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #D9D5CC;
+    border-radius: 12px;
+    background: var(--weiss);
+    font: inherit;
+    font-weight: 400;
+    font-size: 16px; /* iOS zoomt sonst beim Antippen */
+    color: var(--anthrazit-900);
+  }
+  .rrf__feld textarea { resize: vertical; min-height: 64px; }
+  .rrf__feld input:focus-visible,
+  .rrf__feld textarea:focus-visible { outline: 2px solid var(--gold-500); outline-offset: 1px; border-color: var(--gold-500); }
+  .rrf__feld input[aria-invalid="true"] { border-color: #B3261E; }
+  .rrf__ok { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--anthrazit-700); cursor: pointer; }
+  .rrf__ok input { flex: none; width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--gold-700); }
+  .rrf__ok a { color: var(--gold-700); }
+  .rrf__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .rrf__fehler { margin: 0; font-size: 14px; font-weight: 600; color: #B3261E; }
+  .rrf__senden { justify-self: start; white-space: nowrap; }
+  .rrf__danke { display: grid; gap: 6px; padding: 16px; border-radius: 12px; background: var(--gold-100); font-size: 15px; line-height: 1.55; }
+  .rrf__danke p { margin: 0; }
+  .rrf [hidden] { display: none !important; }
+  .rrf__danke-titel { display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 700; color: var(--anthrazit-900); }
+  .rrf__danke-titel :global(.icon) { color: var(--gold-700); }
+  .rrf__alternativ { font-size: 14px; color: var(--anthrazit-700); }
+  .rrf__alternativ a { color: var(--gold-700); }
+
+  @media (max-width: 599px) {
+    .rrf { padding: 18px; }
+    .rrf__felder { grid-template-columns: minmax(0, 1fr); }
+    .rrf__senden { justify-self: stretch; justify-content: center; font-size: 16px; padding-inline: 16px; }
+  }
+</style>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>("form[data-rueckruf]")) {
+    const fehler = form.querySelector<HTMLElement>(".rrf__fehler")!;
+    const danke = form.querySelector<HTMLElement>(".rrf__danke")!;
+    const senden = form.querySelector<HTMLButtonElement>(".rrf__senden")!;
+    const feld = (n: string) => form.elements.namedItem(n) as HTMLInputElement;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = feld("Name").value.trim();
+      const tel = feld("Telefon").value.trim();
+      const nachricht = (feld("Nachricht") as unknown as HTMLTextAreaElement).value.trim();
+      const ok = feld("Einwilligung").checked;
+
+      const probleme: string[] = [];
+      feld("Name").setAttribute("aria-invalid", String(!name));
+      const telOk = /^[+()\d\s\/-]{6,}$/.test(tel) && tel.replace(/\D/g, "").length >= 6;
+      feld("Telefon").setAttribute("aria-invalid", String(!telOk));
+      if (!name) probleme.push("Ihren Namen");
+      if (!telOk) probleme.push("eine gültige Telefonnummer");
+      if (!ok) probleme.push("Ihr Einverständnis (Häkchen)");
+      if (probleme.length) {
+        fehler.textContent = `Bitte ergänzen Sie noch ${probleme.join(", ").replace(/, ([^,]*)$/, " und $1")}.`;
+        fehler.hidden = false;
+        return;
+      }
+      fehler.hidden = true;
+
+      const zusammenfassung = form.dataset.zusammenfassung ?? "";
+      const betreff = `${form.dataset.betreff ?? "Rückruf-Anfrage"} – ${name}`;
+      const text =
+        `Guten Tag,\n\nbitte rufen Sie mich zurück.\n\n` +
+        `Name: ${name}\nTelefon: ${tel}\n` +
+        (nachricht ? `Nachricht: ${nachricht}\n` : "") +
+        (zusammenfassung ? `\nMeine Berechnung im Online-Rechner:\n${zusammenfassung}\n` : "") +
+        `\nIch bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden.\n`;
+
+      const endpoint = form.dataset.endpoint;
+      if (feld("Website").value) return; // Honeypot ausgefüllt → Bot
+      if (endpoint) {
+        // Server-Versand (sobald ein Endpunkt eingerichtet ist)
+        senden.disabled = true;
+        try {
+          const r = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, telefon: tel, nachricht, zusammenfassung, seite: location.pathname, einwilligung: true }),
+          });
+          if (!r.ok) throw new Error(String(r.status));
+          danke.querySelector("[data-danke-titel]")!.textContent = "Vielen Dank!";
+          danke.querySelector("[data-danke-text]")!.textContent = "Ihre Anfrage ist bei uns angekommen. Wir rufen Sie innerhalb von 12 Stunden zurück.";
+          form.querySelectorAll("input, textarea").forEach((x) => ((x as HTMLInputElement).disabled = true));
+          senden.hidden = true;
+          danke.hidden = false;
+          return;
+        } catch {
+          senden.disabled = false; // weiter mit E-Mail-Programm als Rückfall
+        }
+      }
+      location.href = `mailto:${form.dataset.an}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(text)}`;
+      danke.hidden = false;
+    });
+  }
+</script>

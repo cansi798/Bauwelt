@@ -44,6 +44,12 @@ export const SITE = {
 /** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
 export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
 
+/** Rückruf-Formular (Kundenwunsch 19.10.2026, Audit 6.3): Anfragen gehen an service@.
+ *  endpoint leer = Versand über das E-Mail-Programm des Besuchers (mailto), da die Seite statisch
+ *  ist. Sobald ein Server-Endpunkt existiert (POST JSON → Mail an `an`), hier eintragen –
+ *  dann auch die Datenschutzerklärung (Ziffer 6) um den Server/Dienst ergänzen. */
+export const RUECKRUF = { an: EMAILS.service, endpoint: "" };
+
 /** Kostenloser Vor-Ort-Termin (Kundenfeedback 30.09.2026): Alle Termin-Buttons öffnen
  *  per JS das Buchungsfenster (BookingDialog, `data-termin`). Ohne JS führt der
  *  Link direkt zum Relexable-Buchungsportal (neuer Tab). */

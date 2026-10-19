@@ -22,6 +22,7 @@ import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
 import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, berechne, preisText } from "../data/rechner";
 import { SITE, EMAILS, TERMIN, u, waLink, leistungBySlug } from "../consts";
+import RueckrufFormular from "./RueckrufFormular.astro";
 
 interface Props {
   variant?: "seite" | "start";
@@ -227,6 +228,14 @@ const weich = (t: string) =>
         Unverbindliche Ersteinschätzung, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
         Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
       </p>
+      {/* Kundenwunsch 19.10.2026 (Audit 6.3): Rückruf-Formular direkt unter der Preisspanne */}
+      <RueckrufFormular
+        id={`rRueckruf-${variant}`}
+        rechner
+        titel="Rückruf zu Ihrer Preisspanne"
+        text="Name und Telefonnummer genügen – wir rufen Sie innerhalb von 12 Stunden zurück und besprechen Ihr Projekt."
+        betreff="Rückruf zur Preisspanne"
+      />
       <div class="rechner__contact">
         {start ? (
           <a class="btn btn--lg" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
@@ -882,6 +891,11 @@ const weich = (t: string) =>
         `Bitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
       mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      // Rückruf-Formular (Audit 6.3): Berechnung als Zusammenfassung mitschicken
+      const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
+      if (rrf) rrf.dataset.zusammenfassung =
+        `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl + ausstattung.replace("✅ ", "") +
+        `\nGewünschte Arbeiten:\n${arbeitenListe}\nErsteinschätzung: ${preisZeile}`;
       show(3);
     }
 

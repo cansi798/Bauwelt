@@ -11,6 +11,7 @@ import RoughSzene from "../components/RoughSzene.astro";
 import WarumAnders from "../components/WarumAnders.astro";
 import ServiceArea from "../components/ServiceArea.astro";
 import Vertrauensleiste from "../components/Vertrauensleiste.astro";
+import RueckrufFormular from "../components/RueckrufFormular.astro";
 import Icon from "../components/Icon.astro";
 import { CTA, EMAILS, SITE, TERMIN, waLink } from "../consts";
 
@@ -72,6 +73,13 @@ const WEGE: Weg[] = [
     </div>
   </section>
 
+  <!-- 2b. Rückruf-Formular (Kundenwunsch 19.10.2026, Audit 6.3) -->
+  <section class="section" id="rueckruf">
+    <div class="container kontakt__rueckruf">
+      <RueckrufFormular id="kRueckruf" betreff="Rückruf-Anfrage über die Kontaktseite" />
+    </div>
+  </section>
+
   <!-- 3. Was passiert nach Ihrer Anfrage? – Ablauf-Animation der Startseite -->
   <section class="section" id="ablauf">
     <div class="container">
@@ -120,6 +128,7 @@ const WEGE: Weg[] = [
 </BaseLayout>
 
 <style>
+  .kontakt__rueckruf { max-width: 720px; }
   .kontakt__hero-actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-top: 8px; width: 100%; }
 
   .wege { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
