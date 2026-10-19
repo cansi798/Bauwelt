@@ -82,6 +82,9 @@ const h1 = teile(h1Titel);
 const mitIntro = !l.data.ohneIntro;
 // Hintergrund-Wechsel: ohne Intro folgt die Kachel-Sektion direkt auf den (sandfarbenen) Rechner → weiß
 const kachelnSand = mitIntro || !hatRechner;
+// Goldring im Leistungsumfang (Jamil 20.10.2026, Talk 2572)
+const RING_R = 30;
+const RING_U = +(2 * Math.PI * RING_R).toFixed(1);
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero.
@@ -176,15 +179,30 @@ const description =
     <section class:list={["section", { "section--sand": kachelnSand }]}>
       <div class="container">
         <SectionHead center eyebrow="Leistungsumfang" {...teile(weich(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`))} text={l.data.umfangText} />
-        {/* Kundenwunsch 14.10.2026 (53): Kacheln zentriert umbrechen (7 Kacheln → 4 + 3), keine einzelne Restkachel */}
-        <ul class:list={["kacheln", "kacheln--zentriert", { "kacheln--vier": l.data.kacheln.length === 7 || l.data.kacheln.length === 8 }]}>
-          {l.data.kacheln.map((k) => (
-            <li class="kachel reveal">
-              <span class="kachel__icon"><Icon name={k.icon} size={26} class="icon" /></span>
-              <span class="kachel__titel">{k.title}</span>
+        {/* Jamil 20.10.2026 (Talk 2572): Leistungsumfang im Stil der Seite statt weißer Kästen –
+            Symbol im dünnen Goldring (zeichnet sich einmal im Kreis), goldene Schritt-Nummer, feine
+            Gold-Trennlinien. Desktop zentriertes Raster (7/8 → 4 Spalten, sonst 3), darunter Liste. */}
+        <ol
+          class:list={["umfang", l.data.kacheln.length === 4 || l.data.kacheln.length >= 7 ? "umfang--4" : "umfang--3"]}
+          style={`--ring-u:${RING_U}`}
+          data-einmal
+        >
+          {l.data.kacheln.map((k, i) => (
+            <li class="umfang__punkt" style={`--i:${i}`}>
+              <span class="umfang__symbol" aria-hidden="true">
+                <svg viewBox="0 0 64 64" focusable="false">
+                  <circle class="umfang__spur" cx="32" cy="32" r={RING_R} />
+                  <circle class="umfang__ring" cx="32" cy="32" r={RING_R} />
+                </svg>
+                <Icon name={k.icon} size={26} class="icon" />
+              </span>
+              <span class="umfang__text">
+                <span class="umfang__nr" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span class="umfang__titel">{k.title}</span>
+              </span>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   )}
@@ -318,6 +336,68 @@ const description =
 
   .refmini { padding: 12px; display: grid; gap: 10px; text-decoration: none; }
   .refmini__titel { font-family: var(--font-heading); font-weight: 700; font-size: 15px; line-height: 1.3; color: var(--anthrazit-900); padding: 0 4px 2px; }
+
+  /* ---------- Leistungsumfang (Jamil 20.10.2026, Talk 2572) ----------
+     Keine weißen Kästen mehr: Symbol im dünnen Goldring wie Vertrauensleiste/Versprechen,
+     goldene Schritt-Nummer (Reihenfolge: Beratung zuerst), feine Gold-Trennlinien.
+     Nicht klickbar → kein Hover (Audit 3.5). Ring zeichnet sich einmal im Kreis. */
+  .umfang { list-style: none; margin: 8px auto 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+  .umfang__punkt {
+    position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: 18px;
+    padding: 14px 0; border-top: 1px solid rgba(195, 165, 111, 0.35);
+  }
+  .umfang__punkt:first-child { border-top: 0; }
+  .umfang__symbol { position: relative; width: 56px; height: 56px; display: grid; place-items: center; color: var(--gold-700); }
+  .umfang__symbol svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .umfang__symbol circle { fill: none; }
+  .umfang__spur { stroke: rgba(195, 165, 111, 0.28); stroke-width: 1; }
+  .umfang__ring { stroke: var(--gold-500); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: var(--ring-u); stroke-dashoffset: 0; }
+  .umfang__symbol :global(.icon) { position: relative; width: 24px; height: 24px; }
+  .umfang__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .umfang__nr {
+    font-family: var(--font-heading); font-weight: 600; font-size: 12px; letter-spacing: 0.16em;
+    color: var(--gold-700); font-variant-numeric: tabular-nums;
+  }
+  .umfang__titel {
+    font-family: var(--font-heading); font-weight: 700; font-size: 16px; line-height: 1.35;
+    color: var(--anthrazit-900); hyphens: manual; overflow-wrap: break-word; text-wrap: balance;
+  }
+  /* Tablet: zwei Spalten als Liste */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .umfang { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 44px; max-width: 860px; }
+    .umfang__punkt:nth-child(2) { border-top: 0; }
+  }
+  /* Desktop: zentriertes Raster, Symbol über dem Text, senkrechte Gold-Haarlinien zwischen den Spalten */
+  @media (min-width: 1024px) {
+    .umfang { display: flex; flex-wrap: wrap; justify-content: center; row-gap: 48px; max-width: 1120px; }
+    .umfang--4 .umfang__punkt { flex: 0 0 25%; }
+    .umfang--3 { max-width: 900px; }
+    .umfang--3 .umfang__punkt { flex: 0 0 33.333%; }
+    .umfang__punkt {
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px;
+      padding: 4px 26px; border-top: 0;
+    }
+    .umfang__punkt::before {
+      content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px;
+      background: linear-gradient(to bottom, rgba(195, 165, 111, 0), rgba(195, 165, 111, 0.55) 25%, rgba(195, 165, 111, 0.55) 75%, rgba(195, 165, 111, 0));
+    }
+    .umfang--4 .umfang__punkt:nth-child(4n + 1)::before,
+    .umfang--3 .umfang__punkt:nth-child(3n + 1)::before { display: none; }
+    .umfang__symbol { width: 68px; height: 68px; }
+    .umfang__symbol :global(.icon) { width: 28px; height: 28px; }
+    .umfang__text { align-items: center; gap: 6px; }
+    .umfang__titel { font-size: 17px; }
+  }
+  /* Einmal beim ersten Sichtbarwerden: Ring zeichnet sich im Kreis, dann erscheinen Symbol und Text.
+     Ohne JS / reduzierte Bewegung: fertiges Bild. */
+  :global(html.js) .umfang__ring { animation: umfang-ring 0.9s var(--ease) both; animation-delay: calc(var(--i) * 110ms); }
+  :global(html.js) .umfang__symbol :global(.icon),
+  :global(html.js) .umfang__text { animation: umfang-ein 0.5s var(--ease) both; animation-delay: calc(var(--i) * 110ms + 250ms); }
+  @keyframes umfang-ring { from { stroke-dashoffset: var(--ring-u); } to { stroke-dashoffset: 0; } }
+  @keyframes umfang-ein { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .umfang__ring, .umfang__symbol :global(.icon), .umfang__text { animation: none !important; opacity: 1; stroke-dashoffset: 0; }
+  }
 
   /* .warum- und .kachel-Stile liegen seit Kundenwunsch 14.10.2026 (37–40) in global.css (auch Über uns, Karriere, Partner, Kontakt) */
 </style>

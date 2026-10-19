@@ -364,7 +364,9 @@ main :is(.card, .warum__item, .zc-bereich, .zc-vorteil, .zc-spalte, .verdienst__
 /* ---------- Symbol-Behälter (Kundenwunsch 19.10.2026, Audit 2.4) ----------
    EIN Stil für Linien-Symbole auf hellem Grund: Quadrat mit runden Ecken (12 px), Sand-Fläche,
    Symbol in Gold. Dunkle Vorteilskarten behalten die goldene Fläche (Kontrast). Handgezeichnete
-   Skizzen bleiben für Erklär-Bilder (Ablauf, Portal, Siegel). */
+   Skizzen bleiben für Erklär-Bilder (Ablauf, Portal, Siegel).
+   Ausnahme Jamil 20.10.2026 (Talk 2572): Leistungsumfang der Leistungsseiten = Symbol im Goldring
+   (.umfang in leistungen/[slug].astro), nicht mehr .kachel. */
 :is(.kachel__icon, .pcard__icon, .verdienst__icon, .weg__icon, .usp__icon) {
   width: 48px !important; height: 48px !important;
   border-radius: 12px !important;
