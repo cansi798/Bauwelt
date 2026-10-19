@@ -1,28 +1,114 @@
 ---
 // Zahlenleiste unter dem Startbild (Kundenwunsch 19.10.2026, Audit 6.6) – Daten: ZAHLEN in data/home.ts.
+// Jamil 19.10.2026 (Talk 2531/2536, Variante A): nur noch die zwei Erfahrungs-Zahlen, dargestellt
+// wie eine Errungenschaft – große goldene Zahl in einem feinen goldenen Ring (kreisförmig, Audit-Regel
+// „animierte Formen rund“). Der Ring zeichnet sich EINMAL, die Zahl zählt dabei hoch.
+// Ohne JS / bei reduzierter Bewegung steht sofort der Endwert da.
 import { ZAHLEN } from "../data/home";
+
+const R = 44;
+const UMFANG = +(2 * Math.PI * R).toFixed(1);
+const teile = ZAHLEN.map((z) => {
+  const m = z.wert.match(/^(\d+)(.*)$/);
+  return { ...z, zahl: m ? Number(m[1]) : null, rest: m ? m[2] : "" };
+});
 ---
 
-<section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen">
+<section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen" data-einmal>
   <ul class="container zahlen__liste">
-    {ZAHLEN.map((z) => (
+    {teile.map((z) => (
       <li class="zahlen__item">
-        <strong>{z.wert}</strong>
-        <span>{z.label}</span>
+        <span class="zahlen__ring">
+          <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <circle class="zahlen__spur" cx="50" cy="50" r={R} />
+            <circle class="zahlen__bogen" cx="50" cy="50" r={R} style={`--umfang:${UMFANG}`} />
+          </svg>
+          <strong class="zahlen__wert">
+            <span class="visually-hidden">{z.wert}</span><span class="zahlen__zahl" data-ziel={z.zahl ?? undefined} aria-hidden="true">{z.zahl ?? z.wert}</span>{z.rest && <span class="zahlen__plus" aria-hidden="true">{z.rest}</span>}
+          </strong>
+        </span>
+        <span class="zahlen__label">{z.label}</span>
       </li>
     ))}
   </ul>
 </section>
 
+<script>
+  // Zählt einmal von 0 auf den Endwert, sobald die Leiste „is-sichtbar“ bekommt
+  // (scripts/einmal-animieren.ts) – gleichzeitig zeichnet sich der Ring (CSS).
+  // Bei reduzierter Bewegung oder ohne JS bleibt einfach der Endwert stehen.
+  const leiste = document.querySelector<HTMLElement>("section.zahlen");
+  if (leiste && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const zahlen = [...leiste.querySelectorAll<HTMLElement>(".zahlen__zahl[data-ziel]")];
+    const zaehlen = () => {
+      const dauer = 1600;
+      const t0 = performance.now();
+      const schritt = (t: number) => {
+        const p = Math.min(1, (t - t0) / dauer);
+        const e = 1 - Math.pow(1 - p, 3); // ease-out
+        for (const z of zahlen) z.textContent = String(Math.round(Number(z.dataset.ziel) * e));
+        if (p < 1) requestAnimationFrame(schritt);
+      };
+      requestAnimationFrame(schritt);
+    };
+    if (leiste.classList.contains("is-sichtbar")) zaehlen();
+    else {
+      for (const z of zahlen) z.textContent = "0";
+      const mo = new MutationObserver(() => {
+        if (!leiste.classList.contains("is-sichtbar")) return;
+        mo.disconnect();
+        zaehlen();
+      });
+      mo.observe(leiste, { attributes: true, attributeFilter: ["class"] });
+    }
+  }
+</script>
+
 <style>
   .zahlen { background: var(--anthrazit-800); color: var(--weiss); }
   .zahlen__liste {
-    list-style: none; margin: 0 auto; padding-block: 22px;
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;
-    text-align: center;
+    list-style: none; margin: 0 auto; padding-block: 28px;
+    display: flex; justify-content: center; align-items: center;
+    gap: 24px clamp(32px, 7vw, 96px);
   }
-  .zahlen__item { display: grid; gap: 2px; justify-items: center; align-content: start; }
-  .zahlen__item strong { font-family: var(--font-heading); font-weight: 800; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; color: var(--gold-500); }
-  .zahlen__item span { font-size: 14px; line-height: 1.35; color: var(--anthrazit-200); max-width: 22ch; }
-  @media (max-width: 599px) { .zahlen__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
+  .zahlen__item { display: flex; align-items: center; gap: 18px; min-width: 0; }
+  /* feine goldene Trennlinie zwischen den beiden Errungenschaften (nur Desktop) */
+  .zahlen__item + .zahlen__item { position: relative; }
+  .zahlen__item + .zahlen__item::before {
+    content: ""; position: absolute; left: calc(clamp(32px, 7vw, 96px) / -2); top: 50%;
+    width: 1px; height: 56px; transform: translateY(-50%);
+    background: linear-gradient(to bottom, transparent, var(--gold-500), transparent); opacity: 0.45;
+  }
+
+  .zahlen__ring { position: relative; flex: none; width: 104px; height: 104px; display: grid; place-items: center; }
+  .zahlen__ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .zahlen__ring circle { fill: none; stroke-width: 1.5; }
+  .zahlen__spur { stroke: var(--gold-500); opacity: 0.22; }
+  .zahlen__bogen {
+    stroke: var(--gold-500); stroke-linecap: round;
+    stroke-dasharray: var(--umfang); stroke-dashoffset: 0;
+  }
+  html.js .zahlen__bogen { animation: zahlen-ring 1.6s var(--ease) both; }
+  @keyframes zahlen-ring { from { stroke-dashoffset: var(--umfang); } to { stroke-dashoffset: 0; } }
+
+  .zahlen__wert {
+    position: relative; display: inline-flex; align-items: flex-start;
+    font-family: var(--font-heading); font-weight: 800; font-size: 36px; line-height: 1;
+    color: var(--gold-500); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .zahlen__plus { font-size: 0.55em; margin-left: 1px; margin-top: 0.08em; }
+  .zahlen__label {
+    font-family: var(--font-heading); font-weight: 600; line-height: 1.35;
+    font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 17px;
+    color: var(--anthrazit-100); max-width: 16ch;
+  }
+
+  @media (max-width: 599px) {
+    .zahlen__liste { padding-block: 24px; gap: 12px; align-items: start; }
+    .zahlen__item { flex: 1 1 0; flex-direction: column; gap: 10px; text-align: center; }
+    .zahlen__item + .zahlen__item::before { left: -6px; height: 72px; top: 44px; }
+    .zahlen__ring { width: 88px; height: 88px; }
+    .zahlen__wert { font-size: 34px; }
+    .zahlen__label { font-size: 16px; max-width: 14ch; }
+  }
 </style>

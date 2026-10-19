@@ -142,6 +142,13 @@ else {
 // S7: Rechner-Seite mit Erklärtext
 const rechnerSeite = seite("/rechner/");
 if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("SEO (S7)", "/rechner/: Abschnitt „So rechnet der Rechner“ fehlt"); seoProbleme++; }
+// 6.6: Zahlenleiste nur 40+ Bäder / 15+ Jahre – 12 h / 24 h nur in „Unsere Versprechen“ (Jamil 19.10., Talk 2531/2536)
+{
+  const start = seite("/");
+  const leiste = start?.html.match(/<section class="zahlen[\s\S]*?<\/section>/)?.[0];
+  if (leiste && /\b(?:12|24)\s*h\b|Stunden/.test(sichtText(leiste))) warn("Zahlen (6.6)", "Zahlenleiste zeigt wieder 12 h / 24 h – laut Jamil nur in „Unsere Versprechen“");
+  else if (leiste) pass("Zahlen (6.6)", "Zahlenleiste ohne 12 h / 24 h");
+}
 // S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (siehe AUDIT-REGELN.md)
 for (const s of S) {
   if (/Preisbeispiel/i.test(s.text)) { warn("SEO (S5)", `${s.page}: sichtbare „Preisbeispiele“ – Jamil wollte das NICHT (nur llms-full.txt)`); seoProbleme++; }

@@ -21,14 +21,13 @@ export const HERO = {
 };
 
 /** Zahlenleiste unter dem Startbild (Kundenwunsch 19.10.2026, Audit 6.6).
- *  NUR bestätigte Zahlen: 15+ Jahre (Über uns), 12 h / 24 h (Zusagen). Projektzahlen
- *  (z. B. sanierte Bäder) erst eintragen, wenn Jamil sie bestätigt – die alten Werte
- *  „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
+ *  NUR bestätigte Zahlen, dargestellt wie eine „Errungenschaft“ (goldener Ring, zählt einmal hoch).
+ *  Jamil 19.10.2026 (Talk 2531/2536, Variante A): 12 h Antwort / 24 h Angebot stehen NUR noch
+ *  in „Unsere Versprechen“ (data/versprechen.ts), nicht mehr in dieser Leiste.
+ *  Die alten Werte „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
 export const ZAHLEN = [
   { wert: "40+", label: "sanierte Bäder" }, // bestätigt von Jamil 19.10.2026 („über 40 Bäder“)
   { wert: "15+", label: "Jahre Erfahrung im Handwerk" }, // Audit K3: Erfahrung im Handwerk (GmbH seit ca. 2024)
-  { wert: "12 h", label: "bis zur Antwort (werktags)" },
-  { wert: "24 h", label: "bis zum Angebot" },
 ];
 
 /** Eine Bild-Text-Sektion je Gewerk (Enpal-Produktsektions-Muster) – nur die echten Leistungen. */

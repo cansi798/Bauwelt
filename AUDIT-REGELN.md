@@ -34,7 +34,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | Partner (6.7) | „seniovo“ klein; OBI seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, Logos (keine Freigabe) |
 | Karriere (4.8/6.8) | positiv: „Faire Bezahlung. Prämien für gute Projekte.“, „Initiativ bewerben – wir suchen immer gute Leute“ | „Derzeit suchen wir keine Verstärkung“, abwertend über die Branche |
 | Erfahrung (K3) | „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre alt) | „15 Jahre“ ohne „im Handwerk“ |
-| Zahlen (6.6) | 40+ sanierte Bäder, 15+ Jahre Erfahrung im Handwerk, 12 h, 24 h | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre |
+| Zahlen (6.6) | Zahlenleiste unter dem Startbild: nur 40+ sanierte Bäder und 15+ Jahre Erfahrung im Handwerk. 12 h Antwort / 24 h Angebot **nur** in „Unsere Versprechen“ (Jamil 19.10., Talk 2531/2536, Variante A) | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre; 12 h / 24 h in der Zahlenleiste |
 
 **Verbotene Aussagen (Werberecht/UWG, K2/K3):**
 - „Meisterbetrieb“ (ist es nicht). Erlaubt nur: „Elektromeisterbetrieb“ als Partner für Endanschlüsse.
@@ -60,6 +60,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 - Hover-Lift nur bei klickbaren Karten, einheitlich 2 px (3.5). Motion-Tokens für Tempo (3.4).
 - Skizzen-Animationen: Texte erscheinen erst mit ihrer Form (Bugfix 19.10.), Linien in ca. 1,5–2 s fertig (3.1); goldene Linien fließen, Siegel-Ringe drehen (Sprachnachricht 19.10.).
 - **Animierte Formen einheitlich kreisförmig** (Jamil 19.10., Msg 2518/2523): Siegel, Schritt-Nummern, Stempel-Effekte, Lade-Anzeigen rund – keine Rechteck-Rahmen mehr (ersetzt Kundenwunsch 15.10. (65) „Rechtecke“ auf Über uns). Symbol-Behälter (Audit 2.4) bleiben, da nicht animiert.
+- Zahlenleiste (6.6, Jamil 19.10., Talk 2531/2536): „wie eine Errungenschaft, aber nicht übertrieben“ – große goldene Zahl in feinem goldenem Ring, Ring zeichnet sich einmal, Zahl zählt einmal hoch; Beschriftung in Kapitälchen. Kein Konfetti, keine blinkenden Abzeichen.
 - Hero-Wortwalze bleibt in Dauerschleife (Jamil 1.1), jedes Wort 1,6 s.
 - Kein Ken-Burns-Zoom in den Leistungs-Startbildern, bis schärfere Fotos da sind (3.6).
 - Rechner: Schritt-Anzeige sichtbar, Badsanierung in zwei Mini-Schritten (1.5), kurzer Übergang, Preisspanne zählt hoch (3.7); mobil Liste ohne Silbentrennung (2.9).
