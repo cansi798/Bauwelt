@@ -297,7 +297,7 @@ export const PAUSCHAL: Pauschal[] = [
     label: name("sanierungscheck"),
     icon: "eye",
   },
-  // Kundenwunsch 16.10.2026 (73): neue Leistung, pauschal 249 € brutto, bei Umsetzung angerechnet
+  // Kundenwunsch 16.10.2026 (73): neue Leistung, pauschal 199 € brutto (Jamil 19.10.2026, Msg 2533; vorher 249 €), bei Umsetzung angerechnet
   {
     slug: "sicher-wohnen", // Kundenwunsch 17.10.2026 (82): früher „Zuhause-Check 60+“
     label: name("sicher-wohnen"),

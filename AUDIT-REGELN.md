@@ -23,7 +23,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | Termin (4.1) | „Kostenloser Vor-Ort-Termin“, Button „Vor-Ort-Termin buchen“ | Besichtigungstermin, Beratungstermin, Erstes Gespräch, Telefontermin |
 | Rechner-CTA (4.4) | „Preis berechnen“ (im Rechner: „Preisspanne anzeigen“) | Projekt berechnen, Jetzt Preis berechnen, Festpreis ansehen |
 | Rechner-Ergebnis (4.3) | „Preisspanne“, Format „14.340 – 19.500 €“ | Preisrahmen, Preiseinschätzung, Ersteinschätzung, „ab … bis …“ |
-| Preis der Checks (4.2/4.3) | „Pauschalpreis“ (595 € / 249 €) | „Festpreis“ für Checks |
+| Preis der Checks (4.2/4.3) | „Pauschalpreis“ (595 € / 199 €) | „Festpreis“ für Checks |
 | Auftragspreis (4.2) | „Festpreis“, Siegel „Festpreis-Zusage“ | Festpreis-Garantie, Preisgarantie |
 | Ansprechpartner (4.6/7.6) | „Ein fester Ansprechpartner“ | deutschsprachiger Ansprechpartner |
 | Reaktionszeit (4.7) | „innerhalb von 12 Stunden (werktags)“ / „Angebot innerhalb von 24 Stunden“ | 12h, Antwort in 12 h |

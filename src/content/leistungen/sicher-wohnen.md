@@ -7,13 +7,13 @@ title: "Sicher wohnen. Heute und morgen."
 eigeneSeite: true
 order: 50
 icon: "heim"
-badge: "Pauschal 249 €"
-teaser: "Sicher und selbstbestimmt wohnen: Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm wird – pauschal 249 € inkl. MwSt."
-beschreibung: "Sicher wohnen in Norderstedt, Hamburg und Umkreis: Risiken im Zuhause früh erkennen, Anpassungen planen. Pauschal 249 € inkl. MwSt., wird angerechnet."
+badge: "Pauschal 199 €"
+teaser: "Sicher und selbstbestimmt wohnen: Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm wird – pauschal 199 € inkl. MwSt."
+beschreibung: "Sicher wohnen in Norderstedt, Hamburg und Umkreis: Risiken im Zuhause früh erkennen, Anpassungen planen. Pauschal 199 € inkl. MwSt., wird angerechnet."
 bild: "hero-sanierung-modernisierung.webp"
-pauschalpreis: 249
+pauschalpreis: 199
 pauschalHinweis: "Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an."
-claim: "Pauschal 249 € inkl. MwSt. – wird bei Umsetzung angerechnet." # Audit 5.5: neue Info statt Wiederholung (Kernsatz steht im Zitatband)
+claim: "Pauschal 199 € inkl. MwSt. – wird bei Umsetzung angerechnet." # Audit 5.5: neue Info statt Wiederholung (Kernsatz steht im Zitatband)
 lead: "Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm gestaltet werden kann, damit Sie möglichst lange in Ihren eigenen vier Wänden leben können."
 umfang:
   - "Gemeinsame Prüfung von Badezimmer, Wegen & Durchgängen, Wohn- und Schlafbereichen, Treppen & Eingängen und Küche"
@@ -23,7 +23,7 @@ umfang:
   - "Erste Kosteneinschätzung"
   - "Auf Wunsch ein Angebot für die Umsetzung"
 faq:
-  - { q: "Was kostet der Check „Sicher wohnen“?", a: "Der Check kostet pauschal 249 € inkl. MwSt. Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an." }
+  - { q: "Was kostet der Check „Sicher wohnen“?", a: "Der Check kostet pauschal 199 € inkl. MwSt. Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an." }
   - { q: "Für wen eignet sich „Sicher wohnen“?", a: "Für alle, die sicher und selbstständig zu Hause wohnen möchten – in jedem Alter: Menschen mit Pflegebedarf oder eingeschränkter Mobilität, nach einem Unfall oder einer Erkrankung und alle, die frühzeitig vorsorgen möchten. Ebenso für Angehörige, die einen nahestehenden Menschen unterstützen – in Wohnungen und Häusern, ob Eigentum oder Miete." }
   - { q: "Kann ich den Check auch für einen Angehörigen anfragen?", a: "Ja, gern. Sprechen Sie uns einfach an – den Termin vereinbaren wir so, wie es für Sie und Ihren Angehörigen am besten passt." }
   - { q: "Muss ich danach umbauen lassen?", a: "Nein. Sie erhalten eine Einschätzung, Empfehlungen, eine priorisierte Maßnahmenliste und eine erste Kosteneinschätzung. Ein Angebot für die Umsetzung erstellen wir nur, wenn Sie es wünschen." }
