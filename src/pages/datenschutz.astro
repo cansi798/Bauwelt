@@ -13,7 +13,7 @@ import Icon from "../components/Icon.astro";
     <div class="container">
       <article class="legal">
         <p class="eyebrow">Rechtliches</p>
-        <h1 class="rule">Datenschutzerklärung</h1>
+        <h1 class="rule">Datenschutz&shy;erklärung</h1>
 
         <h2>1. Verantwortlicher</h2>
         <address>{SITE.legal}<br />{SITE.managing} (Geschäftsführer)<br />{SITE.street}, {SITE.zip} {SITE.city}<br />Telefon: <a href={`tel:${SITE.phoneTel}`}>{SITE.phoneDisplay}</a><br />E-Mail: <a href={`mailto:${SITE.emails.impressum}`}>{SITE.emails.impressum}</a></address>
@@ -58,7 +58,7 @@ import Icon from "../components/Icon.astro";
 </BaseLayout>
 
 <style>
-  .legal { max-width: var(--text-width); }
+  .legal { max-width: var(--text-width); overflow-wrap: anywhere; hyphens: auto; }
   .legal h2 { font-size: 19px; margin-top: 1.6em; }
   .legal address { font-style: normal; }
   .legal__back a { display: inline-flex; align-items: center; gap: 8px; }
