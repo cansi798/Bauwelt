@@ -336,3 +336,14 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html.js .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- Kartentitel (Kundenwunsch 19.10.2026, Audit 2.2) ----------
+   EIN Stil für alle Kartentitel: 18 px, fett, normale Schreibung (keine Versalien).
+   !important, weil einzelne Seiten eigene (scoped) Größen gesetzt hatten. */
+main :is(.card, .warum__item, .zc-bereich, .zc-vorteil, .zc-spalte, .verdienst__karte, .stelle__head, .usp__head, .pcard, .weg) h3 {
+  font-size: 18px !important;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
