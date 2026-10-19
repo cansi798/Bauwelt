@@ -14,8 +14,15 @@ interface Props {
 }
 const { eyebrow, pre, accent, text, sand = false } = Astro.props;
 
-/** Derzeitige Kooperationen (Kundenfeedback 07.10.2026). */
-const KOOPERATIONEN = ["Hornbach", "OBI", "seniovo"];
+/** Derzeitige Kooperationen (Kundenfeedback 07.10.2026).
+ *  Kundenwunsch 19.10.2026 (Audit 6.7): konkrete Angaben laut Jamil (Stand Oktober 2026) –
+ *  OBI seit 2024 über 20 Aufträge, seniovo seit 2026 über 5 Aufträge, Hornbach seit 2026
+ *  (erst 1 Auftrag → bewusst ohne Zahl). Logos weiterhin nur nach Freigabe. */
+const KOOPERATIONEN = [
+  { name: "OBI", info: "seit 2024 · über 20 Aufträge" },
+  { name: "seniovo", info: "seit 2026 · über 5 Aufträge" },
+  { name: "Hornbach", info: "seit 2026" },
+];
 ---
 
 <section class:list={["section", { "section--sand": sand }]}>
@@ -25,8 +32,9 @@ const KOOPERATIONEN = ["Hornbach", "OBI", "seniovo"];
       {KOOPERATIONEN.map((k) => (
         <li class="koop__name reveal">
           <span class="koop__label">Kooperationspartner</span>
-          <span class="koop__wort">{k}</span>
+          <span class="koop__wort">{k.name}</span>
           <span class="koop__strich" aria-hidden="true"></span>
+          <span class="koop__info">{k.info}</span>
         </li>
       ))}
     </ul>
@@ -61,7 +69,8 @@ const KOOPERATIONEN = ["Hornbach", "OBI", "seniovo"];
   }
   .koop__wort {
     font-family: var(--font-heading); font-weight: 800; font-size: clamp(22px, 2.4vw, 28px);
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--weiss);
+    letter-spacing: 0.04em; color: var(--weiss); /* Markennamen so, wie die Marken sie schreiben (z. B. „seniovo“, Jamil 19.10.2026) */
   }
+  .koop__info { font-size: 14px; font-weight: 600; color: var(--anthrazit-200); }
   .koop__strich { width: 36px; height: 2px; border-radius: 2px; background: var(--gold-500); }
 </style>
