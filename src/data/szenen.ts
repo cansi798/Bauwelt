@@ -160,7 +160,7 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
   erfahrung: ["15+ Jahre", "Erfahrung"],
   deutsch: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 15.10.2026 (55)
   regional: ["Regional", "vor Ort"],
-  festpreis: ["Festpreis-", "Garantie"],
+  festpreis: ["Festpreis-", "Zusage"], // Audit 4.2 (19.10.2026): „Zusage“ statt „Garantie“
   termin: ["Termin-", "treue"],
   ansprechpartner: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 14.10.2026 (50) / 15.10. (55)
   antwort: ["Antwort in", "12 Stunden"],

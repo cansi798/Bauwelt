@@ -80,7 +80,7 @@ const zusatzVorteile = [
 ];
 const warumKarten = [...l.data.warum, ...zusatzVorteile.filter((z) => !l.data.warum.some((w) => w.title === z.title))];
 const chips = [
-  pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Garantie",
+  pauschal ? `Pauschal ${euro(pauschal)} €` : "Festpreis-Zusage",
   "Antwort in 12 h",
   "Angebot in 24 h",
   "Deutschsprachiger Ansprechpartner",

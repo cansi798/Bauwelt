@@ -16,7 +16,7 @@ export const VERSPRECHEN: Siegel[] = [
   {
     id: "festpreis",
     icon: "euro",
-    title: "Festpreis-Garantie",
+    title: "Festpreis-Zusage",
     short: "Der Preis im Angebot ist der Preis auf der Rechnung.",
     long:
       "Nach dem Vor-Ort-Termin erhalten Sie ein Angebot mit einem festen Preis – " +
