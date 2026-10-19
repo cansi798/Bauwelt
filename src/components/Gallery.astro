@@ -27,7 +27,10 @@ const kopf = (t: string) => {
   <section class="gal__gruppe" id={g.id}>
     {/* Kategorie-Einleitung statt direkt Bilder (Kundenwunsch 14.10.2026 (36)) */}
     <SectionHead center eyebrow={g.title} {...kopf(g.slogan ?? g.title)} text={g.intro} />
-    <div class="gal__grid">
+    {g.bilder.length > 1 && (
+      <p class="gal__wisch" aria-hidden="true">{g.bilder.length} Projekte · zum Blättern wischen <Icon name="arrow" size={16} class="icon" /></p>
+    )}
+    <div class="gal__grid" tabindex="0" aria-label={`Projektbilder ${g.title}`}>
       {g.bilder.map((b) => (
         <figure class="gal__karte reveal">
           <a class="gal__bild" href={u(`assets/img/${b.file}`)} target="_blank" rel="noopener" aria-label={`${b.alt} – Bild vergrößern`}>
@@ -81,7 +84,31 @@ const kopf = (t: string) => {
   .gal__gruppe :global(.section-head) { margin-bottom: 28px; }
   /* Mobil 2 Spalten, Tablet 3, Desktop 4 – einheitliches Hochformat 4:5 */
   /* größer (Kundenwunsch 14.10.2026 (33)): mobil 1, Tablet 2, Desktop 3 Spalten */
-  .gal__grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+  /* Kundenwunsch 19.10.2026 (Audit 1.4): mobil NICHT untereinander, sondern waagerecht
+     wischbar (Scroll-Snap); die nächste Karte schaut rechts hervor, darüber ein Wisch-Hinweis */
+  .gal__grid {
+    display: grid; gap: 14px;
+    grid-auto-flow: column; grid-auto-columns: 78%;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter, 20px);
+    margin-inline: calc(-1 * var(--gutter, 20px)); padding: 0 var(--gutter, 20px) 8px;
+    scrollbar-width: none;
+  }
+  .gal__grid::-webkit-scrollbar { display: none; }
+  .gal__grid > * { scroll-snap-align: start; }
+  .gal__wisch {
+    display: flex; align-items: center; gap: 6px;
+    margin: -12px 0 12px; font-size: 14px; font-weight: 600; color: var(--gold-700);
+  }
+  .gal__wisch :global(.icon) { width: 16px; height: 16px; animation: gal-wisch 1.6s ease-in-out infinite; }
+  @keyframes gal-wisch { 0%, 100% { transform: none; } 50% { transform: translateX(5px); } }
+  @media (min-width: 640px) {
+    .gal__wisch { display: none; }
+    .gal__grid {
+      grid-auto-flow: row; grid-auto-columns: auto; overflow: visible;
+      margin-inline: 0; padding: 0; scroll-snap-type: none;
+    }
+  }
   @media (min-width: 640px) { .gal__grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
   @media (min-width: 1024px) { .gal__grid { grid-template-columns: repeat(3, 1fr); gap: 22px; } }
   .gal__karte { margin: 0; display: grid; gap: 12px; align-content: start; }
