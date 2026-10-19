@@ -27,7 +27,7 @@ claim: "In rund zwei Wochen fertig. Klar geplant. Professionell umgesetzt." # Au
 # Kundenwunsch 16.10.2026 (76): Beratungs-Satz; seit (77) im Lead, weil der Intro-Abschnitt entfällt
 lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
-ohneIntro: true
+# ohneIntro entfernt – Audit 2.8 (19.10.2026): Einleitung jetzt auf allen Leistungsseiten (16.10. (77) hatte sie hier abgeschaltet)
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
