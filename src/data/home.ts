@@ -23,6 +23,7 @@ export const HERO = {
  *  (z. B. sanierte Bäder) erst eintragen, wenn Jamil sie bestätigt – die alten Werte
  *  „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
 export const ZAHLEN = [
+  { wert: "40+", label: "sanierte Bäder" }, // bestätigt von Jamil 19.10.2026 („über 40 Bäder“)
   { wert: "15+", label: "Jahre Erfahrung" },
   { wert: "12 h", label: "bis zur Antwort (werktags)" },
   { wert: "24 h", label: "bis zum Angebot" },
