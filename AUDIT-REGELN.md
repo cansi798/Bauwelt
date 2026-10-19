@@ -145,3 +145,6 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 - Logo als kleine WebP (kein PNG), Startbild am Handy in kleiner Variante (`hero-828.webp`), Zeichnungen erst bei Bedarf aufbauen.
 - Bilder < 200 KB. Beim eigenen Hosting lange Cache-Zeiten (S11).
+
+- **Kein energetischer Umbau** (Jamil 20.10., Talk 2599): Bauwelt bietet keine energetische Sanierung/Modernisierung an – das Wort „energetisch“ kommt im Angebot nicht vor (audit-check warnt).
+- **Badsanierung-Kachel** (Jamil 20.10., Talk 2600): Kachel-/Menüname nur „Badsanierung“ (ohne „aus einer Hand“), Unterzeile emotional: „Endlich ein Bad, in dem Sie sich rundum wohlfühlen“.

@@ -202,6 +202,12 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
     else if (/umfang__nr/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Nummern im Leistungsumfang – laut Jamil (Talk 2587) ohne Zahlen`); uProbleme++; }
   }
   if (uSeiten && !uProbleme) pass("Leistungsumfang", `${uSeiten} Leistungsseiten: Symbole im Goldring, ohne Nummern (Jamil 20.10.)`);
+// Jamil 20.10.2026 (Talk 2599): Bauwelt bietet keine energetische Sanierung an
+{
+  const energ = S.filter((x) => /energetisch/i.test(x.html.replace(/<[^>]+>/g, " ")));
+  if (energ.length) warn("Leistungsangebot (Jamil 20.10.)", `„energetisch“ auf ${energ.map((x) => x.page).join(", ")} – laut Jamil (Talk 2599) kein energetischer Umbau`);
+  else pass("Leistungsangebot", "kein „energetisch“ im Angebot (Jamil 20.10.)");
+}
 }
 // Leistungs-Unterzeile = Kundennutzen (Jamil 20.10.2026, Talk 2564): Feld `nutzen` in LEISTUNGEN (consts.ts),
 // je Leistung eigener, kurzer Nutzen (≤ 55 Zeichen), kein allgemeines Versprechen (Festpreis, Zeitplan …).

@@ -96,8 +96,8 @@ export type Leistung = {
 // „Präzise verlegt, fest kalkuliert“, „Mit festem Preis und festem Plan“, „Klarheit vor dem
 // Immobilienkauf“, „Sicher und selbstbestimmt wohnen“.
 export const LEISTUNGEN: Leistung[] = [
-  { slug: "badsanierung", nutzen: "Ihr Wohlfühlbad – geplant, gebaut, übergeben", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
-  { slug: "sanierung-modernisierung", nutzen: "Auf heutigem Stand: energetisch, technisch, optisch", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
+  { slug: "badsanierung", nutzen: "Endlich ein Bad, in dem Sie sich rundum wohlfühlen", unterschrift: "Badsanierung", kurz: "Badsanierung", icon: "bath" },
+  { slug: "sanierung-modernisierung", nutzen: "Auf heutigem Stand: technisch und optisch", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
   { slug: "fliesen-boden", nutzen: "Gerade Kanten, saubere Fugen, lange Freude", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
   { slug: "innenausbau", nutzen: "Mehr aus Ihren Räumen machen – nach Maß", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
   // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
