@@ -21,7 +21,9 @@ const ziele = document.querySelectorAll<HTMLElement>(".reveal, [data-einmal]");
 function sichtbar(el: HTMLElement) {
   el.classList.add("is-sichtbar");
   if (!el.hasAttribute("data-einmal")) return;
-  const laufend = el.getAnimations({ subtree: true }); // erzwingt Style-Berechnung → neue CSS-Animationen sind dabei
+  // erzwingt Style-Berechnung → neue CSS-Animationen sind dabei; Dauer-Animationen (infinite,
+  // z. B. drehende Siegel-Ringe, Kundenwunsch 19.10.2026) enden nie und zählen daher nicht mit
+  const laufend = el.getAnimations({ subtree: true }).filter((a) => a.effect?.getTiming().iterations !== Infinity);
   Promise.allSettled(laufend.map((a) => a.finished)).then(() => el.classList.add("is-fertig"));
 }
 

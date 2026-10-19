@@ -232,7 +232,8 @@ function wegSzene(a: Ansicht, titel: string[][], unter: string[][], motive: Moti
           ? [[cx + 30, cy + 44], [cx + 90, cy + 70], [nx - 60, ny - 76], [nx - 4, ny - 52]]
           : [[cx - 30, cy + 44], [cx - 90, cy + 70], [nx + 60, ny - 76], [nx + 4, ny - 52]]
         : [[cx + 62, cy + 4], [cx + 110, cy - 16], [nx - 100, ny + 18], [nx - 62, ny]];
-      z.kurve(pkt, { stroke: F.gold, strokeWidth: 2.6, roughness: 1.4 }, 0.6);
+      // Kundenwunsch 19.10.2026: goldene Verbindungslinie bleibt nach dem Zeichnen in Bewegung
+      z.gruppe("fluss", () => z.kurve(pkt, { stroke: F.gold, strokeWidth: 2.6, roughness: 1.4 }, 0.6));
     }
   });
   return { breite: B, hoehe: H, elemente: z.elemente, ende: 0.2 + 3 * 1.15 + 1.2 };
@@ -350,7 +351,8 @@ function siegelSzene(
         z.rundRechteck(cx - (d - 14) / 2, cy - (d - 14) / 2, d - 14, d - 14, 11, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.45);
       } else {
         z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
-        z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5);
+        // Kundenwunsch 19.10.2026: goldener Innenring dreht sich nach dem Zeichnen ständig
+        z.gruppe("dreh", () => z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5));
       }
       z.bei(t + 0.3);
       SIEGEL_MOTIV[id]?.(z, cx, cy, s);

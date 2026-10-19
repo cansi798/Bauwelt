@@ -15,8 +15,11 @@ export type Element =
       art: "text"; x: number; y: number; text: string; t: number;
       groesse: number; gewicht: number; farbe: string; anker: "start" | "middle" | "end";
     }
-  /** Gruppe mit „Stempel"-Effekt (kurzes Aufploppen) oder Dauer-Puls. */
-  | { art: "gruppe"; effekt: "stempel" | "puls"; t: number; kinder: Element[] };
+  /** Gruppe mit „Stempel"-Effekt (kurzes Aufploppen) oder Dauer-Puls; „dreh“ (goldener Ring dreht
+   *  sich nach dem Zeichnen ständig) und „fluss“ (goldene Verbindungslinie fließt ständig) –
+   *  Kundenwunsch 19.10.2026 (Sprachnachricht Jamil). */
+  | { art: "gruppe"; effekt: Effekt; t: number; kinder: Element[] };
+export type Effekt = "stempel" | "puls" | "dreh" | "fluss";
 
 export interface Szene {
   breite: number;
@@ -123,7 +126,7 @@ export class Zeichner {
     return kinder;
   }
   /** Alles in `fn` Gezeichnete bekommt einen Stempel- oder Puls-Effekt. */
-  gruppe(effekt: "stempel" | "puls", fn: () => void) {
+  gruppe(effekt: Effekt, fn: () => void) {
     const kinder: Element[] = [];
     const vorher = this.ziel;
     this.ziel = kinder;

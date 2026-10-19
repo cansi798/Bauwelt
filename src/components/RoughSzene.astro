@@ -9,7 +9,7 @@
 // Neustart beim Zurückscrollen, erst wieder nach Neuladen der Seite.
 // Ohne JS oder bei „Bewegung reduzieren" steht sofort das fertige Bild.
 // Kundenwunsch 19.10.2026 (Audit 3.1): gleicher Look, aber schnell – alle Zeiten einer Szene
-// werden so gestaucht, dass sie in ca. 1,5 s fertig gezeichnet ist (Reihenfolge/Versatz bleiben),
+// werden so gestaucht, dass sie in ca. 2 s fertig gezeichnet ist (19.10.: 2 s statt 1,5 s) (Reihenfolge/Versatz bleiben),
 // und alle Texte stehen sofort da (keine Einblendung mehr).
 import { SZENEN, type Ansicht, type SzenenName } from "../data/szenen";
 import type { Element, Szene } from "../lib/rough-szene";
@@ -24,7 +24,7 @@ const { szene, label } = Astro.props;
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const n = (x: number) => Math.round(x * 100) / 100;
 /** Ziel-Gesamtdauer einer Szene in Sekunden (Audit 3.1). */
-const ZIEL_DAUER = 1.5;
+const ZIEL_DAUER = 2; // Kundenwunsch 19.10.2026 (Sprachnachricht Jamil): 2 s statt 1,5 s
 
 function el(e: Element, f: number): string {
   switch (e.art) {
@@ -88,6 +88,21 @@ const desktop = SZENEN[szene]("desktop");
     html.js .rszene.is-sichtbar .rs-g--puls { animation: rs-puls 2.4s ease-in-out calc(var(--ende) + 0.4s) 1 forwards; }
     /* Fertig gezeichnet: ruhiges Endbild ohne Animation (springt z. B. beim Drehen nicht neu an) */
     html.js .rszene.is-sichtbar.is-fertig :is(.rs-s, .rs-f, .rs-x, .rs-g) { animation: none; opacity: 1; }
+
+    /* Dauerbewegung nach dem Zeichnen (Kundenwunsch 19.10.2026, Sprachnachricht Jamil):
+       goldene Innenringe der Siegel drehen sich langsam, goldene Verbindungslinien im Ablauf
+       „fließen“. Start, wenn die Szene fertig gezeichnet ist (--ende). Bei „Bewegung
+       reduzieren“ greift diese Regel nicht (äußere Media-Query) → alles steht still. */
+    html.js .rszene.is-sichtbar .rs-g--dreh,
+    html.js .rszene.is-sichtbar.is-fertig .rs-g--dreh {
+      transform-box: fill-box; transform-origin: center;
+      animation: rs-dreh 14s linear var(--ende, 2s) infinite;
+    }
+    html.js .rszene.is-sichtbar .rs-g--fluss .rs-s,
+    html.js .rszene.is-sichtbar.is-fertig .rs-g--fluss .rs-s {
+      opacity: 1;
+      animation: rs-zeichnen var(--d) ease-out var(--t) both, rs-fluss 1.6s linear calc(var(--ende, 2s) + 0.2s) infinite;
+    }
   }
 
   @keyframes rs-zeichnen {
@@ -100,6 +115,12 @@ const desktop = SZENEN[szene]("desktop");
     0% { transform: scale(0.6); }
     60% { transform: scale(1.08); }
     100% { transform: scale(1); }
+  }
+  @keyframes rs-dreh { to { transform: rotate(360deg); } }
+  /* Fließen: Linie bleibt sichtbar, ein gestrichelter Abschnitt wandert entlang (pathLength = 1) */
+  @keyframes rs-fluss {
+    0% { stroke-dasharray: 0.06 0.035; stroke-dashoffset: 0; }
+    100% { stroke-dasharray: 0.06 0.035; stroke-dashoffset: -0.095; }
   }
   @keyframes rs-puls { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 </style>
