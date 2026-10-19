@@ -26,7 +26,7 @@ claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
 lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 introTitel: "Neue Böden – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
-umfangTitel: "Was gehört zu Fliesen- & Bodenarbeiten?"
+umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
 umfangText: "Vom alten Belag bis zur fertigen Fuge erhalten Sie sämtliche Leistungen aus einer Hand."
 kacheln:
   - { icon: "hammer", title: "Rückbau alter Beläge" }
