@@ -10,6 +10,7 @@
 // – Ken-Burns zoomt einmal hinein und bleibt, der Pfeil wippt einmal.
 // Ausnahme Kundenwunsch 19.10.2026 (Audit 1.1): die Wortwalze läuft in Dauerschleife.
 import { CTA, TERMIN, istKiBild, u } from "../consts";
+import { GALERIE } from "../data/galerie";
 import { HERO } from "../data/home";
 import Icon from "./Icon.astro";
 import KiHinweis from "./KiHinweis.astro";
@@ -17,6 +18,9 @@ import KiHinweis from "./KiHinweis.astro";
 const WORTE = HERO.begriffe;
 // Das erste Wort steht am Ende noch einmal: Endbild der einen Runde = Anfangsbild.
 const WALZE = [...WORTE, WORTE[0]];
+// Audit 7.2: echtes Projektfoto im Vordergrund (alt-Text aus der Galerie)
+const ECHT = HERO.echt;
+const echtAlt = GALERIE.flatMap((g) => g.bilder).find((b) => b.file === ECHT.file)?.alt ?? ECHT.titel;
 ---
 
 <section class="fhero" data-einmal>
@@ -63,6 +67,15 @@ const WALZE = [...WORTE, WORTE[0]];
       <a class="btn btn--lg" href="#leistungen">{CTA.label}</a>
       <a class="btn btn--lg fhero__ghost nur-desktop" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
     </div>
+    <!-- Kundenwunsch 19.10.2026 (Audit 7.2): echtes Projektfoto statt nur KI-Bild -->
+    <a class="fhero__echt fhero__in" style="--d: 480ms" href={u(`referenzen/#${ECHT.anker}`)}>
+      <img src={u(`assets/img/${ECHT.file}`)} alt={echtAlt} width="1050" height="1400" loading="eager" decoding="async" />
+      <span class="fhero__echt-text">
+        <small>Echtes Bauwelt-Projekt</small>
+        <strong>{ECHT.titel}</strong>
+        <span>{ECHT.ort} · Referenzen ansehen</span>
+      </span>
+    </a>
   </div>
 
   <a class="fhero__scroll" href="#weiter" aria-label="Nach unten scrollen">
@@ -172,6 +185,37 @@ const WALZE = [...WORTE, WORTE[0]];
     .fhero__band { transform: none; }
   }
 
+  /* Echtes Projektfoto (Audit 7.2): Desktop als Bildkarte rechts, mobil kompakte Zeile */
+  .fhero__echt {
+    display: grid;
+    grid-template-columns: 64px auto; align-items: center;
+    max-width: 100%;
+    margin-top: 6px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--weiss);
+    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    color: var(--anthrazit-900);
+    transition: box-shadow 0.2s ease;
+  }
+  .fhero__echt:hover { box-shadow: 0 28px 64px -18px rgba(0, 0, 0, 0.7); }
+  .fhero__echt img { width: 64px; height: 64px; object-fit: cover; display: block; }
+  .fhero__echt-text { display: grid; gap: 2px; padding: 8px 14px 8px 12px; font-size: 13px; line-height: 1.35; }
+  .fhero__echt-text small { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-700); }
+  .fhero__echt-text strong { font-family: var(--font-heading); font-size: 15px; }
+  .fhero__echt-text span { color: var(--anthrazit-600); }
+  /* Ab 1200 px: große Bildkarte rechts neben dem Text */
+  @media (min-width: 1200px) {
+    .fhero__content { padding-right: 340px; }
+    .fhero__echt {
+      position: absolute; right: 0; top: 50%; margin-top: -185px !important; /* kein transform: das nutzt die Einblend-Animation */
+      width: 300px; margin: 0;
+      grid-template-columns: 1fr; border-radius: 18px;
+    }
+    .fhero__echt img { width: 100%; height: 300px; }
+    .fhero__echt-text { padding: 12px 16px 14px; }
+  }
   .fhero__scroll {
     position: absolute; left: 50%; bottom: calc(20px + var(--stickybar-h, 0px));
     width: 48px; height: 48px;
