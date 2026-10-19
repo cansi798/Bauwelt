@@ -61,7 +61,12 @@
 
   --max-width: 1200px;
   --text-width: 720px;
-  --transition: 200ms ease;
+  /* Bewegungs-Tempos (Kundenwunsch 19.10.2026, Audit 3.4): drei feste Dauern, eine Kurve */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;   /* Hover */
+  --dur-base: 250ms;   /* UI-Wechsel */
+  --dur-reveal: 500ms; /* Einblenden */
+  --transition: var(--dur-fast) var(--ease);
   --header-h: 80px;
   --stickybar-h: 64px;
 }
@@ -229,7 +234,7 @@ html.js .slider__nav { display: flex; }
 .slider__btn[disabled] { opacity: 0.35; cursor: default; }
 
 /* ---------- Reveal (NUR mit JS – ohne JS ist alles sichtbar) ---------- */
-html.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 600ms ease, transform 600ms ease; }
+html.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease); }
 html.js .reveal.is-sichtbar { opacity: 1; transform: none; }
 
 /* ---------- Animationen nur EINMAL (Kundenwunsch 17.10.2026 (81)) ----------

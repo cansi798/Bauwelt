@@ -115,7 +115,7 @@ const cols = steps.length % 3 === 0 ? 3 : 4;
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
     transform: rotate(45deg) translateY(-2px);
-    transition: transform 200ms ease;
+    transition: transform var(--transition);
   }
   .steps__mehr[open] summary::after { transform: rotate(225deg) translateY(-2px); }
   .steps__mehr > p { margin-top: 8px; }

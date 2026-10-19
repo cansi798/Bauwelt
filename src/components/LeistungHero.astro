@@ -177,7 +177,7 @@ const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ct
   .lhero__chips :global(.icon) { width: 16px; height: 16px; color: var(--gold-300); flex: none; }
 
   .lhero__in {
-    animation: lrise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: lrise var(--dur-reveal) var(--ease) both;
     animation-delay: var(--d, 0ms);
   }
   @keyframes lrise {
