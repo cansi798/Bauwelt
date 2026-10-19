@@ -7,7 +7,7 @@ teaser: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vi
 umfang:
   - "Wand- und Bodenfliesen, auch Großformate"
   - "Bodengleiche Duschen und Verbundabdichtung"
-  - "Untergrundvorbereitung: Schleifen, Spachteln, Ausgleichen"
+  - "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen) – im Angebot enthalten"
   - "Vinyl und Laminat verlegen"
   - "Silikon- und Anschlussfugen"
 ablauf:
@@ -27,7 +27,7 @@ lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor
 introTitel: "Neue Böden – präzise bis zur letzten Fuge"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
-umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt und realistisch kalkuliert."
+umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt und realistisch kalkuliert. Rückbau, Entsorgung und Untergrundvorbereitung sind im Angebot enthalten."
 kacheln:
   - { icon: "hammer", title: "Rückbau alter Beläge" }
   - { icon: "hand", title: "Untergrund\u00ADvorbereitung" }

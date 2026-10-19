@@ -17,21 +17,23 @@ export const VERSPRECHEN: Siegel[] = [
     id: "festpreis",
     icon: "euro",
     title: "Festpreis-Zusage",
-    short: "Der Preis im Angebot ist der Preis auf der Rechnung.",
+    // Kundenwunsch 19.10.2026 (Talk, Abgleich mit AGB § 2–§ 6): Festpreis gilt für alles im Angebot,
+    // Änderungen nur mit schriftlichem Nachtrag – vorher abgesprochen.
+    short: "Festpreis für alles, was im Angebot steht – keine Überraschungen auf der Rechnung.",
     long:
-      "Nach dem Vor-Ort-Termin erhalten Sie ein Angebot mit einem festen Preis – " +
-      "und der gilt. Keine Nachträge für Dinge, die wir hätten sehen müssen, keine " +
-      "versteckten Positionen. Nur wenn Sie selbst zusätzliche Wünsche beauftragen, " +
-      "ändert sich der Preis – vorher schriftlich, nie einfach auf der Rechnung.",
+      "Festpreis für alles, was im Angebot steht. Ändert sich etwas – etwa durch Ihre " +
+      "Zusatzwünsche oder versteckte Schäden –, sprechen wir vorher mit Ihnen und Sie " +
+      "erhalten einen schriftlichen Nachtrag. Keine Überraschungen auf der Rechnung.",
   },
   {
     id: "termin",
     icon: "clock",
     title: "Termintreue",
-    short: "Ihr Projekt hat ein Startdatum und ein Enddatum.",
+    // Kundenwunsch 19.10.2026 (AGB § 11: verbindlich = schriftlich vereinbart)
+    short: "Verbindlicher Zeitplan – Start- und Endtermin stehen schriftlich im Auftrag.",
     long:
-      "Vor Projektbeginn bekommen Sie einen verbindlichen Zeitplan mit Start- und " +
-      "Endtermin. Wir koordinieren alle Gewerke selbst, deshalb können wir Termine " +
+      "Verbindlicher Zeitplan – Start- und Endtermin halten wir schriftlich im Auftrag " +
+      "fest, bevor wir anfangen. Wir koordinieren alle Gewerke selbst, deshalb können wir Termine " +
       "auch halten. Verzögert sich etwas aus Gründen, die wir zu vertreten haben, " +
       "erfahren Sie es sofort von uns – nicht von der leeren Baustelle.",
   },
@@ -80,7 +82,8 @@ export const VERSPRECHEN: Siegel[] = [
     short: "Wir koordinieren alle Arbeiten – Sie lehnen sich zurück.",
     long:
       "Abbruch, Mauerarbeiten, Trockenbau, Sanitär, Elektro, Fliesen, Böden und Maler: " +
-      "Wir planen und steuern alle Gewerke selbst, damit Termine und Übergänge passen.",
+      "Wir planen und steuern alle Gewerke selbst, damit Termine und Übergänge passen. " +
+      "Die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb.",
   },
 ];
 

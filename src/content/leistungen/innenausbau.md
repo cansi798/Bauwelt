@@ -25,7 +25,7 @@ lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche k
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur streichfertigen Oberfläche – realistisch kalkuliert, ohne Lockangebot."
+umfangText: "Von der Planung bis zur streichfertigen Oberfläche aus einer Hand – realistisch kalkuliert, ohne Lockangebot. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
   - { icon: "wall", title: "Trockenbauwände" }
   - { icon: "hand", title: "Decken, Vorwände & Nischen" }

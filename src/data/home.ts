@@ -51,8 +51,8 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     accent: "2 Wochen",
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
-      "Fliesen, Sanitär, Elektrik, bodengleiche Dusche. Sie wählen die Ausstattung, " +
-      "wir nennen Ihnen vorab einen festen Preis und einen festen Fertigstellungstermin.",
+      "Fliesen, Sanitär, Elektro, bodengleiche Dusche. Sie wählen die Ausstattung, " +
+      "wir nennen Ihnen vorab einen festen Preis und halten Start- und Endtermin schriftlich im Auftrag fest.",
     bild: "hero-badsanierung.webp",
     alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
     cta: "Bad berechnen",
@@ -115,7 +115,7 @@ export const USP = [
   {
     icon: "hand",
     title: "Alles aus einer Hand",
-    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau koordinieren wir sämtliche Arbeiten für Sie.",
+    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau aus einer Hand: Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb.",
     szene: "uspHand" as const,
     bild: "galerie-sanierung-02.webp",
     alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
@@ -222,11 +222,11 @@ export const FAQ_HOME = [
   },
   {
     q: "Was ist im Festpreis nicht enthalten?",
-    a: "Wenn es nicht ausdrücklich im Angebot vereinbart ist, gehören diese Leistungen nicht zum Pauschalpreis: Untergrundvorbereitung bei unbekanntem Zustand, Ausgleichsspachtelungen und Estrichnachbesserungen, Entsorgung von Altmaterialien, Schutz- und Abdeckarbeiten über das Standardmaß hinaus sowie Zusatzarbeiten anderer Gewerke. Was davon Sie brauchen, klären wir beim Vor-Ort-Termin – und nehmen es auf Wunsch gleich mit ins Angebot.",
+    a: "Wenn es nicht ausdrücklich im Angebot vereinbart ist, gehören diese Leistungen nicht zum Pauschalpreis: Untergrundvorbereitung bei unbekanntem Zustand, Ausgleichsspachtelungen und Estrichnachbesserungen, Entsorgung von Altmaterialien, Schutz- und Abdeckarbeiten über das Standardmaß hinaus sowie Zusatzarbeiten anderer Gewerke. Demontage, Entsorgung und die Vorbereitung des Untergrunds führen wir in unseren Angeboten immer als eigene Positionen auf – sie sind also im Angebot enthalten. Was Sie darüber hinaus brauchen, klären wir beim Vor-Ort-Termin und nehmen es auf Wunsch gleich mit ins Angebot.",
   },
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen Zeitplan mit Start- und Endtermin. Fest zugesagt ist ein Termin, wenn wir ihn schriftlich als verbindlich vereinbaren. Bei höherer Gewalt oder Materialengpässen verlängern sich Fristen angemessen.",
+    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan: Start- und Endtermin halten wir schriftlich im Auftrag fest, bevor wir anfangen. Bei höherer Gewalt oder Materialengpässen verlängern sich Fristen angemessen.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",
@@ -236,11 +236,11 @@ export const FAQ_HOME = [
   // Leistungsseiten nur noch leistungsspezifische Fragen (+ Link hierher)
   {
     q: "Wie läuft der Vor-Ort-Termin ab?",
-    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
+    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich – absagen oder verschieben können Sie ihn jederzeit kostenfrei. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
   },
   {
     q: "Muss ich mehrere Handwerker koordinieren?",
-    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Elektro-Endanschlüsse und deren Abnahme übernimmt ein zugelassener Elektromeisterbetrieb.",
+    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Die Elektro-Endanschlüsse und deren Abnahme übernimmt unser Partner-Elektromeisterbetrieb.",
   },
   {
     q: "Was passiert bei verdeckten Schäden?",
@@ -256,7 +256,7 @@ export const FAQ_HOME = [
   },
   {
     q: "Was passiert, wenn ich einen Termin absagen muss?",
-    a: "Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
+    a: "Ihren kostenlosen Vor-Ort-Termin können Sie jederzeit kostenfrei absagen oder verschieben. Für die vereinbarten Termine der Arbeiten gilt: Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
   },
   // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];

@@ -13,8 +13,8 @@ refBilder:
   - { file: "galerie-bad-02.webp", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" }
 ablaufZiel: "neuen Bad"
 umfang:
-  - "Demontage und Entsorgung des alten Bads"
-  - "Sanitär, Elektro und Heizung aus einer Hand"
+  - "Demontage und Entsorgung des alten Bads – im Angebot enthalten"
+  - "Sanitär, Elektro und Heizung aus einer Hand: Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
   - "Fliesen, bodengleiche Duschen und Abdichtung"
   - "Möbel, Beleuchtung und Accessoires"
   - "Barrierefreie Lösungen auf Wunsch"
@@ -31,7 +31,7 @@ lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koord
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
-umfangText: "Von der Demontage bis zur fertigen Übergabe koordinieren wir alle Arbeiten – zum Festpreis statt mit Lockangebot."
+umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Demontage und Entsorgung sind im Angebot enthalten, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -49,7 +49,7 @@ bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"
 faq:
-  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Den Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
+  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Start- und Endtermin legen wir vorher gemeinsam fest und schreiben sie verbindlich in den Auftrag. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---

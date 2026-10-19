@@ -14,7 +14,7 @@ umfang:
   - "Energetische Modernisierung"
   - "Grundriss- und Raumänderungen"
   - "Koordination aller Gewerke"
-  - "Feste Termine und feste Preise"
+  - "Verbindlicher Zeitplan und Festpreis für alles, was im Angebot steht"
 ablauf:
   - { title: "Beratung", text: "Wir schauen uns Ihr Objekt an und hören zu." }
   - { title: "Konzept", text: "Sie erhalten einen klaren Plan mit Preis und Zeitrahmen." }
@@ -24,7 +24,7 @@ lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung m
 introTitel: "Ihre Sanierung – ein Zeitplan, ein Festpreis"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
-umfangText: "Von der Planung bis zur fertigen Übergabe koordinieren wir alle Arbeiten – mit verständlichem Angebot und festem Preis."
+umfangText: "Von der Planung bis zur fertigen Übergabe aus einer Hand – mit verständlichem Angebot und festem Preis. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
   - { icon: "hammer", title: "Rückbau & Entkernung" }
   - { icon: "wall", title: "Trockenbau & Grundriss" }
