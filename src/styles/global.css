@@ -170,12 +170,17 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
 .btn--sm { padding: 10px 20px; font-size: 14px; }
 .btn .icon { flex: none; }
 
-/* ---------- Karten ---------- */
+/* ---------- Karten ----------
+   Kundenwunsch 19.10.2026 (Audit 2.1): nur noch ZWEI Kartenarten –
+   hell (.card, .kachel): Radius 16 px, 1 px Linie, Innenabstand 24 px, kein Schatten
+   (Schatten nur bei klickbaren Karten), dunkel (.warum__item): gleicher Radius/Abstand. */
+:root { --radius-card: 16px; --pad-card: 24px; }
 .card {
   background: var(--weiss);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  padding: 28px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--linie);
+  box-shadow: none;
+  padding: var(--pad-card);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 a.card { color: inherit; }
@@ -256,8 +261,8 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
 .warum__item {
   position: relative;
   display: grid; gap: 12px; align-content: start;
-  padding: 28px 24px;
-  border-radius: 18px;
+  padding: var(--pad-card);
+  border-radius: var(--radius-card);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: border-color var(--transition), transform var(--transition);
@@ -295,8 +300,8 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
 }
 .kachel {
   display: flex; align-items: center; gap: 14px;
-  padding: 20px 18px;
-  border-radius: 16px;
+  padding: 20px var(--pad-card);
+  border-radius: var(--radius-card);
   background: var(--weiss);
   border: 1px solid var(--linie);
   transition: border-color var(--transition), transform var(--transition);
