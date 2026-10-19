@@ -54,7 +54,7 @@ for (const file of pages) {
   // Interne Links müssen als Datei existieren
   for (const m of html.matchAll(/href="(\/Bauwelt\/[^"#?]*)[#?"]?/g)) {
     const href = m[1];
-    if (/\.(css|js|png|webp|ico|svg|xml|txt|woff2)$/.test(href)) {
+    if (/\.(css|js|png|webp|ico|svg|xml|txt|woff2|pdf)$/.test(href)) {
       // Assets: Bilder dürfen fehlen (BILDER.md-Platzhalter-Mechanik), Rest muss da sein
       const p = join(DIST, href.replace(BASE, ""));
       if (!/assets\/img\//.test(href) && !existsSync(p)) err(page, `Asset fehlt: ${href}`);

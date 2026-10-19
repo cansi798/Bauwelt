@@ -1,0 +1,197 @@
+---
+// AGB – Text 1:1 aus „Allgemeine Geschäftsbedingungen (AGB)“, Stand Februar 2026
+// (PDF von Jamil, Talk 19.10.2026). Nicht umformulieren – Änderungen nur nach neuer Vorlage.
+// PDF-Fassung: public/AGB_Bauwelt_Handwerk.pdf
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { u } from "../consts";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout title="AGB – Bauwelt Handwerk" description="Allgemeine Geschäftsbedingungen (AGB) der Bauwelt Handwerk GmbH, Stand Februar 2026 – Angebote, Leistungsumfang, Preise, Zahlung, Termine, Abnahme und Gewährleistung." noindex>
+  <section class="section">
+    <div class="container">
+      <article class="legal">
+        <p class="eyebrow">Rechtliches</p>
+        <h1 class="rule">Allgemeine Geschäftsbedingungen (AGB)</h1>
+        <p class="legal__stand">Stand: Februar 2026</p>
+        <p class="legal__pdf"><a href={u("AGB_Bauwelt_Handwerk.pdf")} download="AGB_Bauwelt_Handwerk.pdf"><Icon name="arrow" size={16} class="icon" /> AGB als PDF herunterladen (AGB_Bauwelt_Handwerk.pdf)</a></p>
+
+        <h2 id="p1">§ 1 Geltungsbereich</h2>
+        <ol>
+          <li>Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge, Lieferungen und Leistungen zwischen uns als Auftragnehmer und unseren Kunden (Verbrauchern und Unternehmern).</li>
+          <li>Abweichende Bedingungen des Auftraggebers gelten nur, wenn wir ihnen ausdrücklich schriftlich zugestimmt haben.</li>
+        </ol>
+
+        <h2 id="p2">§ 2 Angebote und Vertragsabschluss</h2>
+        <ol>
+          <li>Unsere Angebote sind freibleibend, sofern sie nicht ausdrücklich als verbindlich bezeichnet werden.</li>
+          <li>Ein Vertrag kommt zustande durch:
+            <ol type="a">
+              <li>schriftliche Auftragsbestätigung oder</li>
+              <li>Beginn der Leistungserbringung.</li>
+            </ol>
+          </li>
+          <li>Technische Änderungen oder geringfügige Abweichungen bleiben vorbehalten, sofern sie für den Auftraggeber zumutbar sind.</li>
+          <li>Leistungen, die nicht im Angebot enthalten sind oder die aufgrund technischer Erfordernisse entstehen, gelten als zusätzliche Leistungen und werden gesondert vergütet.</li>
+        </ol>
+
+        <h2 id="p3">§ 3 Leistungsumfang &amp; Leistungsgrenzen</h2>
+        <ol>
+          <li>Der Leistungsumfang ergibt sich aus dem Angebot.</li>
+          <li>Folgende Leistungen gelten nicht als Bestandteil eines Pauschalpreises, sofern sie nicht ausdrücklich vereinbart wurden:
+            <ol type="a">
+              <li>Untergrundvorbereitungen bei unbekanntem Zustand</li>
+              <li>Ausgleichsspachtelungen, Estrichnachbesserungen</li>
+              <li>Entsorgung von Altmaterialien</li>
+              <li>Schutz-/Abdeckarbeiten über das Standardmaß hinaus</li>
+              <li>Zusatzarbeiten anderer Gewerke</li>
+            </ol>
+          </li>
+          <li>Wir sind berechtigt, Teilleistungen zu erbringen.</li>
+        </ol>
+
+        <h2 id="p4">§ 4 Verdeckte Mängel / unvorhersehbare Bauzustände</h2>
+        <ol>
+          <li>Werden während der Arbeiten versteckte Mängel festgestellt (z. B. Feuchtigkeit, Schimmel, marode Leitungen, instabile Untergründe), werden diese als nicht vom Angebot umfasst behandelt.</li>
+          <li>Arbeiten werden in diesem Fall unterbrochen und der Auftraggeber erhält einen Nachtrag mit Zusatzkosten.</li>
+          <li>Alle dadurch entstehenden Mehrkosten trägt der Auftraggeber.</li>
+        </ol>
+
+        <h2 id="p5">§ 5 Schadstoffe (Asbest, KMF, PCB, Schimmel)</h2>
+        <ol>
+          <li>Bei Verdacht oder Fund gesundheitsgefährdender Stoffe werden die Arbeiten sofort gestoppt.</li>
+          <li>Der Auftraggeber ist verpflichtet, eine fachgerechte Untersuchung/Entsorgung zu veranlassen.</li>
+          <li>Alle Kosten durch Stillstand, zusätzliche Schutzmaßnahmen oder Entsorgungen trägt der Auftraggeber.</li>
+          <li>Wir haften nicht für Schäden, die durch notwendige Öffnungen zur Schadstoffprüfung entstehen.</li>
+        </ol>
+
+        <h2 id="p6">§ 6 Preise</h2>
+        <ol>
+          <li>Alle Preise verstehen sich in Euro inklusive gesetzlicher Umsatzsteuer, sofern nicht anders angegeben.</li>
+          <li>Zusatzleistungen, Nachträge oder Mehraufwand werden separat berechnet.</li>
+          <li>Bei stark schwankenden Materialpreisen behalten wir uns vor, eine angemessene Preisangleichung vorzunehmen, sofern die Lieferung erst später erfolgt und der Materialpreis nachweislich gestiegen ist.</li>
+        </ol>
+
+        <h2 id="p7">§ 7 Zahlungsbedingungen &amp; Abschläge</h2>
+        <ol>
+          <li>Rechnungen sind innerhalb von 14 Tagen ohne Abzug zu zahlen.</li>
+          <li>Für speziell bestellte Materialien kann eine Vorauskasse von 100 % verlangt werden.</li>
+          <li>Bei Aufträgen über 4.000 € gelten folgende Abschlagszahlungen:
+            <ol type="a">
+              <li>30 % bei Arbeitsbeginn / Materialbestellung</li>
+              <li>60 % während des Baufortschritts</li>
+              <li>10 % nach Fertigstellung</li>
+            </ol>
+          </li>
+        </ol>
+
+        <h2 id="p8">§ 8 Zahlungsverzug &amp; Mahnwesen</h2>
+        <ol>
+          <li>Nach Ablauf der Zahlungsfrist erfolgt eine kostenfreie Zahlungserinnerung.</li>
+          <li>Ab dem 21. Tag gelten:
+            <ol type="a">
+              <li>1. Mahnung: 5,00 €</li>
+              <li>2. Mahnung: 7,50 €</li>
+              <li>Letzte Mahnung: 10,00 €</li>
+            </ol>
+          </li>
+          <li>Gegenüber Unternehmern kann zusätzlich eine Verzugspauschale von 40,00 € berechnet werden.</li>
+        </ol>
+
+        <h2 id="p9">§ 9 Mitwirkungspflichten des Auftraggebers</h2>
+        <p>Der Auftraggeber stellt sicher, dass:</p>
+        <ol>
+          <li>Zugang zu allen Räumen gewährleistet ist.</li>
+          <li>Strom, Wasser und erforderliche Anschlüsse bereitstehen.</li>
+          <li>Arbeitsbereiche frei geräumt sind (Möbel, Wertgegenstände, Haustiere geschützt).</li>
+          <li>Genehmigungen (z. B. Hausverwaltung) vor Beginn vorliegen.</li>
+        </ol>
+        <p>Fehlt eine Mitwirkung, trägt der Auftraggeber die dadurch entstehenden Mehrkosten und Verzögerungen.</p>
+
+        <h2 id="p10">§ 10 Arbeiten in bewohnten Räumen</h2>
+        <ol>
+          <li>Staub-, Lärm- und Schmutzentwicklung sind trotz Schutzmaßnahmen nicht vollständig vermeidbar.</li>
+          <li>Wir haften nicht für unvermeidbare Verschmutzungen oder Schäden an nicht geräumten Gegenständen.</li>
+          <li>Kann der Auftraggeber Räume nicht rechtzeitig freiräumen, werden Zusatzarbeiten berechnet.</li>
+        </ol>
+
+        <h2 id="p11">§ 11 Termine, Behinderungen &amp; Ausfallentschädigung</h2>
+        <ol>
+          <li>Termine sind unverbindlich, sofern sie nicht ausdrücklich schriftlich als verbindlich vereinbart wurden.</li>
+          <li>Bei höherer Gewalt, Materialengpässen oder sonstigen unvorhersehbaren Ereignissen verlängern sich Fristen angemessen.</li>
+          <li>Sagt der Auftraggeber einen Termin weniger als 3 Arbeitstage vorher ab, können wir bis zu 100 % der entstandenen Ausfallkosten berechnen.</li>
+          <li>Verzögert der Auftraggeber den Bauablauf, sind wir berechtigt, die Kosten für Wartezeiten und erneute Anfahrten zu berechnen.</li>
+        </ol>
+
+        <h2 id="p12">§ 12 Kundenseitig gestellte Materialien</h2>
+        <ol>
+          <li>Bei vom Auftraggeber gelieferten Materialien übernehmen wir keine Gewährleistung.</li>
+          <li>Verzögerungen durch Fehlmengen, Falschlieferungen oder ungeeignete Qualität trägt der Auftraggeber.</li>
+          <li>Mehrkosten für Nacharbeiten werden zusätzlich berechnet.</li>
+        </ol>
+
+        <h2 id="p13">§ 13 Elektroarbeiten / Kabelzug</h2>
+        <ol>
+          <li>Von uns durchgeführte Elektroarbeiten umfassen ausschließlich vorbereitende Tätigkeiten (z. B. Kabelzug, Dosen setzen).</li>
+          <li>Endanschlüsse und Abnahmen dürfen nur durch einen zugelassenen Elektromeisterbetrieb erfolgen.</li>
+          <li>Für Schäden, die durch unsachgemäße Fremdanschlüsse entstehen, übernehmen wir keine Haftung.</li>
+        </ol>
+
+        <h2 id="p14">§ 14 Fotodokumentation</h2>
+        <ol>
+          <li>Zur Dokumentation des Baufortschritts dürfen Fotos und Videos erstellt werden.</li>
+          <li>Eine Veröffentlichung erfolgt nur nach ausdrücklicher schriftlicher Zustimmung.</li>
+        </ol>
+
+        <h2 id="p15">§ 15 Abnahme</h2>
+        <ol>
+          <li>Werkleistungen gelten als abgenommen, wenn:
+            <ol type="a">
+              <li>sie fertiggestellt sind und</li>
+              <li>der Auftraggeber sie nutzt oder</li>
+              <li>der Auftraggeber trotz Aufforderung keine Abnahme durchführt.</li>
+            </ol>
+          </li>
+          <li>Geringfügige Mängel berechtigen nicht zur Verweigerung der Abnahme.</li>
+        </ol>
+
+        <h2 id="p16">§ 16 Gewährleistung</h2>
+        <ol>
+          <li>Für Bauleistungen gilt eine Frist von 5 Jahren, für Lieferungen von beweglichen Sachen 2 Jahre.</li>
+          <li>Bei kundenseitig gestelltem Material besteht keinerlei Gewährleistung.</li>
+          <li>Der Auftraggeber ist verpflichtet, Mängel unverzüglich zu melden.</li>
+          <li>Wir haben das Recht auf zwei Nacherfüllungsversuche.</li>
+        </ol>
+
+        <h2 id="p17">§ 17 Haftung</h2>
+        <ol>
+          <li>Wir haften bei Vorsatz, grober Fahrlässigkeit sowie für Verletzung von Leben, Körper oder Gesundheit uneingeschränkt.</li>
+          <li>Bei einfacher Fahrlässigkeit haften wir nur für wesentliche Vertragspflichten und nur im Rahmen des vorhersehbaren Schadens.</li>
+          <li>Die Produkthaftung bleibt unberührt.</li>
+        </ol>
+
+        <h2 id="p18">§ 18 Aufrechnung &amp; Zurückbehaltungsrechte</h2>
+        <p>Aufrechnung ist nur mit unbestrittenen oder rechtskräftig festgestellten Forderungen möglich.</p>
+
+        <h2 id="p19">§ 19 Schlussbestimmungen</h2>
+        <ol>
+          <li>Es gilt deutsches Recht.</li>
+          <li>Gerichtsstand ist – soweit zulässig – unser Firmensitz.</li>
+          <li>Sollten einzelne Regelungen unwirksam sein, bleiben die übrigen Bestimmungen gültig.</li>
+        </ol>
+
+        <p class="legal__back"><a href={u("")}><Icon name="arrow-left" size={18} class="icon" /> Zurück zur Startseite</a></p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal { max-width: var(--text-width); }
+  .legal h2 { font-size: 19px; margin-top: 1.6em; scroll-margin-top: 100px; }
+  .legal ol { padding-left: 1.4em; display: grid; gap: 6px; }
+  .legal ol ol { margin-top: 6px; }
+  .legal__stand { color: var(--anthrazit-500, inherit); }
+  .legal__pdf a, .legal__back a { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+  .legal__back { margin-top: 40px; }
+</style>
