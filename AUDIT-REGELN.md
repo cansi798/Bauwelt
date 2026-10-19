@@ -31,7 +31,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | Leistungsnamen (4.5/1.3) | nur die Namen aus `LEISTUNGEN` in `src/consts.ts` (Menü); Name fett/primär, Slogan als Unterzeile | eigene Varianten |
 | Marken-Dreiklang (7.7) | „Planbar. Transparent. Verlässlich.“ | andere Dreiklänge |
 | Eigene Stärken (7.5) | „Keine Lockangebote“, „Verständliche Angebote statt Positionsdschungel“ | „Alles aus einer Hand“ |
-| Partner (6.7) | „seniovo“ klein; OBI seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, Logos (keine Freigabe) |
+| Partner (6.7) | „seniovo“ klein; „Obi“ (großes O, kleines b und i – Jamil 19.10., Msg 2551); Obi seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, OBI, Logos (keine Freigabe) |
 | Karriere (4.8/6.8) | positiv: „Faire Bezahlung. Prämien für gute Projekte.“, „Initiativ bewerben – wir suchen immer gute Leute“ | „Derzeit suchen wir keine Verstärkung“, abwertend über die Branche |
 | Erfahrung (K3) | „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre alt) | „15 Jahre“ ohne „im Handwerk“ |
 | Zahlen (6.6) | Vertrauensleiste: nur 40+ sanierte Bäder und 15+ Jahre Erfahrung im Handwerk als Zahlen (dazu die Nachweise versichert / Handwerkskammer, siehe Abschnitt 2a). 12 h Antwort / 24 h Angebot **nur** in den Versprechen (Jamil 19.10., Talk 2531/2536, Variante A) | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre; 12 h / 24 h in der Zahlenleiste |

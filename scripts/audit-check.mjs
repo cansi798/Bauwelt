@@ -70,6 +70,7 @@ const VERBOTEN = [
   [/deutschsprachige[nrs]? Ansprechpartner/i, "Wording (4.6/7.6)", "→ „Ein fester Ansprechpartner“"],
   [/Zuhause-Check|\b60\+|ab 60\b|Senior/i, "Wording (Kundenwunsch 17.10.)", "kein Altersbezug"],
   [/SENIOVO/, "Wording (Jamil 19.10.)", "Marke klein: „seniovo“"],
+  [/\bOBI\b/, "Wording (Jamil 19.10., Msg 2551)", "Partner-Schreibweise: „Obi“ (nicht in Großbuchstaben)"],
   [/Besichtigungstermin|Beratungstermin|Erstes Gespräch vereinbaren|Telefontermin/i, "Wording (4.1)", "→ „Vor-Ort-Termin“"],
   [/Jetzt Preis berechnen|Projekt berechnen|Festpreis ansehen/i, "Wording (4.4)", "→ „Preis berechnen“"],
   [/Preisrahmen|Preiseinschätzung|Ersteinschätzung/i, "Wording (4.3)", "→ „Preisspanne“"],
