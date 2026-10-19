@@ -10,6 +10,7 @@ import SectionHead from "../components/SectionHead.astro";
 import RoughSzene from "../components/RoughSzene.astro";
 import WarumAnders from "../components/WarumAnders.astro";
 import ServiceArea from "../components/ServiceArea.astro";
+import Vertrauensleiste from "../components/Vertrauensleiste.astro";
 import Icon from "../components/Icon.astro";
 import { CTA, EMAILS, SITE, TERMIN, waLink } from "../consts";
 
@@ -46,6 +47,7 @@ const WEGE: Weg[] = [
     </p>
     {/* Kundenwunsch 15.10.2026 (63): Buttons im Kontakt-Hero entfernt */}
   </PageHero>
+  <Vertrauensleiste /> {/* Audit 6.2 */}
 
   <!-- 2. So erreichen Sie uns -->
   <section class="section section--sand" id="kontaktwege">

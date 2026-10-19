@@ -1,0 +1,41 @@
+---
+// Kundenwunsch 19.10.2026 (Audit 6.2): kleine Vertrauensleiste mit harten Nachweisen.
+// Nur, was belegt ist: Versicherung (laut Jamil vorhanden – bewusst ohne Versicherer/Art,
+// bis die Angaben vorliegen) und der Eintrag bei der Handwerkskammer Lübeck (siehe Impressum).
+// Bewusst KEIN „Meister“ und KEINE „5 Jahre Gewährleistung“ (Kundenfeedback 30.09.2026).
+import Icon from "./Icon.astro";
+import { u } from "../consts";
+
+interface Props {
+  /** Sand-Hintergrund (z. B. unter der weißen Kernvorteile-Leiste) */
+  sand?: boolean;
+}
+const { sand = false } = Astro.props;
+---
+
+<aside class:list={["vleiste", { "vleiste--sand": sand }]} aria-label="Nachweise">
+  <div class="container vleiste__inner">
+    <span class="vleiste__item"><Icon name="shield" size={18} class="icon" /> Versicherter Betrieb</span>
+    <span class="vleiste__item"><Icon name="hammer" size={18} class="icon" /> Eingetragen bei der Handwerkskammer Lübeck</span>
+    <a class="vleiste__link" href={u("impressum/")}>Angaben im Impressum</a>
+  </div>
+</aside>
+
+<style>
+  .vleiste { background: var(--weiss); border-bottom: 1px solid var(--anthrazit-100); }
+  .vleiste--sand { background: var(--gold-100); border-bottom: 0; }
+  .vleiste__inner {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 8px 28px;
+    padding-block: 14px;
+    font-size: 14px; line-height: 1.4;
+    color: var(--anthrazit-700);
+  }
+  .vleiste__item { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+  .vleiste__item :global(.icon) { flex: none; width: 18px; height: 18px; color: var(--gold-700); }
+  .vleiste__link { color: var(--anthrazit-600); font-size: 13px; text-underline-offset: 3px; }
+  .vleiste__link:hover { color: var(--gold-700); }
+  @media (max-width: 479px) {
+    .vleiste__inner { flex-direction: column; align-items: flex-start; gap: 8px; padding-block: 14px 16px; }
+  }
+</style>

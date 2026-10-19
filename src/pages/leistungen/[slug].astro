@@ -20,6 +20,7 @@ import Img from "../../components/Img.astro";
 import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import Kernvorteile from "../../components/Kernvorteile.astro";
+import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import { TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
@@ -115,6 +116,7 @@ const description =
     chips={[] /* (54): Plaketten entfallen, siehe warumKarten */}
   />
   <Kernvorteile />
+  <Vertrauensleiste sand />
 
   {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
   {hatRechner && (
