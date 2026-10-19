@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { BASE, EMAILS, LEISTUNGEN, SITE } from "../consts";
 import { GEWERKE, berechne, preisText, MWST_HINWEIS } from "../data/rechner";
-import { REGION_CITIES } from "../data/region";
+import { REGION_CITIES, REGION_TEXT } from "../data/region";
 import { FAQ_HOME, ZAHLEN } from "../data/home";
 import { KERNVORTEILE } from "../data/versprechen";
 
@@ -50,7 +50,7 @@ ${KERNVORTEILE.map((k) => `- ${k.title}: ${k.short}`).join("\n")}
 
 ## Einzugsgebiet
 
-Hamburg und Umgebung, ca. 50 km um ${SITE.city}: von Wedel und Itzehoe bis Neumünster, Bad Oldesloe und Reinbek.
+${REGION_TEXT} (Sitz: ${SITE.city}, rund 40 km Umkreis).
 Orte: ${REGION_CITIES.join(", ")}.
 
 ## Häufige Fragen

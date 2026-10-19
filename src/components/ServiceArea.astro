@@ -2,7 +2,7 @@
 // Einzugsgebiet (Kundenwunsch 19.10.2026, Audit 3.3 – ersetzt das Orts-Laufband):
 // eigene gezeichnete Karte nach Jamils markiertem Gebiet (Szene „gebiet“, src/data/szenen.ts)
 // + feste, lesbare Ortsliste. Keine Kartenkacheln, keine fremden Dienste (Datenschutz).
-import { REGION_CITIES } from "../data/region";
+import { REGION_CITIES, REGION_KARTE, REGION_TEXT } from "../data/region";
 import { SITE } from "../consts";
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
@@ -12,10 +12,7 @@ interface Props {
   eingebettet?: boolean;
 }
 const { eingebettet = false } = Astro.props;
-const BESCHREIBUNG =
-  "Gezeichnete Karte unseres Einzugsgebiets: von der Elbe bei Itzehoe im Westen nach Norden bis Neumünster, " +
-  "im Osten bis Bad Oldesloe und Bargteheide, im Süden bis Reinbek und entlang der Elbe über Hamburg und Wedel. " +
-  "Unser Sitz ist Norderstedt.";
+const BESCHREIBUNG = REGION_KARTE;
 ---
 
 {!eingebettet && (
@@ -26,7 +23,7 @@ const BESCHREIBUNG =
         eyebrow="Einzugsgebiet"
         pre="In Ihrer Nähe für Sie "
         accent="unterwegs"
-        text={`Von ${SITE.city} aus betreuen wir Projekte in Hamburg und Umgebung – von Wedel und Itzehoe bis Neumünster, Bad Oldesloe und Reinbek.`}
+        text={`Von ${SITE.city} aus betreuen wir Projekte in ${REGION_TEXT}.`}
       />
       <div class="area__grid">
         <RoughSzene szene="gebiet" label={BESCHREIBUNG} />
