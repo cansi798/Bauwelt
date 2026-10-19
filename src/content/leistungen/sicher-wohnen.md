@@ -13,7 +13,7 @@ beschreibung: "Sicher wohnen. Heute und morgen. – in Norderstedt & Hamburg: Ri
 bild: "hero-sanierung-modernisierung.webp"
 pauschalpreis: 249
 pauschalHinweis: "Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an."
-claim: "Möglichst lange selbstständig in den eigenen vier Wänden leben."
+claim: "Pauschal 249 € inkl. MwSt. – wird bei Umsetzung angerechnet." # Audit 5.5: neue Info statt Wiederholung (Kernsatz steht im Zitatband)
 lead: "Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm gestaltet werden kann, damit Sie möglichst lange in Ihren eigenen vier Wänden leben können."
 umfang:
   - "Gemeinsame Prüfung von Badezimmer, Wegen & Durchgängen, Wohn- und Schlafbereichen, Treppen & Eingängen und Küche"

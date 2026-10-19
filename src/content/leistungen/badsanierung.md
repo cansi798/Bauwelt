@@ -23,7 +23,7 @@ ablauf:
   - { title: "Festpreis", text: "Innerhalb von 24 Stunden erhalten Sie ein klares Angebot ohne versteckte Kosten." }
   - { title: "Umsetzung", text: "Wir bauen termingerecht und koordinieren alle Gewerke." }
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
-claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
+claim: "In rund zwei Wochen fertig. Klar geplant. Professionell umgesetzt." # Audit 5.5: statt doppeltem „Ihr neues Badezimmer“
 # Kundenwunsch 16.10.2026 (76): Beratungs-Satz; seit (77) im Lead, weil der Intro-Abschnitt entfällt
 lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
