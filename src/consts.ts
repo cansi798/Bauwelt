@@ -88,11 +88,14 @@ export type Leistung = {
   icon: string;
   hervorheben?: boolean;
 };
+// Kundenwunsch 19.10.2026 (Audit 7.8): Slogans der vier Gewerke näher an den eigenen Stärken
+// (früher „Ihr neues Badezimmer beginnt hier“, „Aus Alt wird Zuhause“, „Oberflächen, die Eindruck
+// hinterlassen“, „Räume neu denken“). Die Checks behalten ihre Slogans.
 export const LEISTUNGEN: Leistung[] = [
-  { slug: "badsanierung", ueberschrift: "Ihr neues Badezimmer beginnt hier", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
-  { slug: "sanierung-modernisierung", ueberschrift: "Aus Alt wird Zuhause", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
-  { slug: "fliesen-boden", ueberschrift: "Oberflächen, die Eindruck hinterlassen", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
-  { slug: "innenausbau", ueberschrift: "Räume neu denken", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
+  { slug: "badsanierung", ueberschrift: "Persönlich beraten, zum Festpreis umgesetzt", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
+  { slug: "sanierung-modernisierung", ueberschrift: "Ein Zeitplan. Ein Festpreis.", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
+  { slug: "fliesen-boden", ueberschrift: "Präzise verlegt, fest kalkuliert", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
+  { slug: "innenausbau", ueberschrift: "Mit festem Preis und festem Plan", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
   // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
   { slug: "sanierungscheck", ueberschrift: "Klarheit vor dem Immobilienkauf", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
   // Kundenwunsch 17.10.2026 (82): Name „Sicher wohnen. Heute und morgen.“ statt „Zuhause-Check 60+“ – ohne Altersbezug
