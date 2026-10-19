@@ -5,9 +5,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHead from "../components/SectionHead.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import Rechner from "../components/Rechner.astro";
+import Faq from "../components/Faq.astro";
+import { faqSchema } from "../lib/schema";
+
+// SEO-/KI-Audit S7 (Go Jamil 19.10.2026): kurzer Erklärtext + 3 Fragen unter dem Rechner
+const FRAGEN = [
+  {
+    q: "Wie genau ist die Preisspanne?",
+    a: "Die Werte beruhen auf unseren tatsächlichen Preisen für vergleichbare Projekte – keine Lockangebote. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied.",
+  },
+  {
+    q: "Ist das Ergebnis verbindlich?",
+    a: "Nein. Die Preisspanne ist eine unverbindliche Orientierung. Verbindlich ist erst das schriftliche Angebot zum Festpreis, das Sie nach dem kostenlosen Vor-Ort-Termin erhalten – darin steht genau, welche Leistungen enthalten sind.",
+  },
+  {
+    q: "Muss ich meine Kontaktdaten angeben?",
+    a: "Nein. Der Rechner läuft komplett in Ihrem Browser, Ihre Eingaben werden nicht gespeichert. Erst wenn Sie das Ergebnis selbst per WhatsApp, E-Mail oder Rückruf-Formular an uns schicken, erhalten wir Ihre Angaben.",
+  },
+];
 ---
 
 <BaseLayout
+  schema={faqSchema(FRAGEN) /* Audit S7 */}
   title="Sanierungskosten berechnen – Norderstedt & Hamburg | Bauwelt"
   description="Preisspanne für Badsanierung, Sanierung, Fliesen oder Innenausbau in Norderstedt, Hamburg und Umkreis – in einer Minute, unverbindlich, ohne Kontaktdaten."
 >
@@ -23,6 +42,24 @@ import Rechner from "../components/Rechner.astro";
 
       <Rechner variant="seite" />
 
+      <!-- SEO-/KI-Audit S7: So rechnet der Rechner -->
+      <div class="rechner__info">
+        <SectionHead center eyebrow="Gut zu wissen" pre="So rechnet der " accent="Rechner" />
+        <div class="rechner__prosa">
+          <p>
+            Sie wählen Leistung, Größe und Ausstattung – der Rechner zeigt sofort eine Preisspanne. Alle Preise
+            sind Bruttopreise inkl. 19 % MwSt. und enthalten Material und Arbeit.
+          </p>
+          <p>
+            Bei der Badsanierung können Sie zwischen einer schnellen Kalkulation nach Badgröße und einer
+            detaillierten Kalkulation mit Ihren Wunsch-Extras wählen. Was sich ohne Besichtigung nicht
+            kalkulieren lässt – etwa der Zustand des Untergrunds oder verdeckte Schäden –, klären wir beim
+            kostenlosen Vor-Ort-Termin. Danach erhalten Sie Ihr Angebot zum Festpreis.
+          </p>
+        </div>
+        <Faq items={FRAGEN} />
+      </div>
+
       <div class="rechner__booking" id="termin">
         <BookingEmbed />
       </div>
@@ -33,4 +70,7 @@ import Rechner from "../components/Rechner.astro";
 <style>
   .rechner__wrap { max-width: 860px; }
   .rechner__booking { margin-top: 40px; }
+  .rechner__info { margin-top: 64px; }
+  .rechner__prosa { max-width: 680px; margin: 0 auto 28px; }
+  .rechner__prosa p { margin: 0 0 1em; }
 </style>
