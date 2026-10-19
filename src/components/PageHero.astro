@@ -74,7 +74,8 @@ const istRechner = Boolean(ctaHref?.includes("rechner/"));
     .phero__actions { display: grid; justify-items: stretch; width: 100%; }
     .phero__actions .btn { width: 100%; }
   }
-  @media (max-width: 1023px) { .phero__media { order: -1; } }
+  /* Audit 2.6 (19.10.2026): am Handy Text zuerst, Bild darunter (früher order: -1) */
+  @media (max-width: 1023px) { .phero__media { max-width: 520px; } }
   @media (min-width: 1024px) {
     .phero { padding-block: 56px 72px; }
     .phero__grid:not(.phero__grid--single) { grid-template-columns: 1.1fr 1fr; gap: 56px; }
