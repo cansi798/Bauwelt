@@ -360,6 +360,14 @@ const weich = (t: string) =>
   .rtile:hover { border-color: var(--gold-500); transform: translateY(-2px); }
   .rtile.selected { border-color: var(--gold-500); background: var(--gold-100); }
   .rtile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  /* Audit 2.9 (19.10.2026): am Handy Liste – Symbol links, Name in einer Zeile, keine Trennstriche */
+  @media (max-width: 599px) {
+    .rechner__tiles { grid-template-columns: 1fr; gap: 10px; }
+    .rtile { display: flex; align-items: center; justify-items: start; gap: 14px; padding: 14px 16px; text-align: left; }
+    .rtile :global(.icon) { flex: none; width: 26px; height: 26px; }
+    .rtile__text { text-align: left; hyphens: none; }
+    .rtile__text strong, .rtile__text small { hyphens: none; }
+  }
   .rpausch__art { font-size: 0.5em; font-weight: 700; color: var(--anthrazit-600); }
   .rpausch__zurueck { margin-top: 18px; }
   .rpausch__hinweis { display: block; margin-top: 8px; color: var(--anthrazit-800); }
