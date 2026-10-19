@@ -339,6 +339,9 @@ const weich = (t: string) =>
   .rechner__bar { display: block; height: 100%; background: var(--gold-500); transition: width var(--dur-base) var(--ease); }
 
   .rstep__title { font-size: clamp(20px, 3vw, 26px); }
+  /* Audit 3.7: kurzer Übergang beim Schrittwechsel */
+  .rstep:not([hidden]) { animation: rstep-ein var(--dur-base) var(--ease); }
+  @keyframes rstep-ein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   /* Schritt-Anzeige über dem Balken (Audit 1.5) */
   .rschritt { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--gold-700); letter-spacing: 0.02em; }
   .rschritt:empty { display: none; }
@@ -729,6 +732,23 @@ const weich = (t: string) =>
       scrollZu(scroll);
     }
 
+    /** Audit 3.7 (19.10.2026): Preisspanne zählt kurz (≤ 600 ms) hoch; ohne Bewegung sofort. */
+    function zaehleHoch(el: HTMLElement, text: string) {
+      const zahlen = text.match(/\d{1,3}(?:\.\d{3})+|\d+/g);
+      if (!zahlen || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = text; return; }
+      const ziele = zahlen.map((z) => Number(z.replace(/\./g, "")));
+      const start = performance.now();
+      const schritt = (jetzt: number) => {
+        const p = Math.min(1, (jetzt - start) / 600);
+        const e = 1 - Math.pow(1 - p, 3);
+        let i = 0;
+        el.textContent = text.replace(/\d{1,3}(?:\.\d{3})+|\d+/g, () => Math.round(ziele[i++] * e).toLocaleString("de-DE"));
+        if (p < 1) requestAnimationFrame(schritt);
+        else el.textContent = text;
+      };
+      requestAnimationFrame(schritt);
+    }
+
     /** Audit 1.5: Badsanierung (Gewerk mit Extras, ohne Festpreis-Option) bekommt zwei Teil-Schritte. */
     function geteilt() {
       const g = state.gewerk;
@@ -896,7 +916,7 @@ const weich = (t: string) =>
       const artLabel = kalkArtLabel(state.art);
       const erg = berechne(g, state.menge, t.id, kalk ? { art: state.art, extras: state.extras } : {});
       const preis = preisText(erg);
-      ergebnisEl.textContent = preis;
+      zaehleHoch(ergebnisEl, preis);
       document.getElementById("rErgebnisTitel")!.textContent =
         erg.art === "spanne" ? "Ihre erste Preisspanne" : "Ihre erste Preiseinschätzung";
 
