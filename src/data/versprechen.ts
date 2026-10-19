@@ -86,3 +86,13 @@ export const VERSPRECHEN: Siegel[] = [
 
 export const siegelById = (id: string): Siegel | undefined =>
   VERSPRECHEN.find((s) => s.id === id);
+
+/** Kundenwunsch 19.10.2026 (Audit 5.1): EINE gemeinsame Leiste mit 4 Kernvorteilen
+ *  (Komponente Kernvorteile.astro) – gleiche Namen wie die Siegel oben, Texte = `short`.
+ *  Leistungsseiten zeigen darunter nur noch max. 3 eigene Vorteile („Warum …?“). */
+export const KERNVORTEILE_IDS = ["festpreis", "termin", "ansprechpartner", "antwort"] as const;
+export const KERNVORTEILE: Siegel[] = KERNVORTEILE_IDS.map((id) => {
+  const s = siegelById(id);
+  if (!s) throw new Error(`Kernvorteil ${id} fehlt in VERSPRECHEN`);
+  return s;
+});

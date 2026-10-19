@@ -43,10 +43,7 @@ kacheln:
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
-  - { icon: "euro", title: "Festpreis mit Klarheit", text: "Der Preis im Angebot gilt für alle vereinbarten Leistungen." }
-  - { icon: "clock", title: "Verlässlicher Zeitplan", text: "Sie wissen frühzeitig, wann welche Arbeiten ausgeführt werden." }
   - { icon: "hand", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
-  - { icon: "user", title: "Deutschsprachiger Ansprechpartner", text: "Ein fester, deutschsprachiger Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." }
 bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"

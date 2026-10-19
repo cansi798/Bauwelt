@@ -16,7 +16,6 @@ warum:
   - { icon: "eye", title: "Der Blick vom Fach", text: "Wir sanieren selbst Bäder, Wohnungen und Häuser – und wissen, worauf es bei einer Immobilie ankommt." }
   - { icon: "euro", title: "Pauschal 595 € – wird angerechnet", text: "Ein fester Preis inkl. MwSt. Und: Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an." }
   - { icon: "doc", title: "Klare Zahlen für Ihre Entscheidung", text: "Eine erste Kosteneinschätzung hilft Ihnen bei Kaufpreis, Budget und Finanzierung." }
-  - { icon: "hand", title: "Auf Wunsch alles aus einer Hand", text: "Entscheiden Sie sich für den Kauf, setzen wir die Sanierung gern direkt um – mit Festpreis und festem Zeitplan." }
 umfang:
   - "Besichtigung der Immobilie vor Ort – gern gemeinsam mit Ihnen"
   - "Einschätzung von Zustand und Sanierungsbedarf (z. B. Bad, Böden, Wände, Innenausbau)"
