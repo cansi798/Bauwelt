@@ -209,35 +209,54 @@ export const ANGEBOT = {
  * gleichzeitig die Auswahl des Projekt-Rechners (components/Rechner.astro). */
 
 export const FAQ_HOME = [
+  // Kundenwunsch 19.10.2026 (Jamil, AGB Stand Februar 2026): alle Antworten mit den AGB
+  // abgeglichen – nichts versprechen, was die AGB anders regeln (Festpreis-Grenzen § 3/§ 4/§ 6,
+  // Termine § 11, Zahlung § 7, Abnahme § 15, Gewährleistung § 16). AGB: /agb/
   {
     q: "Was kostet meine Sanierung?",
-    a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Preisspanne. Den festen Preis nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin, schriftlich und verbindlich.",
+    a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Preisspanne. Den festen Preis nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin in einem schriftlichen Angebot. Darin steht genau, welche Leistungen enthalten sind.",
   },
   {
     q: "Gilt der Festpreis wirklich?",
-    a: "Ja. Der Preis aus dem Angebot ist der Preis auf der Rechnung. Ändern kann er sich nur, wenn Sie nachträglich zusätzliche Leistungen beauftragen oder wenn sich unvorhergesehene Umstände zeigen – zum Beispiel versteckte Schäden, die erst beim Öffnen von Wänden oder Böden sichtbar werden. In beiden Fällen sprechen wir das vorher mit Ihnen ab und vereinbaren es schriftlich – nie einfach auf der Rechnung.",
+    a: "Ja – für alle Leistungen, die im Angebot stehen. Zusätzlich berechnet wird nur, was nicht im Angebot enthalten ist: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Dafür erhalten Sie einen schriftlichen Nachtrag mit den Zusatzkosten – nicht einfach eine höhere Rechnung. Steigen Materialpreise stark und wird das Material erst später geliefert, behalten wir uns eine angemessene Preisangleichung vor (§ 6 unserer AGB).",
+  },
+  {
+    q: "Was ist im Festpreis nicht enthalten?",
+    a: "Wenn es nicht ausdrücklich im Angebot vereinbart ist, gehören diese Leistungen nicht zum Pauschalpreis: Untergrundvorbereitung bei unbekanntem Zustand, Ausgleichsspachtelungen und Estrichnachbesserungen, Entsorgung von Altmaterialien, Schutz- und Abdeckarbeiten über das Standardmaß hinaus sowie Zusatzarbeiten anderer Gewerke. Was davon Sie brauchen, klären wir beim Vor-Ort-Termin – und nehmen es auf Wunsch gleich mit ins Angebot.",
   },
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan mit Start- und Endtermin.",
+    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen Zeitplan mit Start- und Endtermin. Fest zugesagt ist ein Termin, wenn wir ihn schriftlich als verbindlich vereinbaren. Bei höherer Gewalt oder Materialengpässen verlängern sich Fristen angemessen.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",
-    a: "Meistens nicht. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung, damit Wohnen neben der Baustelle funktioniert. Bei Kernsanierungen besprechen wir das gemeinsam im Vor-Ort-Termin.",
+    a: "Meistens nicht. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung, damit Wohnen neben der Baustelle funktioniert. Ganz vermeiden lassen sich Staub und Lärm trotzdem nicht. Bitte räumen Sie die Arbeitsbereiche vorher frei (Möbel, Wertgegenstände) und sorgen Sie für Zugang, Strom und Wasser. Bei Kernsanierungen besprechen wir das gemeinsam im Vor-Ort-Termin.",
   },
   // Kundenwunsch 19.10.2026 (Audit 5.6): allgemeine Fragen stehen EINMAL hier, auf den
   // Leistungsseiten nur noch leistungsspezifische Fragen (+ Link hierher)
   {
     q: "Wie läuft der Vor-Ort-Termin ab?",
-    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis.",
+    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
   },
   {
     q: "Muss ich mehrere Handwerker koordinieren?",
-    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet.",
+    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Elektro-Endanschlüsse und deren Abnahme übernimmt ein zugelassener Elektromeisterbetrieb.",
   },
   {
     q: "Was passiert bei verdeckten Schäden?",
-    a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts.",
+    a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa Feuchtigkeit, Schimmel, marode Leitungen oder ein instabiler Untergrund. Solche Mängel sind nicht im Angebot enthalten. Wir unterbrechen die Arbeiten an dieser Stelle, zeigen Ihnen den Befund und Sie erhalten einen schriftlichen Nachtrag mit den Zusatzkosten. Besteht der Verdacht auf Schadstoffe wie Asbest, stoppen wir sofort – die fachgerechte Untersuchung und Entsorgung veranlassen dann Sie.",
+  },
+  {
+    q: "Wie und wann bezahle ich?",
+    a: "Rechnungen zahlen Sie innerhalb von 14 Tagen ohne Abzug. Bei Aufträgen über 4.000 € zahlen Sie in drei Abschlägen: 30 % bei Arbeitsbeginn bzw. Materialbestellung, 60 % während der Arbeiten und 10 % nach Fertigstellung. Für speziell für Sie bestelltes Material kann eine Vorauskasse verlangt werden.",
+  },
+  {
+    q: "Was gilt bei Abnahme und Gewährleistung?",
+    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Auf unsere Bauleistungen haben Sie 5 Jahre Gewährleistung, auf gelieferte bewegliche Sachen 2 Jahre. Melden Sie Mängel bitte sofort, dann bessern wir nach. Für Material, das Sie selbst stellen, übernehmen wir keine Gewährleistung.",
+  },
+  {
+    q: "Was passiert, wenn ich einen Termin absagen muss?",
+    a: "Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
   },
   // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];

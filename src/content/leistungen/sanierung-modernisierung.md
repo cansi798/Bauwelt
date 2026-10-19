@@ -40,7 +40,7 @@ bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Ihre Komplettsanierung sein"
 faq:
   - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den genauen Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest." }
-  - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
+  - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung – ganz vermeiden lassen sich Staub und Lärm aber nicht. Bitte räumen Sie die Arbeitsbereiche vorher frei. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
   - { q: "Übernehmen Sie auch die Planung?", a: "Ja. Wir planen, koordinieren und setzen um – Sie haben einen festen Ansprechpartner für alles." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für bestimmte Maßnahmen – etwa barrierearme Umbauten oder energetische Modernisierungen – gibt es Förderprogramme und Zuschüsse. Welche für Ihr Vorhaben infrage kommen, besprechen wir gern beim Vor-Ort-Termin." }
 ---
