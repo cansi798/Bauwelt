@@ -20,9 +20,11 @@ import ServiceArea from "../components/ServiceArea.astro";
 import SectionHead from "../components/SectionHead.astro";
 import { CTA, TERMIN } from "../consts";
 import { FAQ_HOME } from "../data/home";
+import { faqSchema } from "../lib/schema";
 ---
 
 <BaseLayout
+  schema={faqSchema(FAQ_HOME) /* Audit S3 */}
   title="Sanierung & Ausbau zum Festpreis – Bauwelt Handwerk Norderstedt"
   description="Badsanierung und Innenausbau in Hamburg & Umgebung – realistische Preise statt Lockangebote. Antwort innerhalb von 12 Stunden, Angebot innerhalb von 24 Stunden."
 >

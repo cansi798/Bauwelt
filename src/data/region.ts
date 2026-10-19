@@ -33,18 +33,4 @@ export const REGION_CITIES = [
   "Reinbek",
 ];
 
-/** Leistungs-Typen für strukturierte Daten (Schema.org serviceType). */
-export const SERVICE_TYPES = [
-  "Badsanierung",
-  "Komplettsanierung",
-  "Modernisierung",
-  "Innenausbau",
-  "Trockenbau",
-  "Dachsanierung",
-  "Fassadensanierung",
-  "Malerarbeiten",
-  "Bodenverlegung",
-  "Sanitärinstallation",
-  "Heizungsinstallation",
-  "Elektroinstallation",
-];
+// SERVICE_TYPES entfernt (SEO-/KI-Audit S3, 19.10.2026): nannte abgeschaltete Leistungen (Dach, Fassade, Maler, SHK, Elektro). Strukturierte Daten nutzen jetzt LEISTUNGEN aus consts.ts.

@@ -24,6 +24,7 @@ import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
 
 export async function getStaticPaths() {
   // Leistungen mit eigener Seitendatei (eigeneSeite, z. B. Sicher wohnen) nicht doppelt erzeugen
@@ -101,6 +102,15 @@ const description =
 ---
 
 <BaseLayout
+  schema={[
+    ...serviceSchema({ name: leistung.unterschrift, beschreibung: l.data.teaser, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href, preis: pauschal, gebiet: "Hamburg und Umgebung" }),
+    ...breadcrumbSchema([
+      { name: "Startseite", url: new URL(u(""), Astro.site).href },
+      { name: "Leistungen", url: new URL(`${u("")}#leistungen`, Astro.site).href },
+      { name: leistung.unterschrift, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href },
+    ]),
+    ...faqSchema(l.data.faq),
+  ] /* SEO-/KI-Audit S3 */}
   title={`${leistung.unterschrift} – Norderstedt & Hamburg`}
   description={description}
   sticky={pauschal ? [

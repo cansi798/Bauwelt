@@ -20,6 +20,7 @@ import Icon from "../../components/Icon.astro";
 import Img from "../../components/Img.astro";
 import RoughSzene from "../../components/RoughSzene.astro";
 import { SITE, u, leistungBySlug } from "../../consts";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
 
 const l = await getEntry("leistungen", "sicher-wohnen");
 const leistung = leistungBySlug("sicher-wohnen");
@@ -60,7 +61,17 @@ const vorteile = [
 ];
 ---
 
-<BaseLayout sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title={`${leistung.unterschrift} – ${leistung.ueberschrift} | Norderstedt & Hamburg` /* „Sicher wohnen. Heute und morgen. – Sicher und selbstbestimmt wohnen | …“ */} description={l.data.beschreibung ?? l.data.teaser}>
+<BaseLayout
+  schema={[
+    ...serviceSchema({ name: leistung.unterschrift, beschreibung: l.data.teaser, url: new URL(u("leistungen/sicher-wohnen/"), Astro.site).href, preis: l.data.pauschalpreis, gebiet: "Hamburg und Umgebung" }),
+    ...breadcrumbSchema([
+      { name: "Startseite", url: new URL(u(""), Astro.site).href },
+      { name: "Leistungen", url: new URL(`${u("")}#leistungen`, Astro.site).href },
+      { name: leistung.unterschrift, url: new URL(u("leistungen/sicher-wohnen/"), Astro.site).href },
+    ]),
+    ...faqSchema(l.data.faq),
+  ] /* SEO-/KI-Audit S3 */}
+  sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title={`${leistung.unterschrift} – ${leistung.ueberschrift} | Norderstedt & Hamburg` /* „Sicher wohnen. Heute und morgen. – Sicher und selbstbestimmt wohnen | …“ */} description={l.data.beschreibung ?? l.data.teaser}>
   <LeistungHero
     titel={leistung.kurz ?? leistung.unterschrift}
     eyebrow={leistung.unterschrift}
