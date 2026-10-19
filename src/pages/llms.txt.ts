@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ site }) => {
         ? `Beispiel-Preisspanne laut Online-Rechner (${g.default} ${g.unit}, ${g.tiers[0].label}): ${preisText(berechne(g, g.default, g.tiers[0].id, { art: "schnell" }))}, unverbindlich`
         : "";
     const satz = (t: string) => (/[.!?]$/.test(t) ? t : `${t}.`);
-    return `- [${l.unterschrift}](${o}leistungen/${l.slug}/) – ${satz(l.ueberschrift)} ${d?.teaser ?? ""}${preis ? ` ${satz(preis)}` : ""}`;
+    return `- [${l.unterschrift}](${o}leistungen/${l.slug}/) – ${satz(l.nutzen)} ${d?.teaser ?? ""}${preis ? ` ${satz(preis)}` : ""}`;
   }).join("\n");
 
   const txt = `# ${SITE.legal}

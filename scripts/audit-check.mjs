@@ -187,6 +187,25 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   }
   if (!doppelt && VERSPRECHEN_TITEL.length === 7) pass("Versprechen", "7 Versprechen aus versprechen.ts, keine Seite zeigt einen Vorteil doppelt");
 }
+// Leistungs-Unterzeile = Kundennutzen (Jamil 20.10.2026, Talk 2564): Feld `nutzen` in LEISTUNGEN (consts.ts),
+// je Leistung eigener, kurzer Nutzen (≤ 55 Zeichen), kein allgemeines Versprechen (Festpreis, Zeitplan …).
+{
+  const cSrc = lies("src/consts.ts");
+  const block = cSrc.match(/export const LEISTUNGEN[\s\S]*?\n\];/)?.[0] ?? "";
+  const eintraege = [...block.matchAll(/slug: "([^"]+)",\s*nutzen: "([^"]+)"/g)].map((m) => ({ slug: m[1], nutzen: m[2] }));
+  const anzahl = (block.match(/slug: "/g) || []).length;
+  let nProbleme = 0;
+  if (!eintraege.length || eintraege.length !== anzahl) { warn("Leistungs-Nutzen (Jamil 20.10.)", `LEISTUNGEN in consts.ts: ${anzahl - eintraege.length} Leistung(en) ohne Feld „nutzen“`); nProbleme++; }
+  const VERSPRECHEN_WORTE = /festpreis|fester? (preis|plan)|zeitplan|termintreu|ansprechpartner|aus einer hand|transparen|12 stunden|24 stunden/i;
+  const gesehen = new Set();
+  for (const e of eintraege) {
+    if (e.nutzen.length > 55) { warn("Leistungs-Nutzen (Jamil 20.10.)", `${e.slug}: Nutzen „${e.nutzen}“ hat ${e.nutzen.length} Zeichen – max. ca. 50`); nProbleme++; }
+    if (VERSPRECHEN_WORTE.test(e.nutzen)) { warn("Leistungs-Nutzen (Jamil 20.10.)", `${e.slug}: „${e.nutzen}“ ist ein allgemeines Versprechen – Unterzeile soll den konkreten Nutzen der Leistung nennen (Versprechen stehen in versprechen.ts)`); nProbleme++; }
+    if (gesehen.has(e.nutzen)) { warn("Leistungs-Nutzen (Jamil 20.10.)", `${e.slug}: Nutzen „${e.nutzen}“ doppelt`); nProbleme++; }
+    gesehen.add(e.nutzen);
+  }
+  if (!nProbleme) pass("Leistungs-Nutzen", `${eintraege.length} Leistungen mit eigenem Kundennutzen als Unterzeile, kein Versprechen doppelt`);
+}
 // S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (siehe AUDIT-REGELN.md)
 for (const s of S) {
   if (/Preisbeispiel/i.test(s.text)) { warn("SEO (S5)", `${s.page}: sichtbare „Preisbeispiele“ – Jamil wollte das NICHT (nur llms-full.txt)`); seoProbleme++; }

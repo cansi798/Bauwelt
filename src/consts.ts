@@ -76,30 +76,34 @@ export type NavItem = { label: string; href?: string; children?: NavChild[] };
  *  Karten, Rechner, Leistungsseiten). Kundenwunsch 16.10.2026 (73): Jede Leistung hat eine
  *  Überschrift (emotionaler Slogan) und eine Unterschrift (Leistungsname).
  *  Kundenwunsch 19.10.2026 (Audit 1.3): überall steht der LEISTUNGSNAME (unterschrift) fett
- *  und primär, der Slogan (ueberschrift) klein darunter – Wortlaut beider unverändert.
+ *  und primär, der Nutzen (nutzen, früher ueberschrift) klein darunter (Nutzen seit 20.10., Talk 2564).
  *  Reihenfolge: oben Badsanierung + Komplettsanierung, ganz unten die beiden Checks –
  *  hervorgehoben (gold, unter Trennlinie) wie zuvor der Sanierungscheck.
  *  `kurz`: Kurzname für Sätze wie „Warum Badsanierung mit Bauwelt Handwerk?“ (Standard: unterschrift). */
 export type Leistung = {
   slug: string;
-  ueberschrift: string;
+  /** Kundennutzen der Leistung in einer Zeile (max. ~50 Zeichen) – Unterzeile unter dem Namen überall. */
+  nutzen: string;
   unterschrift: string;
   kurz?: string;
   icon: string;
   hervorheben?: boolean;
 };
-// Kundenwunsch 19.10.2026 (Audit 7.8): Slogans der vier Gewerke näher an den eigenen Stärken
-// (früher „Ihr neues Badezimmer beginnt hier“, „Aus Alt wird Zuhause“, „Oberflächen, die Eindruck
-// hinterlassen“, „Räume neu denken“). Die Checks behalten ihre Slogans.
+// Kundenwunsch 20.10.2026 (Jamil, Talk 2564): Unterzeile = konkreter KUNDENNUTZEN je Leistung (Feld `nutzen`),
+// Leistungsname bleibt. Kein allgemeines Versprechen (Festpreis, Zeitplan …) – die stehen in
+// versprechen.ts (AUDIT-REGELN 2a). Wortlaut aus früheren Nutzen-Texten/Claims (git-Historie).
+// Davor 19.10. (Audit 7.8): „Persönlich beraten, zum Festpreis umgesetzt“, „Ein Zeitplan. Ein Festpreis.“,
+// „Präzise verlegt, fest kalkuliert“, „Mit festem Preis und festem Plan“, „Klarheit vor dem
+// Immobilienkauf“, „Sicher und selbstbestimmt wohnen“.
 export const LEISTUNGEN: Leistung[] = [
-  { slug: "badsanierung", ueberschrift: "Persönlich beraten, zum Festpreis umgesetzt", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
-  { slug: "sanierung-modernisierung", ueberschrift: "Ein Zeitplan. Ein Festpreis.", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
-  { slug: "fliesen-boden", ueberschrift: "Präzise verlegt, fest kalkuliert", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
-  { slug: "innenausbau", ueberschrift: "Mit festem Preis und festem Plan", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
+  { slug: "badsanierung", nutzen: "Ihr Wohlfühlbad – geplant, gebaut, übergeben", unterschrift: "Badsanierung aus einer Hand", kurz: "Badsanierung", icon: "bath" },
+  { slug: "sanierung-modernisierung", nutzen: "Auf heutigem Stand: energetisch, technisch, optisch", unterschrift: "Komplettsanierung & Modernisierung", icon: "reno" },
+  { slug: "fliesen-boden", nutzen: "Gerade Kanten, saubere Fugen, lange Freude", unterschrift: "Fliesen- & Bodenlegerarbeiten", icon: "tiles" },
+  { slug: "innenausbau", nutzen: "Mehr aus Ihren Räumen machen – nach Maß", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
   // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
-  { slug: "sanierungscheck", ueberschrift: "Klarheit vor dem Immobilienkauf", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
+  { slug: "sanierungscheck", nutzen: "Risiken und Kosten kennen, bevor Sie kaufen", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
   // Kundenwunsch 17.10.2026 (82): Name „Sicher wohnen. Heute und morgen.“ statt „Zuhause-Check 60+“ – ohne Altersbezug
-  { slug: "sicher-wohnen", ueberschrift: "Sicher und selbstbestimmt wohnen", unterschrift: "Sicher wohnen. Heute und morgen.", kurz: "Sicher wohnen", icon: "heim", hervorheben: true },
+  { slug: "sicher-wohnen", nutzen: "Ihr Zuhause sicherer, komfortabler, barrierearm", unterschrift: "Sicher wohnen. Heute und morgen.", kurz: "Sicher wohnen", icon: "heim", hervorheben: true },
 ];
 export const leistungBySlug = (slug: string): Leistung | undefined => LEISTUNGEN.find((l) => l.slug === slug);
 /** Kurzname einer Leistung (für Fließtext-Sätze). */
@@ -109,13 +113,13 @@ export const kurzName = (l: Leistung): string => l.kurz ?? l.unterschrift;
 export const NAV2: NavItem[] = [
   {
     label: "Leistungen",
-    // Kundenwunsch 19.10.2026 (Audit 1.3): fett = Leistungsname (unterschrift), grau = Slogan (ueberschrift).
+    // Kundenwunsch 19.10.2026 (Audit 1.3): fett = Leistungsname (unterschrift), grau = Kundennutzen (nutzen).
     // Dach & Fassade, Maler & Böden, Sanitär/Heizung/Elektro sind seit Kundenwunsch 12.10.2026 (18)
     // ganz abgeschaltet (Inhalte in archiv/leistungen-abgeschaltet/).
     // Kundenwunsch 15.10.2026 (71): „Alle Leistungen im Überblick“ + Übersichtsseite entfernt
     children: LEISTUNGEN.map((l) => ({
       label: l.unterschrift,
-      desc: l.ueberschrift,
+      desc: l.nutzen,
       href: u(`leistungen/${l.slug}/`),
       icon: l.icon,
       hervorheben: l.hervorheben,

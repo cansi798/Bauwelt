@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ site }) => {
     const e = inhalte.get(l.slug);
     const d = e?.data;
     const g = GEWERKE.find((x) => x.slug === l.slug);
-    const teile: string[] = [`## ${l.unterschrift}`, "", `${l.ueberschrift} – ${o}leistungen/${l.slug}/`, ""];
+    const teile: string[] = [`## ${l.unterschrift}`, "", `${l.nutzen} – ${o}leistungen/${l.slug}/`, ""];
     if (d?.claim) teile.push(d.claim);
     if (d?.lead) teile.push(d.lead);
     if (e?.body) teile.push("", bereinigt(e.body));
