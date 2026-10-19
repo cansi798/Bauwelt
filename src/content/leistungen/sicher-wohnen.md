@@ -24,7 +24,7 @@ umfang:
   - "Auf Wunsch ein Angebot für die Umsetzung"
 faq:
   - { q: "Was kostet der Check „Sicher wohnen“?", a: "Der Check kostet pauschal 249 € inkl. MwSt. Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks wieder an." }
-  - { q: "Für wen eignet sich „Sicher wohnen“?", a: "Für alle, die sicher und selbstständig zu Hause wohnen möchten – in jedem Alter: Menschen mit Pflegebedarf oder eingeschränkter Mobilität, nach einem Unfall oder einer Erkrankung und alle, die frühzeitig vorsorgen möchten. Ebenso für Angehörige, die einen nahestehenden Menschen unterstützen, für Eigentümer von Einfamilienhäusern und für Wohnungen und Häuser jeder Art." }
+  - { q: "Für wen eignet sich „Sicher wohnen“?", a: "Für alle, die sicher und selbstständig zu Hause wohnen möchten – in jedem Alter: Menschen mit Pflegebedarf oder eingeschränkter Mobilität, nach einem Unfall oder einer Erkrankung und alle, die frühzeitig vorsorgen möchten. Ebenso für Angehörige, die einen nahestehenden Menschen unterstützen – in Wohnungen und Häusern, ob Eigentum oder Miete." }
   - { q: "Kann ich den Check auch für einen Angehörigen anfragen?", a: "Ja, gern. Sprechen Sie uns einfach an – den Termin vereinbaren wir so, wie es für Sie und Ihren Angehörigen am besten passt." }
   - { q: "Muss ich danach umbauen lassen?", a: "Nein. Sie erhalten eine Einschätzung, Empfehlungen, eine priorisierte Maßnahmenliste und eine erste Kosteneinschätzung. Ein Angebot für die Umsetzung erstellen wir nur, wenn Sie es wünschen." }
   - { q: "Arbeiten Sie dabei mit einem Pfleger zusammen?", a: "Ja. Beim Check „Sicher wohnen“ arbeiten wir mit einem Partnerpfleger zusammen." }

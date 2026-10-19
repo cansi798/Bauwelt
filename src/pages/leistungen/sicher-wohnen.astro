@@ -42,8 +42,6 @@ const fuerWen = [
   "Menschen mit Pflegebedarf oder eingeschränkter Mobilität – in jedem Alter",
   "Menschen nach einem Unfall oder einer Erkrankung",
   "Angehörige, die einen nahestehenden Menschen unterstützen möchten",
-  "Eigentümer von Einfamilienhäusern",
-  "Wohnungen und Häuser jeder Art",
   "Menschen, die frühzeitig vorsorgen möchten",
 ];
 const ergebnis = [
@@ -152,6 +150,8 @@ const vorteile = [
           <ul class="check-list">
             {fuerWen.map((f) => <li><Icon name="check" size={22} class="icon" /> {f}</li>)}
           </ul>
+          {/* Audit 4.11: nur Personen in der Liste, Objekte als Satz */}
+          <p class="zc-box__satz">Für Wohnungen und Häuser – Eigentum oder Miete.</p>
         </div>
         <div class="card zc-box reveal">
           <h3 class="zc-box__titel">Was Sie nach dem Termin <span class="accent">erhalten</span></h3>
@@ -277,6 +277,7 @@ const vorteile = [
   .zc-zwei { display: grid; gap: 24px; }
   @media (min-width: 900px) { .zc-zwei { grid-template-columns: 1fr 1fr; gap: 32px; } }
   .zc-box { display: grid; gap: 18px; align-content: start; } /* Optik aus .card (Audit 2.5) */
+  .zc-box__satz { margin: 0; font-weight: 600; color: var(--anthrazit-700); }
   .zc-box .zc-box__titel { margin: 0; font-size: 20px !important; }
 
   /* Abschluss */
