@@ -13,7 +13,7 @@ refBilder:
   - { file: "galerie-bad-02.webp", alt: "Bad mit Natursteinoptik, beleuchtetem Spiegel und goldener Armatur" }
 ablaufZiel: "neuen Bad"
 umfang:
-  - "Demontage und Entsorgung des alten Bads – im Angebot enthalten"
+  - "Demontage und Entsorgung des alten Bads"
   - "Sanitär, Elektro und Heizung aus einer Hand: Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
   - "Fliesen, bodengleiche Duschen und Abdichtung"
   - "Möbel, Beleuchtung und Accessoires"
@@ -31,7 +31,7 @@ lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koord
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
-umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Demontage und Entsorgung sind im Angebot enthalten, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
+umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
