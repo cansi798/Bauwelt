@@ -149,9 +149,10 @@ const WALZE = [...WORTE, WORTE[0]];
   .fhero__band {
     display: flex;
     flex-direction: column;
-    /* n Begriffe à 3s: 2.4s halten, 0.6s rollen – Endbild = erster Begriff (Kopie am
-       Ende), daher nahtlose Dauerschleife (Kundenwunsch 19.10.2026, Audit 1.1) */
-    animation: walze calc(var(--n) * 3s) cubic-bezier(0.65, 0, 0.35, 1) 1.2s infinite;
+    /* n Begriffe à 2s: 1.6s halten, 0.4s rollen – Endbild = erster Begriff (Kopie am
+       Ende), daher nahtlose Dauerschleife (Kundenwunsch 19.10.2026, Audit 1.1;
+       Sprachnachricht Jamil 19.10.: schneller, Wörter stehen kürzer – vorher 3s je Begriff) */
+    animation: walze calc(var(--n) * 2s) cubic-bezier(0.65, 0, 0.35, 1) 1s infinite;
   }
   .fhero__wort {
     display: block;
@@ -159,11 +160,11 @@ const WALZE = [...WORTE, WORTE[0]];
     line-height: 1.15;
     white-space: nowrap;
   }
-  /* 3 Begriffe: Schritte bei 33/67%, jeweils 4% Roll-Zeit (letzter Frame = erster) */
+  /* 3 Begriffe: Schritte bei 33/67%, jeweils 6,67% Roll-Zeit (letzter Frame = erster) */
   @keyframes walze {
-    0%, 29.33%     { transform: translateY(0); }
-    33.33%, 62.67% { transform: translateY(-1.15em); }
-    66.67%, 96%    { transform: translateY(-2.3em); }
+    0%, 26.67%     { transform: translateY(0); }
+    33.33%, 60%    { transform: translateY(-1.15em); }
+    66.67%, 93.33% { transform: translateY(-2.3em); }
     100%           { transform: translateY(-3.45em); }
   }
   /* Reduced motion (global.css stoppt Animationen): erster Begriff steht still */
