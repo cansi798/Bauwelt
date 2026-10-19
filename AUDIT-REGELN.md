@@ -118,7 +118,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 ## 10. Rechner (Jamil 19.10., Msg 2381)
 
-- **Nichts mehr mit Elektro, Sanitär oder Dach** im Rechner (Optionen, Hinweise, Fachbegriffe) – in allen Varianten.
+- Rechner-Optionen wie vor dem 19.10. (LED-Spots, Fußbodenheizung, „Wasser & Strom verlegen“ usw. bleiben drin) – Jamil hat die Entfernung am 19.10. (Msg 2414/2419) rückgängig machen lassen. **Kein „Dach“** im Rechner.
 - Preisspanne vor jeder Datenabfrage, Rückruf-Formular darunter (6.3, geht an service@bauwelt-handwerk.de).
 
 ## 11. Barrierefreiheit & Bewegung (K6, 1.9)

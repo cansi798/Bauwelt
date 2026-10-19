@@ -283,9 +283,9 @@ for (const p of ["/", "/kontakt/"]) {
 if (!/REGION_CENTER[\s\S]*?radiusMeter:\s*40_?000/.test(regionSrc)) { warn("Einzugsgebiet (4.10)", "region.ts: Radius ist nicht mehr 40 km – Karte/Texte/llms prüfen"); regProbleme++; }
 if (!regProbleme) pass("Einzugsgebiet", `${REGION_CITIES.length} Orte aus region.ts überall gleich (Start, Kontakt, JSON-LD, llms)`);
 
-// ---------- 10. Rechner ohne Elektro/Sanitär/Dach (Jamil 19.10., Msg 2381) ----------
+// ---------- 10. Rechner ohne Dach (Jamil 19.10.: Elektro/Sanitär-Optionen wieder erlaubt, Msg 2419) ----------
 let rProbleme = 0;
-const RECHNER_VERBOTEN = /Elektr\w*|Sanitär\w*|\bDach(?!geschoss|boden|schräge)\w*|\bStrom\b/gi;
+const RECHNER_VERBOTEN = /\bDach(?!geschoss|boden|schräge)\w*/gi;
 const rechnerSrc = existsSync("src/data/rechner.ts") ? lies("src/data/rechner.ts") : "";
 const zeilen = rechnerSrc.split("\n");
 zeilen.forEach((z, i) => {
@@ -298,7 +298,7 @@ if (rechnerSeite) {
   const m = rteil.match(RECHNER_VERBOTEN);
   if (m) { warn("Rechner (Jamil 19.10.)", `/rechner/ zeigt: „${[...new Set(m)].join("“, „")}“`); rProbleme++; }
 }
-if (!rProbleme) pass("Rechner", "keine Elektro-/Sanitär-/Dach-Begriffe in den Rechner-Daten");
+if (!rProbleme) pass("Rechner", "kein „Dach“ in den Rechner-Daten");
 
 // ---------- 11. Barrierefreiheit & Bewegung (K6, 3.x) ----------
 let a11y = 0;
