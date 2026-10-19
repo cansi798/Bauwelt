@@ -431,8 +431,9 @@ function siegelSzene(
   reihenDesktop: number[],
   /** Abweichende Beschriftung je Siegel-ID und Ansicht (z. B. Über uns). */
   eigeneZeilen: Record<string, { mobil: string[]; desktop: string[] }> = {},
-  /** Rahmenform, Abstand zwischen zwei Siegeln (s) und Zusatz-Standzeit (ms). */
-  stil: { form?: "kreis" | "rechteck"; schritt?: number; halten?: number } = {}
+  /** Abstand zwischen zwei Siegeln (s) und Zusatz-Standzeit (ms).
+   *  Rahmen immer rund (Kundenwunsch 19.10.2026, Jamil Msg 2518/2523: alle Animationen einheitlich kreisförmig). */
+  stil: { schritt?: number; halten?: number } = {}
 ): Szene {
   const schritt = stil.schritt ?? 0.55;
   const z = new Zeichner();
@@ -456,14 +457,9 @@ function siegelSzene(
     const t = 0.2 + i * schritt;
     z.bei(t);
     z.gruppe("stempel", () => {
-      if (stil.form === "rechteck") {
-        z.rundRechteck(cx - d / 2, cy - d / 2, d, d, 16, { strokeWidth: 2.6 }, 0.45);
-        z.rundRechteck(cx - (d - 14) / 2, cy - (d - 14) / 2, d - 14, d - 14, 11, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.45);
-      } else {
-        z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
-        // Kundenwunsch 19.10.2026: goldener Innenring dreht sich nach dem Zeichnen ständig
-        z.gruppe("dreh", () => z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5));
-      }
+      z.kreis(cx, cy, d, { strokeWidth: 2.6 }, 0.5);
+      // Kundenwunsch 19.10.2026: goldener Innenring dreht sich nach dem Zeichnen ständig
+      z.gruppe("dreh", () => z.kreis(cx, cy, d - 14, { stroke: F.gold, strokeWidth: 2, roughness: 1.4 }, 0.5));
       z.bei(t + 0.3);
       SIEGEL_MOTIV[id]?.(z, cx, cy, s);
     });
@@ -495,8 +491,9 @@ const ZEILEN_UEBER: Record<string, { mobil: string[]; desktop: string[] }> = {
 // → 9 Siegel (mobil 3-3-3, Desktop 5-4)
 const siegelUeber = (a: Ansicht) =>
   siegelSzene(a, ["erfahrung", "regional", ...SIEGEL_IDS], [3, 3, 3], [5, 4], ZEILEN_UEBER,
-    // Kundenwunsch 15.10.2026 (65): Rechtecke statt Kreise, schneller, 1 s länger stehen
-    { form: "rechteck", schritt: 0.32, halten: 1000 });
+    // Kundenwunsch 15.10.2026 (65): schneller, 1 s länger stehen. Die damaligen Rechteck-Rahmen sind
+    // seit 19.10.2026 (Jamil Msg 2523) wieder Kreise – wie auf der Startseite, einheitlich überall.
+    { schritt: 0.32, halten: 1000 });
 
 /* ─── USP-Bilder als Zeichnungen (Kundenwunsch 15.10.2026 (61), Über uns „Handwerk ohne Überraschungen“) ─── */
 const USP_B = 300, USP_H = 180;

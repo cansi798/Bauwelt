@@ -69,11 +69,13 @@ const WA_HREF = waLink();
   }
   .bdlg-skel.is-weg { opacity: 0; pointer-events: none; }
   .bdlg-skel__info { margin: 0; font-size: 14px; color: var(--anthrazit-600); }
-  .bdlg-skel__zeile { height: 18px; width: 45%; border-radius: 8px; }
+  /* Lade-Schimmer rund (Kundenwunsch 19.10.2026, Jamil Msg 2523: Animationen einheitlich kreisförmig):
+     Tage als Kreise, Zeile und Uhrzeiten mit vollrunden Enden */
+  .bdlg-skel__zeile { height: 18px; width: 45%; border-radius: 999px; }
   .bdlg-skel__tage { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
-  .bdlg-skel__tag { aspect-ratio: 1; border-radius: 10px; }
+  .bdlg-skel__tag { aspect-ratio: 1; border-radius: 50%; }
   .bdlg-skel__zeiten { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
-  .bdlg-skel__zeit { height: 40px; border-radius: 10px; }
+  .bdlg-skel__zeit { height: 40px; border-radius: 999px; }
   .bdlg-skel__zeile, .bdlg-skel__tag, .bdlg-skel__zeit {
     background: linear-gradient(90deg, var(--gold-100) 0%, #FAF8F4 50%, var(--gold-100) 100%);
     background-size: 200% 100%;
