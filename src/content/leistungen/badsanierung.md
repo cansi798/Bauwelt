@@ -28,7 +28,7 @@ claim: "Ihr neues Badezimmer. Klar geplant. Professionell umgesetzt."
 lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
 ohneIntro: true
-introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
+introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
 umfangText: "Von der Demontage bis zur fertigen Übergabe koordinieren wir alle Arbeiten – zum Festpreis statt mit Lockangebot."
@@ -49,13 +49,8 @@ bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"
 faq:
-  - { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir Ihnen einen festen Preis für alle vereinbarten Leistungen. Der gilt – ohne Aufschlag hinterher. Nur was Sie selbst zusätzlich beauftragen, ändert ihn, und zwar vorher schriftlich." }
   - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Den Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest." }
-  - { q: "Muss ich während der Sanierung ausziehen?", a: "In der Regel nicht. Wir arbeiten mit Staubschutz und abgedeckten Wegen, damit Wohnen neben der Baustelle funktioniert. Alles Weitere besprechen wir beim Vor-Ort-Termin." }
-  - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Gern beraten wir Sie auch bei der Auswahl." }
-  - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 

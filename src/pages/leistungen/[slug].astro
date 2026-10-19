@@ -261,6 +261,8 @@ const description =
       <div class="container">
         <SectionHead center eyebrow="Häufige Fragen" pre={`${kurzTitel}: Gut zu `} accent="wissen" />
         <Faq items={l.data.faq} withCta />
+        {/* Audit 5.6: allgemeine Fragen (Festpreis, Vor-Ort-Termin, Ablauf) stehen einmal auf der Startseite */}
+        <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Festpreis, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>
       </div>
     </section>
   )}
@@ -273,6 +275,8 @@ const description =
   .refmini { width: min(84vw, 420px); } /* größer: Kundenwunsch 14.10.2026 (33) */
 
   .lmitte { display: flex; justify-content: center; margin-top: 8px; }
+  .lfaq__mehr { margin-top: 20px; }
+  .lfaq__mehr a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
   .lmitte--zwei { flex-wrap: wrap; gap: 14px 16px; margin-top: 32px; }
 
   .lintro { display: grid; gap: 32px; align-items: center; }

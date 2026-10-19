@@ -22,7 +22,7 @@ ablauf:
   - { title: "Ausbau", text: "Sauber verarbeitet bis in die Ecke." }
 claim: "Räume neu gestalten. Klar geplant. Sauber ausgebaut."
 lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
-introTitel: "Mehr Raum – ohne Stress und Überraschungen"
+introTitel: "Mehr Raum – ohne große Mauerarbeiten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zum Innenausbau?"
 umfangText: "Von der Planung bis zur streichfertigen Oberfläche – realistisch kalkuliert, ohne Lockangebot."
@@ -40,13 +40,9 @@ bilderTitel: "So könnten Ihre neuen Räume aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Innenausbau sein"
 faq:
-  - { q: "Was bedeutet Festpreis genau?", a: "Nach dem Vor-Ort-Termin nennen wir Ihnen einen festen Preis für alle vereinbarten Leistungen. Der gilt – ohne Aufschlag hinterher. Nur was Sie selbst zusätzlich beauftragen, ändert ihn, und zwar vorher schriftlich." }
   - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan legen wir vorher gemeinsam fest." }
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }
   - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir spachteln die Flächen glatt und übergeben sie streichfertig – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
-  - { q: "Was passiert bei verdeckten Schäden?", a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts." }
-  - { q: "Wie läuft der Vor-Ort-Termin ab?", a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis." }
-  - { q: "Muss ich mehrere Handwerker koordinieren?", a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet." }
 ---
 
 Sie wünschen sich ein zusätzliches Zimmer, ein ruhiges Homeoffice oder eine neue Raumaufteilung, aber keine wochenlange Baustelle und keine unklaren Kosten?

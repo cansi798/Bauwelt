@@ -219,6 +219,20 @@ export const FAQ_HOME = [
     q: "Muss ich während der Arbeiten ausziehen?",
     a: "Meistens nicht. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung, damit Wohnen neben der Baustelle funktioniert. Bei Kernsanierungen besprechen wir das gemeinsam im Vor-Ort-Termin.",
   },
+  // Kundenwunsch 19.10.2026 (Audit 5.6): allgemeine Fragen stehen EINMAL hier, auf den
+  // Leistungsseiten nur noch leistungsspezifische Fragen (+ Link hierher)
+  {
+    q: "Wie läuft der Vor-Ort-Termin ab?",
+    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis.",
+  },
+  {
+    q: "Muss ich mehrere Handwerker koordinieren?",
+    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet.",
+  },
+  {
+    q: "Was passiert bei verdeckten Schäden?",
+    a: "Manches zeigt sich erst, wenn Wand oder Boden geöffnet sind – etwa alte Leitungen oder Feuchtigkeitsschäden. Dann halten wir an dieser Stelle an, zeigen Ihnen den Befund und nennen Ihnen den Mehraufwand schriftlich, bevor wir weiterarbeiten. Ohne Ihre Freigabe ändert sich am Festpreis nichts.",
+  },
   // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];
 
