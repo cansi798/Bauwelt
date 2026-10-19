@@ -43,6 +43,10 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
 ---
 
 <BaseLayout
+  sticky={[
+    { label: "Jetzt bewerben", href: "#bewerben" },
+    { label: "WhatsApp", href: waLink("Hallo Bauwelt Handwerk, ich interessiere mich für eine Stelle bei Ihnen. Bitte melden Sie sich bei mir."), extern: true },
+  ] /* Audit 1.7 */}
   footerNurNav
   title="Karriere – Jobs im Handwerk in Norderstedt | Bauwelt Handwerk"
   description="Gute Handwerker verdienen mehr: faires Grundgehalt plus Projektprämien, regionale Baustellen in Hamburg und Norderstedt, kurze Wege. Bewerbung per E-Mail oder WhatsApp."

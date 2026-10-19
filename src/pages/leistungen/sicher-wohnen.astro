@@ -60,7 +60,7 @@ const vorteile = [
 ];
 ---
 
-<BaseLayout title={`${leistung.unterschrift} – ${leistung.ueberschrift} | Norderstedt & Hamburg` /* „Sicher wohnen. Heute und morgen. – Sicher und selbstbestimmt wohnen | …“ */} description={l.data.beschreibung ?? l.data.teaser}>
+<BaseLayout sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title={`${leistung.unterschrift} – ${leistung.ueberschrift} | Norderstedt & Hamburg` /* „Sicher wohnen. Heute und morgen. – Sicher und selbstbestimmt wohnen | …“ */} description={l.data.beschreibung ?? l.data.teaser}>
   <LeistungHero
     titel={leistung.kurz ?? leistung.unterschrift}
     eyebrow={leistung.unterschrift}

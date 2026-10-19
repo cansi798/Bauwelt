@@ -5,6 +5,7 @@ import IconSprite from "../components/IconSprite.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StickyBar from "../components/StickyBar.astro";
+import type { StickyKnopf } from "../consts";
 import BookingDialog from "../components/BookingDialog.astro";
 import { SITE, u } from "../consts";
 import { REGION_CENTER, REGION_CITIES, SERVICE_TYPES } from "../data/region";
@@ -15,8 +16,10 @@ interface Props {
   noindex?: boolean;
   /** Footer nur mit Navigation (ohne Kontakt-Kopf) – Karriere & Partner, Kundenwunsch 11.10.2026 (10). */
   footerNurNav?: boolean;
+  /** Eigene Buttons für die feste Leiste unten (Audit 1.7) – ohne Angabe: Rechner + Vor-Ort-Termin. */
+  sticky?: StickyKnopf[];
 }
-const { title, description, noindex = false, footerNurNav = false } = Astro.props;
+const { title, description, noindex = false, footerNurNav = false, sticky } = Astro.props;
 
 const ogImage = new URL(u("assets/og-image.png"), Astro.site);
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -89,7 +92,7 @@ const jsonLd = {
       <slot />
     </main>
     <Footer nurNav={footerNurNav} />
-    <StickyBar />
+    <StickyBar knoepfe={sticky} />
     <BookingDialog />
 
     <!-- Nach-oben-Button: erscheint nach einer Bildschirmhöhe Scrolltiefe -->

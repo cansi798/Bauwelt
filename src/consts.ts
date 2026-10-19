@@ -44,6 +44,9 @@ export const SITE = {
 /** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
 export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
 
+/** Button der festen Leiste unten (Audit 1.7, siehe StickyBar.astro). */
+export type StickyKnopf = { label: string; href: string; extern?: boolean; termin?: boolean; ariaLabel?: string };
+
 /** Rückruf-Formular (Kundenwunsch 19.10.2026, Audit 6.3): Anfragen gehen an service@.
  *  endpoint leer = Versand über das E-Mail-Programm des Besuchers (mailto), da die Seite statisch
  *  ist. Sobald ein Server-Endpunkt existiert (POST JSON → Mail an `an`), hier eintragen –

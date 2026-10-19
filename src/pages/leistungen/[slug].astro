@@ -21,7 +21,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import Kernvorteile from "../../components/Kernvorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
-import { TERMIN, u, leistungBySlug, kurzName } from "../../consts";
+import { SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 
@@ -100,7 +100,14 @@ const description =
   ].find((d) => d.length <= 160) ?? l.data.teaser);
 ---
 
-<BaseLayout title={`${leistung.unterschrift} – Norderstedt & Hamburg`} description={description}>
+<BaseLayout
+  title={`${leistung.unterschrift} – Norderstedt & Hamburg`}
+  description={description}
+  sticky={pauschal ? [
+    { label: buchen.label, href: buchen.href },
+    { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` },
+  ] : undefined /* Audit 1.7: Pauschal-Checks ohne Rechner */}
+>
   <LeistungHero
     titel={leistung.unterschrift}
     eyebrow={leistung.unterschrift}

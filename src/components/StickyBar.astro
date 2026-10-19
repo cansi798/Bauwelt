@@ -3,14 +3,31 @@
 // Rechner-Seite (Kundenfeedback 07.10.2026). Zwei kompakte Buttons: Rechner +
 // Vor-Ort-Termin (öffnet per `data-termin` das Buchungsfenster).
 // Die doppelten Buttons im Seiteninhalt sind mobil ausgeblendet (`.nur-desktop`).
-import { CTA, TERMIN } from "../consts";
+// Kundenwunsch 19.10.2026 (Audit 1.7): Buttons passend zur Seite (BaseLayout-Prop `sticky`),
+// z. B. Karriere „Jetzt bewerben“ + WhatsApp, Partner „Zusammenarbeit anfragen“, Checks „… buchen“ + Anrufen.
+import { CTA, TERMIN, type StickyKnopf } from "../consts";
+interface Props {
+  knoepfe?: StickyKnopf[];
+}
+const STANDARD: StickyKnopf[] = [
+  { label: CTA.label, href: CTA.href },
+  { label: TERMIN.kurz, href: TERMIN.href, extern: true, termin: true, ariaLabel: TERMIN.label },
+];
+const { knoepfe = STANDARD } = Astro.props;
 ---
 
 <div class="sticky-bar">
-  <a class="btn btn--sm sticky-bar__btn" href={CTA.href}>{CTA.label}</a>
-  <a class="btn btn--sm btn--ghost sticky-bar__btn" href={TERMIN.href} target="_blank" rel="noopener" data-termin aria-label={TERMIN.label}>
-    {TERMIN.kurz}
-  </a>
+  {knoepfe.map((k, i) => (
+    <a
+      class:list={["btn", "btn--sm", "sticky-bar__btn", { "btn--ghost": i > 0 }]}
+      href={k.href}
+      {...(k.extern ? { target: "_blank", rel: "noopener" } : {})}
+      {...(k.termin ? { "data-termin": "" } : {})}
+      aria-label={k.ariaLabel}
+    >
+      {k.label}
+    </a>
+  ))}
 </div>
 
 <style>

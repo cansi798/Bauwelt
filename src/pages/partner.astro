@@ -47,6 +47,10 @@ const ABLAUF = [
 ---
 
 <BaseLayout
+  sticky={[
+    { label: "Zusammenarbeit anfragen", href: "#partner-kontakt" },
+    { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` },
+  ] /* Audit 1.7 */}
   footerNurNav
   title="Partner – Zusammenarbeit mit Bauwelt Handwerk"
   description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe – Sanierung und Ausbau mit Festpreis, Dokumentation und festen, deutschsprachigen Ansprechpartnern."
