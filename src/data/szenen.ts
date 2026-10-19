@@ -157,7 +157,7 @@ const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: numb
 
 /** Siegel-Titel umbrochen (schmale Handy-Spalten), 2–3 Zeilen. */
 const SIEGEL_ZEILEN: Record<string, string[]> = {
-  erfahrung: ["15+ Jahre", "Erfahrung"],
+  erfahrung: ["15+ Jahre", "Erfahrung im", "Handwerk"], // Audit K3
   deutsch: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 15.10.2026 (55)
   regional: ["Regional", "vor Ort"],
   festpreis: ["Festpreis-", "Zusage"], // Audit 4.2 (19.10.2026): „Zusage“ statt „Garantie“
