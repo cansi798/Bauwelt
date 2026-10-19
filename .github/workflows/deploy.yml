@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # voller git-Verlauf für <lastmod> in der Sitemap (SEO-/KI-Audit S8)
       - name: Build mit Astro
         uses: withastro/action@v3
         # withastro/action installiert Abhängigkeiten, baut nach ./dist
