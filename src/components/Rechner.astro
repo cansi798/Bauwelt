@@ -129,9 +129,12 @@ const weich = (t: string) =>
       ))}
     </div>
   ) : (
+    <>
+    <p class="rschritt" id="rSchritt" aria-live="polite">Schritt 1 von 3 – Leistung</p>
     <div class="rechner__progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Schritt 1 von 3">
       <span class="rechner__bar" style="width: 33%"></span>
     </div>
+    </>
   )}
 
   <div
@@ -139,6 +142,8 @@ const weich = (t: string) =>
     id="rPanel"
     {...(start ? { role: "region", "aria-label": "Projekt-Kalkulation" } : {})}
   >
+    {/* Kundenwunsch 19.10.2026 (Audit 1.5): sichtbare Schritt-Anzeige */}
+    {start && <p class="rschritt" id="rSchritt" aria-live="polite"></p>}
     {!start && (
       /* Schritt 1: Gewerk (nur Rechner-Seite – auf der Startseite übernehmen das die Karten) */
       <section class="rstep" data-step="1">
@@ -209,6 +214,7 @@ const weich = (t: string) =>
 
       <div class="rnav">
         {!start && <button class="btn btn--ghost rnav__zurueck" type="button" id="rZurueck2">Zurück</button>}
+        {start && <button class="btn btn--ghost rnav__zurueck" type="button" id="rZurueckTeil" hidden>Zurück</button>}
         <button class="btn rechner__next" type="button" id="rWeiter">Preisspanne anzeigen</button>
       </div>
     </section>
@@ -333,6 +339,9 @@ const weich = (t: string) =>
   .rechner__bar { display: block; height: 100%; background: var(--gold-500); transition: width 300ms ease; }
 
   .rstep__title { font-size: clamp(20px, 3vw, 26px); }
+  /* Schritt-Anzeige über dem Balken (Audit 1.5) */
+  .rschritt { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--gold-700); letter-spacing: 0.02em; }
+  .rschritt:empty { display: none; }
 
   .rechner__tiles { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
   .rtile {
@@ -555,6 +564,7 @@ const weich = (t: string) =>
      nicht mehr angepinnt/mitlaufend und ohne weißen Rahmen – steht fest unter der Auswahl. */
   .rnav { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
   .rechner__app--start .rnav { grid-template-columns: 1fr; }
+  .rechner__app--start .rnav:has(#rZurueckTeil:not([hidden])) { grid-template-columns: auto 1fr; }
   .rechner__next { width: 100%; }
   @media (max-width: 767px) {
     .rnav { margin-top: 18px; }
@@ -657,6 +667,8 @@ const weich = (t: string) =>
       menge: 0,
       tier: "",
       art: "schnell" as KalkArt,   // Kalkulationsart (nur Gewerke mit Extras)
+      teil: 1,                     // Audit 1.5: Schritt „Umfang“ bei Badsanierung in 2 Teile (1 = Art + Größe, 2 = Rechenart + Extras)
+      pauschal: false,
       extras: [] as string[],      // gewählte Extra-ids
     };
     const euro = (n: number) => n.toLocaleString("de-DE");
@@ -683,14 +695,36 @@ const weich = (t: string) =>
     function show(step: number | string, scroll: Scroll = "immer") {
       const nr = typeof step === "number" ? step : 3; // Festpreis-Panel = Endpunkt
       state.step = nr;
+      state.pauschal = typeof step !== "number";
       steps.forEach((s) => (s.hidden = s.dataset.step !== String(step)));
-      if (bar && progress) {
-        bar.style.width = `${(nr / 3) * 100}%`;
-        progress.setAttribute("aria-valuenow", String(nr));
-        progress.setAttribute("aria-label", `Schritt ${nr} von 3`);
-      }
+      updateSchritt();
       app!.toggleAttribute("data-started", nr > 1);
       scrollZu(scroll);
+    }
+
+    /** Audit 1.5: Badsanierung (Gewerk mit Extras, ohne Festpreis-Option) bekommt zwei Teil-Schritte. */
+    function geteilt() {
+      const g = state.gewerk;
+      return Boolean(g?.extras) && !tierById(g!, state.tier).festBis;
+    }
+    /** Schritt-Anzeige „Schritt 2 von 3 – Umfang“ + Balken. */
+    function updateSchritt() {
+      const label = document.getElementById("rSchritt");
+      if (state.pauschal) {
+        if (label) label.textContent = "";
+        if (bar) bar.style.width = "100%";
+        return;
+      }
+      const namen = [...(START ? [] : ["Leistung"]), "Umfang", ...(geteilt() ? ["Rechenart"] : []), "Ergebnis"];
+      const akt = state.step === 1 ? "Leistung" : state.step === 3 ? "Ergebnis" : state.teil === 2 && geteilt() ? "Rechenart" : "Umfang";
+      const i = Math.max(0, namen.indexOf(akt));
+      if (label) label.textContent = `Schritt ${i + 1} von ${namen.length} – ${akt}`;
+      if (bar && progress) {
+        bar.style.width = `${((i + 1) / namen.length) * 100}%`;
+        progress.setAttribute("aria-valuemax", String(namen.length));
+        progress.setAttribute("aria-valuenow", String(i + 1));
+        progress.setAttribute("aria-label", `Schritt ${i + 1} von ${namen.length}`);
+      }
     }
 
     /** Karte/Kachel als gewählt markieren (Rechner- und Pauschal-Leistungen). */
@@ -707,6 +741,7 @@ const weich = (t: string) =>
 
     /** Pauschal-Leistung: direkt das Festpreis-Panel zeigen (keine Rechenschritte). */
     function selectPauschal(slug: string, scroll: Scroll = "immer") {
+      state.teil = 1;
       state.gewerk = null;
       markiere(slug);
       show(`p-${slug}`, scroll);
@@ -714,6 +749,7 @@ const weich = (t: string) =>
 
     function selectGewerk(g: Gewerk, scroll: Scroll = "immer") {
       state.gewerk = g;
+      state.teil = 1;
       state.tier = g.tiers.some((t) => t.id === state.tier) ? state.tier : g.tiers[0].id;
       markiere(g.slug);
       if (gewerkLabel) gewerkLabel.textContent = `${g.label} berechnen`;
@@ -782,7 +818,7 @@ const weich = (t: string) =>
     /** Kalkulationsart/Extras nur bei Gewerken mit Extras und ohne Festpreis-Option. */
     function updateKalk() {
       const g = state.gewerk;
-      const sichtbar = Boolean(g?.extras) && !tierById(g!, state.tier).festBis;
+      const sichtbar = geteilt() && state.teil === 2;
       kalkEl.hidden = !sichtbar;
       if (!sichtbar) return;
       kalkRadios.forEach((r) => (r.checked = r.value === state.art));
@@ -801,9 +837,17 @@ const weich = (t: string) =>
     function updateRange() {
       const g = state.gewerk;
       const fest = Boolean(g && tierById(g, state.tier).festBis);
-      rangeWrap.hidden = fest;
-      weiterBtn.textContent = fest ? "Preis anzeigen" : "Preisspanne anzeigen";
+      const teil2 = geteilt() && state.teil === 2;
+      rangeWrap.hidden = fest || teil2;
+      tiersEl.hidden = teil2;
+      if (g) frageEl.textContent = teil2 ? "Wie möchten Sie rechnen?" : (g.wahlFrage ?? g.frage);
+      const kalkFrage = document.getElementById("rKalkFrage");
+      if (kalkFrage) kalkFrage.hidden = teil2; // Frage steht dann als Schritt-Überschrift
+      const zurueckTeil = document.getElementById("rZurueckTeil");
+      if (zurueckTeil) zurueckTeil.hidden = !teil2;
+      weiterBtn.textContent = geteilt() && state.teil === 1 ? "Weiter" : fest ? "Preis anzeigen" : "Preisspanne anzeigen";
       updateKalk();
+      updateSchritt();
     }
 
     function updateMenge() {
@@ -925,8 +969,23 @@ const weich = (t: string) =>
       state.extras = Array.from(extrasListe.querySelectorAll<HTMLInputElement>("input:checked")).map((c) => c.value);
       updateLive();
     });
-    document.getElementById("rWeiter")!.addEventListener("click", showResult);
-    document.getElementById("rZurueck2")?.addEventListener("click", () => show((state.step - 1) as 1 | 2));
+    // Audit 1.5: bei Badsanierung erst Teil 1 (Art + Größe) → „Weiter“ → Teil 2 (Rechenart + Extras)
+    document.getElementById("rWeiter")!.addEventListener("click", () => {
+      if (geteilt() && state.teil === 1) {
+        state.teil = 2;
+        updateRange();
+        scrollZu("bedarf");
+      } else showResult();
+    });
+    const zurueck = () => {
+      if (state.step === 2 && state.teil === 2) {
+        state.teil = 1;
+        updateRange();
+        scrollZu("bedarf");
+      } else show((state.step - 1) as 1 | 2);
+    };
+    document.getElementById("rZurueck2")?.addEventListener("click", zurueck);
+    document.getElementById("rZurueckTeil")?.addEventListener("click", zurueck);
     // Vom Ergebnis zurück zu Fläche & Niveau (Werte bleiben erhalten)
     document.getElementById("rAendern")!.addEventListener("click", () => show(2));
 
