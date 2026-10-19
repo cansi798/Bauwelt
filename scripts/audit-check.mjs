@@ -99,6 +99,8 @@ function pruefeVerboten(quelle, text) {
       if (m[0] === "Kiel" && kielErlaubt(text, m.index)) continue;
       // Rechtsseiten nennen Behörden-Adressen (z. B. Datenschutzaufsicht in Kiel) – kein Einzugsgebiet
       if (thema.startsWith("Einzugsgebiet") && RECHTSSEITEN.includes(quelle)) continue;
+      // „Elektro & Beleuchtung“ ok, wenn dieselbe Quelle den Partner-Elektromeisterbetrieb nennt (§ 13)
+      if (/Elektro & Beleuchtung/i.test(m[0]) && /Elektromeisterbetrieb/.test(text)) continue;
       warn(thema, `${quelle}: „${m[0]}“ – ${grund}  ${ausschnitt(text, m.index)}`);
       treffer++;
       break; // eine Meldung je Regel und Quelle reicht
@@ -212,7 +214,7 @@ for (const f of ["llms.txt", "llms-full.txt"]) {
   const fehlt = REGION_CITIES.filter((c) => !t.includes(c));
   if (fehlt.length) { warn("Einzugsgebiet / llms", `${f}: Orte aus region.ts fehlen: ${fehlt.join(", ")}`); llmsProbleme++; }
   for (const n of LEISTUNGS_NAMEN) if (!t.includes(n)) { warn("KI-Plattformen (K2)", `${f}: Leistung „${n}“ fehlt`); llmsProbleme++; }
-  const alt = t.match(/\b(Dach\w*|Fassade\w*|Heizungsbau)\b/) // „Spachtel- & Malerarbeiten“ gehört zum Innenausbau – erlaubt;
+  const alt = t.match(/\b(Dach(?!geschoss|boden|schräge)\w*|Fassade\w*|Heizungsbau)\b/) // „Spachtel- & Malerarbeiten“ gehört zum Innenausbau – erlaubt;
   if (alt) { warn("KI-Plattformen (K2/S3)", `${f}: nennt abgeschaltete Leistung „${alt[0]}“`); llmsProbleme++; }
   if (!/Norderstedt/.test(t) || !/40 km/.test(t)) { warn("KI-Plattformen (K2)", `${f}: Sitz Norderstedt oder „40 km“ fehlt`); llmsProbleme++; }
 }
@@ -283,7 +285,7 @@ if (!regProbleme) pass("Einzugsgebiet", `${REGION_CITIES.length} Orte aus region
 
 // ---------- 10. Rechner ohne Elektro/Sanitär/Dach (Jamil 19.10., Msg 2381) ----------
 let rProbleme = 0;
-const RECHNER_VERBOTEN = /Elektr\w*|Sanitär\w*|\bDach\w*|\bStrom\b/gi;
+const RECHNER_VERBOTEN = /Elektr\w*|Sanitär\w*|\bDach(?!geschoss|boden|schräge)\w*|\bStrom\b/gi;
 const rechnerSrc = existsSync("src/data/rechner.ts") ? lies("src/data/rechner.ts") : "";
 const zeilen = rechnerSrc.split("\n");
 zeilen.forEach((z, i) => {
