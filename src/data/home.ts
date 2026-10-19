@@ -229,8 +229,8 @@ export const FOOTER_KONTAKT = {
   accent: "sein.",
   sub: "Planbar. Transparent. Verlässlich.",
   text:
-    "Wir verbinden hochwertige Handwerksarbeit mit klaren Prozessen, persönlicher " +
-    "Betreuung und den Service-Standards moderner Dienstleistungsunternehmen.",
+    // Audit 5.2: gekürzt – „Service-Standards moderner Dienstleistungsunternehmen“ steht auf Über uns
+    "Hochwertige Handwerksarbeit mit klaren Prozessen und persönlicher Betreuung.",
   kontaktHead: "Sprechen Sie mit uns",
   kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
   zeiten: "Montag - Freitag, 8:00 - 18:00 Uhr",
