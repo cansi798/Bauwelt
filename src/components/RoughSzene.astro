@@ -82,6 +82,9 @@ const desktop = SZENEN[szene]("desktop");
     text-align: center;
   }
   .rszene__bild { max-width: 420px; margin-inline: auto; }
+  /* SEO-/KI-Audit S6 (19.10.2026): Zeichnungen außerhalb des Bildschirms erst bei Bedarf
+     aufbauen lassen – entlastet das Handy beim Laden (Aussehen unverändert) */
+  .rszene { content-visibility: auto; contain-intrinsic-size: auto 480px; }
   .rszene__svg { display: block; width: 100%; height: auto; overflow: visible; }
   .rszene__svg text { font-family: var(--font-heading); stroke: none; }
   .rszene__svg--desktop { display: none; }

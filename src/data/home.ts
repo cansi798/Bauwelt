@@ -16,6 +16,8 @@ export const HERO = {
   statement: "Handwerk, wie es heute sein sollte.",
   unterzeile: "Klare Prozesse. Transparente Kommunikation. Ein fester Ansprechpartner, der Verantwortung übernimmt.",
   bild: "hero.webp",
+  /** Handy-Fassung (828 px, ca. 35 KB statt 140 KB) – SEO-/KI-Audit S6 */
+  bildKlein: "hero-828.webp",
 };
 
 /** Zahlenleiste unter dem Startbild (Kundenwunsch 19.10.2026, Audit 6.6).

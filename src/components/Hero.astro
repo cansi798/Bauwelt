@@ -23,6 +23,8 @@ const WALZE = [...WORTE, WORTE[0]];
   <div class="fhero__bg" aria-hidden="true">
     <img
       src={u(`assets/img/${HERO.bild}`)}
+      srcset={HERO.bildKlein ? `${u(`assets/img/${HERO.bildKlein}`)} 828w, ${u(`assets/img/${HERO.bild}`)} 1600w` : undefined}
+      sizes="100vw"
       alt=""
       width="1600"
       height="900"
