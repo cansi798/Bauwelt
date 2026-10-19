@@ -35,7 +35,7 @@ export const SITE = {
   street: "Schweriner Straße 16",
   zip: "22844",
   city: "Norderstedt",
-  hours: "Mo–Fr, 8–18 Uhr",
+  hours: "Mo–Fr 8–18 Uhr", // Audit 4.9: überall gleiche Schreibweise
   managing: "Burim Ahmedi",
   register: "HRB 27109 KI, Amtsgericht Kiel",
   vat: "DE450901631",

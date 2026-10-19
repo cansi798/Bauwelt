@@ -251,5 +251,5 @@ export const FOOTER_KONTAKT = {
     "Hochwertige Handwerksarbeit mit klaren Prozessen und persönlicher Betreuung.",
   kontaktHead: "Sprechen Sie mit uns",
   kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
-  zeiten: "Montag - Freitag, 8:00 - 18:00 Uhr",
+  zeiten: "Mo–Fr 8–18 Uhr", // Audit 4.9
 };
