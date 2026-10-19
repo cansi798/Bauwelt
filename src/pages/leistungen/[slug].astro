@@ -21,7 +21,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import Kernvorteile from "../../components/Kernvorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
-import { SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
+import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 
@@ -118,7 +118,7 @@ const description =
     lead={l.data.lead}
     bild={heroBild}
     ctaHref={hatRechner ? "#rechner" : buchen.href}
-    ctaLabel={hatRechner ? "Jetzt Preis berechnen" : buchen.label}
+    ctaLabel={hatRechner ? CTA.label : buchen.label}
     mitTermin={!pauschal}
     chips={[] /* (54): Plaketten entfallen, siehe warumKarten */}
   />
@@ -248,7 +248,7 @@ const description =
         />
       )}
       <div class="lmitte lmitte--zwei nur-desktop">
-        {hatRechner && <a class="btn btn--lg" href="#rechner">Jetzt Preis berechnen</a>}
+        {hatRechner && <a class="btn btn--lg" href="#rechner">{CTA.label}</a>}
         {buchen.extern
           ? <a class:list={["btn", "btn--lg", { "btn--ghost": hatRechner }]} href={buchen.href} target="_blank" rel="noopener" data-termin>{buchen.label}</a>
           : <a class="btn btn--lg" href={buchen.href}>{buchen.label}</a>}

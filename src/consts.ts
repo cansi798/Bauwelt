@@ -42,7 +42,8 @@ export const SITE = {
 };
 
 /** Haupt-CTA der ganzen Website (Enpal-Muster: ein Ziel, überall wiederholt). */
-export const CTA = { label: "Projekt berechnen", href: u("rechner/") };
+// Kundenwunsch 19.10.2026 (Audit 4.4): ein Name für den Rechner-Weg – „Preis berechnen“
+export const CTA = { label: "Preis berechnen", href: u("rechner/") };
 
 /** Button der festen Leiste unten (Audit 1.7, siehe StickyBar.astro). */
 export type StickyKnopf = { label: string; href: string; extern?: boolean; termin?: boolean; ariaLabel?: string };
