@@ -10,6 +10,7 @@ import UspSection from "../components/UspSection.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import WarumAnders from "../components/WarumAnders.astro";
 import Kooperationen from "../components/Kooperationen.astro";
+import Vertrauensleiste from "../components/Vertrauensleiste.astro";
 import Icon from "../components/Icon.astro";
 
 const WERTE = [
@@ -22,8 +23,8 @@ const WERTE = [
 // < 200 KB) → wird automatisch verwendet und trägt den Hinweis „KI-generiertes Bild“ (KI_BILDER).
 // Solange die Datei fehlt, steht hier ein echtes Projektfoto.
 import { existsSync } from "node:fs";
-// Jamil 19.10.2026: Fakten statt Siegel – früher als Siegel „15+ Jahre“ / „Regional in Hamburg & Umgebung“
-const FAKTEN = ["15+ Jahre Erfahrung im Handwerk" /* Audit K3 */, "Regional in Hamburg & Umgebung, Sitz Norderstedt" /* region.ts */];
+// Jamil 20.10.2026 (Talk 2574/2576): die zwei Häkchen-Zeilen im Hero („15+ Jahre …“, „Regional …“) entfallen.
+// „15+ Jahre“ steht jetzt in der Vertrauensleiste, Sitz/Region als Satz im Intro – jeder Fakt nur einmal.
 const TEAM_BILD = "team-fiktiv.webp";
 const teamDa = existsSync(`${process.cwd()}/public/assets/img/${TEAM_BILD}`); // Build läuft im Projektordner
 const heroBild = teamDa
@@ -42,7 +43,6 @@ const heroBild = teamDa
     accent="sollte."
     bild={heroBild.bild}
     alt={heroBild.alt}
-    checks={FAKTEN}
   >
     <div class="ueber__intro">
       <p class="lead">
@@ -65,8 +65,13 @@ const heroBild = teamDa
       <p>
         Denn gute Kommunikation ist für uns kein Extra, sondern die Grundlage jedes gelungenen Projekts.
       </p>
+      <p>Unser Sitz ist in Norderstedt – wir arbeiten in Hamburg und Umgebung.</p>
     </div>
   </PageHero>
+
+  <!-- Vertrauensleiste direkt unter dem Hero (Jamil 20.10.2026, Talk 2574/2576) – dieselbe Komponente
+       wie Startseite, Leistungsseiten und Kontakt: 40+ Bäder, 15+ Jahre, versichert, Handwerkskammer. -->
+  <Vertrauensleiste />
 
   <!-- 2. Geschäftsführer-Statement -->
   <WarumAnders eyebrow="Ein persönliches Wort" pre="Warum wir anders " accent="arbeiten." id="statement">
@@ -89,7 +94,8 @@ const heroBild = teamDa
   <!-- Kundenwunsch 15.10.2026 (66): „Handwerk ohne Überraschungen“ entfernt -->
 
   <!-- 5. Unsere Versprechen: dieselben 7 gezeichneten Siegel wie auf der Startseite (Jamil 19.10.2026,
-       Talk 2538/2539/2541). „15+ Jahre“ und „Regional“ sind keine Versprechen → stehen jetzt im Hero. -->
+       Talk 2538/2539/2541). „15+ Jahre“ und „Regional“ sind keine Versprechen → „15+ Jahre“ steht in der
+       Vertrauensleiste, Sitz/Region als Satz im Intro (Jamil 20.10.2026, Talk 2574/2576). -->
   <SiegelSlider weiss pre="Darauf können Sie sich " accent="verlassen." />
 
   <!-- 6. Partner & Auftraggeber – nur Namen, keine Logos (Nutzung nicht freigegeben) -->
