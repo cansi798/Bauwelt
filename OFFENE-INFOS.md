@@ -52,6 +52,9 @@ Legende: ⬜ offen · ✅ erledigt
 
 - ⬜ **Eigene Domain `www.bauwelt-handwerk.de`** – DNS-Zugang zusagen, dann:
   `base: '/'` in `astro.config.mjs`, Canonical/Sitemap prüfen, Search Console einrichten.
+  Dazu **Bing Webmaster Tools** (Audit G4): Website per Import aus der Search Console
+  hinzufügen, Sitemap einreichen. IndexNow ist schon eingebaut (`scripts/indexnow.mjs`,
+  Schlüsseldatei in `public/`) und meldet nach dem Umzug jede Änderung automatisch an Bing.
 - ⬜ **`portal.bauwelt-handwerk.de`** muss erreichbar sein, damit die Terminbuchung lädt
   (Embed ist eingebaut und origin-geprüft).
 

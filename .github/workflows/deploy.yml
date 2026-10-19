@@ -41,3 +41,12 @@ jobs:
       - name: Deploy nach GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      # SEO-/KI-Audit G4: Änderungen per IndexNow an Bing melden (ChatGPT/Copilot nutzen den Bing-Index).
+      # Wirkt erst nach dem Umzug auf die eigene Domain; auf github.io meldet das Skript nichts.
+      - name: Checkout (nur Skripte)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: IndexNow melden
+        continue-on-error: true
+        run: node scripts/indexnow.mjs "${{ steps.deployment.outputs.page_url }}"
