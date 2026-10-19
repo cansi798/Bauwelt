@@ -184,7 +184,7 @@ small, .small { font-size: 14px; color: var(--anthrazit-600); }
   transition: transform var(--transition), box-shadow var(--transition);
 }
 a.card { color: inherit; }
-a.card:hover { text-decoration: none; transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: var(--shadow-lg); } /* Audit 3.5: einheitlich −2 px, nur klickbare Karten */
 
 /* ---------- Häkchen-Listen ---------- */
 .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
@@ -267,7 +267,7 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: border-color var(--transition), transform var(--transition);
 }
-.warum__item:hover { border-color: var(--gold-500); transform: translateY(-3px); }
+/* Audit 3.5 (19.10.2026): nicht klickbar → kein Anheben beim Drüberfahren */
 .warum__nr {
   position: absolute; top: 18px; right: 22px;
   font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 1;
@@ -306,7 +306,7 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
   border: 1px solid var(--linie);
   transition: border-color var(--transition), transform var(--transition);
 }
-.kachel:hover { border-color: var(--gold-500); transform: translateY(-2px); }
+/* .kachel ist nicht klickbar → statisch (Audit 3.5) */
 .kachel__icon { flex: none; width: 48px; height: 48px; border-radius: 12px; background: var(--gold-100); color: var(--gold-700); display: inline-flex; align-items: center; justify-content: center; }
 .kachel__titel { font-family: var(--font-heading); font-weight: 700; font-size: 16px; line-height: 1.3; color: var(--anthrazit-900); }
 @media (max-width: 767px) {
