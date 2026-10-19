@@ -27,7 +27,7 @@ lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor
 introTitel: "Neue Böden – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
-umfangText: "Vom alten Belag bis zur fertigen Fuge erhalten Sie sämtliche Leistungen aus einer Hand."
+umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt und realistisch kalkuliert."
 kacheln:
   - { icon: "hammer", title: "Rückbau alter Beläge" }
   - { icon: "hand", title: "Untergrund\u00ADvorbereitung" }
@@ -37,6 +37,7 @@ kacheln:
   - { icon: "paint", title: "Fugen & Abschlussarbeiten" }
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
+  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
 bilderTitel: "So könnten Ihre neuen Fliesen aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann ein neuer Boden sein"

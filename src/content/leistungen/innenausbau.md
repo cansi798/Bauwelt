@@ -25,7 +25,7 @@ lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche k
 introTitel: "Mehr Raum – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur streichfertigen Oberfläche erhalten Sie sämtliche Leistungen aus einer Hand."
+umfangText: "Von der Planung bis zur streichfertigen Oberfläche – realistisch kalkuliert, ohne Lockangebot."
 kacheln:
   - { icon: "wall", title: "Trockenbauwände" }
   - { icon: "hand", title: "Decken, Vorwände & Nischen" }
@@ -35,7 +35,7 @@ kacheln:
   - { icon: "paint", title: "Spachtel- & Malerarbeiten" }
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
-  - { icon: "hand", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
+  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
 bilderTitel: "So könnten Ihre neuen Räume aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Innenausbau sein"

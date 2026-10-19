@@ -31,7 +31,7 @@ ohneIntro: true
 introTitel: "Ihr neues Bad – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
-umfangText: "Von der Demontage bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
+umfangText: "Von der Demontage bis zur fertigen Übergabe koordinieren wir alle Arbeiten – zum Festpreis statt mit Lockangebot."
 kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -43,7 +43,8 @@ kacheln:
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
-  - { icon: "hand", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
+  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
+  - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und feste Preise – digital abrufbar und freigebbar." }
 bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Badsanierung sein"

@@ -24,7 +24,7 @@ lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung m
 introTitel: "Ihre Sanierung – ohne Stress und Überraschungen"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
-umfangText: "Von der Planung bis zur fertigen Übergabe erhalten Sie sämtliche Leistungen aus einer Hand."
+umfangText: "Von der Planung bis zur fertigen Übergabe koordinieren wir alle Arbeiten – mit verständlichem Angebot und festem Preis."
 kacheln:
   - { icon: "hammer", title: "Rückbau & Entkernung" }
   - { icon: "wall", title: "Trockenbau & Grundriss" }
@@ -33,7 +33,8 @@ kacheln:
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
-  - { icon: "hand", title: "Alles aus einer Hand", text: "Wir koordinieren sämtliche Gewerke für Sie." }
+  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
+  - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und feste Preise – digital abrufbar und freigebbar." }
 bilderTitel: "So könnte Ihr modernisiertes Zuhause aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So einfach kann Ihre Komplettsanierung sein"
