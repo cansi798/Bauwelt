@@ -27,6 +27,8 @@ rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindl
 umfangTitel: "Was gehört zum Innenausbau?"
 umfangText: "Von der Planung bis zur streichfertigen Oberfläche aus einer Hand – realistisch kalkuliert, ohne Lockangebot. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
 kacheln:
+  # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
+  - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "wall", title: "Trockenbauwände" }
   - { icon: "hand", title: "Decken, Vorwände & Nischen" }
   - { icon: "bolt", title: "Elektro & Beleuchtung" }

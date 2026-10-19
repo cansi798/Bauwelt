@@ -29,6 +29,8 @@ rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindl
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
 umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt und realistisch kalkuliert."
 kacheln:
+  # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
+  - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau alter Beläge" }
   - { icon: "hand", title: "Untergrund\u00ADvorbereitung" }
   - { icon: "shield", title: "Abdichtung im Nassbereich" }
