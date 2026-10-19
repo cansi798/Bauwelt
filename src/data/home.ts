@@ -16,9 +16,6 @@ export const HERO = {
   statement: "Handwerk, wie es heute sein sollte.",
   unterzeile: "Klare Prozesse. Transparente Kommunikation. Deutschsprachiger Ansprechpartner, der Verantwortung übernimmt.",
   bild: "hero.webp",
-  /** Kundenwunsch 19.10.2026 (Audit 7.2): das KI-Bild bleibt nur Hintergrund – im Vordergrund
-   *  steht ein ECHTES Projektfoto (aus GALERIE) mit Link zu den Referenzen. */
-  echt: { file: "galerie-bad-02.webp", titel: "Designbad in Natursteinoptik", ort: "Norderstedt", anker: "bad" },
 };
 
 export const STATS = [
