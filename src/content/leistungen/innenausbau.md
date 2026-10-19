@@ -5,7 +5,7 @@ order: 40
 icon: "wall"
 teaser: "Neue Räume, Decken und Böden. Wir gestalten Ihr Zuhause von innen neu."
 heroPrompt: "Moderner heller Innenraum im Ausbau, saubere Trockenbauwände, indirekte Beleuchtung, fotorealistisch"
-bild: "galerie-innenausbau-04.webp"
+bild: "galerie-innenausbau-01.webp" # Audit 7.4: Querformat statt hochskaliertem Hochformat
 refAnker: "innenausbau"
 refBilder:
   - { file: "galerie-innenausbau-05.webp", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" }

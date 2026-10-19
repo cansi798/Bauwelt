@@ -102,8 +102,9 @@ const { titel, eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ct
   .lhero__shade {
     position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(31, 30, 32, 0.86) 0%, rgba(31, 30, 32, 0.62) 50%, rgba(31, 30, 32, 0.25) 100%),
-      linear-gradient(180deg, rgba(31, 30, 32, 0.2) 0%, rgba(31, 30, 32, 0) 35%, rgba(31, 30, 32, 0.5) 100%);
+      /* Audit 7.4 (19.10.2026): weniger abdunkeln – dunkel nur links hinter dem Text, rechts fast frei */
+      linear-gradient(90deg, rgba(31, 30, 32, 0.82) 0%, rgba(31, 30, 32, 0.55) 45%, rgba(31, 30, 32, 0.08) 85%),
+      linear-gradient(180deg, rgba(31, 30, 32, 0.15) 0%, rgba(31, 30, 32, 0) 35%, rgba(31, 30, 32, 0.3) 100%);
   }
 
   .lhero__content {
