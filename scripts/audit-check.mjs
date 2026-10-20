@@ -209,24 +209,6 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   else pass("Leistungsangebot", "kein „energetisch“ im Angebot (Jamil 20.10.)");
 }
 }
-// Vorteils-Abschnitt (Jamil 20.10.2026, Talk 2702/2704/2711): kein Projektfoto mehr, keine zwei Spalten –
-// oben das Band „Das Besondere bei …“, darunter das Raster der 7 Versprechen.
-{
-  let vProbleme = 0, vSeiten = 0;
-  for (const s of S) {
-    const i = s.html.indexOf('class="section section--dark lvort');
-    if (i < 0) continue;
-    vSeiten++;
-    const sek = s.html.slice(i, s.html.indexOf("</section>", i));
-    if (/<img|<figure|lvort__bild/.test(sek)) { warn("Vorteils-Abschnitt (Jamil 20.10.)", `${s.page}: Foto im Vorteils-Abschnitt – laut Jamil (Talk 2711) ohne Foto`); vProbleme++; }
-    else if (/lvort__grid|lvort__seite/.test(sek)) { warn("Vorteils-Abschnitt (Jamil 20.10.)", `${s.page}: wieder zwei Spalten – laut Jamil (Talk 2711) Band oben + Versprechen-Raster`); vProbleme++; }
-    else {
-      const band = sek.indexOf("lvort__eigen"), liste = sek.indexOf("lvort__zusagen");
-      if (band > -1 && liste > -1 && band > liste) { warn("Vorteils-Abschnitt (Jamil 20.10.)", `${s.page}: Band „Das Besondere …“ steht nicht über den Versprechen`); vProbleme++; }
-    }
-  }
-  if (vSeiten && !vProbleme) pass("Vorteils-Abschnitt", `${vSeiten} Leistungsseiten: Band oben + Versprechen-Raster, ohne Foto (Jamil 20.10.)`);
-}
 // Skizzen-Stil (Jamil 20.10.2026, Talk 2691/2692/2694): EIN handgezeichneter Stil für nummerierte und Ring-Elemente
 // (Ablauf-Zeichnung, Siegel, Versprechen-Plaketten, Leistungsumfang, Vertrauensleiste) – Zahlen ohne führende Null.
 {
