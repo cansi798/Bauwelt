@@ -1,7 +1,8 @@
 ---
 // Über uns – Kundenwunsch 14.10.2026 (37): finale Struktur von Jamil, Texte wörtlich:
 // 1 Hero → 2 Geschäftsführer-Statement → 3 Unsere Werte (dunkel) → 4 Handwerk ohne
-// Überraschungen → 5 Zahlen & Fakten (gezeichnete Siegel = Icons/Kreise) → 6 Partner & Auftraggeber.
+// Überraschungen → 5 Zahlen & Fakten (gezeichnete Siegel = Icons/Kreise). 6 Partner & Auftraggeber entfällt
+// (Jamil 20.10.2026, Talk 2787, Gesamt-Audit R7: keine Partnernamen ohne schriftliche Freigabe).
 // Abschnitt „Was für uns gutes Handwerk ausmacht“ entfällt (nicht mehr in der Struktur).
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
@@ -9,7 +10,6 @@ import SectionHead from "../components/SectionHead.astro";
 import UspSection from "../components/UspSection.astro";
 import SiegelSlider from "../components/SiegelSlider.astro";
 import WarumAnders from "../components/WarumAnders.astro";
-import Kooperationen from "../components/Kooperationen.astro";
 import Vertrauensleiste from "../components/Vertrauensleiste.astro";
 import Icon from "../components/Icon.astro";
 
@@ -98,14 +98,8 @@ const heroBild = teamDa
        Vertrauensleiste, Sitz/Region als Satz im Intro (Jamil 20.10.2026, Talk 2574/2576). -->
   <SiegelSlider weiss pre="Darauf können Sie sich " accent="verlassen." />
 
-  <!-- 6. Partner & Auftraggeber – nur Namen, keine Logos (Nutzung nicht freigegeben) -->
-  <Kooperationen
-    sand
-    eyebrow="Vertrauen durch starke Partnerschaften"
-    pre="Unsere Erfahrung kommt vielen Projekten "
-    accent="zugute."
-    text="Unsere Erfahrung bringen wir nicht nur in eigene Projekte ein. Kunden von Obi betreuen wir seit 2024 – bisher über 20 Aufträge. Seit 2026 kommen Aufträge über seniovo und Hornbach dazu, mit steigender Tendenz."
-  />
+  <!-- 6. Partner & Auftraggeber entfernt (Jamil 20.10.2026, Talk 2787, Gesamt-Audit R7): keine Partnernamen
+       ohne schriftliche Freigabe. Die namenlose Fassung steht nur auf der Partner-Seite (nicht doppelt). -->
 </BaseLayout>
 
 <style>
