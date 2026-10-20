@@ -18,18 +18,11 @@ const WERTE = [
   { icon: "eye", title: "Transparenz", text: "Sie wissen jederzeit, was als Nächstes passiert." },
   { icon: "hand", title: "Verantwortung", text: "Ein Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende." /* (57) ohne „deutschsprachig“ */ },
 ];
-// Kundenwunsch 19.10.2026 (Audit 7.1): Bagger-Bild ersetzt. Platz für ein KI-Bild eines FIKTIVEN
-// Teams: Datei `team-fiktiv.webp` in public/assets/img/ ablegen (16:11, z. B. 1520 × 1080, WebP
-// < 200 KB) → wird automatisch verwendet und trägt den Hinweis „KI-generiertes Bild“ (KI_BILDER).
-// Solange die Datei fehlt, steht hier ein echtes Projektfoto.
-import { existsSync } from "node:fs";
+import TeamZeichnung from "../components/TeamZeichnung.astro";
 // Jamil 20.10.2026 (Talk 2574/2576): die zwei Häkchen-Zeilen im Hero („15+ Jahre …“, „Regional …“) entfallen.
 // „15+ Jahre“ steht jetzt in der Vertrauensleiste, Sitz/Region als Satz im Intro – jeder Fakt nur einmal.
-const TEAM_BILD = "team-fiktiv.webp";
-const teamDa = existsSync(`${process.cwd()}/public/assets/img/${TEAM_BILD}`); // Build läuft im Projektordner
-const heroBild = teamDa
-  ? { bild: TEAM_BILD, alt: "KI-generiertes Bild eines fiktiven Handwerker-Teams in einem fertig sanierten Innenraum" }
-  : { bild: "galerie-bad-05.webp", alt: "Dachgeschossbad mit Glasdusche und Doppelwaschtisch – echtes Bauwelt-Projekt in Hamburg" };
+// Jamil 21.10.2026 (Msg 2865): Hero-Bild = gezeichnetes Team (dieselbe Komponente wie Karriere) statt
+// Bad-Foto bzw. KI-Bild eines fiktiven Teams (Audit 7.1, Platzhalter team-fiktiv.webp entfällt).
 ---
 
 <BaseLayout
@@ -41,9 +34,8 @@ const heroBild = teamDa
     eyebrow="Über uns"
     pre="Handwerk, wie es heute sein "
     accent="sollte."
-    bild={heroBild.bild}
-    alt={heroBild.alt}
   >
+    <TeamZeichnung slot="medien" />
     <div class="ueber__intro">
       <p class="lead">
         Im Laufe der Jahre haben wir festgestellt: Was Kunden am Handwerk frustriert, ist selten die

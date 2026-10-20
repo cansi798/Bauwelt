@@ -1,0 +1,26 @@
+---
+// Gezeichnetes Team (vier Comic-Gesichter mit Namen) – EINE Komponente für Karriere- und Über-uns-Hero.
+// Jamil 20.10.2026 (Talk 2787, T3/W1): Zeichnung statt Stockfoto (Karriere).
+// Jamil 21.10.2026 (Msg 2863): Gesichter zeichnen sich nacheinander, danach zwinkern/lächeln/nicken,
+//   goldener Pfeil + Sterne als Zeichen für „verdienen mehr“ – einmal, ohne Schleife.
+// Jamil 21.10.2026 (Msg 2865): auch im Über-uns-Hero (statt Bad-Foto); Namen unter den Gesichtern
+//   (Jay, Christina, Enes, Burim); Bildunterschrift „Unser Team – gezeichnet“ (echte Teammitglieder als
+//   Zeichnung, kein Foto). Szene „team“ in src/data/szenen.ts, nachgeladen wie alle Szenen (P1).
+import RoughSzene from "./RoughSzene.astro";
+---
+
+<figure class="team-zeichnung">
+  <RoughSzene
+    szene="team"
+    label="Zeichnung im Comic-Stil, kein Foto: vier Mitglieder unseres Teams in Arbeitskleidung – Jay mit Bart, Christina mit Haarknoten, Enes mit Bauhelm und Brille, Burim mit Mütze. In der Mitte ein goldener Pfeil nach oben und kleine goldene Sterne."
+  />
+  <figcaption>Unser Team – gezeichnet</figcaption>
+</figure>
+
+<style>
+  /* Sand-Fläche wie ein Bildrahmen, Zeichnung darin */
+  .team-zeichnung { margin: 0; padding: 18px 12px 10px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; }
+  .team-zeichnung :global(.rszene) { margin: 0; }
+  .team-zeichnung :global(.rszene__bild) { max-width: none; }
+  .team-zeichnung figcaption { margin-top: 6px; text-align: center; font-size: 13px; color: var(--anthrazit-600); }
+</style>

@@ -10,7 +10,7 @@ import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
 import Img from "../components/Img.astro";
-import RoughSzene from "../components/RoughSzene.astro";
+import TeamZeichnung from "../components/TeamZeichnung.astro";
 import { EMAILS, SITE, waLink } from "../consts";
 
 /** Kundenwunsch 14.10.2026 (38), Abschnitt 4: Jamil: „Die genauen Zahlen natürlich erst
@@ -59,16 +59,8 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     accent="mehr."
     lead="Wir suchen Menschen, die sauberes Handwerk, klare Prozesse und Verantwortung schätzen."
   >
-    {/* Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T3/W1): statt Stockfoto team.webp vier gezeichnete
-        Gesichter im Skizzen-Stil der Seite (Szene „team“ in src/data/szenen.ts) – symbolisch für die
-        Mitarbeitenden, keine echten Personen, keine Namen. Kein Foto → kein KI-/Stock-Hinweis nötig. */}
-    <figure class="karriere__team" slot="medien">
-      <RoughSzene
-        szene="team"
-        label="Gezeichnete Illustration im Comic-Stil: vier Handwerker-Gesichter in Arbeitskleidung – mit Bart, mit Haarknoten, mit Bauhelm und Brille, mit Mütze. Symbolbild, keine echten Personen."
-      />
-      <figcaption>Illustration – symbolisch für unser Team</figcaption>
-    </figure>
+    {/* Gezeichnetes Team (T3/W1 20.10.; Animation + Namen Jamil 21.10.2026, Msg 2863/2865) – gleiche Komponente wie Über uns */}
+    <TeamZeichnung slot="medien" />
     <p>
       Bei Bauwelt Handwerk zählt nicht nur, wie lange jemand arbeitet, sondern welche Qualität geliefert
       wird. Deshalb schaffen wir ein Umfeld, in dem Leistung gesehen, geschätzt und belohnt wird.
@@ -224,12 +216,6 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
 </BaseLayout>
 
 <style>
-  /* Karriere-Startbild als Zeichnung (T3): Sand-Fläche wie ein Bildrahmen, Zeichnung darin */
-  .karriere__team { margin: 0; padding: 18px 12px 10px; border-radius: var(--radius-lg); background: var(--gold-100); }
-  .karriere__team :global(.rszene) { margin: 0; }
-  .karriere__team :global(.rszene__bild) { max-width: none; }
-  .karriere__team figcaption { margin-top: 6px; text-align: center; font-size: 13px; color: var(--anthrazit-600); }
-
   /* Pfeil-Icon schräg nach oben = „mehr verdienen“ */
   .karriere__trend :global(.icon) { transform: rotate(-45deg); }
 

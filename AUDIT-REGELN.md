@@ -89,8 +89,9 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 ## 3. Bilder & KI-Kennzeichnung (Audit 7.1/7.2, EU-KI-VO Art. 50)
 
 - Jedes KI-Bild steht in `KI_BILDER` (`src/consts.ts`) und trägt sichtbar „KI-generiertes Bild“.
-- Start- und Referenz-Hero mit echtem Projektfoto (7.2); Über uns: KI-Bild eines *fiktiven* Teams, so gekennzeichnet (7.1).
-- **Karriere-Startbild = Zeichnung** (T3/W1, Jamil 20.10.): vier Comic-Gesichter im Skizzen-Stil (Szene `team` in `src/data/szenen.ts`), symbolisch für die Mitarbeitenden, keine echten Personen, keine Namen, Bildunterschrift „Illustration – symbolisch für unser Team“. Das Stockfoto `team.webp` ist gelöscht.
+- Start- und Referenz-Hero mit echtem Projektfoto (7.2). Über uns: seit 21.10.2026 das gezeichnete Team wie auf Karriere (Jamil, Msg 2865) – kein KI-Bild eines fiktiven Teams mehr (7.1).
+- **Team-Zeichnung auf Karriere und Über uns** (T3/W1 Jamil 20.10.; Jamil 21.10.2026, Msg 2863 + 2865): vier Comic-Gesichter im Skizzen-Stil (Szene `team` in `src/data/szenen.ts`, **eine** Komponente `TeamZeichnung.astro` für beide Heros). Die Gesichter stehen jetzt für **echte Teammitglieder** und tragen ihre Namen: **Jay** (Bart), **Christina** (Haarknoten), **Enes** (Bauhelm + Brille), **Burim** (Mütze) – Namen in Großbuchstaben Anthrazit mit goldenem Strich. Bildunterschrift „Unser Team – gezeichnet“ (wahrheitsgemäß: echte Personen, aber Zeichnung, kein Foto); alt-Text nennt Namen und „Zeichnung, kein Foto“. Das Stockfoto `team.webp` ist gelöscht, `team-fiktiv.webp` wird nicht mehr verwendet.
+- **Team-Animation** (Jamil 21.10.2026, Msg 2863 – „passend zur Seite und zum Titel ‚verdienen MEHR‘“): Gesichter zeichnen sich nacheinander (wie alle Szenen, Strich für Strich), danach ein goldener, handgezeichneter Pfeil nach oben + drei kleine goldene Sterne (Wachstum/Anerkennung, **keine Münzen/Geldsymbole**), dann kleine Lebenszeichen: Jay zwinkert, Christina lächelt, Enes nickt, Burims Bommel wippt. Läuft **einmal** (ca. 5 s, Ausnahme von der 2-s-Regel 3.1 nur für diese Szene, Feld `zielDauer`), keine Schleife. „Bewegung reduzieren“ → fertiges Bild; ohne JS → Bild aus `/szenen/team.svg`. Nachladen wie alle Szenen (P1), Seiten-HTML bleibt klein.
 - Bilder WebP, < 200 KB, alt-Texte wahrheitsgemäß.
 
 ## 4. SEO (S1–S11)
@@ -177,4 +178,5 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | D1/W2 | Keine Seite breiter als der Bildschirm, dauerhafte Prüfung | `scripts/check-breite.mjs` (390/360 px), GitHub Actions + CLAUDE.md |
 | D3 | Tap-Ziele Rückruf-Formular ≥ 44 px | `RueckrufFormular.astro` |
 | P1 | Startseite schneller, Look bleibt | Zeichnungen nachladen, Rechner-Start verzögert; audit-check HTML ≤ 250 KB |
-
+| J21a | Karriere: Team-Zeichnung animiert (nacheinander zeichnen, Pfeil + Sterne, zwinkern/lächeln/nicken), einmal (Jamil 21.10., Msg 2863) | `szenen.ts` (Szene `team`), `RoughSzene.astro` (Effekte), Abschnitt 3 |
+| J21b | Über uns: Team-Zeichnung statt Bad-Foto; Namen Jay, Christina, Enes, Burim; Bildunterschrift „Unser Team – gezeichnet“ (Jamil 21.10., Msg 2865) | `TeamZeichnung.astro` auf Karriere + Über uns |

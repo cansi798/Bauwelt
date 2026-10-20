@@ -555,8 +555,13 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
    (rough.js, Anthrazit-Linien, goldene Flächen). Symbolisch für die Mitarbeitenden – KEINE echten
    Personen, keine Namen. 2 × 2 Gesichter mit Arbeitskleidung, jedes mit eigenem Merkmal. */
 type Typ = "bart" | "zopf" | "helm" | "muetze";
-function gesicht(z: Zeichner, cx: number, cy: number, typ: Typ) {
+/** Lebens-Effekt eines Gesichts nach dem Zeichnen (Jamil 21.10.2026, Msg 2863), Startzeit in s. */
+const LEBEN: Record<Typ, number> = { bart: 3.0, zopf: 3.35, helm: 3.75, muetze: 4.3 };
+function gesicht(z: Zeichner, cx: number, cy: number, typ: Typ, t0: number, name: string) {
   const hy = cy - 16; // Kopfmitte
+  // Jamil 21.10.2026 (Msg 2863): jedes Gesicht zeichnet sich in Ruhe selbst – erst Jacke + Hals,
+  // dann Kopf, dann Gesicht und Merkmal (Haare/Helm/Mütze), zuletzt der Name.
+  z.bei(t0);
   // Schultern + Arbeitsjacke (goldene Schraffur), Kragen
   z.pfad(`M${cx - 104} ${cy + 128}Q${cx - 100} ${cy + 78} ${cx - 44} ${cy + 68}L${cx + 44} ${cy + 68}Q${cx + 100} ${cy + 78} ${cx + 104} ${cy + 128}`,
     { fill: typ === "helm" ? F.gold : F.goldHell, fillStyle: "hachure", hachureGap: 9, fillWeight: 1.3, strokeWidth: 2.4 }, 0.6);
@@ -569,64 +574,102 @@ function gesicht(z: Zeichner, cx: number, cy: number, typ: Typ) {
   // Hals
   z.linie(cx - 18, hy + 58, cx - 20, cy + 70, { strokeWidth: 2.2 }, 0.2);
   z.linie(cx + 18, hy + 58, cx + 20, cy + 70, { strokeWidth: 2.2 }, 0.2);
-  // Zopf/Haar hinter dem Kopf zuerst
-  if (typ === "zopf") {
-    z.pfad(`M${cx - 58} ${hy - 6}Q${cx - 72} ${hy + 50} ${cx - 50} ${hy + 84}L${cx + 50} ${hy + 84}Q${cx + 72} ${hy + 50} ${cx + 58} ${hy - 6}`,
-      { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.5);
-  }
-  // Ohren + Kopf
-  z.ellipse(cx - 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
-  z.ellipse(cx + 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
-  z.ellipse(cx, hy, 116, 136, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.7);
-  // Augen, Brauen, Nase, Mund
-  z.kreis(cx - 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
-  z.kreis(cx + 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
-  z.pfad(`M${cx - 31} ${hy - 20}Q${cx - 21} ${hy - 26} ${cx - 11} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
-  z.pfad(`M${cx + 11} ${hy - 20}Q${cx + 21} ${hy - 26} ${cx + 31} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
-  z.pfad(`M${cx + 2} ${hy + 2}Q${cx - 6} ${hy + 18} ${cx + 4} ${hy + 20}`, { strokeWidth: 2 }, 0.15);
-  z.pfad(`M${cx - 20} ${hy + 32}Q${cx} ${hy + 48} ${cx + 20} ${hy + 32}`, { strokeWidth: 2.4 }, 0.2);
-  // Wangen (goldener Hauch)
-  z.kreis(cx - 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
-  z.kreis(cx + 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
-  // eigenes Merkmal
-  if (typ === "bart") {
-    z.pfad(`M${cx - 50} ${hy - 30}Q${cx - 46} ${hy - 72} ${cx} ${hy - 70}Q${cx + 46} ${hy - 72} ${cx + 50} ${hy - 30}Q${cx + 20} ${hy - 50} ${cx - 50} ${hy - 30}Z`,
-      { fill: F.strich, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.4, strokeWidth: 2.2 }, 0.4);
-    z.pfad(`M${cx - 52} ${hy + 14}Q${cx - 46} ${hy + 66} ${cx} ${hy + 70}Q${cx + 46} ${hy + 66} ${cx + 52} ${hy + 14}Q${cx + 30} ${hy + 30} ${cx + 22} ${hy + 30}Q${cx} ${hy + 56} ${cx - 22} ${hy + 30}Q${cx - 30} ${hy + 30} ${cx - 52} ${hy + 14}Z`,
-      { fill: F.grau, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.2, strokeWidth: 2 }, 0.4);
-  } else if (typ === "zopf") {
-    z.pfad(`M${cx - 56} ${hy - 8}Q${cx - 50} ${hy - 70} ${cx} ${hy - 70}Q${cx + 50} ${hy - 70} ${cx + 56} ${hy - 8}Q${cx + 20} ${hy - 40} ${cx - 10} ${hy - 44}Q${cx - 40} ${hy - 30} ${cx - 56} ${hy - 8}Z`,
-      { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.4);
-    z.kreis(cx + 4, hy - 82, 30, { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.3); // Dutt
-    z.kreis(cx - 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15); // Ohrringe
-    z.kreis(cx + 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15);
-  } else if (typ === "helm") {
-    z.pfad(`M${cx - 62} ${hy - 30}Q${cx - 60} ${hy - 92} ${cx} ${hy - 92}Q${cx + 60} ${hy - 92} ${cx + 62} ${hy - 30}Z`,
-      { fill: F.gold, fillStyle: "solid", strokeWidth: 2.4 }, 0.4);
-    z.linie(cx - 78, hy - 28, cx + 78, hy - 28, { strokeWidth: 3 }, 0.25); // Helmrand
-    z.linie(cx, hy - 92, cx, hy - 34, { strokeWidth: 1.8, stroke: F.goldDunkel }, 0.2);
-    z.kreis(cx - 21, hy - 4, 26, { strokeWidth: 2 }, 0.2); // Brille
-    z.kreis(cx + 21, hy - 4, 26, { strokeWidth: 2 }, 0.2);
-    z.linie(cx - 8, hy - 6, cx + 8, hy - 6, { strokeWidth: 2 }, 0.1);
-  } else {
-    z.pfad(`M${cx - 58} ${hy - 26}Q${cx - 58} ${hy - 96} ${cx} ${hy - 96}Q${cx + 58} ${hy - 96} ${cx + 58} ${hy - 26}Z`,
-      { fill: F.gold, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.4, strokeWidth: 2.4 }, 0.4);
-    z.rundRechteck(cx - 62, hy - 40, 124, 20, 6, { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Umschlag
-    z.kreis(cx, hy - 100, 16, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.8 }, 0.15); // Bommel
-    z.pfad(`M${cx - 24} ${hy + 26}Q${cx - 10} ${hy + 18} ${cx} ${hy + 24}Q${cx + 10} ${hy + 18} ${cx + 24} ${hy + 26}`,
-      { strokeWidth: 3.2 }, 0.2); // Schnurrbart
-    z.linie(cx + 52, hy - 22, cx + 78, hy + 10, { stroke: F.goldDunkel, strokeWidth: 3.4 }, 0.2); // Zimmermannsbleistift hinterm Ohr
-  }
+
+  const kopf = () => {
+    z.bei(t0 + 0.15);
+    // Zopf/Haar hinter dem Kopf zuerst
+    if (typ === "zopf") {
+      z.pfad(`M${cx - 58} ${hy - 6}Q${cx - 72} ${hy + 50} ${cx - 50} ${hy + 84}L${cx + 50} ${hy + 84}Q${cx + 72} ${hy + 50} ${cx + 58} ${hy - 6}`,
+        { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.5);
+    }
+    // Ohren + Kopf
+    z.ellipse(cx - 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
+    z.ellipse(cx + 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
+    z.ellipse(cx, hy, 116, 136, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.6);
+    // Augen, Brauen, Nase, Mund
+    z.bei(t0 + 0.45);
+    z.kreis(cx - 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
+    // rechtes Auge: Jay zwinkert
+    const auge = () => z.kreis(cx + 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
+    if (typ === "bart") z.gruppe("zwinkern", auge, LEBEN.bart); else auge();
+    z.pfad(`M${cx - 31} ${hy - 20}Q${cx - 21} ${hy - 26} ${cx - 11} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
+    z.pfad(`M${cx + 11} ${hy - 20}Q${cx + 21} ${hy - 26} ${cx + 31} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
+    z.pfad(`M${cx + 2} ${hy + 2}Q${cx - 6} ${hy + 18} ${cx + 4} ${hy + 20}`, { strokeWidth: 2 }, 0.15);
+    // Mund: Christina lächelt breiter
+    const mund = () => z.pfad(`M${cx - 20} ${hy + 32}Q${cx} ${hy + 48} ${cx + 20} ${hy + 32}`, { strokeWidth: 2.4 }, 0.2);
+    if (typ === "zopf") z.gruppe("laecheln", mund, LEBEN.zopf); else mund();
+    // Wangen (goldener Hauch)
+    z.kreis(cx - 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
+    z.kreis(cx + 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
+    // eigenes Merkmal
+    z.bei(t0 + 0.3);
+    if (typ === "bart") {
+      z.pfad(`M${cx - 50} ${hy - 30}Q${cx - 46} ${hy - 72} ${cx} ${hy - 70}Q${cx + 46} ${hy - 72} ${cx + 50} ${hy - 30}Q${cx + 20} ${hy - 50} ${cx - 50} ${hy - 30}Z`,
+        { fill: F.strich, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.4, strokeWidth: 2.2 }, 0.4);
+      z.pfad(`M${cx - 52} ${hy + 14}Q${cx - 46} ${hy + 66} ${cx} ${hy + 70}Q${cx + 46} ${hy + 66} ${cx + 52} ${hy + 14}Q${cx + 30} ${hy + 30} ${cx + 22} ${hy + 30}Q${cx} ${hy + 56} ${cx - 22} ${hy + 30}Q${cx - 30} ${hy + 30} ${cx - 52} ${hy + 14}Z`,
+        { fill: F.grau, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.2, strokeWidth: 2 }, 0.4);
+    } else if (typ === "zopf") {
+      z.pfad(`M${cx - 56} ${hy - 8}Q${cx - 50} ${hy - 70} ${cx} ${hy - 70}Q${cx + 50} ${hy - 70} ${cx + 56} ${hy - 8}Q${cx + 20} ${hy - 40} ${cx - 10} ${hy - 44}Q${cx - 40} ${hy - 30} ${cx - 56} ${hy - 8}Z`,
+        { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.4);
+      z.kreis(cx + 4, hy - 82, 30, { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.3); // Dutt
+      z.kreis(cx - 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15); // Ohrringe
+      z.kreis(cx + 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15);
+    } else if (typ === "helm") {
+      z.pfad(`M${cx - 62} ${hy - 30}Q${cx - 60} ${hy - 92} ${cx} ${hy - 92}Q${cx + 60} ${hy - 92} ${cx + 62} ${hy - 30}Z`,
+        { fill: F.gold, fillStyle: "solid", strokeWidth: 2.4 }, 0.4);
+      z.linie(cx - 78, hy - 28, cx + 78, hy - 28, { strokeWidth: 3 }, 0.25); // Helmrand
+      z.linie(cx, hy - 92, cx, hy - 34, { strokeWidth: 1.8, stroke: F.goldDunkel }, 0.2);
+      z.kreis(cx - 21, hy - 4, 26, { strokeWidth: 2 }, 0.2); // Brille
+      z.kreis(cx + 21, hy - 4, 26, { strokeWidth: 2 }, 0.2);
+      z.linie(cx - 8, hy - 6, cx + 8, hy - 6, { strokeWidth: 2 }, 0.1);
+    } else {
+      z.pfad(`M${cx - 58} ${hy - 26}Q${cx - 58} ${hy - 96} ${cx} ${hy - 96}Q${cx + 58} ${hy - 96} ${cx + 58} ${hy - 26}Z`,
+        { fill: F.gold, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.4, strokeWidth: 2.4 }, 0.4);
+      z.rundRechteck(cx - 62, hy - 40, 124, 20, 6, { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Umschlag
+      z.gruppe("huepfen", () => z.kreis(cx, hy - 100, 16, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.8 }, 0.15), LEBEN.muetze); // Bommel wippt
+      z.pfad(`M${cx - 24} ${hy + 26}Q${cx - 10} ${hy + 18} ${cx} ${hy + 24}Q${cx + 10} ${hy + 18} ${cx + 24} ${hy + 26}`,
+        { strokeWidth: 3.2 }, 0.2); // Schnurrbart
+      z.linie(cx + 52, hy - 22, cx + 78, hy + 10, { stroke: F.goldDunkel, strokeWidth: 3.4 }, 0.2); // Zimmermannsbleistift hinterm Ohr
+    }
+  };
+  // Enes (Bauhelm) nickt
+  if (typ === "helm") z.gruppe("nicken", kopf, LEBEN.helm); else kopf();
+
+  // Name darunter (Jamil 21.10.2026, Msg 2865): Großbuchstaben in Anthrazit, goldener Strich darunter
+  z.bei(t0 + 0.6);
+  z.text(cx, cy + 162, name.toUpperCase(), { groesse: 26, gewicht: 800, farbe: F.strich });
+  z.linie(cx - 26, cy + 174, cx + 26, cy + 173, { stroke: F.gold, strokeWidth: 3.2, roughness: 0.8 }, 0.3);
 }
-const TEAM_B = 760, TEAM_H = 540;
+/** Funkelnder Stern (vier Zacken) – Wertschätzung, kein Geld-Symbol. */
+function funkeln(z: Zeichner, x: number, y: number, r: number) {
+  const k = r * 0.22;
+  z.pfad(`M${x} ${y - r}Q${x + k} ${y - k} ${x + r} ${y}Q${x + k} ${y + k} ${x} ${y + r}Q${x - k} ${y + k} ${x - r} ${y}Q${x - k} ${y - k} ${x} ${y - r}Z`,
+    { fill: F.gold, fillStyle: "solid", stroke: F.goldDunkel, strokeWidth: 1.6, roughness: 0.6 }, 0.25);
+}
+// Zuordnung Name ↔ Gesicht (Jamil 21.10.2026, Msg 2865; Christina = Haarknoten)
+const TEAM: { typ: Typ; name: string }[] = [
+  { typ: "bart", name: "Jay" }, { typ: "zopf", name: "Christina" },
+  { typ: "helm", name: "Enes" }, { typ: "muetze", name: "Burim" },
+];
+const TEAM_B = 760, TEAM_H = 640, TEAM_ZEILE = 316;
 function team(): Szene {
   const z = new Zeichner();
-  const typen: Typ[] = ["bart", "zopf", "helm", "muetze"];
-  typen.forEach((typ, i) => {
-    z.bei(i * 0.5);
-    gesicht(z, TEAM_B / 4 + (i % 2) * (TEAM_B / 2), TEAM_H / 4 + Math.floor(i / 2) * (TEAM_H / 2) + 2, typ);
+  // Jamil 21.10.2026 (Msg 2863): Gesichter zeichnen sich nacheinander (je ca. 1 s, Versatz 0,55 s) …
+  TEAM.forEach(({ typ, name }, i) =>
+    gesicht(z, TEAM_B / 4 + (i % 2) * (TEAM_B / 2), 134 + Math.floor(i / 2) * TEAM_ZEILE, typ, i * 0.55, name));
+  // … dann wächst in der Mitte ein goldener Pfeil nach oben („verdienen MEHR“ = Wachstum) …
+  const mx = TEAM_B / 2;
+  z.bei(2.5);
+  z.kurve([[mx - 8, 470], [mx + 3, 370], [mx - 3, 260], [mx + 6, 150]], { stroke: F.gold, strokeWidth: 5, roughness: 0.9 }, 0.6);
+  z.bei(2.95);
+  z.pfad(`M${mx - 18} ${172}L${mx + 6} ${140}L${mx + 28} ${174}`, { stroke: F.gold, strokeWidth: 5, roughness: 0.8 }, 0.25);
+  // … und drei kleine goldene Sterne ploppen auf (Anerkennung).
+  ([[mx + 40, 112, 15, 3.05], [mx - 44, 182, 10, 3.2], [mx + 42, 268, 9, 3.35]] as const).forEach(([x, y, r, t]) => {
+    z.bei(t);
+    z.gruppe("stempel", () => funkeln(z, x, y, r));
   });
-  return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 3 };
+  // Zeichnen bis ca. 3,4 s, danach zwinkern/lächeln/nicken/wippen bis ca. 4,9 s – einmal, keine Schleife.
+  return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 4.9, zielDauer: 4.9 };
 }
 
 export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team };

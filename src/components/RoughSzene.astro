@@ -120,6 +120,9 @@ const platzhalter = fassungen(szene).map((a) => ({
   .rs-s { stroke-dasharray: 1 1; }
   .rs-fl { stroke-dasharray: 0.06 0.035; }
   .rs-g--stempel { transform-box: fill-box; transform-origin: center; }
+  /* Lebens-Effekte der Team-Gesichter (Jamil 21.10.2026, Msg 2863) – Ruhezustand = normale Zeichnung */
+  .rs-g--zwinkern, .rs-g--laecheln, .rs-g--huepfen { transform-box: fill-box; transform-origin: center; }
+  .rs-g--nicken { transform-box: fill-box; transform-origin: 50% 100%; }
 
   /* Animation nur mit JS und ohne „Bewegung reduzieren" – sonst steht das fertige Bild */
   @media (prefers-reduced-motion: no-preference) {
@@ -137,6 +140,12 @@ const platzhalter = fassungen(szene).map((a) => ({
     html.js .rszene.is-sichtbar .rs-f { animation: rs-ein 0.25s ease-out var(--t) both; }
     html.js .rszene.is-sichtbar .rs-g--stempel { animation: rs-stempel 0.3s ease-out var(--t) both; }
     html.js .rszene.is-sichtbar .rs-g--puls { animation: rs-puls 2.4s ease-in-out calc(var(--ende) + 0.4s) 1 forwards; }
+    /* Team-Gesichter (Jamil 21.10.2026, Msg 2863): nach dem Zeichnen einmal zwinkern, lächeln,
+       nicken, Bommel wippen – keine Schleife. */
+    html.js .rszene.is-sichtbar .rs-g--zwinkern { animation: rs-zwinkern 0.5s ease-in-out var(--t) 1 both; }
+    html.js .rszene.is-sichtbar .rs-g--laecheln { animation: rs-laecheln 1.1s ease-in-out var(--t) 1 both; }
+    html.js .rszene.is-sichtbar .rs-g--nicken { animation: rs-nicken 1s ease-in-out var(--t) 1 both; }
+    html.js .rszene.is-sichtbar .rs-g--huepfen { animation: rs-huepfen 0.6s ease-out var(--t) 1 both; }
     /* Fertig gezeichnet: ruhiges Endbild ohne Animation (springt z. B. beim Drehen nicht neu an) */
     html.js .rszene.is-sichtbar.is-fertig :is(.rs-s, .rs-f, .rs-x, .rs-g) { animation: none; opacity: 1; }
 
@@ -165,6 +174,14 @@ const platzhalter = fassungen(szene).map((a) => ({
     60% { transform: scale(1.08); }
     100% { transform: scale(1); }
   }
+  @keyframes rs-zwinkern { 0%, 100% { transform: scaleY(1); } 35%, 60% { transform: scaleY(0.12); } }
+  @keyframes rs-laecheln { 0%, 100% { transform: scale(1); } 30%, 70% { transform: scale(1.3, 1.45); } }
+  @keyframes rs-nicken {
+    0%, 100% { transform: none; }
+    25% { transform: translateY(7px) rotate(-2deg); } 50% { transform: none; }
+    75% { transform: translateY(5px) rotate(1deg); }
+  }
+  @keyframes rs-huepfen { 0%, 100% { transform: none; } 30% { transform: translateY(-12px); } 60% { transform: translateY(2px); } }
   @keyframes rs-dreh { to { transform: rotate(360deg); } }
   /* Fließen: Linie bleibt sichtbar, ein gestrichelter Abschnitt wandert entlang (pathLength = 1) */
   @keyframes rs-fluss {

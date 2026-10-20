@@ -22,7 +22,10 @@ export type Element =
    *  sich nach dem Zeichnen ständig) und „fluss“ (goldene Verbindungslinie fließt ständig) –
    *  Kundenwunsch 19.10.2026 (Sprachnachricht Jamil). */
   | { art: "gruppe"; effekt: Effekt; t: number; kinder: Element[] };
-export type Effekt = "stempel" | "puls" | "dreh" | "fluss";
+/** Lebens-Effekte der Karriere-Gesichter (Jamil 21.10.2026, Msg 2863): „zwinkern“ (Auge klappt kurz zu),
+ *  „laecheln“ (Mund wird kurz breiter), „nicken“ (Kopf nickt zweimal), „huepfen“ (Bommel wippt).
+ *  Laufen genau einmal ab `t`, danach Ruhezustand = normale Zeichnung. */
+export type Effekt = "stempel" | "puls" | "dreh" | "fluss" | "zwinkern" | "laecheln" | "nicken" | "huepfen";
 
 export interface Szene {
   breite: number;
@@ -32,6 +35,9 @@ export interface Szene {
   elemente: Element[];
   /** Zeitpunkt (s), zu dem alles steht – für den „nochmal"-Knopf. */
   ende: number;
+  /** Eigene Ziel-Gesamtdauer in s (Standard 2 s, Audit 3.1) – z. B. Karriere-Gesichter mit
+   *  Lebens-Effekten nach dem Zeichnen (Jamil 21.10.2026, Msg 2863). */
+  zielDauer?: number;
 }
 
 // CI-Farben als CSS-Variablen (wirken auch als SVG-Präsentationsattribut).
@@ -129,14 +135,15 @@ export class Zeichner {
     this.ziel = vorher;
     return kinder;
   }
-  /** Alles in `fn` Gezeichnete bekommt einen Stempel- oder Puls-Effekt. */
-  gruppe(effekt: Effekt, fn: () => void) {
+  /** Alles in `fn` Gezeichnete bekommt einen Stempel- oder Puls-Effekt. `t` = Start des Effekts
+   *  (Standard: Uhrzeit nach `fn`). */
+  gruppe(effekt: Effekt, fn: () => void, t?: number) {
     const kinder: Element[] = [];
     const vorher = this.ziel;
     this.ziel = kinder;
     fn();
     this.ziel = vorher;
-    this.ziel.push({ art: "gruppe", effekt, t: this.uhr, kinder });
+    this.ziel.push({ art: "gruppe", effekt, t: t ?? this.uhr, kinder });
     return this;
   }
 }

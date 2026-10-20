@@ -71,7 +71,8 @@ export function szeneMasse(name: SzenenName, a: Fassung): { breite: number; hoeh
 /** SVG-Markup einer Szene. `datei` = eigenständige .svg-Datei (mit xmlns + Farbblock). */
 export function szeneSvg(name: SzenenName, a: Fassung, datei = false): string {
   const sz: Szene = SZENEN[name](ansichtVon(a));
-  const f = sz.ende > ZIEL_DAUER ? ZIEL_DAUER / sz.ende : 1;
+  const ziel = sz.zielDauer ?? ZIEL_DAUER;
+  const f = sz.ende > ziel ? ziel / sz.ende : 1;
   const kopf = datei ? ` xmlns="http://www.w3.org/2000/svg" width="${sz.breite}" height="${sz.hoehe}"` : "";
   return `<svg${kopf} class="rszene__svg${a === "beide" ? "" : ` rszene__svg--${a}`}" viewBox="0 0 ${sz.breite} ${sz.hoehe}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="--ende:${n(sz.ende * f)}s">` +
     (datei ? DATEI_STIL : "") + sz.elemente.map((e) => el(e, f)).join("") + "</svg>";

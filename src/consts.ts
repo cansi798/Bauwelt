@@ -158,7 +158,7 @@ export const KI_BILDER = new Set<string>([
   "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
   "hero-referenzen.webp",                // Referenzen
   "hero-ueber-uns.webp",                 // (früher Über uns – Bagger-Bild, seit 19.10.2026 nicht mehr verwendet)
-  "team-fiktiv.webp",                    // Über uns: KI-Bild eines fiktiven Teams (Kundenwunsch 19.10.2026, Audit 7.1)
+  "team-fiktiv.webp",                    // (früher Platzhalter Über uns – seit 21.10.2026 gezeichnetes Team, Msg 2865)
   // team.webp (Karriere) entfällt seit 20.10.2026 (Gesamt-Audit T3): dort jetzt gezeichnete Gesichter, Datei gelöscht
   "hero-partner.webp",                   // Partner
 ]);
