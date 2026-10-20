@@ -40,8 +40,15 @@ import Icon from "../components/Icon.astro";
           nicht meisterpflichtige Gewerke.<br />
           Verliehen in: Deutschland
         </p>
-        {/* Optional ergänzen, sobald vorliegend: Name/Sitz der Berufshaftpflichtversicherung
-            samt Geltungsraum. */}
+        {/* Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R6): Versicherer laut Jamil SIGNAL IDUNA.
+            Angaben nach § 2 Abs. 1 Nr. 11 DL-InfoV (Name/Anschrift des Versicherers, Geltungsbereich).
+            Keine Policennummer. Genaue Gesellschaft bei Bedarf aus dem Versicherungsschein übernehmen. */}
+        <h2>{"Betriebs\u00ADhaft\u00ADpflicht\u00ADversicherung"}</h2>
+        <p>
+          SIGNAL IDUNA<br />
+          Joseph-Scherer-Straße 3, 44139 Dortmund<br />
+          Geltungsbereich: Deutschland
+        </p>
 
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
         <address>{SITE.managing}<br />{SITE.street}<br />{SITE.zip} {SITE.city}</address>
