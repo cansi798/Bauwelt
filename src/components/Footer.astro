@@ -93,7 +93,9 @@ const jahr = new Date().getFullYear();
   .ftr__cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 15px; }
   /* Logo oben rechts neben „Rechtliches", auf Höhe der Überschriften */
   .ftr__legal { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .ftr__logo { flex: none; height: auto; opacity: 0.9; }
+  /* 120 px, darf aber schrumpfen, wenn die Spalte zu schmal ist (bei 1024 px: Spalte 228 px,
+     „Rechtliches“ + Abstand + 120 px Logo = 239 px → ragte 11 px über die Seite) */
+  .ftr__logo { flex: 0 1 120px; width: 120px; min-width: 0; height: auto; opacity: 0.9; }
 
   .ftr__bottom {
     padding-block: 14px;
