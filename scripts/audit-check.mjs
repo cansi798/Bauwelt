@@ -65,12 +65,16 @@ const LEISTUNGS_NAMEN = [...constsSrc.matchAll(/unterschrift:\s*"([^"]+)"/g)].ma
 // ---------- 1. Texte & verbotene Aussagen ----------
 // [Regex, Thema, Begründung]. Gilt für alle Seiten außer /agb/ (AGB-Text ist 1:1 Rechtstext).
 const VERBOTEN = [
-  [/(?<!Elektro)Meister-?betrieb/i, "Texte/UWG (K2/K3)", "„Meisterbetrieb“ ist nicht belegt"],
+  [/(?<!Elektro|Partner-?)Meister-?betrieb/i, "Texte/UWG (K2/K3)", "„Meisterbetrieb“ ist nicht belegt (erlaubt nur Partner-(Elektro-)Meisterbetrieb)"],
   [/(?:Festpreis|Preis|Termin)-?[Gg]arantie/, "Texte/UWG (4.2)", "„Garantie“ → „Festpreis-Zusage“"],
   [/deutschsprachige[nrs]? Ansprechpartner/i, "Wording (4.6/7.6)", "→ „Ein fester Ansprechpartner“"],
   [/Zuhause-Check|\b60\+|ab 60\b|Senior/i, "Wording (Kundenwunsch 17.10.)", "kein Altersbezug"],
-  [/SENIOVO/, "Wording (Jamil 19.10.)", "Marke klein: „seniovo“"],
-  [/\bOBI\b/, "Wording (Jamil 19.10., Msg 2551)", "Partner-Schreibweise: „Obi“ (nicht in Großbuchstaben)"],
+  // Gesamt-Audit 20.10.2026 (Jamil, Talk 2787) – R7: keine Partnernamen ohne schriftliche Freigabe;
+  // R2: Festpreis ohne „keine Überraschungen“; R8: keine „5 Jahre Gewährleistung“; R3: Sanitär nur über Partner
+  [/\b(?:Obi|Hornbach|seniovo)\b/i, "Partnernamen (Jamil 20.10., R7)", "keine Partnernamen (Obi, Hornbach, seniovo) ohne schriftliche Freigabe"],
+  [/keine Überraschungen auf der Rechnung/i, "AGB-Konsistenz (Jamil 20.10., R2)", "→ „Mehrkosten nur nach schriftlichem Nachtrag“"],
+  [/\b5 Jahre(?:n)? Gewährleistung/i, "Werbung (Jamil 20.10., R8)", "gesetzliche Frist nicht als Vorteil nennen – „gesetzliche Gewährleistung“"],
+  [/Sanitär-?\s?arbeiten|Fliesen, Sanitär,/i, "Handwerksrecht (Jamil 20.10., R3)", "Sanitär nicht als eigene Leistung – „Sanitär-Anschlüsse durch unseren Partner-Meisterbetrieb“"],
   [/Besichtigungstermin|Beratungstermin|Erstes Gespräch vereinbaren|Telefontermin/i, "Wording (4.1)", "→ „Vor-Ort-Termin“"],
   [/Jetzt Preis berechnen|Projekt berechnen|Festpreis ansehen/i, "Wording (4.4)", "→ „Preis berechnen“"],
   [/Preisrahmen|Preiseinschätzung|Ersteinschätzung/i, "Wording (4.3)", "→ „Preisspanne“"],
@@ -118,7 +122,9 @@ let seoProbleme = 0;
 for (const s of S) {
   if (!s.title) { warn("SEO (S4)", `${s.page}: kein <title>`); seoProbleme++; continue; }
   if (s.noindex) continue;
-  if (s.title.length > 61) { warn("SEO (S4)", `${s.page}: Titel ${s.title.length} Zeichen (max. ~60): „${s.title}“`); seoProbleme++; }
+  // S2 (Jamil 20.10.2026, Talk 2787): echte Zeichen zählen, Grenze 60 (vorher 61 → Karriere mit 61 rutschte durch)
+  const titelLaenge = [...s.title].length;
+  if (titelLaenge > 60) { warn("SEO (S4)", `${s.page}: Titel ${titelLaenge} Zeichen (max. 60): „${s.title}“`); seoProbleme++; }
   if (!/Norderstedt/.test(s.title)) { warn("SEO (S4)", `${s.page}: Titel ohne „Norderstedt“: „${s.title}“`); seoProbleme++; }
   if (s.desc.length < 70 || s.desc.length > 160) { warn("SEO (S4)", `${s.page}: Beschreibung ${s.desc.length} Zeichen (Ziel 70–160)`); seoProbleme++; }
   if (!/Norderstedt/.test(s.desc)) { warn("SEO (S4)", `${s.page}: Beschreibung ohne „Norderstedt“`); seoProbleme++; }
@@ -226,6 +232,12 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
       }
     }
   }
+  // (b2) nachgeladene Zeichnungen (dist/szenen/*.svg, P1) – dieselbe Ziffern-Regel
+  const szDir = join(DIST, "szenen");
+  if (existsSync(szDir)) for (const f of readdirSync(szDir)) {
+    const m = lies(join(szDir, f)).match(/class="rs-x[^"]*"[^>]*>\s*(0\d)\s*</);
+    if (m) { warn("Skizzen-Stil (Jamil 20.10.)", `szenen/${f}: Ziffer „${m[1]}“ mit führender Null – „1, 2, 3 …“`); kProbleme++; }
+  }
   // (c) Quelltext: keine Ziffern mit führender Null (padStart(2, "0")) in Komponenten/Seiten
   (function walk(d) {
     for (const f of readdirSync(d)) {
@@ -254,6 +266,19 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
     gesehen.add(e.nutzen);
   }
   if (!nProbleme) pass("Leistungs-Nutzen", `${eintraege.length} Leistungen mit eigenem Kundennutzen als Unterzeile, kein Versprechen doppelt`);
+}
+// R3 (Jamil 20.10.2026, Talk 2787): Wo „Sanitär“ als Arbeit genannt wird, muss die Seite den
+// Partner-Meisterbetrieb nennen (Installateur-Handwerk ist meisterpflichtig und nicht eingetragen).
+for (const s of S) {
+  if (s.noindex) continue; // Demo-Seiten (Login) zeigen nur Beispiel-Termine
+  const m = s.text.match(/Sanitär(?!objekt)/);
+  if (m && !/Partner-?\s?Meisterbetrieb/i.test(s.text)) warn("Handwerksrecht (Jamil 20.10., R3)", `${s.page}: nennt „Sanitär“, aber nicht den Partner-Meisterbetrieb  ${ausschnitt(s.text, m.index)}`);
+}
+// P1 (Jamil 20.10.2026, Talk 2787): Seiten schlank halten – Zeichnungen liegen als Dateien unter /szenen/
+// und werden nachgeladen (RoughSzene). Eine sehr große HTML-Datei heißt meist: Zeichnung wieder eingebettet.
+for (const s of S) {
+  const kb = Math.round(Buffer.byteLength(s.html) / 1024);
+  if (kb > 250) warn("Performance (P1, Jamil 20.10.)", `${s.page}: HTML ${kb} KB (max. 250 KB) – Zeichnungen nachladen statt einbetten`);
 }
 // S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (siehe AUDIT-REGELN.md)
 for (const s of S) {

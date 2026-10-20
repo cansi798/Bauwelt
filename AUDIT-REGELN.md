@@ -1,6 +1,6 @@
 # Audit-Regeln Bauwelt Handwerk
 
-Verbindliche Checkliste aus den beiden Audits – **Website-Audit 17.10.2026** (UX, Design, Animation, Wording, Conversion, Marke; Nummern 1.1–7.8) und **SEO-/KI-Audit 19.10.2026** (S = SEO, L = Lokal, K = KI-Konformität/Recht, G = KI-Plattformen), inkl. Jamils Entscheidungen im Talk-Raum „Bauwelt“ (Nachrichten 2154–2392).
+Verbindliche Checkliste aus den beiden Audits – **Website-Audit 17.10.2026** (UX, Design, Animation, Wording, Conversion, Marke; Nummern 1.1–7.8) und **SEO-/KI-Audit 19.10.2026** (S = SEO, L = Lokal, K = KI-Konformität/Recht, G = KI-Plattformen), inkl. Jamils Entscheidungen im Talk-Raum „Bauwelt“ (Nachrichten 2154–2392) und zum **Gesamt-Audit 20.10.2026** (Talk 2787, Abschnitt 13).
 Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 **Auftrag Jamil (19.10.2026, Msg 2392):** „Sobald eine Änderung Auswirkung auf eines der Audit-Themen hat, weise mich darauf hin.“
@@ -33,32 +33,35 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | Leistungs-Unterzeile (Jamil 20.10., Talk 2564) | konkreter **Nutzen der Leistung** für den Kunden, ≤ ca. 50 Zeichen, eine Quelle: Feld `nutzen` in `LEISTUNGEN` (Startseite, Rechner-Kacheln, Menü, Leistungsseiten-Hero, llms.txt) | allgemeine Versprechen als Unterzeile („Persönlich beraten, zum Festpreis umgesetzt“, „Ein Zeitplan. Ein Festpreis.“, „Mit festem Preis und festem Plan“) |
 | Marken-Dreiklang (7.7) | „Planbar. Transparent. Verlässlich.“ | andere Dreiklänge |
 | Eigene Stärken (7.5) | „Keine Lockangebote“, „Verständliche Angebote statt Positionsdschungel“ | „Alles aus einer Hand“ |
-| Partner (6.7) | „seniovo“ klein; „Obi“ (großes O, kleines b und i – Jamil 19.10., Msg 2551); Obi seit 2024 über 20 Aufträge, seniovo seit 2026 über 5, Hornbach seit 2026 | SENIOVO, OBI, Logos (keine Freigabe) |
+| Partner (6.7, **R7 Jamil 20.10., Talk 2787**) | **keine Partnernamen** – nur Art des Partners + Zahlen: „Baumärkte – seit 2024 · über 20 Aufträge“, „Online-Plattform – seit 2026 · über 5 Aufträge“ (nur Partner-Seite). Namen erst nach schriftlicher Freigabe der Partner | Obi, Hornbach, seniovo (Seiten, Über uns, llms, JSON-LD), Logos |
 | Karriere (4.8/6.8) | positiv: „Faire Bezahlung. Prämien für gute Projekte.“, „Initiativ bewerben – wir suchen immer gute Leute“ | „Derzeit suchen wir keine Verstärkung“, abwertend über die Branche |
 | Erfahrung (K3) | „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre alt) | „15 Jahre“ ohne „im Handwerk“ |
 | Zahlen (6.6) | Vertrauensleiste: nur 40+ sanierte Bäder und 15+ Jahre Erfahrung im Handwerk als Zahlen (dazu die Nachweise versichert / Handwerkskammer, siehe Abschnitt 2a). 12 h Antwort / 24 h Angebot **nur** in den Versprechen (Jamil 19.10., Talk 2531/2536, Variante A) | über 30 Bäder, 15 Komplettsanierungen, 10 Jahre; 12 h / 24 h in der Zahlenleiste |
 
 **Verbotene Aussagen (Werberecht/UWG, K2/K3):**
-- „Meisterbetrieb“ (ist es nicht). Erlaubt nur: „Elektromeisterbetrieb“ als Partner für Endanschlüsse.
+- „Meisterbetrieb“ (ist es nicht). Erlaubt nur: „Partner-Elektromeisterbetrieb“ für Elektro-Endanschlüsse und „Partner-Meisterbetrieb“ für Sanitär-Anschlüsse (R3, Jamil 20.10.).
+- **Sanitär nie als eigene Arbeit** (R3, Jamil 20.10., Talk 2787): Installateur-Handwerk ist meisterpflichtig und nicht eingetragen → „Sanitär-Anschlüsse durch unseren Partner-Meisterbetrieb“ (Badsanierung, Komplettsanierung, Versprechen „Alle Gewerke“, FAQ, llms, Angebots-Muster). Nicht: „Sanitärarbeiten“, „Fliesen, Sanitär, …“.
 - „Garantie“ ohne verlinkte Bedingungen.
 - Kein „Zuhause-Check 60+“, kein Altersbezug („60+“, „Senior“).
 - Keine erfundenen Bewertungen/Sterne/Kundenstimmen (6.1: es gibt noch keine).
 - Kein „unser Team“ zu KI-Bildern (7.1 – alt-Texte wahrheitsgemäß).
 
 **AGB-konform formulieren (AGB Stand 02/2026, Jamil 19.10.):**
+- **Festpreis (R2, Jamil 20.10.):** „Festpreis für alles im Angebot – Mehrkosten nur nach schriftlichem Nachtrag“ (Versprechen 1 in `versprechen.ts`, FAQ). **Nicht**: „keine Überraschungen auf der Rechnung“, „ohne versteckte Kosten“-Versprechen.
 - Festpreis gilt „für alles, was im Angebot steht“; Änderungen nur mit schriftlichem Nachtrag (Zusatzwünsche, technisch nötige Zusatzarbeiten, verdeckte Mängel, § 6 Materialpreise). **Nicht**: „Preis im Angebot = Preis auf der Rechnung“, „ohne Ihre Freigabe ändert sich nichts“.
 - Termine: nur „schriftlich als verbindlich vereinbart“ (§ 11). **Nicht**: „verbindlicher Zeitplan mit Start- und Endtermin“ ohne „schriftlich“.
 - Elektro: nur Vorarbeiten/Koordination; Endanschlüsse macht ein Elektromeisterbetrieb (§ 13).
 - Demontage/Entsorgung/Untergrund: stehen immer in den Angebotspositionen (Jamil) – Website-Text bleibt.
 - Angebote: Jamil hat Variante **B** gewählt – § 2 AGB wird beim Anwaltscheck zu „verbindliche Festpreisangebote, gültig 30 Tage“. Bis dahin Website wie besprochen.
 - Kostenloser Vor-Ort-Termin: Absage jederzeit kostenfrei; Ausfallkosten (§ 11) nur für vereinbarte Ausführungstermine.
-- **„5 Jahre Gewährleistung“ ist erlaubt** (Jamil 19.10., Msg 2366) – sachlich mit Bezug auf die AGB (FAQ, llms-Dateien). Nicht als reißerisches Siegel.
+- **Keine „5 Jahre Gewährleistung“** (R8, Jamil 20.10., Talk 2787 – ersetzt die Erlaubnis vom 19.10., Msg 2366): gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten. FAQ sagt nur „Es gilt die gesetzliche Gewährleistung (§ 16 AGB)“. Die AGB-Seite selbst bleibt 1:1.
 
 ## 2. Design & Animation (Audit 1.x, 2.x, 3.x)
 
 - Zwei Kartenarten: hell (Radius 16 px, 1 px Linie, kein Schatten) und dunkel (2.1). Kartentitel 18 px / 700 / Satzschreibung (2.2).
 - Gold-Text auf hellem Grund nur dunkles Gold (#8C7345 o. dunkler) – Kontrast ≥ 4,5:1 (2.3). Häkchen überall gold (2.4).
-- Drei Button-Größen S/M/L als Tokens (2.7). Tap-Ziele mobil ≥ 44–48 px (1.9).
+- Drei Button-Größen S/M/L als Tokens (2.7). Tap-Ziele mobil ≥ 44–48 px (1.9) – auch Formular-Häkchen und Links darin (D3, 20.10.: Rückruf-Einwilligung 44 × 44 px Trefferfläche, Kästchen optisch 22 px).
+- **Keine Seite breiter als der Bildschirm** (D1/W2, Jamil 20.10.): `scripts/check-breite.mjs` prüft alle Seiten bei 390 und 360 px (auch 320 px besteht). Lange Wörter in Großbuchstaben: weiche Trennstelle (`\u00AD`) setzen; Raster am Handy mit `minmax(0, 1fr)`.
 - Hover-Lift nur bei klickbaren Karten, einheitlich 2 px (3.5). Motion-Tokens für Tempo (3.4).
 - Skizzen-Animationen: Texte erscheinen erst mit ihrer Form (Bugfix 19.10.), Linien in ca. 1,5–2 s fertig (3.1); goldene Linien fließen, Siegel-Ringe drehen (Sprachnachricht 19.10.).
 - **Animierte Formen einheitlich kreisförmig** (Jamil 19.10., Msg 2518/2523): Siegel, Schritt-Nummern, Stempel-Effekte, Lade-Anzeigen rund – keine Rechteck-Rahmen mehr (ersetzt Kundenwunsch 15.10. (65) „Rechtecke“ auf Über uns). Symbol-Behälter (Audit 2.4) bleiben, da nicht animiert – **Ausnahme Leistungsumfang** (nächster Punkt).
@@ -87,11 +90,13 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 - Jedes KI-Bild steht in `KI_BILDER` (`src/consts.ts`) und trägt sichtbar „KI-generiertes Bild“.
 - Start- und Referenz-Hero mit echtem Projektfoto (7.2); Über uns: KI-Bild eines *fiktiven* Teams, so gekennzeichnet (7.1).
+- **Karriere-Startbild = Zeichnung** (T3/W1, Jamil 20.10.): vier Comic-Gesichter im Skizzen-Stil (Szene `team` in `src/data/szenen.ts`), symbolisch für die Mitarbeitenden, keine echten Personen, keine Namen, Bildunterschrift „Illustration – symbolisch für unser Team“. Das Stockfoto `team.webp` ist gelöscht.
 - Bilder WebP, < 200 KB, alt-Texte wahrheitsgemäß.
 
 ## 4. SEO (S1–S11)
 
-- **Titel ≤ 60 Zeichen** mit Leistung + **Norderstedt** (S4, Jamil: „wichtig, wir wollen in Norderstedt und Umkreis sichtbarer werden“).
+- **Titel ≤ 60 Zeichen** mit Leistung + **Norderstedt** (S4, Jamil: „wichtig, wir wollen in Norderstedt und Umkreis sichtbarer werden“). Gezählt werden echte Zeichen, Grenze 60 (S2, 20.10.). Karriere endet auf „… | Bauwelt Handwerk“ (Jamil: nicht „… Bauwelt“): „Karriere – Jobs in Norderstedt | Bauwelt Handwerk“.
+- **Start-H1 mit Leistung + Ort** (T2, Jamil 20.10.): die Positionierungszeile „Badsanierung, Fliesenarbeiten & Innenausbau in Norderstedt, Hamburg & Umgebung“ ist Teil der H1 (sieht aus wie die Eyebrow-Zeile), danach „Bereit für Ihr neues …“ mit Wortwalze. Ort/Leistung stehen im Hero nur einmal.
 - **Beschreibungen ≤ ca. 155 Zeichen**, nennen Norderstedt, Hamburg und Umkreis.
 - Genau eine H1, eigener Titel, Canonical; Rechtsseiten, Login und 404 auf `noindex`.
 - Sitemap mit `<lastmod>` (S8). Termin-Fenster-Titel ist keine Überschrift (S9). Rückruf-Formular ohne `mailto:`-Formularziel (S10).
@@ -126,6 +131,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 - `/agb/` = AGB Stand Februar 2026, 1:1, mit PDF-Download; Link im Footer neben Impressum/Datenschutz und unter den FAQ.
 - FAQ müssen zu den AGB passen (siehe Abschnitt 1). Ändert sich die AGB → FAQ und llms-Dateien mitprüfen.
 - Jamil soll die AGB vom Anwalt prüfen lassen (Widerrufsbelehrung fehlt, § 2 Variante B).
+- **Widerrufsbelehrung (R1, Jamil 20.10.): noch NICHT veröffentlichen.** Entwurf für einen eigenen Abschnitt auf der AGB-Seite (Muster-Belehrung + Muster-Formular + Hinweis Wertersatz) steht im Talk-Raum `gjcy64m2` (20.10.2026) – bewusst nicht im öffentlichen Repo. Erst nach Jamils Freigabe und Anwaltsprüfung einbauen.
 
 ## 9. Einzugsgebiet & Karte (3.3, 4.10)
 
@@ -146,9 +152,29 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 ## 12. Performance (1.11, S6, S11)
 
 - Logo als kleine WebP (kein PNG), Startbild am Handy in kleiner Variante (`hero-828.webp`), Zeichnungen erst bei Bedarf aufbauen.
+- **Zeichnungen nachladen** (P1, Jamil 20.10.): Szenen stehen nicht im HTML, sondern als Dateien unter `/szenen/` (`src/pages/szenen/[datei].svg.ts`); `RoughSzene.astro` lädt nur die sichtbare Fassung ca. 300 px vor dem Sichtbarwerden, ohne JS als Bild (`<noscript>`). Der Rechner auf der Startseite startet erst in Bildschirmnähe. Seiten-HTML ≤ 250 KB (audit-check). Lighthouse mobil Startseite: vorher 72 → nachher Median 91.
 - Bilder < 200 KB. Beim eigenen Hosting lange Cache-Zeiten (S11).
 
 - **Kein energetischer Umbau** (Jamil 20.10., Talk 2599): Bauwelt bietet keine energetische Sanierung/Modernisierung an – das Wort „energetisch“ kommt im Angebot nicht vor (audit-check warnt).
 - **Badsanierung-Kachel** (Jamil 20.10., Talk 2600): Kachel-/Menüname nur „Badsanierung“ (ohne „aus einer Hand“), Unterzeile emotional: „Endlich ein Bad, in dem Sie sich rundum wohlfühlen“.
 
 - **Vorteils-Foto nur am PC** (Jamil 20.10., Talk 2702/2704): Das Projektfoto unter „Das Besondere bei …“ erscheint nur ab 1024 px; am Handy/Tablet nur Kasten + 7 Versprechen.
+
+## 13. Gesamt-Audit 20.10.2026 – Entscheidungen Jamil (Talk 2787)
+
+| Nr. | Entscheidung | Umsetzung / Prüfung |
+|---|---|---|
+| R1 | Widerrufsbelehrung noch nicht veröffentlichen – Entwurf zur Freigabe | Entwurf nur im Talk an Jamil (nicht im öffentlichen Repo); Anwalt prüfen lassen |
+| R2 | Mehrkosten nur nach schriftlichem Nachtrag | Versprechen 1 + FAQ; audit-check warnt bei „keine Überraschungen auf der Rechnung“ |
+| R3 | Sanitär nur über Partner-Meisterbetrieb | Bad, Komplettsanierung, Versprechen, FAQ, llms, Angebots-Muster; audit-check „Handwerksrecht“ |
+| R6 | Betriebshaftpflicht SIGNAL IDUNA im Impressum, Geltungsbereich Deutschland, keine Policennummer | `impressum.astro` |
+| R7 | Keine Partnernamen (Obi, Hornbach, seniovo) | Über uns ohne Partner-Abschnitt, Partner-Seite ohne Namen; audit-check „Partnernamen“ |
+| R8 | Keine „5 Jahre Gewährleistung“ | FAQ „gesetzliche Gewährleistung“; audit-check „Werbung“ |
+| T1 | FAQ „Was ist im Festpreis nicht enthalten?“ entfernt | `home.ts` |
+| T2 | Start-H1 mit Leistung + Ort | `Hero.astro`, `HERO.eyebrow` |
+| T3/W1 | Karriere: vier gezeichnete Gesichter statt `team.webp`; check-dom-Fehlalarm behoben | Szene `team`; check-dom prüft Stockfotos nur außerhalb der Hero-Abschnitte |
+| S2 | Karriere-Titel ≤ 60, Ende „… Handwerk“ | audit-check zählt echte Zeichen, Grenze 60 |
+| D1/W2 | Keine Seite breiter als der Bildschirm, dauerhafte Prüfung | `scripts/check-breite.mjs` (390/360 px), GitHub Actions + CLAUDE.md |
+| D3 | Tap-Ziele Rückruf-Formular ≥ 44 px | `RueckrufFormular.astro` |
+| P1 | Startseite schneller, Look bleibt | Zeichnungen nachladen, Rechner-Start verzögert; audit-check HTML ≤ 250 KB |
+
