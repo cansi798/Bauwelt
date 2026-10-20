@@ -809,7 +809,7 @@ function handschlag(): Szene {
 
 /* ─── Partner-Startbild: zwei Firmen arbeiten zusammen (Jamil 21.10.2026, Msg 2899 + 2909) ───
    Msg 2899 ersetzte das KI-Foto hero-partner.webp; Msg 2909: „Zusammenarbeit zwischen zwei Firmen – das Haus
-   bildet das nicht richtig ab.“ Jetzt: links das Bauwelt-Gebäude (gold, Satteldach, Schild „BAUWELT“), rechts
+   bildet das nicht richtig ab.“ Jetzt: links das Bauwelt-Gebäude (gold, Satteldach, Schild „BAUWELT HANDWERK“, Msg 2914), rechts
    das Partner-Büro (anthrazit/weiß, Flachdach, Schild „PARTNER“). Dazwischen baut sich eine Brücke, darüber
    ein goldener Haken. Bewusst anders als der Handschlag auf Kontakt. Einmal, 1,5 s (Msg 2911). */
 const PB_B = 760, PB_H = 400;
@@ -825,8 +825,10 @@ function partnerBau(): Szene {
   z.rechteck(132, 300, 46, boden - 300, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Tor
   z.rechteck(80, 296, 34, 30, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
   z.rechteck(196, 296, 34, 30, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
-  z.rechteck(90, 232, 130, 38, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
-  z.text(155, 258, "BAUWELT", { groesse: 21, gewicht: 800, farbe: F.goldDunkel });
+  // Schild mit vollem Firmennamen (Jamil 21.10.2026, Msg 2914: „Wir heißen Bauwelt Handwerk.“)
+  z.rechteck(68, 220, 174, 70, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.25);
+  z.text(155, 249, "BAUWELT", { groesse: 26, gewicht: 800, farbe: F.goldDunkel });
+  z.text(155, 279, "HANDWERK", { groesse: 26, gewicht: 800, farbe: F.goldDunkel });
   // Partner: Bürogebäude mit Flachdach und Fensterraster
   z.bei(0.2);
   z.rechteck(510, 170, 190, boden - 170, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.45);
@@ -834,8 +836,8 @@ function partnerBau(): Szene {
   for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++)
     z.rechteck(530 + c * 56, 244 + r * 46, 36, 30, { fill: F.grau, fillStyle: "hachure", hachureGap: 5, fillWeight: 1, strokeWidth: 1.8 }, 0.15);
   z.rechteck(588, 336, 34, boden - 336, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.2); // Tür
-  z.rechteck(540, 190, 130, 38, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
-  z.text(605, 216, "PARTNER", { groesse: 21, gewicht: 800, farbe: "var(--weiss)" });
+  z.rechteck(530, 188, 150, 44, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
+  z.text(605, 219, "PARTNER", { groesse: 26, gewicht: 800, farbe: "var(--weiss)" });
   // Brücke zwischen den Firmen: Fahrbahn, goldener Bogen, Hänger
   z.bei(0.7);
   z.linie(250, 300, 510, 300, { strokeWidth: 3.2 }, 0.3);
