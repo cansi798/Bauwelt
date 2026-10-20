@@ -23,12 +23,12 @@ lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung m
 introTitel: "Ihre Sanierung – ein Zeitplan, ein Festpreis"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
-umfangText: "Von der Planung bis zur fertigen Übergabe aus einer Hand – mit verständlichem Angebot und festem Preis. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
+umfangText: "Von der Planung bis zur fertigen Übergabe aus einer Hand – mit verständlichem Angebot und festem Preis. Wir koordinieren alles: Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2568): Kacheln wie bei Badsanierung – Beratung zuerst, Sanitär und Elektro getrennt
   - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Entkernung" }
-  - { icon: "tap", title: "Sanitär\u00ADarbeiten" }
+  - { icon: "tap", title: "Sanitär\u00ADanschlüsse durch Partner\u00ADmeister\u00ADbetrieb" } # R3 (Jamil 20.10., Talk 2787)
   - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
   - { icon: "wall", title: "Trockenbau & Grundriss" }
   - { icon: "tiles", title: "Fliesen & Böden" }

@@ -38,20 +38,22 @@ const WALZE = [...WORTE, WORTE[0]];
   {istKiBild(HERO.bild) && <KiHinweis pos="oben-rechts" />}
 
   <div class="container fhero__content">
-    <div class="eyebrow fhero__in" style="--d: 0ms">
-      {HERO.eyebrow}
-    </div>
-
-    <h1 class="fhero__in" style="--d: 120ms">
-      <span class="visually-hidden">{HERO.vor} {WORTE[0]} {HERO.nach}</span>
-      <span aria-hidden="true">
-        {HERO.vor}
-        <span class="fhero__walze">
-          <span class="fhero__band" style={`--n: ${WORTE.length}`}>
-            {WALZE.map((w) => <span class="fhero__wort accent">{w}</span>)}
+    <!-- Gesamt-Audit 20.10.2026 T2 (Jamil, Talk 2787): Leistung + Ort stehen IN der H1 (Screenreader, Google).
+         Die Positionierungszeile (früher eigenes Eyebrow-<div>) ist jetzt der erste Teil der H1 – sie sieht
+         aus wie vorher, nichts steht doppelt im Hero. Die Wortwalze bleibt (Audit 1.1). -->
+    <h1 class="fhero__h1">
+      <span class="eyebrow fhero__in fhero__ort" style="--d: 0ms">{HERO.eyebrow}</span><span class="visually-hidden">: </span>
+      <span class="fhero__titel fhero__in" style="--d: 120ms">
+        <span class="visually-hidden">{HERO.vor} {WORTE[0]} {HERO.nach}</span>
+        <span aria-hidden="true">
+          {HERO.vor}
+          <span class="fhero__walze">
+            <span class="fhero__band" style={`--n: ${WORTE.length}`}>
+              {WALZE.map((w) => <span class="fhero__wort accent">{w}</span>)}
+            </span>
           </span>
+          {HERO.nach}
         </span>
-        {HERO.nach}
       </span>
     </h1>
 
@@ -110,8 +112,10 @@ const WALZE = [...WORTE, WORTE[0]];
     padding-block: 96px 120px;
   }
   .fhero__content > * { max-width: 100%; min-width: 0; }
-  .fhero__content h1 { color: var(--weiss); margin: 0; }
+  .fhero__content h1 { color: var(--weiss); margin: 0; display: grid; gap: 20px; }
   .fhero__content .eyebrow { color: var(--gold-300); margin: 0; }
+  .fhero__ort, .fhero__titel { display: block; }
+  .fhero__ort { line-height: 1.5; } /* Eyebrow-Zeile in der H1: Schrift wie vorher (global .eyebrow) */
   .fhero__claim { display: grid; gap: 8px; max-width: 640px; }
   .fhero__statement {
     margin: 0;
@@ -201,6 +205,7 @@ const WALZE = [...WORTE, WORTE[0]];
     /* Kundenwunsch 19.10.2026 (Audit 1.2): Text mobil oben statt im unteren Drittel */
     .fhero { min-height: calc(100svh - var(--header-h)); align-items: flex-start; }
     .fhero__content { padding-block: 36px 88px; gap: 14px; }
+    .fhero__content h1 { gap: 14px; }
     /* früher umbrechen, damit die Zeile nicht bis an die Kante läuft */
     .fhero__statement { max-width: 18ch; }
     .fhero__unterzeile { font-size: 15px; }

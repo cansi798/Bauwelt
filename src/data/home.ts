@@ -5,7 +5,9 @@ import { u } from "../consts";
 export const HERO = {
   /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
    *  kurz genug für Mobil und Desktop, daher keine eigene Kurzfassung mehr. */
-  eyebrow: "Badsanierung, Fliesenarbeiten & Innenausbau für Hamburg & Umgebung",
+  // Gesamt-Audit 20.10.2026 T2 (Jamil, Talk 2787): diese Zeile ist jetzt Teil der H1 → Leistung + Ort
+  // (Norderstedt) für Screenreader und Google; steht im Hero nur einmal.
+  eyebrow: "Badsanierung, Fliesenarbeiten & Innenausbau in Norderstedt, Hamburg & Umgebung",
   /** Headline: "Bereit für Ihr neues <rotierender Begriff>" – Begriffe rollen per CSS. */
   vor: "Bereit für Ihr neues",
   nach: "",
@@ -59,7 +61,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     accent: "2 Wochen",
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
-      "Fliesen, Sanitär, Elektro, bodengleiche Dusche. Sie wählen die Ausstattung, " +
+      "Fliesen, bodengleiche Dusche, Licht und Möbel – die Sanitär- und Elektro-Anschlüsse übernehmen unsere Partner-Meisterbetriebe. Sie wählen die Ausstattung, " + // R3 (20.10.)
       "wir nennen Ihnen vorab einen festen Preis und halten Start- und Endtermin schriftlich im Auftrag fest.",
     bild: "hero-badsanierung.webp",
     alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
@@ -123,7 +125,7 @@ export const USP = [
   {
     icon: "hand",
     title: "Alles aus einer Hand",
-    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau aus einer Hand: Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb.",
+    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau aus einer Hand: Wir koordinieren alles – die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb.", // R3 (20.10.)
     szene: "uspHand" as const,
     bild: "galerie-sanierung-02.webp",
     alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
@@ -224,14 +226,14 @@ export const FAQ_HOME = [
     q: "Was kostet meine Sanierung?",
     a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Preisspanne. Den festen Preis nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin in einem schriftlichen Angebot. Darin steht genau, welche Leistungen enthalten sind.",
   },
+  // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): Mehrkosten nur nach schriftlichem Nachtrag;
+  // R8: keine „5 Jahre Gewährleistung“ mehr (gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten)
   {
     q: "Gilt der Festpreis wirklich?",
-    a: "Ja – für alle Leistungen, die im Angebot stehen. Zusätzlich berechnet wird nur, was nicht im Angebot enthalten ist: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Dafür erhalten Sie einen schriftlichen Nachtrag mit den Zusatzkosten – nicht einfach eine höhere Rechnung. Steigen Materialpreise stark und wird das Material erst später geliefert, behalten wir uns eine angemessene Preisangleichung vor (§ 6 unserer AGB).",
+    a: "Ja – für alle Leistungen, die im Angebot stehen. Zusätzlich berechnet wird nur, was nicht im Angebot enthalten ist: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Mehrkosten entstehen nur mit einem schriftlichen Nachtrag, den wir vorher mit Ihnen besprechen – nicht einfach mit einer höheren Rechnung.",
   },
-  {
-    q: "Was ist im Festpreis nicht enthalten?",
-    a: "Wenn es nicht ausdrücklich im Angebot vereinbart ist, gehören diese Leistungen nicht zum Pauschalpreis: Untergrundvorbereitung bei unbekanntem Zustand, Ausgleichsspachtelungen und Estrichnachbesserungen, Entsorgung von Altmaterialien, Schutz- und Abdeckarbeiten über das Standardmaß hinaus sowie Zusatzarbeiten anderer Gewerke. Demontage, Entsorgung und die Vorbereitung des Untergrunds führen wir in unseren Angeboten immer als eigene Positionen auf – sie sind also im Angebot enthalten. Was Sie darüber hinaus brauchen, klären wir beim Vor-Ort-Termin und nehmen es auf Wunsch gleich mit ins Angebot.",
-  },
+  // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T1): Frage „Was ist im Festpreis nicht enthalten?“ entfernt –
+  // sie sprach von „Pauschalpreis“ (nur für die Checks) und widersprach sich bei der Entsorgung.
   {
     q: "Wie lange dauert mein Projekt?",
     a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan: Start- und Endtermin halten wir schriftlich im Auftrag fest, bevor wir anfangen. Bei höherer Gewalt oder Materialengpässen verlängern sich Fristen angemessen.",
@@ -248,7 +250,7 @@ export const FAQ_HOME = [
   },
   {
     q: "Muss ich mehrere Handwerker koordinieren?",
-    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Die Elektro-Endanschlüsse und deren Abnahme übernimmt unser Partner-Elektromeisterbetrieb.",
+    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse und deren Abnahme unser Partner-Elektromeisterbetrieb.",
   },
   {
     q: "Was passiert bei verdeckten Schäden?",
@@ -260,7 +262,7 @@ export const FAQ_HOME = [
   },
   {
     q: "Was gilt bei Abnahme und Gewährleistung?",
-    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Auf unsere Bauleistungen haben Sie 5 Jahre Gewährleistung, auf gelieferte bewegliche Sachen 2 Jahre. Melden Sie Mängel bitte sofort, dann bessern wir nach. Für Material, das Sie selbst stellen, übernehmen wir keine Gewährleistung.",
+    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Es gilt die gesetzliche Gewährleistung (Einzelheiten in § 16 unserer AGB). Melden Sie Mängel bitte sofort, dann bessern wir nach. Für Material, das Sie selbst stellen, übernehmen wir keine Gewährleistung.",
   },
   {
     q: "Was passiert, wenn ich einen Termin absagen muss?",

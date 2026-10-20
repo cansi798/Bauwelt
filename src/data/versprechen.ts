@@ -19,11 +19,13 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Festpreis-Zusage",
     // Kundenwunsch 19.10.2026 (Talk, Abgleich mit AGB § 2–§ 6): Festpreis gilt für alles im Angebot,
     // Änderungen nur mit schriftlichem Nachtrag – vorher abgesprochen.
-    short: "Festpreis für alles, was im Angebot steht – keine Überraschungen auf der Rechnung.",
+    // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): „keine Überraschungen auf der Rechnung“ entfällt
+    // (passt nicht zu AGB § 2/§ 6) → „Mehrkosten nur nach schriftlichem Nachtrag“.
+    short: "Festpreis für alles im Angebot – Mehrkosten nur nach schriftlichem Nachtrag.",
     long:
-      "Festpreis für alles, was im Angebot steht. Ändert sich etwas – etwa durch Ihre " +
-      "Zusatzwünsche oder versteckte Schäden –, sprechen wir vorher mit Ihnen und Sie " +
-      "erhalten einen schriftlichen Nachtrag. Keine Überraschungen auf der Rechnung.",
+      "Festpreis für alles, was im Angebot steht. Mehrkosten entstehen nur mit einem schriftlichen " +
+      "Nachtrag: Ändert sich etwas – etwa durch Ihre Zusatzwünsche oder versteckte Schäden –, " +
+      "sprechen wir vorher mit Ihnen und Sie erhalten den Nachtrag schriftlich.",
   },
   {
     id: "termin",
@@ -83,7 +85,8 @@ export const VERSPRECHEN: Siegel[] = [
     long:
       "Abbruch, Mauerarbeiten, Trockenbau, Sanitär, Elektro, Fliesen, Böden und Maler: " +
       "Wir planen und steuern alle Gewerke selbst, damit Termine und Übergänge passen. " +
-      "Die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb.",
+      "Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse " + // R3 (Jamil 20.10., Talk 2787)
+      "unser Partner-Elektromeisterbetrieb.",
   },
 ];
 

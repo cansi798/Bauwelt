@@ -3,7 +3,8 @@ title: "Badsanierung aus einer Hand"
 order: 10
 icon: "bath"
 badge: "Festpreis"
-teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Sanitär, Licht und Möbel. Zum vorher vereinbarten Festpreis."
+# Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R3): Sanitär nur über Partner-Meisterbetrieb (Installateur-Handwerk ist meisterpflichtig, nicht eingetragen)
+teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Licht und Möbel, die Sanitär-Anschlüsse durch unseren Partner-Meisterbetrieb. Zum vorher vereinbarten Festpreis."
 heroPrompt: "Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat"
 beschreibung: "Badsanierung zum Festpreis in Norderstedt, Hamburg und Umkreis: in rund zwei Wochen fertig, ein fester Ansprechpartner. Preis jetzt online berechnen."
 bild: "galerie-bad-03.webp"
@@ -14,7 +15,7 @@ refBilder:
 ablaufZiel: "neuen Bad"
 umfang:
   - "Demontage und Entsorgung des alten Bads"
-  - "Sanitär, Elektro und Heizung aus einer Hand: Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
+  - "Sanitär, Elektro und Heizung koordinieren wir für Sie: Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb."
   - "Fliesen, bodengleiche Duschen und Abdichtung"
   - "Möbel, Beleuchtung und Accessoires"
   - "Barrierefreie Lösungen auf Wunsch"
@@ -31,12 +32,12 @@ lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koord
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
-umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
+umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb."
 kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Demontage" }
-  - { icon: "tap", title: "Sanitär\u00ADarbeiten" }
+  - { icon: "tap", title: "Sanitär\u00ADanschlüsse durch Partner\u00ADmeister\u00ADbetrieb" } # R3 (20.10.)
   - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
   - { icon: "wall", title: "Trocken\u00ADbau\u00ADarbeiten" }
   - { icon: "tiles", title: "Fliesen\u00ADarbeiten" }
