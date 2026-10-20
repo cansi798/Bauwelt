@@ -10,7 +10,7 @@ import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
 import Img from "../components/Img.astro";
-import TeamZeichnung from "../components/TeamZeichnung.astro";
+import RoughSzene from "../components/RoughSzene.astro";
 import { EMAILS, SITE, waLink } from "../consts";
 
 /** Kundenwunsch 14.10.2026 (38), Abschnitt 4: Jamil: „Die genauen Zahlen natürlich erst
@@ -59,8 +59,15 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     accent="mehr."
     lead="Wir suchen Menschen, die sauberes Handwerk, klare Prozesse und Verantwortung schätzen."
   >
-    {/* Gezeichnetes Team (T3/W1 20.10.; Animation + Namen Jamil 21.10.2026, Msg 2863/2865) – gleiche Komponente wie Über uns */}
-    <TeamZeichnung slot="medien" />
+    {/* Jamil 21.10.2026 (Msg 2880): keine Gesichter auf Karriere (die stehen auf Über uns), sondern eine
+        gezeichnete Szene zum Thema – Karriere-Treppe mit Werkzeug, Münzen, Pfeil (Szene „karriere“). */}
+    <figure class="karriere__szene" slot="medien">
+      <RoughSzene
+        szene="karriere"
+        label="Zeichnung im Skizzen-Stil: neben einem kleinen Haus führt eine Treppe nach oben. Auf den Stufen stehen eine Werkzeugkiste, eine Wasserwaage und ein Bauhelm, oben ein Stapel goldener Münzen. Ein goldener Pfeil zeigt die Treppe hinauf, dazu kleine goldene Sterne."
+      />
+      <figcaption>Illustration – mit gutem Handwerk Schritt für Schritt nach oben</figcaption>
+    </figure>
     <p>
       Bei Bauwelt Handwerk zählt nicht nur, wie lange jemand arbeitet, sondern welche Qualität geliefert
       wird. Deshalb schaffen wir ein Umfeld, in dem Leistung gesehen, geschätzt und belohnt wird.
@@ -216,6 +223,12 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
 </BaseLayout>
 
 <style>
+  /* Karriere-Szene (Jamil 21.10.2026, Msg 2880): Sand-Fläche wie ein Bildrahmen, Zeichnung darin */
+  .karriere__szene { margin: 0; padding: 18px 12px 10px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; }
+  .karriere__szene :global(.rszene) { margin: 0; }
+  .karriere__szene :global(.rszene__bild) { max-width: none; }
+  .karriere__szene figcaption { margin-top: 6px; text-align: center; font-size: 13px; color: var(--anthrazit-600); }
+
   /* Pfeil-Icon schräg nach oben = „mehr verdienen“ */
   .karriere__trend :global(.icon) { transform: rotate(-45deg); }
 

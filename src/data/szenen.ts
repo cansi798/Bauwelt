@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team" | "karriere";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -672,4 +672,73 @@ function team(): Szene {
   return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 4.9, zielDauer: 4.9 };
 }
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team };
+/* ─── Karriere-Startbild: Karriere-Treppe (Jamil 21.10.2026, Msg 2880 – ersetzt dort die Gesichter) ───
+   „Gute Handwerker verdienen mehr“: links ein Haus (das Handwerk), daneben eine Treppe nach oben.
+   Auf den Stufen Werkzeugkiste, Wasserwaage, Bauhelm; oben wächst ein Stapel goldener Münzen, ein
+   goldener Pfeil zieht die Treppe hinauf, Sterne ploppen auf. Läuft einmal, danach wippt der Helm kurz. */
+const KAR_B = 760, KAR_H = 500;
+function karriere(): Szene {
+  const z = new Zeichner();
+  const boden = 480, stufeB = 120, stufeH = 80, x0 = 220;
+  // Boden
+  z.bei(0);
+  z.linie(30, boden, 730, boden, { stroke: F.hell, strokeWidth: 2.2 }, 0.5);
+  // Haus (das Handwerk): Wände, Dach, Tür, Fenster mit Fliesen-Raster
+  z.bei(0.1);
+  z.rechteck(55, 350, 110, 130, { strokeWidth: 2.4 }, 0.5);
+  z.pfad("M40 356L110 284L180 356", { fill: F.goldHell, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.3, strokeWidth: 2.6 }, 0.5);
+  z.bei(0.45);
+  z.rechteck(72, 418, 30, 62, { stroke: F.strich, strokeWidth: 2 }, 0.3);
+  z.rechteck(118, 382, 34, 34, { stroke: F.grau, strokeWidth: 1.8 }, 0.3);
+  z.linie(135, 382, 135, 416, { stroke: F.grau, strokeWidth: 1.4 }, 0.15);
+  z.linie(118, 399, 152, 399, { stroke: F.grau, strokeWidth: 1.4 }, 0.15);
+  // Treppe – läuft beim Zeichnen von unten nach oben
+  z.bei(0.55);
+  let d = `M${x0} ${boden}`;
+  for (let i = 0; i < 4; i++) d += `V${boden - stufeH * (i + 1)}H${x0 + stufeB * (i + 1)}`;
+  z.pfad(d + `V${boden}`, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 10, fillWeight: 1.2, strokeWidth: 2.8 }, 1.1);
+  const stufe = (i: number) => ({ x: x0 + stufeB * i + stufeB / 2, y: boden - stufeH * (i + 1) });
+  // Stufe 1: Werkzeugkiste
+  let { x, y } = stufe(0);
+  z.bei(1.35);
+  z.gruppe("stempel", () => {
+    z.rechteck(x - 36, y - 38, 72, 38, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
+    z.linie(x - 36, y - 24, x + 36, y - 24, { strokeWidth: 1.8 }, 0.15);
+    z.pfad(`M${x - 14} ${y - 38}V${y - 50}H${x + 14}V${y - 38}`, { strokeWidth: 2.2 }, 0.2);
+  });
+  // Stufe 2: Wasserwaage mit Libelle
+  ({ x, y } = stufe(1));
+  z.bei(1.65);
+  z.gruppe("stempel", () => {
+    z.rechteck(x - 46, y - 18, 92, 18, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
+    z.rundRechteck(x - 12, y - 14, 24, 10, 5, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.6 }, 0.2);
+    z.kreis(x, y - 9, 5, { fill: F.gold, fillStyle: "solid", strokeWidth: 1 }, 0.1);
+  });
+  // Stufe 3: Bauhelm (wippt am Ende einmal)
+  ({ x, y } = stufe(2));
+  z.bei(1.95);
+  z.gruppe("huepfen", () => z.gruppe("stempel", () => {
+    z.pfad(`M${x - 34} ${y - 8}Q${x - 32} ${y - 50} ${x} ${y - 50}Q${x + 32} ${y - 50} ${x + 34} ${y - 8}Z`, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
+    z.linie(x - 44, y - 6, x + 44, y - 6, { strokeWidth: 3 }, 0.2);
+    z.linie(x, y - 50, x, y - 12, { stroke: F.goldDunkel, strokeWidth: 1.6 }, 0.15);
+  }), 4.0);
+  // Stufe 4: Münzstapel wächst
+  ({ x, y } = stufe(3));
+  [0, 1, 2].forEach((k) => {
+    z.bei(2.25 + k * 0.15);
+    z.gruppe("stempel", () => z.ellipse(x, y - 9 - k * 13, 58, 18, { fill: F.gold, fillStyle: "solid", stroke: F.goldDunkel, strokeWidth: 2 }, 0.2));
+  });
+  // Goldener Pfeil die Treppe hinauf
+  z.bei(2.7);
+  z.kurve([[250, 300], [380, 240], [520, 160], [646, 86]], { stroke: F.gold, strokeWidth: 5, roughness: 0.9 }, 0.6);
+  z.bei(3.2);
+  z.pfad("M614 84L650 84L638 118", { stroke: F.gold, strokeWidth: 5, roughness: 0.8 }, 0.25);
+  // Sterne an der Spitze
+  ([[700, 52, 15, 3.35], [596, 44, 10, 3.5], [720, 128, 9, 3.65]] as const).forEach(([sx, sy, r, t]) => {
+    z.bei(t);
+    z.gruppe("stempel", () => funkeln(z, sx, sy, r));
+  });
+  return { breite: KAR_B, hoehe: KAR_H, elemente: z.elemente, ende: 4.6, zielDauer: 4.6 };
+}
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere };
