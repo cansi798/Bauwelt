@@ -60,7 +60,7 @@ const zeigeBild = eigene.length <= 2;
           </ul>
         </div>
         {zeigeBild && bild && (
-          <figure class="lvort__bild">
+          <figure class="lvort__bild nur-desktop">
             <Img src={bild.file} alt={bild.alt} w={eigene.length > 1 ? 3 : 16} h={eigene.length > 1 ? 1 : 10} />
           </figure>
         )}

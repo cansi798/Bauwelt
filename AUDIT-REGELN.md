@@ -150,3 +150,5 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 - **Kein energetischer Umbau** (Jamil 20.10., Talk 2599): Bauwelt bietet keine energetische Sanierung/Modernisierung an – das Wort „energetisch“ kommt im Angebot nicht vor (audit-check warnt).
 - **Badsanierung-Kachel** (Jamil 20.10., Talk 2600): Kachel-/Menüname nur „Badsanierung“ (ohne „aus einer Hand“), Unterzeile emotional: „Endlich ein Bad, in dem Sie sich rundum wohlfühlen“.
+
+- **Vorteils-Foto nur am PC** (Jamil 20.10., Talk 2702/2704): Das Projektfoto unter „Das Besondere bei …“ erscheint nur ab 1024 px; am Handy/Tablet nur Kasten + 7 Versprechen.
