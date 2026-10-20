@@ -4,10 +4,12 @@
 // links groß das, was diese Leistung besonders macht (eigene Vorteile aus dem Frontmatter),
 // rechts die 7 Versprechen (gleiche Quelle wie Startseite/Über uns: src/data/versprechen.ts)
 // als nummerierte Linie mit goldenen Ziffern. Eigene Darstellung – NICHT die Siegel der Startseite.
-// Polish 19.10.2026: Links blieb unter dem kurzen Kasten eine große leere Fläche. Die linke Spalte
-// (Kasten + ruhiges echtes Projektfoto der Leistung + vorhandener Button) bleibt jetzt am Desktop
-// beim Scrollen stehen (sticky), während rechts die Versprechen laufen. Ohne Foto: nur Button.
-// Handy: alles untereinander, nichts klebt. Keine neuen Texte – nur bestehende CTA-Beschriftungen.
+// Jamil 20.10.2026 (Talk 2702/2704/2711): Projektfoto entfällt komplett (auch am PC). Damit keine
+// leere Fläche entsteht, gibt es keine zwei Spalten mehr: oben „Das Besondere bei …“ als breites,
+// zentriertes Band (1 Vorteil: Symbol + Titel + Text nebeneinander; 2–3 Vorteile nebeneinander im Band),
+// darunter die 7 Versprechen als ausgewogenes Raster (Desktop + Tablet 2 Spalten: 1–4 | 5–7),
+// darunter mittig der vorhandene Button (nur Desktop, nicht bei Pauschal-Checks, 5.7).
+// Handy: alles untereinander wie bisher. Keine neuen Texte – nur bestehende CTA-Beschriftungen.
 // Bewegung: nur kreisförmig (Jamil Msg 2518/2523) – die goldenen Plaketten zeichnen sich EINMAL,
 // danach erscheinen Ziffer/Titel/Text (nur Deckkraft). Bei „Bewegung reduzieren“ steht sofort alles.
 // Jamil 20.10.2026 (Talk 2691/2692/2694): Ziffern im selben Skizzen-Stil wie die Ablauf-Zeichnung
@@ -15,7 +17,6 @@
 // Zahlen ohne führende Null („1, 2, 3 …“ statt „01, 02 …“).
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
-import Img from "./Img.astro";
 import SkizzenKreis from "./SkizzenKreis.astro";
 import { vorteileFuerSeite, type Vorteil } from "../data/versprechen";
 
@@ -27,25 +28,21 @@ interface Props {
   eigeneTitel: string;
   /** Eigene Vorteile der Leistung (warum-Liste); Doppelungen mit den Versprechen fallen weg. */
   vorteile: Vorteil[];
-  /** Ruhiges, echtes Projektfoto der Leistung unter dem Kasten (optional, Datei in assets/img/). */
-  bild?: { file: string; alt: string };
   /** Bestehender Button der Seite („Preis berechnen“ / „… buchen“), nur Desktop. */
   cta?: { href: string; label: string; extern?: boolean };
 }
-const { eyebrow = "Ihre Vorteile", pre, accent = "", eigeneTitel, vorteile, bild, cta } = Astro.props;
+const { eyebrow = "Ihre Vorteile", pre, accent = "", eigeneTitel, vorteile, cta } = Astro.props;
 const { eigene, zusagen } = vorteileFuerSeite(vorteile);
-// Foto nur, solange die linke Spalte damit nicht länger wird als die Versprechen-Liste
-// (1 Vorteil: 16:10, 2 Vorteile: flaches 3:1, ab 3 Vorteilen kein Foto – der Kasten füllt dann selbst).
-const zeigeBild = eigene.length <= 2;
+// Raster der Versprechen ab Tablet: zwei Spalten, spaltenweise gefüllt (1–4 links, 5–7 rechts)
+const zeilen = Math.ceil(zusagen.length / 2);
 ---
 
 <section class="section section--dark lvort" aria-label="Ihre Vorteile">
   <div class="container">
     <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} />
-    <div class:list={["lvort__grid", { "lvort__grid--eins": eigene.length === 0 }]}>
+    <div class="lvort__inhalt">
       {eigene.length > 0 && (
-        <div class:list={["lvort__seite", { "lvort__seite--hoch": eigene.length > 1 }]}>
-        <div class="lvort__eigen">
+        <div class:list={["lvort__eigen", eigene.length === 1 ? "lvort__eigen--eins" : "lvort__eigen--mehr", `lvort__eigen--n${eigene.length}`]} style={`--n:${eigene.length}`}>
           <p class="lvort__kicker">{eigeneTitel}</p>
           <ul class="lvort__eigenliste">
             {eigene.map((v) => (
@@ -59,25 +56,12 @@ const zeigeBild = eigene.length <= 2;
             ))}
           </ul>
         </div>
-        {zeigeBild && bild && (
-          <figure class="lvort__bild nur-desktop">
-            <Img src={bild.file} alt={bild.alt} w={eigene.length > 1 ? 3 : 16} h={eigene.length > 1 ? 1 : 10} />
-          </figure>
-        )}
-        {cta && (
-          <div class="lvort__cta nur-desktop">
-            {cta.extern
-              ? <a class="btn" href={cta.href} target="_blank" rel="noopener" data-termin>{cta.label}</a>
-              : <a class="btn" href={cta.href}>{cta.label}</a>}
-          </div>
-        )}
-        </div>
       )}
       <div class="lvort__zusagen" data-einmal>
         <p class="lvort__kicker">Unsere {zusagen.length} Versprechen</p>
-        <ol class="lvort__liste">
+        <ol class="lvort__liste" style={`--zeilen:${zeilen}`}>
           {zusagen.map((z, i) => (
-            <li class="lvort__punkt" data-versprechen={z.id} style={`--i:${i};--start:${i * 140}ms`}>
+            <li class:list={["lvort__punkt", { "lvort__punkt--spaltenende": i === zeilen - 1 }]} data-versprechen={z.id} style={`--i:${i};--start:${i * 140}ms`}>
               <span class="lvort__nr" aria-hidden="true">
                 <SkizzenKreis art="plakette" groesse={56} durchmesser={44} seed={31 + i * 5} />
                 <span class="lvort__ziffer">{i + 1}</span>
@@ -90,47 +74,31 @@ const zeigeBild = eigene.length <= 2;
           ))}
         </ol>
       </div>
+      {cta && (
+        <div class="lvort__cta nur-desktop">
+          {cta.extern
+            ? <a class="btn" href={cta.href} target="_blank" rel="noopener" data-termin>{cta.label}</a>
+            : <a class="btn" href={cta.href}>{cta.label}</a>}
+        </div>
+      )}
     </div>
   </div>
 </section>
 
 <style>
-  .lvort__grid { display: grid; gap: 40px; align-items: start; max-width: 1120px; margin-inline: auto; }
-  @media (min-width: 1024px) {
-    .lvort__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 72px; }
-    .lvort__grid--eins { grid-template-columns: minmax(0, 760px); justify-content: center; }
-  }
-  /* Linke Spalte bleibt beim Scrollen stehen – nur am Desktop und nur, wenn das Fenster hoch genug ist
-     (sonst wäre der untere Teil nie erreichbar). Abstand oben = feste Kopfzeile + Luft. */
-  @media (min-width: 1024px) and (min-height: 720px) {
-    .lvort__seite { position: sticky; top: calc(var(--header-h, 80px) + 40px); }
-  }
-  /* höherer Kasten (mehrere eigene Vorteile): erst ab entsprechend hohem Fenster kleben */
-  @media (min-width: 1024px) and (max-height: 859px) {
-    .lvort__seite--hoch { position: static; }
-  }
-  .lvort__seite { display: grid; gap: 24px; min-width: 0; }
-
-  /* Foto unter dem Kasten: ruhig, abgerundet, feiner goldener Rahmen wie der Kasten */
-  .lvort__bild {
-    margin: 0;
-    padding: 6px;
-    border-radius: calc(var(--radius-card, 16px) + 6px);
-    border: 1px solid rgba(195, 165, 111, 0.35);
-    background: rgba(195, 165, 111, 0.05);
-  }
-  .lvort__bild :global(.img-wrap) { border-radius: var(--radius-card, 16px); }
-  .lvort__bild :global(img) { filter: saturate(0.92); }
-  .lvort__cta { display: flex; }
+  /* Ein Strang statt zwei Spalten (Jamil 20.10., Talk 2711): Band oben, Versprechen-Raster, Button */
+  .lvort__inhalt { display: grid; gap: 56px; max-width: 1120px; margin-inline: auto; min-width: 0; }
+  .lvort__zusagen, .lvort__eigen { min-width: 0; }
+  .lvort__cta { display: flex; justify-content: center; margin-top: -8px; }
 
   .lvort__kicker {
-    margin: 0 0 20px;
+    margin: 0 0 20px; max-width: none;
     font-family: var(--font-heading);
     font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--gold-500) !important;
   }
 
-  /* Links: das Besondere an dieser Leistung – groß, mit goldenem Rahmen hervorgehoben */
+  /* Band oben: das Besondere an dieser Leistung – breit, zentriert, goldener Rahmen */
   .lvort__eigen {
     padding: 32px 28px;
     border-radius: var(--radius-card, 16px);
@@ -138,7 +106,7 @@ const zeigeBild = eigene.length <= 2;
     border: 1px solid rgba(195, 165, 111, 0.35);
   }
   .lvort__eigenliste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-  .lvort__eigenpunkt { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; padding-block: 22px; }
+  .lvort__eigenpunkt { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; padding-block: 22px; min-width: 0; }
   .lvort__eigenpunkt:first-child { padding-top: 4px; }
   .lvort__eigenpunkt:last-child { padding-bottom: 0; }
   .lvort__eigenpunkt + .lvort__eigenpunkt { border-top: 1px solid rgba(195, 165, 111, 0.22); }
@@ -154,9 +122,49 @@ const zeigeBild = eigene.length <= 2;
   }
   .lvort__eigenpunkt p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--anthrazit-200); }
 
-  /* Rechts: die 7 Versprechen als nummerierte Linie */
+  /* Band ab Tablet: 1 Vorteil = Symbol + Titel + Text nebeneinander, mittig;
+     2–3 Vorteile = nebeneinander im Band, feine goldene Trennlinien senkrecht */
+  @media (min-width: 768px) {
+    .lvort__kicker { text-align: center; }
+    .lvort__eigen { padding: 36px 40px 40px; }
+    .lvort__eigen--eins .lvort__eigenliste { max-width: 760px; margin-inline: auto; }
+    .lvort__eigen--eins .lvort__eigenpunkt { grid-template-columns: 56px minmax(0, 1fr); gap: 24px; align-items: start; padding: 0; }
+    .lvort__eigen--eins .lvort__eigenicon { width: 56px; height: 56px; }
+  }
+  /* nebeneinander: 2 Vorteile ab Tablet, 3 Vorteile erst ab Desktop (am Tablet sonst zu schmal) */
+  @media (min-width: 768px) {
+    .lvort__eigen--n2 .lvort__eigenliste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lvort__eigen--n2 .lvort__eigenpunkt { grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; padding: 0 28px; }
+    .lvort__eigen--n2 .lvort__eigenpunkt:first-child { padding-left: 0; }
+    .lvort__eigen--n2 .lvort__eigenpunkt:last-child { padding-right: 0; }
+    .lvort__eigen--n2 .lvort__eigenpunkt + .lvort__eigenpunkt { border-top: 0; border-left: 1px solid rgba(195, 165, 111, 0.22); }
+    .lvort__eigen--n2 .lvort__eigenpunkt h3 { font-size: 20px; }
+  }
+  @media (min-width: 1024px) {
+    .lvort__eigen { padding: 40px 56px 44px; }
+    .lvort__eigen--mehr .lvort__eigenliste { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+    .lvort__eigen--mehr .lvort__eigenpunkt { grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; padding: 0 40px; }
+    .lvort__eigen--mehr .lvort__eigenpunkt:first-child { padding-left: 0; }
+    .lvort__eigen--mehr .lvort__eigenpunkt:last-child { padding-right: 0; }
+    .lvort__eigen--mehr .lvort__eigenpunkt + .lvort__eigenpunkt { border-top: 0; border-left: 1px solid rgba(195, 165, 111, 0.22); }
+    .lvort__eigen--mehr .lvort__eigenpunkt h3 { font-size: 20px; }
+  }
+
+  /* Die 7 Versprechen: Handy eine Linie, ab Tablet zwei Spalten (1–4 | 5–7) */
   .lvort__liste { list-style: none; margin: 0; padding: 0; display: grid; }
-  .lvort__punkt { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding-bottom: 26px; }
+  @media (min-width: 768px) {
+    .lvort__liste {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(var(--zeilen), auto);
+      grid-auto-flow: column;
+      column-gap: 48px;
+      max-width: 960px; margin-inline: auto;
+    }
+    .lvort__punkt--spaltenende { padding-bottom: 0; }
+    .lvort__punkt--spaltenende::before { display: none; }
+  }
+  @media (min-width: 1024px) { .lvort__liste { column-gap: 80px; } }
+  .lvort__punkt { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding-bottom: 26px; min-width: 0; }
   .lvort__punkt:last-child { padding-bottom: 0; }
   /* feine goldene Verbindungslinie zwischen den Plaketten – gestrichelt wie die Wege im Ablauf */
   .lvort__punkt:not(:last-child)::before {
@@ -190,7 +198,7 @@ const zeigeBild = eigene.length <= 2;
   }
 
   @media (max-width: 639px) {
-    .lvort__grid { gap: 32px; }
+    .lvort__inhalt { gap: 40px; }
     .lvort__eigen { padding: 24px 20px; }
     .lvort__eigenpunkt { grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding-block: 18px; }
     .lvort__eigenicon { width: 40px; height: 40px; }
