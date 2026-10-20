@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -550,4 +550,83 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
   });
 });
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis };
+/* ─── Karriere-Startbild: vier gezeichnete Gesichter (Jamil 20.10.2026, Talk 2787, Gesamt-Audit T3/W1) ───
+   Ersetzt das Stockfoto team.webp. Comic-Stil mit demselben Stift wie die anderen Zeichnungen
+   (rough.js, Anthrazit-Linien, goldene Flächen). Symbolisch für die Mitarbeitenden – KEINE echten
+   Personen, keine Namen. 2 × 2 Gesichter mit Arbeitskleidung, jedes mit eigenem Merkmal. */
+type Typ = "bart" | "zopf" | "helm" | "muetze";
+function gesicht(z: Zeichner, cx: number, cy: number, typ: Typ) {
+  const hy = cy - 16; // Kopfmitte
+  // Schultern + Arbeitsjacke (goldene Schraffur), Kragen
+  z.pfad(`M${cx - 104} ${cy + 128}Q${cx - 100} ${cy + 78} ${cx - 44} ${cy + 68}L${cx + 44} ${cy + 68}Q${cx + 100} ${cy + 78} ${cx + 104} ${cy + 128}`,
+    { fill: typ === "helm" ? F.gold : F.goldHell, fillStyle: "hachure", hachureGap: 9, fillWeight: 1.3, strokeWidth: 2.4 }, 0.6);
+  z.pfad(`M${cx - 24} ${cy + 68}L${cx} ${cy + 96}L${cx + 24} ${cy + 68}`, { strokeWidth: 2.2 }, 0.3);
+  if (typ === "zopf" || typ === "bart") z.linie(cx, cy + 96, cx, cy + 128, { strokeWidth: 1.8, stroke: F.grau }, 0.2); // Reißverschluss
+  if (typ === "muetze") { // Latzhosen-Träger
+    z.linie(cx - 50, cy + 72, cx - 40, cy + 128, { strokeWidth: 2.2, stroke: F.goldDunkel }, 0.2);
+    z.linie(cx + 50, cy + 72, cx + 40, cy + 128, { strokeWidth: 2.2, stroke: F.goldDunkel }, 0.2);
+  }
+  // Hals
+  z.linie(cx - 18, hy + 58, cx - 20, cy + 70, { strokeWidth: 2.2 }, 0.2);
+  z.linie(cx + 18, hy + 58, cx + 20, cy + 70, { strokeWidth: 2.2 }, 0.2);
+  // Zopf/Haar hinter dem Kopf zuerst
+  if (typ === "zopf") {
+    z.pfad(`M${cx - 58} ${hy - 6}Q${cx - 72} ${hy + 50} ${cx - 50} ${hy + 84}L${cx + 50} ${hy + 84}Q${cx + 72} ${hy + 50} ${cx + 58} ${hy - 6}`,
+      { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.5);
+  }
+  // Ohren + Kopf
+  z.ellipse(cx - 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
+  z.ellipse(cx + 58, hy + 6, 16, 26, { strokeWidth: 2 }, 0.25);
+  z.ellipse(cx, hy, 116, 136, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.7);
+  // Augen, Brauen, Nase, Mund
+  z.kreis(cx - 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
+  z.kreis(cx + 21, hy - 4, 8, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.15);
+  z.pfad(`M${cx - 31} ${hy - 20}Q${cx - 21} ${hy - 26} ${cx - 11} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
+  z.pfad(`M${cx + 11} ${hy - 20}Q${cx + 21} ${hy - 26} ${cx + 31} ${hy - 20}`, { strokeWidth: 2.4 }, 0.15);
+  z.pfad(`M${cx + 2} ${hy + 2}Q${cx - 6} ${hy + 18} ${cx + 4} ${hy + 20}`, { strokeWidth: 2 }, 0.15);
+  z.pfad(`M${cx - 20} ${hy + 32}Q${cx} ${hy + 48} ${cx + 20} ${hy + 32}`, { strokeWidth: 2.4 }, 0.2);
+  // Wangen (goldener Hauch)
+  z.kreis(cx - 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
+  z.kreis(cx + 34, hy + 22, 14, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1);
+  // eigenes Merkmal
+  if (typ === "bart") {
+    z.pfad(`M${cx - 50} ${hy - 30}Q${cx - 46} ${hy - 72} ${cx} ${hy - 70}Q${cx + 46} ${hy - 72} ${cx + 50} ${hy - 30}Q${cx + 20} ${hy - 50} ${cx - 50} ${hy - 30}Z`,
+      { fill: F.strich, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.4, strokeWidth: 2.2 }, 0.4);
+    z.pfad(`M${cx - 52} ${hy + 14}Q${cx - 46} ${hy + 66} ${cx} ${hy + 70}Q${cx + 46} ${hy + 66} ${cx + 52} ${hy + 14}Q${cx + 30} ${hy + 30} ${cx + 22} ${hy + 30}Q${cx} ${hy + 56} ${cx - 22} ${hy + 30}Q${cx - 30} ${hy + 30} ${cx - 52} ${hy + 14}Z`,
+      { fill: F.grau, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.2, strokeWidth: 2 }, 0.4);
+  } else if (typ === "zopf") {
+    z.pfad(`M${cx - 56} ${hy - 8}Q${cx - 50} ${hy - 70} ${cx} ${hy - 70}Q${cx + 50} ${hy - 70} ${cx + 56} ${hy - 8}Q${cx + 20} ${hy - 40} ${cx - 10} ${hy - 44}Q${cx - 40} ${hy - 30} ${cx - 56} ${hy - 8}Z`,
+      { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.4);
+    z.kreis(cx + 4, hy - 82, 30, { fill: F.grau, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 2.2 }, 0.3); // Dutt
+    z.kreis(cx - 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15); // Ohrringe
+    z.kreis(cx + 58, hy + 26, 7, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.15);
+  } else if (typ === "helm") {
+    z.pfad(`M${cx - 62} ${hy - 30}Q${cx - 60} ${hy - 92} ${cx} ${hy - 92}Q${cx + 60} ${hy - 92} ${cx + 62} ${hy - 30}Z`,
+      { fill: F.gold, fillStyle: "solid", strokeWidth: 2.4 }, 0.4);
+    z.linie(cx - 78, hy - 28, cx + 78, hy - 28, { strokeWidth: 3 }, 0.25); // Helmrand
+    z.linie(cx, hy - 92, cx, hy - 34, { strokeWidth: 1.8, stroke: F.goldDunkel }, 0.2);
+    z.kreis(cx - 21, hy - 4, 26, { strokeWidth: 2 }, 0.2); // Brille
+    z.kreis(cx + 21, hy - 4, 26, { strokeWidth: 2 }, 0.2);
+    z.linie(cx - 8, hy - 6, cx + 8, hy - 6, { strokeWidth: 2 }, 0.1);
+  } else {
+    z.pfad(`M${cx - 58} ${hy - 26}Q${cx - 58} ${hy - 96} ${cx} ${hy - 96}Q${cx + 58} ${hy - 96} ${cx + 58} ${hy - 26}Z`,
+      { fill: F.gold, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.4, strokeWidth: 2.4 }, 0.4);
+    z.rundRechteck(cx - 62, hy - 40, 124, 20, 6, { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Umschlag
+    z.kreis(cx, hy - 100, 16, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.8 }, 0.15); // Bommel
+    z.pfad(`M${cx - 24} ${hy + 26}Q${cx - 10} ${hy + 18} ${cx} ${hy + 24}Q${cx + 10} ${hy + 18} ${cx + 24} ${hy + 26}`,
+      { strokeWidth: 3.2 }, 0.2); // Schnurrbart
+    z.linie(cx + 52, hy - 22, cx + 78, hy + 10, { stroke: F.goldDunkel, strokeWidth: 3.4 }, 0.2); // Zimmermannsbleistift hinterm Ohr
+  }
+}
+const TEAM_B = 760, TEAM_H = 540;
+function team(): Szene {
+  const z = new Zeichner();
+  const typen: Typ[] = ["bart", "zopf", "helm", "muetze"];
+  typen.forEach((typ, i) => {
+    z.bei(i * 0.5);
+    gesicht(z, TEAM_B / 4 + (i % 2) * (TEAM_B / 2), TEAM_H / 4 + Math.floor(i / 2) * (TEAM_H / 2) + 2, typ);
+  });
+  return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 3 };
+}
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team };

@@ -53,7 +53,7 @@ warmes Licht; nicht übersättigt; keine Filter.
 | `hero-ueber-uns.webp` | Über uns | Bau-Crew auf der Baustelle |
 | `hero-karriere.webp` | Karriere | Handwerker beim Trockenbau (s/w) |
 | `hero-kontakt.webp` | Kontakt | Handschlag an heller Wand |
-| `team.webp` | „Über uns"-Sektion (Team-Foto) | Team misst Wandöffnung im Rohbau |
+| ~~`team.webp`~~ | entfernt 20.10.2026 (Gesamt-Audit T3, Jamil Talk 2787) – Karriere zeigt jetzt vier gezeichnete Gesichter (Szene „team“) | – |
 
 > Personen-Motive zeigen **echte Arbeitssituationen** (keine gestellten Studio-Models).
 > Für maximale Glaubwürdigkeit später durch **eigene Team-/Baustellenfotos** ersetzen.

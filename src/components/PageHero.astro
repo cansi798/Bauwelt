@@ -24,10 +24,12 @@ interface Props {
 const { eyebrow, pre, accent = "", lead, bild, alt = "", ctaHref, ctaLabel, checks = [], ohneTermin = false, ctaNote = "Unverbindlich · Ergebnis in 60 Sekunden" } = Astro.props;
 // Rechner-CTA steht mobil schon in der festen Leiste unten → dort ausblenden.
 const istRechner = Boolean(ctaHref?.includes("rechner/"));
+/** Statt Foto eine Zeichnung o. Ä. (Slot „medien“, z. B. Karriere – Gesamt-Audit 20.10.2026 T3). */
+const hatMedien = Astro.slots.has("medien");
 ---
 
 <section class="phero">
-  <div class:list={["container", "phero__grid", { "phero__grid--single": !bild }]}>
+  <div class:list={["container", "phero__grid", { "phero__grid--single": !bild && !hatMedien }]}>
     <div class="phero__copy">
       {eyebrow && <div class="eyebrow">{eyebrow}</div>}
       <h1>{pre}{accent && <span class="accent">{accent}</span>}</h1>
@@ -54,11 +56,12 @@ const istRechner = Boolean(ctaHref?.includes("rechner/"));
         </div>
       )}
     </div>
-    {bild && (
+    {bild && !hatMedien && (
       <div class="phero__media">
         <Img src={bild} alt={alt} w={760} h={540} eager />
       </div>
     )}
+    {hatMedien && <div class="phero__media"><slot name="medien" /></div>}
   </div>
 </section>
 

@@ -37,10 +37,20 @@ for (const file of pages) {
   titles.set(title, page);
 
   // Keine Template-Unfälle
-  for (const bad of ["undefined", "[object Object]", "NaN €", "MwSt..", "499 €", "Nur wenn Sie möchten", "umfang__item",
-    // Kundenwunsch 12.10.2026 (17): keine KI-/Stockfotos außerhalb der Hero-Bereiche
-    "ref-01-", "ref-02-", "ref-03-", "ref-05-", "ref-06-", "img/team.webp"]) {
+  for (const bad of ["undefined", "[object Object]", "NaN €", "MwSt..", "499 €", "Nur wenn Sie möchten", "umfang__item"]) {
     if (html.includes(bad)) err(page, `enthält "${bad}"`);
+  }
+  // Kundenwunsch 12.10.2026 (17): keine KI-/Stockfotos AUSSERHALB der Hero-Bereiche.
+  // Gesamt-Audit 20.10.2026 W1 (Jamil, Talk 2787): früher wurde stumpf nach dem Dateinamen gesucht –
+  // auch im erlaubten Hero (Fehlalarm /karriere/ team.webp). Jetzt werden die Hero-Abschnitte
+  // (<section class="phero|fhero|lhero …">) vorher herausgenommen.
+  const ohneHero = html.replace(/<section\b[^>]*\bclass="[^"]*\b[a-z]*hero\b[^"]*"[\s\S]*?<\/section>/g, " ");
+  for (const stock of ["ref-01-", "ref-02-", "ref-03-", "ref-05-", "ref-06-", "img/team.webp"]) {
+    if (ohneHero.includes(stock)) err(page, `Stock-/KI-Foto "${stock}" außerhalb des Hero-Bereichs`);
+  }
+  // Gesamt-Audit 20.10.2026 P1: nachgeladene Zeichnungen (RoughSzene) – Datei muss existieren
+  for (const m of html.matchAll(/data-rszene-datei="\/Bauwelt\/([^"]+)"/g)) {
+    if (!existsSync(join(DIST, m[1]))) err(page, `Zeichnung fehlt: /${m[1]}`);
   }
 
   // Header/Footer überall

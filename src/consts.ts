@@ -159,7 +159,7 @@ export const KI_BILDER = new Set<string>([
   "hero-referenzen.webp",                // Referenzen
   "hero-ueber-uns.webp",                 // (früher Über uns – Bagger-Bild, seit 19.10.2026 nicht mehr verwendet)
   "team-fiktiv.webp",                    // Über uns: KI-Bild eines fiktiven Teams (Kundenwunsch 19.10.2026, Audit 7.1)
-  "team.webp",                           // Karriere
+  // team.webp (Karriere) entfällt seit 20.10.2026 (Gesamt-Audit T3): dort jetzt gezeichnete Gesichter, Datei gelöscht
   "hero-partner.webp",                   // Partner
 ]);
 export const istKiBild = (datei?: string): boolean => Boolean(datei && KI_BILDER.has(datei));
