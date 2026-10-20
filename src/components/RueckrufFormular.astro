@@ -136,8 +136,21 @@ const {
   .rrf__feld textarea:focus-visible { outline: 2px solid var(--gold-500); outline-offset: 1px; border-color: var(--gold-500); }
   .rrf__feld input[aria-invalid="true"] { border-color: #B3261E; }
   .rrf__ok { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--anthrazit-700); cursor: pointer; }
-  .rrf__ok input { flex: none; width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--gold-700); }
-  .rrf__ok a { color: var(--gold-700); }
+  /* Gesamt-Audit 20.10.2026 D3 (Jamil, Talk 2787): Tap-Ziele ≥ 44 px. Das Kästchen bleibt optisch
+     ca. 22 px groß (gezeichnet als Hintergrund), die Trefferfläche ist 44 × 44 px; negative Ränder
+     halten die Position wie vorher. Der Link bekommt unsichtbar mehr Höhe (Zeilenhöhe bleibt). */
+  .rrf__ok input {
+    appearance: none; -webkit-appearance: none;
+    flex: none; width: 44px; height: 44px; margin: -11px;
+    border: 0; border-radius: 12px; cursor: pointer;
+    background: center / 22px 22px no-repeat
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' rx='5' fill='%23fff' stroke='%238C7345' stroke-width='2'/%3E%3C/svg%3E");
+  }
+  .rrf__ok input:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' rx='5' fill='%238C7345' stroke='%238C7345' stroke-width='2'/%3E%3Cpath d='M6 11.5l3.2 3.2L16 8' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .rrf__ok input:focus-visible { outline: 2px solid var(--gold-500); outline-offset: -8px; }
+  .rrf__ok a { color: var(--gold-700); display: inline-block; padding-block: 13px; margin-block: -13px; }
   .rrf__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .rrf__fehler { margin: 0; font-size: 14px; font-weight: 600; color: #B3261E; }
   .rrf__senden { justify-self: start; white-space: nowrap; }
