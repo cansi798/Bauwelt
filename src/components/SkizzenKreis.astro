@@ -1,0 +1,79 @@
+---
+// Handgezeichneter Kreis im Skizzen-Stil der Ablauf-Zeichnung und der Siegel
+// (Jamil 20.10.2026, Talk 2691/2692/2694: EIN Zeichenstil für nummerierte und Ring-Elemente).
+// Nutzt denselben Zeichner wie die Szenen (src/lib/rough-szene.ts → rough.js NUR beim Build);
+// im Browser liegt nur fertiges SVG, kein rough.js.
+//   art="plakette": gefüllte goldene Plakette wie die Schritt-Nummern im Ablauf (Ziffer kommt vom Aufrufer)
+//   art="ring":     dünner goldener Ring (Symbol/Zahl kommt vom Aufrufer)
+// Bewegung: zeichnet sich EINMAL (Strich für Strich, wie RoughSzene), sobald der umgebende
+// [data-einmal]-Bereich sichtbar wird (global.css hält die Animation bis dahin pausiert).
+// Start-Versatz über die CSS-Variable --start am Eltern-Element. Ohne JS oder bei
+// „Bewegung reduzieren“ steht sofort der fertige Kreis.
+import { Zeichner, type Element } from "../lib/rough-szene";
+
+interface Props {
+  art: "plakette" | "ring";
+  /** Kantenlänge der viewBox (quadratisch). */
+  groesse: number;
+  /** Kreis-Durchmesser in viewBox-Einheiten (etwas Luft für den „wackligen“ Strich lassen). */
+  durchmesser: number;
+  /** Fester Seed → jede Plakette sieht anders aus, aber bei jedem Build gleich. */
+  seed?: number;
+  /** Strichstärke in viewBox-Einheiten. */
+  strich?: number;
+  /** Dauer des Zeichnens in s. */
+  dauer?: number;
+  class?: string;
+}
+const { art, groesse, durchmesser, seed = 7, strich = art === "plakette" ? 1.6 : 1.8, dauer = 0.6, class: klasse } = Astro.props;
+
+const z = new Zeichner();
+const c = groesse / 2;
+z.kreis(
+  c, c, durchmesser,
+  art === "plakette"
+    ? { seed, fill: "x", fillStyle: "solid", strokeWidth: strich, roughness: 1.1 }
+    : { seed, strokeWidth: strich, roughness: 1.2 },
+  dauer
+);
+const n = (x: number) => Math.round(x * 100) / 100;
+const pfade = z.elemente
+  .map((e: Element) =>
+    e.art === "strich"
+      ? `<path class="skreis__s" pathLength="1" d="${e.d}" style="--t:${n(e.t)}s;--d:${n(e.dauer)}s"/>`
+      : e.art === "flaeche"
+        ? `<path class="skreis__f" d="${e.d}" style="--t:${n(e.t)}s"/>`
+        : ""
+  )
+  .join("");
+---
+
+<svg
+  class:list={["skreis", `skreis--${art}`, klasse]}
+  viewBox={`0 0 ${groesse} ${groesse}`}
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={pfade}
+/>
+
+<style is:global>
+  .skreis { display: block; overflow: visible; }
+  .skreis__s { fill: none; stroke: var(--skreis-linie, var(--gold-500)); stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+  .skreis__f { fill: var(--skreis-flaeche, var(--gold-500)); stroke: none; }
+  .skreis--plakette { --skreis-linie: var(--gold-300); }
+
+  /* Einmal zeichnen – nur mit JS und ohne „Bewegung reduzieren“, sonst steht das fertige Bild */
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .skreis__s { animation: skreis-zeichnen var(--d) ease-out calc(var(--start, 0s) + var(--t)) both; }
+    html.js .skreis__f { animation: skreis-ein 0.25s ease-out calc(var(--start, 0s) + var(--t)) both; }
+  }
+  @keyframes skreis-zeichnen {
+    0% { stroke-dashoffset: 1; opacity: 0; }
+    1% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+  @keyframes skreis-ein { from { opacity: 0; } to { opacity: 1; } }
+</style>

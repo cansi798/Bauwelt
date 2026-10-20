@@ -176,7 +176,9 @@ const WEG_MOTIVE = [rechner, sprechblasen, dokument, entspannen];
 const WEG_UNTER: string[][] = [
   ["Preis in wenigen Minuten"],
   ["Kostenloser Vor-Ort-Termin"], // Audit 4.1 (früher „Persönlicher Termin“)
-  ["Angebot innerhalb", "von 24 Stunden"], // Audit 4.7
+  // Jamil 20.10.2026 (Talk 2691/2692/2694): „Angebot innerhalb von 24 Stunden“ steht schon als Versprechen 5
+  // auf derselben Seite – hier deshalb ohne 24 h und ohne „Festpreis“ (= Versprechen 1).
+  ["Ihr Angebot –", "klar und verständlich"],
   ["Wir koordinieren alles", "und setzen es für Sie um"],
 ];
 

@@ -8,11 +8,15 @@
 // (Kasten + ruhiges echtes Projektfoto der Leistung + vorhandener Button) bleibt jetzt am Desktop
 // beim Scrollen stehen (sticky), während rechts die Versprechen laufen. Ohne Foto: nur Button.
 // Handy: alles untereinander, nichts klebt. Keine neuen Texte – nur bestehende CTA-Beschriftungen.
-// Bewegung: nur kreisförmig (Jamil Msg 2518/2523) – die goldenen Ringe zeichnen sich EINMAL,
-// danach erscheinen Titel/Text (nur Deckkraft). Bei „Bewegung reduzieren“ steht sofort alles.
+// Bewegung: nur kreisförmig (Jamil Msg 2518/2523) – die goldenen Plaketten zeichnen sich EINMAL,
+// danach erscheinen Ziffer/Titel/Text (nur Deckkraft). Bei „Bewegung reduzieren“ steht sofort alles.
+// Jamil 20.10.2026 (Talk 2691/2692/2694): Ziffern im selben Skizzen-Stil wie die Ablauf-Zeichnung
+// und die Siegel – handgezeichnete, gefüllte goldene Plakette (SkizzenKreis, rough.js beim Build),
+// Zahlen ohne führende Null („1, 2, 3 …“ statt „01, 02 …“).
 import SectionHead from "./SectionHead.astro";
 import Icon from "./Icon.astro";
 import Img from "./Img.astro";
+import SkizzenKreis from "./SkizzenKreis.astro";
 import { vorteileFuerSeite, type Vorteil } from "../data/versprechen";
 
 interface Props {
@@ -33,8 +37,6 @@ const { eigene, zusagen } = vorteileFuerSeite(vorteile);
 // Foto nur, solange die linke Spalte damit nicht länger wird als die Versprechen-Liste
 // (1 Vorteil: 16:10, 2 Vorteile: flaches 3:1, ab 3 Vorteilen kein Foto – der Kasten füllt dann selbst).
 const zeigeBild = eigene.length <= 2;
-const R = 24;
-const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
 ---
 
 <section class="section section--dark lvort" aria-label="Ihre Vorteile">
@@ -73,15 +75,12 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
       )}
       <div class="lvort__zusagen" data-einmal>
         <p class="lvort__kicker">Unsere {zusagen.length} Versprechen</p>
-        <ol class="lvort__liste" style={`--umfang:${UMFANG}`}>
+        <ol class="lvort__liste">
           {zusagen.map((z, i) => (
-            <li class="lvort__punkt" data-versprechen={z.id} style={`--i:${i}`}>
+            <li class="lvort__punkt" data-versprechen={z.id} style={`--i:${i};--start:${i * 140}ms`}>
               <span class="lvort__nr" aria-hidden="true">
-                <svg viewBox="0 0 56 56" focusable="false">
-                  <circle class="lvort__spur" cx="28" cy="28" r={R} />
-                  <circle class="lvort__ring" cx="28" cy="28" r={R} />
-                </svg>
-                <span class="lvort__ziffer">{String(i + 1).padStart(2, "0")}</span>
+                <SkizzenKreis art="plakette" groesse={56} durchmesser={44} seed={31 + i * 5} />
+                <span class="lvort__ziffer">{i + 1}</span>
               </span>
               <div class="lvort__text">
                 <h3>{z.title}</h3>
@@ -159,23 +158,18 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
   .lvort__liste { list-style: none; margin: 0; padding: 0; display: grid; }
   .lvort__punkt { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding-bottom: 26px; }
   .lvort__punkt:last-child { padding-bottom: 0; }
-  /* feine goldene Verbindungslinie zwischen den Ziffern */
+  /* feine goldene Verbindungslinie zwischen den Plaketten – gestrichelt wie die Wege im Ablauf */
   .lvort__punkt:not(:last-child)::before {
-    content: ""; position: absolute; left: 27.5px; top: 60px; bottom: 4px;
-    width: 1px; background: linear-gradient(to bottom, rgba(195, 165, 111, 0.45), rgba(195, 165, 111, 0.1));
+    content: ""; position: absolute; left: 27px; top: 58px; bottom: 2px;
+    border-left: 2px dashed rgba(195, 165, 111, 0.4);
   }
   .lvort__nr { position: relative; width: 56px; height: 56px; display: grid; place-items: center; }
-  .lvort__nr svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
-  .lvort__nr circle { fill: none; }
-  .lvort__spur { stroke: rgba(195, 165, 111, 0.18); stroke-width: 1; }
-  .lvort__ring {
-    stroke: var(--gold-500); stroke-width: 1.6; stroke-linecap: round;
-    stroke-dasharray: var(--umfang); stroke-dashoffset: 0;
-  }
+  .lvort__nr :global(.skreis) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* Ziffer wie die Schritt-Nummern im Ablauf: dunkel auf goldener Plakette, ohne führende Null */
   .lvort__ziffer {
     position: relative;
-    font-family: var(--font-heading); font-weight: 700; font-size: 17px; letter-spacing: 0.02em;
-    color: var(--gold-500);
+    font-family: var(--font-heading); font-weight: 700; font-size: 19px; line-height: 1;
+    color: var(--anthrazit-900);
     font-variant-numeric: tabular-nums;
   }
   .lvort__text { padding-top: 6px; min-width: 0; }
@@ -186,15 +180,13 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
   }
   .lvort__text p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--anthrazit-200); }
 
-  /* Einmal beim ersten Sichtbarwerden (scripts/einmal-animieren.ts): Ring zeichnet sich im Kreis,
-     dann erscheinen Ziffer und Text. Ohne JS / bei reduzierter Bewegung: fertiges Bild. */
-  :global(html.js) .lvort__ring { animation: lvort-ring 0.9s var(--ease) both; animation-delay: calc(var(--i) * 140ms); }
-  :global(html.js) .lvort__ziffer,
+  /* Einmal beim ersten Sichtbarwerden (scripts/einmal-animieren.ts): Plakette zeichnet sich
+     von Hand (SkizzenKreis), dann erscheinen Ziffer und Text. Ohne JS / reduzierte Bewegung: fertiges Bild. */
+  :global(html.js) .lvort__ziffer { animation: lvort-ein 0.3s var(--ease) both; animation-delay: calc(var(--i) * 140ms + 350ms); }
   :global(html.js) .lvort__text { animation: lvort-ein 0.5s var(--ease) both; animation-delay: calc(var(--i) * 140ms + 250ms); }
-  @keyframes lvort-ring { from { stroke-dashoffset: var(--umfang); } to { stroke-dashoffset: 0; } }
   @keyframes lvort-ein { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
-    .lvort__ring, .lvort__ziffer, .lvort__text { animation: none !important; opacity: 1; stroke-dashoffset: 0; }
+    .lvort__ziffer, .lvort__text { animation: none !important; opacity: 1; }
   }
 
   @media (max-width: 639px) {
@@ -205,8 +197,8 @@ const UMFANG = Math.round(2 * Math.PI * R * 100) / 100;
     .lvort__eigenpunkt h3 { font-size: 19px; }
     .lvort__punkt { grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding-bottom: 22px; }
     .lvort__nr { width: 48px; height: 48px; }
-    .lvort__punkt:not(:last-child)::before { left: 23.5px; top: 52px; }
-    .lvort__ziffer { font-size: 15px; }
+    .lvort__punkt:not(:last-child)::before { left: 23px; top: 50px; }
+    .lvort__ziffer { font-size: 17px; }
     .lvort__text { padding-top: 3px; }
   }
 </style>

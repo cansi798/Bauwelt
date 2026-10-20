@@ -198,7 +198,7 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
     const ab = s.html.slice(i);
     const sek = ab.slice(0, ab.indexOf("</section>") + 1 || undefined);
     if (/class="kachel[\s"_]/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: wieder weiße Kacheln / Quadrat-Symbol – laut Jamil (Talk 2572) Symbol im Goldring`); uProbleme++; }
-    else if (!/class="umfang[\s"]/.test(sek) || !/umfang__ring/.test(sek) || !/<circle[^>]*umfang__ring/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Goldring (Kreis) im Leistungsumfang fehlt`); uProbleme++; }
+    else if (!/class="umfang[\s"]/.test(sek) || !/umfang__ring/.test(sek) || !/<svg[^>]*class="[^"]*\bskreis\b[^"]*umfang__ring/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: handgezeichneter Goldring (SkizzenKreis) im Leistungsumfang fehlt`); uProbleme++; }
     else if (/umfang__nr/.test(sek)) { warn("Leistungsumfang (Jamil 20.10.)", `${s.page}: Nummern im Leistungsumfang – laut Jamil (Talk 2587) ohne Zahlen`); uProbleme++; }
   }
   if (uSeiten && !uProbleme) pass("Leistungsumfang", `${uSeiten} Leistungsseiten: Symbole im Goldring, ohne Nummern (Jamil 20.10.)`);
@@ -208,6 +208,33 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   if (energ.length) warn("Leistungsangebot (Jamil 20.10.)", `„energetisch“ auf ${energ.map((x) => x.page).join(", ")} – laut Jamil (Talk 2599) kein energetischer Umbau`);
   else pass("Leistungsangebot", "kein „energetisch“ im Angebot (Jamil 20.10.)");
 }
+}
+// Skizzen-Stil (Jamil 20.10.2026, Talk 2691/2692/2694): EIN handgezeichneter Stil für nummerierte und Ring-Elemente
+// (Ablauf-Zeichnung, Siegel, Versprechen-Plaketten, Leistungsumfang, Vertrauensleiste) – Zahlen ohne führende Null.
+{
+  let kProbleme = 0;
+  // (a) „01“-Ziffern in nummerierten Elementen (Versprechen, Schritte, Szenen-Texte)
+  const NULL_ZIFFER = /class="[^"]*\b(lvort__ziffer|steps__num|umfang__nr|rs-x)\b[^"]*"[^>]*>\s*(0\d)\s*</g;
+  // (b) Ring-Behälter mit glattem Geometrie-Kreis statt SkizzenKreis
+  const RING_BEHAELTER = ["lvort__nr", "umfang__symbol", "zahlen__ring"];
+  for (const s of S) {
+    for (const m of s.html.matchAll(NULL_ZIFFER)) { warn("Skizzen-Stil (Jamil 20.10.)", `${s.page}: Ziffer „${m[2]}“ mit führender Null (${m[1]}) – laut Jamil (Talk 2692/2694) „1, 2, 3 …“`); kProbleme++; break; }
+    for (const k of RING_BEHAELTER) {
+      const re = new RegExp(`class="[^"]*\\b${k}\\b[^"]*"[^>]*>\\s*<svg([^>]*)>([\\s\\S]*?)</svg>`, "g");
+      for (const m of s.html.matchAll(re)) {
+        if (!/\bskreis\b/.test(m[1]) || /<circle/.test(m[2])) { warn("Skizzen-Stil (Jamil 20.10.)", `${s.page}: ${k} mit glattem Kreis – laut Jamil (Talk 2692/2694) handgezeichnet (SkizzenKreis)`); kProbleme++; break; }
+      }
+    }
+  }
+  // (c) Quelltext: keine Ziffern mit führender Null (padStart(2, "0")) in Komponenten/Seiten
+  (function walk(d) {
+    for (const f of readdirSync(d)) {
+      const p = join(d, f);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(astro|ts)$/.test(f) && /padStart\(\s*2\s*,\s*["'`]0["'`]\s*\)/.test(lies(p))) { warn("Skizzen-Stil (Jamil 20.10.)", `${p}: padStart(2, "0") – Nummern ohne führende Null („1, 2, 3 …“)`); kProbleme++; }
+    }
+  })("src");
+  if (!kProbleme) pass("Skizzen-Stil", "Nummern ohne führende Null, Ringe/Plaketten handgezeichnet (Jamil 20.10.)");
 }
 // Leistungs-Unterzeile = Kundennutzen (Jamil 20.10.2026, Talk 2564): Feld `nutzen` in LEISTUNGEN (consts.ts),
 // je Leistung eigener, kurzer Nutzen (≤ 55 Zeichen), kein allgemeines Versprechen (Festpreis, Zeitplan …).

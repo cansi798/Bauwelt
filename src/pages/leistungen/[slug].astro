@@ -21,6 +21,7 @@ import SectionHead from "../../components/SectionHead.astro";
 import Rechner from "../../components/Rechner.astro";
 import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
+import SkizzenKreis from "../../components/SkizzenKreis.astro";
 import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName, istKiBild } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
@@ -83,8 +84,6 @@ const mitIntro = !l.data.ohneIntro;
 // Hintergrund-Wechsel: ohne Intro folgt die Kachel-Sektion direkt auf den (sandfarbenen) Rechner → weiß
 const kachelnSand = mitIntro || !hatRechner;
 // Goldring im Leistungsumfang (Jamil 20.10.2026, Talk 2572)
-const RING_R = 30;
-const RING_U = +(2 * Math.PI * RING_R).toFixed(1);
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero.
@@ -180,20 +179,17 @@ const description =
       <div class="container">
         <SectionHead center eyebrow="Leistungsumfang" {...teile(weich(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`))} text={l.data.umfangText} />
         {/* Jamil 20.10.2026 (Talk 2572): Leistungsumfang im Stil der Seite statt weißer Kästen –
-            Symbol im dünnen Goldring (zeichnet sich einmal im Kreis), goldene Schritt-Nummer, feine
+            Symbol im dünnen, handgezeichneten Goldring (zeichnet sich einmal), ohne Nummern (Talk 2587), feine
             Gold-Trennlinien. Desktop zentriertes Raster (7/8 → 4 Spalten, sonst 3), darunter Liste. */}
         <ol
           class:list={["umfang", l.data.kacheln.length === 4 || l.data.kacheln.length >= 7 ? "umfang--4" : "umfang--3"]}
-          style={`--ring-u:${RING_U}`}
           data-einmal
         >
           {l.data.kacheln.map((k, i) => (
-            <li class="umfang__punkt" style={`--i:${i}`}>
+            <li class="umfang__punkt" style={`--i:${i};--start:${i * 110}ms`}>
               <span class="umfang__symbol" aria-hidden="true">
-                <svg viewBox="0 0 64 64" focusable="false">
-                  <circle class="umfang__spur" cx="32" cy="32" r={RING_R} />
-                  <circle class="umfang__ring" cx="32" cy="32" r={RING_R} />
-                </svg>
+                {/* Jamil 20.10.2026 (Talk 2692/2694): Ring handgezeichnet wie Ablauf/Siegel */}
+                <SkizzenKreis art="ring" groesse={64} durchmesser={58} seed={71 + i * 3} class="umfang__ring" />
                 <Icon name={k.icon} size={26} class="icon" />
               </span>
               <span class="umfang__text">
@@ -265,7 +261,7 @@ const description =
       ) : (
         <RoughSzene
           szene="weg"
-          label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Angebot innerhalb von 24 Stunden. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
+          label="Gezeichneter Ablauf in vier Stationen: 1. Orientierung erhalten – Preis in wenigen Minuten. 2. Wünsche besprechen – kostenloser Vor-Ort-Termin. 3. Klarheit erhalten – Ihr Angebot, klar und verständlich. 4. Zurücklehnen und genießen – wir koordinieren alles und setzen es für Sie um."
         />
       )}
       <div class="lmitte lmitte--zwei nur-desktop">
@@ -338,7 +334,7 @@ const description =
 
   /* ---------- Leistungsumfang (Jamil 20.10.2026, Talk 2572) ----------
      Keine weißen Kästen mehr: Symbol im dünnen Goldring wie Vertrauensleiste/Versprechen,
-     goldene Schritt-Nummer (Reihenfolge: Beratung zuerst), feine Gold-Trennlinien.
+     ohne Nummern (Talk 2587; Reihenfolge: Beratung zuerst), feine Gold-Trennlinien.
      Nicht klickbar → kein Hover (Audit 3.5). Ring zeichnet sich einmal im Kreis. */
   .umfang { list-style: none; margin: 8px auto 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); max-width: 560px; }
   .umfang__punkt {
@@ -347,10 +343,7 @@ const description =
   }
   .umfang__punkt:first-child { border-top: 0; }
   .umfang__symbol { position: relative; width: 56px; height: 56px; display: grid; place-items: center; color: var(--gold-700); }
-  .umfang__symbol svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
-  .umfang__symbol circle { fill: none; }
-  .umfang__spur { stroke: rgba(195, 165, 111, 0.28); stroke-width: 1; }
-  .umfang__ring { stroke: var(--gold-500); stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: var(--ring-u); stroke-dashoffset: 0; }
+  .umfang__symbol :global(.skreis) { position: absolute; inset: 0; width: 100%; height: 100%; }
   .umfang__symbol :global(.icon) { position: relative; width: 24px; height: 24px; }
   .umfang__text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .umfang__titel {
@@ -383,15 +376,13 @@ const description =
     .umfang__text { align-items: center; gap: 6px; }
     .umfang__titel { font-size: 17px; }
   }
-  /* Einmal beim ersten Sichtbarwerden: Ring zeichnet sich im Kreis, dann erscheinen Symbol und Text.
-     Ohne JS / reduzierte Bewegung: fertiges Bild. */
-  :global(html.js) .umfang__ring { animation: umfang-ring 0.9s var(--ease) both; animation-delay: calc(var(--i) * 110ms); }
+  /* Einmal beim ersten Sichtbarwerden: Ring zeichnet sich von Hand (SkizzenKreis), dann erscheinen
+     Symbol und Text. Ohne JS / reduzierte Bewegung: fertiges Bild. */
   :global(html.js) .umfang__symbol :global(.icon),
   :global(html.js) .umfang__text { animation: umfang-ein 0.5s var(--ease) both; animation-delay: calc(var(--i) * 110ms + 250ms); }
-  @keyframes umfang-ring { from { stroke-dashoffset: var(--ring-u); } to { stroke-dashoffset: 0; } }
   @keyframes umfang-ein { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
-    .umfang__ring, .umfang__symbol :global(.icon), .umfang__text { animation: none !important; opacity: 1; stroke-dashoffset: 0; }
+    .umfang__symbol :global(.icon), .umfang__text { animation: none !important; opacity: 1; }
   }
 
   /* .warum- und .kachel-Stile liegen seit Kundenwunsch 14.10.2026 (37–40) in global.css (auch Über uns, Karriere, Partner, Kontakt) */

@@ -9,11 +9,12 @@
 // Bewusst KEIN „Meister“ (Audit K2/K3).
 // Jamil 20.10.2026 (Talk 2561): KEINE Zeile „Angaben im Impressum“ mehr unter der Leiste;
 // das Impressum selbst bleibt im Footer verlinkt (Pflicht). Abstand oben/unten gleich.
+// Jamil 20.10.2026 (Talk 2691/2692/2694): Ringe handgezeichnet im Skizzen-Stil (SkizzenKreis) wie
+// Ablauf-Zeichnung, Siegel und Versprechen – ein Zeichenstil für alle Ring-Elemente.
 import Icon from "./Icon.astro";
+import SkizzenKreis from "./SkizzenKreis.astro";
 import { ZAHLEN, NACHWEISE } from "../data/home";
 
-const R = 46;
-const UMFANG = +(2 * Math.PI * R).toFixed(1);
 type Punkt =
   | { art: "zahl"; label: string; wert: string; zahl: number | null; rest: string }
   | { art: "symbol"; label: string; icon: string };
@@ -28,14 +29,11 @@ const punkte: Punkt[] = [
 
 <section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen und Nachweisen" data-einmal>
   <div class="container">
-    <ul class="zahlen__liste" style={`--umfang:${UMFANG}`}>
+    <ul class="zahlen__liste">
       {punkte.map((p, i) => (
-        <li class="zahlen__item" style={`--i:${i}`}>
+        <li class="zahlen__item" style={`--i:${i};--start:${i * 120}ms`}>
           <span class="zahlen__ring">
-            <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-              <circle class="zahlen__spur" cx="50" cy="50" r={R} />
-              <circle class="zahlen__bogen" cx="50" cy="50" r={R} />
-            </svg>
+            <SkizzenKreis art="ring" groesse={100} durchmesser={92} seed={53 + i * 4} strich={2} dauer={1.2} />
             {p.art === "zahl" ? (
               <strong class="zahlen__wert">
                 <span class="visually-hidden">{p.wert}</span><span class="zahlen__zahl" data-ziel={p.zahl ?? undefined} aria-hidden="true">{p.zahl ?? p.wert}</span>{p.rest && <span class="zahlen__plus" aria-hidden="true">{p.rest}</span>}
@@ -98,15 +96,7 @@ const punkte: Punkt[] = [
   }
 
   .zahlen__ring { position: relative; flex: none; width: 100px; height: 100px; display: grid; place-items: center; }
-  .zahlen__ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
-  .zahlen__ring circle { fill: none; stroke-width: 1.5; }
-  .zahlen__spur { stroke: var(--gold-500); opacity: 0.22; }
-  .zahlen__bogen {
-    stroke: var(--gold-500); stroke-linecap: round;
-    stroke-dasharray: var(--umfang); stroke-dashoffset: 0;
-  }
-  html.js .zahlen__bogen { animation: zahlen-ring 1.6s var(--ease) both; animation-delay: calc(var(--i, 0) * 120ms); }
-  @keyframes zahlen-ring { from { stroke-dashoffset: var(--umfang); } to { stroke-dashoffset: 0; } }
+  .zahlen__ring :global(.skreis) { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   .zahlen__wert {
     position: relative; display: inline-flex; align-items: flex-start;
@@ -120,10 +110,6 @@ const punkte: Punkt[] = [
     font-family: var(--font-heading); font-weight: 600; line-height: 1.35;
     font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 17px;
     color: var(--anthrazit-100); max-width: 19ch;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .zahlen__bogen { animation: none !important; stroke-dashoffset: 0; }
   }
 
   /* Tablet/Handy: 2 × 2 */
