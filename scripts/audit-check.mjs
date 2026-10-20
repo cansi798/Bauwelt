@@ -193,24 +193,21 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   }
   if (!doppelt && VERSPRECHEN_TITEL.length === 7) pass("Versprechen", "7 Versprechen aus versprechen.ts, keine Seite zeigt einen Vorteil doppelt");
 }
-// Versprechen-Abschnitt der Leistungsseiten (Jamil 21.10.2026, Talk 2867): kein Kasten „Das Besondere bei …“,
-// kein Foto – nur die 7 Versprechen (Karten mit handgezeichneter Plakette 1–7). Ausnahme Sanierungscheck +
-// Sicher wohnen (Talk 2872/2873): Kasten „Das bringt Ihnen …“ bleibt über den Karten.
+// Leistungsseiten ohne 7 Versprechen (Jamil 21.10.2026, Talk 2893; ersetzt Talk 2867): keine Versprechen-Karten,
+// kein Kasten „Das Besondere bei …“, kein Foto. Ausnahme Sanierungscheck + Sicher wohnen (Talk 2872/2873):
+// nur deren Kasten „Das bringt Ihnen …“ bleibt.
 {
   let vProbleme = 0, vSeiten = 0;
   for (const s of S.filter((x) => x.page.startsWith("/leistungen/"))) {
-    const sek = s.html.match(/<section[^>]*class="[^"]*\blvort\b[\s\S]*?<\/section>/)?.[0];
-    if (!sek) { warn("Versprechen-Abschnitt (Jamil 21.10.)", `${s.page}: Abschnitt „Unsere 7 Versprechen“ (LeistungVorteile) fehlt`); vProbleme++; continue; }
     vSeiten++;
-    // Ausnahme Pauschal-Checks (Talk 2872/2873): Kasten „Das bringt Ihnen …“ bleibt dort – Foto nie
     const check = /^\/leistungen\/(sanierungscheck|sicher-wohnen)\//.test(s.page);
-    if (/lvort__bild|<img|<picture/.test(sek)) { warn("Versprechen-Abschnitt (Jamil 21.10.)", `${s.page}: Foto im Versprechen-Abschnitt – laut Jamil (Talk 2867) entfernt`); vProbleme++; }
-    if (!check && /Das Besondere|Das bringt Ihnen|lvort__eigen/.test(sek)) { warn("Versprechen-Abschnitt (Jamil 21.10.)", `${s.page}: Kasten „Das Besondere bei …“ – laut Jamil (Talk 2867) entfernt`); vProbleme++; }
-    if (check && !/lvort__eigen/.test(sek)) { warn("Versprechen-Abschnitt (Jamil 21.10.)", `${s.page}: Kasten „Das bringt Ihnen …“ fehlt – bleibt laut Jamil (Talk 2872/2873) auf den Checks`); vProbleme++; }
-    const n = (sek.match(/data-versprechen="/g) || []).length;
-    if (n !== 7) { warn("Versprechen-Abschnitt (Jamil 21.10.)", `${s.page}: ${n} statt 7 Versprechen im Abschnitt`); vProbleme++; }
+    const sek = s.html.match(/<section[^>]*class="[^"]*\blvort\b[\s\S]*?<\/section>/)?.[0] ?? "";
+    if (/data-versprechen="/.test(sek) || /lvort__raster/.test(s.html)) { warn("Leistungsseiten (Jamil 21.10.)", `${s.page}: 7 Versprechen wieder da – laut Jamil (Talk 2893) entfernt`); vProbleme++; }
+    if (/Das Besondere bei/.test(s.html) || /lvort__bild/.test(s.html)) { warn("Leistungsseiten (Jamil 21.10.)", `${s.page}: Kasten „Das Besondere bei …“/Foto – laut Jamil (Talk 2867) entfernt`); vProbleme++; }
+    if (check && !/lvort__eigen/.test(sek)) { warn("Leistungsseiten (Jamil 21.10.)", `${s.page}: Kasten „Das bringt Ihnen …“ fehlt – bleibt laut Jamil (Talk 2872/2873) auf den Checks`); vProbleme++; }
+    if (!check && sek) { warn("Leistungsseiten (Jamil 21.10.)", `${s.page}: Vorteils-Abschnitt (lvort) auf normaler Leistungsseite – laut Jamil (Talk 2893) entfernt`); vProbleme++; }
   }
-  if (vSeiten && !vProbleme) pass("Versprechen-Abschnitt", `${vSeiten} Leistungsseiten: 7 Versprechen ohne Foto, Kasten nur bei den Checks (Jamil 21.10.)`);
+  if (vSeiten && !vProbleme) pass("Leistungsseiten", `${vSeiten} Leistungsseiten ohne 7 Versprechen, Kasten nur bei den Checks (Jamil 21.10.)`);
 }
 // Leistungsumfang (Jamil 20.10.2026, Talk 2572; Ausnahme zu Audit 2.4): Symbol im Goldring (Kreis), keine Nummern (Talk 2587),
 // keine weißen Kacheln / Sand-Quadrate. Geprüft auf allen Leistungsseiten mit Abschnitt „Leistungsumfang“.

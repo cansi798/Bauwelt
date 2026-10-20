@@ -37,6 +37,9 @@ interface Props {
   /** Bestehender Button der Seite („Preis berechnen“ / „… buchen“), mittig unter den Karten.
    *  Bei Pauschal-Checks weglassen (Audit 5.7). */
   cta?: { href: string; label: string; extern?: boolean };
+  /** Jamil 21.10.2026 (Talk 2893): Die 7 Versprechen stehen nicht mehr auf den Leistungsseiten.
+   *  `false` = nur der Kasten der Pauschal-Checks, ohne Versprechen-Karten. */
+  mitVersprechen?: boolean;
 }
 const {
   eyebrow = "Ihre Vorteile",
@@ -44,6 +47,7 @@ const {
   eigeneTitel,
   vorteile = [],
   cta,
+  mitVersprechen = true,
 } = Astro.props;
 const versprechenTitel = new Set(VERSPRECHEN.map((v) => v.title.toLowerCase()));
 const eigene = eigeneTitel ? vorteile.filter((v) => !versprechenTitel.has(v.title.toLowerCase())) : [];
@@ -59,12 +63,14 @@ const goldlinie = (seed: number) => {
 };
 ---
 
-<section class="section section--dark lvort" aria-label="Unsere Versprechen">
+<section class="section section--dark lvort" aria-label={mitVersprechen ? "Unsere Versprechen" : (eigeneTitel ?? "Ihre Vorteile")}>
   <div class="container">
-    <SectionHead center eyebrow={eyebrow} pre={`Unsere ${VERSPRECHEN.length} `} accent="Versprechen" text={lead} />
+    {mitVersprechen
+      ? <SectionHead center eyebrow={eyebrow} pre={`Unsere ${VERSPRECHEN.length} `} accent="Versprechen" text={lead} />
+      : <SectionHead center eyebrow="Ihre Vorteile" pre={(eigeneTitel ?? "Ihre Vorteile").replace(/\S+$/, "")} accent={(eigeneTitel ?? "Vorteile").split(" ").pop()} />}
     {eigene.length > 0 && (
       <div class="lvort__eigen reveal">
-        <p class="lvort__kicker">{eigeneTitel}</p>
+        {mitVersprechen && <p class="lvort__kicker">{eigeneTitel}</p>}
         <ul class="lvort__eigenliste">
           {eigene.map((v) => (
             <li class="lvort__eigenpunkt">
@@ -78,7 +84,7 @@ const goldlinie = (seed: number) => {
         </ul>
       </div>
     )}
-    <ol class="lvort__raster" data-einmal>
+    {mitVersprechen && <ol class="lvort__raster" data-einmal>
       {VERSPRECHEN.map((v, i) => {
         const gross = i === 0;
         return (
@@ -109,8 +115,8 @@ const goldlinie = (seed: number) => {
           </li>
         );
       })}
-    </ol>
-    {cta && (
+    </ol>}
+    {mitVersprechen && cta && (
       <div class="lvort__cta nur-desktop">
         {cta.extern
           ? <a class="btn" href={cta.href} target="_blank" rel="noopener" data-termin>{cta.label}</a>

@@ -200,12 +200,15 @@ const description =
 
   <!-- 2. Unsere 7 Versprechen – EIN dunkler Abschnitt (Jamil 19.10.2026; seit 21.10.2026, Talk 2867,
        ohne Kasten „Das Besondere bei …“ und ohne Foto – nur die 7 Versprechen) -->
-  <LeistungVorteile
-    eyebrow={`Warum ${kurzTitel} mit uns`}
-    eigeneTitel={pauschal ? `Das bringt Ihnen der ${kurzTitel}` : undefined /* Talk 2872: Kasten nur bei Checks */}
-    vorteile={pauschal ? l.data.warum : []}
-    cta={pauschal ? undefined /* Audit 5.7: kein weiterer Buchen-Button bei Pauschal-Checks */ : hatRechner ? { href: "#rechner", label: CTA.label } : buchen}
-  />
+  {/* Jamil 21.10.2026 (Talk 2893): 7 Versprechen von allen Leistungsseiten entfernt – nur Pauschal-Checks
+      behalten ihren Kasten „Das bringt Ihnen …“ (Talk 2872) */}
+  {pauschal && (
+    <LeistungVorteile
+      eigeneTitel={`Das bringt Ihnen der ${kurzTitel}`}
+      vorteile={l.data.warum}
+      mitVersprechen={false}
+    />
+  )}
 
   {refBilder.length > 0 && (
     <section class="section">
