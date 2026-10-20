@@ -556,7 +556,7 @@ const uspFestpreis = () => uspRahmen((z, cx, cy) => {
    Personen, keine Namen. 2 × 2 Gesichter mit Arbeitskleidung, jedes mit eigenem Merkmal. */
 type Typ = "bart" | "zopf" | "helm" | "muetze";
 /** Lebens-Effekt eines Gesichts nach dem Zeichnen (Jamil 21.10.2026, Msg 2863), Startzeit in s. */
-const LEBEN: Record<Typ, number> = { bart: 3.0, zopf: 3.35, helm: 3.75, muetze: 4.3 };
+const LEBEN: Record<Typ, number> = { bart: 3.3, zopf: 3.4, helm: 3.4, muetze: 3.5 }; // gestaucht auf 1,5 s (Msg 2911)
 function gesicht(z: Zeichner, cx: number, cy: number, typ: Typ, t0: number, name: string) {
   const hy = cy - 16; // Kopfmitte
   // Jamil 21.10.2026 (Msg 2863): jedes Gesicht zeichnet sich in Ruhe selbst – erst Jacke + Hals,
@@ -669,29 +669,41 @@ function team(): Szene {
     z.gruppe("stempel", () => funkeln(z, x, y, r));
   });
   // Zeichnen bis ca. 3,4 s, danach zwinkern/lächeln/nicken/wippen bis ca. 4,9 s – einmal, keine Schleife.
-  return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 4.9, zielDauer: 4.9 };
+  return { breite: TEAM_B, hoehe: TEAM_H, elemente: z.elemente, ende: 4.9, zielDauer: 1.5 }; // 1,5 s gesamt (Jamil 21.10., Msg 2911)
 }
 
 /* ─── Karriere-Startbild: Karriere-Treppe (Jamil 21.10.2026, Msg 2880 – ersetzt dort die Gesichter) ───
-   „Gute Handwerker verdienen mehr“: links ein Haus (das Handwerk), daneben eine Treppe nach oben.
+   „Gute Handwerker verdienen mehr“: links ein Handwerker (seit Msg 2907 statt Haus), der die Treppe nach oben steigt.
    Auf den Stufen Werkzeugkiste, Wasserwaage, Bauhelm; oben wächst ein Stapel goldener Münzen, ein
    goldener Pfeil zieht die Treppe hinauf, Sterne ploppen auf. Läuft einmal, danach wippt der Helm kurz. */
 const KAR_B = 760, KAR_H = 500;
 function karriere(): Szene {
   const z = new Zeichner();
-  const boden = 480, stufeB = 120, stufeH = 80, x0 = 220;
+  const boden = 480, stufeB = 110, stufeH = 80, x0 = 260;
   // Boden
   z.bei(0);
   z.linie(30, boden, 730, boden, { stroke: F.hell, strokeWidth: 2.2 }, 0.5);
-  // Haus (das Handwerk): Wände, Dach, Tür, Fenster mit Fliesen-Raster
-  z.bei(0.1);
-  z.rechteck(55, 350, 110, 130, { strokeWidth: 2.4 }, 0.5);
-  z.pfad("M40 356L110 284L180 356", { fill: F.goldHell, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.3, strokeWidth: 2.6 }, 0.5);
+  // Handwerker am Fuß der Treppe (Jamil 21.10.2026, Msg 2907 – ersetzt das Haus): Arbeitshose, goldene
+  // Jacke, Bauhelm; ein Fuß schon auf der ersten Stufe, ein Arm zeigt die Treppe hinauf. Kein Teammitglied.
+  z.bei(0.05);
+  z.linie(150, 380, 141, 464, { stroke: F.grau, strokeWidth: 22, roughness: 0.5 }, 0.3); // Standbein
+  z.pfad("M172 380L226 352L272 388", { stroke: F.grau, strokeWidth: 22, roughness: 0.5 }, 0.35); // Bein auf der Stufe
+  z.rundRechteck(120, 462, 42, 18, 7, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.2); // Stiefel
+  z.rundRechteck(264, 384, 42, 16, 7, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.2);
+  z.bei(0.25);
+  z.pfad("M124 386L120 296Q124 270 158 268Q192 270 196 296L200 386Z", { fill: F.goldHell, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.3, strokeWidth: 2.4 }, 0.4); // Jacke
+  z.linie(160, 276, 160, 384, { stroke: F.grau, strokeWidth: 1.6 }, 0.2); // Reißverschluss
+  z.linie(126, 292, 110, 366, { stroke: F.gold, strokeWidth: 16, roughness: 0.5 }, 0.25); // Arm hängend
+  z.linie(190, 290, 240, 240, { stroke: F.gold, strokeWidth: 16, roughness: 0.5 }, 0.25); // Arm zeigt nach oben
+  z.kreis(108, 374, 20, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.15);
+  z.kreis(246, 234, 22, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.15);
   z.bei(0.45);
-  z.rechteck(72, 418, 30, 62, { stroke: F.strich, strokeWidth: 2 }, 0.3);
-  z.rechteck(118, 382, 34, 34, { stroke: F.grau, strokeWidth: 1.8 }, 0.3);
-  z.linie(135, 382, 135, 416, { stroke: F.grau, strokeWidth: 1.4 }, 0.15);
-  z.linie(118, 399, 152, 399, { stroke: F.grau, strokeWidth: 1.4 }, 0.15);
+  z.kreis(160, 232, 66, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.4 }, 0.3); // Kopf
+  z.kreis(175, 228, 6, { fill: F.strich, fillStyle: "solid", strokeWidth: 1 }, 0.1); // Auge (Blick zur Treppe)
+  z.pfad("M164 246Q174 254 184 244", { strokeWidth: 2.4 }, 0.15); // Lächeln
+  z.kreis(183, 242, 11, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 0.1, stroke: F.goldHell }, 0.1); // Wange
+  z.pfad("M124 222Q126 184 160 184Q194 184 196 222Z", { fill: F.gold, fillStyle: "solid", strokeWidth: 2.4 }, 0.25); // Bauhelm
+  z.linie(118, 222, 206, 222, { strokeWidth: 3.5 }, 0.15);
   // Treppe – läuft beim Zeichnen von unten nach oben
   z.bei(0.55);
   let d = `M${x0} ${boden}`;
@@ -700,11 +712,12 @@ function karriere(): Szene {
   const stufe = (i: number) => ({ x: x0 + stufeB * i + stufeB / 2, y: boden - stufeH * (i + 1) });
   // Stufe 1: Werkzeugkiste
   let { x, y } = stufe(0);
+  x += 27; // rechts auf der Stufe – links steht der Stiefel des Handwerkers
   z.bei(1.35);
   z.gruppe("stempel", () => {
-    z.rechteck(x - 36, y - 38, 72, 38, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
-    z.linie(x - 36, y - 24, x + 36, y - 24, { strokeWidth: 1.8 }, 0.15);
-    z.pfad(`M${x - 14} ${y - 38}V${y - 50}H${x + 14}V${y - 38}`, { strokeWidth: 2.2 }, 0.2);
+    z.rechteck(x - 28, y - 36, 56, 36, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
+    z.linie(x - 28, y - 22, x + 28, y - 22, { strokeWidth: 1.8 }, 0.15);
+    z.pfad(`M${x - 11} ${y - 36}V${y - 47}H${x + 11}V${y - 36}`, { strokeWidth: 2.2 }, 0.2);
   });
   // Stufe 2: Wasserwaage mit Libelle
   ({ x, y } = stufe(1));
@@ -721,7 +734,7 @@ function karriere(): Szene {
     z.pfad(`M${x - 34} ${y - 8}Q${x - 32} ${y - 50} ${x} ${y - 50}Q${x + 32} ${y - 50} ${x + 34} ${y - 8}Z`, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
     z.linie(x - 44, y - 6, x + 44, y - 6, { strokeWidth: 3 }, 0.2);
     z.linie(x, y - 50, x, y - 12, { stroke: F.goldDunkel, strokeWidth: 1.6 }, 0.15);
-  }), 4.0);
+  }), 3.6);
   // Stufe 4: Münzstapel wächst
   ({ x, y } = stufe(3));
   [0, 1, 2].forEach((k) => {
@@ -730,7 +743,7 @@ function karriere(): Szene {
   });
   // Goldener Pfeil die Treppe hinauf
   z.bei(2.7);
-  z.kurve([[250, 300], [380, 240], [520, 160], [646, 86]], { stroke: F.gold, strokeWidth: 5, roughness: 0.9 }, 0.6);
+  z.kurve([[300, 290], [420, 228], [540, 160], [646, 86]], { stroke: F.gold, strokeWidth: 5, roughness: 0.9 }, 0.6);
   z.bei(3.2);
   z.pfad("M614 84L650 84L638 118", { stroke: F.gold, strokeWidth: 5, roughness: 0.8 }, 0.25);
   // Sterne an der Spitze
@@ -738,7 +751,7 @@ function karriere(): Szene {
     z.bei(t);
     z.gruppe("stempel", () => funkeln(z, sx, sy, r));
   });
-  return { breite: KAR_B, hoehe: KAR_H, elemente: z.elemente, ende: 4.6, zielDauer: 4.6 };
+  return { breite: KAR_B, hoehe: KAR_H, elemente: z.elemente, ende: 4.6, zielDauer: 1.5 }; // 1,5 s gesamt (Jamil 21.10., Msg 2911)
 }
 
 /* ─── Kontakt-Startbild: Handschlag (Jamil 21.10.2026, Msg 2897 – ersetzt das Foto hero-kontakt.webp) ───
@@ -791,47 +804,55 @@ function handschlag(): Szene {
   z.bei(2.05);
   ([[hx - 44, hy - 4, hx - 66, hy - 14], [hx + 44, hy - 4, hx + 66, hy - 14], [hx - 34, hy - 32, hx - 48, hy - 50], [hx + 34, hy - 32, hx + 48, hy - 50], [hx, hy - 30, hx, hy - 52]] as const)
     .forEach(([a, b, c, d], k) => z.linie(a, b, c, d, { stroke: F.gold, strokeWidth: 3.4, roughness: 0.5 }, 0.15 + k * 0.03));
-  return { breite: HS_B, hoehe: HS_H, elemente: z.elemente, ende: 2.6, zielDauer: 2.6 };
+  return { breite: HS_B, hoehe: HS_H, elemente: z.elemente, ende: 2.6, zielDauer: 1.5 }; // 1,5 s gesamt (Jamil 21.10., Msg 2911)
 }
 
-/* ─── Partner-Startbild: gemeinsam bauen (Jamil 21.10.2026, Msg 2899 – ersetzt das KI-Foto hero-partner.webp) ───
-   „Zusammenarbeit, auf die man bauen kann“: Steine in zwei Farben (gold = Bauwelt, weiß = Partner) setzen
-   sich abwechselnd zu einer festen Wand, zuletzt kommt das goldene Dach drauf und ein goldener Haken.
-   Bewusst anders als der Handschlag auf Kontakt. Einmal, keine Schleife. */
-const PB_B = 760, PB_H = 420;
+/* ─── Partner-Startbild: zwei Firmen arbeiten zusammen (Jamil 21.10.2026, Msg 2899 + 2909) ───
+   Msg 2899 ersetzte das KI-Foto hero-partner.webp; Msg 2909: „Zusammenarbeit zwischen zwei Firmen – das Haus
+   bildet das nicht richtig ab.“ Jetzt: links das Bauwelt-Gebäude (gold, Satteldach, Schild „BAUWELT“), rechts
+   das Partner-Büro (anthrazit/weiß, Flachdach, Schild „PARTNER“). Dazwischen baut sich eine Brücke, darüber
+   ein goldener Haken. Bewusst anders als der Handschlag auf Kontakt. Einmal, 1,5 s (Msg 2911). */
+const PB_B = 760, PB_H = 400;
 function partnerBau(): Szene {
   const z = new Zeichner();
-  const boden = 380, rh = 46, x0 = 230, x1 = 530;
+  const boden = 370;
   z.bei(0);
-  z.linie(120, boden, 640, boden, { stroke: F.hell, strokeWidth: 2.2 }, 0.4);
-  let n = 0;
-  for (let r = 0; r < 4; r++) {
-    const y = boden - rh * (r + 1);
-    const kanten = r % 2 === 0 ? [x0, 330, 430, x1] : [x0, 280, 380, 480, x1];
-    for (let i = 0; i < kanten.length - 1; i++, n++) {
-      const gold = (r + i) % 2 === 0;
-      z.bei(0.15 + n * 0.11);
-      z.gruppe("einsetzen", () =>
-        z.rechteck(kanten[i] + 2, y + 2, kanten[i + 1] - kanten[i] - 4, rh - 4,
-          gold ? { fill: F.goldHell, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.3, strokeWidth: 2.3 }
-               : { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.3 }, 0.25));
-    }
-  }
-  const dachT = 0.3 + n * 0.11;
-  // Dach zuletzt – goldener „Schlussstein“
-  z.bei(dachT);
-  z.gruppe("einsetzen", () => {
-    z.pfad(`M${x0 - 26} ${boden - rh * 4 - 2}L${(x0 + x1) / 2} ${boden - rh * 4 - 112}L${x1 + 26} ${boden - rh * 4 - 2}Z`,
-      { fill: F.gold, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.5, strokeWidth: 2.8 }, 0.4);
-    z.rechteck(450, boden - rh * 4 - 96, 26, 44, { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schornstein
+  z.linie(30, boden, 730, boden, { stroke: F.hell, strokeWidth: 2.2 }, 0.4);
+  // Bauwelt: Werkstatt mit Satteldach
+  z.bei(0.05);
+  z.rechteck(60, 210, 190, boden - 210, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 9, fillWeight: 1.2, strokeWidth: 2.6 }, 0.45);
+  z.pfad(`M44 214L155 136L266 214Z`, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.6 }, 0.4);
+  z.rechteck(132, 300, 46, boden - 300, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Tor
+  z.rechteck(80, 296, 34, 30, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
+  z.rechteck(196, 296, 34, 30, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
+  z.rechteck(90, 232, 130, 38, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
+  z.text(155, 258, "BAUWELT", { groesse: 21, gewicht: 800, farbe: F.goldDunkel });
+  // Partner: Bürogebäude mit Flachdach und Fensterraster
+  z.bei(0.2);
+  z.rechteck(510, 170, 190, boden - 170, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.45);
+  z.linie(498, 170, 712, 170, { strokeWidth: 5 }, 0.25); // Flachdach
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++)
+    z.rechteck(530 + c * 56, 244 + r * 46, 36, 30, { fill: F.grau, fillStyle: "hachure", hachureGap: 5, fillWeight: 1, strokeWidth: 1.8 }, 0.15);
+  z.rechteck(588, 336, 34, boden - 336, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.2); // Tür
+  z.rechteck(540, 190, 130, 38, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
+  z.text(605, 216, "PARTNER", { groesse: 21, gewicht: 800, farbe: "var(--weiss)" });
+  // Brücke zwischen den Firmen: Fahrbahn, goldener Bogen, Hänger
+  z.bei(0.7);
+  z.linie(250, 300, 510, 300, { strokeWidth: 3.2 }, 0.3);
+  z.bei(0.75);
+  z.pfad("M250 300Q380 196 510 300", { stroke: F.gold, strokeWidth: 5, roughness: 0.8 }, 0.4);
+  z.bei(0.95);
+  [300, 340, 380, 420, 460].forEach((hx) => {
+    const by = 300 - (1 - ((hx - 380) / 130) ** 2) * 52; // Höhe des Bogens an der Stelle
+    z.linie(hx, by + 2, hx, 298, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.12);
   });
-  // Goldener Haken im Kreis
-  z.bei(dachT + 0.5);
+  // Goldener Haken über der Brücke
+  z.bei(1.15);
   z.gruppe("stempel", () => {
-    z.kreis(612, 120, 64, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
-    z.pfad("M596 120l11 11l20 -22", { strokeWidth: 3.6, roughness: 0.5 }, 0.3);
+    z.kreis(380, 168, 62, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.2);
+    z.pfad("M364 168l11 11l20 -22", { strokeWidth: 3.6, roughness: 0.5 }, 0.2);
   });
-  return { breite: PB_B, hoehe: PB_H, elemente: z.elemente, ende: dachT + 0.9, zielDauer: dachT + 0.9 };
+  return { breite: PB_B, hoehe: PB_H, elemente: z.elemente, ende: 1.5, zielDauer: 1.5 };
 }
 
 export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere, handschlag, partnerBau };

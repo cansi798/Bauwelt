@@ -64,9 +64,8 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     <figure class="karriere__szene" slot="medien">
       <RoughSzene
         szene="karriere"
-        label="Zeichnung im Skizzen-Stil: neben einem kleinen Haus führt eine Treppe nach oben. Auf den Stufen stehen eine Werkzeugkiste, eine Wasserwaage und ein Bauhelm, oben ein Stapel goldener Münzen. Ein goldener Pfeil zeigt die Treppe hinauf, dazu kleine goldene Sterne."
+        label="Zeichnung im Skizzen-Stil: ein Handwerker mit Bauhelm und Arbeitsjacke steigt eine Treppe hinauf. Auf den Stufen stehen eine Werkzeugkiste, eine Wasserwaage und ein Bauhelm, oben ein Stapel goldener Münzen. Ein goldener Pfeil zeigt die Treppe hinauf, dazu kleine goldene Sterne."
       />
-      <figcaption>Illustration – mit gutem Handwerk Schritt für Schritt nach oben</figcaption>
     </figure>
     <p>
       Bei Bauwelt Handwerk zählt nicht nur, wie lange jemand arbeitet, sondern welche Qualität geliefert
@@ -224,10 +223,9 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
 
 <style>
   /* Karriere-Szene (Jamil 21.10.2026, Msg 2880): Sand-Fläche wie ein Bildrahmen, Zeichnung darin */
-  .karriere__szene { margin: 0; padding: 18px 12px 10px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; }
+  .karriere__szene { margin: 0; padding: 18px 12px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; } /* ohne Bildunterschrift (Jamil 21.10., Msg 2907) */
   .karriere__szene :global(.rszene) { margin: 0; }
   .karriere__szene :global(.rszene__bild) { max-width: none; }
-  .karriere__szene figcaption { margin-top: 6px; text-align: center; font-size: 13px; color: var(--anthrazit-600); }
 
   /* Pfeil-Icon schräg nach oben = „mehr verdienen“ */
   .karriere__trend :global(.icon) { transform: rotate(-45deg); }
