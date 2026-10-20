@@ -595,10 +595,11 @@ const weich = (t: string) =>
 
   /* Mobile Navigation: Zurück + Weiter zusammen. Kundenwunsch 13.10.2026 (19):
      nicht mehr angepinnt/mitlaufend und ohne weißen Rahmen – steht fest unter der Auswahl. */
-  .rnav { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
-  .rechner__app--start .rnav { grid-template-columns: 1fr; }
-  .rechner__app--start .rnav:has(#rZurueckTeil:not([hidden])) { grid-template-columns: auto 1fr; }
+  .rnav { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; } /* Breiten-Prüfung 20.10.2026 (W2): Spalte nie breiter als der Bildschirm (sehr schmale Handys, 320 px) */
+  .rechner__app--start .rnav { grid-template-columns: minmax(0, 1fr); }
+  .rechner__app--start .rnav:has(#rZurueckTeil:not([hidden])) { grid-template-columns: auto minmax(0, 1fr); }
   .rechner__next { width: 100%; }
+  @media (max-width: 359px) { .rechner__next { white-space: normal; text-align: center; justify-content: center; } }
   @media (max-width: 767px) {
     .rnav { margin-top: 18px; }
   }
@@ -1043,7 +1044,16 @@ const weich = (t: string) =>
 
     if (START) {
       // Startseite: erste Leistung ist vorausgewählt (Markup bereits serverseitig gerendert).
-      selectGewerk(GEWERKE[0], "nie");
+      // Gesamt-Audit 20.10.2026 P1 (Jamil, Talk 2787): erst, wenn der Rechner in die Nähe des
+      // Bildschirms kommt oder angetippt wird – entlastet das Handy beim Laden der Startseite.
+      let bereit = false;
+      const vorwahl = () => { if (!bereit) { bereit = true; selectGewerk(GEWERKE[0], "nie"); } };
+      app.addEventListener("pointerdown", vorwahl, { capture: true, once: true });
+      app.addEventListener("focusin", vorwahl, { once: true });
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); vorwahl(); } }, { rootMargin: "300px 0px" });
+        io.observe(app);
+      } else vorwahl();
     } else {
       // Vorauswahl per ?gewerk=<slug> (z. B. von den Leistungsseiten)
       // Kundenwunsch 14.10.2026 (28): eingebetteter Rechner (data-vorwahl) wählt still vor –

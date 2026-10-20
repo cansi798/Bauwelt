@@ -21,6 +21,16 @@ const ziele = document.querySelectorAll<HTMLElement>(".reveal, [data-einmal]");
 function sichtbar(el: HTMLElement) {
   el.classList.add("is-sichtbar");
   if (!el.hasAttribute("data-einmal")) return;
+  // Nachgeladene Zeichnung (RoughSzene, Gesamt-Audit 20.10.2026 P1) noch nicht da → erst nach dem
+  // Einsetzen prüfen, sonst gälte die Szene ohne Animationen sofort als „fertig“.
+  if (el.hasAttribute("data-rszene") && !el.hasAttribute("data-geladen")) {
+    el.addEventListener("rszene:geladen", () => fertigMelden(el), { once: true });
+    return;
+  }
+  fertigMelden(el);
+}
+
+function fertigMelden(el: HTMLElement) {
   // erzwingt Style-Berechnung → neue CSS-Animationen sind dabei; Dauer-Animationen (infinite,
   // z. B. drehende Siegel-Ringe, Kundenwunsch 19.10.2026) enden nie und zählen daher nicht mit
   const laufend = el.getAnimations({ subtree: true }).filter((a) => a.effect?.getTiming().iterations !== Infinity);

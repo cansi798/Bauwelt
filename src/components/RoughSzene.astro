@@ -11,69 +11,87 @@
 // Kundenwunsch 19.10.2026 (Audit 3.1): gleicher Look, aber schnell – alle Zeiten einer Szene
 // werden so gestaucht, dass sie in ca. 2 s fertig gezeichnet ist (19.10.: 2 s statt 1,5 s) (Reihenfolge/Versatz bleiben),
 // und alle Texte stehen sofort da (keine Einblendung mehr).
-import { SZENEN, type Ansicht, type SzenenName } from "../data/szenen";
-import type { Element, Szene } from "../lib/rough-szene";
+// Gesamt-Audit 20.10.2026 P1 (Jamil, Talk 2787): Die Szenen stehen NICHT mehr im HTML, sondern als
+// eigene Dateien (/szenen/<name>-<ansicht>.svg, src/pages/szenen/[datei].svg.ts). Im HTML steht nur
+// ein Platzhalter mit der richtigen Höhe (kein Springen); ein kleines Skript lädt die Zeichnung
+// ca. 300 px bevor sie ins Bild kommt und setzt sie ein – danach zeichnet sie sich wie bisher.
+// Ohne JS zeigt <noscript> die fertige Zeichnung als Bild. `sofort` bettet direkt ein (z. B. im Hero).
+import type { SzenenName } from "../data/szenen";
+import { fassungen, szeneMasse, szeneSvg } from "../lib/szene-svg";
+import { u } from "../consts";
 
 interface Props {
   szene: SzenenName;
   /** Beschreibt die Szene für Screenreader (role="img"). */
   label: string;
+  /** Sofort einbetten statt nachladen (Zeichnung im ersten Bildschirm, z. B. Karriere-Hero). */
+  sofort?: boolean;
 }
-const { szene, label } = Astro.props;
-
-const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const n = (x: number) => Math.round(x * 100) / 100;
-/** Ziel-Gesamtdauer einer Szene in Sekunden (Audit 3.1). */
-const ZIEL_DAUER = 2; // Kundenwunsch 19.10.2026 (Sprachnachricht Jamil): 2 s statt 1,5 s
-
-function el(e: Element, f: number): string {
-  switch (e.art) {
-    case "strich":
-      return `<path class="rs-s" pathLength="1" d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}" style="--t:${n(e.t * f)}s;--d:${n(Math.max(0.12, e.dauer * f))}s"/>`;
-    case "flaeche":
-      return e.breite > 0
-        ? `<path class="rs-f" d="${e.d}" stroke="${e.farbe}" stroke-width="${e.breite}" style="--t:${n(e.t * f)}s"/>`
-        : `<path class="rs-f" d="${e.d}" fill="${e.farbe}" stroke="none" style="--t:${n(e.t * f)}s"/>`;
-    case "text":
-      return `<text class="rs-x${e.beschriftung ? " rs-xb" : ""}" style="--t:${n(e.t * f)}s" x="${n(e.x)}" y="${n(e.y)}" text-anchor="${e.anker}" font-size="${e.groesse}" font-weight="${e.gewicht}" fill="${e.farbe}">${esc(e.text)}</text>`;
-    case "gruppe":
-      if (e.effekt === "fluss") return fluss(e.kinder, f);
-      return `<g class="rs-g rs-g--${e.effekt}" style="--t:${n(e.t * f)}s">${e.kinder.map((k) => el(k, f)).join("")}</g>`;
-  }
-}
-
-/** Goldene Verbindungslinie (Kundenwunsch 19.10.2026, 2. Sprachnachricht Jamil): Die Linie ist
- *  von Anfang an GESTRICHELT und fließt ständig. Gezeichnet wird sie über eine Maske: Ein
- *  unsichtbarer Maskenstrich läuft wie bisher an (rs-zeichnen) und gibt die gestrichelte Linie frei. */
-let maskeNr = 0;
-const maskePrefix = Math.random().toString(36).slice(2, 7);
-function fluss(kinder: Element[], f: number): string {
-  const id = `rsm-${maskePrefix}-${++maskeNr}`;
-  const striche = kinder.filter((k): k is Extract<Element, { art: "strich" }> => k.art === "strich");
-  const maske = striche
-    .map((k) => `<path class="rs-s" pathLength="1" d="${k.d}" stroke="#fff" stroke-width="${k.breite + 8}" style="--t:${n(k.t * f)}s;--d:${n(Math.max(0.12, k.dauer * f))}s"/>`)
-    .join("");
-  const linie = striche
-    .map((k) => `<path class="rs-fl" pathLength="1" d="${k.d}" stroke="${k.farbe}" stroke-width="${k.breite}"/>`)
-    .join("");
-  return `<mask id="${id}" maskUnits="userSpaceOnUse" x="-5000" y="-5000" width="10000" height="10000">${maske}</mask>` +
-    `<g class="rs-g rs-g--fluss" mask="url(#${id})">${linie}</g>`;
-}
-
-function svg(a: Ansicht, sz: Szene): string {
-  const f = sz.ende > ZIEL_DAUER ? ZIEL_DAUER / sz.ende : 1;
-  return `<svg class="rszene__svg rszene__svg--${a}" viewBox="0 0 ${sz.breite} ${sz.hoehe}" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="--ende:${n(sz.ende * f)}s">${sz.elemente.map((e) => el(e, f)).join("")}</svg>`;
-}
-
-const mobil = SZENEN[szene]("mobil");
-const desktop = SZENEN[szene]("desktop");
+const { szene, label, sofort = false } = Astro.props;
+const platzhalter = fassungen(szene).map((a) => ({
+  klasse: a === "beide" ? "rszene__svg" : `rszene__svg rszene__svg--${a}`,
+  ...szeneMasse(szene, a),
+  src: u(`szenen/${a === "beide" ? szene : `${szene}-${a}`}.svg`),
+}));
 ---
 
-<div class={`rszene rszene--${szene}`} data-rszene data-einmal>
+<div class={`rszene rszene--${szene}`} data-rszene data-einmal data-geladen={sofort ? "" : undefined}>
   <div class="rszene__bild" role="img" aria-label={label}>
-    <Fragment set:html={svg("mobil", mobil) + svg("desktop", desktop)} />
+    {sofort
+      ? <Fragment set:html={fassungen(szene).map((a) => szeneSvg(szene, a)).join("")} />
+      : platzhalter.map((p) => (
+          <div class={`${p.klasse} rszene__platz`} style={`aspect-ratio: ${p.breite} / ${p.hoehe}`} data-rszene-datei={p.src}>
+            <noscript><img class="rszene__img" src={p.src} alt="" width={p.breite} height={p.hoehe} loading="lazy" /></noscript>
+          </div>
+        ))}
   </div>
 </div>
+
+<script>
+  // Szenen kurz vor dem Sichtbarwerden nachladen (P1) – nur die Fassung, die gerade zu sehen ist
+  // (Handy ODER Desktop); die andere erst, wenn sich die Bildschirmbreite ändert (Drehen, Fenster).
+  // Fehlt fetch/IntersectionObserver oder schlägt das Laden fehl, steht die Zeichnung als fertiges
+  // Bild da (ohne Animation).
+  const einsetzen = async (p: HTMLElement) => {
+    const src = p.dataset.rszeneDatei!;
+    delete p.dataset.rszeneDatei; // nicht doppelt laden
+    try {
+      const r = await fetch(src);
+      if (!r.ok) throw new Error(String(r.status));
+      // Farbblock der Datei entfernen – im Dokument gelten die Farben der Seite
+      p.insertAdjacentHTML("afterend", (await r.text()).replace(/<style data-datei>[\s\S]*?<\/style>/, ""));
+      p.remove();
+    } catch {
+      p.innerHTML = `<img class="rszene__img" src="${src}" alt="">`;
+    }
+  };
+  const laden = async (el: HTMLElement) => {
+    el.classList.add("rszene--angefordert");
+    const offen = [...el.querySelectorAll<HTMLElement>("[data-rszene-datei]")].filter((p) => getComputedStyle(p).display !== "none");
+    await Promise.all(offen.map(einsetzen));
+    if (el.hasAttribute("data-geladen")) return;
+    el.setAttribute("data-geladen", "");
+    el.dispatchEvent(new CustomEvent("rszene:geladen"));
+  };
+  matchMedia("(min-width: 768px)").addEventListener("change", () =>
+    document.querySelectorAll<HTMLElement>(".rszene--angefordert").forEach(laden)
+  );
+  const offen = document.querySelectorAll<HTMLElement>("[data-rszene]:not([data-geladen])");
+  if (!("IntersectionObserver" in window)) offen.forEach(laden);
+  else {
+    const io = new IntersectionObserver(
+      (eintraege) => {
+        for (const e of eintraege) {
+          if (!e.isIntersecting) continue;
+          io.unobserve(e.target);
+          laden(e.target as HTMLElement);
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    offen.forEach((el) => io.observe(el));
+  }
+</script>
 
 <style is:global>
   .rszene {
@@ -89,6 +107,7 @@ const desktop = SZENEN[szene]("desktop");
      Seite war am Handy breiter als der Bildschirm (seitliches Wackeln). */
   .rszene { content-visibility: auto; contain-intrinsic-block-size: auto 480px; }
   .rszene__svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .rszene__img { display: block; width: 100%; height: auto; }
   .rszene__svg text { font-family: var(--font-heading); stroke: none; }
   .rszene__svg--desktop { display: none; }
   @media (min-width: 768px) {
