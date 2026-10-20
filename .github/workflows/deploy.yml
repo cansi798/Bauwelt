@@ -35,6 +35,14 @@ jobs:
       - name: Audit-Check
         continue-on-error: true
         run: node scripts/audit-check.mjs
+      # Breiten-Prüfung (Jamil 20.10.2026, Gesamt-Audit D1/W2): keine Seite breiter als der Handy-Bildschirm
+      # (390 + 360 px). Blockiert den Deploy nicht – Befunde stehen im Log.
+      - name: Breiten-Prüfung (Handy)
+        continue-on-error: true
+        run: |
+          npm i --silent --prefix /tmp/pw playwright@1.48.2
+          /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
+          node scripts/check-breite.mjs
 
   deploy:
     needs: build

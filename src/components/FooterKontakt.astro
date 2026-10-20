@@ -44,7 +44,8 @@ import Icon from "./Icon.astro";
     color: var(--weiss);
     padding-block: 64px 56px;
   }
-  .fkontakt__inner { display: grid; justify-items: center; text-align: center; gap: 14px; }
+  .fkontakt__inner { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 14px; } /* Breiten-Prüfung 20.10.2026 (W2): Spalte nie breiter als der Bildschirm (sehr schmale Handys, 320 px) */
+  .fkontakt__inner > * { max-width: 100%; overflow-wrap: break-word; }
   .fkontakt__inner h2, .fkontakt__inner h3, .fkontakt__inner p { margin: 0; }
   .fkontakt h2 { color: var(--weiss); }
   .fkontakt__sub {
@@ -63,6 +64,10 @@ import Icon from "./Icon.astro";
     display: grid; gap: 12px;
     width: 100%; max-width: 20rem;
     margin-top: 8px;
+  }
+  /* W2 (20.10.2026): am Handy dürfen Buttons umbrechen – lange E-Mail-Adresse passt sonst auf 320 px nicht */
+  @media (max-width: 1023px) {
+    .fkontakt__actions .btn, .fkontakt__actions .fkontakt__mail { white-space: normal; overflow-wrap: anywhere; text-align: center; }
   }
   @media (min-width: 1024px) {
     .fkontakt__actions { grid-template-columns: auto auto; justify-content: center; max-width: 46rem; }

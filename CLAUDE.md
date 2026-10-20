@@ -14,4 +14,8 @@ Jamil: „Sobald eine Änderung Auswirkung auf eines der Audit-Themen hat, weise
 ## Weitere Prüfungen
 
 - `node scripts/check-dom.mjs` (Struktur, Meta, interne Links) nach dem Build.
+- **Breiten-Prüfung** (Jamil 20.10.2026, Gesamt-Audit D1/W2): keine Seite darf am Handy breiter sein als der Bildschirm. Nach dem Build im Playwright-Image:
+  `sudo -n docker run --rm --shm-size=1g -v "$PWD":/app -w /app mcr.microsoft.com/playwright:v1.48.2-jammy sh -c "npm i --silent --prefix /tmp/pw playwright@1.48.2 && node scripts/check-breite.mjs"`
+  (Standard 390 + 360 px; andere Breiten mit `-e BREITEN=390,360,320`). Läuft auch in GitHub Actions (blockiert nicht). Danach `sudo chown -R can:can .`
+- Ohne node auf dem Server bauen: `sudo -n docker run --rm -v "$PWD":/app -w /app node:22-bookworm sh -c "npm ci && npm run build && node scripts/audit-check.mjs && node scripts/check-dom.mjs"`.
 - Skills `.claude/skills/seo` und `.claude/skills/security-check` beachten.
