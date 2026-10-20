@@ -53,6 +53,7 @@ const ergebnis = [
   "Auf Wunsch ein Angebot für die Umsetzung",
 ];
 
+// Jamil 21.10.2026 (Talk 2872): Kasten „Das bringt Ihnen der Check“ bleibt auf den Pauschal-Checks
 const vorteile = [
   { icon: "calendar", titel: "Kleine Maßnahmen, große Wirkung" /* Audit 5.5: nicht doppelt mit der H2 */, text: "Viele Maßnahmen sind klein und kostengünstig, erhöhen aber Sicherheit und Komfort deutlich. Oft reichen bereits wenige Anpassungen, um das tägliche Leben spürbar zu erleichtern." },
   // Audit 5.7: Preis steht oben im Startbild und im Abschluss – hier ohne Betrag
@@ -121,12 +122,11 @@ const vorteile = [
       </div>
     </section>
 
-    <!-- 4. Ihr Vorteil – EIN dunkler Vorteils-Abschnitt wie auf allen Leistungsseiten (Jamil 19.10.2026):
-         eigene Vorteile des Checks + die 7 Versprechen, jeder Vorteil genau einmal -->
+    <!-- 4. Unsere 7 Versprechen – derselbe dunkle Abschnitt wie auf allen Leistungsseiten
+         (Jamil 21.10.2026, Talk 2867/2872: Pauschal-Check behält den Kasten „Das bringt Ihnen der Check“,
+         ohne Foto, kein Button – 5.7) -->
     <LeistungVorteile
-      eyebrow="Ihr Vorteil"
-      pre="Heute planen statt morgen "
-      accent="reagieren"
+      eyebrow="Warum Sicher wohnen mit uns"
       eigeneTitel="Das bringt Ihnen der Check"
       vorteile={vorteile.map((v) => ({ icon: v.icon, title: v.titel, text: v.text }))}
     />
@@ -265,13 +265,6 @@ const vorteile = [
   }
   .zc-zitat__satz::first-letter { color: var(--gold-500); }
   .zc-zitat__text { margin: 0 auto; max-width: 680px; font-size: 19px; line-height: 1.7; color: var(--anthrazit-100) !important; }
-
-  /* Vorteile (helle Variante der Vorteilskarten) */
-  .zc-vorteile { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 18px; max-width: 1100px; }
-  @media (min-width: 900px) { .zc-vorteile { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
-  .zc-vorteil { display: grid; gap: 12px; align-content: start; padding: 28px 24px; border-radius: 18px; background: var(--weiss); border: 1px solid var(--linie); }
-  .zc-vorteil h3 { margin: 4px 0 0; font-size: 20px; line-height: 1.3; text-transform: none; letter-spacing: 0; }
-  .zc-vorteil p { margin: 0; font-size: 17px; line-height: 1.65; color: var(--anthrazit-700); }
 
   /* Für wen / Ergebnis */
   .zc-zwei { display: grid; gap: 24px; }

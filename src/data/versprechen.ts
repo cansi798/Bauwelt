@@ -96,28 +96,6 @@ export const siegelById = (id: string): Siegel | undefined =>
 /** Jamil 19.10.2026 (Talk 2538/2539/2541): Überall GENAU diese 7 Versprechen – Startseite (Siegel),
  *  Über uns (Siegel) und Leistungsseiten (eigene Darstellung, Komponente LeistungVorteile.astro).
  *  Jeder Vorteil steht pro Seite nur EINMAL (prüft scripts/audit-check.mjs).
- *  Die frühere Leiste mit 4 Kernvorteilen unter dem Leistungs-Hero (Audit 5.1) ist entfallen. */
-
-/** Eigene Vorteile einer Leistung, die inhaltlich ein Versprechen sind → werden mit diesem
- *  zusammengelegt (Titel bleibt der des Versprechens, Text kommt von der Leistung). */
-const ZUSAMMENGELEGT: Record<string, string> = {
-  "Verständliche Angebote statt Positionsdschungel": "transparenz",
-};
-
-export type Vorteil = { icon: string; title: string; text: string };
-export type Zusage = Siegel & { text: string };
-
-/** Teilt die Vorteile einer Leistungsseite auf: `eigene` = nur, was kein Versprechen ist;
- *  `zusagen` = die 7 Versprechen (Text ggf. durch den passenderen Leistungstext ersetzt).
- *  So steht jeder Vorteil auf der Seite genau einmal. */
-export function vorteileFuerSeite(vorteile: Vorteil[]): { eigene: Vorteil[]; zusagen: Zusage[] } {
-  const titel = new Set(VERSPRECHEN.map((v) => v.title.toLowerCase()));
-  const ersatz = new Map<string, string>();
-  const eigene: Vorteil[] = [];
-  for (const v of vorteile) {
-    const ziel = ZUSAMMENGELEGT[v.title];
-    if (ziel) ersatz.set(ziel, `${v.title}: ${v.text.charAt(0).toLowerCase()}${v.text.slice(1)}`);
-    else if (!titel.has(v.title.toLowerCase())) eigene.push(v);
-  }
-  return { eigene, zusagen: VERSPRECHEN.map((s) => ({ ...s, text: ersatz.get(s.id) ?? s.short })) };
-}
+ *  Die frühere Leiste mit 4 Kernvorteilen unter dem Leistungs-Hero (Audit 5.1) ist entfallen.
+ *  Jamil 21.10.2026 (Talk 2867): Leistungsseiten zeigen nur noch diese 7 Versprechen (Titel + `short`,
+ *  Festpreis-Zusage ab Tablet mit `long`) – keine eigenen Vorteile mehr daneben, nichts wird umgeschrieben. */

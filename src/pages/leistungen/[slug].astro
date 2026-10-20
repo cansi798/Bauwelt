@@ -22,7 +22,7 @@ import Rechner from "../../components/Rechner.astro";
 import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import SkizzenKreis from "../../components/SkizzenKreis.astro";
-import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName, istKiBild } from "../../consts";
+import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
@@ -65,12 +65,6 @@ const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data
 const heroBild = l.data.bild ?? `hero-${l.id}.webp`; /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */
 // Foto neben dem Intro: erstes Referenzfoto, das nicht schon im Hero steht.
 const introBild = refBilder.find((b) => b.file !== heroBild);
-// Foto links im Vorteils-Abschnitt (Polish 19.10.2026): ein echtes Projektfoto, das weder im Hero
-// noch neben dem Intro steht; sonst das (echte) Hero-Foto der Leistung. Gibt es keins (oder nur ein
-// KI-Bild), zeigt der Abschnitt nur den Button.
-const vorteilBild =
-  refBilder.find((b) => b.file !== heroBild && b.file !== introBild?.file) ??
-  (istKiBild(heroBild) ? undefined : refBilder.find((b) => b.file === heroBild));
 const buchen = pauschal
   ? { href: u("kontakt/#termin"), label: `${kurzTitel.replace("Immobilien-", "")} buchen`, extern: false }
   : { href: TERMIN.href, label: TERMIN.label, extern: true };
@@ -89,7 +83,9 @@ const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero.
 // Jamil 19.10.2026 (Talk 2538/2539/2541): Die frühere Leiste mit 4 Kernvorteilen unter dem Hero
 // und die Karten „Ihre Vorteile“ zeigten dieselben Vorteile doppelt. Jetzt EIN Abschnitt
-// (LeistungVorteile): eigene Vorteile der Leistung + die 7 Versprechen – jeder Vorteil genau einmal.
+// (LeistungVorteile) mit den 7 Versprechen – jeder Vorteil genau einmal. Jamil 21.10.2026 (Talk 2867):
+// eigene Vorteile („Das Besondere bei …“) und Foto entfallen; `warum` aus dem Frontmatter steht dort nur noch in
+// llms-full.txt. Ausnahme Pauschal-Checks (Talk 2872): Kasten „Das bringt Ihnen …“ bleibt.
 
 // SEO-/KI-Audit S4 (19.10.2026): Titel mit Leistung + Norderstedt (lokaler Fokus), max. ca. 60 Zeichen
 const seoTitel = [
@@ -202,13 +198,12 @@ const description =
     </section>
   )}
 
-  <!-- 2. Warum mit Bauwelt Handwerk? – EIN dunkler Vorteils-Abschnitt (Jamil 19.10.2026) -->
+  <!-- 2. Unsere 7 Versprechen – EIN dunkler Abschnitt (Jamil 19.10.2026; seit 21.10.2026, Talk 2867,
+       ohne Kasten „Das Besondere bei …“ und ohne Foto – nur die 7 Versprechen) -->
   <LeistungVorteile
-    pre={`Warum ${weich(kurzTitel)} mit `}
-    accent="Bauwelt Handwerk?"
-    eigeneTitel={pauschal ? `Das bringt Ihnen der ${kurzTitel}` : `Das Besondere bei ${kurzTitel}`}
-    vorteile={l.data.warum}
-    bild={vorteilBild}
+    eyebrow={`Warum ${kurzTitel} mit uns`}
+    eigeneTitel={pauschal ? `Das bringt Ihnen der ${kurzTitel}` : undefined /* Talk 2872: Kasten nur bei Checks */}
+    vorteile={pauschal ? l.data.warum : []}
     cta={pauschal ? undefined /* Audit 5.7: kein weiterer Buchen-Button bei Pauschal-Checks */ : hatRechner ? { href: "#rechner", label: CTA.label } : buchen}
   />
 
