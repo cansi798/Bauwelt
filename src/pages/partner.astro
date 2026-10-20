@@ -1,5 +1,4 @@
 ---
-import RoughSzene from "../components/RoughSzene.astro";
 // Partner (B2B) – Kundenwunsch 14.10.2026 (39): finale Struktur von Jamil, Texte wörtlich:
 // 1 Hero (2 Buttons) → 2 Mit wem wir arbeiten → 3 Warum Partner mit uns arbeiten (dunkel)
 // → Für Hausverwaltungen (Jamils Ergänzung „B2B-Mehrwert“) → 4 Bestehende Kooperationen (seit 20.10.2026 ohne Namen, R7)
@@ -12,6 +11,7 @@ import Steps from "../components/Steps.astro";
 import WarumAnders from "../components/WarumAnders.astro";
 import Kooperationen from "../components/Kooperationen.astro";
 import Icon from "../components/Icon.astro";
+import RoughSzene from "../components/RoughSzene.astro";
 import { EMAILS, SITE, waLink } from "../consts";
 
 const mailPartner = `mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfrage Zusammenarbeit")}`;
@@ -61,9 +61,15 @@ const ABLAUF = [
     pre={"Zusammen\u00ADarbeit, auf die man bauen "}
     accent="kann."
     lead="Sie betreuen Immobilien, vermitteln Projekte oder planen Umbauten?"
-    bild="hero-partner.webp"
-    alt="Zwei Profis mit Tablet an der Trockenbauwand"
   >
+    {/* Jamil 21.10.2026 (Msg 2899): statt KI-Foto (fremdes Logo auf den Helmen) eine gezeichnete Szene –
+        Steine zweier Partner wachsen zu einem Haus, goldenes Dach + Haken (Szene „partnerBau“) */}
+    <figure class="partner__bau" slot="medien">
+      <RoughSzene
+        szene="partnerBau"
+        label="Zeichnung im Skizzen-Stil: goldene und weiße Bausteine setzen sich abwechselnd zu einer festen Wand zusammen, oben kommt ein goldenes Dach darauf, daneben ein goldener Haken."
+      />
+    </figure>
     <p>
       Wir sind der ausführende Partner, der Zusagen einhält, sauber dokumentiert und Termine verlässlich
       umsetzt – beim ersten Projekt und beim zwanzigsten.
@@ -167,6 +173,10 @@ const ABLAUF = [
 </BaseLayout>
 
 <style>
+  /* Bau-Zeichnung im Hero (Jamil 21.10.2026, Msg 2899): Sand-Fläche wie ein Bildrahmen */
+  .partner__bau { margin: 0; padding: 18px 12px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; }
+  .partner__bau :global(.rszene) { margin: 0; }
+  .partner__bau :global(.rszene__bild) { max-width: none; }
   .partner__hero-actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-top: 8px; width: 100%; }
   @media (max-width: 767px) {
     .partner__hero-actions { display: grid; width: 100%; }

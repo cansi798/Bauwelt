@@ -24,8 +24,11 @@ export type Element =
   | { art: "gruppe"; effekt: Effekt; t: number; kinder: Element[] };
 /** Lebens-Effekte der Karriere-Gesichter (Jamil 21.10.2026, Msg 2863): „zwinkern“ (Auge klappt kurz zu),
  *  „laecheln“ (Mund wird kurz breiter), „nicken“ (Kopf nickt zweimal), „huepfen“ (Bommel wippt).
- *  Laufen genau einmal ab `t`, danach Ruhezustand = normale Zeichnung. */
-export type Effekt = "stempel" | "puls" | "dreh" | "fluss" | "zwinkern" | "laecheln" | "nicken" | "huepfen";
+ *  Laufen genau einmal ab `t`, danach Ruhezustand = normale Zeichnung.
+ *  Handschlag Kontakt (Jamil 21.10.2026, Msg 2897): „vonlinks“/„vonrechts“ (Hand gleitet herein),
+ *  „schuetteln“ (Hände schlagen ein, kurzes Auf und Ab). Partner (Msg 2899): „einsetzen“ (Stein/Dach
+ *  senkt sich von oben ein). */
+export type Effekt = "stempel" | "puls" | "dreh" | "fluss" | "zwinkern" | "laecheln" | "nicken" | "huepfen" | "vonlinks" | "vonrechts" | "schuetteln" | "einsetzen";
 
 export interface Szene {
   breite: number;

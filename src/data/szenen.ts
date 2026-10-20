@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team" | "karriere";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team" | "karriere" | "handschlag" | "partnerBau";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -741,4 +741,97 @@ function karriere(): Szene {
   return { breite: KAR_B, hoehe: KAR_H, elemente: z.elemente, ende: 4.6, zielDauer: 4.6 };
 }
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere };
+/* ─── Kontakt-Startbild: Handschlag (Jamil 21.10.2026, Msg 2897 – ersetzt das Foto hero-kontakt.webp) ───
+   Zwei Hände – links Handwerker (goldene Arbeitsjacke), rechts Kunde (grauer Ärmel) – zeichnen sich,
+   gleiten aufeinander zu, schlagen ein (kurzes Schütteln), dann ein goldenes Herz mit Funken. Einmal. */
+const HS_B = 760, HS_H = 340;
+function handschlag(): Szene {
+  const z = new Zeichner();
+  const weiss = { fill: "var(--weiss)", fillStyle: "solid" as const };
+  // Kunde, hinterer Teil: Ärmel, Unterarm, Handfläche (wird von der Handwerker-Hand überdeckt)
+  const kundeHinten = () => {
+    z.pfad("M760 150L556 178L562 262L760 250Z", { fill: F.grau, fillStyle: "hachure", hachureGap: 8, fillWeight: 1.2, strokeWidth: 2.4 }, 0.6);
+    z.pfad("M560 186Q520 182 500 184L496 262Q530 262 562 258Z", { ...weiss, strokeWidth: 2.2 }, 0.4); // Bündchen
+    z.linie(512, 186, 508, 261, { stroke: F.grau, strokeWidth: 1.6 }, 0.2);
+    z.pfad("M500 188Q450 190 420 200L366 214Q350 222 352 238L360 286Q380 300 420 290L498 262Z", { ...weiss, strokeWidth: 2.4 }, 0.6);
+    // Fingerspitzen des Kunden schauen unten links heraus
+    z.pfad("M352 280Q346 300 362 302Q374 300 372 288", { ...weiss, strokeWidth: 2.2 }, 0.2);
+    z.pfad("M376 284Q372 304 388 304Q400 300 398 286", { ...weiss, strokeWidth: 2.2 }, 0.2);
+  };
+  // Handwerker: Ärmel mit Bündchen, Unterarm, Handrücken, Finger über der Kundenhand, Daumen
+  const handwerker = () => {
+    z.pfad("M0 168L212 190L206 280L0 272Z", { fill: F.goldHell, fillStyle: "hachure", hachureGap: 8, fillWeight: 1.3, strokeWidth: 2.4 }, 0.6);
+    z.pfad("M208 186L244 190L240 282L204 280Z", { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3); // Bündchen
+    z.pfad("M242 198Q300 200 340 206L430 222Q452 230 446 252Q440 268 420 270L400 282Q370 296 330 284L240 274Z", { ...weiss, strokeWidth: 2.4 }, 0.6);
+    // Finger legen sich über den Kundenhandrücken (vier Bögen)
+    [0, 1, 2, 3].forEach((k) =>
+      z.pfad(`M${386 + k * 6} ${226 + k * 15}Q${430 + k * 3} ${230 + k * 12} ${446 - k * 2} ${246 + k * 9}`, { strokeWidth: 2 }, 0.15));
+    // Daumen oben
+    z.pfad("M300 204Q330 186 362 192Q384 198 380 210Q372 216 350 212", { ...weiss, strokeWidth: 2.4 }, 0.3);
+  };
+  // Kunde, vorderer Teil: Daumen über dem Handwerker-Handrücken
+  const kundeVorn = () =>
+    z.pfad("M470 196Q430 182 398 190Q380 196 386 208Q394 214 420 210L452 214", { ...weiss, strokeWidth: 2.4 }, 0.3);
+
+  // Hände gleiten aufeinander zu (zeichnen sich dabei), dann Schütteln
+  z.gruppe("schuetteln", () => {
+    z.bei(0);
+    z.gruppe("vonrechts", kundeHinten, 0);
+    z.bei(0.15);
+    z.gruppe("vonlinks", handwerker, 0.15);
+    z.bei(0.55);
+    z.gruppe("vonrechts", kundeVorn, 0);
+  }, 1.15);
+  // Goldenes Herz + Funken über dem Handschlag
+  const hx = 400, hy = 112;
+  z.bei(1.85);
+  z.gruppe("stempel", () =>
+    z.pfad(`M${hx} ${hy + 4}C${hx} ${hy - 16} ${hx - 28} ${hy - 20} ${hx - 28} ${hy}C${hx - 28} ${hy + 16} ${hx - 8} ${hy + 24} ${hx} ${hy + 38}C${hx + 8} ${hy + 24} ${hx + 28} ${hy + 16} ${hx + 28} ${hy}C${hx + 28} ${hy - 20} ${hx} ${hy - 16} ${hx} ${hy + 4}Z`,
+      { fill: F.gold, fillStyle: "solid", stroke: F.goldDunkel, strokeWidth: 2, roughness: 0.7 }, 0.25));
+  z.bei(2.05);
+  ([[hx - 44, hy - 4, hx - 66, hy - 14], [hx + 44, hy - 4, hx + 66, hy - 14], [hx - 34, hy - 32, hx - 48, hy - 50], [hx + 34, hy - 32, hx + 48, hy - 50], [hx, hy - 30, hx, hy - 52]] as const)
+    .forEach(([a, b, c, d], k) => z.linie(a, b, c, d, { stroke: F.gold, strokeWidth: 3.4, roughness: 0.5 }, 0.15 + k * 0.03));
+  return { breite: HS_B, hoehe: HS_H, elemente: z.elemente, ende: 2.6, zielDauer: 2.6 };
+}
+
+/* ─── Partner-Startbild: gemeinsam bauen (Jamil 21.10.2026, Msg 2899 – ersetzt das KI-Foto hero-partner.webp) ───
+   „Zusammenarbeit, auf die man bauen kann“: Steine in zwei Farben (gold = Bauwelt, weiß = Partner) setzen
+   sich abwechselnd zu einer festen Wand, zuletzt kommt das goldene Dach drauf und ein goldener Haken.
+   Bewusst anders als der Handschlag auf Kontakt. Einmal, keine Schleife. */
+const PB_B = 760, PB_H = 420;
+function partnerBau(): Szene {
+  const z = new Zeichner();
+  const boden = 380, rh = 46, x0 = 230, x1 = 530;
+  z.bei(0);
+  z.linie(120, boden, 640, boden, { stroke: F.hell, strokeWidth: 2.2 }, 0.4);
+  let n = 0;
+  for (let r = 0; r < 4; r++) {
+    const y = boden - rh * (r + 1);
+    const kanten = r % 2 === 0 ? [x0, 330, 430, x1] : [x0, 280, 380, 480, x1];
+    for (let i = 0; i < kanten.length - 1; i++, n++) {
+      const gold = (r + i) % 2 === 0;
+      z.bei(0.15 + n * 0.11);
+      z.gruppe("einsetzen", () =>
+        z.rechteck(kanten[i] + 2, y + 2, kanten[i + 1] - kanten[i] - 4, rh - 4,
+          gold ? { fill: F.goldHell, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.3, strokeWidth: 2.3 }
+               : { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.3 }, 0.25));
+    }
+  }
+  const dachT = 0.3 + n * 0.11;
+  // Dach zuletzt – goldener „Schlussstein“
+  z.bei(dachT);
+  z.gruppe("einsetzen", () => {
+    z.pfad(`M${x0 - 26} ${boden - rh * 4 - 2}L${(x0 + x1) / 2} ${boden - rh * 4 - 112}L${x1 + 26} ${boden - rh * 4 - 2}Z`,
+      { fill: F.gold, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.5, strokeWidth: 2.8 }, 0.4);
+    z.rechteck(450, boden - rh * 4 - 96, 26, 44, { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schornstein
+  });
+  // Goldener Haken im Kreis
+  z.bei(dachT + 0.5);
+  z.gruppe("stempel", () => {
+    z.kreis(612, 120, 64, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.3);
+    z.pfad("M596 120l11 11l20 -22", { strokeWidth: 3.6, roughness: 0.5 }, 0.3);
+  });
+  return { breite: PB_B, hoehe: PB_H, elemente: z.elemente, ende: dachT + 0.9, zielDauer: dachT + 0.9 };
+}
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere, handschlag, partnerBau };
