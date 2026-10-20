@@ -121,6 +121,8 @@ if (!tv) pass("Texte/Wording", `keine verbotenen Aussagen auf ${S.length - 1} Se
 let seoProbleme = 0;
 for (const s of S) {
   if (!s.title) { warn("SEO (S4)", `${s.page}: kein <title>`); seoProbleme++; continue; }
+  // Jamil 21.10.2026 (Msg 2926): jeder Titel endet auf „| Bauwelt Handwerk“ – nie nur „| Bauwelt“
+  if (!/\| Bauwelt Handwerk$/.test(s.title)) { warn("SEO (S4)", `${s.page}: Titel endet nicht auf „| Bauwelt Handwerk“: „${s.title}“`); seoProbleme++; }
   if (s.noindex) continue;
   // S2 (Jamil 20.10.2026, Talk 2787): echte Zeichen zählen, Grenze 60 (vorher 61 → Karriere mit 61 rutschte durch)
   const titelLaenge = [...s.title].length;

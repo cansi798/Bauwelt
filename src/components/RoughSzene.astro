@@ -16,9 +16,15 @@
 // ein Platzhalter mit der richtigen Höhe (kein Springen); ein kleines Skript lädt die Zeichnung
 // ca. 300 px bevor sie ins Bild kommt und setzt sie ein – danach zeichnet sie sich wie bisher.
 // Ohne JS zeigt <noscript> die fertige Zeichnung als Bild. `sofort` bettet direkt ein (z. B. im Hero).
-import type { SzenenName } from "../data/szenen";
+import { SZENEN, type SzenenName } from "../data/szenen";
 import { fassungen, szeneMasse, szeneSvg } from "../lib/szene-svg";
 import { u } from "../consts";
+import { createHash } from "node:crypto";
+// Cache-Leeren (Jamil 21.10.2026, Msg 2928: alte Zeichnung blieb im Browser): an jede Szenen-Datei hängt
+// ?v=<Inhalts-Hash> – ändert sich die Zeichnung, ändert sich die Adresse und der Browser lädt sie neu.
+// Gehasht werden die Zeichnungsdaten (feste Zufalls-Seeds → gleiche Zeichnung = gleicher Hash bei jedem Build).
+const version = (name: SzenenName, a: ReturnType<typeof fassungen>[number]) =>
+  createHash("sha1").update(JSON.stringify(SZENEN[name](a === "beide" ? "desktop" : a))).digest("hex").slice(0, 10);
 
 interface Props {
   szene: SzenenName;
@@ -31,7 +37,7 @@ const { szene, label, sofort = false } = Astro.props;
 const platzhalter = fassungen(szene).map((a) => ({
   klasse: a === "beide" ? "rszene__svg" : `rszene__svg rszene__svg--${a}`,
   ...szeneMasse(szene, a),
-  src: u(`szenen/${a === "beide" ? szene : `${szene}-${a}`}.svg`),
+  src: u(`szenen/${a === "beide" ? szene : `${szene}-${a}`}.svg`) + `?v=${version(szene, a)}`,
 }));
 ---
 

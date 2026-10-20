@@ -101,6 +101,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 ## 4. SEO (S1–S11)
 
+- **Jeder Seitentitel endet auf „| Bauwelt Handwerk“** (Jamil 21.10.2026, Msg 2926 – nie nur „| Bauwelt“, auch nicht bei AGB/Impressum/Login/404); gekürzt wird vorne, Hauptbegriff + Norderstedt bleiben. og:title = Titel, JSON-LD-Name „Bauwelt Handwerk“. audit-check warnt bei jedem Titel ohne diese Endung.
 - **Titel ≤ 60 Zeichen** mit Leistung + **Norderstedt** (S4, Jamil: „wichtig, wir wollen in Norderstedt und Umkreis sichtbarer werden“). Gezählt werden echte Zeichen, Grenze 60 (S2, 20.10.). Karriere endet auf „… | Bauwelt Handwerk“ (Jamil: nicht „… Bauwelt“): „Karriere – Jobs in Norderstedt | Bauwelt Handwerk“.
 - **Start-H1 mit Leistung + Ort** (T2, Jamil 20.10.): die Positionierungszeile „Badsanierung, Fliesenarbeiten & Innenausbau in Norderstedt, Hamburg & Umgebung“ ist Teil der H1 (sieht aus wie die Eyebrow-Zeile), danach „Bereit für Ihr neues …“ mit Wortwalze. Ort/Leistung stehen im Hero nur einmal.
 - **Beschreibungen ≤ ca. 155 Zeichen**, nennen Norderstedt, Hamburg und Umkreis.
@@ -158,7 +159,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 ## 12. Performance (1.11, S6, S11)
 
 - Logo als kleine WebP (kein PNG), Startbild am Handy in kleiner Variante (`hero-828.webp`), Zeichnungen erst bei Bedarf aufbauen.
-- **Zeichnungen nachladen** (P1, Jamil 20.10.): Szenen stehen nicht im HTML, sondern als Dateien unter `/szenen/` (`src/pages/szenen/[datei].svg.ts`); `RoughSzene.astro` lädt nur die sichtbare Fassung ca. 300 px vor dem Sichtbarwerden, ohne JS als Bild (`<noscript>`). Der Rechner auf der Startseite startet erst in Bildschirmnähe. Seiten-HTML ≤ 250 KB (audit-check). Lighthouse mobil Startseite: vorher 72 → nachher Median 91.
+- **Zeichnungen nachladen** (P1, Jamil 20.10.): Szenen stehen nicht im HTML, sondern als Dateien unter `/szenen/` (`src/pages/szenen/[datei].svg.ts`); `RoughSzene.astro` lädt nur die sichtbare Fassung ca. 300 px vor dem Sichtbarwerden, ohne JS als Bild (`<noscript>`). Der Rechner auf der Startseite startet erst in Bildschirmnähe. Seiten-HTML ≤ 250 KB (audit-check). **Cache-Leeren** (Jamil 21.10.2026, Msg 2928: alte Zeichnung blieb im Browser): jede Szenen-Adresse trägt `?v=<Hash der Zeichnung>` (`RoughSzene.astro`) – geänderte Zeichnungen sind sofort sichtbar, unveränderte bleiben im Cache. Lighthouse mobil Startseite: vorher 72 → nachher Median 91.
 - Bilder < 200 KB. Beim eigenen Hosting lange Cache-Zeiten (S11).
 
 - **Kein energetischer Umbau** (Jamil 20.10., Talk 2599): Bauwelt bietet keine energetische Sanierung/Modernisierung an – das Wort „energetisch“ kommt im Angebot nicht vor (audit-check warnt).
@@ -193,3 +194,5 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 | J21g | Partner: zwei Firmengebäude + Brücke + Haken statt Steinhaus (Jamil 21.10., Msg 2909) | Szene `partnerBau` |
 | J21h | Hero-Zeichnungen Karriere/Partner/Über uns/Kontakt je 1,5 s (Jamil 21.10., Msg 2911) | `zielDauer: 1.5`, kurze Effekt-Zeiten in `RoughSzene.astro` |
 | J21i | Firmenname sichtbar immer „Bauwelt Handwerk“, nie nur „Bauwelt“ (Jamil 21.10., Msg 2914) | Partner-Schild, Eyebrows „Warum Bauwelt Handwerk“ (Karriere, Partner, Über uns) |
+| J21j | Alle Titel „… | Bauwelt Handwerk“ ≤ 60 Zeichen (Jamil 21.10., Msg 2926) | Seiten + `[slug].astro`; audit-check S4 |
+| J21k | Zeichnungen mit `?v=<Hash>` gegen alte Browser-Kopien (Jamil 21.10., Msg 2928) | `RoughSzene.astro`, check-dom |

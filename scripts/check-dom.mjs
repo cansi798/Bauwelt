@@ -49,7 +49,8 @@ for (const file of pages) {
     if (ohneHero.includes(stock)) err(page, `Stock-/KI-Foto "${stock}" außerhalb des Hero-Bereichs`);
   }
   // Gesamt-Audit 20.10.2026 P1: nachgeladene Zeichnungen (RoughSzene) – Datei muss existieren
-  for (const m of html.matchAll(/data-rszene-datei="\/Bauwelt\/([^"]+)"/g)) {
+  // (seit 21.10.2026 mit ?v=<hash> zum Cache-Leeren, Jamil Msg 2928 – Abfrage für die Dateiprüfung abschneiden)
+  for (const m of html.matchAll(/data-rszene-datei="\/Bauwelt\/([^"?]+)(?:\?v=[0-9a-f]+)?"/g)) {
     if (!existsSync(join(DIST, m[1]))) err(page, `Zeichnung fehlt: /${m[1]}`);
   }
 

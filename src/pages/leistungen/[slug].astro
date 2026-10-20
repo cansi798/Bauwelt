@@ -88,11 +88,16 @@ const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // llms-full.txt. Ausnahme Pauschal-Checks (Talk 2872): Kasten „Das bringt Ihnen …“ bleibt.
 
 // SEO-/KI-Audit S4 (19.10.2026): Titel mit Leistung + Norderstedt (lokaler Fokus), max. ca. 60 Zeichen
+// Jamil 21.10.2026 (Msg 2926): IMMER „| Bauwelt Handwerk“ am Ende (nie nur „| Bauwelt“) – gekürzt wird vorne.
+// Lange Leistungsnamen bekommen einen kürzeren SEO-Namen (Hauptbegriff bleibt).
+const SEO_KURZ: Record<string, string> = { "sanierung-modernisierung": "Komplettsanierung" };
+const seoName = SEO_KURZ[l.id] ?? kurzTitel;
 const seoTitel = [
-  `${kurzTitel} in Norderstedt & Hamburg | Bauwelt Handwerk`,
-  `${kurzTitel} in Norderstedt & Hamburg | Bauwelt`,
-  `${kurzTitel} in Norderstedt | Bauwelt`,
-].find((t) => t.length <= 60) ?? `${kurzTitel} | Bauwelt`;
+  `${seoName} in Norderstedt & Hamburg | Bauwelt Handwerk`,
+  `${seoName} Norderstedt & Hamburg | Bauwelt Handwerk`,
+  `${seoName} in Norderstedt | Bauwelt Handwerk`,
+  `${seoName} Norderstedt | Bauwelt Handwerk`,
+].find((t) => [...t].length <= 60) ?? `${seoName} | Bauwelt Handwerk`;
 const description =
   l.data.beschreibung ??
   // Ziel ~140–160 Zeichen: langer Zusatz, wenn er passt, sonst kurzer, sonst nur Teaser.
