@@ -1,5 +1,6 @@
 ---
-// Leistungsseite „Sicher wohnen. Heute und morgen.“ (Kundenwunsch 16.10.2026 (73), Texte: Jamil;
+// Leistungsseite „Sicher-wohnen-Check“ (Jamil 21.10.2026, Msg 2884/2885; vorher „Sicher wohnen. Heute und morgen.“)
+// (Kundenwunsch 16.10.2026 (73), Texte: Jamil;
 // 17.10.2026 (82): neuer Name statt „Zuhause-Check 60+“, kein Altersbezug – Pflegebedarf gibt es in jedem Alter).
 // Alte Adresse /leistungen/zuhause-check-60/ leitet per Stub-Seite hierher weiter.
 // Gleiche Bausteine wie die übrigen Leistungsseiten (LeistungHero, SectionHead, Sand/Dunkel-
@@ -8,7 +9,7 @@
 // Kernsatz (Hero-Claim + Zitatband): „Möglichst lange selbstständig in den eigenen vier Wänden leben.“
 // Barrierearm lesbar: größere Schrift, hoher Kontrast, große Buttons (auch mobil), ruhiger Ton.
 // Preis, Umfang (Rechner-Festpreisfenster) und FAQ: content/leistungen/sicher-wohnen.md.
-// CTA „Check „Sicher wohnen“ buchen“ (Audit 4.1, früher „Beratungstermin anfragen“) wie beim Sanierungscheck → Kontaktseite #termin (Buchungsfenster).
+// CTA „Sicher-wohnen-Check buchen“ (Audit 4.1, früher „Beratungstermin anfragen“) wie beim Sanierungscheck → Kontaktseite #termin (Buchungsfenster).
 import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LeistungHero from "../../components/LeistungHero.astro";
@@ -24,10 +25,10 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
 
 const l = await getEntry("leistungen", "sicher-wohnen");
 const leistung = leistungBySlug("sicher-wohnen");
-if (!l || !leistung || !l.data.pauschalpreis) throw new Error("Sicher wohnen: Content-Datei oder LEISTUNGEN-Eintrag fehlt");
+if (!l || !leistung || !l.data.pauschalpreis) throw new Error("Sicher-wohnen-Check: Content-Datei oder LEISTUNGEN-Eintrag fehlt");
 const { Content } = await render(l);
 const preis = l.data.pauschalpreis.toLocaleString("de-DE");
-const cta = { href: u("kontakt/#termin"), label: "Check „Sicher wohnen“ buchen" };
+const cta = { href: u("kontakt/#termin"), label: "Sicher-wohnen-Check buchen" };
 
 /** ❌/✅ aus Jamils Text: Mittel zum Zweck vs. das, worauf es wirklich ankommt. */
 
@@ -58,7 +59,7 @@ const vorteile = [
   { icon: "calendar", titel: "Kleine Maßnahmen, große Wirkung" /* Audit 5.5: nicht doppelt mit der H2 */, text: "Viele Maßnahmen sind klein und kostengünstig, erhöhen aber Sicherheit und Komfort deutlich. Oft reichen bereits wenige Anpassungen, um das tägliche Leben spürbar zu erleichtern." },
   // Audit 5.7: Preis steht oben im Startbild und im Abschluss – hier ohne Betrag
   { icon: "euro", titel: "Wird bei Umsetzung angerechnet", text: l.data.pauschalHinweis ?? "" },
-  { icon: "hand", titel: "Zusammen mit unserem Partnerpfleger", text: "Beim Check „Sicher wohnen“ arbeiten wir mit einem Partnerpfleger zusammen." },
+  { icon: "hand", titel: "Zusammen mit unserem Partnerpfleger", text: "Beim Sicher-wohnen-Check arbeiten wir mit einem Partnerpfleger zusammen." },
 ];
 ---
 
@@ -71,15 +72,14 @@ const vorteile = [
     ]),
     ...faqSchema(l.data.faq),
   ] /* SEO-/KI-Audit S3 */}
-  sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title="Sicher wohnen – Check in Norderstedt | Bauwelt Handwerk" /* SEO-/KI-Audit S4 */ description={l.data.beschreibung ?? l.data.teaser}>
+  sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title="Sicher-wohnen-Check in Norderstedt | Bauwelt Handwerk" /* SEO-/KI-Audit S4 */ description={l.data.beschreibung ?? l.data.teaser}>
   <LeistungHero
     eyebrow={leistung.unterschrift}
-    pre={"Sicher wohnen. Heute und " /* Kundenwunsch 19.10.2026 (Audit 1.3): H1 = Leistungsname */}
-    accent="morgen."
+    pre={leistung.unterschrift /* H1 = Leistungsname (Audit 1.3), ganz weiß (Jamil 21.10.2026, Msg 2878/2882) */}
     slogan={leistung.nutzen}
     claim={l.data.claim}
     lead={l.data.lead}
-    bild={l.data.bild ?? "hero-sanierung-modernisierung.webp"}
+    bild={l.data.bild ?? "ki-hero-sicher-wohnen.webp" /* KI-Bild passend zur Leistung (Talk 2784) */}
     ctaHref={cta.href}
     ctaLabel={cta.label}
     mitTermin={false}
@@ -93,7 +93,7 @@ const vorteile = [
     <section class="section">
       <div class="container zc-intro">
         <div>
-          <SectionHead eyebrow="Das Wichtigste zuerst" pre="Risiken erkennen, bevor sie zum " accent="Problem werden" />
+          <SectionHead eyebrow="Das Wichtigste zuerst" titel="*Risiken erkennen*, bevor sie zum Problem werden" />
           <div class="zc-prose"><Content /></div>
           {/* Audit 5.7: Preis-Kasten entfernt – der Preis steht im Startbild und im Abschluss */}
         </div>
@@ -107,7 +107,7 @@ const vorteile = [
     <!-- 3. Was wir gemeinsam prüfen (Karten im Standard-Stil, Audit 2.5) -->
     <section class="section section--sand">
       <div class="container">
-        <SectionHead center eyebrow="Fünf Bereiche" pre="Was wir gemeinsam " accent="prüfen" />
+        <SectionHead center eyebrow="Fünf Bereiche" titel="Was wir *gemeinsam* prüfen" />
         <ul class="zc-bereiche">
           {bereiche.map((b) => (
             <li class="card zc-bereich reveal">
@@ -127,14 +127,14 @@ const vorteile = [
          ohne Foto, kein Button – 5.7) -->
     <LeistungVorteile
       mitVersprechen={false /* Jamil 21.10.2026 (Talk 2893): keine 7 Versprechen auf Leistungsseiten */}
-      eigeneTitel="Das bringt Ihnen der Check"
+      eigeneTitel="Das *bringt Ihnen* der Check"
       vorteile={vorteile.map((v) => ({ icon: v.icon, title: v.titel, text: v.text }))}
     />
 
     <!-- 5. Ablauf als Zeichnung (Audit 2.5, gleicher Stil wie die anderen Leistungsseiten) -->
     <section class="section">
       <div class="container">
-        <SectionHead center eyebrow="Ablauf" pre="So läuft der Check " accent="ab" />
+        <SectionHead center eyebrow="Ablauf" titel="So läuft der *Check* ab" />
         <RoughSzene
           szene="wegSicher"
           label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder per Telefon. 2. Gemeinsame Prüfung – zusammen mit unserem Partnerpfleger. 3. Empfehlungen – priorisierte Maßnahmen und Kosteneinschätzung. 4. Sicher wohnen – bei Umsetzung wird der Check angerechnet."
@@ -146,15 +146,15 @@ const vorteile = [
     <section class="section section--sand">
       <div class="container zc-zwei">
         <div class="card zc-box reveal">
-          <h3 class="zc-box__titel">Für wen eignet sich <span class="accent">„Sicher&nbsp;wohnen“?</span></h3>
+          <h3 class="zc-box__titel"><span class="accent">Für wen</span> eignet sich der Sicher-wohnen-Check?</h3>
           <ul class="check-list">
             {fuerWen.map((f) => <li><Icon name="check" size={22} class="icon" /> {f}</li>)}
           </ul>
-          {/* Audit 4.11: nur Personen in der Liste, Objekte als Satz */}
-          <p class="zc-box__satz">Für Wohnungen und Häuser – Eigentum oder Miete.</p>
+          {/* Audit 4.11: nur Personen in der Liste. Satz „Für Wohnungen und Häuser – Eigentum oder Miete.“
+              entfernt (Jamil 21.10.2026, Msg 2889) */}
         </div>
         <div class="card zc-box reveal">
-          <h3 class="zc-box__titel">Was Sie nach dem Termin <span class="accent">erhalten</span></h3>
+          <h3 class="zc-box__titel">Was Sie <span class="accent">nach dem Termin</span> erhalten</h3>
           <ul class="check-list">
             {ergebnis.map((e) => <li><Icon name="check" size={22} class="icon" /> {e}</li>)}
           </ul>
@@ -166,9 +166,10 @@ const vorteile = [
     <section class="section section--dark zc-zitat">
       <div class="container">
         <blockquote>
-          <p class="zc-zitat__satz">„Möglichst lange selbstständig in den eigenen vier Wänden&nbsp;leben.“</p>
+          {/* Jamil 21.10.2026 (Msg 2887): ein Schlüsselwort gold, Rest weiß, Anführungszeichen dezent */}
+          <p class="zc-zitat__satz"><span class="zc-zitat__qm">„</span>Möglichst lange <span class="accent">selbstständig</span> in den eigenen vier Wänden&nbsp;leben.<span class="zc-zitat__qm">“</span></p>
           <p class="zc-zitat__text">
-            Darum geht es bei „Sicher wohnen. Heute und morgen.“ Handläufe, Duschen oder Türbreiten sind nur die Mittel zum Zweck –
+            Darum geht es beim Sicher-wohnen-Check. Handläufe, Duschen oder Türbreiten sind nur die Mittel zum Zweck –
             der eigentliche Wunsch ist, das vertraute Zuhause nicht verlassen zu müssen.
           </p>
         </blockquote>
@@ -178,9 +179,9 @@ const vorteile = [
     <!-- 8. Abschluss -->
     <section class="section section--sand zc-abschluss">
       <div class="container">
-        <SectionHead center eyebrow={leistung.unterschrift} pre="Zuhause bleiben. Sicher " accent="leben." />
+        <SectionHead center eyebrow={leistung.unterschrift} titel="*Zuhause bleiben.* Sicher leben." />
         <p class="zc-abschluss__text">
-          Mit „Sicher wohnen. Heute und morgen.“ erhalten Sie Klarheit darüber, wie Ihr Zuhause heute und in Zukunft zu Ihnen passen kann.
+          Mit dem Sicher-wohnen-Check erhalten Sie Klarheit darüber, wie Ihr Zuhause heute und in Zukunft zu Ihnen passen kann.
         </p>
         <div class="zc-abschluss__actions">
           <a class="btn btn--lg zc-btn" href={cta.href}>
@@ -198,7 +199,7 @@ const vorteile = [
     {l.data.faq.length > 0 && (
       <section class="section">
         <div class="container">
-          <SectionHead center eyebrow="Häufige Fragen" pre="Sicher wohnen: Gut zu " accent="wissen" />
+          <SectionHead center eyebrow="Häufige Fragen" pre="Sicher-wohnen-Check: " accent="Gut zu wissen" />
           <Faq items={l.data.faq} withCta />
         </div>
       </section>
@@ -263,14 +264,15 @@ const vorteile = [
     font-size: clamp(26px, 4.2vw, 42px); line-height: 1.25;
     color: var(--weiss) !important;
   }
-  .zc-zitat__satz::first-letter { color: var(--gold-500); }
+  /* früher ::first-letter gold → färbte „ und M (Bug, Msg 2887). Jetzt: ein Wort gold, Zeichen dezent */
+  .zc-zitat__satz .accent { color: var(--gold-500); }
+  .zc-zitat__qm { color: rgba(255, 255, 255, 0.6); }
   .zc-zitat__text { margin: 0 auto; max-width: 680px; font-size: 19px; line-height: 1.7; color: var(--anthrazit-100) !important; }
 
   /* Für wen / Ergebnis */
   .zc-zwei { display: grid; gap: 24px; }
   @media (min-width: 900px) { .zc-zwei { grid-template-columns: 1fr 1fr; gap: 32px; } }
   .zc-box { display: grid; gap: 18px; align-content: start; } /* Optik aus .card (Audit 2.5) */
-  .zc-box__satz { margin: 0; font-weight: 600; color: var(--anthrazit-700); }
   .zc-box .zc-box__titel { margin: 0; font-size: 20px !important; }
 
   /* Abschluss */

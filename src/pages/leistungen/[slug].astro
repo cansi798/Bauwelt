@@ -26,6 +26,7 @@ import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
+import { akzent } from "../../lib/akzent";
 
 export async function getStaticPaths() {
   // Leistungen mit eigener Seitendatei (eigeneSeite, z. B. Sicher wohnen) nicht doppelt erzeugen
@@ -62,23 +63,30 @@ const euro = (n: number) => n.toLocaleString("de-DE");
 const galerieGruppe = GALERIE.find((g) => g.id === l.data.refAnker);
 const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data.refBilder ?? []);
 
-const heroBild = l.data.bild ?? `hero-${l.id}.webp`; /* Hero-Bilder bleiben wie sie sind (Kunde 12.10.2026) */
-// Foto neben dem Intro: erstes Referenzfoto, das nicht schon im Hero steht.
-const introBild = refBilder.find((b) => b.file !== heroBild);
+// Jamil 20.10.2026 (Talk 2784): Hero = KI-Bild passend zur Leistung (ki-hero-<slug>-*.avif/.webp,
+// in KI_BILDER, gekennzeichnet); ersetzt „Hero-Bilder bleiben wie sie sind“ (Kunde 12.10.2026).
+const heroBild = l.data.bild ?? `ki-hero-${l.id}.webp`;
+// Foto neben dem Intro: per Frontmatter `introBild` fest gewählt (Jamil 21.10.2026, Msg 2869/2870:
+// Badsanierung = Dachgeschossbad galerie-bad-07), sonst das erste Referenzfoto, das nicht im Hero steht.
+const introBild =
+  (l.data.introBild && refBilder.find((b) => b.file === l.data.introBild)) ??
+  (l.data.introBild ? { file: l.data.introBild, alt: "" } : undefined) ??
+  refBilder.find((b) => b.file !== heroBild);
+// Karussell ohne das Intro-Foto – dasselbe Foto nicht zweimal auf einer Seite
+const karussell = refBilder.filter((b) => b.file !== introBild?.file);
 const buchen = pauschal
   ? { href: u("kontakt/#termin"), label: `${kurzTitel.replace("Immobilien-", "")} buchen`, extern: false }
   : { href: TERMIN.href, label: TERMIN.label, extern: true };
-// Überschriften aus dem Frontmatter: letztes Wort wird gold (wie überall auf der Seite)
-const teile = (t: string) => {
-  const i = t.lastIndexOf(" ");
-  return i < 0 ? { pre: "", accent: t } : { pre: t.slice(0, i + 1), accent: t.slice(i + 1) };
-};
-const h1 = teile(h1Titel);
+// Überschriften aus dem Frontmatter: Akzentwort in *Sternchen* (Jamil 21.10.2026, Msg 2891),
+// ohne Sternchen das letzte Wort (lib/akzent.ts)
+const teile = akzent;
+// H1 im Hero ist ganz weiß (Jamil 21.10.2026, Msg 2878/2882) – kein Akzentwort
+const h1 = { pre: h1Titel, accent: "" };
 const mitIntro = !l.data.ohneIntro;
 // Hintergrund-Wechsel: ohne Intro folgt die Kachel-Sektion direkt auf den (sandfarbenen) Rechner → weiß
 const kachelnSand = mitIntro || !hatRechner;
 // Goldring im Leistungsumfang (Jamil 20.10.2026, Talk 2572)
-const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon gebaut");
+const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon *gebaut*");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
 // Kundenwunsch 14.10.2026 (54): Vorteile nicht mehr als Plaketten im Hero.
 // Jamil 19.10.2026 (Talk 2538/2539/2541): Die frühere Leiste mit 4 Kernvorteilen unter dem Hero
@@ -143,7 +151,7 @@ const description =
   {hatRechner && (
     <section class="section section--sand" id="rechner">
       <div class="container">
-        <SectionHead center eyebrow={`${kurzTitel} berechnen`} pre="Was kostet Ihr " accent="Projekt?" />
+        <SectionHead center eyebrow={`${kurzTitel} berechnen`} titel="Was *kostet* Ihr Projekt?" />
         <Rechner variant="seite" gewerk={rechnerSlug} intro={l.data.rechnerText} />
       </div>
     </section>
@@ -209,18 +217,18 @@ const description =
       behalten ihren Kasten „Das bringt Ihnen …“ (Talk 2872) */}
   {pauschal && (
     <LeistungVorteile
-      eigeneTitel={`Das bringt Ihnen der ${kurzTitel}`}
+      eigeneTitel={`Das *bringt Ihnen* der ${kurzTitel}` /* Akzent = Nutzen (Msg 2891) */}
       vorteile={l.data.warum}
       mitVersprechen={false}
     />
   )}
 
-  {refBilder.length > 0 && (
+  {karussell.length > 0 && (
     <section class="section">
       <div class="container">
         <div class="lrefs__head">
-          <SectionHead eyebrow="Projektbilder" pre={bilderKopf.pre} accent={bilderKopf.accent} text={l.data.bilderText} />
-          {refBilder.length > 1 && (
+          <SectionHead eyebrow="Projektbilder" {...bilderKopf} text={l.data.bilderText} />
+          {karussell.length > 1 && (
             <div class="slider__nav">
               <button class="slider__btn" type="button" data-dir="-1" aria-label="Zurück">
                 <Icon name="arrow-left" size={20} class="icon" />
@@ -233,7 +241,7 @@ const description =
         </div>
         <div class="slider">
           <div class="slider__track" data-slider>
-            {refBilder.map((b) => (
+            {karussell.map((b) => (
               <a class="card refmini" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
                 <Img src={b.file} alt={b.alt} w={4} h={5} />
                 {/* Kundenwunsch 14.10.2026 (35): Projektname unter dem Foto */}
@@ -253,7 +261,7 @@ const description =
   <section class="section section--sand">
     <div class="container">
       {ablaufKopf
-        ? <SectionHead center eyebrow="Ablauf" pre={ablaufKopf.pre} accent={ablaufKopf.accent} />
+        ? <SectionHead center eyebrow="Ablauf" {...ablaufKopf} />
         : <SectionHead center eyebrow="Ablauf" pre="So einfach kommen Sie zu Ihrem " accent={l.data.ablaufZiel ?? "Ergebnis"} />}
       {/* Kundenwunsch 19.10.2026 (Audit 1.8): Pauschal-Check (Sanierungscheck) mit eigenem Ablauf */}
       {pauschal ? (
@@ -279,7 +287,7 @@ const description =
   {l.data.faq.length > 0 && (
     <section class="section">
       <div class="container">
-        <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: Gut zu `} accent="wissen" />
+        <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: `} accent="Gut zu wissen" />
         <Faq items={l.data.faq} withCta />
         {/* Audit 5.6: allgemeine Fragen (Festpreis, Vor-Ort-Termin, Ablauf) stehen einmal auf der Startseite */}
         <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Festpreis, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>

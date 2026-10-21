@@ -32,7 +32,7 @@ export const GET: APIRoute = async ({ site }) => {
 > Handwerksbetrieb aus ${SITE.city} bei Hamburg für Badsanierung, Komplettsanierung & Modernisierung,
 > Fliesen- & Bodenlegerarbeiten sowie Innenausbau & Trockenbau – mit Festpreis-Zusage nach einem
 > kostenlosen Vor-Ort-Termin und einem festen Ansprechpartner. Dazu zwei Checks zum Pauschalpreis:
-> Immobilien-Sanierungscheck und „Sicher wohnen. Heute und morgen.“
+> Immobilien-Sanierungscheck und Sicher-wohnen-Check.
 
 ## Leistungen
 

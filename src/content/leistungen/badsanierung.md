@@ -1,13 +1,12 @@
 ---
 title: "Badsanierung aus einer Hand"
 order: 10
+heroPrompt: "Photorealistic interior photo of a bright, high-end, newly renovated German bathroom: level walk-in shower with frameless glass, floating oak vanity, large-format anthracite and warm light-grey tiles, matte black fittings, recessed niche, soft warm daylight, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-badsanierung-*.avif/.webp
 icon: "bath"
 badge: "Festpreis"
 # Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R3): Sanitär nur über Partner-Meisterbetrieb (Installateur-Handwerk ist meisterpflichtig, nicht eingetragen)
 teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Licht und Möbel, die Sanitär-Anschlüsse durch unseren Partner-Meisterbetrieb. Zum vorher vereinbarten Festpreis."
-heroPrompt: "Fotorealistisches modernes helles Badezimmer mit bodengleicher Dusche, Eichenholz-Waschtisch und anthrazitfarbenen Fliesen, warmes Tageslicht, Querformat"
 beschreibung: "Badsanierung zum Festpreis in Norderstedt, Hamburg und Umkreis: in rund zwei Wochen fertig, ein fester Ansprechpartner. Preis jetzt online berechnen."
-bild: "galerie-bad-03.webp"
 refAnker: "bad"
 refBilder:
   - { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" }
@@ -29,6 +28,7 @@ claim: "In rund zwei Wochen fertig. Klar geplant. Professionell umgesetzt." # Au
 lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
 # ohneIntro entfernt – Audit 2.8 (19.10.2026): Einleitung jetzt auf allen Leistungsseiten (16.10. (77) hatte sie hier abgeschaltet)
+introBild: "galerie-bad-07.webp" # Jamil 21.10.2026 (Msg 2869/2870): Dachgeschossbad mit freistehender Wanne statt schmalem Foto
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
@@ -46,9 +46,9 @@ kacheln:
 warum:
   - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
   - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und feste Preise – digital abrufbar und freigebbar." }
-bilderTitel: "So könnte Ihr neues Badezimmer aussehen"
+bilderTitel: "So könnte Ihr *neues Badezimmer* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
-ablaufTitel: "So einfach kann Badsanierung sein"
+ablaufTitel: "So *einfach* kann Badsanierung sein"
 faq:
   - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Start- und Endtermin legen wir vorher gemeinsam fest und schreiben sie verbindlich in den Auftrag. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }

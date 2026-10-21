@@ -102,8 +102,10 @@ export const LEISTUNGEN: Leistung[] = [
   { slug: "innenausbau", nutzen: "Mehr aus Ihren Räumen machen – nach Maß", unterschrift: "Innenausbau & Trockenbau", icon: "wall" },
   // Pauschalpreis-Leistungen (Preis steht in content/leistungen/<slug>.md)
   { slug: "sanierungscheck", nutzen: "Risiken und Kosten kennen, bevor Sie kaufen", unterschrift: "Immobilien-Sanierungscheck", icon: "eye", hervorheben: true },
-  // Kundenwunsch 17.10.2026 (82): Name „Sicher wohnen. Heute und morgen.“ statt „Zuhause-Check 60+“ – ohne Altersbezug
-  { slug: "sicher-wohnen", nutzen: "Ihr Zuhause sicherer, komfortabler, barrierearm", unterschrift: "Sicher wohnen. Heute und morgen.", kurz: "Sicher wohnen", icon: "heim", hervorheben: true },
+  // Kundenwunsch 17.10.2026 (82): kein „Zuhause-Check 60+“ – ohne Altersbezug.
+  // Jamil 21.10.2026 (Msg 2884/2885): Name überall „Sicher-wohnen-Check“ (Duden: Durchkopplung, wie
+  // „Immobilien-Sanierungscheck“) statt „Sicher wohnen. Heute und morgen.“ – Adresse /leistungen/sicher-wohnen/ bleibt.
+  { slug: "sicher-wohnen", nutzen: "Ihr Zuhause sicherer, komfortabler, barrierearm", unterschrift: "Sicher-wohnen-Check", icon: "heim", hervorheben: true },
 ];
 export const leistungBySlug = (slug: string): Leistung | undefined => LEISTUNGEN.find((l) => l.slug === slug);
 /** Kurzname einer Leistung (für Fließtext-Sätze). */
@@ -142,7 +144,7 @@ export const NAV2: NavItem[] = [
 export const waLink = (
   text = "Hallo Bauwelt Handwerk, ich interessiere mich für eine Ihrer Leistungen – " +
     "Badsanierung, Komplettsanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten, " +
-    "Innenausbau & Trockenbau, den Immobilien-Sanierungscheck oder „Sicher wohnen. Heute und morgen.“ " +
+    "Innenausbau & Trockenbau, den Immobilien-Sanierungscheck oder den Sicher-wohnen-Check. " +
     "Bitte melden Sie sich bei mir für ein " +
     "unverbindliches Angebot. Vielen Dank!"
 ): string =>
@@ -154,12 +156,27 @@ export const waLink = (
    Neue KI-Bilder einfach hier eintragen. Hintergrund: Transparenz nach Art. 50 EU-KI-Verordnung. */
 export const KI_BILDER = new Set<string>([
   "hero.webp",                           // Startseite
-  "hero-sanierung-modernisierung.webp",  // Leistungen Komplettsanierung & Modernisierung + Sicher wohnen
-  "ref-04-altbau.webp",                  // Leistung Immobilien-Sanierungscheck (+ Referenz-Galerie)
+  "hero-sanierung-modernisierung.webp",  // (früher Leistungs-Hero Komplettsanierung + Sicher wohnen, seit 21.10.2026 ki-hero-*)
+  "ref-04-altbau.webp",                  // Referenz-Galerie (früher Hero Immobilien-Sanierungscheck)
+  // Leistungs-Heros (Jamil 20.10.2026, Talk 2784): KI-Bild passend zur Leistung, je Leistung
+  // ki-hero-<slug>-{828,1280,1920,2560}.{avif,webp}. Erzeugt 21.10.2026 mit Seedream 5 Lite
+  // (ElevenLabs), 2560 × 1440, Prompts in content/leistungen/<slug>.md (heroPrompt). Eintrag = Stamm.
+  "ki-hero-badsanierung.webp",
+  "ki-hero-sanierung-modernisierung.webp",
+  "ki-hero-fliesen-boden.webp",
+  "ki-hero-innenausbau.webp",
+  "ki-hero-sanierungscheck.webp",
+  "ki-hero-sicher-wohnen.webp",
   "hero-referenzen.webp",                // Referenzen
   "hero-ueber-uns.webp",                 // (früher Über uns – Bagger-Bild, seit 19.10.2026 nicht mehr verwendet)
   "team-fiktiv.webp",                    // (früher Platzhalter Über uns – seit 21.10.2026 gezeichnetes Team, Msg 2865)
   // team.webp (Karriere) entfällt seit 20.10.2026 (Gesamt-Audit T3): dort jetzt gezeichnete Gesichter, Datei gelöscht
   // hero-partner.webp (Partner) entfällt seit 21.10.2026 (Jamil, Msg 2899): gezeichnete Szene, Datei gelöscht
 ]);
-export const istKiBild = (datei?: string): boolean => Boolean(datei && KI_BILDER.has(datei));
+/** Größen-Varianten eines Bildes (name-1920.webp, name-828.avif …) zählen wie der Stamm (name.webp). */
+const kiStammName = (datei: string): string => datei.replace(/-\d{3,4}(\.\w+)$/, "$1").replace(/\.avif$/, ".webp");
+export const istKiBild = (datei?: string): boolean => Boolean(datei && (KI_BILDER.has(datei) || KI_BILDER.has(kiStammName(datei))));
+/** Breiten der KI-Leistungs-Heros (Dateien ki-hero-<slug>-<breite>.avif/.webp). */
+export const KI_HERO_BREITEN = [828, 1280, 1920, 2560] as const;
+/** „ki-hero-badsanierung.webp“ → „ki-hero-badsanierung“ (sonst undefined = einzelnes Bild). */
+export const kiHeroStamm = (datei: string): string | undefined => /^ki-hero-[a-z-]+\.webp$/.test(datei) ? datei.replace(/\.webp$/, "") : undefined;

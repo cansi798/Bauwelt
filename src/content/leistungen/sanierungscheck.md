@@ -1,12 +1,12 @@
 ---
 title: "Immobilien-Sanierungscheck"
 order: 45
+heroPrompt: "Photorealistic interior photo of a bright, empty German Altbau apartment before renovation being assessed: old floorboards, tall windows, slightly worn walls, on the windowsill a clipboard with a blank checklist, folding ruler, moisture meter and laser distance meter, calm space on the left. No people, no readable text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-sanierungscheck-*.avif/.webp
 icon: "eye"
 badge: "Pauschal 595 €"
 teaser: "Vor dem Kauf wissen, worauf Sie sich einlassen: Chancen, Risiken und Kosten Ihrer Wunsch-Immobilie frühzeitig erkennen – zum Pauschalpreis von 595 € inkl. MwSt."
 beschreibung: "Immobilien-Sanierungscheck in Norderstedt & Hamburg: Chancen, Risiken und Kosten vor dem Kauf erkennen – Besichtigung vor Ort, pauschal 595 € inkl. MwSt."
 h1Akzent: "Pauschalpreis"
-bild: "ref-04-altbau.webp"
 pauschalpreis: 595
 # 500 € netto + 19 % MwSt. = 595 € brutto (Kundenwunsch 12.10.2026)
 pauschalHinweis: "Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an."
@@ -34,7 +34,7 @@ kacheln:
   - { icon: "eye", title: "Besichtigung vor Ort" }
   - { icon: "euro", title: "Erste Kosten\u00ADeinschätzung" }
   - { icon: "chat", title: "Persönliches Gespräch" }
-ablaufTitel: "So einfach geht’s"
+ablaufTitel: "So *einfach* geht’s"
 faq:
   - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
   - { q: "Wann lohnt sich der Check?", a: "Vor allem vor dem Kauf einer Wohnung oder eines Hauses – aber auch, wenn Sie Ihre eigene Immobilie sanieren möchten und vorab wissen wollen, was sinnvoll ist und was es kostet." }

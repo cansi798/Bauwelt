@@ -14,12 +14,12 @@ const absolut = new URL(ziel, Astro.site).href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, follow" />
-    <title>Weiterleitung – Sicher wohnen. Heute und morgen.</title>
+    <title>Weiterleitung – Sicher-wohnen-Check | Bauwelt Handwerk</title>
     <link rel="canonical" href={absolut} />
     <meta http-equiv="refresh" content={`0; url=${ziel}`} />
     <script is:inline define:vars={{ ziel }}>location.replace(ziel + location.hash);</script>
   </head>
   <body>
-    <p>Diese Seite ist umgezogen: <a href={ziel}>Sicher wohnen. Heute und morgen.</a></p>
+    <p>Diese Seite ist umgezogen: <a href={ziel}>Sicher-wohnen-Check</a></p>
   </body>
 </html>

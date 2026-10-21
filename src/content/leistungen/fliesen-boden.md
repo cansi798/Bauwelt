@@ -2,6 +2,7 @@
 title: "Fliesen- & Bodenlegerarbeiten"
 badge: "Festpreis"
 order: 25
+heroPrompt: "Photorealistic interior photo of a bright, high-end German home after tiling and flooring work: large-format light stone-look porcelain floor tiles with thin straight joints through an open living and kitchen area, a wall in large-format tiles, warm daylight, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-fliesen-boden-*.avif/.webp
 icon: "tiles"
 teaser: "Perfekte Oberflächen für Wand und Boden – Fliesen, Großformate, Vinyl und Laminat, sauber verlegt."
 umfang:
@@ -16,7 +17,6 @@ ablauf:
   - { title: "Ausführung", text: "Untergrund, Abdichtung, Verlegung – sauber und termingerecht." }
 rechnerSlug: "fliesen-boden"
 beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat zum Festpreis. Jetzt Preis online berechnen."
-bild: "galerie-fliesen-03.webp"
 refAnker: "fliesen"
 refBilder:
   - { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" }
@@ -40,9 +40,9 @@ kacheln:
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
   - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
-bilderTitel: "So könnten Ihre neuen Fliesen aussehen"
+bilderTitel: "So könnten Ihre *neuen Fliesen* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
-ablaufTitel: "So einfach kann ein neuer Boden sein"
+ablaufTitel: "So *einfach* kann ein neuer Boden sein"
 faq:
   - { q: "Wie lange dauern die Arbeiten?", a: "Ein einzelner Raum ist oft in wenigen Tagen fertig. Trocknungszeiten von Ausgleichsmasse, Abdichtung und Fugen planen wir ein. Den Zeitplan legen wir vorher gemeinsam fest." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }

@@ -6,7 +6,11 @@
 // Jamil 19.10.2026 (Talk 2529): Pfad „Leistungen › …“ entfernt – die allgemeine
 // Leistungsübersicht gibt es nicht mehr, der Link führte ins Leere.
 // CTAs nur ab Desktop (mobil übernimmt die feste Leiste unten, wie auf der Startseite).
-import { TERMIN, istKiBild, u } from "../consts";
+// Jamil 20.10.2026 (Talk 2784): am PC füllt der Hero den ganzen ersten Bildschirm (wie die
+// Startseite: 100svh minus Kopfzeile, mit Unter-/Obergrenze), Hintergrund = KI-Bild passend zur
+// Leistung (ki-hero-<slug>-<breite>.avif/.webp, gekennzeichnet). Tablet/Handy: normale Höhe.
+// Jamil 20./21.10.2026 (Talk 2878/2882): Leistungsname im Hero ganz WEISS (kein Gold-Wort mehr).
+import { KI_HERO_BREITEN, TERMIN, istKiBild, kiHeroStamm, u } from "../consts";
 import Icon from "./Icon.astro";
 import KiHinweis from "./KiHinweis.astro";
 
@@ -28,27 +32,36 @@ interface Props {
   chips: string[];
 }
 const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
+// KI-Hero mit Varianten (828–2560 px, AVIF + WebP) → responsive srcset; sonst einzelnes Bild wie bisher
+const stamm = kiHeroStamm(bild);
+const set = (fmt: string) => stamm ? KI_HERO_BREITEN.map((w) => `${u(`assets/img/${stamm}-${w}.${fmt}`)} ${w}w`).join(", ") : undefined;
+const imgSrc = stamm ? u(`assets/img/${stamm}-1920.webp`) : u(`assets/img/${bild}`);
 ---
 
 <section class="lhero" data-einmal>
   <div class="lhero__bg" aria-hidden="true">
-    <img
-      src={u(`assets/img/${bild}`)}
-      alt=""
-      width="1600"
-      height="900"
-      loading="eager"
-      decoding="sync"
-      fetchpriority="high"
-      onerror="this.remove()"
-    />
+    <picture>
+      {stamm && <source type="image/avif" srcset={set("avif")} sizes="100vw" />}
+      <img
+        src={imgSrc}
+        srcset={set("webp")}
+        sizes={stamm ? "100vw" : undefined}
+        alt=""
+        width={stamm ? 2560 : 1600}
+        height={stamm ? 1440 : 900}
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        onerror="this.remove()"
+      />
+    </picture>
     <div class="lhero__shade"></div>
   </div>
   {istKiBild(bild) && <KiHinweis pos="oben-rechts" />}
 
   <div class="container lhero__content">
     {/* Kundenwunsch 14.10.2026 (49): kleine Zeile über der H1 entfällt auf allen Leistungsseiten */}
-    <h1 class="lhero__in" style="--d: 0ms">{pre}{accent && <span class="accent">{accent}</span>}</h1>
+    <h1 class="lhero__in" style="--d: 0ms">{pre}{accent}</h1>
     {slogan && <p class="lhero__slogan lhero__in" style="--d: 170ms">{slogan}</p>}
 
     {(claim || lead) && (
@@ -78,13 +91,18 @@ const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel,
 <style>
   .lhero {
     position: relative;
-    min-height: min(80svh, 720px);
+    min-height: min(70svh, 640px);
     display: flex;
     align-items: center;
     overflow: hidden;
     background: var(--anthrazit-900); /* Fallback, falls das Bild fehlt */
   }
+  /* Desktop (Jamil 20.10.2026, Talk 2784): ganzer erster Bildschirm wie die Startseite */
+  @media (min-width: 1024px) {
+    .lhero { min-height: clamp(600px, calc(100svh - var(--header-h)), 1080px); }
+  }
   .lhero__bg { position: absolute; inset: 0; }
+  .lhero__bg picture { display: block; width: 100%; height: 100%; }
   .lhero__bg img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -99,9 +117,10 @@ const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel,
   .lhero__shade {
     position: absolute; inset: 0;
     background:
-      /* Audit 7.4 (19.10.2026): weniger abdunkeln – dunkel nur links hinter dem Text, rechts fast frei */
-      linear-gradient(90deg, rgba(31, 30, 32, 0.82) 0%, rgba(31, 30, 32, 0.55) 45%, rgba(31, 30, 32, 0.08) 85%),
-      linear-gradient(180deg, rgba(31, 30, 32, 0.15) 0%, rgba(31, 30, 32, 0) 35%, rgba(31, 30, 32, 0.3) 100%);
+      /* Audit 7.4 (19.10.2026): dunkel nur links hinter dem Text, rechts fast frei.
+         21.10.2026: die KI-Bilder sind sehr hell → links kräftiger, damit weiße Schrift ≥ 4,5:1 bleibt */
+      linear-gradient(90deg, rgba(31, 30, 32, 0.86) 0%, rgba(31, 30, 32, 0.72) 48%, rgba(31, 30, 32, 0.12) 90%),
+      linear-gradient(180deg, rgba(31, 30, 32, 0.2) 0%, rgba(31, 30, 32, 0) 35%, rgba(31, 30, 32, 0.35) 100%);
   }
 
   .lhero__content {
@@ -114,7 +133,7 @@ const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel,
     padding-block: 64px 72px;
   }
   .lhero__content > * { max-width: 100%; min-width: 0; }
-  .lhero__content h1 { color: var(--weiss); margin: 0; max-width: 19ch; hyphens: manual; }
+  .lhero__content h1 { color: var(--weiss); margin: 0; max-width: 19ch; hyphens: manual; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25); }
   /* Weiche Trennstellen (z. B. „selbst-bestimmt“) nur auf dem Handy nutzen – ab Tablet ganze Wörter umbrechen */
   @media (min-width: 768px) { .lhero__content h1 { hyphens: none; } }
   .lhero__content .eyebrow { color: var(--gold-300); margin: 0; }
@@ -177,6 +196,8 @@ const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel,
 
   @media (max-width: 767px) {
     .lhero { min-height: auto; }
+    /* Handy: Text steht über die ganze Breite → gleichmäßig abdunkeln */
+    .lhero__shade { background: linear-gradient(180deg, rgba(31, 30, 32, 0.72) 0%, rgba(31, 30, 32, 0.78) 100%); }
     .lhero__content { padding-block: 44px 40px; gap: 12px; }
     .lhero__lead { font-size: 15px; }
     .lhero__actions .btn { text-align: center; justify-content: center; } /* mehrzeilige Buttons mittig (Audit 4.1) */

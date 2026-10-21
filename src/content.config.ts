@@ -43,7 +43,10 @@ const leistungen = defineCollection({
     /** Intro-Abschnitt (Text + Foto) ausblenden – Badsanierung, Kundenwunsch 16.10.2026 (77). */
     ohneIntro: z.boolean().default(false),
     checks: z.array(z.string()).optional(),          // Häkchen im Hero (Standard: Festpreis …)
-    bild: z.string().optional(),                     // Hero-Bild (Standard: hero-<slug>.webp)
+    bild: z.string().optional(),                     // Hero-Bild (Standard seit 21.10.2026: KI-Bild ki-hero-<slug>.webp, Talk 2784)
+    /** Foto neben dem Intro fest wählen (Jamil 21.10.2026, Msg 2869/2870); sonst automatisch das erste
+     *  Referenzfoto. Das gewählte Foto fällt dann aus dem Referenzen-Karussell derselben Seite heraus. */
+    introBild: z.string().optional(),
     beschreibung: z.string().optional(),             // Meta-Description (Standard: aus teaser)
     /** Fester Pauschalpreis in € (statt Rechner), z. B. Sanierungscheck. */
     pauschalpreis: z.number().optional(),

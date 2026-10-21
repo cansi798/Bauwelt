@@ -211,6 +211,51 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   }
   if (vSeiten && !vProbleme) pass("Leistungsseiten", `${vSeiten} Leistungsseiten ohne 7 Versprechen, Kasten nur bei den Checks (Jamil 21.10.)`);
 }
+// Leistungs-Hero (Jamil 20.10.2026, Talk 2784 – ersetzt für Leistungsseiten die Echtfoto-Regel 7.2):
+// KI-Bild passend zur Leistung (ki-hero-<slug>, in KI_BILDER, sichtbar gekennzeichnet), responsive
+// srcset (AVIF + WebP), fetchpriority="high" (LCP). Leistungsname im Hero ganz weiß (Msg 2878/2882):
+// kein goldenes Akzentwort in der H1. Startseite + Referenzen behalten echte Fotos (nicht hier geprüft).
+{
+  let hProbleme = 0, hSeiten = 0;
+  for (const s of S.filter((x) => /^\/leistungen\/[^/]+\/$/.test(x.page))) {
+    const hero = s.html.match(/<section[^>]*class="[^"]*\blhero\b[\s\S]*?<\/section>/)?.[0];
+    if (!hero) continue;
+    hSeiten++;
+    const slug = s.page.split("/")[2];
+    const src = hero.match(/<img\b[^>]*\bsrc="([^"]+)"/)?.[1] ?? "";
+    if (!new RegExp(`ki-hero-${slug}-\\d{3,4}\\.webp$`).test(src)) { warn("Leistungs-Hero (Jamil 20.10.)", `${s.page}: Hero-Bild ist nicht das KI-Bild ki-hero-${slug} (${basename(src) || "kein Bild"})`); hProbleme++; }
+    if (!KI_BILDER.includes(`ki-hero-${slug}.webp`)) { warn("Leistungs-Hero (Jamil 20.10.)", `${s.page}: ki-hero-${slug}.webp fehlt in KI_BILDER`); hProbleme++; }
+    if (!/KI-generiertes Bild<\/span>/.test(hero)) { warn("Leistungs-Hero (Jamil 20.10.)", `${s.page}: Hero ohne Hinweis „KI-generiertes Bild“`); hProbleme++; }
+    if (!/type="image\/avif"/.test(hero) || !/srcset="[^"]*2560w/.test(hero)) { warn("Leistungs-Hero (Jamil 20.10.)", `${s.page}: Hero ohne AVIF/WebP-srcset bis 2560 px`); hProbleme++; }
+    if (!/fetchpriority="high"/.test(hero)) { warn("Leistungs-Hero (Jamil 20.10.)", `${s.page}: Hero-Bild ohne fetchpriority="high" (LCP)`); hProbleme++; }
+    const h1 = hero.match(/<h1\b[\s\S]*?<\/h1>/)?.[0] ?? "";
+    if (/class="accent"/.test(h1)) { warn("Leistungs-Hero (Jamil 21.10.)", `${s.page}: Leistungsname im Hero mit goldenem Wort – soll ganz weiß sein (Msg 2878/2882)`); hProbleme++; }
+  }
+  if (hSeiten && !hProbleme) pass("Leistungs-Hero", `${hSeiten} Leistungsseiten: KI-Bild passend zur Leistung, gekennzeichnet, srcset + LCP, Name weiß`);
+}
+// Akzentwort (Jamil 21.10.2026, Msg 2891): *Sternchen*-Markierung darf nie sichtbar stehen bleiben.
+// Name „Sicher-wohnen-Check“ (Msg 2884/2885): alte Namensformen nicht mehr verwenden.
+// Dasselbe Foto nicht zweimal auf einer Leistungsseite (Intro-Foto nicht noch im Karussell, Msg 2869/2870).
+{
+  let aProbleme = 0;
+  for (const s of S) {
+    for (const m of s.html.matchAll(/<(h[1-3])\b[^>]*>([\s\S]*?)<\/\1>/g)) {
+      if (/\*/.test(sichtText(m[2]))) { warn("Akzentwort (Jamil 21.10.)", `${s.page}: Sternchen in Überschrift sichtbar: „${sichtText(m[2]).trim()}“`); aProbleme++; }
+    }
+    const alt = s.text.match(/Sicher wohnen\. Heute und morgen|Check „Sicher wohnen“|„Sicher wohnen“/);
+    if (alt) { warn("Name (Jamil 21.10.)", `${s.page}: alter Name „${alt[0]}“ – jetzt „Sicher-wohnen-Check“`); aProbleme++; }
+    if (s.page.startsWith("/leistungen/")) {
+      const zahl = {};
+      for (const m of s.html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) { const b = basename(m[1]).replace(/-\d{3,4}(\.\w+)$/, "$1"); zahl[b] = (zahl[b] ?? 0) + 1; }
+      for (const [b, n] of Object.entries(zahl)) if (n > 1) { warn("Bilder doppelt (Jamil 21.10.)", `${s.page}: ${b} steht ${n}× auf der Seite`); aProbleme++; }
+    }
+  }
+  for (const f of ["llms.txt", "llms-full.txt"]) {
+    const p = join(DIST, f);
+    if (existsSync(p) && /Sicher wohnen\. Heute und morgen|„Sicher wohnen“/.test(lies(p))) { warn("Name (Jamil 21.10.)", `${f}: alter Name statt „Sicher-wohnen-Check“`); aProbleme++; }
+  }
+  if (!aProbleme) pass("Akzentwort & Namen", "keine sichtbaren *Markierungen*, nur „Sicher-wohnen-Check“, kein Foto doppelt auf Leistungsseiten");
+}
 // Leistungsumfang (Jamil 20.10.2026, Talk 2572; Ausnahme zu Audit 2.4): Symbol im Goldring (Kreis), keine Nummern (Talk 2587),
 // keine weißen Kacheln / Sand-Quadrate. Geprüft auf allen Leistungsseiten mit Abschnitt „Leistungsumfang“.
 {

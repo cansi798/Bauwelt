@@ -23,6 +23,7 @@ import Icon from "./Icon.astro";
 import SkizzenKreis from "./SkizzenKreis.astro";
 import { VERSPRECHEN } from "../data/versprechen";
 import { Zeichner } from "../lib/rough-szene";
+import { ohneAkzent } from "../lib/akzent";
 
 type Vorteil = { icon: string; title: string; text: string };
 
@@ -63,14 +64,14 @@ const goldlinie = (seed: number) => {
 };
 ---
 
-<section class="section section--dark lvort" aria-label={mitVersprechen ? "Unsere Versprechen" : (eigeneTitel ?? "Ihre Vorteile")}>
+<section class="section section--dark lvort" aria-label={mitVersprechen ? "Unsere Versprechen" : ohneAkzent(eigeneTitel ?? "Ihre Vorteile")}>
   <div class="container">
     {mitVersprechen
       ? <SectionHead center eyebrow={eyebrow} pre={`Unsere ${VERSPRECHEN.length} `} accent="Versprechen" text={lead} />
-      : <SectionHead center eyebrow="Ihre Vorteile" pre={(eigeneTitel ?? "Ihre Vorteile").replace(/\S+$/, "")} accent={(eigeneTitel ?? "Vorteile").split(" ").pop()} />}
+      : <SectionHead center eyebrow="Ihre Vorteile" titel={eigeneTitel ?? "Ihre Vorteile"} /* *Akzent* möglich (Msg 2891) */ />}
     {eigene.length > 0 && (
       <div class="lvort__eigen reveal">
-        {mitVersprechen && <p class="lvort__kicker">{eigeneTitel}</p>}
+        {mitVersprechen && <p class="lvort__kicker">{ohneAkzent(eigeneTitel ?? "")}</p>}
         <ul class="lvort__eigenliste">
           {eigene.map((v) => (
             <li class="lvort__eigenpunkt">

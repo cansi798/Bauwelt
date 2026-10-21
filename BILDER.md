@@ -20,6 +20,7 @@ warmes Licht; nicht übersättigt; keine Filter.
 | `ref-01-wannenbad.webp` … `ref-06-dach.webp` | Referenz-Galerie + Detailseiten (4:3) |
 | `jamil.webp` | Porträt Jamil Iqbal – Berater-Kreis im Kontaktbereich |
 | `hero-badsanierung.webp` | Hero der Gewerk-Seite Badsanierung (Kopie des Start-Heros) |
+| `ki-hero-<slug>-{828,1280,1920,2560}.{avif,webp}` | **KI-Hintergrund der 6 Leistungs-Heros** (Jamil 20.10.2026, Talk 2784) – Seedream 5 Lite (ElevenLabs), 21.10.2026, Prompt = `heroPrompt` in der Leistungsdatei, in `KI_BILDER`, gekennzeichnet |
 
 > **Wichtig – Ansprechpartner „beide":** Der Kontaktbereich zeigt jetzt **Jamil Iqbal**
 > *und* **Burim Ahmedi (GF)**. Für den GF fehlt noch das Porträt. Sobald vorhanden als

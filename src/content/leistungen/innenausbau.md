@@ -2,10 +2,9 @@
 title: "Innenausbau & Trockenbau"
 badge: "Festpreis"
 order: 40
+heroPrompt: "Photorealistic interior photo of a bright, high-end German interior after drywall and finishing work: smooth white plastered drywall, suspended ceiling with warm indirect LED cove lighting, built-in wall niche with shelves, light oak floor, soft daylight, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-innenausbau-*.avif/.webp
 icon: "wall"
 teaser: "Neue Räume, Decken und Böden. Wir gestalten Ihr Zuhause von innen neu."
-heroPrompt: "Moderner heller Innenraum im Ausbau, saubere Trockenbauwände, indirekte Beleuchtung, fotorealistisch"
-bild: "galerie-innenausbau-01.webp" # Audit 7.4: Querformat statt hochskaliertem Hochformat
 refAnker: "innenausbau"
 refBilder:
   - { file: "galerie-innenausbau-05.webp", alt: "Besprechungsecke mit Lamellenwand und Schiebetür" }
@@ -38,9 +37,9 @@ kacheln:
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
   - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
-bilderTitel: "So könnten Ihre neuen Räume aussehen"
+bilderTitel: "So könnten Ihre *neuen Räume* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
-ablaufTitel: "So einfach kann Innenausbau sein"
+ablaufTitel: "So *einfach* kann Innenausbau sein"
 faq:
   - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan legen wir vorher gemeinsam fest." }
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }

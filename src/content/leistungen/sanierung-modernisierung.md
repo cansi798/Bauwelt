@@ -2,9 +2,9 @@
 title: "Komplettsanierung & Modernisierung"
 badge: "Festpreis"
 order: 20
+heroPrompt: "Photorealistic interior photo of a bright, fully renovated German Altbau living room: high ceilings with restored stucco mouldings, tall windows, oak herringbone parquet, warm white walls, a few modern furniture pieces, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-sanierung-modernisierung-*.avif/.webp
 icon: "reno"
 teaser: "Wir bringen Wohnungen und Häuser auf den heutigen Stand – technisch und optisch."
-heroPrompt: "Sanierter heller Altbau-Wohnraum mit Fischgrätparkett, hohen Decken und viel Tageslicht, fotorealistisch"
 refAnker: "sanierung"
 refBilder:
   - { file: "galerie-sanierung-02.webp", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" }
@@ -37,9 +37,9 @@ kacheln:
 warum:
   - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
   - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und feste Preise – digital abrufbar und freigebbar." }
-bilderTitel: "So könnte Ihr modernisiertes Zuhause aussehen"
+bilderTitel: "So könnte Ihr *modernisiertes Zuhause* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
-ablaufTitel: "So einfach kann Ihre Komplettsanierung sein"
+ablaufTitel: "So *einfach* kann Ihre Komplettsanierung sein"
 faq:
   - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den genauen Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest." }
   - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung – ganz vermeiden lassen sich Staub und Lärm aber nicht. Bitte räumen Sie die Arbeitsbereiche vorher frei. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
