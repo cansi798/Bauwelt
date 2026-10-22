@@ -30,6 +30,7 @@ lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koord
 # ohneIntro entfernt – Audit 2.8 (19.10.2026): Einleitung jetzt auf allen Leistungsseiten (16.10. (77) hatte sie hier abgeschaltet)
 introBild: "galerie-bad-07.webp" # Jamil 21.10.2026 (Msg 2869/2870): Dachgeschossbad mit freistehender Wanne statt schmalem Foto
 introTitel: "Ihr neues Bad – in Ruhe geplant, in rund zwei Wochen fertig"
+# Jamil 22.10.2026 (Msg 3138): im Text „in der Regel rund 14 Tage“ + Anspruch Prozessoptimierung, keine Garantie (§ 11 AGB)
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
 umfangTitel: "Was gehört zu einer Badsanierung?"
 umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – zum Festpreis statt mit Lockangebot. Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb."
@@ -58,3 +59,5 @@ faq:
 Sie wünschen sich ein modernes Badezimmer, aber keine endlosen Baustellen, keine unklaren Kosten und kein Handwerker-Chaos?
 
 Genau dafür sind wir da. Vom Rückbau bis zur letzten Silikonfuge koordinieren wir sämtliche Arbeiten für Sie und sorgen für einen strukturierten Ablauf mit klaren Zuständigkeiten.
+
+Für eine Badsanierung brauchen wir in der Regel rund 14 Tage. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den genauen Zeitplan vereinbaren wir vorher gemeinsam mit Ihnen und halten ihn schriftlich im Auftrag fest.

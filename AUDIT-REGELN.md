@@ -51,6 +51,7 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 - **Festpreis (R2, Jamil 20.10.):** „Festpreis für alles im Angebot – Mehrkosten nur nach schriftlichem Nachtrag“ (Versprechen 1 in `versprechen.ts`, FAQ). **Nicht**: „keine Überraschungen auf der Rechnung“, „ohne versteckte Kosten“-Versprechen.
 - Festpreis gilt „für alles, was im Angebot steht“; Änderungen nur mit schriftlichem Nachtrag (Zusatzwünsche, technisch nötige Zusatzarbeiten, verdeckte Mängel, § 6 Materialpreise). **Nicht**: „Preis im Angebot = Preis auf der Rechnung“, „ohne Ihre Freigabe ändert sich nichts“.
 - Termine: nur „schriftlich als verbindlich vereinbart“ (§ 11). **Nicht**: „verbindlicher Zeitplan mit Start- und Endtermin“ ohne „schriftlich“.
+- **Dauer Badsanierung** (Jamil 22.10.2026, Talk Bauwelt Msg 3138): Im Text der Badsanierung steht „in der Regel rund 14 Tage“ plus Anspruch „Abläufe laufend optimieren, um schneller zu werden“ – ausdrücklich **keine Garantie**, der verbindliche Zeitplan wird schriftlich im Auftrag festgelegt (§ 11). Passt zu „rund zwei Wochen“ (Claim, Intro-Titel, FAQ, Startseite). **Nicht**: „garantiert in 14 Tagen“, „spätestens nach 14 Tagen“.
 - Elektro: nur Vorarbeiten/Koordination; Endanschlüsse macht ein Elektromeisterbetrieb (§ 13).
 - Demontage/Entsorgung/Untergrund: stehen immer in den Angebotspositionen (Jamil) – Website-Text bleibt.
 - Angebote: Jamil hat Variante **B** gewählt – § 2 AGB wird beim Anwaltscheck zu „verbindliche Festpreisangebote, gültig 30 Tage“. Bis dahin Website wie besprochen.
