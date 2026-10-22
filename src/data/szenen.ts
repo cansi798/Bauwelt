@@ -810,8 +810,8 @@ function handschlag(): Szene {
 /* ─── Partner-Startbild: zwei Firmen arbeiten zusammen (Jamil 21.10.2026, Msg 2899 + 2909) ───
    Msg 2899 ersetzte das KI-Foto hero-partner.webp; Msg 2909: „Zusammenarbeit zwischen zwei Firmen – das Haus
    bildet das nicht richtig ab.“ Jetzt: links das Bauwelt-Gebäude (gold, Satteldach, Schild „BAUWELT HANDWERK“, Msg 2914), rechts
-   das Partner-Büro (anthrazit/weiß, Flachdach, Schild „PARTNER“). Dazwischen baut sich eine Brücke, darüber
-   ein goldener Haken. Bewusst anders als der Handschlag auf Kontakt. Einmal, 1,5 s (Msg 2911). */
+   das Partner-Büro (anthrazit/weiß, Flachdach, Schild „PARTNER“). Msg 3118 (22.10.): statt Brücke führen
+   gestrichelte Wege zur Mitte, wo zwei Puzzleteile (Gold/Anthrazit) einrasten; darüber ein goldener Haken. Bewusst anders als der Handschlag auf Kontakt. Einmal, 1,5 s (Msg 2911). */
 const PB_B = 760, PB_H = 400;
 function partnerBau(): Szene {
   const z = new Zeichner();
@@ -838,21 +838,32 @@ function partnerBau(): Szene {
   z.rechteck(588, 336, 34, boden - 336, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.2); // Tür
   z.rechteck(530, 188, 150, 44, { fill: F.strich, fillStyle: "solid", strokeWidth: 2 }, 0.25); // Schild
   z.text(605, 219, "PARTNER", { groesse: 26, gewicht: 800, farbe: "var(--weiss)" });
-  // Brücke zwischen den Firmen: Fahrbahn, goldener Bogen, Hänger
-  z.bei(0.7);
-  z.linie(250, 300, 510, 300, { strokeWidth: 3.2 }, 0.3);
-  z.bei(0.75);
-  z.pfad("M250 300Q380 196 510 300", { stroke: F.gold, strokeWidth: 5, roughness: 0.8 }, 0.4);
-  z.bei(0.95);
-  [300, 340, 380, 420, 460].forEach((hx) => {
-    const by = 300 - (1 - ((hx - 380) / 130) ** 2) * 52; // Höhe des Bogens an der Stelle
-    z.linie(hx, by + 2, hx, 298, { stroke: F.gold, strokeWidth: 2.4, roughness: 0.4 }, 0.12);
+  // Verbindung (Jamil 22.10.2026, Msg 3118: „die Brücke passt nicht“): aus jeder Firma führt ein
+  // gestrichelter Weg zur Mitte; dort greifen zwei Puzzleteile ineinander – Gold = Bauwelt, Anthrazit = Partner.
+  // Die Teile gleiten von ihrer Seite herein und rasten ein, danach stempelt der goldene Haken.
+  const py = 226, ph = 78, mx = 380, pw = 80, km = py + ph / 2; // Puzzle: oben, Höhe, Fuge, Breite, Nasenmitte
+  const nase = `V${km - 12}C${mx + 12} ${km - 20} ${mx + 30} ${km - 16} ${mx + 30} ${km}C${mx + 30} ${km + 16} ${mx + 12} ${km + 20} ${mx} ${km + 12}`;
+  const nasePlatz = `V${km + 12}C${mx + 12} ${km + 20} ${mx + 30} ${km + 16} ${mx + 30} ${km}C${mx + 30} ${km - 16} ${mx + 12} ${km - 20} ${mx} ${km - 12}`;
+  z.bei(0.55);
+  [[256, 270], [280, 292], [468, 480], [492, 504]].forEach(([a, b], k) => {
+    z.bei(0.55 + (k % 2) * 0.08);
+    z.linie(a, km, b, km, { stroke: F.gold, strokeWidth: 3.4, roughness: 0.6 }, 0.1);
   });
-  // Goldener Haken über der Brücke
+  z.bei(0.7);
+  z.gruppe("vonlinks", () =>
+    z.pfad(`M${mx - pw} ${py}H${mx}${nase}V${py + ph}H${mx - pw}Z`, { fill: F.gold, fillStyle: "solid", stroke: F.goldDunkel, strokeWidth: 2.6, roughness: 0.9 }, 0.35), 0.7);
+  z.bei(0.78);
+  z.gruppe("vonrechts", () =>
+    z.pfad(`M${mx} ${py}H${mx + pw}V${py + ph}H${mx}${nasePlatz}Z`, { fill: F.strich, fillStyle: "solid", strokeWidth: 2.6, roughness: 0.9 }, 0.35), 0.78);
+  // Einrasten: kleine goldene Funken an der Fuge
   z.bei(1.15);
+  ([[mx - 8, py - 8, mx - 18, py - 22], [mx + 8, py - 8, mx + 18, py - 22], [mx - 8, py + ph + 8, mx - 18, py + ph + 22], [mx + 8, py + ph + 8, mx + 18, py + ph + 22]] as const)
+    .forEach(([a, b, c, d]) => z.linie(a, b, c, d, { stroke: F.gold, strokeWidth: 3, roughness: 0.5 }, 0.12));
+  // Goldener Haken über dem Puzzle
+  z.bei(1.2);
   z.gruppe("stempel", () => {
-    z.kreis(380, 168, 62, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.2);
-    z.pfad("M364 168l11 11l20 -22", { strokeWidth: 3.6, roughness: 0.5 }, 0.2);
+    z.kreis(mx, 158, 62, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.2);
+    z.pfad(`M${mx - 16} 158l11 11l20 -22`, { strokeWidth: 3.6, roughness: 0.5 }, 0.2);
   });
   return { breite: PB_B, hoehe: PB_H, elemente: z.elemente, ende: 1.5, zielDauer: 1.5 };
 }
