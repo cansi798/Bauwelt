@@ -1,0 +1,33 @@
+---
+// Liste „Das ist in unserer Standard-… immer enthalten“ + Hinweis, dass Kunden jederzeit vom Standard
+// abweichen können (Jamil 22.10.2026, Msg 3138). Daten: src/data/standard.ts. Zeigt nur freigegebene
+// Listen – bis zur Bestätigung durch Jamil erscheint nichts auf der Seite.
+import { STANDARD, ABWEICHEN } from "../data/standard";
+import { akzent } from "../lib/akzent";
+import Icon from "./Icon.astro";
+interface Props { slug: string }
+const s = STANDARD[Astro.props.slug];
+const t = s ? akzent(s.titel) : undefined;
+---
+{s?.freigegeben && t && (
+  <div class="standard">
+    <h3 class="standard__titel">{t.pre}<span class="accent">{t.accent}</span>{t.post}</h3>
+    <ul class="standard__liste">
+      {s.punkte.map((p) => (
+        <li><span class="standard__haken"><Icon name="check" size={18} class="icon" /></span><span>{p}</span></li>
+      ))}
+    </ul>
+    <p class="standard__abweichen">{ABWEICHEN}</p>
+  </div>
+)}
+
+<style>
+  .standard { max-width: 860px; margin: 56px auto 0; }
+  .standard__titel { text-align: center; margin: 0 0 24px; font-size: clamp(1.2rem, 2.4vw, 1.5rem); }
+  .standard__titel .accent { color: var(--gold-700); }
+  .standard__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 40px; }
+  .standard__liste li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+  .standard__haken { flex: 0 0 18px; display: flex; margin-top: 3px; color: var(--gold-700); }
+  .standard__abweichen { text-align: center; margin: 28px auto 0; max-width: 640px; font-weight: 600; }
+  @media (min-width: 768px) { .standard__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

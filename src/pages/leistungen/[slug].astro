@@ -22,6 +22,7 @@ import Rechner from "../../components/Rechner.astro";
 import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import SkizzenKreis from "../../components/SkizzenKreis.astro";
+import StandardUmfang from "../../components/StandardUmfang.astro";
 import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
@@ -207,6 +208,8 @@ const description =
             </li>
           ))}
         </ol>
+        {/* Jamil 22.10.2026 (Msg 3138): „Standard immer enthalten“ – erscheint erst nach Freigabe (data/standard.ts) */}
+        <StandardUmfang slug={l.id} />
       </div>
     </section>
   )}
