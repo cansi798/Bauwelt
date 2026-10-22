@@ -50,6 +50,7 @@ warum:
 bilderTitel: "So könnte Ihr *neues Badezimmer* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Badsanierung sein"
+# Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
   - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad ist in rund zwei Wochen fertig. Start- und Endtermin legen wir vorher gemeinsam fest und schreiben sie verbindlich in den Auftrag. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
@@ -59,5 +60,7 @@ faq:
 Sie wünschen sich ein modernes Badezimmer, aber keine endlosen Baustellen, keine unklaren Kosten und kein Handwerker-Chaos?
 
 Genau dafür sind wir da. Vom Rückbau bis zur letzten Silikonfuge koordinieren wir sämtliche Arbeiten für Sie und sorgen für einen strukturierten Ablauf mit klaren Zuständigkeiten.
+
+Auch bei der Auswahl von Fliesen, Armaturen, Badmöbeln und Beleuchtung beraten wir Sie gern – damit am Ende alles zusammenpasst.
 
 Für eine Badsanierung brauchen wir in der Regel rund 14 Tage. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den genauen Zeitplan vereinbaren wir vorher gemeinsam mit Ihnen und halten ihn schriftlich im Auftrag fest.

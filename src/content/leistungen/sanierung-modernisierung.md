@@ -40,6 +40,7 @@ warum:
 bilderTitel: "So könnte Ihr *modernisiertes Zuhause* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Ihre Komplettsanierung sein"
+# Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
   - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den genauen Zeitplan mit Start- und Endtermin legen wir vorher gemeinsam fest." }
   - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung – ganz vermeiden lassen sich Staub und Lärm aber nicht. Bitte räumen Sie die Arbeitsbereiche vorher frei. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
@@ -50,3 +51,5 @@ faq:
 Sie möchten Ihre Wohnung oder Ihr Haus modernisieren, aber keine wochenlange Baustelle, keine unklaren Kosten und kein Handwerker-Chaos?
 
 Genau dafür sind wir da. Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten – bevor auch nur ein Handgriff passiert. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit festem Preis und festem Zeitrahmen und koordinieren danach sämtliche Arbeiten – vom Rückbau bis zum letzten Anstrich, mit klaren Zuständigkeiten.
+
+Auch bei der Auswahl von Fliesen, Böden, Armaturen, Möbeln und Farben beraten wir Sie gern – damit am Ende alles zusammenpasst.

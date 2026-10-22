@@ -19,6 +19,7 @@ export const STANDARD: Record<string, Standard> = {
     titel: "Das ist in unserer *Standard-Badsanierung* immer enthalten",
     punkte: [
       "Persönliche Beratung und Aufmaß bei Ihnen vor Ort",
+      "Beratung bei der Auswahl von Fliesen, Armaturen und Möbeln", // Jamil 22.10., Msg 3152
       "Festpreis-Angebot und schriftlich vereinbarter Zeitplan",
       "Schutz- und Abdeckarbeiten (Staubschutz, abgedeckte Wege)",
       "Demontage des alten Bads und Entsorgung des Bauschutts",
@@ -38,6 +39,7 @@ export const STANDARD: Record<string, Standard> = {
     titel: "Das ist in unserer *Standard-Komplettsanierung* immer enthalten",
     punkte: [
       "Persönliche Beratung und Bestandsaufnahme bei Ihnen vor Ort",
+      "Beratung bei der Auswahl von Fliesen, Armaturen und Möbeln", // Jamil 22.10., Msg 3152
       "Plan mit Festpreis und schriftlich vereinbartem Zeitplan",
       "Schutz- und Abdeckarbeiten (Staubschutz, abgedeckte Wege)",
       "Rückbau und Entkernung inklusive Entsorgung",

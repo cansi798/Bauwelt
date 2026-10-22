@@ -43,6 +43,7 @@ warum:
 bilderTitel: "So könnten Ihre *neuen Fliesen* aussehen"
 bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann ein neuer Boden sein"
+# Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
   - { q: "Wie lange dauern die Arbeiten?", a: "Ein einzelner Raum ist oft in wenigen Tagen fertig. Trocknungszeiten von Ausgleichsmasse, Abdichtung und Fugen planen wir ein. Den Zeitplan legen wir vorher gemeinsam fest." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
@@ -52,3 +53,5 @@ faq:
 Sie wünschen sich neue Fliesen oder einen neuen Boden, aber keine schiefen Fugen, keine hohlen Stellen und keinen Staub in der ganzen Wohnung?
 
 Genau dafür sind wir da. Wir entfernen den alten Belag, bereiten den Untergrund eben und tragfähig vor, dichten Nassbereiche fachgerecht ab und verlegen termingerecht – sauber abgeklebt und besenrein übergeben.
+
+Auch bei der Auswahl von Fliesen, Bodenbelägen, Formaten und Fugenfarben beraten wir Sie gern – damit am Ende alles zusammenpasst.
