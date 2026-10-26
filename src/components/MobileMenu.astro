@@ -50,7 +50,7 @@ import Icon from "./Icon.astro";
     <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>
       <Icon name="calendar" size={20} class="icon" /> {TERMIN.kurz}
     </a>
-    <a class="mm__tel" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} class="icon" /> {SITE.phoneDisplay}</a>
+    <a class="btn btn--lg btn--ghost mm__tel" href={`tel:${SITE.phoneTel}`}><Icon name="phone" size={18} class="icon" /> {SITE.phoneDisplay}</a>
   </div>
 
   <div class="mm__footer">
@@ -76,10 +76,6 @@ import Icon from "./Icon.astro";
 
   .mm__ctas { display: grid; gap: 10px; }
   .mm__ctas .btn { width: 100%; justify-content: center; min-height: 52px; }
-  .mm__tel {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 10px; font-weight: 700; color: var(--anthrazit-800); text-decoration: none;
-  }
   .mm__tel :global(.icon) { color: var(--gold-700); }
   .mm__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
   .mm__top, .mm__group summary {
