@@ -35,7 +35,7 @@ export const SITE = {
   street: "Schweriner Straße 16",
   zip: "22844",
   city: "Norderstedt",
-  hours: "Mo–Fr 8–18 Uhr", // Audit 4.9: überall gleiche Schreibweise
+  hours: "Mo. – Fr. 08:00 bis 18:00 Uhr", // Jamil 26.10.2026 (Talk, Bild 19811): überall diese Schreibweise
   managing: "Burim Ahmedi",
   register: "HRB 27109 KI, Amtsgericht Kiel",
   vat: "DE450901631",

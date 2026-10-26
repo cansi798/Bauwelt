@@ -79,7 +79,7 @@ const VERBOTEN = [
   [/Jetzt Preis berechnen|Projekt berechnen|Festpreis ansehen/i, "Wording (4.4)", "→ „Preis berechnen“"],
   [/Preisrahmen|Preiseinschätzung|Ersteinschätzung/i, "Wording (4.3)", "→ „Preisspanne“"],
   [/Alles aus einer Hand/i, "Marke (7.5)", "austauschbarer Claim – eigene Stärken nach vorn"],
-  [/Montag\s*-\s*Freitag|8:00\s*-\s*18:00/, "Wording (4.9)", "→ „Mo–Fr 8–18 Uhr“"],
+  [/Montag\s*-\s*Freitag|Mo[–-]Fr\s+8[–-]18|\b8:00\s*-\s*18:00/, "Wording (4.9)", "→ „Mo. – Fr. 08:00 bis 18:00 Uhr“"],
   [/Klar\. Einfach\. Transparent\.|Verlässlich\. Planbar\. Persönlich\./, "Marke (7.7)", "nur „Planbar. Transparent. Verlässlich.“"],
   [/Derzeit suchen wir keine|durchschnittliche Handwerker|Andere bezahlen Zeit/i, "Wording Karriere (4.8/6.8)", "positiv formulieren"],
   [/über 30 Bäder|15 Komplettsanierungen|\b10 Jahre(?:n)? Erfahrung/i, "Zahlen (K2/6.6)", "alte Zahlen – heute 40+ Bäder, 15+ Jahre"],

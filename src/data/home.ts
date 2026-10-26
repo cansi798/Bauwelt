@@ -1,6 +1,6 @@
 /** Startseiten-Inhalte (Dramaturgie nach Spec §3).
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
-import { u } from "../consts";
+import { u, SITE } from "../consts";
 
 export const HERO = {
   /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
@@ -282,5 +282,5 @@ export const FOOTER_KONTAKT = {
     "Hochwertige Handwerksarbeit mit klaren Prozessen und persönlicher Betreuung.",
   kontaktHead: "Sprechen Sie mit uns",
   kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
-  zeiten: "Mo–Fr 8–18 Uhr", // Audit 4.9
+  zeiten: SITE.hours, // eine Quelle: src/consts.ts (Jamil 26.10.2026)
 };
