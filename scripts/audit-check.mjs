@@ -70,7 +70,7 @@ const VERBOTEN = [
   // Versprechen-Check 27.10.2026 (Jamil, Talk 3398): Zusagen ohne Beleg / gegen die AGB – nicht wieder einbauen
   [/Festpreis/i, "Versprechen-Check H1 (27.10.)", "kein „Festpreis“ (AGB § 2: Angebote freibleibend) → „transparentes Angebot“"],
   [/\b(?:12|24)\s*(?:Stunden|Std|h)\b/i, "Versprechen-Check H3/H4 (27.10.)", "keine festen Stundenfristen → „zeitnah, in der Regel am selben oder nächsten Werktag“"],
-  [/fertig in 2 Wochen|in rund zwei Wochen fertig|Zum Festpreis fertig/i, "Versprechen-Check H2 (27.10.)", "keine feste Dauer → „in der Regel in wenigen Wochen“"],
+  [/fertig in 2 Wochen|in rund zwei Wochen fertig|Zum Festpreis fertig|in (?:der Regel in )?wenigen Wochen/i, "Versprechen-Check H2 (27.10.)", "Bad: „rund 2 Wochen ab Baustart“, Zeitplan schriftlich im Angebot (Jamil 27.10., Talk 3404) – nicht „fertig in 2 Wochen“, nicht „in wenigen Wochen“"],
   [/jederzeit kostenfrei|Absage jederzeit/i, "Versprechen-Check H5 (27.10.)", "AGB § 11 – nicht „jederzeit kostenfrei“ absagen versprechen"],
   [/sehr nah am tatsächlichen Preis|Lockangebot|Lockpreis|tatsächlichen Preisen/i, "Versprechen-Check H6/M12 (27.10.)", "Rechner = erste Orientierung, keine Genauigkeits-Aussage, kein Seitenhieb auf andere Anbieter"],
   [/Partner-?\s?(?:Elektro-?)?Meister|Partnerpfleger|Partnerbetrieb/i, "Versprechen-Check H7/M3 (27.10.)", "keine Aussagen über namenlose Partner ohne Beleg → „zugelassene Fachbetriebe“"],

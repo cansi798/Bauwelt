@@ -45,7 +45,7 @@ bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann ein neuer Boden sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
-  - { q: "Wie lange dauern die Arbeiten?", a: "Ein einzelner Raum ist oft in wenigen Tagen fertig. Trocknungszeiten von Ausgleichsmasse, Abdichtung und Fugen planen wir ein. Den Zeitplan legen wir vorher gemeinsam fest." }
+  - { q: "Wie lange dauern die Arbeiten?", a: "Ein einzelner Raum ist oft in wenigen Tagen fertig. Trocknungszeiten von Ausgleichsmasse, Abdichtung und Fugen planen wir ein. Den Zeitplan halten wir vorab schriftlich im Angebot fest." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
   - { q: "Verlegen Sie auch Großformatfliesen?", a: "Ja. Großformate brauchen einen besonders ebenen Untergrund. Den prüfen wir beim Vor-Ort-Termin – ist ein Ausgleich nötig, nehmen wir ihn ausdrücklich ins Angebot auf. So wissen Sie vorher, was er kostet, und die Fliesen liegen plan mit geraden Fugen." }
 ---

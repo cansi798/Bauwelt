@@ -60,12 +60,14 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     slug: "badsanierung",
     eyebrow: "Badsanierung",
     // Versprechen-Check H2 (27.10.2026): keine feste Zusage mehr („fertig in 2 Wochen“ vs. AGB § 11 „Termine unverbindlich“)
-    pre: "Ihr neues Bad – in der Regel in ",
-    accent: "wenigen Wochen",
+    // Jamil 27.10.2026 (Talk 3404): klare Zeitangabe statt „in wenigen Wochen“; trägt nur, wenn der Zeitplan
+    // schriftlich im Angebot steht (AGB § 11, siehe PDF „Was noch zu tun ist“, B1).
+    pre: "Ihr neues Bad: rund ",
+    accent: "2 Wochen ab Baustart",
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
       "Fliesen, bodengleiche Dusche, Licht und Möbel – die Sanitär- und Elektro-Anschlüsse führen zugelassene Fachbetriebe aus. Sie wählen die Ausstattung, " +
-      "wir erstellen Ihnen nach dem Vor-Ort-Termin ein transparentes Angebot und stimmen den Zeitplan vorab mit Ihnen ab.",
+      "wir erstellen Ihnen nach dem Vor-Ort-Termin ein transparentes Angebot, stimmen den Baustart vorab mit Ihnen ab und halten den Zeitplan schriftlich im Angebot fest.",
     bild: "hero-badsanierung.webp",
     alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
     cta: "Bad berechnen",
@@ -240,7 +242,7 @@ export const FAQ_HOME = [
   // sie sprach von „Pauschalpreis“ (nur für die Checks) und widersprach sich bei der Entsorgung.
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Das hängt vom Umfang ab. Für eine Badsanierung planen wir in der Regel rund 2 Wochen ab Baustart ein, größere Sanierungen planen wir individuell. Den geplanten Zeitplan stimmen wir vor Beginn gemeinsam mit Ihnen ab; wünschen Sie verbindliche Termine, vereinbaren wir sie schriftlich. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
+    a: "Das hängt vom Umfang ab. Eine Badsanierung dauert rund 2 Wochen ab Baustart, größere Sanierungen planen wir individuell. Den Baustart stimmen wir vorab mit Ihnen ab, der Zeitplan steht schriftlich in Ihrem Angebot. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",

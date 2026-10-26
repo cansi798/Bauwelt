@@ -42,7 +42,7 @@ bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Innenausbau sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
-  - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan legen wir vorher gemeinsam fest." }
+  - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan halten wir vorab schriftlich im Angebot fest." }
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }
   - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir spachteln die Flächen glatt und übergeben sie streichfertig – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
 ---
