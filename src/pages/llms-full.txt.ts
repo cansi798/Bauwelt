@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { BASE, EMAILS, LEISTUNGEN, SITE } from "../consts";
 import { GEWERKE, berechne, preisText, MWST_HINWEIS } from "../data/rechner";
 import { REGION_CITIES, REGION_TEXT } from "../data/region";
-import { FAQ_HOME, ZAHLEN } from "../data/home";
+import { FAQ_HOME } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
 
 // llms-full.txt – ausführliche Fassung für KI-Assistenten (SEO-/KI-Audit G3, 19.10.2026).
@@ -41,7 +41,6 @@ export const GET: APIRoute = async ({ site }) => {
 
 - ${SITE.legal}, ${SITE.street}, ${SITE.zip} ${SITE.city}; Geschäftsführer ${SITE.managing}
 - ${SITE.register}; USt-IdNr. ${SITE.vat}; eingetragen bei der Handwerkskammer Lübeck; versicherter Betrieb
-${ZAHLEN.map((z) => `- ${z.wert} ${z.label}`).join("\n")}
 - Einzugsgebiet: ${REGION_TEXT} (Sitz: ${SITE.city}, rund 40 km Umkreis). Orte: ${REGION_CITIES.join(", ")}
 
 ## Unsere Zusagen

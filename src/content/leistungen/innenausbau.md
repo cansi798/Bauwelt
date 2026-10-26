@@ -1,6 +1,6 @@
 ---
 title: "Innenausbau & Trockenbau"
-badge: "Festpreis"
+badge: "Klares Angebot"
 order: 40
 heroPrompt: "Photorealistic interior photo of a bright, high-end German interior after drywall and finishing work: smooth white plastered drywall, suspended ceiling with warm indirect LED cove lighting, built-in wall niche with shelves, light oak floor, soft daylight, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-innenausbau-*.avif/.webp
 icon: "wall"
@@ -17,14 +17,14 @@ umfang:
   - "Türen und Zargen"
 ablauf:
   - { title: "Idee", text: "Wir besprechen, wie Ihre Räume wirken sollen." }
-  - { title: "Plan", text: "Fester Preis, klarer Ablauf." }
+  - { title: "Plan", text: "Transparentes Angebot, klarer Ablauf." }
   - { title: "Ausbau", text: "Sauber verarbeitet bis in die Ecke." }
 claim: "Räume neu gestalten. Klar geplant. Sauber ausgebaut."
-lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
+lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, ein transparentes Angebot und ein strukturierter Ablauf."
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur streichfertigen Oberfläche aus einer Hand – realistisch kalkuliert, ohne Lockangebot. Wir koordinieren alles, die Elektro-Endanschlüsse übernimmt unser Partner-Elektromeisterbetrieb."
+umfangText: "Von der Planung bis zur streichfertigen Oberfläche aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -36,9 +36,9 @@ kacheln:
   - { icon: "paint", title: "Spachtel- & Malerarbeiten" }
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
-  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
 bilderTitel: "So könnten Ihre *neuen Räume* aussehen"
-bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
+bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Innenausbau sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:

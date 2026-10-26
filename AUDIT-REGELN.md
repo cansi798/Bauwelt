@@ -5,6 +5,17 @@ Berichte: Nextcloud `Bauwelt/Website-Audit/`.
 
 **Auftrag Jamil (19.10.2026, Msg 2392):** „Sobald eine Änderung Auswirkung auf eines der Audit-Themen hat, weise mich darauf hin.“
 
+## 0. Versprechen-Check 27.10.2026 (Jamil, Talk 3398) – ERSETZT abweichende Regeln weiter unten
+
+Alle hohen und mittleren Befunde des Versprechen-Checks (Nextcloud `Bauwelt/Website-Audit/Bauwelt_Versprechen_Check.pdf`) sind auf der Website umgesetzt; Übersicht und offene Punkte für Jamil: `Bauwelt_Was_noch_zu_tun_ist.pdf` im selben Ordner. Folgen für alle künftigen Texte (prüft `scripts/audit-check.mjs`, Regeln „Versprechen-Check“):
+
+- **Kein „Festpreis“** auf der Website (AGB § 2: Angebote freibleibend). Stattdessen „transparentes / klares Angebot“, „den genauen Preis nennen wir nach dem Vor-Ort-Termin“. Erst wieder „Festpreis“, wenn § 2/§ 4/§ 6 der AGB vom Anwalt angepasst sind (Variante B, siehe Abschnitt Angebote).
+- **Keine festen Fristen**: nie „12 Stunden“/„24 Stunden“, nie „fertig in 2 Wochen“. Antwort: „zeitnah, in der Regel am selben oder nächsten Werktag“. Angebot: „zeitnah nach dem Vor-Ort-Termin“. Bad: „in der Regel in wenigen Wochen“, im Text „in der Regel rund zwei Wochen ab Baustart“.
+- **Kein „jederzeit kostenfrei absagen“** (AGB § 11). Kein „Lockangebot“-Seitenhieb, keine Genauigkeits-Aussage beim Rechner („erste Orientierung“).
+- **Keine namenlosen „Partner-(Elektro-)Meisterbetriebe“, kein „Partnerpfleger“**: „Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus“ (AGB § 13: Endanschlüsse Elektromeisterbetrieb). Kein „Heizung“ als Leistung.
+- **Keine unbelegten Zahlen**: „40+ Bäder“, „15+ Jahre“, „über 30/10 Aufträge“, „Von Bauwelt saniertes Bad“ entfallen (Vertrauensleiste: Sitz, Erreichbarkeit, versichert, Handwerkskammer). Wieder aufnehmen nur mit interner Projektliste/Beleg.
+- **Check-Anrechnung** nur „in der Regel“ und „Bedingungen vorab“. Kein „für Ihre Steuererklärung“. Karriere ohne „verdienen mehr“/24-Stunden-Frist.
+
 ## So arbeiten (jeder Agent, jede Änderung)
 
 1. Nach dem Build: `node scripts/audit-check.mjs` (läuft auch automatisch in GitHub Actions, blockiert den Deploy nicht).

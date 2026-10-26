@@ -1,6 +1,6 @@
 ---
 title: "Fliesen- & Bodenlegerarbeiten"
-badge: "Festpreis"
+badge: "Klares Angebot"
 order: 25
 heroPrompt: "Photorealistic interior photo of a bright, high-end German home after tiling and flooring work: large-format light stone-look porcelain floor tiles with thin straight joints through an open living and kitchen area, a wall in large-format tiles, warm daylight, calm space on the left. No people, no text, no logos. Landscape 16:9" # KI-Hero (Jamil 20.10.2026, Talk 2784) – erzeugt 21.10.2026 mit Seedream 5 Lite, Dateien ki-hero-fliesen-boden-*.avif/.webp
 icon: "tiles"
@@ -13,21 +13,21 @@ umfang:
   - "Silikon- und Anschlussfugen"
 ablauf:
   - { title: "Beratung", text: "Wir besprechen Material, Format und Verlegemuster vor Ort." }
-  - { title: "Angebot", text: "Innerhalb von 24 Stunden – fester Preis, klare Leistung." }
-  - { title: "Ausführung", text: "Untergrund, Abdichtung, Verlegung – sauber und termingerecht." }
+  - { title: "Angebot", text: "Zeitnah nach dem Termin – klare Leistung, verständliches Angebot." }
+  - { title: "Ausführung", text: "Untergrund, Abdichtung, Verlegung – sauber und nach Zeitplan." }
 rechnerSlug: "fliesen-boden"
-beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat zum Festpreis. Jetzt Preis online berechnen."
+beschreibung: "Fliesen- & Bodenlegerarbeiten in Norderstedt & Hamburg: Fliesen, Großformate, Vinyl und Laminat mit transparentem Angebot. Jetzt Preis online berechnen."
 refAnker: "fliesen"
 refBilder:
   - { file: "galerie-fliesen-02.webp", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" }
 ablaufZiel: "neuen Boden"
 siegel: "festpreis"
 claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
-lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein fester Ansprechpartner, Festpreis und strukturierter Ablauf."
+lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Ein fester Ansprechpartner, ein transparentes Angebot und ein strukturierter Ablauf."
 introTitel: "Neue Böden – präzise bis zur letzten Fuge"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Preisspanne. Unverbindlich, ohne Kontaktdaten und basierend auf realistischen Marktpreisen."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
-umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt und realistisch kalkuliert."
+umfangText: "Vom alten Belag bis zur fertigen Fuge – präzise verlegt, mit einem Angebot, das den Umfang klar beschreibt."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -39,9 +39,9 @@ kacheln:
   - { icon: "paint", title: "Fugen & Abschlussarbeiten" }
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
-  - { icon: "euro", title: "Keine Lockangebote", text: "Unser Online-Rechner zeigt realistische Werte – sehr nah am tatsächlichen Preis, nicht nur einen Lockpreis." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
 bilderTitel: "So könnten Ihre *neuen Fliesen* aussehen"
-bilderText: "Eine Auswahl realisierter Projekte und Gestaltungsmöglichkeiten."
+bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann ein neuer Boden sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
@@ -52,6 +52,6 @@ faq:
 
 Sie wünschen sich neue Fliesen oder einen neuen Boden, aber keine schiefen Fugen, keine hohlen Stellen und keinen Staub in der ganzen Wohnung?
 
-Genau dafür sind wir da. Wir entfernen den alten Belag, bereiten den Untergrund eben und tragfähig vor, dichten Nassbereiche fachgerecht ab und verlegen termingerecht – sauber abgeklebt und besenrein übergeben.
+Genau dafür sind wir da. Wir entfernen den alten Belag, bereiten den Untergrund eben und tragfähig vor, dichten Nassbereiche fachgerecht ab und verlegen nach abgestimmtem Zeitplan – sauber abgeklebt und besenrein übergeben.
 
 Auch bei der Auswahl von Fliesen, Bodenbelägen, Formaten und Fugenfarben beraten wir Sie gern – damit am Ende alles zusammenpasst.

@@ -65,8 +65,17 @@ const LEISTUNGS_NAMEN = [...constsSrc.matchAll(/unterschrift:\s*"([^"]+)"/g)].ma
 // ---------- 1. Texte & verbotene Aussagen ----------
 // [Regex, Thema, Begründung]. Gilt für alle Seiten außer /agb/ (AGB-Text ist 1:1 Rechtstext).
 const VERBOTEN = [
-  [/(?<!Elektro|Partner-?)Meister-?betrieb/i, "Texte/UWG (K2/K3)", "„Meisterbetrieb“ ist nicht belegt (erlaubt nur Partner-(Elektro-)Meisterbetrieb)"],
-  [/(?:Festpreis|Preis|Termin)-?[Gg]arantie/, "Texte/UWG (4.2)", "„Garantie“ → „Festpreis-Zusage“"],
+  [/(?<!Elektro)Meister-?betrieb/i, "Texte/UWG (K2/K3, Versprechen-Check H7)", "„Meisterbetrieb“ ist nicht belegt (erlaubt nur „zugelassener Elektromeisterbetrieb“ für Endanschlüsse, AGB § 13)"],
+  [/(?:Festpreis|Preis|Termin)-?[Gg]arantie/, "Texte/UWG (4.2)", "„Garantie“ → „Zusage“ / „transparentes Angebot“"],
+  // Versprechen-Check 27.10.2026 (Jamil, Talk 3398): Zusagen ohne Beleg / gegen die AGB – nicht wieder einbauen
+  [/Festpreis/i, "Versprechen-Check H1 (27.10.)", "kein „Festpreis“ (AGB § 2: Angebote freibleibend) → „transparentes Angebot“"],
+  [/\b(?:12|24)\s*(?:Stunden|Std|h)\b/i, "Versprechen-Check H3/H4 (27.10.)", "keine festen Stundenfristen → „zeitnah, in der Regel am selben oder nächsten Werktag“"],
+  [/fertig in 2 Wochen|in rund zwei Wochen fertig|Zum Festpreis fertig/i, "Versprechen-Check H2 (27.10.)", "keine feste Dauer → „in der Regel in wenigen Wochen“"],
+  [/jederzeit kostenfrei|Absage jederzeit/i, "Versprechen-Check H5 (27.10.)", "AGB § 11 – nicht „jederzeit kostenfrei“ absagen versprechen"],
+  [/sehr nah am tatsächlichen Preis|Lockangebot|Lockpreis|tatsächlichen Preisen/i, "Versprechen-Check H6/M12 (27.10.)", "Rechner = erste Orientierung, keine Genauigkeits-Aussage, kein Seitenhieb auf andere Anbieter"],
+  [/Partner-?\s?(?:Elektro-?)?Meister|Partnerpfleger|Partnerbetrieb/i, "Versprechen-Check H7/M3 (27.10.)", "keine Aussagen über namenlose Partner ohne Beleg → „zugelassene Fachbetriebe“"],
+  [/\b40\+|von Bauwelt (?:saniert|modernisiert|ausgebaut|umgebaut)|echtes Bauwelt-Projekt|über 30 Aufträge|über 10 Aufträge/i, "Versprechen-Check H8 (27.10.)", "keine unbelegten Zahlen / Herkunftsangaben bei Projekten"],
+  [/für (?:Ihre|die) Steuererklärung/i, "Versprechen-Check M9 (27.10.)", "keine Steuer-Zusage → „Voraussetzung für die steuerliche Geltendmachung“"],
   [/deutschsprachige[nrs]? Ansprechpartner/i, "Wording (4.6/7.6)", "→ „Ein fester Ansprechpartner“"],
   [/Zuhause-Check|\b60\+|ab 60\b|Senior/i, "Wording (Kundenwunsch 17.10.)", "kein Altersbezug"],
   // Gesamt-Audit 20.10.2026 (Jamil, Talk 2787) – R7: keine Partnernamen ohne schriftliche Freigabe;
@@ -74,7 +83,7 @@ const VERBOTEN = [
   [/\b(?:Obi|Hornbach|seniovo)\b/i, "Partnernamen (Jamil 20.10., R7)", "keine Partnernamen (Obi, Hornbach, seniovo) ohne schriftliche Freigabe"],
   [/keine Überraschungen auf der Rechnung/i, "AGB-Konsistenz (Jamil 20.10., R2)", "→ „Mehrkosten nur nach schriftlichem Nachtrag“"],
   [/\b5 Jahre(?:n)? Gewährleistung/i, "Werbung (Jamil 20.10., R8)", "gesetzliche Frist nicht als Vorteil nennen – „gesetzliche Gewährleistung“"],
-  [/Sanitär-?\s?arbeiten|Fliesen, Sanitär,/i, "Handwerksrecht (Jamil 20.10., R3)", "Sanitär nicht als eigene Leistung – „Sanitär-Anschlüsse durch unseren Partner-Meisterbetrieb“"],
+  [/Sanitär-?\s?arbeiten|Fliesen, Sanitär,/i, "Handwerksrecht (Jamil 20.10., R3)", "Sanitär nicht als eigene Leistung – „Anschlüsse durch zugelassene Fachbetriebe“"],
   [/Besichtigungstermin|Beratungstermin|Erstes Gespräch vereinbaren|Telefontermin/i, "Wording (4.1)", "→ „Vor-Ort-Termin“"],
   [/Jetzt Preis berechnen|Projekt berechnen|Festpreis ansehen/i, "Wording (4.4)", "→ „Preis berechnen“"],
   [/Preisrahmen|Preiseinschätzung|Ersteinschätzung/i, "Wording (4.3)", "→ „Preisspanne“"],
@@ -82,7 +91,7 @@ const VERBOTEN = [
   [/Montag\s*-\s*Freitag|Mo[–-]Fr\s+8[–-]18|\b8:00\s*-\s*18:00/, "Wording (4.9)", "→ „Mo. – Fr. 08:00 bis 18:00 Uhr“"],
   [/Klar\. Einfach\. Transparent\.|Verlässlich\. Planbar\. Persönlich\./, "Marke (7.7)", "nur „Planbar. Transparent. Verlässlich.“"],
   [/Derzeit suchen wir keine|durchschnittliche Handwerker|Andere bezahlen Zeit/i, "Wording Karriere (4.8/6.8)", "positiv formulieren"],
-  [/über 30 Bäder|15 Komplettsanierungen|\b10 Jahre(?:n)? Erfahrung/i, "Zahlen (K2/6.6)", "alte Zahlen – heute 40+ Bäder, 15+ Jahre"],
+  [/über 30 Bäder|15 Komplettsanierungen|\b10 Jahre(?:n)? Erfahrung/i, "Zahlen (K2/6.6)", "alte, nie freigegebene Zahlen"],
   [/Preis im Angebot ist der Preis auf der Rechnung|ohne Ihre Freigabe ändert sich nichts/i, "AGB-Konsistenz (§ 2–6)", "Festpreis nur „für alles, was im Angebot steht“, Änderungen per Nachtrag"],
   [/verbindliche[nr]? Zeitplan mit Start- und Endtermin|klare Fertigstellungstermine/i, "AGB-Konsistenz (§ 11)", "Termine nur „schriftlich als verbindlich vereinbart“"],
   [/Sanitär, Elektro und Heizung aus einer Hand(?![^.]{0,80}(koordinier|Elektromeister))/i, "AGB-Konsistenz (§ 13)", "Elektro nur Vorarbeiten/Koordination, Endanschlüsse Elektromeisterbetrieb"],
@@ -90,7 +99,7 @@ const VERBOTEN = [
   [/\b(?:100|50|60) ?km\b/, "Einzugsgebiet (4.10)", "Gebiet laut Karte: rund 40 km"],
   [/\b(?:Kiel|Stade|Lüneburg|Itzehoe|Bad Oldesloe|Reinbek)\b(?!er Str)/, "Einzugsgebiet (3.3/4.10)", "Ort liegt nicht mehr im Gebiet (Karte 19.10.)"],
   [/(?<!kammer )(?<!HWK )Lübeck/, "Einzugsgebiet (3.3/4.10)", "Lübeck nur als „Handwerkskammer Lübeck“"],
-  [/\b15\+? Jahre(?:n)? Erfahrung(?! im Handwerk)/, "Erfahrung (K3)", "→ „15+ Jahre Erfahrung im Handwerk“ (GmbH erst ca. 2 Jahre)"],
+  [/\b15\+? Jahre(?:n)? Erfahrung/, "Erfahrung (K3, Versprechen-Check H8)", "„15 Jahre“ nicht belegt (GmbH erst ca. 2 Jahre) – nur mit Beleg als Erfahrung der Personen"],
 ];
 // Ausnahme: Impressum/Datenschutz nennen das Registergericht „Amtsgericht Kiel“.
 const RECHTSSEITEN = ["/datenschutz/", "/impressum/", "/agb/"];
@@ -151,7 +160,7 @@ else {
 // S7: Rechner-Seite mit Erklärtext
 const rechnerSeite = seite("/rechner/");
 if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("SEO (S7)", "/rechner/: Abschnitt „So rechnet der Rechner“ fehlt"); seoProbleme++; }
-// 6.6/6.2: Vertrauensleiste – Zahlen nur 40+ Bäder / 15+ Jahre (12 h / 24 h nur in „Unsere Versprechen“, Talk 2531/2536)
+// 6.6/6.2: Vertrauensleiste – seit 27.10.2026 ohne Zahlen (40+ / 15+ nicht belegt, Versprechen-Check H8)
 //          + Nachweise versichert / Handwerkskammer (Talk 2544/2547)
 //          + KEINE Zeile „Angaben im Impressum“ (Jamil 20.10.2026, Talk 2561); Footer-Impressum-Link Pflicht
 {
@@ -331,11 +340,11 @@ if (rechnerSeite && !/So rechnet der Rechner/.test(rechnerSeite.text)) { warn("S
   if (!nProbleme) pass("Leistungs-Nutzen", `${eintraege.length} Leistungen mit eigenem Kundennutzen als Unterzeile, kein Versprechen doppelt`);
 }
 // R3 (Jamil 20.10.2026, Talk 2787): Wo „Sanitär“ als Arbeit genannt wird, muss die Seite den
-// Partner-Meisterbetrieb nennen (Installateur-Handwerk ist meisterpflichtig und nicht eingetragen).
+// zugelassene Fachbetriebe nennen (Installateur-Handwerk ist meisterpflichtig und nicht eingetragen).
 for (const s of S) {
   if (s.noindex) continue; // Demo-Seiten (Login) zeigen nur Beispiel-Termine
   const m = s.text.match(/Sanitär(?!objekt)/);
-  if (m && !/Partner-?\s?Meisterbetrieb/i.test(s.text)) warn("Handwerksrecht (Jamil 20.10., R3)", `${s.page}: nennt „Sanitär“, aber nicht den Partner-Meisterbetrieb  ${ausschnitt(s.text, m.index)}`);
+  if (m && !/Fachbetrieb|Meisterbetrieb/i.test(s.text)) warn("Handwerksrecht (Jamil 20.10., R3)", `${s.page}: nennt „Sanitär“, aber nicht die zugelassenen Fachbetriebe  ${ausschnitt(s.text, m.index)}`);
 }
 // P1 (Jamil 20.10.2026, Talk 2787): Seiten schlank halten – Zeichnungen liegen als Dateien unter /szenen/
 // und werden nachgeladen (RoughSzene). Eine sehr große HTML-Datei heißt meist: Zeichnung wieder eingebettet.

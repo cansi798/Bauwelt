@@ -126,8 +126,14 @@ const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: numb
     z.pfad(`M${cx - 14 * s} ${cy + 18 * s}Q${cx - 14 * s} ${cy + 3 * s} ${cx} ${cy + 3 * s}Q${cx + 14 * s} ${cy + 3 * s} ${cx + 14 * s} ${cy + 18 * s}`,
       { stroke: F.goldDunkel, strokeWidth: 2.4 }, 0.3);
   },
-  antwort: (z, cx, cy, s) => z.text(cx, cy + 7 * s, "12h", { groesse: 19 * s, farbe: F.goldDunkel }),
-  angebot: (z, cx, cy, s) => z.text(cx, cy + 7 * s, "24h", { groesse: 19 * s, farbe: F.goldDunkel }),
+  // Versprechen-Check H3/H4 (27.10.2026): keine „12h/24h“ mehr in den Siegeln
+  antwort: (z, cx, cy, s) => z.text(cx, cy + 5 * s, "Mo–Fr", { groesse: 14 * s, farbe: F.goldDunkel }),
+  angebot: (z, cx, cy, s) => {
+    z.rundRechteck(cx - 13 * s, cy - 16 * s, 26 * s, 32 * s, 3 * s, { strokeWidth: 2.2 }, 0.4);
+    z.linie(cx - 7 * s, cy - 6 * s, cx + 7 * s, cy - 6 * s, { strokeWidth: 2 }, 0.2);
+    z.linie(cx - 7 * s, cy + 1 * s, cx + 7 * s, cy + 1 * s, { strokeWidth: 2 }, 0.2);
+    z.linie(cx - 7 * s, cy + 8 * s, cx + 1 * s, cy + 8 * s, { stroke: F.goldDunkel, strokeWidth: 2.4 }, 0.2);
+  },
   transparenz: (z, cx, cy, s) => {
     z.pfad(`M${cx - 17 * s} ${cy}Q${cx} ${cy - 16 * s} ${cx + 17 * s} ${cy}Q${cx} ${cy + 16 * s} ${cx - 17 * s} ${cy}Z`, { strokeWidth: 2.2 }, 0.4);
     z.kreis(cx, cy, 11 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
@@ -160,11 +166,11 @@ const SIEGEL_ZEILEN: Record<string, string[]> = {
   erfahrung: ["15+ Jahre", "Erfahrung im", "Handwerk"], // Audit K3
   deutsch: ["Deutsch-", "sprachiger An-", "sprechpartner"], // Kundenwunsch 15.10.2026 (55)
   regional: ["Regional", "vor Ort"],
-  festpreis: ["Festpreis-", "Zusage"], // Audit 4.2 (19.10.2026): „Zusage“ statt „Garantie“
-  termin: ["Termin-", "treue"],
+  festpreis: ["Klares", "Angebot"], // 27.10.2026 (Versprechen-Check H1): früher „Festpreis-Zusage“
+  termin: ["Klarer", "Zeitplan"], // früher „Termintreue“ (M1)
   ansprechpartner: ["Ein fester", "Ansprech-", "partner"], // Audit 7.6 (19.10.2026), früher „Deutschsprachiger Ansprechpartner“
-  antwort: ["Antwort", "innerhalb von", "12 Stunden"], // Audit 4.7: einheitlich „innerhalb von“
-  angebot: ["Angebot", "innerhalb von", "24 Stunden"],
+  antwort: ["Schnelle", "Antwort"], // 27.10.2026 (H3): früher „Antwort innerhalb von 12 Stunden“
+  angebot: ["Zügig zum", "Angebot"], // 27.10.2026 (H4): früher „Angebot innerhalb von 24 Stunden“
   transparenz: ["Volle", "Transparenz"],
   gewerke: ["Alle Gewerke", "aus einer Hand"],
 };
@@ -266,7 +272,7 @@ const PARTNER_TITEL: string[][] = [["Anfrage senden"], ["Abstimmung"], ["Umsetzu
 const PARTNER_UNTER: string[][] = [
   ["Beschreiben Sie kurz", "Ihr Anliegen."],
   ["Wir besprechen Umfang,", "Anforderungen und Abläufe."],
-  ["Festpreis, ein fester", "Ansprechpartner und", "saubere Dokumentation."],
+  ["Klares Angebot, fester", "Ansprechpartner und", "saubere Dokumentation."],
   ["Klare Prozesse für", "wiederkehrende Projekte."],
 ];
 const partnerWeg = (a: Ansicht) => wegSzene(a, PARTNER_TITEL, PARTNER_UNTER, [papierflieger, sprechblasen, dokument, wiederkehrend]);
@@ -298,25 +304,25 @@ const CHECK_UNTER: string[][] = [
   ["Online oder kurz", "per WhatsApp"],
   ["Vor Ort – gern", "gemeinsam mit Ihnen"],
   ["Sanierungsbedarf", "und Kosten"],
-  ["Bei Sanierung mit uns", "wird der Check angerechnet"],
+  ["Bei Sanierung mit uns", "rechnen wir ihn in der Regel an"],
 ];
 // Sicher wohnen (Audit 2.5): Ablauf aus den Seitentexten (Partnerpfleger, Maßnahmenliste, Anrechnung)
 const SICHER_TITEL: string[][] = [["Termin buchen"], ["Gemeinsame Prüfung"], ["Empfehlungen"], ["Sicher wohnen"]];
 const SICHER_UNTER: string[][] = [
   ["Online oder", "per Telefon"],
-  ["Zusammen mit unserem", "Partnerpfleger"],
+  ["Gemeinsam mit Ihnen", "vor Ort"],
   ["Priorisierte Maßnahmen", "und Kosteneinschätzung"],
-  ["Bei Umsetzung wird", "der Check angerechnet"],
+  ["Bei Umsetzung rechnen wir", "den Check in der Regel an"],
 ];
 const wegSicher = (a: Ansicht) => wegSzene(a, SICHER_TITEL, SICHER_UNTER, [kalender, lupeHaus, dokument, muenzeHaken]);
 const wegCheck = (a: Ansicht) => wegSzene(a, CHECK_TITEL, CHECK_UNTER, [kalender, lupeHaus, dokument, muenzeHaken]);
-// Kontakt: „Was nach Ihrer Anfrage passiert“ – nur bestehende Zusagen (12 h, Vor-Ort-Termin, 24 h)
+// Kontakt: „Was nach Ihrer Anfrage passiert“ – ohne feste Stundenzahlen (Versprechen-Check H3/H4, 27.10.2026)
 const KONTAKT_TITEL: string[][] = [["Anfrage senden"], ["Persönliche Antwort"], ["Termin vor Ort"], ["Klares Angebot"]];
 const KONTAKT_UNTER: string[][] = [
   ["WhatsApp, E-Mail,", "Telefon oder Rückruf"],
-  ["Innerhalb von 12 Stunden", "(werktags)"],
+  ["Zeitnah, in der Regel am", "selben oder nächsten Werktag"],
   ["Kostenlos und", "unverbindlich"],
-  ["Innerhalb von 24 Stunden", "nach dem Termin"],
+  ["Ihr schriftliches Angebot", "zeitnah nach dem Termin"],
 ];
 const wegKontakt = (a: Ansicht) => wegSzene(a, KONTAKT_TITEL, KONTAKT_UNTER, [papierflieger, chat, kalender, dokument]);
 

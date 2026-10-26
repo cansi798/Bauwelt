@@ -27,16 +27,18 @@ export const HERO = {
  *  Jamil 19.10.2026 (Talk 2531/2536, Variante A): 12 h Antwort / 24 h Angebot stehen NUR noch
  *  in „Unsere Versprechen“ (data/versprechen.ts), nicht mehr in dieser Leiste.
  *  Die alten Werte „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
-export const ZAHLEN = [
-  { wert: "40+", label: "sanierte Bäder" }, // bestätigt von Jamil 19.10.2026 („über 40 Bäder“)
-  { wert: "15+", label: "Jahre Erfahrung im Handwerk" }, // Audit K3: Erfahrung im Handwerk (GmbH seit ca. 2024)
-];
+// 27.10.2026 (Versprechen-Check H8): „40+ sanierte Bäder“ und „15+ Jahre Erfahrung“ entfernt – im Repo kein Beleg
+// (nur Aussage Jamil). Wieder aufnehmen, sobald eine interne Projektliste die Zahl stützt.
+export const ZAHLEN: { wert: string; label: string }[] = [];
 
 /** Belegbare Nachweise (Audit 6.2) – Jamil 19.10.2026 (Talk 2544/2547): stehen zusammen mit den
  *  ZAHLEN in EINER dunklen Vertrauensleiste (4 goldene Kreise, Komponente Vertrauensleiste.astro).
  *  Nachweis = belegbar (Impressum), NICHT zu verwechseln mit den Versprechen (Zusagen, versprechen.ts).
  *  Bewusst KEIN „Meister“ (Audit K2/K3). */
 export const NACHWEISE = [
+  // Belegt im Impressum / in der Konfiguration (SITE): Sitz, Öffnungszeiten, Versicherung, Handwerkskammer
+  { icon: "pin", label: `Persönlich vor Ort – Sitz in ${SITE.city}` },
+  { icon: "clock", label: `Erreichbar ${SITE.hours}` },
   { icon: "shield", label: "Versicherter Betrieb" },
   { icon: "hammer", label: "Eingetragen bei der Handwerkskammer Lübeck" },
 ];
@@ -57,12 +59,13 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
   {
     slug: "badsanierung",
     eyebrow: "Badsanierung",
-    pre: "Ihr neues Bad – fertig in ",
-    accent: "2 Wochen",
+    // Versprechen-Check H2 (27.10.2026): keine feste Zusage mehr („fertig in 2 Wochen“ vs. AGB § 11 „Termine unverbindlich“)
+    pre: "Ihr neues Bad – in der Regel in ",
+    accent: "wenigen Wochen",
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
-      "Fliesen, bodengleiche Dusche, Licht und Möbel – die Sanitär- und Elektro-Anschlüsse übernehmen unsere Partner-Meisterbetriebe. Sie wählen die Ausstattung, " + // R3 (20.10.)
-      "wir nennen Ihnen vorab einen festen Preis und halten Start- und Endtermin schriftlich im Auftrag fest.",
+      "Fliesen, bodengleiche Dusche, Licht und Möbel – die Sanitär- und Elektro-Anschlüsse führen zugelassene Fachbetriebe aus. Sie wählen die Ausstattung, " +
+      "wir erstellen Ihnen nach dem Vor-Ort-Termin ein transparentes Angebot und stimmen den Zeitplan vorab mit Ihnen ab.",
     bild: "hero-badsanierung.webp",
     alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
     cta: "Bad berechnen",
@@ -75,7 +78,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     text:
       "Wohnung geerbt, Haus gekauft, Altbau in die Jahre gekommen? Wir modernisieren " +
       "komplett – von der Renovierung einzelner Räume bis zur Kernsanierung. " +
-      "Ein Zeitplan, ein Festpreis, ein fester Ansprechpartner für alle Gewerke.",
+      "Ein abgestimmter Zeitplan, ein klares Angebot, ein fester Ansprechpartner für die Koordination aller Gewerke.",
     bild: "hero-sanierung-modernisierung.webp",
     alt: "Heller modernisierter Wohnraum mit hohen Decken",
     cta: "Sanierung berechnen",
@@ -120,23 +123,23 @@ export const USP = [
       "Keine Hotline, kein Callcenter, sondern Ihr fester Ansprechpartner.",
     szene: "uspRegional" as const,
     bild: "galerie-bad-07.webp",
-    alt: "Von Bauwelt saniertes Bad mit freistehender Wanne unter dem Dachfenster",
+    alt: "Bad mit freistehender Wanne unter dem Dachfenster",
   },
   {
     icon: "hand",
     title: "Alles aus einer Hand",
-    text: "Von Sanitär und Elektro bis zu Fliesen und Trockenbau aus einer Hand: Wir koordinieren alles – die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse unser Partner-Elektromeisterbetrieb.", // R3 (20.10.)
+    text: "Wir planen den Ablauf und koordinieren alle Gewerke – von Fliesen und Trockenbau bis zu Sanitär und Elektro. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus.", // H7 (27.10.2026)
     szene: "uspHand" as const,
     bild: "galerie-sanierung-02.webp",
-    alt: "Von Bauwelt modernisierte Küche mit beleuchteter Kochinsel",
+    alt: "Moderne Küche mit beleuchteter Kochinsel",
   },
   {
     icon: "euro",
-    title: "Zum Festpreis fertig",
+    title: "Ein klares Angebot",
     text: "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie ein transparentes Angebot mit klar definiertem Leistungsumfang.",
     szene: "uspFestpreis" as const,
     bild: "galerie-innenausbau-04.webp",
-    alt: "Von Bauwelt ausgebautes Büro mit Holzlamellen-Wand",
+    alt: "Büro mit Holzlamellen-Wand",
   },
 ];
 
@@ -154,7 +157,7 @@ export const STEPS = [
   },
   {
     title: "Klarheit erhalten",
-    text: "Erhalten Sie innerhalb von 24 Stunden ein transparentes Angebot und geben Sie Ihr Projekt digital frei.",
+    text: "Erhalten Sie zeitnah nach dem Termin ein transparentes Angebot und geben Sie Ihr Projekt digital frei.",
   },
   {
     title: "Zurücklehnen & genießen",
@@ -172,7 +175,7 @@ export const PORTAL = {
     {
       icon: "doc",
       title: "Alle Dokumente an einem Ort",
-      text: "Angebote, Rechnungen und wichtige Unterlagen jederzeit abrufbar.",
+      text: "Angebote und wichtige Unterlagen digital an einem Ort abrufbar.",
     },
     {
       icon: "calendar",
@@ -206,11 +209,11 @@ export const ANGEBOT = {
   ],
   /** Markierungen am Angebots-Mockup. */
   marker: [
-    "Festpreis",
+    "Gesamtpreis",
     "Leistungsumfang",
     "Projektbeschreibung",
     "Digitale Freigabe",
-    "Material- und Arbeitskosten getrennt für die Steuererklärung",
+    "Material- und Arbeitskosten getrennt ausgewiesen",
   ],
 };
 
@@ -224,19 +227,20 @@ export const FAQ_HOME = [
   // Termine § 11, Zahlung § 7, Abnahme § 15, Gewährleistung § 16). AGB: /agb/
   {
     q: "Was kostet meine Sanierung?",
-    a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Preisspanne. Den festen Preis nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin in einem schriftlichen Angebot. Darin steht genau, welche Leistungen enthalten sind.",
+    a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Orientierung. Ein genaues, schriftliches Angebot erstellen wir Ihnen nach einem kostenlosen Vor-Ort-Termin. Darin steht, welche Leistungen enthalten sind.",
   },
   // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): Mehrkosten nur nach schriftlichem Nachtrag;
   // R8: keine „5 Jahre Gewährleistung“ mehr (gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten)
   {
-    q: "Gilt der Festpreis wirklich?",
-    a: "Ja – für alle Leistungen, die im Angebot stehen. Zusätzlich berechnet wird nur, was nicht im Angebot enthalten ist: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Mehrkosten entstehen nur mit einem schriftlichen Nachtrag, den wir vorher mit Ihnen besprechen – nicht einfach mit einer höheren Rechnung.",
+    q: "Was passiert, wenn sich während der Arbeiten etwas ändert?",
+    a: "Im Angebot steht, welche Leistungen enthalten sind. Zusätzlich berechnet wird nur, was dort nicht steht: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Das besprechen wir vorher mit Ihnen, und Sie erhalten dazu einen schriftlichen Nachtrag – nicht einfach eine höhere Rechnung.",
   },
-  // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T1): Frage „Was ist im Festpreis nicht enthalten?“ entfernt –
+  // Versprechen-Check H1 (27.10.2026): Frage „Gilt der Festpreis wirklich?“ ersetzt (AGB § 2 „Angebote freibleibend“).
+// Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T1): Frage „Was ist im Festpreis nicht enthalten?“ entfernt –
   // sie sprach von „Pauschalpreis“ (nur für die Checks) und widersprach sich bei der Entsorgung.
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Eine Badsanierung dauert bei uns in der Regel rund 2 Wochen, größere Sanierungen planen wir individuell. Vor Beginn erhalten Sie einen verbindlichen Zeitplan: Start- und Endtermin halten wir schriftlich im Auftrag fest, bevor wir anfangen. Bei höherer Gewalt oder Materialengpässen verlängern sich Fristen angemessen.",
+    a: "Das hängt vom Umfang ab. Für eine Badsanierung planen wir in der Regel rund 2 Wochen ab Baustart ein, größere Sanierungen planen wir individuell. Den geplanten Zeitplan stimmen wir vor Beginn gemeinsam mit Ihnen ab; wünschen Sie verbindliche Termine, vereinbaren wir sie schriftlich. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",
@@ -246,11 +250,11 @@ export const FAQ_HOME = [
   // Leistungsseiten nur noch leistungsspezifische Fragen (+ Link hierher)
   {
     q: "Wie läuft der Vor-Ort-Termin ab?",
-    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich – absagen oder verschieben können Sie ihn jederzeit kostenfrei. Innerhalb von 24 Stunden erhalten Sie danach Ihr Angebot zum Festpreis. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
+    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Kommt etwas dazwischen, sagen Sie uns einfach Bescheid – wir finden einen neuen Termin. Danach erhalten Sie in der Regel zeitnah Ihr schriftliches Angebot; bei größeren Projekten nennen wir Ihnen den Zeitrahmen direkt vor Ort. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
   },
   {
     q: "Muss ich mehrere Handwerker koordinieren?",
-    a: "Nein. Wir koordinieren alle beteiligten Gewerke selbst. Sie haben einen festen Ansprechpartner, der Ihr Projekt von Anfang bis Ende begleitet. Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse und deren Abnahme unser Partner-Elektromeisterbetrieb.",
+    a: "Nein. Wir planen den Ablauf und koordinieren die beteiligten Gewerke für Sie. Ihr Ansprechpartner begleitet Ihr Projekt von Anfang bis Ende. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus; Endanschlüsse und Abnahme der Elektroarbeiten übernimmt ein zugelassener Elektromeisterbetrieb.",
   },
   {
     q: "Was passiert bei verdeckten Schäden?",
@@ -258,15 +262,15 @@ export const FAQ_HOME = [
   },
   {
     q: "Wie und wann bezahle ich?",
-    a: "Rechnungen zahlen Sie innerhalb von 14 Tagen ohne Abzug. Bei Aufträgen über 4.000 € zahlen Sie in drei Abschlägen: 30 % bei Arbeitsbeginn bzw. Materialbestellung, 60 % während der Arbeiten und 10 % nach Fertigstellung. Für speziell für Sie bestelltes Material kann eine Vorauskasse verlangt werden.",
+    a: "Rechnungen zahlen Sie innerhalb von 14 Tagen ohne Abzug. Bei Aufträgen über 4.000 € zahlen Sie in drei Abschlägen: 30 % bei Arbeitsbeginn bzw. Materialbestellung, 60 % während der Arbeiten und 10 % nach Fertigstellung. Alle Einzelheiten stehen in Ihrem Angebot und in § 7 unserer AGB.",
   },
   {
     q: "Was gilt bei Abnahme und Gewährleistung?",
-    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Es gilt die gesetzliche Gewährleistung (Einzelheiten in § 16 unserer AGB). Melden Sie Mängel bitte sofort, dann bessern wir nach. Für Material, das Sie selbst stellen, übernehmen wir keine Gewährleistung.",
+    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Für die Gewährleistung gelten die gesetzlichen Vorgaben und § 16 unserer AGB. Melden Sie Mängel bitte zeitnah, dann bessern wir nach. Für Material, das Sie selbst stellen, können wir keine Gewährleistung übernehmen.",
   },
   {
     q: "Was passiert, wenn ich einen Termin absagen muss?",
-    a: "Ihren kostenlosen Vor-Ort-Termin können Sie jederzeit kostenfrei absagen oder verschieben. Für die vereinbarten Termine der Arbeiten gilt: Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
+    a: "Für den kostenlosen Vor-Ort-Termin gilt: Kommt etwas dazwischen, sagen Sie uns bitte so früh wie möglich Bescheid – wir finden gemeinsam einen neuen Termin. Für die vereinbarten Termine der Arbeiten gilt: Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
   },
   // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];
@@ -279,7 +283,7 @@ export const FOOTER_KONTAKT = {
   sub: "Planbar. Transparent. Verlässlich.",
   text:
     // Audit 5.2: gekürzt – „Service-Standards moderner Dienstleistungsunternehmen“ steht auf Über uns
-    "Hochwertige Handwerksarbeit mit klaren Prozessen und persönlicher Betreuung.",
+    "Hochwertige Handwerksarbeit mit klaren Prozessen und persönlicher Betreuung. Lassen Sie uns gemeinsam Ihr Projekt angehen.",
   kontaktHead: "Sprechen Sie mit uns",
   kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
   zeiten: SITE.hours, // eine Quelle: src/consts.ts (Jamil 26.10.2026)

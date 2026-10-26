@@ -25,8 +25,8 @@
  *  - Innenausbau & Trockenbau: Werte unverändert, sind Bruttowerte (vom Kunden
  *    bestätigt 12.10.2026). Sanierung-Altwerte waren netto (ebenfalls bestätigt).
  *
- *  Das Ergebnis bleibt eine unverbindliche Ersteinschätzung; der Festpreis entsteht
- *  nach dem Vor-Ort-Termin.
+ *  Das Ergebnis bleibt eine unverbindliche Ersteinschätzung; der genaue Preis entsteht
+ *  im schriftlichen Angebot nach dem Vor-Ort-Termin (Versprechen-Check H6, 27.10.2026).
  *
  *  Module: `label`/`hint` sind LAIENSPRACHE (UI), `fach` ist der Fachbegriff –
  *  er landet im Anfrage-Text (WhatsApp/E-Mail), damit das Team sofort fachlich lesen
@@ -188,7 +188,7 @@ export const GEWERKE: Gewerk[] = [
           "Alte Dusche raus",
           "Bodengleiche Dusche rein",
           "Fliesen im Duschbereich neu – identische Fliesen sind nicht immer möglich, das Ergebnis wird trotzdem schön",
-          "Passend zum Budget der Pflegekasse für wohnumfeldverbessernde Maßnahmen",
+          "Orientiert am möglichen Zuschuss der Pflegekasse (bei anerkanntem Pflegegrad, Antrag vor Baubeginn)",
         ],
         bausteine: [
           { id: "demontage", label: "Alte Dusche raus", fach: "Demontage & Entsorgung Duschbereich", hint: "" },
@@ -198,8 +198,8 @@ export const GEWERKE: Gewerk[] = [
       },
     ],
     bausteine: [
-      { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau und Entsorgung von Wanne, Fliesen & Co." },
-      { id: "rohinstallation", label: "Wasser & Strom verlegen", fach: "Sanitär- & Elektro-Rohinstallation", hint: "Neue Leitungen für Dusche, WC und Waschtisch" },
+      { id: "demontage", label: "Altes Bad raus", fach: "Demontage & Entsorgung", hint: "Abbau von Wanne, Fliesen & Co. – Entsorgung laut Angebot" },
+      { id: "rohinstallation", label: "Wasser & Strom vorbereiten", fach: "Vorbereitung Sanitär- & Elektro-Rohinstallation (Anschlüsse durch Fachbetriebe)", hint: "Leitungen für Dusche, WC und Waschtisch vorbereiten" },
       { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche" },
       { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest" },
       { id: "ausstattung", label: "Neue Einrichtung", fach: "Objektmontage & Ausstattung", hint: "Dusche, WC, Waschtisch und Möbel montiert" },
@@ -227,7 +227,7 @@ export const GEWERKE: Gewerk[] = [
     bausteine: [
       { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
       { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
-      { id: "technik", label: "Leitungen & Technik neu", fach: "Elektro-, Sanitär- & Heizungsinstallation", hint: "Strom, Wasser und Heizung auf neuen Stand" },
+      { id: "technik", label: "Leitungen & Technik koordiniert", fach: "Koordination Elektro-, Sanitär- & Heizungsarbeiten (Fachbetriebe)", hint: "Strom, Wasser und Heizung – wir koordinieren die Fachbetriebe" },
       { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu" },
       { id: "endmontage", label: "Fertig einrichten", fach: "Endmontage & Übergabe", hint: "Alles montiert, geprüft und besenrein übergeben" },
     ],

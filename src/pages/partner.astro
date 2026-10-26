@@ -18,15 +18,15 @@ const mailPartner = `mailto:${EMAILS.partner}?subject=${encodeURIComponent("Anfr
 
 const ZIELGRUPPEN = [
   { icon: "reno", title: "Hausverwaltungen", text: "Ein Rahmen, viele Objekte. Ein fester Ansprechpartner, planbare Budgets und dokumentierte Ausführung." },
-  { icon: "euro", title: "Makler & Investoren", text: "Sanierungsmaßnahmen mit Festpreis und verbindlichem Zeitplan – Start- und Endtermin halten wir schriftlich im Auftrag fest, bevor wir anfangen." },
+  { icon: "euro", title: "Makler & Investoren", text: "Sanierungsmaßnahmen mit transparentem Angebot und abgestimmtem Zeitplan – auf Wunsch vereinbaren wir verbindliche Termine schriftlich." },
   { icon: "doc", title: "Architekten & Planer", text: "Saubere Ausführung, kurze Kommunikationswege und zuverlässige Umsetzung Ihrer Planung." },
   { icon: "hammer", title: "Fachbetriebe", text: "Langfristige Zusammenarbeit auf Augenhöhe. Faire Bezahlung und verlässliche Projektabläufe." },
 ];
 
 const WARUM = [
   { icon: "doc", title: "Dokumentierte Abläufe", text: "Klare Kommunikation und nachvollziehbare Projektstände." },
-  { icon: "clock", title: "Schnelle Reaktionszeiten", text: "Antwort innerhalb von 12 Stunden." },
-  { icon: "user", title: "Ein fester Ansprechpartner", text: "Keine wechselnden Kontakte oder lange Abstimmungsketten." },
+  { icon: "clock", title: "Zeitnahe Rückmeldung", text: "Wir melden uns in der Regel am selben oder nächsten Werktag." },
+  { icon: "user", title: "Ein fester Ansprechpartner", text: "Kurze Abstimmungswege und ein persönlicher Ansprechpartner für Ihr Projekt." },
   { icon: "hand", title: "Koordination aus einer Hand", text: "Ein fester Ansprechpartner für die komplette Umsetzung." },
 ];
 
@@ -41,7 +41,7 @@ const HAUSVERWALTUNGEN = [
 const ABLAUF = [
   { title: "Anfrage senden", text: "Beschreiben Sie kurz Ihr Anliegen." },
   { title: "Abstimmung", text: "Wir besprechen Umfang, Anforderungen und Abläufe." },
-  { title: "Umsetzung", text: "Festpreis, ein fester Ansprechpartner und saubere Dokumentation." },
+  { title: "Umsetzung", text: "Transparentes Angebot, ein fester Ansprechpartner und saubere Dokumentation." },
   { title: "Langfristige Zusammenarbeit", text: "Klare Prozesse für wiederkehrende Projekte." },
 ];
 ---
@@ -53,7 +53,7 @@ const ABLAUF = [
   ] /* Audit 1.7 */}
   footerNurNav
   title="Partner für Sanierungen in Norderstedt | Bauwelt Handwerk"
-  description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe in Norderstedt, Hamburg und Umkreis – Sanierung zum Festpreis, fester Ansprechpartner."
+  description="Zusammenarbeit für Hausverwaltungen, Makler, Architekten und Fachbetriebe in Norderstedt, Hamburg und Umkreis – transparentes Angebot, fester Ansprechpartner."
 >
   <!-- 1. Hero (weicher Trennstrich in „Zusammenarbeit“: das lange Wort passt am Handy mit 360 px sonst nicht in die Zeile) -->
   <PageHero
@@ -154,7 +154,7 @@ const ABLAUF = [
         eyebrow="Kontakt für Partner"
         pre="Lassen Sie uns "
         accent="sprechen."
-        text="Schreiben Sie uns kurz, worum es geht. Wir melden uns innerhalb von 12 Stunden mit einem Terminvorschlag zurück."
+        text="Schreiben Sie uns kurz, worum es geht. Wir melden uns zeitnah mit einem Terminvorschlag bei Ihnen."
       />
       <div class="partner__buttons">
         <a class="btn btn--lg" href={mailPartner}>

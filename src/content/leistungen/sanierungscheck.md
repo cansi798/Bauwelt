@@ -9,12 +9,12 @@ beschreibung: "Immobilien-Sanierungscheck in Norderstedt & Hamburg: Chancen, Ris
 h1Akzent: "Pauschalpreis"
 pauschalpreis: 595
 # 500 € netto + 19 % MwSt. = 595 € brutto (Kundenwunsch 12.10.2026)
-pauschalHinweis: "Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an."
+pauschalHinweis: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung."
 siegel: "transparenz"
 ablaufZiel: "Ergebnis"
 warum:
   - { icon: "eye", title: "Der Blick vom Fach", text: "Wir sanieren selbst Bäder, Wohnungen und Häuser – und wissen, worauf es bei einer Immobilie ankommt." }
-  - { icon: "euro", title: "Wird bei Sanierung angerechnet", text: "Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an." } # Audit 5.7: Preis nicht noch einmal
+  - { icon: "euro", title: "Anrechnung bei Sanierung", text: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung." } # Audit 5.7: Preis nicht noch einmal
   - { icon: "doc", title: "Klare Zahlen für Ihre Entscheidung", text: "Eine erste Kosteneinschätzung hilft Ihnen bei Kaufpreis, Budget und Finanzierung." }
 umfang:
   - "Besichtigung der Immobilie vor Ort – gern gemeinsam mit Ihnen"
@@ -36,12 +36,13 @@ kacheln:
   - { icon: "chat", title: "Persönliches Gespräch" }
 ablaufTitel: "So *einfach* geht’s"
 faq:
-  - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
+  - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
   - { q: "Wann lohnt sich der Check?", a: "Vor allem vor dem Kauf einer Wohnung oder eines Hauses – aber auch, wenn Sie Ihre eigene Immobilie sanieren möchten und vorab wissen wollen, was sinnvoll ist und was es kostet." }
   - { q: "Kann ich bei der Besichtigung dabei sein?", a: "Ja, gern. Wir schauen uns die Immobilie am liebsten gemeinsam mit Ihnen an und beantworten Ihre Fragen direkt vor Ort." }
+  - { q: "Ist der Check wie der Vor-Ort-Termin kostenlos?", a: "Nein. Der Immobilien-Sanierungscheck ist ein Termin zum Pauschalpreis. Unabhängig davon ist der Vor-Ort-Termin für ein Angebot zu Ihrer eigenen Sanierung kostenlos und unverbindlich." }
   - { q: "Ist der Sanierungscheck ein Wertgutachten?", a: "Nein. Der Check ist eine Einschätzung aus Handwerkersicht zu Zustand, Sanierungsbedarf und Kosten. Ein Verkehrswertgutachten durch einen Sachverständigen ersetzt er nicht." }
 ---
 
 Sie haben eine Wohnung oder ein Haus im Blick, wissen aber nicht, welche Sanierungskosten nach dem Kauf auf Sie zukommen?
 
-Genau dafür sind wir da. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten – zum Pauschalpreis von 595 € inkl. MwSt. Entscheiden Sie sich anschließend für eine Sanierung mit uns, rechnen wir die Kosten des Checks auf den Endpreis an.
+Genau dafür sind wir da. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten – zum Pauschalpreis von 595 € inkl. MwSt. Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung.

@@ -1,3 +1,5 @@
+import { SITE } from "../consts";
+
 /** Eigene Versprechen-Siegel der Bauwelt Handwerk GmbH.
  *  WICHTIG (UWG): Das sind EIGENE Zusagen, keine fremden Prüfzeichen.
  *  Wording darf nie "Testsieger", "geprüft durch", "zertifiziert von" suggerieren. */
@@ -16,28 +18,32 @@ export const VERSPRECHEN: Siegel[] = [
   {
     id: "festpreis",
     icon: "euro",
-    title: "Festpreis-Zusage",
+    title: "Klares Angebot",
     // Kundenwunsch 19.10.2026 (Talk, Abgleich mit AGB § 2–§ 6): Festpreis gilt für alles im Angebot,
     // Änderungen nur mit schriftlichem Nachtrag – vorher abgesprochen.
     // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): „keine Überraschungen auf der Rechnung“ entfällt
     // (passt nicht zu AGB § 2/§ 6) → „Mehrkosten nur nach schriftlichem Nachtrag“.
-    short: "Festpreis für alles im Angebot – Mehrkosten nur nach schriftlichem Nachtrag.",
+    // Jamil 27.10.2026 (Versprechen-Check H1): kein „Festpreis“ mehr (AGB § 2: Angebote freibleibend) →
+    // „transparentes Angebot“, Zusatzarbeiten nur nach Absprache.
+    short: "Nach dem Vor-Ort-Termin erhalten Sie ein schriftliches Angebot – Zusätzliches nur nach Absprache mit Ihnen.",
     long:
-      "Festpreis für alles, was im Angebot steht. Mehrkosten entstehen nur mit einem schriftlichen " +
-      "Nachtrag: Ändert sich etwas – etwa durch Ihre Zusatzwünsche oder versteckte Schäden –, " +
-      "sprechen wir vorher mit Ihnen und Sie erhalten den Nachtrag schriftlich.",
+      "Nach dem kostenlosen Vor-Ort-Termin erhalten Sie ein transparentes, schriftliches Angebot. " +
+      "Darin steht, welche Leistungen enthalten sind. Ändert sich während der Arbeiten etwas – etwa " +
+      "durch Ihre Zusatzwünsche oder versteckte Schäden –, sprechen wir vorher mit Ihnen und Sie " +
+      "erhalten dazu einen schriftlichen Nachtrag.",
   },
   {
     id: "termin",
     icon: "clock",
-    title: "Termintreue",
-    // Kundenwunsch 19.10.2026 (AGB § 11: verbindlich = schriftlich vereinbart)
-    short: "Verbindlicher Zeitplan – Start- und Endtermin stehen schriftlich im Auftrag.",
+    title: "Klarer Zeitplan",
+    // Versprechen-Check M1 (27.10.2026): AGB § 11 „Termine unverbindlich, außer schriftlich als verbindlich vereinbart“
+    // → „abgestimmter Zeitplan“, verbindliche Termine nur auf Wunsch und schriftlich.
+    short: "Wir stimmen den Zeitplan mit Ihnen ab und halten Sie auf dem Laufenden.",
     long:
-      "Verbindlicher Zeitplan – Start- und Endtermin halten wir schriftlich im Auftrag " +
-      "fest, bevor wir anfangen. Wir koordinieren alle Gewerke selbst, deshalb können wir Termine " +
-      "auch halten. Verzögert sich etwas aus Gründen, die wir zu vertreten haben, " +
-      "erfahren Sie es sofort von uns – nicht von der leeren Baustelle.",
+      "Vor Beginn stimmen wir den geplanten Zeitplan gemeinsam mit Ihnen ab. Wir koordinieren die " +
+      "Gewerke selbst – das hilft uns, Termine einzuhalten. Wünschen Sie einen verbindlichen Termin, " +
+      "vereinbaren wir ihn schriftlich mit Ihnen. Verschiebt sich etwas, erfahren Sie es sofort von " +
+      "uns – nicht von der leeren Baustelle.",
   },
   {
     id: "ansprechpartner",
@@ -45,37 +51,39 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Ein fester Ansprechpartner", // Kundenwunsch 19.10.2026 (Audit 7.6/4.6), früher „Deutschsprachiger Ansprechpartner“
     short: "Eine Nummer für alles – vom Angebot bis zur Abnahme.",
     long:
-      "Bei uns koordinieren Sie keine fünf Firmen. Sie haben einen persönlichen " +
-      "Ansprechpartner, der Ihr Projekt vom ersten Gespräch bis zur Übergabe begleitet " +
-      "und alle Gewerke steuert. Innerhalb von 12 Stunden erhalten Sie eine Antwort – " +
-      "auch per WhatsApp.",
+      "Bei uns koordinieren Sie keine fünf Firmen. Ein persönlicher Ansprechpartner " +
+      "begleitet Ihr Projekt vom ersten Gespräch bis zur Übergabe und hält die Fäden zusammen – " +
+      "erreichbar per Telefon, WhatsApp oder E-Mail.",
   },
   {
     id: "antwort",
     icon: "clock",
-    title: "Antwort innerhalb von 12 Stunden",
-    short: "Sie warten nicht tagelang auf einen Rückruf.",
+    title: "Schnelle Antwort",
+    // Versprechen-Check H3 (27.10.2026): keine feste Stundenzahl (passt nicht zu Mo. – Fr. 08:00 bis 18:00 Uhr)
+    short: "Wir melden uns zeitnah – in der Regel am selben oder nächsten Werktag.",
     long:
-      "Ob Anruf, WhatsApp oder E-Mail – auf Ihre Anfrage erhalten Sie werktags innerhalb von " +
-      "12 Stunden eine persönliche Antwort von Ihrem festen Ansprechpartner.",
+      "Ob Anruf, WhatsApp oder E-Mail: Wir melden uns zeitnah bei Ihnen – in der Regel am selben " +
+      `oder am nächsten Werktag (${SITE.hours}).`,
   },
   {
     id: "angebot",
     icon: "doc",
-    title: "Angebot innerhalb von 24 Stunden",
-    short: "Nach dem Vor-Ort-Termin schnell Klarheit.",
+    title: "Zügig zum Angebot",
+    // Versprechen-Check H4 (27.10.2026): keine 24-Stunden-Frist (bei Komplettsanierung unrealistisch)
+    short: "Nach dem Vor-Ort-Termin bekommen Sie schnell Klarheit.",
     long:
-      "Nach dem Vor-Ort-Termin erhalten Sie innerhalb von 24 Stunden ein verständliches " +
-      "Angebot mit klaren Leistungen und festen Preisen – digital abrufbar und freigebbar.",
+      "Nach dem Vor-Ort-Termin erhalten Sie in der Regel zeitnah Ihr Angebot mit klar beschriebenen " +
+      "Leistungen – digital abrufbar und freigebbar. Bei größeren Projekten nennen wir Ihnen den " +
+      "Zeitrahmen direkt vor Ort.",
   },
   {
     id: "transparenz",
     icon: "eye",
     title: "Volle Transparenz",
-    short: "Sie wissen jederzeit, was passiert – und was es kostet.",
+    short: "Sie wissen, was passiert – und was es kostet.",
     long:
-      "Verständliche Angebote ohne Positionsdschungel, ein Kundenportal mit aktuellem " +
-      "Projektstatus und alle Dokumente an einem Ort – Sie behalten jederzeit den Überblick.",
+      "Verständliche Angebote ohne Positionsdschungel, ein Kundenportal für Ihre Unterlagen und " +
+      "Termine und klare Absprachen – damit Sie den Überblick behalten.",
   },
   {
     id: "gewerke",
@@ -83,10 +91,10 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Alle Gewerke aus einer Hand",
     short: "Wir koordinieren alle Arbeiten – Sie lehnen sich zurück.",
     long:
-      "Abbruch, Mauerarbeiten, Trockenbau, Sanitär, Elektro, Fliesen, Böden und Maler: " +
-      "Wir planen und steuern alle Gewerke selbst, damit Termine und Übergänge passen. " +
-      "Die Sanitär-Anschlüsse übernimmt unser Partner-Meisterbetrieb, die Elektro-Endanschlüsse " + // R3 (Jamil 20.10., Talk 2787)
-      "unser Partner-Elektromeisterbetrieb.",
+      "Wir planen den Ablauf und koordinieren die beteiligten Gewerke – vom Rückbau über Trockenbau, " +
+      "Fliesen und Böden bis zu Sanitär und Elektro –, damit Termine und Übergänge passen. " +
+      // Versprechen-Check H7/M5 (27.10.2026): keine Aussagen über namenlose Partner/Meisterbetriebe ohne Beleg
+      "Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus.",
   },
 ];
 

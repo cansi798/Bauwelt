@@ -19,9 +19,9 @@ import { EMAILS, SITE, waLink } from "../consts";
 const VERGUETUNG_FREIGEGEBEN = false;
 
 const ERWARTET = [
-  { icon: "euro", title: "Leistung wird belohnt", text: "Neben einem fairen Grundgehalt können Sie durch erfolgreich abgeschlossene Projekte zusätzliche Prämien erhalten." },
-  { icon: "arrow", title: "Mehr verdienen statt nur mehr arbeiten", text: "Wer Verantwortung übernimmt, sauber arbeitet und gute Ergebnisse liefert, soll auch finanziell davon profitieren." },
-  { icon: "reno", title: "Regionale Baustellen", text: "Unsere Projekte liegen in Hamburg und Umgebung. Abends zu Hause statt auf Montage." },
+  { icon: "euro", title: "Leistung soll sich lohnen", text: "Wir möchten fair bezahlen und gute Projekte zusätzlich belohnen. Wie das genau aussieht, besprechen wir persönlich im Gespräch." },
+  { icon: "arrow", title: "Verantwortung zahlt sich aus", text: "Wer Verantwortung übernimmt, sauber arbeitet und gute Ergebnisse liefert, soll auch finanziell davon profitieren." },
+  { icon: "reno", title: "Regionale Baustellen", text: "Unsere Projekte liegen in Hamburg und Umgebung – in der Regel sind Sie abends wieder zu Hause." },
   { icon: "hand", title: "Direkter Draht zur Geschäftsführung", text: "Kurze Wege, schnelle Entscheidungen und ein Team, in dem jede Meinung zählt." },
 ];
 
@@ -50,13 +50,13 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
   ] /* Audit 1.7 */}
   footerNurNav
   title="Karriere – Jobs in Norderstedt | Bauwelt Handwerk" /* S2 (Jamil 20.10., Talk 2787): ≤ 60 Zeichen, Ende „… Handwerk“ */
-  description="Jobs im Handwerk in Norderstedt: faires Grundgehalt plus Projektprämien, Baustellen in Norderstedt, Hamburg und Umkreis. Bewerbung per WhatsApp oder E-Mail."
+  description="Jobs im Handwerk in Norderstedt: Gute Arbeit soll sich lohnen. Baustellen in Norderstedt, Hamburg und Umkreis. Bewerbung per WhatsApp oder E-Mail."
 >
   <!-- 1. Hero -->
   <PageHero
     eyebrow="Karriere"
-    pre="Gute Handwerker verdienen "
-    accent="mehr."
+    pre="Gute Arbeit soll sich "
+    accent="lohnen."
     lead="Wir suchen Menschen, die sauberes Handwerk, klare Prozesse und Verantwortung schätzen."
   >
     {/* Jamil 21.10.2026 (Msg 2880): keine Gesichter auf Karriere (die stehen auf Über uns), sondern eine
@@ -94,8 +94,8 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     <div class="container karriere__bonus">
       <SectionHead center eyebrow="Leistung soll sich lohnen" pre="Faire Bezahlung. Prämien für gute " accent="Projekte." /> {/* Audit 4.8: positiv statt abwertend */}
       <div class="karriere__prosa">
-        <p class="lead">Wir bezahlen fair – und belohnen gute Projekte zusätzlich.</p>
-        <p>Deshalb kombinieren wir ein faires Grundgehalt mit leistungsabhängigen Projektprämien.</p>
+        <p class="lead">Wir möchten fair bezahlen – und gute Projekte zusätzlich belohnen.</p>
+        <p>Die Einzelheiten besprechen wir gern persönlich mit Ihnen.</p>
         <p>Wer Projekte in hoher Qualität und innerhalb der vereinbarten Zeit abschließt, profitiert direkt vom gemeinsamen Erfolg.</p>
       </div>
     </div>
@@ -147,7 +147,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
     <div class="container">
       {hatStellen
         ? <SectionHead eyebrow="Offene Stellen" pre="Aktuell suchen " accent="wir …" />
-        : <SectionHead eyebrow="Bewerben" pre="Initiativ bewerben – wir suchen immer gute " accent="Leute." /> /* Audit 6.8 (19.10.2026) */}
+        : <SectionHead eyebrow="Bewerben" pre="Initiativ bewerben – wir freuen uns auf gute " accent="Leute." /> /* Audit 6.8 (19.10.2026) */}
       <div class:list={["grid", "stellen__grid", { "stellen__grid--leer": !hatStellen }]}>
         {stellen.map((s) => (
           <article class="card stelle reveal">
@@ -177,7 +177,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
             <h3>Initiativbewerbung</h3>
           </header>
           <p class="stelle__text">
-            Gute Handwerker finden bei uns immer einen Platz.
+            Wir freuen uns über Bewerbungen von guten Handwerkern.
           </p>
           <p class="stelle__text">
             Erzählen Sie uns kurz, wer Sie sind und was Sie können. Den Rest besprechen wir persönlich.
@@ -203,7 +203,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
       <div class="karriere__prosa">
         <p class="lead">Kein Bewerbungsportal. Kein Anschreiben-Roman. Keine komplizierten Formulare.</p>
         <p>Eine kurze Nachricht oder Ihr Lebenslauf genügt.</p>
-        <p>Wir melden uns innerhalb von 24 Stunden zurück.</p>
+        <p>Wir melden uns zeitnah bei Ihnen.</p>
       </div>
       <div class="karriere__buttons">
         <a class="btn btn--lg" href={mailBewerbung("Bewerbung")}>

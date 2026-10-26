@@ -111,7 +111,7 @@ const description =
   l.data.beschreibung ??
   // Ziel ~140–160 Zeichen: langer Zusatz, wenn er passt, sonst kurzer, sonst nur Teaser.
   ([
-    `${l.data.teaser} In Norderstedt, Hamburg und Umkreis – Festpreis nach Vor-Ort-Termin.`,
+    `${l.data.teaser} In Norderstedt, Hamburg und Umkreis – Angebot nach Vor-Ort-Termin.`,
     `${l.data.teaser} In Norderstedt, Hamburg und Umkreis.`,
     l.data.teaser,
   ].find((d) => d.length <= 160) ?? l.data.teaser);
@@ -270,7 +270,7 @@ const description =
       {pauschal ? (
         <RoughSzene
           szene="wegCheck"
-          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder kurz per WhatsApp. 2. Besichtigung – vor Ort, gern gemeinsam mit Ihnen. 3. Einschätzung – Sanierungsbedarf und Kosten. 4. Sicher entscheiden – bei einer Sanierung mit uns wird der Check angerechnet."
+          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder kurz per WhatsApp. 2. Besichtigung – vor Ort, gern gemeinsam mit Ihnen. 3. Einschätzung – Sanierungsbedarf und Kosten. 4. Sicher entscheiden – bei einer Sanierung mit uns rechnen wir den Check in der Regel an."
         />
       ) : (
         <RoughSzene
@@ -293,7 +293,7 @@ const description =
         <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: `} accent="Gut zu wissen" />
         <Faq items={l.data.faq} withCta />
         {/* Audit 5.6: allgemeine Fragen (Festpreis, Vor-Ort-Termin, Ablauf) stehen einmal auf der Startseite */}
-        <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Festpreis, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>
+        <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Angebot, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>
       </div>
     </section>
   )}

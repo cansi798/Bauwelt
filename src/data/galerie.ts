@@ -39,7 +39,7 @@ export const GALERIE: GalerieGruppe[] = [
   {
     id: "sanierung",
     slogan: "Bestehendes modern gedacht.",
-    intro: "Ob einzelne Räume oder ganze Wohnbereiche – hier sehen Sie Beispiele realisierter Modernisierungen.",
+    intro: "Ob einzelne Räume oder ganze Wohnbereiche – hier sehen Sie Beispiele für Modernisierungen.",
     title: "Komplettsanierung & Modernisierung", // Kundenwunsch 16.10.2026 (73): neuer Leistungsname
     href: u("leistungen/sanierung-modernisierung/"),
     bilder: [

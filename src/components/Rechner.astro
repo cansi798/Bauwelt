@@ -90,7 +90,7 @@ const weich = (t: string) =>
   {intro ? <>{intro} ({MWST_HINWEIS})</> : <>{start
     ? "Wählen Sie Ihre Leistung und sehen Sie sofort, womit Sie rechnen können – unverbindlich und ohne Kontaktdaten."
     : "In einer Minute zur ersten Preisspanne – unverbindlich und ohne Kontaktdaten."}
-  {" "}Unsere Preise liegen sehr nah am tatsächlichen Preis: keine Lockangebote, sondern realistische Werte ({MWST_HINWEIS.replace("Bruttopreise", "Bruttopreise")}).</>}
+  {" "}Die Preisspanne ist eine erste Orientierung – genaue Preise nennen wir Ihnen nach dem Vor-Ort-Termin ({MWST_HINWEIS}).</>}
 </p>
 
 <div
@@ -233,15 +233,15 @@ const weich = (t: string) =>
         Angaben ändern
       </button>
       <p class="small rechner__disclaimer">
-        Unverbindliche Preisspanne, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
-        Ihren <strong>Festpreis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
+        Unverbindliche Orientierung, inkl. Material und Arbeit – {MWST_HINWEIS.replace("Bruttopreise", "Bruttopreis")}
+        Den <strong>genauen Preis</strong> nennen wir Ihnen nach einem kostenlosen Vor-Ort-Termin.
       </p>
       {/* Kundenwunsch 19.10.2026 (Audit 6.3): Rückruf-Formular direkt unter der Preisspanne */}
       <RueckrufFormular
         id={`rRueckruf-${variant}`}
         rechner
         titel="Rückruf zu Ihrer Preisspanne"
-        text="Name und Telefonnummer genügen – wir rufen Sie innerhalb von 12 Stunden zurück und besprechen Ihr Projekt."
+        text="Name und Telefonnummer genügen – wir melden uns zeitnah, in der Regel am selben oder nächsten Werktag, und besprechen Ihr Projekt gemeinsam mit Ihnen."
         betreff="Rückruf zur Preisspanne"
       />
       <div class="rechner__contact">
@@ -942,7 +942,7 @@ const weich = (t: string) =>
           : [g.label, masse, `Niveau: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
-        ? gruppe("Das ist enthalten", [...t.enthalten, ...extras.map((x) => x.label)])
+        ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
         : gruppe("Enthaltene Arbeiten", arbeiten.map((m) => m.label));
       wahl.innerHTML = html;
 
@@ -969,7 +969,7 @@ const weich = (t: string) =>
         ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\n💶 Preisspanne: ${preisZeile}\n\n` +
-        `Bitte melden Sie sich bei mir für ein verbindliches Angebot. Vielen Dank! 🙏`;
+        `Bitte melden Sie sich bei mir für ein Angebot. Vielen Dank! 🙏`;
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
       waBtn.dataset.text = waText;
 
@@ -985,7 +985,7 @@ const weich = (t: string) =>
         ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\nPreisspanne: ${preisZeile}\n\n` +
-        `Bitte rufen Sie mich für ein verbindliches Angebot zurück.\n\n` +
+        `Bitte rufen Sie mich für ein Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
       mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       // Rückruf-Formular (Audit 6.3): Berechnung als Zusammenfassung mitschicken

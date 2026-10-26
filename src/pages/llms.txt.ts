@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { BASE, EMAILS, LEISTUNGEN, SITE } from "../consts";
 import { GEWERKE, berechne, preisText, MWST_HINWEIS } from "../data/rechner";
 import { REGION_CITIES, REGION_TEXT } from "../data/region";
-import { FAQ_HOME, ZAHLEN } from "../data/home";
+import { FAQ_HOME } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
 
 // llms.txt – kompakte Zusammenfassung für KI-Assistenten (SEO-/KI-Audit K2, 19.10.2026).
@@ -30,7 +30,7 @@ export const GET: APIRoute = async ({ site }) => {
   const txt = `# ${SITE.legal}
 
 > Handwerksbetrieb aus ${SITE.city} bei Hamburg für Badsanierung, Komplettsanierung & Modernisierung,
-> Fliesen- & Bodenlegerarbeiten sowie Innenausbau & Trockenbau – mit Festpreis-Zusage nach einem
+> Fliesen- & Bodenlegerarbeiten sowie Innenausbau & Trockenbau – mit transparentem Angebot nach einem
 > kostenlosen Vor-Ort-Termin und einem festen Ansprechpartner. Dazu zwei Checks zum Pauschalpreis:
 > Immobilien-Sanierungscheck und Sicher-wohnen-Check.
 
@@ -38,15 +38,14 @@ export const GET: APIRoute = async ({ site }) => {
 
 ${leistungen}
 
-Alle Preise: ${MWST_HINWEIS} Den verbindlichen Festpreis nennen wir nach einem kostenlosen Vor-Ort-Termin.
+Alle Preise: ${MWST_HINWEIS} Den genauen Preis nennen wir im schriftlichen Angebot nach einem kostenlosen Vor-Ort-Termin.
 Online-Rechner (Preisspanne ohne Kontaktdaten): ${o}rechner/
 
 ## Fakten
 
-${ZAHLEN.map((z) => `- ${z.wert} ${z.label}`).join("\n")}
 ${VERSPRECHEN.map((k) => `- ${k.title}: ${k.short}`).join("\n")}
 - Eingetragen bei der Handwerkskammer Lübeck; versicherter Betrieb
-- Referenzen (echte Projektfotos aus Hamburg und Norderstedt): ${o}referenzen/
+- Referenzen (Projektbeispiele): ${o}referenzen/
 
 ## Einzugsgebiet
 

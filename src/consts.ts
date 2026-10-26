@@ -18,7 +18,7 @@ export const EMAILS = {
 export const SITE = {
   name: "Bauwelt Handwerk",
   legal: "Bauwelt Handwerk GmbH",
-  tagline: "Badsanierung zum Festpreis – alles aus einer Hand",
+  tagline: "Badsanierung und Sanierung – alles aus einer Hand",
   region: "Hamburg und Umgebung",
   phoneDisplay: "0151 42888841",
   phoneTel: "+4915142888841",

@@ -58,8 +58,8 @@ const ergebnis = [
 const vorteile = [
   { icon: "calendar", titel: "Kleine Maßnahmen, große Wirkung" /* Audit 5.5: nicht doppelt mit der H2 */, text: "Viele Maßnahmen sind klein und kostengünstig, erhöhen aber Sicherheit und Komfort deutlich. Oft reichen bereits wenige Anpassungen, um das tägliche Leben spürbar zu erleichtern." },
   // Audit 5.7: Preis steht oben im Startbild und im Abschluss – hier ohne Betrag
-  { icon: "euro", titel: "Wird bei Umsetzung angerechnet", text: l.data.pauschalHinweis ?? "" },
-  { icon: "hand", titel: "Zusammen mit unserem Partnerpfleger", text: "Beim Sicher-wohnen-Check arbeiten wir mit einem Partnerpfleger zusammen." },
+  { icon: "euro", titel: "Anrechnung bei Umsetzung", text: l.data.pauschalHinweis ?? "" },
+  { icon: "hand", titel: "Gemeinsam mit Ihnen", text: "Wir gehen die Räume gemeinsam mit Ihnen (und gern mit Ihren Angehörigen) durch und beantworten Ihre Fragen direkt vor Ort." },
 ];
 ---
 
@@ -98,7 +98,7 @@ const vorteile = [
           {/* Audit 5.7: Preis-Kasten entfernt – der Preis steht im Startbild und im Abschluss */}
         </div>
         <figure class="zc-intro__bild reveal">
-          <Img src="galerie-bad-06.webp" alt="Von Bauwelt umgebautes Bad mit bodengleicher Walk-in-Dusche" w={4} h={5} />
+          <Img src="galerie-bad-06.webp" alt="Bad mit bodengleicher Walk-in-Dusche" w={4} h={5} />
         </figure>
       </div>
     </section>
@@ -137,7 +137,7 @@ const vorteile = [
         <SectionHead center eyebrow="Ablauf" titel="So läuft der *Check* ab" />
         <RoughSzene
           szene="wegSicher"
-          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder per Telefon. 2. Gemeinsame Prüfung – zusammen mit unserem Partnerpfleger. 3. Empfehlungen – priorisierte Maßnahmen und Kosteneinschätzung. 4. Sicher wohnen – bei Umsetzung wird der Check angerechnet."
+          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder per Telefon. 2. Gemeinsame Prüfung – gemeinsam mit Ihnen vor Ort. 3. Empfehlungen – priorisierte Maßnahmen und Kosteneinschätzung. 4. Sicher wohnen – bei Umsetzung rechnen wir den Check in der Regel an."
         />
       </div>
     </section>
@@ -179,7 +179,7 @@ const vorteile = [
     <!-- 8. Abschluss -->
     <section class="section section--sand zc-abschluss">
       <div class="container">
-        <SectionHead center eyebrow={leistung.unterschrift} titel="*Zuhause bleiben.* Sicher leben." />
+        <SectionHead center eyebrow={leistung.unterschrift} titel="*Zuhause bleiben.* Sicherer leben." />
         <p class="zc-abschluss__text">
           Mit dem Sicher-wohnen-Check erhalten Sie Klarheit darüber, wie Ihr Zuhause heute und in Zukunft zu Ihnen passen kann.
         </p>
@@ -191,7 +191,7 @@ const vorteile = [
             <Icon name="phone" size={22} class="icon" /> Lieber anrufen: {SITE.phoneDisplay}
           </a>
         </div>
-        <p class="zc-abschluss__preis">Pauschal {preis} € inkl. MwSt. · wird bei Umsetzung angerechnet</p>
+        <p class="zc-abschluss__preis">Pauschal {preis} € inkl. MwSt. · Anrechnung bei Umsetzung möglich</p>
       </div>
     </section>
 

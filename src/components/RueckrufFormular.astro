@@ -26,7 +26,7 @@ interface Props {
 const {
   id,
   titel = "Wir rufen Sie zurück",
-  text = "Name und Telefonnummer genügen – wir melden uns innerhalb von 12 Stunden bei Ihnen.",
+  text = "Name und Telefonnummer genügen – wir melden uns zeitnah bei Ihnen, in der Regel am selben oder nächsten Werktag.",
   betreff = "Rückruf-Anfrage über die Website",
   rechner = false,
 } = Astro.props;
@@ -219,7 +219,7 @@ const {
           });
           if (!r.ok) throw new Error(String(r.status));
           danke.querySelector("[data-danke-titel]")!.textContent = "Vielen Dank!";
-          danke.querySelector("[data-danke-text]")!.textContent = "Ihre Anfrage ist bei uns angekommen. Wir rufen Sie innerhalb von 12 Stunden zurück.";
+          danke.querySelector("[data-danke-text]")!.textContent = "Ihre Anfrage ist bei uns angekommen. Wir melden uns zeitnah bei Ihnen – in der Regel am selben oder nächsten Werktag (Mo. – Fr.).";
           form.querySelectorAll("input, textarea").forEach((x) => ((x as HTMLInputElement).disabled = true));
           senden.hidden = true;
           danke.hidden = false;

@@ -12,11 +12,11 @@ import { faqSchema } from "../lib/schema";
 const FRAGEN = [
   {
     q: "Wie genau ist die Preisspanne?",
-    a: "Die Werte beruhen auf unseren tatsächlichen Preisen für vergleichbare Projekte – keine Lockangebote. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied.",
+    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied – und können die Spanne nach oben oder unten verschieben.",
   },
   {
     q: "Ist das Ergebnis verbindlich?",
-    a: "Nein. Die Preisspanne ist eine unverbindliche Orientierung. Verbindlich ist erst das schriftliche Angebot zum Festpreis, das Sie nach dem kostenlosen Vor-Ort-Termin erhalten – darin steht genau, welche Leistungen enthalten sind.",
+    a: "Nein. Die Preisspanne ist eine unverbindliche Orientierung. Den genauen Preis nennen wir Ihnen in einem schriftlichen Angebot nach dem kostenlosen Vor-Ort-Termin – darin steht genau, welche Leistungen enthalten sind.",
   },
   {
     q: "Muss ich meine Kontaktdaten angeben?",
@@ -28,7 +28,7 @@ const FRAGEN = [
 <BaseLayout
   schema={faqSchema(FRAGEN) /* Audit S7 */}
   title="Sanierungskosten berechnen – Norderstedt | Bauwelt Handwerk"
-  description="Preisspanne für Badsanierung, Sanierung, Fliesen oder Innenausbau in Norderstedt, Hamburg und Umkreis – in einer Minute, unverbindlich, ohne Kontaktdaten."
+  description="Erste Preisorientierung für Badsanierung, Sanierung, Fliesen oder Innenausbau in Norderstedt, Hamburg und Umkreis – in einer Minute, ohne Kontaktdaten."
 >
   <section class="section rechner">
     <div class="container rechner__wrap">
@@ -54,7 +54,7 @@ const FRAGEN = [
             Bei der Badsanierung können Sie zwischen einer schnellen Kalkulation nach Badgröße und einer
             detaillierten Kalkulation mit Ihren Wunsch-Extras wählen. Was sich ohne Besichtigung nicht
             kalkulieren lässt – etwa der Zustand des Untergrunds oder verdeckte Schäden –, klären wir beim
-            kostenlosen Vor-Ort-Termin. Danach erhalten Sie Ihr Angebot zum Festpreis.
+            kostenlosen Vor-Ort-Termin. Danach erhalten Sie Ihr schriftliches Angebot.
           </p>
         </div>
         <Faq items={FRAGEN} />
