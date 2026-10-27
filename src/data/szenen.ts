@@ -95,22 +95,74 @@ function pfeilKreis(z: Zeichner, cx: number, cy: number, s = 1) {
   z.pfad(`M${cx + 3 * s} ${cy - 9 * s}L${cx + 13 * s} ${cy}L${cx + 3 * s} ${cy + 9 * s}`, { strokeWidth: 2.8 }, 0.3);
 }
 
+/** Handy mit dem Bauwelt-Kundenportal (Jamil 27.10.2026, Talk 3482: „passe diese Animation am Screenshot an“) –
+ *  gleiche Bereiche und Reihenfolge wie das echte Portal (CRM, Bauwelt-Design): dunkle Kopfleiste „Ihr Kundenportal“,
+ *  drei Kacheln (Termin · Zu erledigen · Unterlagen), Auftrag mit Projektstand „In Arbeit“, Arbeitsschritte mit
+ *  Fortschritt und Lautstärke/Schmutz-Kennzeichen, Ansprechpartner „Anrufen“. Nur Illustration, keine echten Daten. */
 function handy(z: Zeichner, x: number, y: number, b: number, h: number) {
   z.rundRechteck(x, y, b, h, 16, { strokeWidth: 2.8 }, 0.9);
-  z.linie(x + b / 2 - 16, y + 13, x + b / 2 + 16, y + 13, { strokeWidth: 2.4 }, 0.2);
-  const ix = x + 16, ib = b - 32;
-  z.bei(z.jetzt + 0.6);
-  z.text(x + b / 2, y + 40, "Mein Projekt", { groesse: 12 });
-  z.rechteck(ix, y + 50, ib, 10, { strokeWidth: 1.6 }, 0.3);
-  z.rechteck(ix, y + 50, ib * 0.65, 10, { fill: F.gold, fillStyle: "solid", stroke: F.gold, strokeWidth: 1 }, 0.4);
-  const zeilen = [true, true, false, false];
-  zeilen.forEach((fertig, i) => {
-    const zy = y + 82 + i * 26;
-    z.kreis(ix + 6, zy, 12, fertig ? { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 } : { strokeWidth: 1.4 }, 0.2);
-    z.linie(ix + 18, zy, ix + ib, zy, { stroke: F.grau, strokeWidth: 2 }, 0.3);
+  z.linie(x + b / 2 - 16, y + 11, x + b / 2 + 16, y + 11, { strokeWidth: 2.4 }, 0.2);
+  const ix = x + 12, ib = b - 24;
+  z.bei(z.jetzt + 0.4);
+  // Kopfleiste wie im Portal: dunkel, goldene Unterkante, „Ihr Kundenportal“
+  z.rechteck(ix, y + 20, ib, 22, { fill: F.strich, fillStyle: "solid", strokeWidth: 1.2 }, 0.3);
+  z.linie(ix, y + 43, ix + ib, y + 43, { stroke: F.gold, strokeWidth: 2 }, 0.2);
+  z.rechteck(ix + 4, y + 24, 14, 14, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 1 }, 0.15);
+  z.text(ix + 22, y + 35, "Ihr Kundenportal", { groesse: 8.5, farbe: "var(--weiss)", anker: "start" });
+  // Drei Kacheln: Nächster Termin · Für Sie zu erledigen · Unterlagen
+  const kb = (ib - 8) / 3;
+  for (let i = 0; i < 3; i++) {
+    const kx = ix + i * (kb + 4);
+    z.rundRechteck(kx, y + 50, kb, 22, 3, { strokeWidth: 1.2 }, 0.2);
+    z.linie(kx + 2, y + 51, kx + kb - 2, y + 51, { stroke: i === 1 ? "var(--anthrazit-600)" : F.gold, strokeWidth: 2 }, 0.15);
+    z.linie(kx + 4, y + 59, kx + kb * 0.6, y + 59, { stroke: F.hell, strokeWidth: 1.6 }, 0.15);
+    z.linie(kx + 4, y + 66, kx + kb * 0.8, y + 66, { stroke: F.grau, strokeWidth: 2 }, 0.15);
+  }
+  // Auftrag + Projektstand (Anfrage → Angebot → Beauftragt → In Arbeit → Fertig)
+  z.text(ix, y + 90, "Badsanierung", { groesse: 10.5, anker: "start" });
+  z.text(ix, y + 102, "In Arbeit", { groesse: 8.5, gewicht: 600, farbe: F.goldDunkel, anker: "start" });
+  const sy = y + 116, sx = ix + 6, sd = (ib - 12) / 4;
+  z.linie(sx, sy, sx + sd * 3, sy, { stroke: F.gold, strokeWidth: 2 }, 0.3);
+  z.linie(sx + sd * 3, sy, sx + sd * 4, sy, { stroke: F.hell, strokeWidth: 1.6 }, 0.2);
+  for (let i = 0; i < 5; i++) {
+    const o = i < 3 ? { fill: F.gold, fillStyle: "solid", strokeWidth: 1.2 } : i === 3 ? { stroke: F.gold, strokeWidth: 2 } : { stroke: F.grau, strokeWidth: 1.2 };
+    z.kreis(sx + i * sd, sy, i === 3 ? 11 : 9, o as Record<string, unknown>, 0.12);
+  }
+  // Arbeitsschritte: Fortschrittsbalken + Schritte (erledigt/geplant) mit Kennzeichen
+  z.text(ix, y + 140, "Arbeitsschritte", { groesse: 8.5, gewicht: 700, anker: "start" });
+  z.rechteck(ix, y + 146, ib, 5, { stroke: F.hell, strokeWidth: 1.2 }, 0.2);
+  z.rechteck(ix, y + 146, ib * 0.34, 5, { fill: F.gold, fillStyle: "solid", stroke: F.gold, strokeWidth: 1 }, 0.25);
+  [true, true, false, false].forEach((fertig, i) => {
+    const zy = y + 164 + i * 17;
+    z.kreis(ix + 5, zy, 10, fertig ? { fill: F.gold, fillStyle: "solid", strokeWidth: 1.2 } : { strokeWidth: 1.2 }, 0.15);
+    z.linie(ix + 14, zy, ix + ib * 0.55, zy, { stroke: F.grau, strokeWidth: 1.8 }, 0.2);
+    z.rundRechteck(ix + ib * 0.62, zy - 4, ib * 0.36, 8, 4, { fill: F.goldHell, fillStyle: "solid", stroke: F.goldHell, strokeWidth: 0.8 }, 0.15);
   });
-  z.rundRechteck(ix, y + h - 44, ib, 26, 8, { fill: F.goldHell, fillStyle: "solid", strokeWidth: 1.6 }, 0.4);
-  z.text(x + b / 2, y + h - 27, "Freigeben", { groesse: 11 });
+  // Ansprechpartner: „Anrufen“ (goldener Knopf wie im Portal)
+  z.rundRechteck(ix, y + h - 38, ib, 24, 12, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.6 }, 0.4);
+  z.text(x + b / 2, y + h - 22.5, "Anrufen", { groesse: 10 });
+}
+
+/** Projektstand als Motiv: drei Stationen auf einer Linie, die letzte offen (wie der Status im Portal). */
+function stand(z: Zeichner, cx: number, cy: number, s = 1) {
+  const d = 30 * s; // Abstand der Stationen
+  z.linie(cx - d, cy, cx + d * 0.5, cy, { stroke: F.gold, strokeWidth: 3 }, 0.3);
+  z.linie(cx + d * 0.5, cy, cx + d * 1.3, cy, { stroke: F.grau, strokeWidth: 2.2 }, 0.2);
+  for (const [i, x] of [cx - d, cx].entries()) {
+    z.kreis(x, cy, 20 * s, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.8 }, 0.2);
+    z.pfad(`M${x - 5 * s} ${cy}l${4 * s} ${4 * s}l${7 * s} -${8 * s}`, { strokeWidth: 2.2, roughness: 0.4 }, 0.15 + i * 0.01);
+  }
+  z.kreis(cx + d, cy, 24 * s, { stroke: F.goldDunkel, strokeWidth: 3 }, 0.25);
+}
+
+/** Arbeitsschritte als Motiv: Liste mit abgehakten und offenen Schritten. */
+function schritte(z: Zeichner, cx: number, cy: number, s = 1) {
+  z.rundRechteck(cx - 26 * s, cy - 24 * s, 52 * s, 48 * s, 6 * s);
+  [true, true, false].forEach((fertig, i) => {
+    const zy = cy - 11 * s + i * 12 * s;
+    z.kreis(cx - 15 * s, zy, 8 * s, fertig ? { fill: F.gold, fillStyle: "solid", strokeWidth: 1.2 } : { strokeWidth: 1.4 }, 0.15);
+    z.linie(cx - 7 * s, zy, cx + 17 * s, zy, { stroke: F.grau, strokeWidth: 1.8 }, 0.2);
+  });
 }
 
 const SIEGEL_MOTIV: Record<string, (z: Zeichner, cx: number, cy: number, s: number) => void> = {
@@ -388,25 +440,26 @@ function gebiet(a: Ansicht): Szene {
 }
 
 const PORTAL_TEILE = [
-  // Texte wörtlich nach Kundenwunsch 14.10.2026 (31); erste Zeile fett, folgende normal
-  { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Alle Dokumente", "An einem Ort."] },
-  { motiv: kalender, zeilen: ["Alle Termine", "Im Blick."] },
-  { motiv: chat, zeilen: ["Kommunikation", "Per WhatsApp oder E-Mail."] },
-  { motiv: pfeilKreis, zeilen: ["Projektstatus", "Jederzeit nachvollziehbar."] },
+  // Jamil 27.10.2026 (Talk 3482): Bereiche wie im echten Kundenportal (vorher Texte nach Kundenwunsch 14.10.2026 (31));
+  // Reihenfolge wie im Portal: Projektstand → Arbeitsschritte → Termine → Unterlagen. Erste Zeile fett, folgende normal.
+  { motiv: stand, zeilen: ["Projektstand", "Von der Anfrage bis zur Übergabe."], mobil: ["Projektstand", "Von der Anfrage", "bis zur Übergabe."] },
+  { motiv: schritte, zeilen: ["Arbeitsschritte", "Wie laut und staubig es wird."], mobil: ["Arbeitsschritte", "Wie laut und", "staubig es wird."] },
+  { motiv: kalender, zeilen: ["Nächste Termine", "Immer im Blick."] },
+  { motiv: (z: Zeichner, x: number, y: number) => dokument(z, x, y, 0.72, false), zeilen: ["Ihre Unterlagen", "Angebote und Rechnungen."] },
 ];
 
 function portal(a: Ansicht): Szene {
   const z = new Zeichner();
   const mobil = a === "mobil";
-  const B = mobil ? 360 : 1000, H = mobil ? 536 : 316;
-  const ph = { x: mobil ? 115 : 435, y: 12, b: 130, h: 236 };
+  const B = mobil ? 360 : 1000, H = mobil ? 600 : 330;
+  const ph = { x: mobil ? 105 : 425, y: 10, b: 150, h: 270 }; // etwas größer, damit die Portal-Bereiche lesbar bleiben
   z.bei(0.1);
   handy(z, ph.x, ph.y, ph.b, ph.h);
 
   // Vier Kacheln: mobil 2×2 unter dem Handy, Desktop links/rechts daneben
   const pos: [number, number][] = mobil
-    ? [[90, 316], [270, 316], [90, 436], [270, 436]]
-    : [[170, 88], [170, 216], [830, 88], [830, 216]];
+    ? [[90, 368], [270, 368], [90, 512], [270, 512]]
+    : [[170, 92], [170, 226], [830, 92], [830, 226]];
   pos.forEach(([cx, cy], i) => {
     const t = 2.0 + i * 0.75;
     if (!mobil) {
@@ -414,7 +467,7 @@ function portal(a: Ansicht): Szene {
       z.bei(t - 0.3);
       const links = cx < 500;
       const sx = links ? ph.x - 8 : ph.x + ph.b + 8;
-      const sy = ph.y + 70 + (i % 2) * 110;
+      const sy = ph.y + 80 + (i % 2) * 120;
       const ex = links ? cx + 110 : cx - 110;
       z.kurve([[sx, sy], [(sx + ex) / 2, sy + (i % 2 ? 14 : -14)], [ex, cy - 6]], { stroke: F.gold, strokeWidth: 2.2, roughness: 1.3 }, 0.5);
     }
@@ -422,7 +475,8 @@ function portal(a: Ansicht): Szene {
     z.gruppe("stempel", () => PORTAL_TEILE[i].motiv(z, cx, mobil ? cy - 22 : cy - 14, 1));
     z.bei(t + 0.35);
     const ty = mobil ? cy + 32 : cy + 42;
-    const [kopf, ...rest] = PORTAL_TEILE[i].zeilen;
+    const teil = PORTAL_TEILE[i] as { zeilen: string[]; mobil?: string[] };
+    const [kopf, ...rest] = mobil && teil.mobil ? teil.mobil : teil.zeilen;
     z.text(cx, ty, kopf, { groesse: mobil ? 13.5 : 16, beschriftung: true });
     rest.forEach((zeile, k) =>
       z.text(cx, ty + (mobil ? 18 : 21) * (k + 1), zeile, { groesse: mobil ? 12.5 : 14, gewicht: 400, farbe: F.text2, beschriftung: true })

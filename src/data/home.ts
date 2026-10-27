@@ -175,27 +175,12 @@ export const PORTAL = {
   sub:
     "Schluss mit langen E-Mail-Verläufen, fehlenden Dokumenten und der Frage, " +
     "was als Nächstes passiert. Mit unserem Kundenportal behalten Sie demnächst jederzeit den Überblick.", // „demnächst“: Jamil 27.10.2026, Talk 3478 F
+  // Jamil 27.10.2026 (Talk 3482): wie das echte Kundenportal (gleiche Bereiche wie die Portal-Zeichnung)
   kacheln: [
-    {
-      icon: "doc",
-      title: "Alle Dokumente an einem Ort",
-      text: "Angebote und wichtige Unterlagen digital an einem Ort abrufbar.",
-    },
-    {
-      icon: "calendar",
-      title: "Alle Termine im Blick",
-      text: "Nächste Schritte, Termine und wichtige Projektinformationen zentral verfügbar.",
-    },
-    {
-      icon: "chat",
-      title: "Kommunikation nach Wunsch",
-      text: "Sie entscheiden selbst, ob wir per WhatsApp oder E-Mail kommunizieren.",
-    },
-    {
-      icon: "arrow",
-      title: "Jederzeit wissen, was als Nächstes passiert",
-      text: "Vom Angebot bis zur Fertigstellung behalten Sie den Überblick.",
-    },
+    { icon: "arrow", title: "Projektstand", text: "Von der Anfrage bis zur Übergabe – Sie sehen, wo Ihr Projekt steht." },
+    { icon: "check", title: "Arbeitsschritte", text: "Welche Schritte erledigt sind und wie laut und staubig es wird." },
+    { icon: "calendar", title: "Nächste Termine", text: "Wann wir bei Ihnen sind – immer im Blick." },
+    { icon: "doc", title: "Ihre Unterlagen", text: "Angebote und Rechnungen an einem Ort." },
   ],
 };
 
