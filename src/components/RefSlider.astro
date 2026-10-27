@@ -14,8 +14,11 @@ interface Props {
   pre?: string;
   accent?: string;
   text?: string;
+  /** Creme-Hintergrund (Weiß/Creme-Wechsel, Jamil 27.10.2026 – Startseite) */
+  sand?: boolean;
 }
 const {
+  sand = false,
   eyebrow = "Referenzen",
   pre = "Ergebnisse, die man ",
   accent = "sieht",
@@ -23,7 +26,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="section" id="referenzen">
+<section class:list={["section", { "section--sand": sand }]} id="referenzen">
   <div class="container">
     <div class="refs__head">
       <SectionHead center eyebrow={eyebrow} pre={pre} accent={accent} text={text} />

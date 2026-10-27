@@ -34,10 +34,10 @@ import { faqSchema } from "../lib/schema";
   <Vertrauensleiste />
 
   <!-- Kundenwunsch 14.10.2026 (30): „Worauf Sie sich verlassen können“ direkt nach dem Hero, danach der Rechner -->
-  <SiegelSlider />
+  <SiegelSlider weiss />
 
   <!-- Leistungen + Projekt-Kalkulation in einem (Kundenwunsch 11.10.2026) -->
-  <section class="section" id="leistungen">
+  <section class="section section--sand" id="leistungen">
     <div class="container">
       <SectionHead
         center
@@ -49,7 +49,7 @@ import { faqSchema } from "../lib/schema";
     </div>
   </section>
 
-  <section class="section section--sand" id="ablauf">
+  <section class="section" id="ablauf">
     <div class="container">
       <SectionHead center eyebrow="So läuft Ihr Projekt" pre="Von der ersten Idee bis zum fertigen " accent="Ergebnis" />
       <!-- Kundenwunsch 16.10.2026 (74): Bild-Story wieder entfernt – zurück zur gezeichneten 4-Stationen-Animation -->
@@ -65,6 +65,7 @@ import { faqSchema } from "../lib/schema";
   </section>
 
   <RefSlider
+    sand
     eyebrow="Referenzen"
     pre="Aus Ideen werden "
     accent="Ergebnisse"
@@ -72,7 +73,7 @@ import { faqSchema } from "../lib/schema";
   />
 
   <!-- Kundenwunsch 19.10.2026 (Audit 5.8): Angebot + Kundenportal als EINE Sektion „So arbeiten wir heute“ -->
-  <section class="section section--sand" id="so-arbeiten-wir">
+  <section class="section" id="so-arbeiten-wir">
     <div class="container">
       <SectionHead
         center
@@ -86,9 +87,9 @@ import { faqSchema } from "../lib/schema";
     <PortalSection eingebettet />
   </section>
   {/* Audit 5.2 (19.10.2026): Zitat „Warum wir anders arbeiten“ steht nur noch auf Über uns */}
-  <ServiceArea />
+  <ServiceArea sand />
 
-  <!-- Weniger Abstand zum Einzugsgebiet darüber (Kundenfeedback 07.10.2026) -->
+  <!-- Seit dem Weiß/Creme-Wechsel (Jamil 27.10.2026) wieder mit normalem Abstand oben – das Einzugsgebiet darüber ist creme -->
   <section class="section faq-home" id="fragen">
     <div class="container">
       <SectionHead center eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" />
@@ -101,7 +102,6 @@ import { faqSchema } from "../lib/schema";
 </BaseLayout>
 
 <style>
-  .faq-home { padding-top: 0; }
   .faq-agb { text-align: center; margin: 20px auto 0; font-size: 15px; }
   .weg__actions {
     display: flex; flex-wrap: wrap; gap: 12px 16px;

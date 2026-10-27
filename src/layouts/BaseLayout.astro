@@ -122,8 +122,10 @@ const jsonLd = {
       <slot />
     </main>
     {/* Jamil 27.10.2026 (Talk 3461): Abschnitte wechseln überall Weiß → Creme → Weiß … (zentral, damit neue Abschnitte automatisch
-        richtig wechseln). Dunkle Abschnitte/Leiste bleiben; nie zwei gleichfarbige Abschnitte nebeneinander. Ohne JS bleiben die
-        festen Klassen (section--sand) der Seiten. */}
+        richtig wechseln). Dunkle Abschnitte/Leiste bleiben; nie zwei gleichfarbige Abschnitte nebeneinander.
+        Prüfung 27.10.2026: Die Seiten setzen section--sand schon im HTML genau so (sonst springen die Farben beim
+        langsamen Laden sichtbar um, und ohne JS stimmt es nicht). Das Skript ist nur noch Sicherheitsnetz und meldet
+        in der Konsole, wenn es etwas korrigieren musste → dann die Klasse auf der Seite anpassen. */}
     <script is:inline>
       (function () {
         var m = document.getElementById("main");
@@ -134,6 +136,7 @@ const jsonLd = {
             if (c.hidden) continue;
             if (c.matches("section.section:not(.section--dark)")) {
               var farbe = prev === "weiss" ? "creme" : "weiss";
+              if (c.classList.contains("section--sand") !== (farbe === "creme")) falsch++;
               c.classList.toggle("section--sand", farbe === "creme");
               prev = farbe;
             } else if (c.matches("div") && c.querySelector(":scope > section.section")) {
@@ -144,7 +147,9 @@ const jsonLd = {
             }
           }
         }
+        var falsch = 0;
         run(m);
+        if (falsch) console.warn("Weiß/Creme-Wechsel: " + falsch + " Abschnitt(e) im HTML anders gefärbt – Klasse section--sand auf der Seite anpassen");
       })();
     </script>
     <Footer nurNav={footerNurNav} />

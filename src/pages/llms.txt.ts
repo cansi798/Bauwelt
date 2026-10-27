@@ -21,7 +21,11 @@ export const GET: APIRoute = async ({ site }) => {
     const preis = d?.pauschalpreis
       ? (d.pauschalHinweis ?? "").replace(/\.$/, "") // Preis steht schon im Teaser
       : g
-        ? `Beispiel-Preisspanne laut Online-Rechner (${g.default} ${g.unit}, ${g.tiers[0].label}): ${preisText(berechne(g, g.default, g.tiers[0].id, { art: "schnell" }))}, unverbindlich`
+        ? (() => {
+            const e = berechne(g, g.default, g.tiers[0].id, { art: "schnell" });
+            // Innenausbau zeigt einen ca.-Betrag, keine Spanne → passende Bezeichnung (Prüfung 27.10.2026)
+            return `${e.art === "spanne" ? "Beispiel-Preisspanne" : "Beispielpreis"} laut Online-Rechner (${g.default} ${g.unit}, ${g.tiers[0].label}): ${preisText(e)}, unverbindlich`;
+          })()
         : "";
     const satz = (t: string) => (/[.!?]$/.test(t) ? t : `${t}.`);
     return `- [${l.unterschrift}](${o}leistungen/${l.slug}/) – ${satz(l.nutzen)} ${d?.teaser ?? ""}${preis ? ` ${satz(preis)}` : ""}`;

@@ -10,13 +10,15 @@ import RoughSzene from "./RoughSzene.astro";
 interface Props {
   /** Ohne eigene Sektion/Überschrift (z. B. Kontaktseite, Kundenwunsch 17.10.2026 (78)). */
   eingebettet?: boolean;
+  /** Creme-Hintergrund (Weiß/Creme-Wechsel, Jamil 27.10.2026 – Startseite) */
+  sand?: boolean;
 }
-const { eingebettet = false } = Astro.props;
+const { eingebettet = false, sand = false } = Astro.props;
 const BESCHREIBUNG = REGION_KARTE;
 ---
 
 {!eingebettet && (
-  <section class="section area" id="einzugsgebiet-karte">
+  <section class:list={["section", "area", { "section--sand": sand }]} id="einzugsgebiet-karte">
     <div class="container">
       <SectionHead
         center

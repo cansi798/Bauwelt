@@ -84,8 +84,25 @@ const teile = akzent;
 // H1 im Hero ist ganz weiß (Jamil 21.10.2026, Msg 2878/2882) – kein Akzentwort
 const h1 = { pre: h1Titel, accent: "" };
 const mitIntro = !l.data.ohneIntro;
-// Hintergrund-Wechsel: ohne Intro folgt die Kachel-Sektion direkt auf den (sandfarbenen) Rechner → weiß
-const kachelnSand = mitIntro || !hatRechner;
+// Hintergrund-Wechsel Weiß/Creme (Jamil 27.10.2026, Talk 3461): schon im HTML so gesetzt, wie das
+// Layout-Skript (BaseLayout) es berechnet – nach einem dunklen Abschnitt zuerst Weiß, dann abwechselnd.
+// So springt beim langsamen Laden nichts um (kein Flackern), und ohne JS stimmt es auch.
+const sandMap = (() => {
+  const folge = [
+    hatRechner && "rechner", mitIntro && "intro", l.data.kacheln.length > 0 && "kacheln",
+    pauschal && "|", // dunkler Abschnitt „Das bringt Ihnen …“ (nur Checks)
+    karussell.length > 0 && "karussell", "ablauf", l.data.faq.length > 0 && "faq",
+  ].filter(Boolean) as string[];
+  const m: Record<string, boolean> = {};
+  let creme = true; // „vorher Creme“ → erster Abschnitt nach dem dunklen Hero/der Leiste wird Weiß
+  for (const n of folge) {
+    if (n === "|") { creme = true; continue; }
+    creme = !creme;
+    m[n] = creme;
+  }
+  return m;
+})();
+const sand = (n: string) => ["section", { "section--sand": Boolean(sandMap[n]) }];
 // Goldring im Leistungsumfang (Jamil 20.10.2026, Talk 2572)
 const bilderKopf = teile(l.data.bilderTitel ?? "Das haben wir schon *gebaut*");
 const ablaufKopf = l.data.ablaufTitel ? teile(l.data.ablaufTitel) : null;
@@ -150,7 +167,7 @@ const description =
 
   {/* Kundenwunsch 14.10.2026 (26): Rechner direkt auf der Leistungsseite (statt Button „… berechnen“) */}
   {hatRechner && (
-    <section class="section section--sand" id="rechner">
+    <section class:list={sand("rechner")} id="rechner">
       <div class="container">
         <SectionHead center eyebrow={`${kurzTitel} berechnen`} titel="Was *kostet* Ihr Projekt?" />
         <Rechner variant="seite" gewerk={rechnerSlug} intro={l.data.rechnerText} />
@@ -161,7 +178,7 @@ const description =
   <!-- 1. Intro: worum es geht – aus Kundensicht, mit echtem Foto daneben.
        Kundenwunsch 16.10.2026 (77): per ohneIntro abschaltbar (Badsanierung: „entfernen“) -->
   {mitIntro && (
-  <section class="section">
+  <section class:list={sand("intro")}>
     <div class:list={["container", "lintro", { "lintro--bild": introBild }]}>
       <div class="lintro__text">
         <SectionHead eyebrow={kurzTitel} pre={weich(l.data.introTitel ?? `${kurzTitel} mit Bauwelt Handwerk`)} />
@@ -185,7 +202,7 @@ const description =
 
   <!-- Leistungsumfang als Kacheln (Kundenwunsch 14.10.2026 (35)) -->
   {l.data.kacheln.length > 0 && (
-    <section class:list={["section", { "section--sand": kachelnSand }]}>
+    <section class:list={sand("kacheln")}>
       <div class="container">
         <SectionHead center eyebrow="Leistungsumfang" {...teile(weich(l.data.umfangTitel ?? `Das gehört zu ${kurzTitel}`))} text={l.data.umfangText} />
         {/* Jamil 20.10.2026 (Talk 2572): Leistungsumfang im Stil der Seite statt weißer Kästen –
@@ -227,7 +244,7 @@ const description =
   )}
 
   {karussell.length > 0 && (
-    <section class="section">
+    <section class:list={sand("karussell")}>
       <div class="container">
         <div class="lrefs__head">
           <SectionHead eyebrow="Projektbilder" {...bilderKopf} text={l.data.bilderText} />
@@ -261,7 +278,7 @@ const description =
   )}
 
   <!-- Ablauf: dieselbe gezeichnete Animation wie auf der Startseite, mit CTAs -->
-  <section class="section section--sand">
+  <section class:list={sand("ablauf")}>
     <div class="container">
       {ablaufKopf
         ? <SectionHead center eyebrow="Ablauf" {...ablaufKopf} />
@@ -288,7 +305,7 @@ const description =
   </section>
 
   {l.data.faq.length > 0 && (
-    <section class="section">
+    <section class:list={sand("faq")}>
       <div class="container">
         <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: `} accent="Gut zu wissen" />
         <Faq items={l.data.faq} withCta />

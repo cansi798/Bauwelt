@@ -55,7 +55,7 @@ ablaufTitel: "So *einfach* kann Badsanierung sein"
 faq:
   - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, der Zeitplan steht schriftlich in Ihrem Angebot. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
-  - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen – der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
+  - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Wichtig: Der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 
 Sie wünschen sich ein modernes Badezimmer, aber keine endlosen Baustellen, keine unklaren Kosten und kein Handwerker-Chaos?

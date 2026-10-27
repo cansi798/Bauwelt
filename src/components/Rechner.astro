@@ -74,7 +74,7 @@ const weich = (t: string) =>
 <!-- Ohne JS: ehrlicher Hinweis + Kontaktwege -->
 <div class="rechner__nojs">
   <p>
-    Der Online-Rechner benötigt JavaScript. Sie erreichen uns aber jederzeit direkt –
+    Der Online-Rechner benötigt JavaScript. Sie erreichen uns aber direkt –
     wir nennen Ihnen gern am Telefon eine erste Einschätzung:
   </p>
   <div class="rechner__nojs-actions">
@@ -606,7 +606,8 @@ const weich = (t: string) =>
   @media (max-width: 767px) {
     .rnav { margin-top: 18px; }
   }
-  @media (min-width: 768px) { .rnav__zurueck { display: none; } }
+  /* Prüfung 27.10.2026: „Zurück“ auch am PC sichtbar – sonst kam man auf /rechner/ nach der Leistungswahl
+     nicht mehr zur Auswahl zurück (vorher nur am Handy). */
 
   /* Ergebnis */
   .rechner__result {
@@ -899,7 +900,9 @@ const weich = (t: string) =>
       if (kalkFrage) kalkFrage.hidden = teil2; // Frage steht dann als Schritt-Überschrift
       const zurueckTeil = document.getElementById("rZurueckTeil");
       if (zurueckTeil) zurueckTeil.hidden = !teil2;
-      weiterBtn.textContent = geteilt() && state.teil === 1 ? "Weiter" : fest ? "Preis anzeigen" : "Preisspanne anzeigen";
+      // „Preis anzeigen“, wenn das Ergebnis keine Spanne ist (Barrierefreie Dusche, Innenausbau „ca. …“)
+      const keineSpanne = fest || Boolean(g && g.spanne === 0 && !g.aufschlag && g.preismodell === "flaeche");
+      weiterBtn.textContent = geteilt() && state.teil === 1 ? "Weiter" : keineSpanne ? "Preis anzeigen" : "Preisspanne anzeigen";
       updateKalk();
       updateSchritt();
     }
@@ -959,6 +962,8 @@ const weich = (t: string) =>
       const arbeitenListe = arbeiten.map((m) => `• ${m.fach}`).join("\n");
       const ausstattung = t.enthalten ? `\n\n✅ Ausstattung:\n${t.enthalten.map((e) => `• ${e}`).join("\n")}` : "";
       const preisZeile = `${preis} (${MWST_HINWEIS.replace("Bruttopreise", "brutto")})`;
+      // Innenausbau („ca. …“) und Barrierefreie Dusche („≈ …“) sind keine Spanne → passende Bezeichnung im Anfragetext
+      const preisWort = erg.art === "spanne" ? "Preisspanne" : "Preiseinschätzung";
       // Badsanierung: Kalkulationsart + Extras (Fachbegriffe) statt „Niveau“
       const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
       const waWahl = g.ohneAuswahl ? "" : kalk
@@ -966,7 +971,7 @@ const weich = (t: string) =>
         : `⭐ ${g.auswahlLabel ?? "Auswahl"}: ${niveau}`;
       const mailWahl = g.ohneAuswahl ? "" : kalk
         ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
-        : `${`${g.auswahlLabel ?? "Auswahl"}:`.padEnd(10)}${niveau}`;
+        : `${`${g.auswahlLabel ?? "Auswahl"}:`.padEnd(9)} ${niveau}`; // mind. ein Leerzeichen („Sanierungsart:“ ist länger als die Spalte)
       const waText =
         `Hallo Bauwelt Handwerk! 👋\n\n` +
         `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
@@ -975,10 +980,11 @@ const weich = (t: string) =>
         waWahl +
         ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\n💶 Preisspanne: ${preisZeile}\n` + (hinweisTxt ? `ℹ️ ${hinweisTxt}\n` : "") + `\n` +
+        `\n\n💶 ${preisWort}: ${preisZeile}\n` + (hinweisTxt ? `ℹ️ ${hinweisTxt}\n` : "") + `\n` +
         `Bitte melden Sie sich bei mir für ein Angebot. Vielen Dank! 🙏`;
-      waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
-      waBtn.dataset.text = waText;
+      const ohneLeerzeilen = (t: string) => t.replace(/\n{3,}/g, "\n\n"); // z. B. Innenausbau ohne Auswahl-Zeile
+      waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(ohneLeerzeilen(waText))}`;
+      waBtn.dataset.text = ohneLeerzeilen(waText);
 
       const subject = fest
         ? `Projektanfrage: ${g.label} – ${t.label}`
@@ -991,15 +997,15 @@ const weich = (t: string) =>
         mailWahl +
         ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\nPreisspanne: ${preisZeile}\n` + (hinweisTxt ? `Hinweis: ${hinweisTxt}\n` : "") + `\n` +
+        `\n\n${preisWort}: ${preisZeile}\n` + (hinweisTxt ? `Hinweis: ${hinweisTxt}\n` : "") + `\n` +
         `Bitte rufen Sie mich für ein Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
-      mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(ohneLeerzeilen(body))}`;
       // Rückruf-Formular (Audit 6.3): Berechnung als Zusammenfassung mitschicken
       const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
       if (rrf) rrf.dataset.zusammenfassung =
-        `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl + ausstattung.replace("✅ ", "") +
-        `\nGewünschte Arbeiten:\n${arbeitenListe}\nPreisspanne: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
+        `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl.replace(/:\s{2,}/, ": ") + ausstattung.replace("✅ ", "") +
+        `\nGewünschte Arbeiten:\n${arbeitenListe}\n${preisWort}: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
       show(3);
     }
 

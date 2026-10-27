@@ -25,7 +25,7 @@ lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche k
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis die Oberfläche malerfertig ist aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
+umfangText: "Von der Planung bis zur malerfertigen Oberfläche aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -37,7 +37,7 @@ kacheln:
   - { icon: "paint", title: "Spachtel- & Malerarbeiten" }
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
-  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen einen ersten Richtwert – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
 bilderTitel: "So könnten Ihre *neuen Räume* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Innenausbau sein"
