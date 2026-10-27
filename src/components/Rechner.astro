@@ -20,7 +20,7 @@
 //   unsichtbar). Optionswahl steht dort VOR der Badgröße (Gewerk.wahlFrage).
 import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
-import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, berechne, preisText } from "../data/rechner";
+import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, HINWEIS_PREIS, berechne, preisText } from "../data/rechner";
 import { SITE, EMAILS, TERMIN, u, waLink, leistungBySlug } from "../consts";
 import RueckrufFormular from "./RueckrufFormular.astro";
 
@@ -180,7 +180,7 @@ const weich = (t: string) =>
       ) : (
         <div
           class:list={["rechner__tiers", { "rechner__tiers--2": start && erstes.tiers.length === 2 }]}
-          id="rTiers" role="radiogroup" aria-label={wahlZuerst ? erstes.wahlFrage : "Ausstattungsniveau"}
+          id="rTiers" role="radiogroup" aria-label={wahlZuerst ? erstes.wahlFrage : (erstes.auswahlLabel ?? "Auswahl")}
         >
           {start && erstes.tiers.map((t, i) => (
             <button type="button" class:list={["rtier", { selected: i === 0 }]} role="radio" aria-checked={i === 0 ? "true" : "false"} data-tier={t.id}>
@@ -226,6 +226,8 @@ const weich = (t: string) =>
       <H class="rstep__title" id="rErgebnisTitel">Ihre erste Preisspanne</H>
       <p class="rechner__result" id="rErgebnis" role="status">–</p>
       <p class="rbrutto" id="rBrutto">{MWST_HINWEIS}</p>
+      {/* Jamil 27.10.2026 (Talk 3427): nur Badsanierung und Komplettsanierung – Preis hängt von Wünschen, Umsetzung und Material ab */}
+      <p class="rhinweis" id="rHinweis" hidden>{HINWEIS_PREIS}</p>
 
       <div class="rwahl" id="rWahl" aria-label="Ihre Auswahl"></div>
 
@@ -315,6 +317,7 @@ const weich = (t: string) =>
   /* Einleitungsabsatz über dem Rechner (ein Block, gleicher Stil wie der Lead-Text) */
   .rintro { max-width: 680px; margin: -8px auto 28px; text-align: center; }
   .rintro--start { margin-bottom: 32px; }
+  .rhinweis { margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--gold-500); background: var(--gold-100); border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0; font-size: 14.5px; line-height: 1.55; color: var(--anthrazit-800); }
   .rbrutto { margin: -8px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
   .rbrutto--klein { margin: -8px 0 16px; font-size: 12.5px; font-weight: 600; color: var(--anthrazit-600); }
 
@@ -668,7 +671,7 @@ const weich = (t: string) =>
 
 <script>
   // Preise + Logik kommen direkt aus data/rechner.ts (eine einzige Quelle, gebündelt von Vite).
-  import { GEWERKE, berechne, preisText, tierById, kalkArtLabel, MWST_HINWEIS, type Gewerk, type KalkArt } from "../data/rechner";
+  import { GEWERKE, berechne, preisText, tierById, kalkArtLabel, MWST_HINWEIS, HINWEIS_PREIS, HINWEIS_SLUGS, type Gewerk, type KalkArt } from "../data/rechner";
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
   if (app) {
@@ -809,7 +812,7 @@ const weich = (t: string) =>
       mengeFrage.textContent = g.wahlFrage ? g.frage : "";
       mengeFrage.hidden = !g.wahlFrage;
       range.setAttribute("aria-labelledby", g.wahlFrage ? "rMengeFrage" : "rFrage");
-      tiersEl.setAttribute("aria-label", g.wahlFrage ?? "Ausstattungsniveau");
+      tiersEl.setAttribute("aria-label", g.wahlFrage ?? g.auswahlLabel ?? "Auswahl");
       if (g.wahlFrage) rangeWrap.before(tiersEl);
       else tiersEl.before(rangeWrap);
       range.min = String(g.min);
@@ -924,6 +927,10 @@ const weich = (t: string) =>
       document.getElementById("rErgebnisTitel")!.textContent =
         erg.art === "spanne" ? "Ihre erste Preisspanne" : "Ihre erste Preiseinschätzung";
 
+      const zeigeHinweis = HINWEIS_SLUGS.includes(g.slug);
+      document.getElementById("rHinweis")!.hidden = !zeigeHinweis;
+      const hinweisTxt = zeigeHinweis ? HINWEIS_PREIS : "";
+
       const arbeiten = t.bausteine ?? g.bausteine;
       const masse = `${state.menge} ${g.unit}`;
       const niveau = t.untertitel ? `${t.label} (${t.untertitel})` : t.label;
@@ -939,7 +946,7 @@ const weich = (t: string) =>
         ? [g.label, niveau]
         : kalk
           ? [g.label, masse, artLabel, ...(detail ? [extrasZeile] : [])]
-          : [g.label, masse, `${g.preismodell === "tabelle" ? "Auswahl" : "Niveau"}: ${niveau}`];
+          : [g.label, masse, `${g.auswahlLabel ?? "Auswahl"}: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
         ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
@@ -956,10 +963,10 @@ const weich = (t: string) =>
       const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
       const waWahl = kalk
         ? `🧮 Kalkulation: ${artLabel}` + (detail ? `\n✨ Extras:${extrasText}` : "")
-        : `⭐ ${g.preismodell === "tabelle" ? "Auswahl" : "Niveau"}: ${niveau}`;
+        : `⭐ ${g.auswahlLabel ?? "Auswahl"}: ${niveau}`;
       const mailWahl = kalk
         ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
-        : `${g.preismodell === "tabelle" ? "Auswahl:  " : "Niveau:   "}${niveau}`;
+        : `${`${g.auswahlLabel ?? "Auswahl"}:`.padEnd(10)}${niveau}`;
       const waText =
         `Hallo Bauwelt Handwerk! 👋\n\n` +
         `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
@@ -968,7 +975,7 @@ const weich = (t: string) =>
         waWahl +
         ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\n💶 Preisspanne: ${preisZeile}\n\n` +
+        `\n\n💶 Preisspanne: ${preisZeile}\n` + (hinweisTxt ? `ℹ️ ${hinweisTxt}\n` : "") + `\n` +
         `Bitte melden Sie sich bei mir für ein Angebot. Vielen Dank! 🙏`;
       waBtn.href = `https://wa.me/${waBtn.href.split("wa.me/")[1].split("?")[0]}?text=${encodeURIComponent(waText)}`;
       waBtn.dataset.text = waText;
@@ -984,7 +991,7 @@ const weich = (t: string) =>
         mailWahl +
         ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
-        `\n\nPreisspanne: ${preisZeile}\n\n` +
+        `\n\nPreisspanne: ${preisZeile}\n` + (hinweisTxt ? `Hinweis: ${hinweisTxt}\n` : "") + `\n` +
         `Bitte rufen Sie mich für ein Angebot zurück.\n\n` +
         `Name:\nTelefonnummer:\nAdresse (für den Vor-Ort-Termin):\n`;
       mailBtn.href = `${mailBtn.href.split("?")[0]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -992,7 +999,7 @@ const weich = (t: string) =>
       const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
       if (rrf) rrf.dataset.zusammenfassung =
         `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl + ausstattung.replace("✅ ", "") +
-        `\nGewünschte Arbeiten:\n${arbeitenListe}\nPreisspanne: ${preisZeile}`;
+        `\nGewünschte Arbeiten:\n${arbeitenListe}\nPreisspanne: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
       show(3);
     }
 

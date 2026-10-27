@@ -11,6 +11,7 @@ umfang:
   - "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)"
   - "Vinyl und Laminat verlegen"
   - "Silikon- und Anschlussfugen"
+  - "Fußbodenleisten (Sockelleisten) anbringen oder erneuern"
 ablauf:
   - { title: "Beratung", text: "Wir besprechen Material, Format und Verlegemuster vor Ort." }
   - { title: "Angebot", text: "Zeitnah nach dem Termin – klare Leistung, verständliches Angebot." }
@@ -36,7 +37,7 @@ kacheln:
   - { icon: "shield", title: "Abdichtung im Nassbereich" }
   - { icon: "tiles", title: "Fliesen & Großformate" }
   - { icon: "check", title: "Vinyl & Laminat" }
-  - { icon: "paint", title: "Fugen & Abschlussarbeiten" }
+  - { icon: "paint", title: "Fugen, Fußbodenleisten & Abschluss" }
 warum:
   - { icon: "check", title: "Präzise bis zur letzten Fuge", text: "Ebener Untergrund, exakte Fugen und saubere Anschlüsse – damit Ihre neue Oberfläche lange schön bleibt." }
   - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }

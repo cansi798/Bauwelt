@@ -14,6 +14,7 @@ umfang:
   - "Trockenbau und Raumaufteilung"
   - "Decken, Vorwände und Nischen"
   - "Boden- und Wandaufbau"
+  - "Fußbodenleisten"
   - "Türen und Zargen"
 ablauf:
   - { title: "Idee", text: "Wir besprechen, wie Ihre Räume wirken sollen." }

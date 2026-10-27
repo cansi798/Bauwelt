@@ -15,7 +15,7 @@
  *    „Barrierefreie Dusche“: fester Preis (Budget der Pflegekasse für wohnumfeldverbessernde
  *    Maßnahmen), kein Flächen-Slider.
  *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
- *    Parkett gibt es nicht mehr. Ergebnis ist ein konkreter Betrag (keine ±-Spanne).
+ *    Parkett gibt es nicht mehr. Ergebnis seit 27.10.2026 eine Spanne: Betrag bis Betrag + 1.000 € (`aufschlag`).
  *    Die m²-Preise und der Rechenweg werden Kunden NICHT angezeigt (Kundenwunsch
  *    12.10.2026) – sichtbar ist nur der Gesamtbetrag inkl. MwSt.
  *  - Sanierung & Modernisierung: Die bisherigen Werte (8.000 € + 600/900/1.400 €/m²)
@@ -40,6 +40,10 @@ const name = (slug: string): string => {
   if (!l) throw new Error(`Leistung ${slug} fehlt in LEISTUNGEN (consts.ts)`);
   return kurzName(l);
 };
+
+/** Hinweis am Rechner-Ergebnis (nur Badsanierung + Komplettsanierung, Jamil 27.10.2026, Talk 3427). */
+export const HINWEIS_PREIS = "Der tatsächliche Preis hängt von Ihren individuellen Wünschen, der Art der Umsetzung und dem gewählten Material ab.";
+export const HINWEIS_SLUGS = ["badsanierung", "sanierung-modernisierung"];
 
 export const MWST = 0.19;
 export const MWST_HINWEIS = "Bruttopreise inkl. 19 % MwSt.";
@@ -111,6 +115,10 @@ export type Gewerk = {
   /** Gesetzt = Optionswahl (tiers) steht VOR der Mengenangabe; Text = Überschrift der Optionswahl,
    *  `frage` beschriftet dann den Slider. */
   wahlFrage?: string;
+  /** Bezeichnung der Optionswahl im Ergebnis, Anfragetext und für Screenreader (statt „Niveau“, Jamil 27.10.2026, Talk 3429). */
+  auswahlLabel?: string;
+  /** Fester Aufschlag in € auf den berechneten Betrag → Ergebnis als Spanne „X – (X + aufschlag)“ (Fliesen & Boden, Jamil 27.10.2026, Talk 3434). */
+  aufschlag?: number;
   grund: number;         // Grundpauschale €
   proEinheit: Record<string, number>; // € je Einheit, Schlüssel = Tier-id
   /** true = grund/proEinheit sind NETTO und werden für die Anzeige × 1,19 gerechnet. */
@@ -166,6 +174,7 @@ export const GEWERKE: Gewerk[] = [
     schnellSpanne: BAD_SCHNELL_SPANNE,
     extras: KALK_DETAIL_AKTIV ? BAD_EXTRAS : undefined, // Schalter siehe oben
     wahlFrage: "Was ist geplant?",
+    auswahlLabel: "Auswahl",
     grund: 0, proEinheit: {}, netto: false, spanne: 0,
     // Kundenwunsch 14.10.2026 (47): nur noch „Badsanierung“ und „Barrierefreie Dusche“
     // (Komfort/Premium entfallen; Extras stattdessen in der detaillierten Kalkulation).
@@ -212,6 +221,7 @@ export const GEWERKE: Gewerk[] = [
     slug: "sanierung-modernisierung",
     label: name("sanierung-modernisierung"),
     icon: "reno",
+    auswahlLabel: "Sanierungsart", // Optionen: Renovierung, Teilsanierung, Kernsanierung (Jamil 27.10.2026, Talk 3432)
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
@@ -231,14 +241,16 @@ export const GEWERKE: Gewerk[] = [
       { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
       { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
       { id: "technik", label: "Leitungen & Technik koordiniert", fach: "Koordination Elektro-, Sanitär- & Heizungsarbeiten (Fachbetriebe)", hint: "Strom, Wasser und Heizung – wir koordinieren die Fachbetriebe" },
-      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu" },
-      { id: "endmontage", label: "Fertig einrichten", fach: "Endmontage & Übergabe", hint: "Alles montiert, geprüft und besenrein übergeben" },
+      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden, Fußbodenleisten und Türen neu" },
+      // „Fertig einrichten“ entfernt auf Wunsch von Jamil (27.10.2026, Talk 3433)
     ],
   },
   {
     slug: "fliesen-boden",
     label: name("fliesen-boden"),
     icon: "tiles",
+    aufschlag: 1000, // Spanne: bisheriger „ca.“-Preis bis ca.-Preis + 1.000 €
+    auswahlLabel: "Belag", // die Optionen sind Belagarten (Vinyl & Laminat, Fliesen, Großformat), nicht der Untergrund
     frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
     min: 5, max: 200, step: 5, default: 25,
@@ -253,17 +265,19 @@ export const GEWERKE: Gewerk[] = [
       { id: "premium", label: "Großformatfliesen", hint: "Großformat und Feinsteinzeug" },
     ],
     bausteine: [
-      { id: "rueckbau", label: "Alten Belag entfernen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus" },
+      { id: "rueckbau", label: "Alten Belag entfernen und entsorgen", fach: "Rückbau Altbelag & Entsorgung", hint: "Alte Fliesen, Teppich oder Laminat raus – Entsorgung laut Angebot" }, // Jamil 27.10.2026 (Talk 3430)
       { id: "untergrund", label: "Untergrund vorbereiten", fach: "Untergrundvorbereitung (Schleifen, Spachteln, Ausgleichen)", hint: "Eben und tragfähig – die Basis für lange Haltbarkeit" },
       { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nassbereich", hint: "In Bad und Küche: Schutz vor Feuchtigkeit" },
       { id: "verlegung", label: "Fliesen bzw. Boden verlegen", fach: "Verlegung Fliesen/Bodenbelag", hint: "Präzise verlegt im gewünschten Muster" },
-      { id: "fugen", label: "Fugen & sauberer Abschluss", fach: "Verfugung, Silikon-/Anschlussfugen, Sockel", hint: "Saubere Fugen, Sockelleisten, besenrein übergeben" },
+      { id: "fugen", label: "Fugen & sauberer Abschluss", fach: "Verfugung, Silikon-/Anschlussfugen", hint: "Saubere Fugen, besenrein übergeben" },
+      { id: "leisten", label: "Fußbodenleisten anbringen", fach: "Montage Fuß-/Sockelleisten", hint: "Neue Leisten passend zum Boden" }, // Jamil 27.10.2026 (Talk 3431), kein eigener Preis
     ],
   },
   {
     slug: "innenausbau",
     label: name("innenausbau"),
     icon: "wall",
+    auswahlLabel: "Ausbaustufe",
     frage: "Wie groß ist die auszubauende Fläche?",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
@@ -351,7 +365,10 @@ export function berechne(g: Gewerk, menge: number, tierId: string, opt: KalkOpti
   const proE = (g.proEinheit[t.id] ?? Object.values(g.proEinheit)[0]) * f;
   const basis = grund + menge * proE;
   if (g.spanne === 0) {
-    return { art: "betrag", betrag: Math.round(basis) };
+    const betrag = Math.round(basis);
+    // Fliesen & Boden: Spanne „ca.-Preis bis ca.-Preis + 1.000 €“ (Jamil 27.10.2026, Talk 3434)
+    if (g.aufschlag) return { art: "spanne", von: betrag, bis: betrag + g.aufschlag, ab: false };
+    return { art: "betrag", betrag };
   }
   const round500 = (n: number) => Math.round(n / 500) * 500;
   return { art: "spanne", von: round500(basis * (1 - g.spanne)), bis: round500(basis * (1 + g.spanne)), ab: false };
