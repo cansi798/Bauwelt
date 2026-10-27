@@ -74,7 +74,7 @@ const VERBOTEN = [
   [/jederzeit kostenfrei|Absage jederzeit/i, "Versprechen-Check H5 (27.10.)", "AGB § 11 – nicht „jederzeit kostenfrei“ absagen versprechen"],
   [/sehr nah am tatsächlichen Preis|Lockangebot|Lockpreis|tatsächlichen Preisen/i, "Versprechen-Check H6/M12 (27.10.)", "Rechner = erste Orientierung, keine Genauigkeits-Aussage, kein Seitenhieb auf andere Anbieter"],
   [/Partner-?\s?(?:Elektro-?)?Meister|Partnerpfleger|Partnerbetrieb/i, "Versprechen-Check H7/M3 (27.10.)", "keine Aussagen über namenlose Partner ohne Beleg → „zugelassene Fachbetriebe“"],
-  [/\b40\+|von Bauwelt (?:saniert|modernisiert|ausgebaut|umgebaut)|echtes Bauwelt-Projekt|über 30 Aufträge|über 10 Aufträge/i, "Versprechen-Check H8 (27.10.)", "keine unbelegten Zahlen / Herkunftsangaben bei Projekten"],
+  [/\b40\+(?! (?:40 \+ )?sanierte Bäder)|von Bauwelt (?:saniert|modernisiert|ausgebaut|umgebaut)|echtes Bauwelt-Projekt|über 30 Aufträge|über 10 Aufträge/i, "Versprechen-Check H8 (27.10.)", "keine unbelegten Zahlen / Herkunftsangaben bei Projekten"],
   [/für (?:Ihre|die) Steuererklärung/i, "Versprechen-Check M9 (27.10.)", "keine Steuer-Zusage → „Voraussetzung für die steuerliche Geltendmachung“"],
   [/deutschsprachige[nrs]? Ansprechpartner/i, "Wording (4.6/7.6)", "→ „Ein fester Ansprechpartner“"],
   [/Zuhause-Check|\b60\+|ab 60\b|Senior/i, "Wording (Kundenwunsch 17.10.)", "kein Altersbezug"],

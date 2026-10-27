@@ -13,7 +13,9 @@ Alle hohen und mittleren Befunde des Versprechen-Checks (Nextcloud `Bauwelt/Webs
 - **Keine festen Fristen**: nie „12 Stunden“/„24 Stunden“, nie „fertig in 2 Wochen“. Antwort: „zeitnah, in der Regel am selben oder nächsten Werktag“. Angebot: „zeitnah nach dem Vor-Ort-Termin“. Bad (Jamil 27.10., Talk 3404): „rund 2 Wochen ab Baustart“, Baustart vorab abgestimmt, Zeitplan schriftlich im Angebot – trägt erst, wenn AGB § 11 entsprechend angepasst ist. Nicht „in wenigen Wochen“.
 - **Kein „jederzeit kostenfrei absagen“** (AGB § 11). Kein „Lockangebot“-Seitenhieb, keine Genauigkeits-Aussage beim Rechner („erste Orientierung“).
 - **Keine namenlosen „Partner-(Elektro-)Meisterbetriebe“, kein „Partnerpfleger“**: „Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus“ (AGB § 13: Endanschlüsse Elektromeisterbetrieb). Kein „Heizung“ als Leistung.
-- **Keine unbelegten Zahlen**: „40+ Bäder“, „15+ Jahre“, „über 30/10 Aufträge“, „Von Bauwelt saniertes Bad“ entfallen (Vertrauensleiste: Sitz, Erreichbarkeit, versichert, Handwerkskammer). Wieder aufnehmen nur mit interner Projektliste/Beleg.
+- **Detaillierte Kalkulation (Rechner Badsanierung): vorübergehend entfernt am 27.10.2026 auf Wunsch von Jamil (Talk 3426).** Schalter `KALK_DETAIL_AKTIV` in `src/data/rechner.ts` (derzeit `false`); Extras, Preislogik und Rechner-Schritt bleiben im Code. Zum Wiedereinschalten auf `true` setzen und rechner.astro-Absatz „So rechnet der Rechner“ ergänzen.
+- **Bestätigte Aussage (Jamil als Inhaber, Talk 3425, 27.10.2026): „40+ sanierte Bäder“** steht in der Vertrauensleiste (statt der Öffnungszeiten; Jamil führt die Projektliste als Beleg). Der Audit-Check lässt genau diese Formulierung zu.
+- **Keine unbelegten Zahlen**: „15+ Jahre“, „über 30/10 Aufträge“, „Von Bauwelt saniertes Bad“ entfallen (Vertrauensleiste: Sitz, Erreichbarkeit, versichert, Handwerkskammer). Wieder aufnehmen nur mit interner Projektliste/Beleg.
 - **Check-Anrechnung** nur „in der Regel“ und „Bedingungen vorab“. Kein „für Ihre Steuererklärung“. Karriere ohne „verdienen mehr“/24-Stunden-Frist.
 
 ## So arbeiten (jeder Agent, jede Änderung)

@@ -136,6 +136,9 @@ export const BAD_STUFE = 1500;
 export const BAD_SCHNELL_SPANNE = 5160;
 /** Extras der detaillierten Kalkulation – Bruttopreise, werden Kunden NICHT angezeigt
  *  (Kundenwunsch 14.10.2026 (47)). Reihenfolge = Anzeige-Reihenfolge. */
+/** Detaillierte Kalkulation (Schalter): vorübergehend AUS seit 27.10.2026 auf Wunsch von Jamil (Talk 3426).
+ *  Zum Wiedereinschalten auf `true` setzen – Extras, Preislogik und Rechner-Schritt sind unverändert vorhanden. */
+export const KALK_DETAIL_AKTIV = false;
 export const BAD_EXTRAS: Extra[] = [
   { id: "grosse-fliesen", label: "Große Fliesen", fach: "Großformatfliesen (statt Standardformat)", preis: 35, proM2: true },
   { id: "led-spots", label: "LED-Spots", fach: "LED-Einbaustrahler", preis: 400 },
@@ -161,7 +164,7 @@ export const GEWERKE: Gewerk[] = [
     preistabelle: BAD_AB_BRUTTO,
     tabelleSpanne: BAD_STUFE,
     schnellSpanne: BAD_SCHNELL_SPANNE,
-    extras: BAD_EXTRAS,
+    extras: KALK_DETAIL_AKTIV ? BAD_EXTRAS : undefined, // Schalter siehe oben
     wahlFrage: "Was ist geplant?",
     grund: 0, proEinheit: {}, netto: false, spanne: 0,
     // Kundenwunsch 14.10.2026 (47): nur noch „Badsanierung“ und „Barrierefreie Dusche“
@@ -169,7 +172,7 @@ export const GEWERKE: Gewerk[] = [
     tiers: [
       {
         id: "bad", label: "Badsanierung",
-        hint: "Komplett neues Bad – Preis nach Badgröße, auf Wunsch mit Extras",
+        hint: "Komplett neues Bad – Preis nach Badgröße",
         // Standard-Inhalt = bisheriges „Basis“-Niveau
         enthalten: [
           "Dusche ODER Badewanne (nicht beides)",

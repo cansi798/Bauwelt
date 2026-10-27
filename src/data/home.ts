@@ -27,9 +27,12 @@ export const HERO = {
  *  Jamil 19.10.2026 (Talk 2531/2536, Variante A): 12 h Antwort / 24 h Angebot stehen NUR noch
  *  in „Unsere Versprechen“ (data/versprechen.ts), nicht mehr in dieser Leiste.
  *  Die alten Werte „30+ Bäder / 15+ Komplettsanierungen / 10+ Jahre“ waren nie freigegeben. */
-// 27.10.2026 (Versprechen-Check H8): „40+ sanierte Bäder“ und „15+ Jahre Erfahrung“ entfernt – im Repo kein Beleg
-// (nur Aussage Jamil). Wieder aufnehmen, sobald eine interne Projektliste die Zahl stützt.
-export const ZAHLEN: { wert: string; label: string }[] = [];
+// 27.10.2026 (Versprechen-Check H8): „15+ Jahre Erfahrung“ entfernt (GmbH seit ca. 2024, kein Beleg).
+// „40+ sanierte Bäder“ ist von Jamil als Inhaber bestätigt (Talk 3425, 27.10.2026, ersetzt den Kreis „Öffnungszeiten“);
+// Beleg = Projektliste, die Jamil führt (siehe AUDIT-REGELN „bestätigte Aussage“).
+export const ZAHLEN: { wert: string; label: string }[] = [
+  { wert: "40+", label: "sanierte Bäder" }, // bestätigte Aussage Jamil 27.10.2026
+];
 
 /** Belegbare Nachweise (Audit 6.2) – Jamil 19.10.2026 (Talk 2544/2547): stehen zusammen mit den
  *  ZAHLEN in EINER dunklen Vertrauensleiste (4 goldene Kreise, Komponente Vertrauensleiste.astro).
@@ -38,7 +41,6 @@ export const ZAHLEN: { wert: string; label: string }[] = [];
 export const NACHWEISE = [
   // Belegt im Impressum / in der Konfiguration (SITE): Sitz, Öffnungszeiten, Versicherung, Handwerkskammer
   { icon: "pin", label: `Persönlich vor Ort – Sitz in ${SITE.city}` },
-  { icon: "clock", label: `Erreichbar ${SITE.hours}` },
   { icon: "shield", label: "Versicherter Betrieb" },
   { icon: "hammer", label: "Eingetragen bei der Handwerkskammer Lübeck" },
 ];

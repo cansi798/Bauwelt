@@ -195,7 +195,7 @@ const weich = (t: string) =>
       <div class="rkalk" id="rKalk" hidden={!mitKalk}>
         <p class="rfrage" id="rKalkFrage">Wie möchten Sie rechnen?</p>
         <div class="rkalk__arten" role="radiogroup" aria-labelledby="rKalkFrage">
-          {KALK_ARTEN.map((k, i) => (
+          {mitKalk && KALK_ARTEN.map((k, i) => (
             <label class="rart">
               <input type="radio" name="rKalkArt" value={k.id} checked={i === 0} />
               <span class="rart__text"><strong>{k.label}</strong><small>{k.hint}</small></span>
@@ -939,7 +939,7 @@ const weich = (t: string) =>
         ? [g.label, niveau]
         : kalk
           ? [g.label, masse, artLabel, ...(detail ? [extrasZeile] : [])]
-          : [g.label, masse, `Niveau: ${niveau}`];
+          : [g.label, masse, `${g.preismodell === "tabelle" ? "Auswahl" : "Niveau"}: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
         ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
@@ -956,10 +956,10 @@ const weich = (t: string) =>
       const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
       const waWahl = kalk
         ? `🧮 Kalkulation: ${artLabel}` + (detail ? `\n✨ Extras:${extrasText}` : "")
-        : `⭐ ${g.extras ? "Auswahl" : "Niveau"}: ${niveau}`;
+        : `⭐ ${g.preismodell === "tabelle" ? "Auswahl" : "Niveau"}: ${niveau}`;
       const mailWahl = kalk
         ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
-        : `${g.extras ? "Auswahl:  " : "Niveau:   "}${niveau}`;
+        : `${g.preismodell === "tabelle" ? "Auswahl:  " : "Niveau:   "}${niveau}`;
       const waText =
         `Hallo Bauwelt Handwerk! 👋\n\n` +
         `Ich habe gerade mein Projekt auf Ihrer Website berechnet:\n\n` +
