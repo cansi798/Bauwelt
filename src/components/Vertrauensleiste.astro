@@ -15,6 +15,14 @@ import Icon from "./Icon.astro";
 import SkizzenKreis from "./SkizzenKreis.astro";
 import { ZAHLEN, NACHWEISE } from "../data/home";
 
+interface Props {
+  /** Helle Fassung (Jamil 27.10.2026, Talk 3507: auf Über uns kein dunkler Balken) – reiht sich als normaler
+   *  Abschnitt in den Weiß/Creme-Wechsel ein; `sand` = Creme schon im HTML (wie das Layout-Skript es setzt). */
+  hell?: boolean;
+  sand?: boolean;
+}
+const { hell = false, sand = false } = Astro.props;
+
 type Punkt =
   | { art: "zahl"; label: string; wert: string; zahl: number | null; rest: string }
   | { art: "symbol"; label: string; icon: string };
@@ -27,7 +35,7 @@ const punkte: Punkt[] = [
 ];
 ---
 
-<section class="zahlen" aria-label="Bauwelt Handwerk in Zahlen und Nachweisen" data-einmal>
+<section class:list={["zahlen", { "zahlen--hell": hell, section: hell, "section--sand": hell && sand }]} aria-label="Bauwelt Handwerk in Zahlen und Nachweisen" data-einmal>
   <div class="container">
     <ul class="zahlen__liste">
       {punkte.map((p, i) => (
@@ -111,6 +119,12 @@ const punkte: Punkt[] = [
     font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-size: 17px;
     color: var(--anthrazit-100); max-width: 19ch;
   }
+
+  /* Helle Fassung (Über uns, Talk 3507): kein dunkler Balken, Farben für Kontrast auf Weiß/Creme */
+  .zahlen--hell { background: none; color: var(--anthrazit-800); padding-block: 24px; }
+  .zahlen--hell.section--sand { background: var(--gold-100); }
+  .zahlen--hell .zahlen__wert, .zahlen--hell .zahlen__symbol { color: var(--gold-700); }
+  .zahlen--hell .zahlen__label { color: var(--anthrazit-800); }
 
   /* Tablet/Handy: 2 × 2 */
   @media (max-width: 767px) {

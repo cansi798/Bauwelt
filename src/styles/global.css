@@ -302,6 +302,11 @@ html.js [data-einmal]:not(.is-sichtbar) * { animation-play-state: paused !import
   color: var(--anthrazit-900);
   display: inline-flex; align-items: center; justify-content: center;
 }
+/* Jamil 27.10.2026 (Talk 3507–3509): „Warum Bauwelt Handwerk“ auf Karriere/Partner hell statt dunkel → Karten im
+   hellen Kartenstil (weiß, feine Linie); Gold-Symbole bleiben. */
+.section:not(.section--dark) .warum__item { background: var(--weiss); border: 1px solid var(--linie); }
+.section:not(.section--dark) .warum__item h3 { margin: 6px 0 0; font-size: 18px; text-transform: none; letter-spacing: 0; line-height: 1.3; }
+.section:not(.section--dark) .warum__item p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--anthrazit-600); }
 .section--dark .warum__item h3 { margin: 6px 0 0; font-size: 18px; text-transform: none; letter-spacing: 0; line-height: 1.3; color: var(--weiss); }
 .section--dark .warum__item p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--anthrazit-200); }
 
