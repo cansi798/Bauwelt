@@ -7,22 +7,11 @@ import BookingEmbed from "../components/BookingEmbed.astro";
 import Rechner from "../components/Rechner.astro";
 import Faq from "../components/Faq.astro";
 import { faqSchema } from "../lib/schema";
+import { RECHNER_FRAGEN } from "../data/home";
 
 // SEO-/KI-Audit S7 (Go Jamil 19.10.2026): kurzer Erklärtext + 3 Fragen unter dem Rechner
-const FRAGEN = [
-  {
-    q: "Wie genau ist die Preisspanne?",
-    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied – und können die Spanne nach oben oder unten verschieben.",
-  },
-  {
-    q: "Ist das Ergebnis verbindlich?",
-    a: "Nein. Die Preisspanne ist eine unverbindliche Orientierung. Den genauen Preis nennen wir Ihnen in einem schriftlichen Angebot nach dem kostenlosen Vor-Ort-Termin – darin steht genau, welche Leistungen enthalten sind.",
-  },
-  {
-    q: "Muss ich meine Kontaktdaten angeben?",
-    a: "Nein. Der Rechner läuft komplett in Ihrem Browser, Ihre Eingaben werden nicht gespeichert. Erst wenn Sie das Ergebnis selbst per WhatsApp, E-Mail oder Rückruf-Formular an uns schicken, erhalten wir Ihre Angaben.",
-  },
-];
+// Fragen liegen seit 27.10.2026 in data/home.ts (RECHNER_FRAGEN) – auch auf der Seite „Häufige Fragen“
+const FRAGEN = RECHNER_FRAGEN;
 ---
 
 <BaseLayout

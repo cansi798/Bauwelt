@@ -70,7 +70,7 @@ const vorteile = [
       { name: "Startseite", url: new URL(u(""), Astro.site).href },
       { name: leistung.unterschrift, url: new URL(u("leistungen/sicher-wohnen/"), Astro.site).href },
     ]),
-    ...faqSchema(l.data.faq),
+    ...faqSchema(l.data.faqAufSeite ? l.data.faq.slice(0, l.data.faqAufSeite) : l.data.faq),
   ] /* SEO-/KI-Audit S3 */}
   sticky={[{ label: cta.label, href: cta.href }, { label: "Anrufen", href: `tel:${SITE.phoneTel}`, ariaLabel: `${SITE.phoneDisplay} anrufen` }] /* Audit 1.7 */} title="Sicher-wohnen-Check in Norderstedt | Bauwelt Handwerk" /* SEO-/KI-Audit S4 */ description={l.data.beschreibung ?? l.data.teaser}>
   <LeistungHero
@@ -200,7 +200,9 @@ const vorteile = [
       <section class="section section--sand">
         <div class="container">
           <SectionHead center eyebrow="Häufige Fragen" pre="Sicher-wohnen-Check: " accent="Gut zu wissen" />
-          <Faq items={l.data.faq} withCta />
+          <Faq items={l.data.faqAufSeite ? l.data.faq.slice(0, l.data.faqAufSeite) : l.data.faq} withCta />
+          {/* Jamil 27.10.2026 (Talk 3498): alle Fragen zentral auf /faq/ */}
+          <p class="zc-faq__mehr"><a href={u("faq/")}>Alle Fragen ansehen <Icon name="arrow" size={16} class="icon" /></a></p>
         </div>
       </section>
     )}
@@ -208,6 +210,8 @@ const vorteile = [
 </BaseLayout>
 
 <style>
+  .zc-faq__mehr { text-align: center; margin: 24px 0 0; font-weight: 600; }
+  .zc-faq__mehr a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
   /* Barrierearm lesbar: größere Grundschrift, ruhige Abstände, starke Kontraste */
   .zc { font-size: 18px; line-height: 1.7; }
   .zc :global(.section-head .lead) { font-size: 19px; }

@@ -1,11 +1,10 @@
 ---
 // Kontakt – Kundenwunsch 14.10.2026 (40): finale Struktur von Jamil, Texte wörtlich:
-// 1 Hero → 2 So erreichen Sie uns (4 Wege, Vor-Ort-Termin = Sprungziel #termin, öffnet das
+// (Startbereich seit 27.10.2026 entfernt, Talk 3497) 2 So erreichen Sie uns (4 Wege, Vor-Ort-Termin = Sprungziel #termin, öffnet das
 // Buchungsfenster wie bisher die Termin-Karte) → 3 Was passiert nach Ihrer Anfrage? (gezeichneter
 // Ablauf der Startseite) → 5 Einzugsgebiet (mit Adresse + Route statt Karten-Embed – DSGVO)
 // → 6 Persönlicher Ansprechpartner (Burim Ahmedi). Direktkontakt steht zusätzlich im Footer-Kopf.
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import RoughSzene from "../components/RoughSzene.astro";
 import WarumAnders from "../components/WarumAnders.astro";
@@ -34,32 +33,12 @@ const WEGE: Weg[] = [
   title="Kontakt & Vor-Ort-Termin in Norderstedt | Bauwelt Handwerk"
   description="Kontakt zur Bauwelt Handwerk GmbH – WhatsApp, E-Mail, Telefon oder direkt einen kostenlosen Vor-Ort-Termin buchen. Schweriner Straße 16, 22844 Norderstedt."
 >
-  <!-- 1. Hero – Buttons nur Desktop (mobil stehen Termin + Rechner in der festen Leiste) -->
-  <PageHero
-    eyebrow="Kontakt"
-    pre="Sprechen wir über Ihr "
-    accent="Projekt."
-    lead="Ob erste Idee, konkrete Anfrage oder Rückfrage zu einem Angebot – wir freuen uns auf Ihre Nachricht."
-  >
-    {/* Jamil 21.10.2026 (Msg 2897): statt Foto ein gezeichneter Handschlag, der „einschlägt“ (Szene „handschlag“) */}
-    <figure class="kontakt__hand" slot="medien">
-      <RoughSzene
-        szene="handschlag"
-        label="Zeichnung im Skizzen-Stil: Handschlag zwischen einem Handwerker mit goldener Arbeitsjacke und einem Kunden, darüber ein goldenes Herz."
-      />
-    </figure>
-    <p>
-      Sie entscheiden selbst, wie Sie mit uns Kontakt aufnehmen möchten. Per WhatsApp, E-Mail, Telefon
-      oder über einen direkten kostenlosen Vor-Ort-Termin.
-    </p>
-    {/* Kundenwunsch 15.10.2026 (63): Buttons im Kontakt-Hero entfernt */}
-  </PageHero>
-  <Vertrauensleiste /> {/* Audit 6.2 */}
-
+  {/* Jamil 27.10.2026 (Talk 3497): Startbereich „Sprechen wir über Ihr Projekt“ mit Handschlag-Zeichnung entfernt –
+      die Seite beginnt mit „Wählen Sie den Weg …“ als Hauptüberschrift im Stil der anderen Abschnitts-Überschriften. */}
   <!-- 2. So erreichen Sie uns -->
   <section class="section" id="kontaktwege">
     <div class="container">
-      <SectionHead center eyebrow="Kontaktmöglichkeiten" pre="Wählen Sie den Weg, der für Sie am besten " accent="passt." />
+      <SectionHead center as="h1" eyebrow="Kontakt" pre="Wählen Sie den Weg, der für Sie am besten " accent="passt." />
       <ul class="wege">
         {WEGE.map((w) => (
           <li class="card weg reveal" id={w.id}>
@@ -78,16 +57,17 @@ const WEGE: Weg[] = [
       </ul>
     </div>
   </section>
+  <Vertrauensleiste /> {/* Audit 6.2 – seit 27.10.2026 unter den Kontaktwegen (Startbereich entfernt) */}
 
   <!-- 2b. Rückruf-Formular (Kundenwunsch 19.10.2026, Audit 6.3) -->
-  <section class="section section--sand" id="rueckruf">
+  <section class="section" id="rueckruf">
     <div class="container kontakt__rueckruf">
       <RueckrufFormular id="kRueckruf" betreff="Rückruf-Anfrage über die Kontaktseite" />
     </div>
   </section>
 
   <!-- 3. Was passiert nach Ihrer Anfrage? – Ablauf-Animation der Startseite -->
-  <section class="section" id="ablauf">
+  <section class="section section--sand" id="ablauf">
     <div class="container">
       <SectionHead center eyebrow="So geht es weiter" pre="Planbar. Transparent. " accent="Verlässlich." /> {/* Audit 7.7 */}
       {/* Kundenwunsch 19.10.2026 (Audit 1.8): eigener Ablauf „Was nach Ihrer Anfrage passiert“ */}
@@ -99,7 +79,7 @@ const WEGE: Weg[] = [
   </section>
 
   <!-- 5. Einzugsgebiet (statt Karten-Embed: Adresse + Route in Google Maps, DSGVO) -->
-  <section class="section section--sand" id="einzugsgebiet">
+  <section class="section" id="einzugsgebiet">
     <div class="container">
       <SectionHead center eyebrow="Wo wir tätig sind" pre="Für Hamburg und " accent="Umgebung." /* Audit 4.10: wie Karte und Startseite */ text="Wir betreuen Privatkunden, Hausverwaltungen, Investoren und Unternehmen in:" />
       {/* Kundenwunsch 17.10.2026 (78): statt Gebiets-Kacheln das laufende Orts-Band wie auf der Startseite */}
@@ -124,7 +104,6 @@ const WEGE: Weg[] = [
     pre="Sie haben Fragen? Ich helfe gerne "
     accent="weiter."
     zitat={false}
-    weiss
     id="ansprechpartner"
   >
     <p>
@@ -135,10 +114,10 @@ const WEGE: Weg[] = [
 </BaseLayout>
 
 <style>
+  /* Hauptüberschrift (h1) wie die anderen Abschnitts-Überschriften (h2), Jamil 27.10.2026, Talk 3497 */
+  #kontaktwege :global(.section-head h1) { font-size: clamp(26px, 4vw, 38px); }
+  #kontaktwege { padding-top: 56px; }
   /* Handschlag-Zeichnung im Hero (Jamil 21.10.2026, Msg 2897): Sand-Fläche wie ein Bildrahmen */
-  .kontakt__hand { margin: 0; padding: 18px 12px; border-radius: var(--radius-lg); background: var(--gold-100); min-width: 0; }
-  .kontakt__hand :global(.rszene) { margin: 0; }
-  .kontakt__hand :global(.rszene__bild) { max-width: none; }
   .kontakt__rueckruf { max-width: 720px; }
   .kontakt__hero-actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-top: 8px; width: 100%; }
 

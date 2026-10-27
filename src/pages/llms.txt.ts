@@ -58,6 +58,8 @@ Orte: ${REGION_CITIES.join(", ")}.
 
 ## Häufige Fragen
 
+Alle Fragen nach Themen: ${o}faq/
+
 ${FAQ_HOME.map((f) => `- ${f.q} ${f.a}`).join("\n")}
 
 ## Kontakt

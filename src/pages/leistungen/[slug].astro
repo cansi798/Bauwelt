@@ -54,6 +54,8 @@ const weich = (t: string) => t
   .replace("Sanierungscheck", "Sanierungs\u00ADcheck");
 const h1Titel = weich(leistung.unterschrift);
 const pauschal = l.data.pauschalpreis;
+// Jamil 27.10.2026 (Talk 3498): auf der Leistungsseite höchstens `faqAufSeite` Fragen, alle stehen auf /faq/
+const faqSeite = l.data.faqAufSeite ? l.data.faq.slice(0, l.data.faqAufSeite) : l.data.faq;
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const euro = (n: number) => n.toLocaleString("de-DE");
@@ -141,7 +143,7 @@ const description =
       { name: "Startseite", url: new URL(u(""), Astro.site).href },
       { name: leistung.unterschrift, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href },
     ]),
-    ...faqSchema(l.data.faq),
+    ...faqSchema(faqSeite),
   ] /* SEO-/KI-Audit S3 */}
   title={seoTitel /* SEO-/KI-Audit S4: Leistung + Norderstedt, max. ca. 60 Zeichen */}
   description={description}
@@ -308,9 +310,9 @@ const description =
     <section class:list={sand("faq")}>
       <div class="container">
         <SectionHead center eyebrow="Häufige Fragen" pre={`${weich(kurzTitel)}: `} accent="Gut zu wissen" />
-        <Faq items={l.data.faq} withCta />
-        {/* Audit 5.6: allgemeine Fragen (Festpreis, Vor-Ort-Termin, Ablauf) stehen einmal auf der Startseite */}
-        <p class="lmitte lfaq__mehr"><a href={`${u("")}#fragen`}>Allgemeine Fragen zu Angebot, Vor-Ort-Termin und Ablauf <Icon name="arrow" size={16} class="icon" /></a></p>
+        <Faq items={faqSeite} withCta />
+        {/* Jamil 27.10.2026 (Talk 3498): alle Fragen zentral auf /faq/ */}
+        <p class="lmitte lfaq__mehr"><a href={u("faq/")}>Alle Fragen ansehen <Icon name="arrow" size={16} class="icon" /></a></p>
       </div>
     </section>
   )}

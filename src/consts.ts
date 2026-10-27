@@ -133,6 +133,7 @@ export const NAV2: NavItem[] = [
     children: [
       { label: "Über uns", href: u("ueber-uns/"), icon: "user", desc: "Team, Werte, Arbeitsweise" },
       { label: "Karriere", href: u("karriere/"), icon: "karriere", desc: "Arbeiten bei Bauwelt Handwerk" },
+      { label: "Häufige Fragen", href: u("faq/"), icon: "chat", desc: "Alle Antworten an einem Ort" }, // Jamil 27.10.2026 (Talk 3498)
       // Partner war schon bisher als letzter Eintrag gold abgesetzt – bleibt so (16.10.2026 (73))
       { label: "Partner", href: u("partner/"), icon: "shield", desc: "Zusammenarbeit für Profis", hervorheben: true },
     ],

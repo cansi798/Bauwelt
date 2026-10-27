@@ -35,12 +35,13 @@ kacheln:
   - { icon: "euro", title: "Erste Kosten\u00ADeinschätzung" }
   - { icon: "chat", title: "Persönliches Gespräch" }
 ablaufTitel: "So *einfach* geht’s"
+faqAufSeite: 4 # Jamil 27.10.2026 (Talk 3498): auf der Seite 4 Fragen, alle auf /faq/
 faq:
   - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
   - { q: "Wann lohnt sich der Check?", a: "Vor allem vor dem Kauf einer Wohnung oder eines Hauses – aber auch, wenn Sie Ihre eigene Immobilie sanieren möchten und vorab wissen wollen, was sinnvoll ist und was es kostet." }
   - { q: "Kann ich bei der Besichtigung dabei sein?", a: "Ja, gern. Wir schauen uns die Immobilie am liebsten gemeinsam mit Ihnen an und beantworten Ihre Fragen direkt vor Ort." }
-  - { q: "Ist der Check wie der Vor-Ort-Termin kostenlos?", a: "Nein. Der Immobilien-Sanierungscheck ist ein Termin zum Pauschalpreis. Unabhängig davon ist der Vor-Ort-Termin für ein Angebot zu Ihrer eigenen Sanierung kostenlos und unverbindlich." }
   - { q: "Ist der Sanierungscheck ein Wertgutachten?", a: "Nein. Der Check ist eine Einschätzung aus Handwerkersicht zu Zustand, Sanierungsbedarf und Kosten. Ein Verkehrswertgutachten durch einen Sachverständigen ersetzt er nicht." }
+  - { q: "Ist der Check wie der Vor-Ort-Termin kostenlos?", a: "Nein. Der Immobilien-Sanierungscheck ist ein Termin zum Pauschalpreis. Unabhängig davon ist der Vor-Ort-Termin für ein Angebot zu Ihrer eigenen Sanierung kostenlos und unverbindlich." }
 ---
 
 Sie haben eine Wohnung oder ein Haus im Blick, wissen aber nicht, welche Sanierungskosten nach dem Kauf auf Sie zukommen?

@@ -29,6 +29,7 @@ export const GET: APIRoute = async ({ site }) => {
     "ueber-uns/",
     "karriere/",
     "kontakt/",
+    "faq/", // Jamil 27.10.2026 (Talk 3498): zentrale Seite „Häufige Fragen“
   ];
   const leistungen = await getCollection("leistungen");
 

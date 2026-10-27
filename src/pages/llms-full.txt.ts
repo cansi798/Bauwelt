@@ -51,6 +51,8 @@ ${abschnitte}
 
 ## Allgemeine Fragen
 
+Alle Fragen nach Themen sortiert: ${o}faq/
+
 ${FAQ_HOME.map((f) => `- ${f.q} ${f.a}`).join("\n")}
 
 ## Kontakt

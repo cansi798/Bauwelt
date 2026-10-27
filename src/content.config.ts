@@ -15,6 +15,8 @@ const leistungen = defineCollection({
     umfang: z.array(z.string()),        // Leistungsumfang (Bulletpoints)
     ablauf: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
     faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    /** Nur die ersten N Fragen auf der Leistungsseite zeigen (alle stehen auf /faq/; Jamil 27.10.2026, Talk 3498). */
+    faqAufSeite: z.number().optional(),
     /** Vorauswahl im Projekt-Rechner (Gewerk-Slug aus data/rechner.ts). */
     rechnerSlug: z.string().optional(),
     /** Passendes Versprechen-Siegel (id aus data/versprechen.ts). */

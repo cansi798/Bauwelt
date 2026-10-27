@@ -278,3 +278,31 @@ export const FOOTER_KONTAKT = {
   kontaktText: "Kurze Frage, konkretes Projekt oder erst einmal unverbindlich beraten lassen?",
   zeiten: SITE.hours, // eine Quelle: src/consts.ts (Jamil 26.10.2026)
 };
+
+/** Fragen zum Online-Rechner (SEO-/KI-Audit S7) – auf /rechner/ und auf der Seite „Häufige Fragen“. */
+export const RECHNER_FRAGEN = [
+  {
+    q: "Wie genau ist die Preisspanne?",
+    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied – und können die Spanne nach oben oder unten verschieben.",
+  },
+  {
+    q: "Ist das Ergebnis verbindlich?",
+    a: "Nein. Die Preisspanne ist eine unverbindliche Orientierung. Den genauen Preis nennen wir Ihnen in einem schriftlichen Angebot nach dem kostenlosen Vor-Ort-Termin – darin steht genau, welche Leistungen enthalten sind.",
+  },
+  {
+    q: "Muss ich meine Kontaktdaten angeben?",
+    a: "Nein. Der Rechner läuft komplett in Ihrem Browser, Ihre Eingaben werden nicht gespeichert. Erst wenn Sie das Ergebnis selbst per WhatsApp, E-Mail oder Rückruf-Formular an uns schicken, erhalten wir Ihre Angaben.",
+  },
+];
+
+/** Startseite: nur noch 4 Fragen + Link „Alle Fragen ansehen“ (Jamil 27.10.2026, Talk 3495/3498 – alle Fragen auf /faq/). */
+export const FAQ_START = [
+  "Was kostet meine Sanierung?",
+  "Wie lange dauert mein Projekt?",
+  "Wie läuft der Vor-Ort-Termin ab?",
+  "Was passiert, wenn sich während der Arbeiten etwas ändert?",
+].map((q) => {
+  const f = FAQ_HOME.find((x) => x.q === q);
+  if (!f) throw new Error(`FAQ_START: Frage fehlt in FAQ_HOME: ${q}`);
+  return f;
+});

@@ -46,10 +46,15 @@ import MobileMenu from "./MobileMenu.astro";
     </nav>
 
     <div class="hdr__actions">
-      <a class="hdr__iconbtn" href={`tel:${SITE.phoneTel}`} aria-label={`Anrufen: ${SITE.phoneDisplay}`}>
+      {/* Jamil 27.10.2026 (Talk 3494/3498): Telefon am PC als Nummer mit Text (ab 1360 px, darunter nur Symbol),
+          WhatsApp nur noch am Handy im Kopf (am PC auf der Kontaktseite und im Footer) */}
+      <a class="hdr__iconbtn hdr__tel" href={`tel:${SITE.phoneTel}`} aria-label={`Anrufen: ${SITE.phoneDisplay}`}>
         <Icon name="phone" size={22} />
       </a>
-      <a class="hdr__iconbtn" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
+      <a class="hdr__telnr" href={`tel:${SITE.phoneTel}`} aria-label={`Anrufen: ${SITE.phoneDisplay}`}>
+        <Icon name="phone" size={18} class="icon" /> <span>{SITE.phoneDisplay}</span>
+      </a>
+      <a class="hdr__iconbtn hdr__wa" href={waLink()} target="_blank" rel="noopener" aria-label="WhatsApp-Chat starten">
         <Icon name="whatsapp" size={25} />
       </a>
       <!-- Login entfernt (Kundenfeedback 30.09.2026) – stattdessen Vor-Ort-Termin -->
@@ -162,6 +167,12 @@ import MobileMenu from "./MobileMenu.astro";
   }
   .hdr__iconbtn:hover { background: var(--gold-100); }
   .hdr__cta { display: none; }
+  .hdr__telnr {
+    display: none; align-items: center; gap: 6px; padding: 8px 10px; white-space: nowrap;
+    font-family: var(--font-heading); font-weight: 700; font-size: var(--btn-s-fs); color: var(--anthrazit-800); border-radius: var(--radius-pill);
+  }
+  .hdr__telnr:hover { background: var(--gold-100); text-decoration: none; }
+  .hdr__telnr :global(.icon) { color: var(--gold-700); flex: none; }
   /* Vor-Ort-Termin: mobil nur Kalender-Symbol, ab Desktop mit Text */
   .hdr__termin {
     display: inline-flex; align-items: center; gap: 6px;
@@ -187,13 +198,14 @@ import MobileMenu from "./MobileMenu.astro";
     .hdr__inner { max-width: 1520px; padding-inline: 32px; }
     .hdr__nav { display: flex; }
     .hdr__cta { display: inline-flex; }
-    .hdr__iconbtn:not(.hdr__burger) { display: none; }
+    .hdr__wa { display: none; } /* WhatsApp am PC nicht im Kopf (Talk 3498) */
     .hdr__burger { display: none; }
   }
   /* Termin + Rechner immer einzeilig; Telefon/WhatsApp erst, wenn genug Platz ist */
   .hdr__termin, .hdr__cta { white-space: nowrap; }
   @media (min-width: 1360px) {
-    .hdr__iconbtn:not(.hdr__burger) { display: inline-flex; }
+    .hdr__tel { display: none; }
+    .hdr__telnr { display: inline-flex; }
   }
   /* Schmale Desktops (1024–1199 px): Termin-Button nur als Symbol, damit Logo (größer seit
      11.10.2026), Navigation und „Projekt berechnen“ in eine Zeile passen */

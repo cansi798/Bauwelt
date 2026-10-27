@@ -1,0 +1,84 @@
+---
+// Häufige Fragen – zentrale Seite mit ALLEN Fragen der Website, nach Themen gruppiert
+// (Jamil 27.10.2026, Talk 3495/3498). Texte wörtlich aus den Quellen (keine Kopien im Code):
+// FAQ_HOME (Startseite), RECHNER_FRAGEN (/rechner/) und `faq` der Leistungsseiten (Content Collection).
+// Auf den Leistungsseiten stehen nur noch 3–4 passende Fragen (faqAufSeite), die Startseite zeigt 4.
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Faq from "../components/Faq.astro";
+import { FAQ_HOME, RECHNER_FRAGEN } from "../data/home";
+import { LEISTUNGEN, TERMIN, CTA, u } from "../consts";
+import { faqSchema } from "../lib/schema";
+
+type F = { q: string; a: string };
+const nimm = (qs: string[]): F[] =>
+  qs.map((q) => {
+    const f = FAQ_HOME.find((x) => x.q === q);
+    if (!f) throw new Error(`faq.astro: Frage fehlt in FAQ_HOME: ${q}`);
+    return f;
+  });
+
+const leistungen = new Map((await getCollection("leistungen")).map((e) => [e.id, e.data]));
+const gruppen: { id: string; titel: string; fragen: F[] }[] = [
+  { id: "ablauf", titel: "Ablauf & Vor-Ort-Termin", fragen: nimm(["Wie läuft der Vor-Ort-Termin ab?", "Wie lange dauert mein Projekt?", "Muss ich mehrere Handwerker koordinieren?", "Muss ich während der Arbeiten ausziehen?", "Was passiert, wenn ich einen Termin absagen muss?"]) },
+  { id: "preise", titel: "Preise, Angebot & Zahlung", fragen: nimm(["Was kostet meine Sanierung?", "Was passiert, wenn sich während der Arbeiten etwas ändert?", "Was passiert bei verdeckten Schäden?", "Wie und wann bezahle ich?"]) },
+  { id: "rechner", titel: "Online-Rechner", fragen: RECHNER_FRAGEN },
+  { id: "gewaehrleistung", titel: "Abnahme & Gewährleistung", fragen: nimm(["Was gilt bei Abnahme und Gewährleistung?"]) },
+  // Je Leistung ihre eigenen Fragen (Reihenfolge wie im Menü)
+  ...LEISTUNGEN.map((l) => ({ id: l.slug, titel: l.unterschrift, fragen: leistungen.get(l.slug)?.faq ?? [] })),
+];
+// Alle Startseiten-Fragen müssen hier vorkommen (nichts geht verloren)
+const verteilt = new Set(gruppen.flatMap((g) => g.fragen.map((f) => f.q)));
+for (const f of FAQ_HOME) if (!verteilt.has(f.q)) throw new Error(`faq.astro: Frage nicht zugeordnet: ${f.q}`);
+// Gleiche Frage + gleiche Antwort nur einmal (z. B. „Kann ich eigene Fliesen verwenden?“ bei Bad und Fliesen)
+const gesehen = new Set<string>();
+const sichtbar = gruppen
+  .map((g) => ({ ...g, fragen: g.fragen.filter((f) => { const k = f.q + "|" + f.a; if (gesehen.has(k)) return false; gesehen.add(k); return true; }) }))
+  .filter((g) => g.fragen.length);
+const alle = sichtbar.flatMap((g) => g.fragen);
+---
+
+<BaseLayout
+  schema={faqSchema(alle)}
+  title="Häufige Fragen – Sanierung in Norderstedt | Bauwelt Handwerk"
+  description="Antworten zu Ablauf, Preisen, Rechner, Terminen und Gewährleistung – Badsanierung und Sanierung in Norderstedt, Hamburg und Umkreis."
+>
+  <section class="section">
+    <div class="container">
+      <SectionHead center as="h1" eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" text="Alle Antworten an einem Ort – nach Themen sortiert. Ihre Frage ist nicht dabei? Rufen Sie uns an oder schreiben Sie uns." />
+      <nav class="faqs__themen" aria-label="Themen">
+        {sichtbar.map((g) => <a href={`#${g.id}`}>{g.titel}</a>)}
+      </nav>
+      {sichtbar.map((g) => (
+        <div class="faqs__gruppe" id={g.id}>
+          <h2 class="faqs__titel">{g.titel}</h2>
+          <Faq items={g.fragen} />
+        </div>
+      ))}
+      <p class="faqs__agb">Alle Regelungen im Detail finden Sie in unseren <a href={u("agb/")}>Allgemeinen Geschäftsbedingungen (AGB)</a>.</p>
+      <div class="faqs__cta">
+        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
+        <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .faqs__themen { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 900px; margin: -8px auto 40px; }
+  .faqs__themen a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px;
+    border: 1px solid var(--linie); border-radius: var(--radius-pill); background: var(--weiss);
+    font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--anthrazit-800); text-decoration: none;
+  }
+  .faqs__themen a:hover { border-color: var(--gold-500); background: var(--gold-100); }
+  .faqs__gruppe { max-width: 820px; margin: 0 auto 40px; scroll-margin-top: calc(var(--header-h) + 16px); }
+  .faqs__titel { font-size: clamp(20px, 2.4vw, 24px); text-transform: none; letter-spacing: 0; margin: 0 0 16px; }
+  .faqs__agb { text-align: center; margin: 8px auto 0; font-size: 15px; }
+  .faqs__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 16px; margin-top: 28px; }
+  @media (max-width: 767px) {
+    .faqs__cta { display: grid; }
+    .faqs__cta .btn { width: 100%; justify-content: center; text-align: center; white-space: normal; }
+  }
+</style>
