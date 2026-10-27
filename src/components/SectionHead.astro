@@ -14,13 +14,16 @@ interface Props {
   center?: boolean;
   /** Nur mobil (< 768 px) mittig, ab Tablet linksbündig. */
   centerMobile?: boolean;
-  as?: "h1" | "h2";
+  as?: "h1" | "h2" | "h3";
+  /** Zwischenüberschrift innerhalb eines Abschnitts: kleiner als die Abschnitts-Überschrift
+   *  (Jamil 27.10.2026, Talk 3488/3489 – unter „So arbeiten wir heute“). */
+  klein?: boolean;
 }
-const { eyebrow, text, center = false, centerMobile = false, as: Tag = "h2" } = Astro.props;
+const { eyebrow, text, center = false, centerMobile = false, as: Tag = "h2", klein = false } = Astro.props;
 const { pre = "", accent = "", post = "" } = Astro.props.titel ? akzent(Astro.props.titel) : Astro.props;
 ---
 
-<div class:list={["section-head", { center, "center-mobile": centerMobile }]}>
+<div class:list={["section-head", { center, "center-mobile": centerMobile, "section-head--klein": klein }]}>
   {eyebrow && <div class="eyebrow">{eyebrow}</div>}
   <Tag class="rule">{pre}{accent && <span class="accent">{accent}</span>}{post}</Tag>
   {text && <p class="lead">{text}</p>}

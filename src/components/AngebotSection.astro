@@ -24,6 +24,8 @@ const Tag = eingebettet ? "div" : "section";
     <div class="angebot__text">
       <SectionHead
         centerMobile
+        as={eingebettet ? "h3" : "h2"}
+        klein={eingebettet}
         eyebrow="Ihr Angebot"
         pre="Verständliche Angebote statt "
         accent={"Positions\u00ADdschungel" /* W2: weiche Trennstelle, sonst 344 px breit auf 320-px-Handys */}

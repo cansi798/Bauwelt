@@ -1,13 +1,11 @@
 ---
 // Referenzen-Übersicht: Galerie nach Leistungen (Daten: src/data/galerie.ts).
 // Finale Struktur nach Kundenwunsch 14.10.2026 (36): Hero → Filter → je Kategorie Einleitung,
-// Projektkarten (Foto + Projektname + ggf. Projektdaten) und Link zur Leistung → Abschluss mit CTAs.
+// Projektkarten (Foto + Projektname + ggf. Projektdaten) und Link zur Leistung (Abschluss mit CTAs seit 27.10.2026 entfernt).
 // Die Projekt-Detailseiten unter /referenzen/<slug>/ bleiben erreichbar.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Gallery from "../../components/Gallery.astro";
-import SectionHead from "../../components/SectionHead.astro";
-import { CTA, TERMIN } from "../../consts";
 ---
 
 <BaseLayout
@@ -29,23 +27,6 @@ import { CTA, TERMIN } from "../../consts";
     </div>
   </section>
 
-  <!-- Abschlussbereich (Kundenwunsch 14.10.2026 (36)) -->
-  <section class="section rabschluss">
-    <div class="container rabschluss__inner">
-      <SectionHead center eyebrow="Ihr Projekt" pre="Gefällt Ihnen, was Sie " accent="sehen?" text="Jedes dieser Projekte begann mit einer Idee. Lassen Sie uns gemeinsam über Ihr Vorhaben sprechen." />
-      <div class="rabschluss__actions">
-        <a class="btn btn--lg" href={CTA.href}>{CTA.label}</a>
-        <a class="btn btn--lg btn--ghost" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
-      </div>
-    </div>
-  </section>
+  {/* Abschlussbereich „Gefällt Ihnen, was Sie sehen?“ entfernt (Jamil 27.10.2026, Talk 3490). Termin/Preis bleiben über Kopfzeile, Sticky-Leiste und Footer erreichbar. */}
 
 </BaseLayout>
-
-<style>
-  .rabschluss__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; }
-  @media (max-width: 767px) {
-    .rabschluss__actions { display: grid; }
-    .rabschluss__actions .btn { width: 100%; white-space: normal; text-align: center; }
-  }
-</style>
