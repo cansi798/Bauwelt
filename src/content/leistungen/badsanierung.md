@@ -7,7 +7,7 @@ badge: "Klares Angebot"
 # Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R3): Sanitär nur über zugelassene Fachbetriebe (Installateur-Handwerk ist meisterpflichtig, nicht eingetragen)
 # 27.10.2026 (Versprechen-Check H1/H2/H7): kein „Festpreis“, keine feste Dauer, keine namenlosen „Partner-Meisterbetriebe“
 teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Licht und Möbel, die Sanitär-Anschlüsse durch zugelassene Fachbetriebe. Mit transparentem Angebot nach dem Vor-Ort-Termin."
-beschreibung: "Badsanierung in Norderstedt, Hamburg und Umkreis: rund 2 Wochen ab Baustart, Zeitplan im Angebot, ein fester Ansprechpartner. Preis online berechnen."
+beschreibung: "Badsanierung in Norderstedt, Hamburg und Umkreis: rund 2 Wochen ab Baustart, Zeitplan per E-Mail, ein fester Ansprechpartner. Preis online berechnen."
 refAnker: "bad"
 refBilder:
   - { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" }
@@ -39,7 +39,7 @@ kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Demontage" }
-  - { icon: "tap", title: "Sanitär\u00ADanschlüsse durch Fach\u00ADbetrieb" } # R3 (20.10.)
+  - { icon: "tap", title: "Sanitär\u00ADarbeiten" } # Jamil 27.10.2026 (Talk 3486); Anschlüsse durch Fachbetriebe stehen im Text darüber
   - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
   - { icon: "wall", title: "Trocken\u00ADbau\u00ADarbeiten" }
   - { icon: "tiles", title: "Fliesen\u00ADarbeiten" }
@@ -53,7 +53,7 @@ bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Badsanierung sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
-  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, der Zeitplan steht schriftlich in Ihrem Angebot. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
+  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Wichtig: Der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
@@ -64,4 +64,4 @@ Genau dafür sind wir da. Vom Rückbau bis zur letzten Silikonfuge koordinieren 
 
 Auch bei der Auswahl von Fliesen, Armaturen, Badmöbeln und Beleuchtung beraten wir Sie gern – damit am Ende alles zusammenpasst.
 
-Eine Badsanierung dauert rund 2 Wochen ab Baustart. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den Baustart stimmen wir vorher mit Ihnen ab, den Zeitplan halten wir schriftlich in Ihrem Angebot fest – und Sie bleiben während der Arbeiten auf dem Laufenden.
+Eine Badsanierung dauert rund 2 Wochen ab Baustart. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den Baustart stimmen wir vorher mit Ihnen ab, den Zeitplan erhalten Sie von uns schriftlich per E-Mail – und Sie bleiben während der Arbeiten auf dem Laufenden.

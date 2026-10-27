@@ -62,6 +62,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     slug: "badsanierung",
     eyebrow: "Badsanierung",
     // Versprechen-Check H2 (27.10.2026): keine feste Zusage mehr („fertig in 2 Wochen“ vs. AGB § 11 „Termine unverbindlich“)
+    // Jamil 27.10.2026 (Talk 3485): Zeitplan kommt schriftlich per E-Mail, nicht im Angebot.
     // Jamil 27.10.2026 (Talk 3404): klare Zeitangabe statt „in wenigen Wochen“; trägt nur, wenn der Zeitplan
     // schriftlich im Angebot steht (AGB § 11, siehe PDF „Was noch zu tun ist“, B1).
     pre: "Ihr neues Bad: rund ",
@@ -69,7 +70,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     text:
       "Vom Abriss bis zur letzten Silikonfuge – wir bauen Ihr Bad komplett um. " +
       "Fliesen, bodengleiche Dusche, Licht und Möbel – die Sanitär- und Elektro-Anschlüsse führen zugelassene Fachbetriebe aus. Sie wählen die Ausstattung, " +
-      "wir erstellen Ihnen nach dem Vor-Ort-Termin ein transparentes Angebot, stimmen den Baustart vorab mit Ihnen ab und halten den Zeitplan schriftlich im Angebot fest.",
+      "wir erstellen Ihnen nach dem Vor-Ort-Termin ein transparentes Angebot, stimmen den Baustart vorab mit Ihnen ab und schicken Ihnen den Zeitplan schriftlich per E-Mail.",
     bild: "hero-badsanierung.webp",
     alt: "Modern saniertes Badezimmer mit bodengleicher Dusche",
     cta: "Bad berechnen",
@@ -229,7 +230,7 @@ export const FAQ_HOME = [
   // sie sprach von „Pauschalpreis“ (nur für die Checks) und widersprach sich bei der Entsorgung.
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Das hängt vom Umfang ab. Eine Badsanierung dauert rund 2 Wochen ab Baustart, größere Sanierungen planen wir individuell. Den Baustart stimmen wir vorab mit Ihnen ab, der Zeitplan steht schriftlich in Ihrem Angebot. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
+    a: "Das hängt vom Umfang ab. Eine Badsanierung dauert rund 2 Wochen ab Baustart, größere Sanierungen planen wir individuell. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",

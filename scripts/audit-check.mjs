@@ -83,7 +83,9 @@ const VERBOTEN = [
   [/\b(?:Obi|Hornbach|seniovo)\b/i, "Partnernamen (Jamil 20.10., R7)", "keine Partnernamen (Obi, Hornbach, seniovo) ohne schriftliche Freigabe"],
   [/keine Überraschungen auf der Rechnung/i, "AGB-Konsistenz (Jamil 20.10., R2)", "→ „Mehrkosten nur nach schriftlichem Nachtrag“"],
   [/\b5 Jahre(?:n)? Gewährleistung/i, "Werbung (Jamil 20.10., R8)", "gesetzliche Frist nicht als Vorteil nennen – „gesetzliche Gewährleistung“"],
-  [/Sanitär-?\s?arbeiten|Fliesen, Sanitär,/i, "Handwerksrecht (Jamil 20.10., R3)", "Sanitär nicht als eigene Leistung – „Anschlüsse durch zugelassene Fachbetriebe“"],
+  // Jamil 27.10.2026 (Talk 3486): Kachel „Sanitärarbeiten“ ausdrücklich gewünscht – erlaubt, solange dieselbe Seite die
+  // zugelassenen Fachbetriebe nennt (Prüfung „Handwerksrecht“ weiter unten). „Fliesen, Sanitär, …“ als Aufzählung bleibt verboten.
+  [/Fliesen, Sanitär,/i, "Handwerksrecht (Jamil 20.10., R3)", "Sanitär nicht als eigene Leistung – „Anschlüsse durch zugelassene Fachbetriebe“"],
   [/Besichtigungstermin|Beratungstermin|Erstes Gespräch vereinbaren|Telefontermin/i, "Wording (4.1)", "→ „Vor-Ort-Termin“"],
   [/Jetzt Preis berechnen|Projekt berechnen|Festpreis ansehen/i, "Wording (4.4)", "→ „Preis berechnen“"],
   [/Preisrahmen|Preiseinschätzung|Ersteinschätzung/i, "Wording (4.3)", "→ „Preisspanne“"],

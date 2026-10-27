@@ -28,7 +28,7 @@ kacheln:
   # Jamil 20.10. (Talk 2568): Kacheln wie bei Badsanierung – Beratung zuerst, Sanitär und Elektro getrennt
   - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "hammer", title: "Rückbau & Entkernung" }
-  - { icon: "tap", title: "Sanitär\u00ADanschlüsse durch Fach\u00ADbetrieb" } # R3 (Jamil 20.10., Talk 2787)
+  - { icon: "tap", title: "Sanitär\u00ADarbeiten" } # Jamil 27.10.2026 (Talk 3486); Anschlüsse durch Fachbetriebe stehen im Text darüber
   - { icon: "bolt", title: "Elektro\u00ADarbeiten" }
   - { icon: "wall", title: "Trockenbau & Grundriss" }
   - { icon: "tiles", title: "Fliesen & Böden" }
@@ -42,7 +42,7 @@ bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Ihre Komplettsanierung sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
-  - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den Zeitplan halten wir vorab schriftlich im Angebot fest." }
+  - { q: "Wie lange dauert eine Sanierung?", a: "Das hängt vom Umfang ab – von wenigen Tagen für einen einzelnen Raum bis zu mehreren Wochen für eine ganze Wohnung. Den Zeitplan erhalten Sie vorab schriftlich per E-Mail." }
   - { q: "Kann ich während der Sanierung in der Wohnung bleiben?", a: "Meistens ja. Wir arbeiten mit Staubschutz, abgedeckten Wegen und täglicher Grundordnung – ganz vermeiden lassen sich Staub und Lärm aber nicht. Bitte räumen Sie die Arbeitsbereiche vorher frei. Bei Kernsanierungen besprechen wir das gemeinsam beim Vor-Ort-Termin." }
   - { q: "Übernehmen Sie auch die Planung?", a: "Wir planen den Ablauf und koordinieren alle Gewerke – Sie haben einen festen Ansprechpartner für alles. Erfordert Ihr Vorhaben zusätzlich Statik, Genehmigungen oder eine Architektenplanung (z. B. bei tragenden Wänden), ziehen wir gemeinsam mit Ihnen einen Fachplaner hinzu." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für bestimmte Maßnahmen – etwa barrierearme Umbauten – gibt es Förderprogramme und Zuschüsse. Welche für Ihr Vorhaben infrage kommen und was Sie dafür beachten müssen (oft ist ein Antrag vor Baubeginn nötig), besprechen wir gern beim Vor-Ort-Termin." }

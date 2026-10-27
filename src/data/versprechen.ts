@@ -38,9 +38,9 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Klarer Zeitplan",
     // Versprechen-Check M1 (27.10.2026): AGB § 11 „Termine unverbindlich, außer schriftlich als verbindlich vereinbart“
     // → „abgestimmter Zeitplan“, verbindliche Termine nur auf Wunsch und schriftlich.
-    short: "Der Zeitplan steht schriftlich in Ihrem Angebot – den Baustart stimmen wir vorab ab.",
+    short: "Den Zeitplan erhalten Sie schriftlich per E-Mail – den Baustart stimmen wir vorab ab.", // Jamil 27.10.2026 (Talk 3485): per E-Mail, nicht im Angebot
     long:
-      "Den Baustart stimmen wir vorab mit Ihnen ab, der Zeitplan steht schriftlich in Ihrem Angebot. " +
+      "Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. " +
       "Wir koordinieren die Gewerke selbst – das hilft uns, Termine einzuhalten. Verschiebt sich etwas, " +
       "erfahren Sie es sofort von uns – nicht von der leeren Baustelle.",
   },
