@@ -59,7 +59,7 @@ function fluss(kinder: Element[], f: number): string {
 /** Farben/Schrift für die eigenständige Datei (Anzeige als <img> ohne JavaScript). Beim Einbetten
  *  per Skript wird dieser Block entfernt – dann gelten die Farben der Seite (global.css). */
 const DATEI_STIL =
-  "<style data-datei>svg{--anthrazit-800:#2D2C2E;--anthrazit-600:#6B6A6D;--anthrazit-400:#A3A2A5;" +
+  "<style data-datei=\"\">svg{--anthrazit-800:#2D2C2E;--anthrazit-600:#6B6A6D;--anthrazit-400:#A3A2A5;" +
   "--anthrazit-200:#D6D5D7;--gold-700:#8C7345;--gold-500:#C3A56F;--gold-300:#D9C5A0;--weiss:#FFFFFF}" +
   "text{font-family:Montserrat,Arial,sans-serif;stroke:none}</style>";
 

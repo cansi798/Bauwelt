@@ -65,7 +65,7 @@ const platzhalter = fassungen(szene).map((a) => ({
       const r = await fetch(src);
       if (!r.ok) throw new Error(String(r.status));
       // Farbblock der Datei entfernen – im Dokument gelten die Farben der Seite
-      p.insertAdjacentHTML("afterend", (await r.text()).replace(/<style data-datei>[\s\S]*?<\/style>/, ""));
+      p.insertAdjacentHTML("afterend", (await r.text()).replace(/<style data-datei(="")?>[\s\S]*?<\/style>/, ""));
       p.remove();
     } catch {
       p.innerHTML = `<img class="rszene__img" src="${src}" alt="">`;
