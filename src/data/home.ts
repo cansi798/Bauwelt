@@ -174,7 +174,7 @@ export const PORTAL = {
   // Wörtlich nach Kundenfeedback 28.09.2026 (Abschnitt 2)
   sub:
     "Schluss mit langen E-Mail-Verläufen, fehlenden Dokumenten und der Frage, " +
-    "was als Nächstes passiert. Bei uns behalten Sie jederzeit den Überblick.",
+    "was als Nächstes passiert. Mit unserem Kundenportal behalten Sie demnächst jederzeit den Überblick.", // „demnächst“: Jamil 27.10.2026, Talk 3478 F
   kacheln: [
     {
       icon: "doc",

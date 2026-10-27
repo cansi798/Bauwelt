@@ -5,6 +5,7 @@
 import { PORTAL } from "../data/home";
 import SectionHead from "./SectionHead.astro";
 import RoughSzene from "./RoughSzene.astro";
+import { u } from "../consts";
 
 interface Props {
   /** Audit 5.8 (19.10.2026): Teil der gemeinsamen Sektion „So arbeiten wir heute“ (ohne eigene Sektion) */
@@ -18,8 +19,8 @@ const Tag = eingebettet ? "div" : "section";
   <div class="container">
     <SectionHead
       center
-      eyebrow="Kundenportal"
-      pre="So behalten Sie Ihr Projekt jederzeit im "
+      eyebrow="Kundenportal – demnächst"
+      pre="So behalten Sie Ihr Projekt bald jederzeit im "
       accent="Blick"
       text={PORTAL.sub}
     />
@@ -27,8 +28,31 @@ const Tag = eingebettet ? "div" : "section";
       szene="portal"
       label="Gezeichnetes Handy mit dem Kundenportal: Projektfortschritt und Freigabe-Knopf, dazu vier Vorteile – alle Dokumente an einem Ort, alle Termine im Blick, Kommunikation per WhatsApp oder E-Mail und ein Projektstatus, der jederzeit nachvollziehbar ist."
     />
+    {/* Jamil 27.10.2026 (Talk 3478 F): Portal „perspektivisch“ → als „demnächst“ kennzeichnen, daneben eine leicht
+        verschwommene Vorschau des CRM-Kundenportals (Testdaten, vorgerendert weichgezeichnet, Fußzeile abgeschnitten). */}
+    <figure class="portal__vorschau">
+      <picture>
+        <source type="image/avif" srcset={`${u("assets/img/portal-vorschau-480.avif")} 480w, ${u("assets/img/portal-vorschau-800.avif")} 800w, ${u("assets/img/portal-vorschau-1160.avif")} 1160w`} sizes="(min-width: 900px) 820px, 92vw" />
+        <img
+          src={u("assets/img/portal-vorschau-800.webp")}
+          srcset={`${u("assets/img/portal-vorschau-480.webp")} 480w, ${u("assets/img/portal-vorschau-800.webp")} 800w, ${u("assets/img/portal-vorschau-1160.webp")} 1160w`}
+          sizes="(min-width: 900px) 820px, 92vw"
+          width="1160" height="1000" loading="lazy" decoding="async"
+          alt="Vorschau des Kundenportals – demnächst verfügbar"
+        />
+      </picture>
+      <figcaption class="portal__badge">Demnächst verfügbar</figcaption>
+    </figure>
   </div>
 </Tag>
 <style>
   .portal--eingebettet { padding-top: 64px; }
+  .portal__vorschau { position: relative; max-width: 820px; margin: 8px auto 0; }
+  .portal__vorschau img { display: block; width: 100%; height: auto; border-radius: var(--radius-lg, 16px); border: 1px solid var(--linie); box-shadow: 0 18px 40px rgba(45, 44, 46, 0.12); }
+  .portal__badge {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    padding: 12px 22px; border-radius: 999px; background: var(--anthrazit-800); color: var(--weiss);
+    font-family: var(--font-heading); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
 </style>

@@ -81,7 +81,7 @@ export const VERSPRECHEN: Siegel[] = [
     title: "Volle Transparenz",
     short: "Sie wissen, was passiert – und was es kostet.",
     long:
-      "Verständliche Angebote ohne Positionsdschungel, ein Kundenportal für Ihre Unterlagen und " +
+      "Verständliche Angebote ohne Positionsdschungel, demnächst ein Kundenportal für Ihre Unterlagen und " + // Talk 3478 F
       "Termine und klare Absprachen – damit Sie den Überblick behalten.",
   },
   {

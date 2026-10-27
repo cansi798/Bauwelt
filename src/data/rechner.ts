@@ -22,8 +22,9 @@
  *    waren Richtwerte OHNE MwSt.-Angabe (nirgends im Repo als brutto ausgewiesen).
  *    Kundenwunsch: um 50 % senken, DANN inkl. 19 % MwSt. anzeigen → als Nettowerte
  *    behandelt: Anzeige = (Grund + m² × Satz) × 0,5 × 1,19, ± 25 %, auf 500 € gerundet.
- *  - Innenausbau & Trockenbau: Werte unverändert, sind Bruttowerte (vom Kunden
- *    bestätigt 12.10.2026). Sanierung-Altwerte waren netto (ebenfalls bestätigt).
+ *  - Innenausbau & Trockenbau (seit 27.10.2026, Jamil Talk 3441/3478): 150 € pro m² Fläche (Boden, Wände,
+ *    Decken), brutto inkl. MwSt.; Spanne Betrag bis Betrag + 800 € (Dämmung, Türen, Elektro nach Bedarf).
+ *    Sanierung-Altwerte waren netto (bestätigt 12.10.2026).
  *
  *  Das Ergebnis bleibt eine unverbindliche Ersteinschätzung; der genaue Preis entsteht
  *  im schriftlichen Angebot nach dem Vor-Ort-Termin (Versprechen-Check H6, 27.10.2026).
@@ -119,6 +120,10 @@ export type Gewerk = {
   auswahlLabel?: string;
   /** true = keine Optionswahl: nur eine Stufe, Ergebnis wird direkt berechnet (Innenausbau). */
   ohneAuswahl?: boolean;
+  /** Kurzer Hilfetext unter dem Flächen-Regler (welche Fläche gemeint ist, Innenausbau – Jamil 27.10.2026, Talk 3478). */
+  mengeHinweis?: string;
+  /** Was im Richtpreis ausdrücklich NICHT enthalten ist (Ergebnis + Anfragetext; Jamil 27.10.2026, Talk 3478 D: keine Möbel). */
+  nichtEnthalten?: string[];
   /** Fester Aufschlag in € auf den berechneten Betrag → Ergebnis als Spanne „X – (X + aufschlag)“ (Fliesen & Boden, Jamil 27.10.2026, Talk 3434). */
   aufschlag?: number;
   grund: number;         // Grundpauschale €
@@ -177,6 +182,7 @@ export const GEWERKE: Gewerk[] = [
     extras: KALK_DETAIL_AKTIV ? BAD_EXTRAS : undefined, // Schalter siehe oben
     wahlFrage: "Was ist geplant?",
     auswahlLabel: "Auswahl",
+    nichtEnthalten: ["Möbel und Einrichtung (z. B. Badmöbel, Spiegelschrank, Accessoires) – gern als eigene Position im Angebot"],
     grund: 0, proEinheit: {}, netto: false, spanne: 0,
     // Kundenwunsch 14.10.2026 (47): nur noch „Badsanierung“ und „Barrierefreie Dusche“
     // (Komfort/Premium entfallen; Extras stattdessen in der detaillierten Kalkulation).
@@ -216,7 +222,8 @@ export const GEWERKE: Gewerk[] = [
       { id: "rohinstallation", label: "Wasser & Strom vorbereiten", fach: "Vorbereitung Sanitär- & Elektro-Rohinstallation (Anschlüsse durch Fachbetriebe)", hint: "Leitungen für Dusche, WC und Waschtisch vorbereiten" },
       { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche" },
       { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest" },
-      { id: "ausstattung", label: "Neue Einrichtung", fach: "Objektmontage & Ausstattung", hint: "Dusche, WC, Waschtisch und Möbel montiert" },
+      // Jamil 27.10.2026 (Talk 3478 D): bleibt, aber eindeutig – Sanitärobjekte, KEINE Möbel/Einrichtung
+      { id: "ausstattung", label: "Sanitärobjekte montieren", fach: "Montage Sanitärobjekte (Dusche bzw. Wanne, WC, Waschtisch) – ohne Möbel", hint: "Dusche bzw. Wanne, WC und Waschtisch – ohne Möbel und Einrichtung" },
     ],
   },
   {
@@ -224,6 +231,7 @@ export const GEWERKE: Gewerk[] = [
     label: name("sanierung-modernisierung"),
     icon: "reno",
     auswahlLabel: "Sanierungsart", // Optionen: Renovierung, Teilsanierung, Kernsanierung (Jamil 27.10.2026, Talk 3432)
+    nichtEnthalten: ["Möbel und Einrichtung (z. B. Küchenzeile, Einbauschränke) – gern als eigene Position im Angebot"], // Jamil 27.10.2026 (Talk 3478 D)
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
@@ -242,8 +250,8 @@ export const GEWERKE: Gewerk[] = [
     bausteine: [
       { id: "planung", label: "Planung & Organisation", fach: "Projekt- & Ablaufplanung", hint: "Wir planen Abläufe, Termine und Gewerke" },
       { id: "rueckbau", label: "Altes raus", fach: "Rückbau & Entkernung", hint: "Alte Beläge, Einbauten und Wände entfernen" },
-      { id: "technik", label: "Leitungen & Technik koordiniert", fach: "Koordination Elektro-, Sanitär- & Heizungsarbeiten (Fachbetriebe)", hint: "Strom, Wasser und Heizung – wir koordinieren die Fachbetriebe" },
-      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden, Fußbodenleisten und Türen neu" },
+      { id: "technik", label: "Leitungen & Technik koordiniert", fach: "Koordination Elektro- & Sanitärarbeiten (Fachbetriebe), Heizungsarbeiten durch unseren Partner-Klempner", hint: "Strom und Wasser durch Fachbetriebe, Heizung durch unseren Partner-Klempner – wir koordinieren alles" }, // Jamil 27.10.2026 (Talk 3478 E)
+      { id: "oberflaechen", label: "Wände, Böden, Decken", fach: "Oberflächenarbeiten komplett", hint: "Putz, Farbe, Böden und Türen neu" }, // Fußbodenleisten nur bei Fliesen & Boden (Jamil 27.10.2026, Talk 3478 C)
       // „Fertig einrichten“ entfernt auf Wunsch von Jamil (27.10.2026, Talk 3433)
     ],
   },
@@ -280,12 +288,14 @@ export const GEWERKE: Gewerk[] = [
     label: name("innenausbau"),
     icon: "wall",
     ohneAuswahl: true, // keine Stufen-Auswahl mehr: direkt berechnen (Jamil 27.10.2026, Talk 3441)
-    frage: "Wie groß ist die auszubauende Fläche?",
+    aufschlag: 800, // Spanne: Fläche × 150 € bis + 800 € (Dämmung, Tür, Elektro nach Bedarf – Jamil 27.10.2026, Talk 3478 B)
+    frage: "Wie viel Fläche soll ausgebaut werden?",
+    mengeHinweis: "Gemeint ist die gesamte Fläche, die wir bearbeiten – Boden, Wände und Decken zusammengerechnet, in m².",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
     preismodell: "flaeche",
-    // Jamil 27.10.2026 (Talk 3441): fester Satz 150 € je m² (Bruttowert wie bisher bei Innenausbau), ohne Grundpauschale,
-    // keine Spanne („ca. X €“). Die alten Werte (2.500 € + 450/650/900 €/m², ± 25 %, Stufen Basis/Ausbau/Komplett) sind in Git.
+    // Jamil 27.10.2026 (Talk 3441 + 3478 A/B): fester Satz 150 € pro m² Fläche (Boden sowie Wand-/Deckenfläche),
+    // brutto inkl. MwSt., ohne Grundpauschale; Ergebnis als Spanne bis + 800 € (`aufschlag`). Die alten Werte (2.500 € + 450/650/900 €/m², ± 25 %, Stufen Basis/Ausbau/Komplett) sind in Git.
     grund: 0,
     proEinheit: { standard: 150 },
     netto: false,
@@ -296,8 +306,9 @@ export const GEWERKE: Gewerk[] = [
     bausteine: [
       { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht" },
       { id: "beplankung", label: "Wände schließen", fach: "Beplankung", hint: "Wände und Decken werden geschlossen" },
-      { id: "schallschutz", label: "Ruhe reinbauen", fach: "Schall-/Wärmedämmung", hint: "Dämmung gegen Lärm und Kälte" },
+      { id: "schallschutz", label: "Dämmung nach Bedarf", fach: "Schall-/Wärmedämmung (nach Bedarf)", hint: "Je nach Umfang: Dämmung gegen Lärm und Kälte" },
       { id: "spachteln", label: "Glatte Flächen", fach: "Spachtelung (Q2/Q3)", hint: "Übergänge verschwinden, Flächen werden glatt" },
+      { id: "nachbedarf", label: "Türen und Elektro nach Bedarf", fach: "Türen/Zargen und Elektro-Vorarbeiten (nach Bedarf; Endanschlüsse durch zugelassenen Elektromeisterbetrieb)", hint: "Je nach Umfang – genau steht es im Angebot" },
       { id: "streichfertig", label: "Malerfertig übergeben", fach: "Oberflächen-Finish bis malerfertig (Spachteln, Glätten, Schleifen)", hint: "Bereit für Farbe oder Tapete" },
     ],
   },

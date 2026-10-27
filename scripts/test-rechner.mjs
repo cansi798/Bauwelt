@@ -14,15 +14,22 @@ for (const t of f.tiers) for (const menge of [0, 1, 5, 25, 200, 100000]) {
   ok(/^[\d.]+ – [\d.]+ €$/.test(preisText(e)), `Format ${preisText(e)}`);
 }
 ok(berechne(f, 25, "komfort").von === Math.round((500 + 25 * 75) * 1.19), "ca.-Preis 25 m² Fliesen");
-// Innenausbau: fester Satz 150 €/m² (Menge × 150), keine Auswahl, keine Spanne (Jamil 27.10.2026, Talk 3441)
+// Innenausbau: 150 € pro m² Fläche, keine Auswahl, Spanne bis + 800 € (Jamil 27.10.2026, Talk 3441 + 3478)
 const ia = GEWERKE.find((g) => g.slug === "innenausbau");
 ok(ia.ohneAuswahl === true && ia.tiers.length === 1, "Innenausbau ohne Auswahl");
+ok(Boolean(ia.mengeHinweis), "Innenausbau mit Hilfetext zur Fläche");
 for (const menge of [0, 1, 5, 25, 200, 100000]) {
   const e = berechne(ia, menge, ia.tiers[0].id);
-  ok(e.art === "betrag" && e.betrag === menge * 150, `Innenausbau ${menge} m²: ${JSON.stringify(e)}`);
+  ok(e.art === "spanne" && e.von === menge * 150 && e.bis === menge * 150 + 800, `Innenausbau ${menge} m²: ${JSON.stringify(e)}`);
 }
-ok(preisText(berechne(ia, 20, "standard")) === "ca. 3.000 €", "20 m² = ca. 3.000 €");
-ok(preisText(berechne(ia, 40, "standard")) === "ca. 6.000 €", "40 m² = ca. 6.000 €");
+ok(preisText(berechne(ia, 20, "standard")) === "3.000 – 3.800 €", "20 m² = 3.000 – 3.800 €");
+ok(preisText(berechne(ia, 40, "standard")) === "6.000 – 6.800 €", "40 m² = 6.000 – 6.800 €");
+// Fußbodenleisten nur bei Fliesen & Boden (Talk 3478 C), Bad/Komplett: Möbel ausdrücklich nicht enthalten (D)
+for (const g of GEWERKE) {
+  const hatLeisten = JSON.stringify(g.bausteine).includes("leisten");
+  ok(hatLeisten === (g.slug === "fliesen-boden"), `Fußbodenleisten bei ${g.slug}: ${hatLeisten}`);
+}
+for (const slug of ["badsanierung", "sanierung-modernisierung"]) ok(GEWERKE.find((g) => g.slug === slug).nichtEnthalten?.length > 0, `${slug}: „nicht enthalten“ fehlt`);
 // andere Gewerke unverändert
 const bad = GEWERKE.find((g) => g.slug === "badsanierung");
 ok(preisText(berechne(bad, 8, "bad")) === "14.340 – 19.500 €", "Bad 8 m² unverändert");

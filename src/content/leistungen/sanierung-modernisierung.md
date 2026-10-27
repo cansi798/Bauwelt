@@ -12,7 +12,6 @@ ablaufZiel: "neuen Zuhause"
 umfang:
   - "Komplettsanierung von Wohnungen und Häusern"
   - "Grundriss- und Raumänderungen"
-  - "Böden und Fußbodenleisten"
   - "Koordination aller Gewerke"
   - "Abgestimmter Zeitplan und klares Angebot für alle Leistungen"
 ablauf:

@@ -14,8 +14,7 @@ umfang:
   - "Trockenbau und Raumaufteilung"
   - "Decken, Vorwände und Nischen"
   - "Boden- und Wandaufbau"
-  - "Fußbodenleisten"
-  - "Türen und Zargen"
+  - "Dämmung, Türen und Zargen nach Bedarf" # Jamil 27.10.2026 (Talk 3478 B/C): nach Bedarf; Fußbodenleisten nur bei Fliesen & Boden
 ablauf:
   - { title: "Idee", text: "Wir besprechen, wie Ihre Räume wirken sollen." }
   - { title: "Plan", text: "Transparentes Angebot, klarer Ablauf." }
@@ -31,13 +30,13 @@ kacheln:
   - { icon: "chat", title: "Individuelle Beratung" }
   - { icon: "wall", title: "Trockenbauwände" }
   - { icon: "hand", title: "Decken, Vorwände & Nischen" }
-  - { icon: "bolt", title: "Elektro & Beleuchtung" }
-  - { icon: "shield", title: "Schallschutz" }
-  - { icon: "check", title: "Türen & Zargen" }
+  - { icon: "bolt", title: "Elektro & Beleuchtung nach Bedarf" } # Talk 3478 B
+  - { icon: "shield", title: "Schall\u00ADschutz nach Bedarf" }
+  - { icon: "check", title: "Türen & Zargen nach Bedarf" }
   - { icon: "paint", title: "Spachtel- & Malerarbeiten" }
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
-  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen einen ersten Richtwert – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
 bilderTitel: "So könnten Ihre *neuen Räume* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Innenausbau sein"

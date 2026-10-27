@@ -176,6 +176,8 @@ const weich = (t: string) =>
             step={start ? erstes.step : 1} value={start ? erstes.default : 8}
           />
           <output class="rechner__mengeout" id="rMengeOut" for="rMenge">{start ? `${erstes.default} ${erstes.unit}` : "8 m²"}</output>
+          {/* Jamil 27.10.2026 (Talk 3478 A): Hilfetext, welche Fläche gemeint ist (Innenausbau) */}
+          <p class="rmenge__hint" id="rMengeHint" hidden={!(start && erstes.mengeHinweis)}>{start ? erstes.mengeHinweis : ""}</p>
         </div>
       ) : (
         <div
@@ -318,6 +320,7 @@ const weich = (t: string) =>
   .rintro { max-width: 680px; margin: -8px auto 28px; text-align: center; }
   .rintro--start { margin-bottom: 32px; }
   .rhinweis { margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--gold-500); background: var(--gold-100); border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0; font-size: 14.5px; line-height: 1.55; color: var(--anthrazit-800); }
+  .rmenge__hint { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--anthrazit-700); text-align: center; }
   .rbrutto { margin: -8px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
   .rbrutto--klein { margin: -8px 0 16px; font-size: 12.5px; font-weight: 600; color: var(--anthrazit-600); }
 
@@ -822,6 +825,8 @@ const weich = (t: string) =>
       range.max = String(g.max);
       range.step = String(g.step);
       range.value = String(g.default);
+      const mengeHint = document.getElementById("rMengeHint");
+      if (mengeHint) { mengeHint.textContent = g.mengeHinweis ?? ""; mengeHint.hidden = !g.mengeHinweis; }
       renderTiers(g);
       renderExtras(g);
       updateMenge();
@@ -956,6 +961,8 @@ const weich = (t: string) =>
       html += t.enthalten
         ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
         : gruppe("Enthaltene Arbeiten", arbeiten.map((m) => m.label));
+      // Jamil 27.10.2026 (Talk 3478 D): ausdrücklich nicht enthalten (Möbel/Einrichtung)
+      if (g.nichtEnthalten?.length) html += gruppe("Nicht im Richtpreis enthalten", g.nichtEnthalten, "info");
       wahl.innerHTML = html;
 
       // Anfrage-Texte: klar formatiert, mit Absätzen und Emojis;
@@ -1007,7 +1014,7 @@ const weich = (t: string) =>
       const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
       if (rrf) rrf.dataset.zusammenfassung =
         `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl.replace(/:\s{2,}/, ": ") + ausstattung.replace("✅ ", "") +
-        `\nGewünschte Arbeiten:\n${arbeitenListe}\n${preisWort}: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
+        `\nGewünschte Arbeiten:\n${arbeitenListe}` + `\n${preisWort}: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
       show(3);
     }
 
