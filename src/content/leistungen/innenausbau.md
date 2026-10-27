@@ -25,7 +25,7 @@ lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche k
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur streichfertigen Oberfläche aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
+umfangText: "Von der Planung bis die Oberfläche malerfertig ist aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -45,7 +45,7 @@ ablaufTitel: "So *einfach* kann Innenausbau sein"
 faq:
   - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan halten wir vorab schriftlich im Angebot fest." }
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }
-  - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir spachteln die Flächen glatt und übergeben sie streichfertig – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
+  - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir bearbeiten die Flächen so weit, bis die Oberfläche malerfertig ist: spachteln, glätten, schleifen. Dann übergeben wir sie – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
 ---
 
 Sie wünschen sich ein zusätzliches Zimmer, ein ruhiges Homeoffice oder eine neue Raumaufteilung, aber keine wochenlange Baustelle und keine unklaren Kosten?

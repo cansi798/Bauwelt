@@ -95,7 +95,7 @@ export const LEISTUNG_SECTIONS: LeistungSection[] = [
     text:
       "Neue Raumaufteilung, ausgebautes Dachgeschoss, Schallschutz oder abgehängte " +
       "Decken mit Beleuchtung. Unser Trockenbau schafft Räume, die zu Ihrem Leben " +
-      "passen – sauber ausgeführt und streichfertig übergeben.",
+      "passen – sauber ausgeführt und malerfertig übergeben.",
     bild: "hero-innenausbau.webp",
     alt: "Heller Innenausbau mit Rundbogenfenstern im Rohbau",
     cta: "Ausbau berechnen",

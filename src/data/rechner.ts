@@ -117,6 +117,8 @@ export type Gewerk = {
   wahlFrage?: string;
   /** Bezeichnung der Optionswahl im Ergebnis, Anfragetext und für Screenreader (statt „Niveau“, Jamil 27.10.2026, Talk 3429). */
   auswahlLabel?: string;
+  /** true = keine Optionswahl: nur eine Stufe, Ergebnis wird direkt berechnet (Innenausbau). */
+  ohneAuswahl?: boolean;
   /** Fester Aufschlag in € auf den berechneten Betrag → Ergebnis als Spanne „X – (X + aufschlag)“ (Fliesen & Boden, Jamil 27.10.2026, Talk 3434). */
   aufschlag?: number;
   grund: number;         // Grundpauschale €
@@ -277,27 +279,26 @@ export const GEWERKE: Gewerk[] = [
     slug: "innenausbau",
     label: name("innenausbau"),
     icon: "wall",
-    auswahlLabel: "Ausbaustufe",
+    ohneAuswahl: true, // keine Stufen-Auswahl mehr: direkt berechnen (Jamil 27.10.2026, Talk 3441)
     frage: "Wie groß ist die auszubauende Fläche?",
     unit: "m²",
     min: 10, max: 200, step: 5, default: 40,
     preismodell: "flaeche",
-    // Unverändert (Kundenwunsch 11.10.2026) – Bruttowerte, vom Kunden bestätigt 12.10.2026.
-    grund: 2500,
-    proEinheit: { basis: 450, komfort: 650, premium: 900 },
+    // Jamil 27.10.2026 (Talk 3441): fester Satz 150 € je m² (Bruttowert wie bisher bei Innenausbau), ohne Grundpauschale,
+    // keine Spanne („ca. X €“). Die alten Werte (2.500 € + 450/650/900 €/m², ± 25 %, Stufen Basis/Ausbau/Komplett) sind in Git.
+    grund: 0,
+    proEinheit: { standard: 150 },
     netto: false,
-    spanne: 0.25,
+    spanne: 0,
     tiers: [
-      { id: "basis", label: "Basis", hint: "Wände/Decken stellen, spachteln, streichfertig" },
-      { id: "komfort", label: "Ausbau", hint: "Inkl. Böden, Türen, Schallschutz" },
-      { id: "premium", label: "Komplett", hint: "Inkl. Elektro, Beleuchtung, Maßeinbauten" },
+      { id: "standard", label: "Innenausbau bis malerfertig", hint: "Bearbeitet, bis die Oberfläche malerfertig ist" },
     ],
     bausteine: [
       { id: "unterkonstruktion", label: "Wände planen & stellen", fach: "Ständerwerk/Unterkonstruktion", hint: "Die neue Raumaufteilung entsteht" },
       { id: "beplankung", label: "Wände schließen", fach: "Beplankung", hint: "Wände und Decken werden geschlossen" },
       { id: "schallschutz", label: "Ruhe reinbauen", fach: "Schall-/Wärmedämmung", hint: "Dämmung gegen Lärm und Kälte" },
       { id: "spachteln", label: "Glatte Flächen", fach: "Spachtelung (Q2/Q3)", hint: "Übergänge verschwinden, Flächen werden glatt" },
-      { id: "streichfertig", label: "Streichfertig übergeben", fach: "Oberflächen-Finish", hint: "Bereit für Farbe oder Tapete" },
+      { id: "streichfertig", label: "Malerfertig übergeben", fach: "Oberflächen-Finish bis malerfertig (Spachteln, Glätten, Schleifen)", hint: "Bereit für Farbe oder Tapete" },
     ],
   },
 ];

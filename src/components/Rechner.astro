@@ -893,7 +893,7 @@ const weich = (t: string) =>
       const fest = Boolean(g && tierById(g, state.tier).festBis);
       const teil2 = geteilt() && state.teil === 2;
       rangeWrap.hidden = fest || teil2;
-      tiersEl.hidden = teil2;
+      tiersEl.hidden = teil2 || Boolean(g?.ohneAuswahl);
       if (g) frageEl.textContent = teil2 ? "Wie möchten Sie rechnen?" : (g.wahlFrage ?? g.frage);
       const kalkFrage = document.getElementById("rKalkFrage");
       if (kalkFrage) kalkFrage.hidden = teil2; // Frage steht dann als Schritt-Überschrift
@@ -946,7 +946,7 @@ const weich = (t: string) =>
         ? [g.label, niveau]
         : kalk
           ? [g.label, masse, artLabel, ...(detail ? [extrasZeile] : [])]
-          : [g.label, masse, `${g.auswahlLabel ?? "Auswahl"}: ${niveau}`];
+          : g.ohneAuswahl ? [g.label, masse] : [g.label, masse, `${g.auswahlLabel ?? "Auswahl"}: ${niveau}`];
       let html = gruppe("Ihr Projekt", projekt, "info");
       html += t.enthalten
         ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
@@ -961,10 +961,10 @@ const weich = (t: string) =>
       const preisZeile = `${preis} (${MWST_HINWEIS.replace("Bruttopreise", "brutto")})`;
       // Badsanierung: Kalkulationsart + Extras (Fachbegriffe) statt „Niveau“
       const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
-      const waWahl = kalk
+      const waWahl = g.ohneAuswahl ? "" : kalk
         ? `🧮 Kalkulation: ${artLabel}` + (detail ? `\n✨ Extras:${extrasText}` : "")
         : `⭐ ${g.auswahlLabel ?? "Auswahl"}: ${niveau}`;
-      const mailWahl = kalk
+      const mailWahl = g.ohneAuswahl ? "" : kalk
         ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
         : `${`${g.auswahlLabel ?? "Auswahl"}:`.padEnd(10)}${niveau}`;
       const waText =

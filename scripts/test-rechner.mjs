@@ -14,6 +14,15 @@ for (const t of f.tiers) for (const menge of [0, 1, 5, 25, 200, 100000]) {
   ok(/^[\d.]+ – [\d.]+ €$/.test(preisText(e)), `Format ${preisText(e)}`);
 }
 ok(berechne(f, 25, "komfort").von === Math.round((500 + 25 * 75) * 1.19), "ca.-Preis 25 m² Fliesen");
+// Innenausbau: fester Satz 150 €/m² (Menge × 150), keine Auswahl, keine Spanne (Jamil 27.10.2026, Talk 3441)
+const ia = GEWERKE.find((g) => g.slug === "innenausbau");
+ok(ia.ohneAuswahl === true && ia.tiers.length === 1, "Innenausbau ohne Auswahl");
+for (const menge of [0, 1, 5, 25, 200, 100000]) {
+  const e = berechne(ia, menge, ia.tiers[0].id);
+  ok(e.art === "betrag" && e.betrag === menge * 150, `Innenausbau ${menge} m²: ${JSON.stringify(e)}`);
+}
+ok(preisText(berechne(ia, 20, "standard")) === "ca. 3.000 €", "20 m² = ca. 3.000 €");
+ok(preisText(berechne(ia, 40, "standard")) === "ca. 6.000 €", "40 m² = ca. 6.000 €");
 // andere Gewerke unverändert
 const bad = GEWERKE.find((g) => g.slug === "badsanierung");
 ok(preisText(berechne(bad, 8, "bad")) === "14.340 – 19.500 €", "Bad 8 m² unverändert");
