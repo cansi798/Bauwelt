@@ -1,4 +1,4 @@
-// Rechner-Test (Fliesen-Spanne +1.000 €, Randfälle). Aufruf: node scripts/test-rechner.mjs (nach npm ci)
+// Rechner-Test (Fliesen-Spanne +600 €, Randfälle). Aufruf: node scripts/test-rechner.mjs (nach npm ci)
 import { createServer } from "vite";
 const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", logLevel: "error" });
 const { GEWERKE, berechne, preisText } = await vite.ssrLoadModule("/src/data/rechner.ts");
@@ -10,7 +10,7 @@ for (const t of f.tiers) for (const menge of [0, 1, 5, 25, 200, 100000]) {
   const basis = Math.round((f.grund + menge * f.proEinheit[t.id]) * 1.19);
   ok(e.art === "spanne", `Fliesen ${t.id} ${menge}: keine Spanne`);
   ok(e.von === basis, `Fliesen ${t.id} ${menge}: von ${e.von} != ${basis}`);
-  ok(e.bis === e.von + 1000, `Fliesen ${t.id} ${menge}: bis ${e.bis} != von+1000`);
+  ok(e.bis === e.von + 600, `Fliesen ${t.id} ${menge}: bis ${e.bis} != von+600`);
   ok(/^[\d.]+ – [\d.]+ €$/.test(preisText(e)), `Format ${preisText(e)}`);
 }
 ok(berechne(f, 25, "komfort").von === Math.round((500 + 25 * 75) * 1.19), "ca.-Preis 25 m² Fliesen");

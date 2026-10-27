@@ -15,7 +15,7 @@
  *    „Barrierefreie Dusche“: fester Preis (Budget der Pflegekasse für wohnumfeldverbessernde
  *    Maßnahmen), kein Flächen-Slider.
  *  - Fliesen & Boden: Kunde nennt NETTO-Preise je m² + 500 € netto Grundpauschale.
- *    Parkett gibt es nicht mehr. Ergebnis seit 27.10.2026 eine Spanne: Betrag bis Betrag + 1.000 € (`aufschlag`).
+ *    Parkett gibt es nicht mehr. Ergebnis seit 27.10.2026 eine Spanne: Betrag bis Betrag + 600 € (`aufschlag`).
  *    Die m²-Preise und der Rechenweg werden Kunden NICHT angezeigt (Kundenwunsch
  *    12.10.2026) – sichtbar ist nur der Gesamtbetrag inkl. MwSt.
  *  - Sanierung & Modernisierung: Die bisherigen Werte (8.000 € + 600/900/1.400 €/m²)
@@ -249,7 +249,7 @@ export const GEWERKE: Gewerk[] = [
     slug: "fliesen-boden",
     label: name("fliesen-boden"),
     icon: "tiles",
-    aufschlag: 1000, // Spanne: bisheriger „ca.“-Preis bis ca.-Preis + 1.000 €
+    aufschlag: 600, // Spanne: bisheriger „ca.“-Preis bis ca.-Preis + 600 € (Jamil 27.10., Talk 3436, vorher 1.000 €)
     auswahlLabel: "Belag", // die Optionen sind Belagarten (Vinyl & Laminat, Fliesen, Großformat), nicht der Untergrund
     frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
@@ -366,7 +366,7 @@ export function berechne(g: Gewerk, menge: number, tierId: string, opt: KalkOpti
   const basis = grund + menge * proE;
   if (g.spanne === 0) {
     const betrag = Math.round(basis);
-    // Fliesen & Boden: Spanne „ca.-Preis bis ca.-Preis + 1.000 €“ (Jamil 27.10.2026, Talk 3434)
+    // Fliesen & Boden: Spanne „ca.-Preis bis ca.-Preis + 600 €“ (Jamil 27.10.2026, Talk 3434)
     if (g.aufschlag) return { art: "spanne", von: betrag, bis: betrag + g.aufschlag, ab: false };
     return { art: "betrag", betrag };
   }
