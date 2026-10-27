@@ -121,6 +121,32 @@ const jsonLd = {
     <main id="main">
       <slot />
     </main>
+    {/* Jamil 27.10.2026 (Talk 3461): Abschnitte wechseln überall Weiß → Creme → Weiß … (zentral, damit neue Abschnitte automatisch
+        richtig wechseln). Dunkle Abschnitte/Leiste bleiben; nie zwei gleichfarbige Abschnitte nebeneinander. Ohne JS bleiben die
+        festen Klassen (section--sand) der Seiten. */}
+    <script is:inline>
+      (function () {
+        var m = document.getElementById("main");
+        if (!m) return;
+        function run(parent) {
+          var prev = "dunkel";
+          for (var c = parent.firstElementChild; c; c = c.nextElementSibling) {
+            if (c.hidden) continue;
+            if (c.matches("section.section:not(.section--dark)")) {
+              var farbe = prev === "weiss" ? "creme" : "weiss";
+              c.classList.toggle("section--sand", farbe === "creme");
+              prev = farbe;
+            } else if (c.matches("div") && c.querySelector(":scope > section.section")) {
+              run(c);
+              prev = "dunkel";
+            } else {
+              prev = c.classList.contains("phero") ? "weiss" : "dunkel";
+            }
+          }
+        }
+        run(m);
+      })();
+    </script>
     <Footer nurNav={footerNurNav} />
     <StickyBar knoepfe={sticky} />
     <BookingDialog />
