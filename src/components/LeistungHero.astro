@@ -134,8 +134,9 @@ const imgSrc = stamm ? u(`assets/img/${stamm}-1920.webp`) : u(`assets/img/${bild
   }
   .lhero__content > * { max-width: 100%; min-width: 0; }
   .lhero__content h1 { color: var(--weiss); margin: 0; max-width: 19ch; hyphens: manual; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25); }
-  /* Weiche Trennstellen (z. B. „selbst-bestimmt“) nur auf dem Handy nutzen – ab Tablet ganze Wörter umbrechen */
-  @media (min-width: 768px) { .lhero__content h1 { hyphens: none; } }
+  /* Prüfung 27.10.2026: KEIN „hyphens: none“ ab Tablet mehr – sonst brach am PC „BODENLEGERARBEITE|N“ mitten im
+     Wort ohne Bindestrich. Weiche Trennstellen setzt [slug].astro nur in langen Wörtern (Boden­leger­arbeiten …);
+     sie greifen nur, wenn das Wort nicht in die Zeile passt. */
   .lhero__content .eyebrow { color: var(--gold-300); margin: 0; }
 
 

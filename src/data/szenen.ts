@@ -304,7 +304,7 @@ const CHECK_UNTER: string[][] = [
   ["Online oder kurz", "per WhatsApp"],
   ["Vor Ort – gern", "gemeinsam mit Ihnen"],
   ["Sanierungsbedarf", "und Kosten"],
-  ["Bei Sanierung mit uns", "rechnen wir ihn in der Regel an"],
+  ["Bei Sanierung rechnen wir", "den Check in der Regel an"],
 ];
 // Sicher wohnen (Audit 2.5): Ablauf aus den Seitentexten (Partnerpfleger, Maßnahmenliste, Anrechnung)
 const SICHER_TITEL: string[][] = [["Termin buchen"], ["Gemeinsame Prüfung"], ["Empfehlungen"], ["Sicher wohnen"]];

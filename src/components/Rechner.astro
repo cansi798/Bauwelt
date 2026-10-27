@@ -605,6 +605,8 @@ const weich = (t: string) =>
   @media (max-width: 359px) { .rechner__next { white-space: normal; text-align: center; justify-content: center; } }
   @media (max-width: 767px) {
     .rnav { margin-top: 18px; }
+    /* Prüfung 27.10.2026: weniger Innenabstand, damit „Preisspanne anzeigen“ neben „Zurück“ in eine Zeile passt */
+    .rnav .btn { padding-inline: 16px; }
   }
   /* Prüfung 27.10.2026: „Zurück“ auch am PC sichtbar – sonst kam man auf /rechner/ nach der Leistungswahl
      nicht mehr zur Auswahl zurück (vorher nur am Handy). */

@@ -260,7 +260,7 @@ const description =
           )}
         </div>
         <div class="slider">
-          <div class="slider__track" data-slider>
+          <div class:list={["slider__track", { "slider__track--eins": karussell.length === 1 }]} data-slider>
             {karussell.map((b) => (
               <a class="card refmini" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
                 <Img src={b.file} alt={b.alt} w={4} h={5} />
@@ -318,6 +318,8 @@ const description =
 </BaseLayout>
 
 <style>
+  /* Prüfung 27.10.2026: nur ein Projektfoto (das zweite steht schon im Intro) → mittig statt links mit leerer Fläche */
+  .slider__track--eins { justify-content: center; }
   .lrefs__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: 24px; }
   .lrefs__head :global(.section-head) { margin-bottom: 0; }
   .refmini { width: min(84vw, 420px); } /* größer: Kundenwunsch 14.10.2026 (33) */
