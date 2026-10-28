@@ -30,8 +30,10 @@ interface Props {
   /** Haupt-CTA auch mobil zeigen (Sicher wohnen: großer Button direkt im Hero). */
   ctaMobil?: boolean;
   chips: string[];
+  /** Ruhiger Hinweis-Banner unter dem Text (Jamil 28.10.2026, Talk 3570), z. B. Pflegegrad bei der Badsanierung. */
+  hinweis?: { text: string; link?: string; linkText?: string };
 }
-const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips } = Astro.props;
+const { eyebrow, pre, accent = "", slogan, claim, lead, bild, ctaHref, ctaLabel, mitTermin = true, ctaMobil = false, chips, hinweis } = Astro.props;
 // KI-Hero mit Varianten (828–2560 px, AVIF + WebP) → responsive srcset; sonst einzelnes Bild wie bisher
 const stamm = kiHeroStamm(bild);
 const set = (fmt: string) => stamm ? KI_HERO_BREITEN.map((w) => `${u(`assets/img/${stamm}-${w}.${fmt}`)} ${w}w`).join(", ") : undefined;
@@ -69,6 +71,13 @@ const imgSrc = stamm ? u(`assets/img/${stamm}-1920.webp`) : u(`assets/img/${bild
         {claim && <p class="lhero__claim">{claim}</p>}
         {lead && <p class="lhero__lead">{lead}</p>}
       </div>
+    )}
+
+    {hinweis && (
+      <p class="lhero__hinweis lhero__in" style="--d: 280ms">
+        <Icon name="heim" size={20} class="icon" />
+        <span>{hinweis.text}{hinweis.link && <> <a href={hinweis.link}>{hinweis.linkText ?? "Mehr erfahren"}</a></>}</span>
+      </p>
     )}
 
     <div class:list={["lhero__actions", "lhero__in", { "nur-desktop": !ctaMobil }]} style="--d: 320ms">
@@ -160,6 +169,17 @@ const imgSrc = stamm ? u(`assets/img/${stamm}-1920.webp`) : u(`assets/img/${bild
   }
   .lhero__lead { margin: 0; font-size: 16px; line-height: 1.6; color: var(--anthrazit-100); }
 
+  /* Hinweis-Banner (Talk 3570): ruhig, Markenfarben, kein Störer */
+  .lhero__hinweis {
+    display: flex; align-items: flex-start; gap: 10px; max-width: 620px; margin: 4px 0 0;
+    padding: 12px 16px; border-radius: 14px;
+    background: rgba(31, 30, 32, 0.72); border: 1px solid var(--gold-500);
+    font-size: 15px; line-height: 1.5; color: var(--weiss);
+  }
+  .lhero__hinweis :global(.icon) { flex: none; color: var(--gold-300); margin-top: 1px; }
+  .lhero__hinweis a { color: var(--gold-300); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+  .lhero__content .lhero__hinweis { max-width: 680px; }
+  @media (max-width: 767px) { .lhero__hinweis { font-size: 14px; padding: 10px 12px; } }
   .lhero__actions { display: flex; flex-wrap: wrap; gap: 14px 16px; margin-top: 12px; }
   .lhero__ghost {
     background: transparent;

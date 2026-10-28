@@ -17,6 +17,8 @@ const leistungen = defineCollection({
     faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
     /** Nur die ersten N Fragen auf der Leistungsseite zeigen (alle stehen auf /faq/; Jamil 27.10.2026, Talk 3498). */
     faqAufSeite: z.number().optional(),
+    /** Hinweis-Banner im Hero (Jamil 28.10.2026, Talk 3570: Pflegegrad/Zuschuss bei der Badsanierung). */
+    heroHinweis: z.object({ text: z.string(), link: z.string().optional(), linkText: z.string().optional() }).optional(),
     /** Vorauswahl im Projekt-Rechner (Gewerk-Slug aus data/rechner.ts). */
     rechnerSlug: z.string().optional(),
     /** Passendes Versprechen-Siegel (id aus data/versprechen.ts). */

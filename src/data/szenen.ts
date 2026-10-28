@@ -6,7 +6,7 @@ import { STEPS } from "./home";
 import { VERSPRECHEN } from "./versprechen";
 
 export type Ansicht = "mobil" | "desktop";
-export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team" | "karriere" | "handschlag" | "partnerBau";
+export type SzenenName = "gebiet" | "weg" | "wegCheck" | "wegSicher" | "wegKontakt" | "partnerWeg" | "portal" | "siegel" | "uspRegional" | "uspHand" | "uspFestpreis" | "team" | "karriere" | "handschlag" | "partnerBau" | "referenzen";
 
 /* ─────────────── Motive (Mittelpunkt cx/cy, Maßstab s ≈ 1 → ~70 px) ─────────────── */
 
@@ -928,4 +928,80 @@ function partnerBau(): Szene {
   return { breite: PB_B, hoehe: PB_H, elemente: z.elemente, ende: 1.5, zielDauer: 1.5 };
 }
 
-export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere, handschlag, partnerBau };
+
+/* ─── Referenzen-Startbild (Jamil 28.10.2026, Talk 3576: „statt das Bild bitte eine passende Animation zu Referenzen“) ───
+   Gezeichnete Bilderwand: drei Polaroid-Rahmen hängen leicht schräg an einer goldenen Leine – Bad, Fliesen, Innenausbau
+   (die Bereiche der Referenzen-Seite). Die Rahmen setzen sich nacheinander ein, die Motive zeichnen sich, zum Schluss
+   kleine goldene Sterne. Keine Zahlen, keine Behauptungen. Einmal, 1,5 s wie die anderen Hero-Zeichnungen. */
+const RF_B = 760, RF_H = 420;
+function referenzen(): Szene {
+  const z = new Zeichner();
+  // Drehung eines Punktes um (cx, cy) – damit die Rahmen leicht schräg hängen (ohne SVG-Transform)
+  const rot = (cx: number, cy: number, grad: number) => (x: number, y: number): [number, number] => {
+    const a = (grad * Math.PI) / 180, dx = x - cx, dy = y - cy;
+    return [cx + dx * Math.cos(a) - dy * Math.sin(a), cy + dx * Math.sin(a) + dy * Math.cos(a)];
+  };
+  const poly = (pts: [number, number][]) => `M${pts.map(([x, y]) => `${Math.round(x * 10) / 10} ${Math.round(y * 10) / 10}`).join("L")}Z`;
+  // Leine
+  z.bei(0);
+  z.kurve([[30, 58], [200, 92], [380, 100], [560, 92], [730, 58]], { stroke: F.gold, strokeWidth: 2.6, roughness: 0.8 }, 0.5);
+  const rahmen = [
+    { x: 70, y: 96, grad: -5, titel: "Bad" },
+    { x: 290, y: 112, grad: 2, titel: "Fliesen" },
+    { x: 510, y: 96, grad: 6, titel: "Innenausbau" },
+  ];
+  const RB = 180, RH = 230, IB = 156, IH = 150; // Rahmen- und Bildmaße (Polaroid mit breitem unteren Rand)
+  rahmen.forEach((r, i) => {
+    const R = rot(r.x + RB / 2, r.y, r.grad);
+    const P = (x: number, y: number) => R(r.x + x, r.y + y);
+    z.bei(0.2 + i * 0.22);
+    z.gruppe("einsetzen", () => {
+      // Klammer an der Leine
+      z.pfad(poly([P(RB / 2 - 9, -14), P(RB / 2 + 9, -14), P(RB / 2 + 9, 12), P(RB / 2 - 9, 12)]), { fill: F.goldDunkel, fillStyle: "solid", strokeWidth: 1.6 }, 0.15);
+      // Rahmen (weiß) + Bildfläche
+      z.pfad(poly([P(0, 0), P(RB, 0), P(RB, RH), P(0, RH)]), { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.35);
+      z.pfad(poly([P(12, 12), P(12 + IB, 12), P(12 + IB, 12 + IH), P(12, 12 + IH)]), { fill: "var(--gold-100)", fillStyle: "solid", strokeWidth: 1.8 }, 0.3);
+    }, 0.2 + i * 0.22);
+    z.bei(0.45 + i * 0.22);
+    const L = (x1: number, y1: number, x2: number, y2: number, o = {}) => { const [a, b] = P(x1, y1), [c, d] = P(x2, y2); z.linie(a, b, c, d, o, 0.2); };
+    if (i === 0) {
+      // Bad: Fliesenwand, Duschkopf mit Wasser, Waschtisch mit Spiegel
+      for (let k = 1; k < 4; k++) L(12, 12 + k * 38, 12 + IB, 12 + k * 38, { stroke: F.hell, strokeWidth: 1.4 });
+      for (let k = 1; k < 4; k++) L(12 + k * 39, 12, 12 + k * 39, 12 + IH, { stroke: F.hell, strokeWidth: 1.4 });
+      L(40, 30, 40, 52, { strokeWidth: 2.4 }); L(40, 30, 58, 30, { strokeWidth: 2.4 }); L(52, 52, 66, 52, { strokeWidth: 3 });
+      [54, 59, 64].forEach((x) => L(x, 58, x - 3, 80, { stroke: F.gold, strokeWidth: 1.8 }));
+      z.pfad(poly([P(96, 112), P(152, 112), P(152, 130), P(96, 130)]), { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2 }, 0.2);
+      z.pfad(poly([P(106, 64), P(142, 64), P(142, 100), P(106, 100)]), { stroke: F.gold, strokeWidth: 2.2 }, 0.2);
+    } else if (i === 1) {
+      // Fliesen: Boden in Perspektive mit Fugen, goldene Fliese
+      const H0 = 12 + 70, B0 = 12 + IH;
+      L(12, H0, 12 + IB, H0, { strokeWidth: 2 });
+      [0, 1, 2, 3, 4].forEach((k) => L(12 + 78 + (k - 2) * 18, H0, 12 + 78 + (k - 2) * 52, B0, { stroke: F.grau, strokeWidth: 1.4 }));
+      [0.35, 0.7].forEach((t) => L(12, H0 + (B0 - H0) * t, 12 + IB, H0 + (B0 - H0) * t, { stroke: F.grau, strokeWidth: 1.4 }));
+      z.pfad(poly([P(80, H0 + 28), P(108, H0 + 28), P(118, H0 + 54), P(84, H0 + 54)]), { fill: F.gold, fillStyle: "solid", strokeWidth: 1.4 }, 0.2);
+      z.pfad(poly([P(34, 26), P(70, 26), P(70, 62), P(34, 62)]), { strokeWidth: 1.8 }, 0.2); // Fenster
+      L(52, 26, 52, 62, { strokeWidth: 1.4 });
+    } else {
+      // Innenausbau: Trockenbauwand mit Rundbogen-Durchgang und Pendelleuchte
+      const [ax, ay] = P(56, 12 + IH), [bx, by] = P(56, 76), [cx2, cy2] = P(112, 76), [dx2, dy2] = P(112, 12 + IH), [mx2, my2] = P(84, 48);
+      z.pfad(`M${ax} ${ay}L${bx} ${by}Q${mx2} ${my2 - 26} ${cx2} ${cy2}L${dx2} ${dy2}`, { strokeWidth: 2.4 }, 0.3);
+      L(84, 12, 84, 34, { strokeWidth: 1.6 });
+      const [lx, ly] = P(84, 40); z.kreis(lx, ly, 14, { fill: F.gold, fillStyle: "solid", strokeWidth: 1.6 }, 0.15);
+      L(12, 12 + IH - 6, 12 + IB, 12 + IH - 6, { stroke: F.gold, strokeWidth: 2 });
+    }
+    // Beschriftung im Polaroid-Rand
+    const [tx, ty] = P(RB / 2, RH - 26);
+    z.bei(0.7 + i * 0.22);
+    z.text(tx, ty, r.titel, { groesse: 20, gewicht: 700, farbe: F.strich });
+  });
+  // goldene Sterne
+  z.bei(1.3);
+  z.gruppe("puls", () => {
+    ([[268, 300, 9], [496, 330, 7], [720, 120, 8], [40, 330, 6]] as const).forEach(([x, y, g]) =>
+      z.pfad(`M${x} ${y - g}L${x + g * 0.3} ${y - g * 0.3}L${x + g} ${y}L${x + g * 0.3} ${y + g * 0.3}L${x} ${y + g}L${x - g * 0.3} ${y + g * 0.3}L${x - g} ${y}L${x - g * 0.3} ${y - g * 0.3}Z`,
+        { fill: F.gold, fillStyle: "solid", stroke: F.goldDunkel, strokeWidth: 1.2 }, 0.12));
+  });
+  return { breite: RF_B, hoehe: RF_H, elemente: z.elemente, ende: 1.5, zielDauer: 1.5 };
+}
+
+export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere, handschlag, partnerBau, referenzen };

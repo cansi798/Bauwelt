@@ -25,7 +25,7 @@ ablauf:
   - { title: "Termin buchen", text: "Sie buchen Ihren Wunschtermin online oder fragen kurz per WhatsApp an." }
   - { title: "Besichtigung", text: "Wir schauen uns die Immobilie vor Ort genau an – gern gemeinsam mit Ihnen." }
   - { title: "Einschätzung", text: "Sie erfahren, wo Sanierungsbedarf besteht und mit welchen Kosten Sie rechnen sollten." }
-claim: "Ihre Wunschimmobilie. Ehrlich geprüft. Klar eingeschätzt."
+claim: "Pauschal 595 € inkl. MwSt. – Anrechnung bei Sanierung möglich." # Jamil 28.10.2026 (Talk 3572/3574): Preis im Hero wie beim Sicher-wohnen-Check (vorher „Ihre Wunschimmobilie. Ehrlich geprüft. Klar eingeschätzt.“)
 lead: "Sie haben eine Wohnung oder ein Haus im Blick? Wir schauen uns die Immobilie mit Ihnen an und sagen Ihnen ehrlich, was auf Sie zukommt – bevor Sie unterschreiben."
 introTitel: "Sicher entscheiden statt teuer überrascht werden"
 umfangTitel: "Was gehört zum Sanierungscheck?"

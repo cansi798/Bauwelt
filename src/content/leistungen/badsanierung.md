@@ -8,6 +8,9 @@ badge: "Klares Angebot"
 # 27.10.2026 (Versprechen-Check H1/H2/H7): kein „Festpreis“, keine feste Dauer, keine namenlosen „Partner-Meisterbetriebe“
 teaser: "Ihr Bad neu gedacht und komplett umgesetzt – Fliesen, Licht und Möbel, die Sanitär-Anschlüsse durch zugelassene Fachbetriebe. Mit transparentem Angebot nach dem Vor-Ort-Termin."
 beschreibung: "Badsanierung in Norderstedt, Hamburg und Umkreis: rund 2 Wochen ab Baustart, Zeitplan per E-Mail, ein fester Ansprechpartner. Preis online berechnen."
+# Jamil 28.10.2026 (Talk 3570/3571): Banner im Hero + Absatz im Text – „Pflegegrad“ (seit 2017, nicht „Pflegestufe“),
+# keine Zusage und kein Euro-Betrag (Pflegekassen-Betrag noch ungeprüft)
+heroHinweis: { text: "Mit Pflegegrad? Wir unterstützen Sie beim Antrag auf den Zuschuss der Pflegekasse für Ihre barrierefreie Dusche.", link: "#pflegekasse", linkText: "Mehr erfahren" }
 refAnker: "bad"
 refBilder:
   - { file: "galerie-bad-07.webp", alt: "Bad mit freistehender Wanne unter dem Dachfenster" }
@@ -55,7 +58,7 @@ ablaufTitel: "So *einfach* kann Badsanierung sein"
 faq:
   - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
-  - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Wichtig: Der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
+  - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Wir unterstützen Sie gern beim Antrag. Wichtig: Der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
 
 Sie wünschen sich ein modernes Badezimmer, aber keine endlosen Baustellen, keine unklaren Kosten und kein Handwerker-Chaos?
@@ -63,5 +66,7 @@ Sie wünschen sich ein modernes Badezimmer, aber keine endlosen Baustellen, kein
 Genau dafür sind wir da. Vom Rückbau bis zur letzten Silikonfuge koordinieren wir sämtliche Arbeiten für Sie und sorgen für einen strukturierten Ablauf mit klaren Zuständigkeiten.
 
 Auch bei der Auswahl von Fliesen, Armaturen, Badmöbeln und Beleuchtung beraten wir Sie gern – damit am Ende alles zusammenpasst.
+
+<p id="pflegekasse">Sie haben einen anerkannten Pflegegrad? Dann kann die Pflegekasse einen Zuschuss für wohnumfeldverbessernde Maßnahmen zahlen – zum Beispiel für eine bodengleiche, barrierefreie Dusche statt der Wanne. Wir unterstützen Sie beim Antrag. Wichtig: Der Antrag muss vor Baubeginn gestellt werden. Ob und in welcher Höhe gezahlt wird, entscheidet die Pflegekasse.</p>
 
 Eine Badsanierung dauert rund 2 Wochen ab Baustart. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den Baustart stimmen wir vorher mit Ihnen ab, den Zeitplan erhalten Sie von uns schriftlich per E-Mail – und Sie bleiben während der Arbeiten auf dem Laufenden.

@@ -6,6 +6,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Gallery from "../../components/Gallery.astro";
+import RoughSzene from "../../components/RoughSzene.astro";
 ---
 
 <BaseLayout
@@ -17,9 +18,15 @@ import Gallery from "../../components/Gallery.astro";
     pre="Ergebnisse, die man "
     accent="sieht."
     lead="Lassen Sie sich inspirieren: Entdecken Sie eine Auswahl an Projektbeispielen aus den Bereichen Badsanierung, Komplettsanierung & Modernisierung, Fliesen- & Bodenlegerarbeiten sowie Innenausbau & Trockenbau."
-    bild="galerie-bad-03.webp" /* Audit 7.2 (19.10.2026): echtes Projektfoto statt KI-Bild */
-    alt="Großzügiges Bad mit dunklen Großformatfliesen und LED-Spiegel"
-  />
+  >
+    {/* Jamil 28.10.2026 (Talk 3576): statt Foto eine gezeichnete Animation (Szene „referenzen“), wie die anderen Hero-Zeichnungen */}
+    <figure class="ref__szene" slot="medien">
+      <RoughSzene
+        szene="referenzen"
+        label="Zeichnung im Skizzen-Stil: drei Bilderrahmen hängen an einer goldenen Leine – ein Bad mit Dusche und Spiegel, ein gefliester Boden und ein Innenausbau mit Rundbogen und Leuchte, dazu kleine goldene Sterne."
+      />
+    </figure>
+  </PageHero>
 
   <section class="section section--sand">
     <div class="container">
@@ -30,3 +37,9 @@ import Gallery from "../../components/Gallery.astro";
   {/* Abschlussbereich „Gefällt Ihnen, was Sie sehen?“ entfernt (Jamil 27.10.2026, Talk 3490). Termin/Preis bleiben über Kopfzeile, Sticky-Leiste und Footer erreichbar. */}
 
 </BaseLayout>
+
+<style>
+  .ref__szene { margin: 0; padding: 0; min-width: 0; }
+  .ref__szene :global(.rszene) { margin: 0; }
+  .ref__szene :global(.rszene__bild) { max-width: none; }
+</style>

@@ -9,7 +9,8 @@ import { VERSPRECHEN } from "../data/versprechen";
 // llms-full.txt – ausführliche Fassung für KI-Assistenten (SEO-/KI-Audit G3, 19.10.2026).
 // Automatisch aus den Website-Inhalten: alle Leistungen mit Text, Umfang, Vorteilen, Preisen
 // und FAQ. Nur belegte Fakten (siehe llms.txt).
-const bereinigt = (t: string) => t.replace(/­/g, "").replace(/\s+\n/g, "\n").trim();
+// HTML-Tags aus dem Markdown (z. B. <p id="pflegekasse"> als Sprungziel) entfernen
+const bereinigt = (t: string) => t.replace(/<\/?[a-z][^>]*>/gi, "").replace(/­/g, "").replace(/\s+\n/g, "\n").trim();
 
 export const GET: APIRoute = async ({ site }) => {
   const o = `${site?.origin}${BASE}`;
