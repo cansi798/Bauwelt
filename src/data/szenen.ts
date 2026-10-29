@@ -505,7 +505,8 @@ function siegelSzene(
   const dreizeilig = ids.some((id) => (SIEGEL_ZEILEN[id]?.length ?? 2) > 2);
   const B = mobil ? 360 : 1000;
   const rh = mobil ? (dreizeilig ? 165 : 150) : 225; // Reihenhöhe
-  const H = mobil ? reihen.length * rh + 10 : reihen.length === 1 ? 230 : reihen.length * rh;
+  // Jamil 29.10.2026 (Talk 3671): unter den Siegeln war viel Leerraum (Desktop 58 px, Handy 37 px nur in der Zeichnung) → knapper
+  const H = mobil ? reihen.length * rh - 18 : reihen.length === 1 ? 188 : reihen.length * rh - 40;
   const d = mobil ? 78 : 100; // Ring-Durchmesser
   const s = mobil ? 0.9 : 1.15; // Motiv-Maßstab
   const pos: [number, number][] = [];

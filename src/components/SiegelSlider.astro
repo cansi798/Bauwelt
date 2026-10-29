@@ -39,3 +39,12 @@ const label =
     <RoughSzene szene="siegel" label={label} />
   </div>
 </section>
+
+<style>
+  /* Jamil 29.10.2026 (Talk 3671): „etwas kleiner, ich sehe noch viel Abstand“ – kompakter Abschnitt,
+     unten stärker gekürzt als oben; kein Extra-Abstand unter der Zeichnung. */
+  #versprechen { padding-block: 64px 48px; }
+  #versprechen :global(.section-head) { margin-bottom: 28px; }
+  #versprechen :global(.rszene) { margin-bottom: 0; }
+  @media (max-width: 767px) { #versprechen { padding-block: 44px 32px; } }
+</style>
