@@ -31,7 +31,24 @@ export const GET: APIRoute = async ({ site }) => {
     return `- [${l.unterschrift}](${o}leistungen/${l.slug}/) – ${satz(l.nutzen)} ${d?.teaser ?? ""}${preis ? ` ${satz(preis)}` : ""}`;
   }).join("\n");
 
+  // SEO/KI 29.10.2026 (Can, Talk 3767; Audit 29.10. Punkt 7): Stand-Datum + Kurzfakten in einem Block –
+  // leichter zitierbar für ChatGPT & Co. Alle Werte aus denselben Daten wie die Website.
+  const stand = new Date().toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "Europe/Berlin" });
+  const checks = LEISTUNGEN.filter((l) => inhalte.get(l.slug)?.pauschalpreis)
+    .map((l) => `${l.unterschrift} ${euro(inhalte.get(l.slug)!.pauschalpreis!)} € inkl. MwSt. (Pauschalpreis)`).join("; ");
   const txt = `# ${SITE.legal}
+
+Stand: ${stand}
+
+## Auf einen Blick
+
+- Sitz: ${SITE.street}, ${SITE.zip} ${SITE.city} (bei Hamburg)
+- Einzugsgebiet: ${SITE.city}, Hamburg und rund 40 km Umkreis
+- Telefon/WhatsApp: ${SITE.phoneDisplay} · E-Mail: ${EMAILS.service}
+- Öffnungszeiten: ${SITE.hours}
+- Vor-Ort-Termin: kostenlos; danach schriftliches Angebot
+- Checks: ${checks}
+- Website: ${o}
 
 > Handwerksbetrieb aus ${SITE.city} bei Hamburg für Badsanierung, Komplettsanierung & Modernisierung,
 > Fliesen- & Bodenlegerarbeiten sowie Innenausbau & Trockenbau – mit transparentem Angebot nach einem

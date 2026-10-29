@@ -37,10 +37,18 @@ const sichtbar = gruppen
   .map((g) => ({ ...g, fragen: g.fragen.filter((f) => { const k = f.q + "|" + f.a; if (gesehen.has(k)) return false; gesehen.add(k); return true; }) }))
   .filter((g) => g.fragen.length);
 const alle = sichtbar.flatMap((g) => g.fragen);
+// FAQ-Daten für Google nur EINMAL je Frage (SEO 29.10.2026, Can Talk 3767; Google: wiederholte FAQ nur an einer
+// Stelle auszeichnen). Rechner-Fragen sind auf /rechner/ ausgezeichnet, die Fragen der Leistungsseiten auf der
+// jeweiligen Seite (soweit dort sichtbar). Hier bleiben die allgemeinen Fragen + was nur hier steht.
+const woanders = new Set([
+  ...RECHNER_FRAGEN,
+  ...LEISTUNGEN.flatMap((l) => { const d = leistungen.get(l.slug); return d ? (d.faqAufSeite ? d.faq.slice(0, d.faqAufSeite) : d.faq) : []; }),
+].map((f) => f.q + "|" + f.a));
+const nurHier = alle.filter((f) => !woanders.has(f.q + "|" + f.a));
 ---
 
 <BaseLayout
-  schema={faqSchema(alle)}
+  schema={faqSchema(nurHier)}
   title="Häufige Fragen – Sanierung in Norderstedt | Bauwelt Handwerk"
   description="Antworten zu Ablauf, Preisen, Rechner, Terminen und Gewährleistung – Badsanierung und Sanierung in Norderstedt, Hamburg und Umkreis."
 >

@@ -362,6 +362,7 @@ if (!seoProbleme) pass("SEO", "Titel ≤ 60 mit Norderstedt, Beschreibungen, Can
 
 // ---------- 3. Strukturierte Daten (S3) ----------
 let ldProbleme = 0;
+const faqAusgezeichnet = {}; const faqSichtbar = new Set();
 const VERBOTENE_LEISTUNGEN = /Dach|Fassade|Maler|Heizung|Sanitär|Elektro|SHK/i;
 for (const s of S) {
   if (s.noindex) continue;
@@ -380,8 +381,10 @@ for (const s of S) {
     const bc = knoten.find((n) => n["@type"] === "BreadcrumbList");
     if (bc && (bc.itemListElement || []).some((i) => i.name === "Leistungen")) { warn("Strukturierte Daten (S3)", `${s.page}: BreadcrumbList mit Zwischenschritt „Leistungen“ (Seite gibt es nicht)`); ldProbleme++; }
   }
-  const hatFaq = /class="faq__item/.test(s.html);
-  if (hatFaq && !typen.has("FAQPage")) { warn("Strukturierte Daten (S3)", `${s.page}: Fragen auf der Seite, aber kein „FAQPage“`); ldProbleme++; }
+  // SEO 29.10.2026 (Can, Talk 3767): FAQ-Daten je Frage nur EINMAL auf der ganzen Website (Google-Regel für
+  // wiederholte FAQ) – aber jede sichtbare Frage irgendwo. Sammeln, Prüfung nach der Schleife.
+  for (const n of knoten.filter((n) => n["@type"] === "FAQPage")) for (const q of n.mainEntity || []) (faqAusgezeichnet[q.name + "|" + q.acceptedAnswer?.text] ||= []).push(s.page);
+  for (const m of s.html.matchAll(/<details class="faq__item[^"]*"[^>]*>\s*<summary>\s*([^<]+?)\s*</g)) faqSichtbar.add(m[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
   if (typen.has("AggregateRating") || typen.has("Review") || /"aggregateRating"/.test(s.html)) { warn("Strukturierte Daten (S3/6.1)", `${s.page}: Bewertungs-Daten – nur mit echten Bewertungen erlaubt`); ldProbleme++; }
   const firma = knoten.find((n) => [].concat(n["@type"]).includes("GeneralContractor"));
   if (firma && s.page === "/") {
@@ -395,7 +398,10 @@ for (const s of S) {
     if (!firma.areaServed?.some((a) => a.geoRadius && a.geoRadius <= 45000)) { warn("Einzugsgebiet / JSON-LD", "GeoCircle-Radius fehlt oder > 45 km (Karte: rund 40 km)"); ldProbleme++; }
   }
 }
-if (!ldProbleme) pass("Strukturierte Daten", "JSON-LD lesbar; Firma, WebSite, Service, BreadcrumbList, FAQPage vorhanden; nur echte Leistungen");
+for (const [q, seitenMitQ] of Object.entries(faqAusgezeichnet)) if (seitenMitQ.length > 1) { warn("Strukturierte Daten (S3)", `FAQ-Daten doppelt (gleiche Frage + Antwort): „${q.split("|")[0]}“ auf ${seitenMitQ.join(", ")} – nur einmal auszeichnen`); ldProbleme++; }
+const faqFragen = new Set(Object.keys(faqAusgezeichnet).map((k) => k.split("|")[0]));
+for (const q of faqSichtbar) if (!faqFragen.has(q)) { warn("Strukturierte Daten (S3)", `Sichtbare Frage ohne FAQ-Daten (auf keiner Seite): „${q}“`); ldProbleme++; }
+if (!ldProbleme) pass("Strukturierte Daten", "JSON-LD lesbar; Firma, WebSite, Service, BreadcrumbList, FAQPage je Frage genau einmal; nur echte Leistungen");
 
 // ---------- 4. KI-Kennzeichnung (7.1/7.2, EU-KI-VO Art. 50) ----------
 let kiProbleme = 0;

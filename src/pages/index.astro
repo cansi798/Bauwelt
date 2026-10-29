@@ -19,11 +19,11 @@ import ServiceArea from "../components/ServiceArea.astro";
 import SectionHead from "../components/SectionHead.astro";
 import { CTA, TERMIN, u } from "../consts";
 import { FAQ_START } from "../data/home";
-import { faqSchema } from "../lib/schema";
+// Keine FAQ-Daten (FAQPage) mehr hier (SEO 29.10.2026, Can Talk 3767): die 4 Startseiten-Fragen sind auf
+// /faq/ ausgezeichnet – Google: jede Frage nur an einer Stelle auszeichnen.
 ---
 
 <BaseLayout
-  schema={faqSchema(FAQ_START) /* Audit S3; seit 27.10.2026 nur die 4 Fragen der Startseite (alle auf /faq/) */}
   title="Badsanierung & Sanierung in Norderstedt | Bauwelt Handwerk"
   description="Badsanierung, Sanierung, Fliesen & Innenausbau in Norderstedt, Hamburg und Umkreis – klares Angebot nach kostenlosem Vor-Ort-Termin. Preis online berechnen."
 >

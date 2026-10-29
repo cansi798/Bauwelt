@@ -34,9 +34,12 @@ export const GET: APIRoute = async ({ site }) => {
     return teile.join("\n");
   }).join("\n\n");
 
+  const stand = new Date().toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "Europe/Berlin" });
   const txt = `# ${SITE.legal} – ausführliche Informationen
 
 > Handwerksbetrieb aus ${SITE.city} bei Hamburg. Kurzfassung: ${o}llms.txt
+
+Stand: ${stand} (Preise, Zeiten und Leistungen gelten ab diesem Datum; maßgeblich ist die Website)
 
 ## Unternehmen
 

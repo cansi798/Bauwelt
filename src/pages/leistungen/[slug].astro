@@ -23,7 +23,7 @@ import LeistungVorteile from "../../components/LeistungVorteile.astro";
 import Vertrauensleiste from "../../components/Vertrauensleiste.astro";
 import SkizzenKreis from "../../components/SkizzenKreis.astro";
 import StandardUmfang from "../../components/StandardUmfang.astro";
-import { CTA, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
+import { CTA, LEISTUNGEN, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
 import { GALERIE } from "../../data/galerie";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
@@ -56,6 +56,15 @@ const h1Titel = weich(leistung.unterschrift);
 const pauschal = l.data.pauschalpreis;
 // Jamil 27.10.2026 (Talk 3498): auf der Leistungsseite höchstens `faqAufSeite` Fragen, alle stehen auf /faq/
 const faqSeite = l.data.faqAufSeite ? l.data.faq.slice(0, l.data.faqAufSeite) : l.data.faq;
+// FAQ-Daten je Frage nur einmal (SEO 29.10.2026): steht dieselbe Frage mit derselben Antwort schon auf einer
+// Leistungsseite weiter vorn im Menü, wird sie hier nur angezeigt, nicht noch einmal ausgezeichnet.
+const alleLeistungen = new Map((await getCollection("leistungen")).map((e) => [e.id, e.data]));
+const vorher = new Set(
+  LEISTUNGEN.slice(0, Math.max(0, LEISTUNGEN.findIndex((x) => x.slug === l.id)))
+    .flatMap((x) => { const d = alleLeistungen.get(x.slug); return d ? (d.faqAufSeite ? d.faq.slice(0, d.faqAufSeite) : d.faq) : []; })
+    .map((f) => f.q + "|" + f.a)
+);
+const faqDaten = faqSeite.filter((f) => !vorher.has(f.q + "|" + f.a));
 const rechnerSlug = l.data.rechnerSlug ?? l.id;
 const hatRechner = Boolean(gewerkBySlug(rechnerSlug));
 const euro = (n: number) => n.toLocaleString("de-DE");
@@ -143,7 +152,7 @@ const description =
       { name: "Startseite", url: new URL(u(""), Astro.site).href },
       { name: leistung.unterschrift, url: new URL(u(`leistungen/${l.id}/`), Astro.site).href },
     ]),
-    ...faqSchema(faqSeite),
+    ...faqSchema(faqDaten),
   ] /* SEO-/KI-Audit S3 */}
   title={seoTitel /* SEO-/KI-Audit S4: Leistung + Norderstedt, max. ca. 60 Zeichen */}
   description={description}
