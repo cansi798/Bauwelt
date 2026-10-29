@@ -29,15 +29,15 @@ ablauf:
   - { title: "Übergabe", text: "Wir prüfen jedes Detail gemeinsam mit Ihnen, bevor wir Ihnen Ihr neues Bad übergeben." }
 claim: "Rund 2 Wochen ab Baustart. Klar geplant. Professionell umgesetzt." # Audit 5.5: statt doppeltem „Ihr neues Badezimmer“
 # Kundenwunsch 16.10.2026 (76): Beratungs-Satz; seit (77) im Lead, weil der Intro-Abschnitt entfällt
-lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir alle Arbeiten für Sie, von der ersten Idee bis zur Übergabe. Sie haben einen festen Ansprechpartner und ein Angebot, in dem jeder Schritt steht."
+lead: "Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten. Danach koordinieren wir von der ersten Idee bis zur fertigen Übergabe sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, ein transparentes Angebot und ein strukturierter Ablauf."
 # Kundenwunsch 16.10.2026 (77): Intro-Abschnitt („Ihr neues Bad – ohne Stress und Überraschungen“ + Foto) entfernt
 # ohneIntro entfernt – Audit 2.8 (19.10.2026): Einleitung jetzt auf allen Leistungsseiten (16.10. (77) hatte sie hier abgeschaltet)
 introBild: "galerie-bad-07.webp" # Jamil 21.10.2026 (Msg 2869/2870): Dachgeschossbad mit freistehender Wanne statt schmalem Foto
 introTitel: "Ihr neues Bad – in Ruhe geplant, rund 2 Wochen ab Baustart"
 # Jamil 22.10.2026 (Msg 3138): im Text „in der Regel rund 14 Tage“ + Anspruch Prozessoptimierung, keine Garantie (§ 11 AGB)
-rechnerText: "In wenigen Minuten sehen Sie, womit Sie ungefähr rechnen können. Das ist unverbindlich, und Sie brauchen keine Kontaktdaten. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu einer Badsanierung?"
-umfangText: "Wir übernehmen alles von der Demontage bis zur Übergabe. Im Angebot steht genau, was enthalten ist. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
+umfangText: "Von der Demontage bis zur fertigen Übergabe aus einer Hand – mit einem Angebot, das genau beschreibt, was enthalten ist. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
 kacheln:
   # Kundenwunsch 16.10.2026 (75): „Individuelle Beratung“ ergänzt – als erster Schritt der Arbeitsreihenfolge
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -49,14 +49,14 @@ kacheln:
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
-  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
   - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und verständliche Preise – digital abrufbar und freigebbar." }
 bilderTitel: "So könnte Ihr *neues Badezimmer* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Badsanierung sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
-  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben. Das sagen wir Ihnen dann sofort." }
+  - { q: "Wie lange dauert eine Badsanierung?", a: "Ein typisches Bad dauert rund 2 Wochen ab Baustart. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Zeigen sich verdeckte Schäden, kann sich der Ablauf verschieben – das sagen wir Ihnen sofort." }
   - { q: "Kann ich eigene Fliesen verwenden?", a: "Ja, nach Absprache. Wir prüfen beim Vor-Ort-Termin, ob Format und Menge passen, und berücksichtigen das im Angebot. Wichtig: Für selbst gestelltes Material übernehmen wir keine Gewährleistung, und Verzögerungen durch Fehlmengen oder Falschlieferungen gehen zu Ihren Lasten. Gern beraten wir Sie auch bei der Auswahl oder besorgen das Material für Sie." }
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für barrierefreie Umbauten – etwa eine bodengleiche Dusche statt Wanne – kann die Pflegekasse bei anerkanntem Pflegegrad einen Zuschuss zahlen. Wir unterstützen Sie gern beim Antrag. Wichtig: Der Antrag wird vor Baubeginn gestellt. Ob und welche Förderung für Sie infrage kommt, besprechen wir gern beim Vor-Ort-Termin." }
 ---
@@ -67,6 +67,6 @@ Genau dafür sind wir da. Vom Rückbau bis zur letzten Silikonfuge koordinieren 
 
 Auch bei der Auswahl von Fliesen, Armaturen, Badmöbeln und Beleuchtung beraten wir Sie gern – damit am Ende alles zusammenpasst.
 
-<p id="pflegekasse">Sie haben einen anerkannten Pflegegrad? Dann kann die Pflegekasse einen Zuschuss für wohnumfeldverbessernde Maßnahmen zahlen, zum Beispiel für eine bodengleiche, barrierefreie Dusche statt der Wanne. Wir unterstützen Sie beim Antrag. Wichtig: Der Antrag muss vor Baubeginn gestellt werden. Ob und in welcher Höhe gezahlt wird, entscheidet die Pflegekasse.</p>
+<p id="pflegekasse">Sie haben einen anerkannten Pflegegrad? Dann kann die Pflegekasse einen Zuschuss für wohnumfeldverbessernde Maßnahmen zahlen – zum Beispiel für eine bodengleiche, barrierefreie Dusche statt der Wanne. Wir unterstützen Sie beim Antrag. Wichtig: Der Antrag muss vor Baubeginn gestellt werden. Ob und in welcher Höhe gezahlt wird, entscheidet die Pflegekasse.</p>
 
-Eine Badsanierung dauert rund 2 Wochen ab Baustart. Unser Anspruch ist, besser zu werden: Wir verbessern unsere Abläufe laufend, um noch schneller fertig zu werden, ohne bei der Qualität zu sparen. Den Baustart stimmen wir vorher mit Ihnen ab, den Zeitplan erhalten Sie von uns schriftlich per E-Mail, und während der Arbeiten halten wir Sie auf dem Laufenden.
+Eine Badsanierung dauert rund 2 Wochen ab Baustart. Unser Anspruch ist, besser zu werden: Wir optimieren unsere Abläufe laufend, um noch schneller fertig zu werden – ohne Abstriche bei der Qualität. Den Baustart stimmen wir vorher mit Ihnen ab, den Zeitplan erhalten Sie von uns schriftlich per E-Mail – und Sie bleiben während der Arbeiten auf dem Laufenden.

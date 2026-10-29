@@ -26,7 +26,7 @@ siegel: "festpreis"
 claim: "Neue Fliesen und Böden. Präzise verlegt. Sauber übergeben."
 lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor und verlegen Fliesen und Böden mit exakten Fugen. Sie haben einen festen Ansprechpartner und ein Angebot, in dem jeder Schritt steht."
 introTitel: "Neue Böden – präzise bis zur letzten Fuge"
-rechnerText: "In wenigen Minuten sehen Sie, womit Sie ungefähr rechnen können. Das ist unverbindlich, und Sie brauchen keine Kontaktdaten. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
+rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
 umfangText: "Wir übernehmen alles vom alten Belag bis zur fertigen Fuge. Im Angebot steht genau, was dazugehört."
 kacheln:
