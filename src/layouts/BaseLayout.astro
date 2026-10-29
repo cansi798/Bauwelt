@@ -169,11 +169,22 @@ const jsonLd = {
       const fill = document.getElementById("scrollFill");
       const hoch = document.getElementById("hochBtn");
       if (fill && hoch) {
-        const tick = () => {
-          const max = document.documentElement.scrollHeight - innerHeight;
-          fill.style.width = max > 0 ? `${(scrollY / max) * 100}%` : "0%";
-          hoch.hidden = scrollY < innerHeight;
+        // Ruckel-Prüfung 29.10.2026: vorher bei JEDEM Scroll-Ereignis style.width (= Layout) und hidden neu
+        // gesetzt (211 bzw. 54 Schreibvorgänge pro Testlauf). Jetzt: höchstens einmal pro Bild (rAF), Balken
+        // per transform (kein Layout), Seitenhöhe nur bei Größenänderung messen, hidden nur bei echtem Wechsel.
+        let max = 1, geplant = false, zuletzt = -1, versteckt = hoch.hidden;
+        const messen = () => { max = Math.max(1, document.documentElement.scrollHeight - innerHeight); };
+        const zeichnen = () => {
+          geplant = false;
+          const anteil = Math.min(1, Math.max(0, scrollY / max));
+          if (Math.abs(anteil - zuletzt) > 0.0005) { fill.style.transform = `scaleX(${anteil.toFixed(4)})`; zuletzt = anteil; }
+          const v = scrollY < innerHeight;
+          if (v !== versteckt) { hoch.hidden = v; versteckt = v; }
         };
+        const tick = () => { if (!geplant) { geplant = true; requestAnimationFrame(zeichnen); } };
+        messen();
+        new ResizeObserver(() => { messen(); tick(); }).observe(document.body);
+        addEventListener("resize", () => { messen(); tick(); }, { passive: true });
         addEventListener("scroll", tick, { passive: true });
         tick();
         hoch.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));

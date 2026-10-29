@@ -88,9 +88,12 @@ import MobileMenu from "./MobileMenu.astro";
     height: 3px;
     pointer-events: none;
   }
+  /* Scroll-Fortschritt per transform statt width (29.10.2026): kein Layout bei jedem Scroll-Ereignis,
+     läuft nur auf der Grafikkarte. Breite = 100 %, sichtbarer Anteil über scaleX (BaseLayout-Skript). */
   .hdr__balken span {
-    display: block; height: 100%; width: 0;
+    display: block; height: 100%; width: 100%;
     background: var(--gold-500);
+    transform: scaleX(0); transform-origin: left center;
   }
   .hdr__inner {
     display: flex; align-items: center; gap: 16px;
