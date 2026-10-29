@@ -46,7 +46,7 @@ const alle = sichtbar.flatMap((g) => g.fragen);
 >
   <section class="section">
     <div class="container">
-      <SectionHead center as="h1" eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" text="Alle Antworten an einem Ort – nach Themen sortiert. Ihre Frage ist nicht dabei? Rufen Sie uns an oder schreiben Sie uns." />
+      <SectionHead center as="h1" eyebrow="Häufige Fragen" pre="Gut zu " accent="wissen" text="Hier finden Sie alle Antworten, nach Themen sortiert. Ihre Frage ist nicht dabei? Rufen Sie uns an oder schreiben Sie uns." />
       <nav class="faqs__themen" aria-label="Themen">
         {sichtbar.map((g) => <a href={`#${g.id}`}>{g.titel}</a>)}
       </nav>

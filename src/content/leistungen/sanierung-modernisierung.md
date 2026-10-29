@@ -19,11 +19,11 @@ ablauf:
   - { title: "Konzept", text: "Sie erhalten einen klaren Plan mit Angebot und geplantem Zeitrahmen." }
   - { title: "Umsetzung", text: "Wir sanieren sauber und halten Sie auf dem Laufenden." }
 claim: "Ihre Immobilie wie neu. Durchdacht geplant. Aus einer Hand umgesetzt."
-lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren sämtliche Arbeiten. Ein fester Ansprechpartner, ein transparentes Angebot und ein strukturierter Ablauf."
+lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung mit Ihnen und koordinieren alle Arbeiten. Sie haben einen festen Ansprechpartner und ein Angebot, in dem jeder Schritt steht."
 introTitel: "Ihre Sanierung – klar geplant, transparent angeboten"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
+rechnerText: "In wenigen Minuten sehen Sie, womit Sie ungefähr rechnen können. Das ist unverbindlich, und Sie brauchen keine Kontaktdaten. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
-umfangText: "Von der Planung bis zur fertigen Übergabe aus einer Hand – mit verständlichem Angebot. Wir planen den Ablauf und koordinieren alle Gewerke; die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
+umfangText: "Wir übernehmen alles von der Planung bis zur Übergabe und koordinieren alle Gewerke. Im Angebot steht genau, was dazugehört. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
 kacheln:
   # Jamil 20.10. (Talk 2568): Kacheln wie bei Badsanierung – Beratung zuerst, Sanitär und Elektro getrennt
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -35,7 +35,7 @@ kacheln:
   - { icon: "paint", title: "Maler- & Abschlussarbeiten" }
   - { icon: "doc", title: "Projekt\u00ADkoordination" }
 warum:
-  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
   - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und verständliche Preise – digital abrufbar und freigebbar." }
 bilderTitel: "So könnte Ihr *modernisiertes Zuhause* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
@@ -50,6 +50,6 @@ faq:
 
 Sie möchten Ihre Wohnung oder Ihr Haus modernisieren, aber keine wochenlange Baustelle, keine unklaren Kosten und kein Handwerker-Chaos?
 
-Genau dafür sind wir da. Wir nehmen uns Zeit, Sie persönlich und in Ruhe zu beraten – bevor auch nur ein Handgriff passiert. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit transparentem Angebot und abgestimmtem Zeitrahmen und koordinieren danach sämtliche Arbeiten – vom Rückbau bis zum letzten Anstrich, mit klaren Zuständigkeiten.
+Dabei unterstützen wir Sie. Bevor wir anfangen, beraten wir Sie persönlich und in Ruhe. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit transparentem Angebot und abgestimmtem Zeitrahmen und koordinieren danach alle Arbeiten vom Rückbau bis zum letzten Anstrich. Wer wofür zuständig ist, ist dabei immer klar.
 
 Auch bei der Auswahl von Fliesen, Böden, Armaturen, Möbeln und Farben beraten wir Sie gern – damit am Ende alles zusammenpasst.

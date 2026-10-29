@@ -26,10 +26,10 @@ ablauf:
   - { title: "Besichtigung", text: "Wir schauen uns die Immobilie vor Ort genau an – gern gemeinsam mit Ihnen." }
   - { title: "Einschätzung", text: "Sie erfahren, wo Sanierungsbedarf besteht und mit welchen Kosten Sie rechnen sollten." }
 claim: "Pauschal 595 € inkl. MwSt. – Anrechnung bei Sanierung möglich." # Jamil 28.10.2026 (Talk 3572/3574): Preis im Hero wie beim Sicher-wohnen-Check (vorher „Ihre Wunschimmobilie. Ehrlich geprüft. Klar eingeschätzt.“)
-lead: "Sie haben eine Wohnung oder ein Haus im Blick? Wir schauen uns die Immobilie mit Ihnen an und sagen Ihnen ehrlich, was auf Sie zukommt – bevor Sie unterschreiben."
+lead: "Sie haben eine Wohnung oder ein Haus im Blick? Wir schauen uns die Immobilie mit Ihnen an und sagen Ihnen ehrlich, was auf Sie zukommt, bevor Sie unterschreiben."
 introTitel: "Sicher entscheiden statt teuer überrascht werden"
 umfangTitel: "Was gehört zum Sanierungscheck?"
-umfangText: "Vom Termin bis zur Kosteneinschätzung – alles zum festen Pauschalpreis."
+umfangText: "Termin, Besichtigung und Kosteneinschätzung sind im Pauschalpreis enthalten."
 kacheln:
   - { icon: "eye", title: "Besichtigung vor Ort" }
   - { icon: "euro", title: "Erste Kosten\u00ADeinschätzung" }
@@ -46,4 +46,4 @@ faq:
 
 Sie haben eine Wohnung oder ein Haus im Blick, wissen aber nicht, welche Sanierungskosten nach dem Kauf auf Sie zukommen?
 
-Genau dafür sind wir da. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten – zum Pauschalpreis von 595 € inkl. MwSt. Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung.
+Dafür gibt es den Check. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten. Der Check kostet pauschal 595 € inkl. MwSt. Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an. Die genauen Bedingungen nennen wir Ihnen vor der Buchung.

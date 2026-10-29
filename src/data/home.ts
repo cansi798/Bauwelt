@@ -217,20 +217,20 @@ export const FAQ_HOME = [
   // Termine § 11, Zahlung § 7, Abnahme § 15, Gewährleistung § 16). AGB: /agb/
   {
     q: "Was kostet meine Sanierung?",
-    a: "Das hängt von Umfang und Ausstattung ab – unser Online-Rechner gibt Ihnen in einer Minute eine erste Orientierung. Ein genaues, schriftliches Angebot erstellen wir Ihnen nach einem kostenlosen Vor-Ort-Termin. Darin steht, welche Leistungen enthalten sind.",
+    a: "Das hängt von Umfang und Ausstattung ab. Unser Online-Rechner gibt Ihnen in einer Minute eine erste Orientierung. Ein genaues, schriftliches Angebot erstellen wir Ihnen nach einem kostenlosen Vor-Ort-Termin. Darin steht, welche Leistungen enthalten sind.",
   },
   // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): Mehrkosten nur nach schriftlichem Nachtrag;
   // R8: keine „5 Jahre Gewährleistung“ mehr (gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten)
   {
     q: "Was passiert, wenn sich während der Arbeiten etwas ändert?",
-    a: "Im Angebot steht, welche Leistungen enthalten sind. Zusätzlich berechnet wird nur, was dort nicht steht: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Das besprechen wir vorher mit Ihnen, und Sie erhalten dazu einen schriftlichen Nachtrag – nicht einfach eine höhere Rechnung.",
+    a: "Im Angebot steht, welche Leistungen enthalten sind. Zusätzlich berechnet wird nur, was dort nicht steht: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Das besprechen wir vorher mit Ihnen, und Sie erhalten dazu einen schriftlichen Nachtrag. Mit einer höheren Rechnung ohne Absprache müssen Sie also nicht rechnen.",
   },
   // Versprechen-Check H1 (27.10.2026): Frage „Gilt der Festpreis wirklich?“ ersetzt (AGB § 2 „Angebote freibleibend“).
 // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T1): Frage „Was ist im Festpreis nicht enthalten?“ entfernt –
   // sie sprach von „Pauschalpreis“ (nur für die Checks) und widersprach sich bei der Entsorgung.
   {
     q: "Wie lange dauert mein Projekt?",
-    a: "Das hängt vom Umfang ab. Eine Badsanierung dauert rund 2 Wochen ab Baustart, größere Sanierungen planen wir individuell. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern – das sagen wir Ihnen sofort.",
+    a: "Das hängt vom Umfang ab. Eine Badsanierung dauert rund 2 Wochen ab Baustart, größere Sanierungen planen wir individuell. Den Baustart stimmen wir vorab mit Ihnen ab, den Zeitplan erhalten Sie schriftlich per E-Mail. Bei höherer Gewalt, Materialengpässen oder verdeckten Schäden können sich Fristen verlängern. Das sagen wir Ihnen dann sofort.",
   },
   {
     q: "Muss ich während der Arbeiten ausziehen?",
@@ -240,7 +240,7 @@ export const FAQ_HOME = [
   // Leistungsseiten nur noch leistungsspezifische Fragen (+ Link hierher)
   {
     q: "Wie läuft der Vor-Ort-Termin ab?",
-    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Kommt etwas dazwischen, sagen Sie uns einfach Bescheid – wir finden einen neuen Termin. Danach erhalten Sie in der Regel zeitnah Ihr schriftliches Angebot; bei größeren Projekten nennen wir Ihnen den Zeitrahmen direkt vor Ort. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
+    a: "Sie buchen online einen Termin, wir kommen zu Ihnen, nehmen alles vor Ort auf und besprechen Ihre Wünsche. Der Vor-Ort-Termin ist kostenlos und unverbindlich. Kommt etwas dazwischen, sagen Sie uns einfach Bescheid, dann finden wir einen neuen Termin. Danach erhalten Sie in der Regel zeitnah Ihr schriftliches Angebot; bei größeren Projekten nennen wir Ihnen den Zeitrahmen direkt vor Ort. Der Auftrag kommt erst mit unserer schriftlichen Auftragsbestätigung oder dem Beginn der Arbeiten zustande.",
   },
   {
     q: "Muss ich mehrere Handwerker koordinieren?",
@@ -256,11 +256,11 @@ export const FAQ_HOME = [
   },
   {
     q: "Was gilt bei Abnahme und Gewährleistung?",
-    a: "Ist alles fertig, nehmen Sie die Arbeiten ab – kleine Mängel sind kein Grund, die Abnahme zu verweigern, wir beheben sie natürlich trotzdem. Für die Gewährleistung gelten die gesetzlichen Vorgaben und § 16 unserer AGB. Melden Sie Mängel bitte zeitnah, dann bessern wir nach. Für Material, das Sie selbst stellen, können wir keine Gewährleistung übernehmen.",
+    a: "Ist alles fertig, nehmen Sie die Arbeiten ab. Kleine Mängel sind kein Grund, die Abnahme zu verweigern; wir beheben sie natürlich trotzdem. Für die Gewährleistung gelten die gesetzlichen Vorgaben und § 16 unserer AGB. Melden Sie Mängel bitte zeitnah, dann bessern wir nach. Für Material, das Sie selbst stellen, können wir keine Gewährleistung übernehmen.",
   },
   {
     q: "Was passiert, wenn ich einen Termin absagen muss?",
-    a: "Für den kostenlosen Vor-Ort-Termin gilt: Kommt etwas dazwischen, sagen Sie uns bitte so früh wie möglich Bescheid – wir finden gemeinsam einen neuen Termin. Für die vereinbarten Termine der Arbeiten gilt: Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
+    a: "Für den kostenlosen Vor-Ort-Termin gilt: Kommt etwas dazwischen, sagen Sie uns bitte so früh wie möglich Bescheid, dann finden wir gemeinsam einen neuen Termin. Für die vereinbarten Termine der Arbeiten gilt: Sagen Sie uns bitte so früh wie möglich Bescheid. Bei einer Absage weniger als 3 Arbeitstage vorher können wir die bereits entstandenen Ausfallkosten berechnen – bis zu 100 %. Verzögert sich der Ablauf auf Ihrer Seite, können Wartezeiten und erneute Anfahrten berechnet werden.",
   },
   // „In welcher Region sind Sie tätig?“ entfernt (Kundenwunsch 13.10.2026 (21))
 ];
@@ -283,7 +283,7 @@ export const FOOTER_KONTAKT = {
 export const RECHNER_FRAGEN = [
   {
     q: "Wie genau ist die Preisspanne?",
-    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied – und können die Spanne nach oben oder unten verschieben.",
+    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied. Sie können die Spanne nach oben oder unten verschieben.",
   },
   {
     q: "Ist das Ergebnis verbindlich?",

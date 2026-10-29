@@ -20,11 +20,11 @@ ablauf:
   - { title: "Plan", text: "Transparentes Angebot, klarer Ablauf." }
   - { title: "Ausbau", text: "Sauber verarbeitet bis in die Ecke." }
 claim: "Räume neu gestalten. Klar geplant. Sauber ausgebaut."
-lead: "Von neuen Wänden über abgehängte Decken bis zur fertigen Oberfläche koordinieren wir sämtliche Arbeiten für Sie. Ein fester Ansprechpartner, ein transparentes Angebot und ein strukturierter Ablauf."
+lead: "Neue Wände, abgehängte Decken, fertige Oberflächen: Wir koordinieren alle Arbeiten für Sie. Sie haben einen festen Ansprechpartner und ein Angebot, in dem jeder Schritt steht."
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
-rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
+rechnerText: "In wenigen Minuten sehen Sie, womit Sie ungefähr rechnen können. Das ist unverbindlich, und Sie brauchen keine Kontaktdaten. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur malerfertigen Oberfläche aus einer Hand – mit einem Angebot, das den Umfang klar beschreibt. Wir koordinieren alles; Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
+umfangText: "Wir übernehmen alles von der Planung bis zur malerfertigen Oberfläche, und im Angebot steht genau, was dazugehört. Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }
@@ -36,7 +36,7 @@ kacheln:
   - { icon: "paint", title: "Spachtel- & Malerarbeiten" }
 warum:
   - { icon: "clock", title: "Zügig wieder nutzbar", text: "Trockenbau kommt ohne große Mauerarbeiten aus – Ihre Räume sind schneller wieder bewohnbar." }
-  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
+  - { icon: "euro", title: "Erste Orientierung zum Preis", text: "Unser Online-Rechner gibt Ihnen eine erste Preisspanne. Den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin." }
 bilderTitel: "So könnten Ihre *neuen Räume* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
 ablaufTitel: "So *einfach* kann Innenausbau sein"
@@ -44,11 +44,11 @@ ablaufTitel: "So *einfach* kann Innenausbau sein"
 faq:
   - { q: "Wie lange dauert ein Innenausbau?", a: "Das hängt vom Umfang ab. Eine neue Trennwand ist oft in wenigen Tagen fertig, ein ganzes Dachgeschoss braucht entsprechend länger. Den Zeitplan erhalten Sie vorab schriftlich per E-Mail." }
   - { q: "Übernehmen Sie auch kleine Projekte?", a: "Ja, vom einzelnen Raum bis zur kompletten Etage." }
-  - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir bearbeiten die Flächen so weit, bis die Oberfläche malerfertig ist: spachteln, glätten, schleifen. Dann übergeben wir sie – auf Wunsch übernehmen wir auch Farbe oder Tapete." }
+  - { q: "Sind die Wände danach fertig zum Streichen?", a: "Ja. Wir bearbeiten die Flächen so weit, bis die Oberfläche malerfertig ist: spachteln, glätten, schleifen. Dann übergeben wir sie. Auf Wunsch übernehmen wir auch Farbe oder Tapete." }
 ---
 
 Sie wünschen sich ein zusätzliches Zimmer, ein ruhiges Homeoffice oder eine neue Raumaufteilung, aber keine wochenlange Baustelle und keine unklaren Kosten?
 
-Genau dafür sind wir da. Mit Trockenbau setzen wir neue Wände, Decken und Nischen zügig und sauber um – ohne große Mauerarbeiten. Wir koordinieren sämtliche Arbeiten für Sie und übergeben glatte Flächen, die bereit für Farbe oder Tapete sind.
+Dabei helfen wir Ihnen. Mit Trockenbau entstehen neue Wände, Decken und Nischen zügig und sauber, große Mauerarbeiten sind dafür nicht nötig. Wir koordinieren alle Arbeiten und übergeben glatte Flächen, die bereit für Farbe oder Tapete sind.
 
 Auch bei der Auswahl von Türen, Bodenbelägen, Oberflächen und Farben beraten wir Sie gern – damit am Ende alles zusammenpasst.
