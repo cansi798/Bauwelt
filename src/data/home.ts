@@ -223,7 +223,7 @@ export const FAQ_HOME = [
   // R8: keine „5 Jahre Gewährleistung“ mehr (gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten)
   {
     q: "Was passiert, wenn sich während der Arbeiten etwas ändert?",
-    a: "Im Angebot steht, welche Leistungen enthalten sind. Zusätzlich berechnet wird nur, was dort nicht steht: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Das besprechen wir vorher mit Ihnen, und Sie erhalten dazu einen schriftlichen Nachtrag. Mit einer höheren Rechnung ohne Absprache müssen Sie also nicht rechnen.",
+    a: "Im Angebot steht, welche Leistungen enthalten sind. Zusätzlich berechnet wird nur, was dort nicht steht: Wünsche, die Sie nachträglich beauftragen, technisch notwendige Zusatzarbeiten und verdeckte Mängel, die erst während der Arbeiten sichtbar werden. Das besprechen wir vorher mit Ihnen, und Sie erhalten dazu einen schriftlichen Nachtrag.",
   },
   // Versprechen-Check H1 (27.10.2026): Frage „Gilt der Festpreis wirklich?“ ersetzt (AGB § 2 „Angebote freibleibend“).
 // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit T1): Frage „Was ist im Festpreis nicht enthalten?“ entfernt –
@@ -283,7 +283,7 @@ export const FOOTER_KONTAKT = {
 export const RECHNER_FRAGEN = [
   {
     q: "Wie genau ist die Preisspanne?",
-    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied. Sie können die Spanne nach oben oder unten verschieben.",
+    a: "Die Preisspanne ist eine erste Orientierung auf Basis unserer Erfahrung. Den genauen Preis kennen wir erst, wenn wir Ihre Räume gesehen haben: Zustand, Untergrund und Ihre Ausstattungswünsche machen den Unterschied. Diese Punkte können die Spanne nach oben oder unten verschieben.",
   },
   {
     q: "Ist das Ergebnis verbindlich?",

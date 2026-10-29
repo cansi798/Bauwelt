@@ -28,7 +28,7 @@ lead: "Ob Bad, Küche oder Wohnraum: Wir bereiten den Untergrund fachgerecht vor
 introTitel: "Neue Böden – präzise bis zur letzten Fuge"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu Fliesen- & Bodenlegerarbeiten?"
-umfangText: "Wir übernehmen alles vom alten Belag bis zur fertigen Fuge. Im Angebot steht genau, was dazugehört."
+umfangText: "Vom alten Belag bis zur fertigen Fuge kümmern wir uns um alles. Im Angebot steht genau, was dazugehört."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }

@@ -23,7 +23,7 @@ lead: "Ob einzelne Räume oder das ganze Objekt: Wir planen die Modernisierung m
 introTitel: "Ihre Sanierung – klar geplant, transparent angeboten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zu Komplettsanierung & Modernisierung?"
-umfangText: "Wir übernehmen alles von der Planung bis zur Übergabe und koordinieren alle Gewerke. Im Angebot steht genau, was dazugehört. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
+umfangText: "Von der Planung bis zur Übergabe koordinieren wir alle Gewerke. Im Angebot steht genau, was dazugehört. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus."
 kacheln:
   # Jamil 20.10. (Talk 2568): Kacheln wie bei Badsanierung – Beratung zuerst, Sanitär und Elektro getrennt
   - { icon: "chat", title: "Individuelle Beratung" }
