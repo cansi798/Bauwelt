@@ -5,10 +5,8 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# Sicherheitsbericht N3 (30.10.2026): keine Rechte auf Workflow-Ebene – jeder Job bekommt nur, was er braucht.
+permissions: {}
 
 # Nur ein Deploy gleichzeitig; laufende nicht abbrechen.
 concurrency:
@@ -18,19 +16,32 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      # Alle Actions per Commit-Hash gepinnt (Versionskommentar daneben); Dependabot kann sie aktualisieren.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0 # voller git-Verlauf für <lastmod> in der Sitemap (SEO-/KI-Audit S8)
-      - name: Build mit Astro
-        uses: withastro/action@v3
-        # withastro/action installiert Abhängigkeiten, baut nach ./dist
-        # und lädt das Ergebnis als Pages-Artefakt hoch.
+          persist-credentials: false
+      # Ersetzt withastro/action (dieselben Schritte), damit die Installation das Lockfile nicht verändert (npm ci)
+      # und Install-Skripte von Paketen nicht ausgeführt werden (--ignore-scripts). Astro 7 braucht Node >= 22.12.
+      - name: Node einrichten
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          # Astro 7 benötigt Node >= 22.12 (Action-Default ist 20).
           node-version: 22
-      # Audit-Wächter (Jamil 19.10.2026): prüft dist/ gegen beide Audits (AUDIT-REGELN.md).
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Abhängigkeiten installieren (Lockfile, ohne Install-Skripte)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build mit Astro
+        run: npm run build
+      - name: Pages-Artefakt hochladen
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: dist/
+      # Audit-Wächter (Jamil 19.10.2026): prüft dist/ gegen beide Audits.
       # Blockiert den Deploy nie – Befunde erscheinen als „AUDIT-WARNUNG“ im Log und als Warnungen im Actions-Lauf.
       - name: Audit-Check
         continue-on-error: true
@@ -40,26 +51,33 @@ jobs:
       - name: Breiten-Prüfung (Handy)
         continue-on-error: true
         run: |
-          npm i --silent --prefix /tmp/pw playwright@1.48.2
+          npm i --silent --ignore-scripts --no-audit --no-fund --prefix /tmp/pw playwright@1.48.2
           /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
           node scripts/check-breite.mjs
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # nur für den Checkout der Skripte (IndexNow)
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy nach GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
       # SEO-/KI-Audit G4: Änderungen per IndexNow an Bing melden (ChatGPT/Copilot nutzen den Bing-Index).
       # Wirkt erst nach dem Umzug auf die eigene Domain; auf github.io meldet das Skript nichts.
       - name: Checkout (nur Skripte)
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           sparse-checkout: scripts
+          persist-credentials: false
       - name: IndexNow melden
         continue-on-error: true
-        run: node scripts/indexnow.mjs "${{ steps.deployment.outputs.page_url }}"
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node scripts/indexnow.mjs "$PAGE_URL"
