@@ -174,6 +174,10 @@ const WA_HREF = waLink();
       frame.id = "relexable-booking";
       frame.title = "Kostenlosen Vor-Ort-Termin online buchen";
       frame.setAttribute("referrerpolicy", "no-referrer");
+      // Sicherheitsbericht N5 (30.10.2026): minimal nötige Rechte – Skripte, eigene Portal-Speicher (same-origin),
+      // Formulare, neue Fenster (z. B. Bestätigung/Kalenderdatei). KEIN allow-top-navigation: das Portal kann die
+      // Bauwelt-Seite nicht umleiten.
+      frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
       frame.setAttribute("fetchpriority", "high");
       // Gerüst ausblenden, sobald das Portal gezeichnet ist (erste Höhen-Meldung) –
       // spätestens 1,5 s nach dem Laden des iframes
