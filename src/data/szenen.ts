@@ -959,54 +959,30 @@ function referenzen(): Szene {
   return { breite: RF_B, hoehe: RF_H, elemente: z.elemente, ende: 1.5, zielDauer: 1.5 };
 }
 
-/* ─── Karriere „Gute Arbeit beginnt beim Team.“ (Jamil 30.10.2026, Talk 3837 – ersetzt das Schwarzweiß-Baustellenfoto) ───
-   Teamarbeit der Gewerke, ohne Personen: ein Bauplan von oben, rundherum fünf Bauhelme (Draufsicht) verschiedener
-   Gewerke, die am Plan zusammenkommen – goldene Linien führen zum Plan, zum Schluss ein goldener Haken.
-   Keine Gesichter, keine Namen (passend zu Talk 3819). Ruhig, einmal (scroll-gekoppelt wie alle Szenen). */
-function helmOben(z: Zeichner, cx: number, cy: number, farbe: "gold" | "grau", t: number) {
+/* ─── Karriere „Gute Arbeit beginnt beim Team.“ (Jamil 30.10.2026, Talk 3837/3844) ───
+   3844: „erkennt man nicht“ → bewusst einfach: drei große Bauhelme nebeneinander auf einer gemeinsamen
+   goldenen Linie (Team). Wenige große Formen, keine Gesichter, keine Namen, kein Gewusel. */
+function helmSeite(z: Zeichner, cx: number, by: number, farbe: "gold" | "grau", t: number) {
+  const linie = farbe === "gold" ? F.goldDunkel : F.strich;
   z.bei(t);
   z.gruppe("einsetzen", () => {
-    z.ellipse(cx, cy, 104, 88, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.4 }, 0.3); // Krempe
-    z.ellipse(cx, cy - 2, 70, 60, farbe === "gold"
-      ? { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }
-      : { fill: F.grau, fillStyle: "hachure", hachureGap: 6, fillWeight: 1.2, strokeWidth: 2.2 }, 0.3); // Schale
-    z.linie(cx, cy - 32, cx, cy + 28, { strokeWidth: 2, stroke: farbe === "gold" ? F.goldDunkel : F.strich }, 0.15); // Mittelgrat
+    z.pfad(`M${cx - 82} ${by}Q${cx - 80} ${by - 122} ${cx} ${by - 124}Q${cx + 80} ${by - 122} ${cx + 82} ${by}Z`,
+      farbe === "gold"
+        ? { fill: F.gold, fillStyle: "solid", strokeWidth: 3 }
+        : { fill: F.grau, fillStyle: "hachure", hachureGap: 8, fillWeight: 1.6, strokeWidth: 3 }, 0.35); // Schale
+    z.rundRechteck(cx - 100, by - 4, 200, 18, 8, { fill: linie, fillStyle: "solid", strokeWidth: 2.6 }, 0.25); // Krempe
+    z.linie(cx - 11, by - 120, cx - 11, by - 4, { strokeWidth: 2.4, stroke: linie }, 0.15); // Grat
+    z.linie(cx + 11, by - 120, cx + 11, by - 4, { strokeWidth: 2.4, stroke: linie }, 0.15);
   }, t);
 }
-const TW_B = 720, TW_H = 540;
+const TW_B = 760, TW_H = 280;
 function teamwerk(): Szene {
   const z = new Zeichner();
-  const px = 210, py = 150, pb = 300, ph = 230; // Bauplan
-  z.bei(0);
-  z.rechteck(px, py, pb, ph, { fill: "var(--weiss)", fillStyle: "solid", strokeWidth: 2.6 }, 0.5);
-  // Grundriss auf dem Plan: Außenwand, zwei Innenwände, Türbögen, ein Raum golden schraffiert
-  z.bei(0.25);
-  z.rechteck(px + 28, py + 26, pb - 56, ph - 52, { strokeWidth: 3 }, 0.45);
-  z.linie(px + 150, py + 26, px + 150, py + ph - 26, { strokeWidth: 2.4 }, 0.25);
-  z.linie(px + 150, py + 112, px + pb - 28, py + 112, { strokeWidth: 2.4 }, 0.2);
-  z.rechteck(px + 152, py + 114, pb - 182, ph - 142, { fill: F.goldHell, fillStyle: "hachure", hachureGap: 7, fillWeight: 1.2, strokeWidth: 0.1, stroke: F.goldHell }, 0.3);
-  z.pfad(`M${px + 150} ${py + 150}a30 30 0 0 1 -30 30`, { strokeWidth: 1.6, stroke: F.grau }, 0.15);
-  z.pfad(`M${px + 210} ${py + 112}a26 26 0 0 0 26 26`, { strokeWidth: 1.6, stroke: F.grau }, 0.15);
-  // Maßkette oben
-  z.linie(px + 28, py + 12, px + pb - 28, py + 12, { strokeWidth: 1.4, stroke: F.grau }, 0.2);
-  // Fünf Helme rund um den Plan – nacheinander
-  const helme: [number, number, "gold" | "grau"][] = [[110, 120, "gold"], [610, 120, "grau"], [100, 420, "grau"], [620, 420, "gold"], [360, 470, "gold"]];
-  helme.forEach(([x, y, f], k) => helmOben(z, x, y, f, 0.55 + k * 0.12));
-  // Goldene Linien vom Helm zum Plan
-  const ziele: [number, number][] = [[px + 6, py + 20], [px + pb - 6, py + 20], [px + 6, py + ph - 20], [px + pb - 6, py + ph - 20], [360, py + ph + 4]];
-  helme.forEach(([x, y], k) => {
-    z.bei(1.25 + k * 0.06);
-    const [zx, zy] = ziele[k];
-    const dx = zx - x, dy = zy - y, l = Math.hypot(dx, dy);
-    z.linie(x + (dx / l) * 58, y + (dy / l) * 50, zx, zy, { stroke: F.gold, strokeWidth: 3, roughness: 0.7 }, 0.25);
-  });
-  // Zum Schluss: goldener Haken auf dem Plan
-  z.bei(1.75);
-  z.gruppe("stempel", () => {
-    z.kreis(px + pb - 34, py + 34, 54, { fill: F.gold, fillStyle: "solid", strokeWidth: 2.2 }, 0.2);
-    z.pfad(`M${px + pb - 47} ${py + 34}l9 9l17 -19`, { strokeWidth: 3.4, roughness: 0.5 }, 0.2);
-  }, 1.75);
-  return { breite: TW_B, hoehe: TW_H, elemente: z.elemente, ende: 2, zielDauer: 2 };
+  const xs = [150, 380, 610], by = 210;
+  xs.forEach((x, i) => helmSeite(z, x, by, i === 1 ? "gold" : "grau", i * 0.18));
+  z.bei(0.75);
+  z.linie(40, by + 26, 720, by + 24, { stroke: F.gold, strokeWidth: 6, roughness: 0.7 }, 0.5); // gemeinsame Linie
+  return { breite: TW_B, hoehe: TW_H, elemente: z.elemente, ende: 1.3, zielDauer: 1.3 };
 }
 
 export const SZENEN: Record<SzenenName, (a: Ansicht) => Szene> = { gebiet, weg, wegCheck, wegSicher, wegKontakt, partnerWeg, portal, siegel, uspRegional, uspHand, uspFestpreis, team, karriere, handschlag, partnerBau, referenzen, teamwerk };

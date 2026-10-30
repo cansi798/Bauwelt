@@ -87,6 +87,7 @@ import MobileMenu from "./MobileMenu.astro";
     left: 0; right: 0; bottom: -1px; /* über der Border-Unterkante */
     height: 3px;
     pointer-events: none;
+    z-index: 1; /* Jamil 30.10.2026 (Talk 3843): Balken lag über dem aufgeklappten Menü – Menü hat z-index 2 */
   }
   /* Scroll-Fortschritt per transform statt width (29.10.2026): kein Layout bei jedem Scroll-Ereignis,
      läuft nur auf der Grafikkarte. Breite = 100 %, sichtbarer Anteil über scaleX (BaseLayout-Skript). */
@@ -124,7 +125,7 @@ import MobileMenu from "./MobileMenu.astro";
   .dd { position: relative; }
   .dd__chev { transition: transform var(--transition); }
   .dd__panel {
-    position: absolute; top: 100%; left: 50%;
+    position: absolute; top: 100%; left: 50%; z-index: 2; /* über dem Scroll-Balken (Talk 3843) */
     transform: translateX(-50%) translateY(8px);
     min-width: 400px; /* 16.10.2026 (73): längere Überschriften einzeilig */
     background: var(--weiss);
