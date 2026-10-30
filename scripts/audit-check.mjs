@@ -553,7 +553,7 @@ for (const o of ok) console.log(`✓ ${o.thema}: ${o.msg}`);
 if (warnungen.length) {
   console.log("");
   for (const w of warnungen) console.log(`AUDIT-WARNUNG [${w.thema}] ${w.msg}`);
-  console.log(`\n${warnungen.length} Audit-Warnung(en). Betrifft eine Änderung ein Audit-Thema → Jamil im Talk (gjcy64m2) informieren: was, warum, Empfehlung.`);
+  console.log(`\n${warnungen.length} Audit-Warnung(en). Betrifft eine Änderung ein Audit-Thema → Jamil im Bauwelt-Talk-Raum informieren: was, warum, Empfehlung.`);
   if (process.env.GITHUB_ACTIONS) for (const w of warnungen.slice(0, 50)) console.log(`::warning title=AUDIT-WARNUNG ${w.thema}::${w.msg.replace(/\n/g, " ")}`);
 } else {
   console.log("\n✓ Keine Audit-Warnungen.");
