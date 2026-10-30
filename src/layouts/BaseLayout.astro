@@ -94,6 +94,7 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" /> <!-- Sicherheitsbericht N1 -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? "noindex,follow" : "index,follow"} />
@@ -110,10 +111,9 @@ const jsonLd = {
     <meta property="og:locale" content="de_DE" />
     <meta name="theme-color" content="#2D2C2E" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c") /* N6: kein „</script>“-Ausbruch möglich */} />
-    <script is:inline>
-      // Progressive Enhancement: Animationen/Reveal NUR wenn JS läuft.
-      document.documentElement.classList.add("js");
-    </script>
+    {/* Progressive Enhancement: Animationen/Reveal NUR wenn JS läuft. Als eigene Datei (blockierend, wie vorher inline),
+        damit die Content-Security-Policy sie über 'self' erlaubt – is:inline-Skripte hasht Astro nicht (Sicherheitsbericht N1). */}
+    <script is:inline src={u("js/html-js.js")}></script>
   </head>
   <body>
     <IconSprite />
@@ -126,32 +126,7 @@ const jsonLd = {
         Prüfung 27.10.2026: Die Seiten setzen section--sand schon im HTML genau so (sonst springen die Farben beim
         langsamen Laden sichtbar um, und ohne JS stimmt es nicht). Das Skript ist nur noch Sicherheitsnetz und meldet
         in der Konsole, wenn es etwas korrigieren musste → dann die Klasse auf der Seite anpassen. */}
-    <script is:inline>
-      (function () {
-        var m = document.getElementById("main");
-        if (!m) return;
-        function run(parent) {
-          var prev = "dunkel";
-          for (var c = parent.firstElementChild; c; c = c.nextElementSibling) {
-            if (c.hidden) continue;
-            if (c.matches("section.section:not(.section--dark)")) {
-              var farbe = prev === "weiss" ? "creme" : "weiss";
-              if (c.classList.contains("section--sand") !== (farbe === "creme")) falsch++;
-              c.classList.toggle("section--sand", farbe === "creme");
-              prev = farbe;
-            } else if (c.matches("div") && c.querySelector(":scope > section.section")) {
-              run(c);
-              prev = "dunkel";
-            } else {
-              prev = c.classList.contains("phero") ? "weiss" : "dunkel";
-            }
-          }
-        }
-        var falsch = 0;
-        run(m);
-        if (falsch) console.warn("Weiß/Creme-Wechsel: " + falsch + " Abschnitt(e) im HTML anders gefärbt – Klasse section--sand auf der Seite anpassen");
-      })();
-    </script>
+    <script is:inline src={u("js/weiss-creme.js")}></script>
     <Footer nurNav={footerNurNav} />
     <StickyBar knoepfe={sticky} />
     <BookingDialog />

@@ -17,7 +17,7 @@ const absolut = new URL(ziel, Astro.site).href;
     <title>Weiterleitung – Sicher-wohnen-Check | Bauwelt Handwerk</title>
     <link rel="canonical" href={absolut} />
     <meta http-equiv="refresh" content={`0; url=${ziel}`} />
-    <script is:inline define:vars={{ ziel }}>location.replace(ziel + location.hash);</script>
+    <script is:inline>location.replace(document.querySelector('link[rel="canonical"]').href + location.hash);</script> <!-- statisch → per CSP-Hash erlaubt (N1) -->
   </head>
   <body>
     <p>Diese Seite ist umgezogen: <a href={ziel}>Sicher-wohnen-Check</a></p>

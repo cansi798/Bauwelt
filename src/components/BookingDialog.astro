@@ -18,7 +18,9 @@ const BOOKING_SRC = `${BOOKING_ORIGIN}/buchen?embed=1`;
 const WA_HREF = waLink();
 ---
 
-<dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}>
+<dialog class="bdlg" id="bookingDialog" aria-labelledby="bookingDialogTitle" data-src={BOOKING_SRC}
+  data-origin={BOOKING_ORIGIN} data-tel={SITE.phoneTel} data-tel-anzeige={SITE.phoneDisplay} data-wa={WA_HREF}
+  data-ds={u("datenschutz/#termin")} data-kontakt={u("kontakt/#rueckruf")}>
   <div class="bdlg__kopf">
     <div class="bdlg__titel">
       <p class="bdlg__h" id="bookingDialogTitle">{TERMIN.label}</p> {/* SEO-/KI-Audit S9: Fenster-Titel (aria-labelledby), keine Seiten-Überschrift */}
@@ -130,9 +132,13 @@ const WA_HREF = waLink();
   }
 </style>
 
-<script is:inline define:vars={{ BOOKING_ORIGIN, PHONE_TEL: SITE.phoneTel, PHONE_DISPLAY: SITE.phoneDisplay, WA_HREF, DS_HREF: u("datenschutz/#termin"), KONTAKT_HREF: u("kontakt/#rueckruf") }}>
+<script>
+  // Sicherheitsbericht N1 (30.10.2026): normales (gebündeltes) Skript statt is:inline define:vars – define:vars-Skripte
+  // kann Astro nicht für die Content-Security-Policy hashen. Die Werte kommen jetzt aus data-Attributen des Dialogs.
   (function () {
-    var dlg = document.getElementById("bookingDialog");
+    var dlg = document.getElementById("bookingDialog") as HTMLDialogElement | null;
+    var D = (dlg && dlg.dataset) || ({} as DOMStringMap);
+    var BOOKING_ORIGIN = D.origin || "", PHONE_TEL = D.tel || "", PHONE_DISPLAY = D.telAnzeige || "", WA_HREF = D.wa || "", DS_HREF = D.ds || "", KONTAKT_HREF = D.kontakt || "";
     var body = document.getElementById("bookingBody");
     if (!dlg || !body || typeof dlg.showModal !== "function") return; // Fallback: Link öffnet Portal
     var loaded = false, done = false;
