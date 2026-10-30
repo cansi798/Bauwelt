@@ -109,7 +109,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="de_DE" />
     <meta name="theme-color" content="#2D2C2E" />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c") /* N6: kein „</script>“-Ausbruch möglich */} />
     <script is:inline>
       // Progressive Enhancement: Animationen/Reveal NUR wenn JS läuft.
       document.documentElement.classList.add("js");
