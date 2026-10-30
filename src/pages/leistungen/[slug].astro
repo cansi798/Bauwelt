@@ -25,7 +25,7 @@ import SkizzenKreis from "../../components/SkizzenKreis.astro";
 import StandardUmfang from "../../components/StandardUmfang.astro";
 import { CTA, LEISTUNGEN, SITE, TERMIN, u, leistungBySlug, kurzName } from "../../consts";
 import { gewerkBySlug } from "../../data/rechner";
-import { GALERIE } from "../../data/galerie";
+import { leistungsBilder } from "../../data/galerie";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "../../lib/schema";
 import { akzent } from "../../lib/akzent";
 
@@ -72,8 +72,8 @@ const euro = (n: number) => n.toLocaleString("de-DE");
 // Referenzen: NUR echte Fotos aus refBilder (KI-Referenzbilder entfernt, 12.10.2026 (17)).
 // Kundenwunsch 14.10.2026 (27): ALLE Fotos der zugehörigen Galerie-Gruppe als Karussell
 // (Fallback: refBilder aus der Leistungsdatei)
-const galerieGruppe = GALERIE.find((g) => g.id === l.data.refAnker);
-const refBilder = galerieGruppe?.bilder?.length ? galerieGruppe.bilder : (l.data.refBilder ?? []);
+const galerieBilder = l.data.refAnker ? leistungsBilder(l.data.refAnker) : [];
+const refBilder: { file: string; alt: string; titel?: string; anker?: string }[] = galerieBilder.length ? galerieBilder : (l.data.refBilder ?? []);
 
 // Jamil 20.10.2026 (Talk 2784): Hero = KI-Bild passend zur Leistung (ki-hero-<slug>-*.avif/.webp,
 // in KI_BILDER, gekennzeichnet); ersetzt „Hero-Bilder bleiben wie sie sind“ (Kunde 12.10.2026).
@@ -102,7 +102,7 @@ const sandMap = (() => {
   const folge = [
     hatRechner && "rechner", mitIntro && "intro", l.data.kacheln.length > 0 && "kacheln",
     pauschal && "|", // dunkler Abschnitt „Das bringt Ihnen …“ (nur Checks)
-    karussell.length > 0 && "karussell", "ablauf", l.data.faq.length > 0 && "faq",
+    (karussell.length > 0 || l.data.bilderHinweis) && "karussell", "ablauf", l.data.faq.length > 0 && "faq",
   ].filter(Boolean) as string[];
   const m: Record<string, boolean> = {};
   let creme = true; // „vorher Creme“ → erster Abschnitt nach dem dunklen Hero/der Leiste wird Weiß
@@ -255,6 +255,18 @@ const description =
     />
   )}
 
+  {/* Jamil 30.10.2026 (Talk 3832): ohne Projektbilder ein dezenter Hinweis statt Lücke (bilderHinweis im Frontmatter) */}
+  {karussell.length === 0 && l.data.bilderHinweis && (
+    <section class:list={sand("karussell")}>
+      <div class="container">
+        <SectionHead eyebrow="Projektbilder" {...bilderKopf} text={l.data.bilderHinweis} />
+        <div class="lmitte">
+          <a class="btn btn--ghost" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>Alle Referenzen ansehen</a>
+        </div>
+      </div>
+    </section>
+  )}
+
   {karussell.length > 0 && (
     <section class:list={sand("karussell")}>
       <div class="container">
@@ -274,7 +286,7 @@ const description =
         <div class="slider">
           <div class:list={["slider__track", { "slider__track--eins": karussell.length === 1 }]} data-slider>
             {karussell.map((b) => (
-              <a class="card refmini" href={u(`referenzen/${l.data.refAnker ? `#${l.data.refAnker}` : ""}`)}>
+              <a class="card refmini" href={u(`referenzen/${(b.anker ?? l.data.refAnker) ? `#${b.anker ?? l.data.refAnker}` : ""}`)}>
                 <Img src={b.file} alt={b.alt} w={4} h={5} />
                 {/* Kundenwunsch 14.10.2026 (35): Projektname unter dem Foto */}
                 {b.titel && <span class="refmini__titel">{b.titel}</span>}
@@ -299,7 +311,7 @@ const description =
       {pauschal ? (
         <RoughSzene
           szene="wegCheck"
-          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder kurz per WhatsApp. 2. Besichtigung – vor Ort, gern gemeinsam mit Ihnen. 3. Einschätzung – Sanierungsbedarf und Kosten. 4. Sicher entscheiden – bei einer Sanierung mit uns rechnen wir den Check in der Regel an."
+          label="Gezeichneter Ablauf in vier Stationen: 1. Termin buchen – online oder kurz per WhatsApp. 2. Besichtigung – vor Ort, gern gemeinsam mit Ihnen. 3. Einschätzung – Sanierungsbedarf und Kosten. 4. Sicher entscheiden – bei einer Sanierung mit uns rechnen wir den Check an."
         />
       ) : (
         <RoughSzene

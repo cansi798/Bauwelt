@@ -29,7 +29,10 @@ for (const g of GEWERKE) {
   const hatLeisten = JSON.stringify(g.bausteine).includes("leisten");
   ok(hatLeisten === (g.slug === "fliesen-boden"), `Fußbodenleisten bei ${g.slug}: ${hatLeisten}`);
 }
-for (const slug of ["badsanierung", "sanierung-modernisierung"]) ok(GEWERKE.find((g) => g.slug === slug).nichtEnthalten?.length > 0, `${slug}: „nicht enthalten“ fehlt`);
+// Jamil 30.10.2026 (Talk 3834): Boden-Rechner in Einerschritten
+ok(GEWERKE.find((g) => g.slug === "fliesen-boden").step === 1, "fliesen-boden: Regler nicht in 1-m²-Schritten");
+// Jamil 30.10.2026 (Talk 3820): Kasten „Nicht im Richtpreis enthalten“ entfernt – darf nicht zurückkommen
+for (const g of GEWERKE) ok(!g.nichtEnthalten?.length, `${g.slug}: Kasten „nicht enthalten“ wieder da (Jamil 30.10.: entfernen)`);
 // andere Gewerke unverändert
 const bad = GEWERKE.find((g) => g.slug === "badsanierung");
 ok(preisText(berechne(bad, 8, "bad")) === "14.340 – 19.500 €", "Bad 8 m² unverändert");

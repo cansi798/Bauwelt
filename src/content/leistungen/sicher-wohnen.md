@@ -13,8 +13,8 @@ badge: "Pauschal 99 €"
 teaser: "Sicher und selbstbestimmt wohnen: Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm wird – pauschal 99 € inkl. MwSt."
 beschreibung: "Sicher-wohnen-Check in Norderstedt, Hamburg und Umkreis: Risiken im Zuhause früh erkennen, Anpassungen planen. Pauschal 99 € inkl. MwSt."
 pauschalpreis: 99 # Jamil 28.10.2026 (Talk 3572): 99 € statt 99 € inkl. MwSt.
-pauschalHinweis: "Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung."
-claim: "Pauschal 99 € inkl. MwSt. – Anrechnung bei Umsetzung möglich." # Audit 5.5: neue Info statt Wiederholung (Kernsatz steht im Zitatband)
+pauschalHinweis: "Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung."
+claim: "Pauschal 99 € inkl. MwSt. – Anrechnung bei Umsetzung." # Jamil 30.10.2026 (Talk 3835) # Audit 5.5: neue Info statt Wiederholung (Kernsatz steht im Zitatband)
 lead: "Wir prüfen gemeinsam, wie Ihr Zuhause sicherer, komfortabler und barrierearm gestaltet werden kann, damit Sie möglichst lange in Ihren eigenen vier Wänden leben können."
 umfang:
   - "Gemeinsame Prüfung von Badezimmer, Wegen & Durchgängen, Wohn- und Schlafbereichen, Treppen & Eingängen und Küche"
@@ -25,7 +25,7 @@ umfang:
   - "Auf Wunsch ein Angebot für die Umsetzung"
 faqAufSeite: 4 # Jamil 27.10.2026 (Talk 3498): auf der Seite 4 Fragen, alle auf /faq/
 faq:
-  - { q: "Was kostet der Sicher-wohnen-Check?", a: "Der Check kostet pauschal 99 € inkl. MwSt. Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung." }
+  - { q: "Was kostet der Sicher-wohnen-Check?", a: "Der Check kostet pauschal 99 € inkl. MwSt. Lassen Sie die empfohlenen Maßnahmen anschließend von uns umsetzen, rechnen wir die Kosten des Checks auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung." }
   - { q: "Für wen eignet sich der Sicher-wohnen-Check?", a: "Für alle, die sicher und selbstständig zu Hause wohnen möchten – in jedem Alter: Menschen mit Pflegebedarf oder eingeschränkter Mobilität, nach einem Unfall oder einer Erkrankung und alle, die frühzeitig vorsorgen möchten. Ebenso für Angehörige, die einen nahestehenden Menschen unterstützen – in Wohnungen und Häusern, ob Eigentum oder Miete." }
   - { q: "Muss ich danach umbauen lassen?", a: "Nein. Sie erhalten eine Einschätzung, Empfehlungen, eine priorisierte Maßnahmenliste und eine erste Kosteneinschätzung. Ein Angebot für die Umsetzung erstellen wir nur, wenn Sie es wünschen." }
   - { q: "Ersetzt der Check eine Pflegeberatung oder ein Gutachten?", a: "Nein. Der Check ist eine Einschätzung aus Handwerkersicht zu Sicherheit und Barrierearmut in Ihrem Zuhause. Er ersetzt keine pflegefachliche oder ärztliche Beratung und kein Gutachten. Bei Bedarf wenden Sie sich zusätzlich an Ihren Pflegedienst oder Ihre Pflegekasse." }

@@ -9,12 +9,12 @@ beschreibung: "Immobilien-Sanierungscheck in Norderstedt & Hamburg: Chancen, Ris
 h1Akzent: "Pauschalpreis"
 pauschalpreis: 595
 # 500 € netto + 19 % MwSt. = 595 € brutto (Kundenwunsch 12.10.2026)
-pauschalHinweis: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung."
+pauschalHinweis: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung."
 siegel: "transparenz"
 ablaufZiel: "Ergebnis"
 warum:
   - { icon: "eye", title: "Der Blick vom Fach", text: "Wir sanieren selbst Bäder, Wohnungen und Häuser – und wissen, worauf es bei einer Immobilie ankommt." }
-  - { icon: "euro", title: "Anrechnung bei Sanierung", text: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung." } # Audit 5.7: Preis nicht noch einmal
+  - { icon: "euro", title: "Anrechnung bei Sanierung", text: "Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung." } # Audit 5.7: Preis nicht noch einmal
   - { icon: "doc", title: "Klare Zahlen für Ihre Entscheidung", text: "Eine erste Kosteneinschätzung hilft Ihnen bei Kaufpreis, Budget und Finanzierung." }
 umfang:
   - "Besichtigung der Immobilie vor Ort – gern gemeinsam mit Ihnen"
@@ -25,7 +25,7 @@ ablauf:
   - { title: "Termin buchen", text: "Sie buchen Ihren Wunschtermin online oder fragen kurz per WhatsApp an." }
   - { title: "Besichtigung", text: "Wir schauen uns die Immobilie vor Ort genau an – gern gemeinsam mit Ihnen." }
   - { title: "Einschätzung", text: "Sie erfahren, wo Sanierungsbedarf besteht und mit welchen Kosten Sie rechnen sollten." }
-claim: "Pauschal 595 € inkl. MwSt. – Anrechnung bei Sanierung möglich." # Jamil 28.10.2026 (Talk 3572/3574): Preis im Hero wie beim Sicher-wohnen-Check (vorher „Ihre Wunschimmobilie. Ehrlich geprüft. Klar eingeschätzt.“)
+claim: "Pauschal 595 € inkl. MwSt. – Anrechnung bei Sanierung." # Jamil 30.10.2026 (Talk 3835): Anrechnung fest, nicht „möglich“/„in der Regel“ # Jamil 28.10.2026 (Talk 3572/3574): Preis im Hero wie beim Sicher-wohnen-Check (vorher „Ihre Wunschimmobilie. Ehrlich geprüft. Klar eingeschätzt.“)
 lead: "Sie haben eine Wohnung oder ein Haus im Blick? Wir schauen uns die Immobilie mit Ihnen an und sagen Ihnen ehrlich, was auf Sie zukommt, bevor Sie unterschreiben."
 introTitel: "Sicher entscheiden statt teuer überrascht werden"
 umfangTitel: "Was gehört zum Sanierungscheck?"
@@ -37,7 +37,7 @@ kacheln:
 ablaufTitel: "So *einfach* geht’s"
 faqAufSeite: 4 # Jamil 27.10.2026 (Talk 3498): auf der Seite 4 Fragen, alle auf /faq/
 faq:
-  - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
+  - { q: "Was kostet der Immobilien-Sanierungscheck?", a: "595 € pauschal inkl. 19 % MwSt. (500 € netto). Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks auf den Auftrag an – die genauen Bedingungen nennen wir Ihnen vor der Buchung. Den Termin buchen Sie direkt online oder fragen kurz per WhatsApp, E-Mail oder Telefon an." }
   - { q: "Wann lohnt sich der Check?", a: "Vor allem vor dem Kauf einer Wohnung oder eines Hauses – aber auch, wenn Sie Ihre eigene Immobilie sanieren möchten und vorab wissen wollen, was sinnvoll ist und was es kostet." }
   - { q: "Kann ich bei der Besichtigung dabei sein?", a: "Ja, gern. Wir schauen uns die Immobilie am liebsten gemeinsam mit Ihnen an und beantworten Ihre Fragen direkt vor Ort." }
   - { q: "Ist der Sanierungscheck ein Wertgutachten?", a: "Nein. Der Check ist eine Einschätzung aus Handwerkersicht zu Zustand, Sanierungsbedarf und Kosten. Ein Verkehrswertgutachten durch einen Sachverständigen ersetzt er nicht." }
@@ -46,4 +46,4 @@ faq:
 
 Sie haben eine Wohnung oder ein Haus im Blick, wissen aber nicht, welche Sanierungskosten nach dem Kauf auf Sie zukommen?
 
-Dafür gibt es den Check. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten. Der Check kostet pauschal 595 € inkl. MwSt. Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks in der Regel auf den Auftrag an. Die genauen Bedingungen nennen wir Ihnen vor der Buchung.
+Dafür gibt es den Check. Wir besichtigen die Immobilie aus Handwerkersicht, zeigen Ihnen, wo Sanierungsbedarf besteht, und sagen Ihnen, mit welchen Kosten Sie ungefähr rechnen sollten. Der Check kostet pauschal 595 € inkl. MwSt. Beauftragen Sie anschließend eine Sanierung bei uns, rechnen wir die Kosten des Checks auf den Auftrag an. Die genauen Bedingungen nennen wir Ihnen vor der Buchung.

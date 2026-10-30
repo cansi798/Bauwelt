@@ -15,6 +15,9 @@ export type GalerieGruppe = {
   slogan?: string;
   intro?: string;
   bilder: GalerieBild[];
+  /** Weitere Gruppen, deren Bilder auf der LEISTUNGSSEITE zusätzlich als Referenz erscheinen – auf /referenzen/
+   *  bleiben sie nur in ihrer eigenen Gruppe (kein Bild doppelt). Jamil 30.10.2026 (Talk 3830): Fliesen zeigt die Badbilder. */
+  zusatz?: string[];
 };
 
 export const GALERIE: GalerieGruppe[] = [
@@ -44,7 +47,7 @@ export const GALERIE: GalerieGruppe[] = [
     href: u("leistungen/sanierung-modernisierung/"),
     bilder: [
       { file: "galerie-sanierung-01.webp", ort: "Norderstedt", titel: "Modernisierte Wohnküche", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" },
-      { file: "galerie-sanierung-02.webp", ort: "Hamburg", titel: "Küche mit beleuchteter Kochinsel", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" },
+      // galerie-sanierung-02 (Küche mit Kochinsel) vorerst entfernt – aktuellere Bilder folgen (Jamil 30.10.2026, Talk 3832)
     ],
   },
   {
@@ -53,6 +56,7 @@ export const GALERIE: GalerieGruppe[] = [
     intro: "Von Großformatfliesen bis zu modernen Bodenbelägen.",
     title: "Fliesen- & Bodenlegerarbeiten",
     href: u("leistungen/fliesen-boden/"),
+    zusatz: ["bad"], // Jamil 30.10.2026 (Talk 3830)
     bilder: [
       { file: "galerie-fliesen-02.webp", ort: "Hamburg", titel: "Gäste-WC mit Großformatfliesen", alt: "Gäste-WC mit Großformatfliesen an Wand und Boden" },
       { file: "galerie-fliesen-03.webp", ort: "Norderstedt", titel: "WC mit raumhohen Fliesen in Marmoroptik", alt: "WC mit raumhohen Fliesen in Marmoroptik" },
@@ -79,7 +83,7 @@ export const GALERIE_HIGHLIGHTS: (GalerieBild & { gruppe: string; anker: string 
   ["bad", "galerie-bad-02.webp"],
   ["innenausbau", "galerie-innenausbau-04.webp"],
   ["bad", "galerie-bad-05.webp"],
-  ["sanierung", "galerie-sanierung-02.webp"],
+  ["sanierung", "galerie-sanierung-01.webp"], // statt sanierung-02 (Jamil 30.10.2026, Talk 3832)
   ["fliesen", "galerie-fliesen-02.webp"],   // Eingangstreppe entfernt (Kundenwunsch 14.10.2026)
   ["bad", "galerie-bad-07.webp"],
   ["innenausbau", "galerie-innenausbau-02.webp"],
@@ -89,3 +93,13 @@ export const GALERIE_HIGHLIGHTS: (GalerieBild & { gruppe: string; anker: string 
   const b = g.bilder.find((x) => x.file === file)!;
   return { ...b, gruppe: g.title, anker: u(`referenzen/#${g.id}`) };
 });
+
+/** Bilder einer Leistungsseite: eigene Gruppe + `zusatz`-Gruppen (ohne Doppelte), je Bild mit Anker auf /referenzen/. */
+export function leistungsBilder(id: string): (GalerieBild & { anker: string })[] {
+  const g = GALERIE.find((x) => x.id === id);
+  if (!g) return [];
+  const gesehen = new Set<string>();
+  return [g, ...(g.zusatz ?? []).map((z) => GALERIE.find((x) => x.id === z)).filter((x): x is GalerieGruppe => Boolean(x))]
+    .flatMap((gr) => gr.bilder.map((b) => ({ ...b, anker: gr.id })))
+    .filter((b) => (gesehen.has(b.file) ? false : (gesehen.add(b.file), true)));
+}

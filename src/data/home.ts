@@ -1,6 +1,7 @@
 /** Startseiten-Inhalte (Dramaturgie nach Spec §3).
  *  Bilder: vorhandene Dateien aus public/assets/img/ – Zuordnung siehe BILDER.md. */
 import { u, SITE } from "../consts";
+import { HINWEIS_PREIS } from "./rechner"; // Jamil 30.10.2026 (Talk 3826): gleicher Preis-Hinweis überall
 
 export const HERO = {
   /** Positionierung laut Kundenfeedback 28.09.2026 (wörtlich nach Vorlage) –
@@ -135,7 +136,7 @@ export const USP = [
     title: "Alles aus einer Hand",
     text: "Wir planen den Ablauf und koordinieren alle Gewerke – von Fliesen und Trockenbau bis zu Sanitär und Elektro. Die Anschlüsse in Sanitär und Elektro führen zugelassene Fachbetriebe aus.", // H7 (27.10.2026)
     szene: "uspHand" as const,
-    bild: "galerie-sanierung-02.webp",
+    bild: "galerie-sanierung-01.webp", // sanierung-02 vorerst entfernt (Jamil 30.10.2026, Talk 3832)
     alt: "Moderne Küche mit beleuchteter Kochinsel",
   },
   {
@@ -217,7 +218,7 @@ export const FAQ_HOME = [
   // Termine § 11, Zahlung § 7, Abnahme § 15, Gewährleistung § 16). AGB: /agb/
   {
     q: "Was kostet meine Sanierung?",
-    a: "Das hängt von Umfang und Ausstattung ab. Unser Online-Rechner gibt Ihnen in einer Minute eine erste Orientierung. Ein genaues, schriftliches Angebot erstellen wir Ihnen nach einem kostenlosen Vor-Ort-Termin. Darin steht, welche Leistungen enthalten sind.",
+    a: `Das hängt von Umfang und Ausstattung ab. Unser Online-Rechner gibt Ihnen in einer Minute eine erste Orientierung. ${HINWEIS_PREIS} Ein genaues, schriftliches Angebot erstellen wir Ihnen nach einem kostenlosen Vor-Ort-Termin. Darin steht, welche Leistungen enthalten sind.`,
   },
   // Jamil 20.10.2026 (Talk 2787, Gesamt-Audit R2): Mehrkosten nur nach schriftlichem Nachtrag;
   // R8: keine „5 Jahre Gewährleistung“ mehr (gesetzliche Frist = keine Werbung mit Selbstverständlichkeiten)

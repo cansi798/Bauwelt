@@ -20,7 +20,7 @@
 //   unsichtbar). Optionswahl steht dort VOR der Badgröße (Gewerk.wahlFrage).
 import { getEntry } from "astro:content";
 import Icon from "./Icon.astro";
-import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, HINWEIS_PREIS, berechne, preisText } from "../data/rechner";
+import { GEWERKE, PAUSCHAL, MWST_HINWEIS, KALK_ARTEN, HINWEIS_PREIS, KOMPLETT_HINWEIS, TERMIN_RAT, berechne, preisText } from "../data/rechner";
 import { SITE, EMAILS, TERMIN, u, waLink, leistungBySlug } from "../consts";
 import RueckrufFormular from "./RueckrufFormular.astro";
 
@@ -228,10 +228,20 @@ const weich = (t: string) =>
       <H class="rstep__title" id="rErgebnisTitel">Ihre erste Preisspanne</H>
       <p class="rechner__result" id="rErgebnis" role="status">–</p>
       <p class="rbrutto" id="rBrutto">{MWST_HINWEIS}</p>
-      {/* Jamil 27.10.2026 (Talk 3427): nur Badsanierung und Komplettsanierung – Preis hängt von Wünschen, Umsetzung und Material ab */}
-      <p class="rhinweis" id="rHinweis" hidden>{HINWEIS_PREIS}</p>
-
-      <div class="rwahl" id="rWahl" aria-label="Ihre Auswahl"></div>
+      {/* Jamil 30.10.2026 (Talk 3823–3826): statt der Kästen „Ihr Projekt“, „In der Regel enthalten“ und
+          „Nicht im Richtpreis enthalten“ eine schlanke Projektzeile, ein Satz („Alles kann erneuert werden …“ bzw.
+          „Alles, was zu den Arbeiten dazugehört …“) und der Preis-Hinweis – jetzt bei ALLEN Leistungen. */}
+      <p class="rprojekt" id="rProjekt" aria-label="Ihre Auswahl"></p>
+      <div class="rhinweis" id="rHinweis">
+        <p id="rSatz"></p>
+        <p id="rKomplett" hidden>{KOMPLETT_HINWEIS}</p>
+        <p>{HINWEIS_PREIS}</p>
+        {/* Jamil 30.10.2026 (Talk 3828): nur Bad-/Komplettsanierung – Rat + Button zur vorhandenen Terminbuchung */}
+        <div class="rtermin" id="rTermin" hidden>
+          <p>{TERMIN_RAT}</p>
+          <a class="btn btn--sm" href={TERMIN.href} target="_blank" rel="noopener" data-termin>{TERMIN.label}</a>
+        </div>
+      </div>
 
       <button class="btn btn--ghost btn--sm" type="button" id="rAendern">
         Angaben ändern
@@ -319,6 +329,12 @@ const weich = (t: string) =>
   /* Einleitungsabsatz über dem Rechner (ein Block, gleicher Stil wie der Lead-Text) */
   .rintro { max-width: 680px; margin: -8px auto 28px; text-align: center; }
   .rintro--start { margin-bottom: 32px; }
+  .rprojekt { margin: 0 0 12px; font-weight: 700; font-size: 15px; color: var(--anthrazit-800); }
+  .rhinweis p { margin: 0; }
+  .rtermin { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--gold-300); display: grid; gap: 10px; justify-items: start; }
+  .rtermin[hidden] { display: none; }
+  .rtermin p { font-weight: 600; }
+  .rhinweis p + p { margin-top: 6px; }
   .rhinweis { margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--gold-500); background: var(--gold-100); border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0; font-size: 14.5px; line-height: 1.55; color: var(--anthrazit-800); }
   .rmenge__hint { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--anthrazit-700); text-align: center; }
   .rbrutto { margin: -8px 0 14px; font-size: 13.5px; font-weight: 700; color: var(--anthrazit-700); }
@@ -677,7 +693,7 @@ const weich = (t: string) =>
 
 <script>
   // Preise + Logik kommen direkt aus data/rechner.ts (eine einzige Quelle, gebündelt von Vite).
-  import { GEWERKE, berechne, preisText, tierById, kalkArtLabel, MWST_HINWEIS, HINWEIS_PREIS, HINWEIS_SLUGS, type Gewerk, type KalkArt } from "../data/rechner";
+  import { GEWERKE, berechne, preisText, tierById, kalkArtLabel, MWST_HINWEIS, HINWEIS_PREIS, KOMPLETT_SLUGS, KOMPLETT_HINWEIS, ergebnisSatz, type Gewerk, type KalkArt } from "../data/rechner";
 
   const app = document.querySelector<HTMLElement>(".rechner__app");
   if (app) {
@@ -696,7 +712,6 @@ const weich = (t: string) =>
     const ergebnisEl = document.getElementById("rErgebnis")!;
     const waBtn = document.getElementById("rWhatsapp") as HTMLAnchorElement;
     const mailBtn = document.getElementById("rMail") as HTMLAnchorElement;
-    const gruppeTag = START ? "h4" : "h3";
     const mengeFrage = document.getElementById("rMengeFrage")!;
     const kalkEl = document.getElementById("rKalk")!;
     const kalkRadios = Array.from(kalkEl.querySelectorAll<HTMLInputElement>('input[name="rKalkArt"]'));
@@ -919,6 +934,7 @@ const weich = (t: string) =>
       const min = Number(range.min), max = Number(range.max);
       range.style.setProperty("--fill", `${((state.menge - min) / (max - min || 1)) * 100}%`);
       mengeOut.textContent = `${state.menge} ${state.gewerk?.unit ?? ""}`;
+      range.setAttribute("aria-valuetext", mengeOut.textContent); // Screenreader: „26 m²“ statt „26“
       updateLive();
     }
 
@@ -937,48 +953,42 @@ const weich = (t: string) =>
       document.getElementById("rErgebnisTitel")!.textContent =
         erg.art === "spanne" ? "Ihre erste Preisspanne" : "Ihre erste Preiseinschätzung";
 
-      const zeigeHinweis = HINWEIS_SLUGS.includes(g.slug);
-      document.getElementById("rHinweis")!.hidden = !zeigeHinweis;
-      const hinweisTxt = zeigeHinweis ? HINWEIS_PREIS : "";
+      // Jamil 30.10.2026 (Talk 3826): Preis-Hinweis bei allen Leistungen; Satz je Leistung (Talk 3823–3825)
+      const satz = ergebnisSatz(g.slug);
+      document.getElementById("rSatz")!.textContent = satz;
+      const komplett = KOMPLETT_SLUGS.includes(g.slug) && !fest; // nicht bei der Festpreis-Variante „Barrierefreie Dusche“
+      document.getElementById("rKomplett")!.hidden = !komplett;
+      document.getElementById("rTermin")!.hidden = !komplett;
+      const hinweisTxt = `${satz} ${komplett ? KOMPLETT_HINWEIS + " " : ""}${HINWEIS_PREIS}`;
 
       const arbeiten = t.bausteine ?? g.bausteine;
       const masse = `${state.menge} ${g.unit}`;
       const niveau = t.untertitel ? `${t.label} (${t.untertitel})` : t.label;
 
-      // Auswahl sauber gruppiert darstellen
-      const wahl = document.getElementById("rWahl")!;
-      const gruppe = (titel: string, punkte: string[], klasse = "") =>
-        `<div class="rwahl__gruppe"><${gruppeTag} class="rwahl__titel">${titel}</${gruppeTag}><ul>` +
-        punkte.map((p) => `<li class="${klasse}">${p}</li>`).join("") +
-        `</ul></div>`;
-      const extrasZeile = extras.length ? `Extras: ${extras.map((x) => x.label).join(", ")}` : "Ohne Extras";
-      const projekt = fest
+      // Projektdaten als eine schlanke Zeile (Jamil 30.10.2026, Talk 3823): z. B. „Badsanierung · 8 m²“ –
+      // die Auswahl nur, wenn sie etwas sagt (nicht „Auswahl: Badsanierung“ doppelt zum Leistungsnamen)
+      const extrasZeile = extras.length ? `Extras: ${extras.map((x) => x.label).join(", ")}` : "";
+      const teile = fest
         ? [g.label, niveau]
         : kalk
-          ? [g.label, masse, artLabel, ...(detail ? [extrasZeile] : [])]
-          : g.ohneAuswahl ? [g.label, masse] : [g.label, masse, `${g.auswahlLabel ?? "Auswahl"}: ${niveau}`];
-      let html = gruppe("Ihr Projekt", projekt, "info");
-      html += t.enthalten
-        ? gruppe("In der Regel enthalten (Details im Angebot)", [...t.enthalten, ...extras.map((x) => x.label)])
-        : gruppe("Enthaltene Arbeiten", arbeiten.map((m) => m.label));
-      // Jamil 27.10.2026 (Talk 3478 D): ausdrücklich nicht enthalten (Möbel/Einrichtung)
-      if (g.nichtEnthalten?.length) html += gruppe("Nicht im Richtpreis enthalten", g.nichtEnthalten, "info");
-      wahl.innerHTML = html;
+          ? [g.label, masse, ...(detail ? [artLabel, extrasZeile] : [])]
+          : [g.label, masse, ...(g.ohneAuswahl || t.label === g.label ? [] : [niveau])];
+      document.getElementById("rProjekt")!.textContent = teile.filter(Boolean).join(" · ");
 
       // Anfrage-Texte: klar formatiert, mit Absätzen und Emojis;
       // Arbeiten in FACHSPRACHE, damit das Team sofort fachlich lesen kann.
       const emoji = EMOJI[g.slug] ?? "🔨";
       const arbeitenListe = arbeiten.map((m) => `• ${m.fach}`).join("\n");
-      const ausstattung = t.enthalten ? `\n\n✅ Ausstattung:\n${t.enthalten.map((e) => `• ${e}`).join("\n")}` : "";
       const preisZeile = `${preis} (${MWST_HINWEIS.replace("Bruttopreise", "brutto")})`;
       // Innenausbau („ca. …“) und Barrierefreie Dusche („≈ …“) sind keine Spanne → passende Bezeichnung im Anfragetext
       const preisWort = erg.art === "spanne" ? "Preisspanne" : "Preiseinschätzung";
       // Badsanierung: Kalkulationsart + Extras (Fachbegriffe) statt „Niveau“
       const extrasText = extras.length ? `\n${extras.map((x) => `• ${x.fach}`).join("\n")}` : " keine";
-      const waWahl = g.ohneAuswahl ? "" : kalk
+      const ohneWahl = g.ohneAuswahl || t.label === g.label; // „Auswahl: Badsanierung“ doppelt weglassen (Jamil 30.10., Talk 3823)
+      const waWahl = ohneWahl && !kalk ? "" : kalk
         ? `🧮 Kalkulation: ${artLabel}` + (detail ? `\n✨ Extras:${extrasText}` : "")
         : `⭐ ${g.auswahlLabel ?? "Auswahl"}: ${niveau}`;
-      const mailWahl = g.ohneAuswahl ? "" : kalk
+      const mailWahl = ohneWahl && !kalk ? "" : kalk
         ? `Kalkulation: ${artLabel}` + (detail ? `\nExtras:${extrasText}` : "")
         : `${`${g.auswahlLabel ?? "Auswahl"}:`.padEnd(9)} ${niveau}`; // mind. ein Leerzeichen („Sanierungsart:“ ist länger als die Spalte)
       const waText =
@@ -987,7 +997,6 @@ const weich = (t: string) =>
         `${emoji} Projekt: ${g.label}\n` +
         (fest ? "" : `📐 Größe: ${masse}\n`) +
         waWahl +
-        ausstattung +
         `\n\n🔨 Gewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\n💶 ${preisWort}: ${preisZeile}\n` + (hinweisTxt ? `ℹ️ ${hinweisTxt}\n` : "") + `\n` +
         `Bitte melden Sie sich bei mir für ein Angebot. Vielen Dank! 🙏`;
@@ -1004,7 +1013,6 @@ const weich = (t: string) =>
         `Projekt:  ${g.label}\n` +
         (fest ? "" : `Größe:    ${masse}\n`) +
         mailWahl +
-        ausstattung.replace("✅ ", "") +
         `\n\nGewünschte Arbeiten:\n${arbeitenListe}` +
         `\n\n${preisWort}: ${preisZeile}\n` + (hinweisTxt ? `Hinweis: ${hinweisTxt}\n` : "") + `\n` +
         `Bitte rufen Sie mich für ein Angebot zurück.\n\n` +
@@ -1013,7 +1021,7 @@ const weich = (t: string) =>
       // Rückruf-Formular (Audit 6.3): Berechnung als Zusammenfassung mitschicken
       const rrf = app.querySelector<HTMLFormElement>("form[data-rueckruf]");
       if (rrf) rrf.dataset.zusammenfassung =
-        `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl.replace(/:\s{2,}/, ": ") + ausstattung.replace("✅ ", "") +
+        `Projekt: ${g.label}\n` + (fest ? "" : `Größe: ${masse}\n`) + mailWahl.replace(/:\s{2,}/, ": ") +
         `\nGewünschte Arbeiten:\n${arbeitenListe}` + `\n${preisWort}: ${preisZeile}` + (hinweisTxt ? `\nHinweis: ${hinweisTxt}` : "");
       show(3);
     }

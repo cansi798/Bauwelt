@@ -8,6 +8,7 @@ import Rechner from "../components/Rechner.astro";
 import Faq from "../components/Faq.astro";
 import { faqSchema } from "../lib/schema";
 import { RECHNER_FRAGEN } from "../data/home";
+import { HINWEIS_PREIS } from "../data/rechner";
 
 // SEO-/KI-Audit S7 (Go Jamil 19.10.2026): kurzer Erklärtext + 3 Fragen unter dem Rechner
 // Fragen liegen seit 27.10.2026 in data/home.ts (RECHNER_FRAGEN) – auch auf der Seite „Häufige Fragen“
@@ -37,7 +38,7 @@ const FRAGEN = RECHNER_FRAGEN;
         <div class="rechner__prosa">
           <p>
             Sie wählen Leistung, Größe und Ausstattung – der Rechner zeigt sofort eine Preisspanne. Alle Preise
-            sind Bruttopreise inkl. 19 % MwSt. und enthalten Material und Arbeit.
+            sind Bruttopreise inkl. 19 % MwSt. und enthalten Material und Arbeit. {HINWEIS_PREIS}
           </p>
           <p>
             Bei der Badsanierung richtet sich die Preisspanne nach der Badgröße. Was sich ohne Besichtigung nicht

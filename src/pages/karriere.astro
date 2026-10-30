@@ -9,7 +9,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import Icon from "../components/Icon.astro";
-import Img from "../components/Img.astro";
 import RoughSzene from "../components/RoughSzene.astro";
 import { EMAILS, SITE, waLink } from "../consts";
 
@@ -137,8 +136,9 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
           </p>
         </div>
       </div>
-      <div class="karriere__kultur-bild reveal">
-        <Img src="hero-karriere.webp" alt="Handwerker beim Trockenbau" w={720} h={540} />
+      {/* Jamil 30.10.2026 (Talk 3837): Animation zum Thema statt Schwarzweiß-Baustellenfoto (hero-karriere.webp entfernt) */}
+      <div class="karriere__kultur-bild">
+        <RoughSzene szene="teamwerk" label="Zeichnung: Ein Bauplan in der Mitte, rundherum fünf Bauhelme verschiedener Gewerke, die am Plan zusammenkommen; goldene Linien führen zum Plan, zum Schluss ein goldener Haken." />
       </div>
     </div>
   </section>
@@ -237,6 +237,7 @@ const mailBewerbung = (betreff: string) => `mailto:${EMAILS.bewerbung}?subject=$
   .karriere__prosa--links { margin-inline: 0; }
 
   .karriere__kultur { display: grid; gap: 32px; align-items: center; }
+  .karriere__kultur-bild :global(.rszene) { margin: 0; } /* Zeichnung statt Foto (Jamil 30.10.2026, Talk 3837) */
   @media (min-width: 1024px) { .karriere__kultur { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
 
   .verdienst { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }

@@ -24,7 +24,7 @@ lead: "Neue Wände, abgehängte Decken, fertige Oberflächen: Wir koordinieren a
 introTitel: "Mehr Raum – ohne große Mauerarbeiten"
 rechnerText: "Erhalten Sie in wenigen Minuten eine erste Orientierung. Unverbindlich und ohne Kontaktdaten – den genauen Preis nennen wir Ihnen nach dem Vor-Ort-Termin."
 umfangTitel: "Was gehört zum Innenausbau?"
-umfangText: "Von der Planung bis zur malerfertigen Oberfläche koordinieren wir alles, und im Angebot steht genau, was dazugehört. Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
+umfangText: "Alles, was zu den Arbeiten dazugehört, wird umgesetzt: von der Planung bis zur malerfertigen Oberfläche. Elektro-Endanschlüsse und Abnahme übernimmt ein zugelassener Elektromeisterbetrieb."
 kacheln:
   # Jamil 20.10. (Talk 2569): „Individuelle Beratung“ als erster Punkt im Leistungsumfang
   - { icon: "chat", title: "Individuelle Beratung" }

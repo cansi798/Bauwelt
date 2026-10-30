@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { BASE, EMAILS, LEISTUNGEN, SITE } from "../consts";
-import { GEWERKE, berechne, preisText, MWST_HINWEIS } from "../data/rechner";
+import { GEWERKE, berechne, preisText, MWST_HINWEIS, HINWEIS_PREIS } from "../data/rechner";
 import { REGION_CITIES, REGION_TEXT } from "../data/region";
 import { FAQ_HOME } from "../data/home";
 import { VERSPRECHEN } from "../data/versprechen";
@@ -59,7 +59,7 @@ Stand: ${stand}
 
 ${leistungen}
 
-Alle Preise: ${MWST_HINWEIS} Den genauen Preis nennen wir im schriftlichen Angebot nach einem kostenlosen Vor-Ort-Termin.
+Alle Preise: ${MWST_HINWEIS} ${HINWEIS_PREIS} Den genauen Preis nennen wir im schriftlichen Angebot nach einem kostenlosen Vor-Ort-Termin.
 Online-Rechner (Preisspanne ohne Kontaktdaten): ${o}rechner/
 
 ## Fakten

@@ -44,7 +44,18 @@ const name = (slug: string): string => {
 
 /** Hinweis am Rechner-Ergebnis (nur Badsanierung + Komplettsanierung, Jamil 27.10.2026, Talk 3427). */
 export const HINWEIS_PREIS = "Der tatsächliche Preis hängt von Ihren individuellen Wünschen, der Art der Umsetzung und dem gewählten Material ab.";
-export const HINWEIS_SLUGS = ["badsanierung", "sanierung-modernisierung"];
+// Jamil 30.10.2026 (Talk 3826): der Preis-Hinweis steht jetzt bei ALLEN berechneten Leistungen (vorher nur Bad/Komplett).
+// Rechner-Ergebnis ohne Enthalten-/Nicht-enthalten-Kästen (Talk 3823/3824); stattdessen ein Satz je Leistung:
+export const SATZ_WUNSCH = "Wir versuchen, jeden Ihrer Wünsche umzusetzen."; // sinngemäß Jamil 3823 – kein „garantiert“ (UWG)
+export const SATZ_ERNEUERN = `Alles kann erneuert werden. ${SATZ_WUNSCH}`; // Jamil 3823 (Bad) + 3824 (übrige Leistungen)
+export const SATZ_DAZU = `Alles, was zu den Arbeiten dazugehört, wird umgesetzt. ${SATZ_WUNSCH}`; // Jamil 3825 (Fliesen, Boden, Trockenbau)
+const SATZ_JE_LEISTUNG: Record<string, string> = { "fliesen-boden": SATZ_DAZU, innenausbau: SATZ_DAZU };
+export const ergebnisSatz = (slug: string) => SATZ_JE_LEISTUNG[slug] ?? SATZ_ERNEUERN;
+// Jamil 30.10.2026 (Talk 3828): Bad- und Komplettsanierung – der Rechner kalkuliert eine komplette Erneuerung;
+// dazu der Rat, direkt einen Besichtigungstermin zu buchen (Button mit der vorhandenen Terminbuchung).
+export const KOMPLETT_SLUGS = ["badsanierung", "sanierung-modernisierung"];
+export const KOMPLETT_HINWEIS = "Der Rechner kalkuliert eine komplette Erneuerung. Sind die Arbeiten bei Ihnen geringer, kann der Preis abweichen.";
+export const TERMIN_RAT = "Am besten buchen Sie direkt einen kostenlosen Vor-Ort-Termin. Danach erhalten Sie ein individuelles Angebot."; // „Vor-Ort-Termin“ statt „Besichtigungstermin“ (Wording-Regel 4.1)
 
 export const MWST = 0.19;
 export const MWST_HINWEIS = "Bruttopreise inkl. 19 % MwSt.";
@@ -122,7 +133,7 @@ export type Gewerk = {
   ohneAuswahl?: boolean;
   /** Kurzer Hilfetext unter dem Flächen-Regler (welche Fläche gemeint ist, Innenausbau – Jamil 27.10.2026, Talk 3478). */
   mengeHinweis?: string;
-  /** Was im Richtpreis ausdrücklich NICHT enthalten ist (Ergebnis + Anfragetext; Jamil 27.10.2026, Talk 3478 D: keine Möbel). */
+  /** Entfernt 30.10.2026 (Jamil, Talk 3820/3823) – Feld bleibt nur, damit test-rechner sein Zurückkommen meldet. */
   nichtEnthalten?: string[];
   /** Fester Aufschlag in € auf den berechneten Betrag → Ergebnis als Spanne „X – (X + aufschlag)“ (Fliesen & Boden, Jamil 27.10.2026, Talk 3434). */
   aufschlag?: number;
@@ -182,7 +193,7 @@ export const GEWERKE: Gewerk[] = [
     extras: KALK_DETAIL_AKTIV ? BAD_EXTRAS : undefined, // Schalter siehe oben
     wahlFrage: "Was ist geplant?",
     auswahlLabel: "Auswahl",
-    nichtEnthalten: ["Möbel und Einrichtung (z. B. Badmöbel, Spiegelschrank, Accessoires) – gern als eigene Position im Angebot"],
+    // Kasten „Nicht im Richtpreis enthalten“ entfernt (Jamil 30.10.2026, Talk 3820)
     grund: 0, proEinheit: {}, netto: false, spanne: 0,
     // Kundenwunsch 14.10.2026 (47): nur noch „Badsanierung“ und „Barrierefreie Dusche“
     // (Komfort/Premium entfallen; Extras stattdessen in der detaillierten Kalkulation).
@@ -190,26 +201,13 @@ export const GEWERKE: Gewerk[] = [
       {
         id: "bad", label: "Badsanierung",
         hint: "Komplett neues Bad – Preis nach Badgröße",
-        // Standard-Inhalt = bisheriges „Basis“-Niveau
-        enthalten: [
-          "Dusche ODER Badewanne (nicht beides)",
-          "WC und Waschtisch",
-          "Leitungen bis zum Knotenpunkt erneuert",
-          "Position der Sanitärobjekte anpassbar",
-          "Standard-Fliesen",
-          "Alle übrigen Teile und Material",
-        ],
+        // Enthalten-Liste entfernt (Jamil 30.10.2026, Talk 3823)
       },
       {
         id: "barrierefrei", label: "Barrierefreie Dusche",
         festBis: BAD_BARRIEREFREI_BIS,
         hint: "Alte Dusche raus, bodengleiche Dusche rein, Fliesen neu", // Preis erst im Ergebnis (Kundenwunsch 12.10.2026)
-        enthalten: [
-          "Alte Dusche raus",
-          "Bodengleiche Dusche rein",
-          "Fliesen im Duschbereich neu – identische Fliesen sind nicht immer möglich, das Ergebnis wird trotzdem schön",
-          "Orientiert am möglichen Zuschuss der Pflegekasse (bei anerkanntem Pflegegrad, Antrag vor Baubeginn)",
-        ],
+        // Enthalten-Liste entfernt (Jamil 30.10.2026, Talk 3823/3824)
         bausteine: [
           { id: "demontage", label: "Alte Dusche raus", fach: "Demontage & Entsorgung Duschbereich", hint: "" },
           { id: "dusche", label: "Bodengleiche Dusche rein", fach: "Einbau bodengleiche Dusche inkl. Abdichtung", hint: "" },
@@ -223,7 +221,7 @@ export const GEWERKE: Gewerk[] = [
       { id: "abdichtung", label: "Nassbereich schützen", fach: "Verbundabdichtung Nasszone", hint: "Feuchtigkeitsschutz unter Fliesen und Dusche" },
       { id: "fliesen", label: "Fliesen legen", fach: "Fliesenarbeiten Boden & Wand", hint: "Boden und Wände werden neu gefliest" },
       // Jamil 27.10.2026 (Talk 3478 D): bleibt, aber eindeutig – Sanitärobjekte, KEINE Möbel/Einrichtung
-      { id: "ausstattung", label: "Sanitärobjekte montieren", fach: "Montage Sanitärobjekte (Dusche bzw. Wanne, WC, Waschtisch) – ohne Möbel", hint: "Dusche bzw. Wanne, WC und Waschtisch – ohne Möbel und Einrichtung" },
+      { id: "ausstattung", label: "Sanitärobjekte montieren", fach: "Montage Sanitärobjekte (z. B. Dusche, Wanne, WC, Waschtisch)", hint: "z. B. Dusche, Wanne, WC und Waschtisch" },
     ],
   },
   {
@@ -231,7 +229,7 @@ export const GEWERKE: Gewerk[] = [
     label: name("sanierung-modernisierung"),
     icon: "reno",
     auswahlLabel: "Sanierungsart", // Optionen: Renovierung, Teilsanierung, Kernsanierung (Jamil 27.10.2026, Talk 3432)
-    nichtEnthalten: ["Möbel und Einrichtung (z. B. Küchenzeile, Einbauschränke) – gern als eigene Position im Angebot"], // Jamil 27.10.2026 (Talk 3478 D)
+    // Kasten „Nicht im Richtpreis enthalten“ entfernt (Jamil 30.10.2026, Talk 3820)
     frage: "Wie groß ist die Wohnfläche?",
     unit: "m²",
     min: 20, max: 300, step: 5, default: 80,
@@ -263,7 +261,7 @@ export const GEWERKE: Gewerk[] = [
     auswahlLabel: "Belag", // die Optionen sind Belagarten (Vinyl & Laminat, Fliesen, Großformat), nicht der Untergrund
     frage: "Wie groß ist die Fläche, die neu belegt werden soll?",
     unit: "m²",
-    min: 5, max: 200, step: 5, default: 25,
+    min: 5, max: 200, step: 1, default: 25, // Einerschritte (Jamil 30.10.2026, Talk 3834)
     preismodell: "flaeche",
     grund: FLIESEN_NETTO.grund,
     proEinheit: { basis: FLIESEN_NETTO.vinyl, komfort: FLIESEN_NETTO.fliesen, premium: FLIESEN_NETTO.gross },

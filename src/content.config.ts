@@ -38,6 +38,8 @@ const leistungen = defineCollection({
     kacheln: z.array(z.object({ icon: z.string(), title: z.string() })).default([]),
     bilderTitel: z.string().optional(),
     bilderText: z.string().optional(),
+    /** Hinweis statt Projektbildern, solange keine passenden da sind (Jamil 30.10.2026, Talk 3832). */
+    bilderHinweis: z.string().optional(),
     ablaufTitel: z.string().optional(),
     warum: z.array(z.object({ icon: z.string(), title: z.string(), text: z.string() })).default([]),
     h1Akzent: z.string().default("Festpreis"),       // (bis 16.10.2026) goldenes Wort in der H1 – H1 ist jetzt die Überschrift aus LEISTUNGEN

@@ -7,7 +7,7 @@ icon: "reno"
 teaser: "Wir bringen Wohnungen und Häuser auf den heutigen Stand – technisch und optisch."
 refAnker: "sanierung"
 refBilder:
-  - { file: "galerie-sanierung-02.webp", alt: "Küche mit beleuchteter Kochinsel und dunklen Hochschränken" }
+  - { file: "galerie-sanierung-01.webp", alt: "Modernisierte Wohnküche mit Esstisch und Schienenstrahlern" } # sanierung-02 vorerst entfernt (Jamil 30.10.2026, Talk 3832)
 ablaufZiel: "neuen Zuhause"
 umfang:
   - "Komplettsanierung von Wohnungen und Häusern"
@@ -39,6 +39,7 @@ warum:
   - { icon: "doc", title: "Verständliche Angebote statt Positionsdschungel", text: "Klare Leistungen und verständliche Preise – digital abrufbar und freigebbar." }
 bilderTitel: "So könnte Ihr *modernisiertes Zuhause* aussehen"
 bilderText: "Eine Auswahl an Projektbeispielen und Gestaltungsmöglichkeiten."
+bilderHinweis: "Aktuelle Projektbilder folgen in Kürze." # Jamil 30.10.2026 (Talk 3832)
 ablaufTitel: "So *einfach* kann Ihre Komplettsanierung sein"
 # Jamil 22.10.2026 (Msg 3152): Satz „Auch bei der Auswahl von … beraten wir Sie gern“ im Text
 faq:
@@ -48,7 +49,7 @@ faq:
   - { q: "Gibt es Fördermöglichkeiten?", a: "Für bestimmte Maßnahmen – etwa barrierearme Umbauten – gibt es Förderprogramme und Zuschüsse. Welche für Ihr Vorhaben infrage kommen und was Sie dafür beachten müssen (oft ist ein Antrag vor Baubeginn nötig), besprechen wir gern beim Vor-Ort-Termin." }
 ---
 
-Sie möchten Ihre Wohnung oder Ihr Haus modernisieren, aber keine wochenlange Baustelle, keine unklaren Kosten und kein Handwerker-Chaos?
+Sie möchten Ihre Wohnung oder Ihr Haus modernisieren, aber keine monatelange Baustelle, keine unklaren Kosten und kein Handwerker-Chaos?
 
 Dabei unterstützen wir Sie. Bevor wir anfangen, beraten wir Sie persönlich und in Ruhe. Wir schauen uns Ihre Immobilie vor Ort an, entwickeln mit Ihnen einen Plan mit transparentem Angebot und abgestimmtem Zeitrahmen und koordinieren danach alle Arbeiten vom Rückbau bis zum letzten Anstrich. Wer wofür zuständig ist, ist dabei immer klar.
 
