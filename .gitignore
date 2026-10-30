@@ -42,3 +42,23 @@ shots/
 
 # vboxsf-Phantom (Verzeichnis-Alias von src/styles, nach VM-Neustart löschbar)
 src_old/
+
+# Interne Unterlagen gehören NICHT ins öffentliche Repo (Sicherheitsbericht 30.10.2026, M1).
+# Arbeitsort: /home/can/projekte/Bauwelt-intern/ · Sicherung: Nextcloud Bauwelt/Intern-Repo-Unterlagen
+AUDIT-REGELN.md
+OFFENE-INFOS.md
+Offene-Fragen-Kunde-*.docx
+make_fragen_docx.py
+Inspiration.txt
+info Kunden.txt
+Verbesserung Kunde/
+docs/superpowers/
+CI_Handbuch_*
+Beispiel Mockup/
+video/
+intern/
+# Geheimnisse nie einchecken (Checkliste security-and-hardening)
+.env
+.env.*
+*.pem
+*.key

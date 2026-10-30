@@ -110,6 +110,6 @@ for (const breite of BREITEN) {
 await browser.close();
 server.close();
 console.log(fehler
-  ? `\n${fehler} Seite(n) breiter als der Bildschirm (Breiten: ${BREITEN.join(", ")} px). Regel: AUDIT-REGELN.md, Abschnitt 2 „Mobil“.`
+  ? `\n${fehler} Seite(n) breiter als der Bildschirm (Breiten: ${BREITEN.join(", ")} px). Regel: interne AUDIT-REGELN, Abschnitt 2 „Mobil“.`
   : `✓ Breiten-Prüfung: ${seiten.length} Seiten bei ${BREITEN.join(" / ")} px – keine ist breiter als der Bildschirm`);
 process.exit(fehler ? 1 : 0);

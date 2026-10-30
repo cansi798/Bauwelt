@@ -4,7 +4,7 @@ Mehrseitige Marken-Website der **Bauwelt Handwerk GmbH** (Norderstedt).
 Kernbotschaft: Badsanierung zum Festpreis, Sanierung & Modernisierung – alles aus einer Hand.
 
 Gebaut mit **[Astro](https://astro.build)** (statische Ausgabe, 0 JS by default).
-Design und Inhalte folgen dem CI-Handbuch (`CI_Handbuch_Bauwelt_Handwerk.pdf`).
+Design und Inhalte folgen dem CI-Handbuch des Kunden (intern, nicht im Repo).
 Deployt über **GitHub Pages** (GitHub Action).
 
 ## Seitenstruktur (nach CI Kap. 6.8)
@@ -54,8 +54,8 @@ node node_modules/astro/astro.js preview     # Vorschau des Builds
 
 ## Noch offen
 
-Siehe **`OFFENE-INFOS.md`** (Formular-Backend, Buchungsanbieter, echte Preise/Zahlen,
-Handwerkskammer im Impressum, Datenschutz-Review, eigene Domain …) und **`BILDER.md`**.
+Offene Punkte und interne Unterlagen liegen bewusst nicht in diesem öffentlichen Repo,
+sondern intern (Nextcloud Bauwelt). Bilder: **`BILDER.md`**.
 
 ## Deployment
 

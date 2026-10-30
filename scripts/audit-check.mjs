@@ -1,5 +1,5 @@
 // Audit-Wächter: prüft den fertigen Build (dist/) gegen die Entscheidungen aus
-// Website-Audit 17.10.2026 und SEO-/KI-Audit 19.10.2026 (siehe AUDIT-REGELN.md).
+// Website-Audit 17.10.2026 und SEO-/KI-Audit 19.10.2026 (Regeln: interne AUDIT-REGELN, nicht im Repo).
 // Aufruf nach `astro build`:  node scripts/audit-check.mjs
 // Bricht NIE den Deploy ab (Exit 0) – meldet Rückschritte als Zeilen „AUDIT-WARNUNG …“.
 // Auftrag Jamil (Talk 19.10.2026, Msg 2392): Änderungen an Audit-Themen melden.
@@ -354,7 +354,7 @@ for (const s of S) {
   const kb = Math.round(Buffer.byteLength(s.html) / 1024);
   if (kb > 250) warn("Performance (P1, Jamil 20.10.)", `${s.page}: HTML ${kb} KB (max. 250 KB) – Zeichnungen nachladen statt einbetten`);
 }
-// S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (siehe AUDIT-REGELN.md)
+// S5: KEINE sichtbaren Preisbeispiele (Jamil: nicht umsetzen). G2-Faktenblock ist nicht automatisch prüfbar (Regeln: interne AUDIT-REGELN, nicht im Repo)
 for (const s of S) {
   if (/Preisbeispiel/i.test(s.text)) { warn("SEO (S5)", `${s.page}: sichtbare „Preisbeispiele“ – Jamil wollte das NICHT (nur llms-full.txt)`); seoProbleme++; }
 }
@@ -548,7 +548,7 @@ if (!perf) pass("Performance", "Logo WebP, Handy-Startbild, alle Bilder < 200 KB
 
 // ---------- Bericht ----------
 console.log("\n=== Audit-Wächter Bauwelt Handwerk (Website-Audit 17.10. + SEO-/KI-Audit 19.10.) ===");
-console.log(`Geprüft: ${S.length} Seiten, llms.txt, llms-full.txt, robots.txt, sitemap.xml, Rechner-Daten. Regeln: AUDIT-REGELN.md\n`);
+console.log(`Geprüft: ${S.length} Seiten, llms.txt, llms-full.txt, robots.txt, sitemap.xml, Rechner-Daten. Regeln: interne AUDIT-REGELN (nicht im Repo)\n`);
 for (const o of ok) console.log(`✓ ${o.thema}: ${o.msg}`);
 if (warnungen.length) {
   console.log("");
