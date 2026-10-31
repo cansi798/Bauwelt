@@ -62,3 +62,8 @@ sondern intern (Nextcloud Bauwelt). Bilder: **`BILDER.md`**.
 Push auf `main` → GitHub Action (`.github/workflows/deploy.yml`) baut mit Astro und
 veröffentlicht auf GitHub Pages. Pages-Quelle = „GitHub Actions".
 Bei eigener Domain `base` in `astro.config.mjs` von `/Bauwelt` auf `/` ändern.
+
+## Lizenz
+
+Alle Rechte vorbehalten – © 2026 Waybuild UG (haftungsbeschränkt). Siehe [`LICENSE`](LICENSE).
+Die Einsicht über GitHub ist nur zur Ansicht gestattet; Kopieren, Weiterverwenden oder Bearbeiten ist ohne schriftliche Zustimmung nicht erlaubt.
